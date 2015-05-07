@@ -1,0 +1,1674 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Create a Cloud Backend for Mobile App using Parse | iOS Programming</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This how-to tutorial shows you how to put your app data to the cloud backend. We&#039;ll use Parse as the backend-as-a-service provider and create a Recipe app to demonstrate the usage."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-app-backend-parse/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This how-to tutorial shows you how to put your app data to the cloud backend. We&#039;ll use Parse as the backend-as-a-service provider and create a Recipe app to demonstrate the usage."/>
+<meta name="twitter:title" content="Create a Cloud Backend for Mobile App using Parse | iOS Programming"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Tutorial-part-1.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Adding a Cloud Backend for Your iOS App Using Parse &#8211; Part 1 Comments Feed" href="http://www.appcoda.com/ios-programming-app-backend-parse/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=2142' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-2142 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-2142 post type-post status-publish format-standard hentry category-course category-tutorials tag-parse-api tag-parse-cloud tag-parse-sdk tag-pfquerytableviewcontroller tag-uitableview entry"><h1 class="entry-title">Adding a Cloud Backend for Your iOS App Using Parse &#8211; Part 1</h1> 
+<div class="post-info"><span class="date published time" title="2013-07-31T15:24:57+00:00">July 31, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-app-backend-parse/#comments"><span class="dsq-postid" data-dsqidentifier="2142 http://www.appcoda.com/?p=2142">73 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>When we first started the <a href="http://www.appcoda.com/ios-programming-course/">iOS programming course</a>, we built a simple Recipe app together and walk you through the usage of table view. The initial version of Recipe app is very simple. All the recipe data are stored locally in an array. Later, we enhance the app by <a href="http://www.appcoda.com/enhance-your-simple-table-app-with-property-list/">putting the recipes in a property list file</a>. That&#8217;s better as it&#8217;s a good practice to separate static data from code.</p>
+<p>However, both approaches face the same problem. Suppose you&#8217;ve published the Recipe app on App Store, what if you need to add more recipes or change some of the recipes? </p>
+<p>Obviously, you&#8217;ll need to update the code (or the property file), re-build the app and submit to App Store again. And your users have to upgrade the app before viewing the updated recipes. That&#8217;s a lengthy process (normally it takes a week for Apple to review and approve your app). </p>
+<p>A common solution is to put the recipe data into a backend database. Every time when the app launches, it retrieves the data from the backend via web service. As the data is saved and loaded remotely, you&#8217;re free to edit the recipe without rebuilding the app.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Tutorial-part-1.jpg" alt="Parse Tutorial part 1" class="aligncenter size-full wp-image-2176" /></div>
+<p>The downside is that you have to develop the backend. Apparently, this requires a different skill set and huge amount of work if you&#8217;re a beginner. Fortunately, several companies have pre-built the backend for you that your app can be easily integrated with the backend using API. This kind of service provider is usually known as Backend as a Service provider (or BaaS for short). Most of them offer the service for free to get you started. You only need to pay when the requests reach a certain volume.</p>
+<p>In this series of tutorial, we&#8217;ll show you how to integrate the Recipe app with the <a href="http://parse.com">Parse cloud</a>. We&#8217;re not affiliate with Parse. We choose Parse as it is one of the leading BaaS providers and now a part of Facebook. Parse provides an easy-to-use SDK which is another reason we select Parse for the tutorial.</p>
+<p>We&#8217;ll break the tutorials into two parts. The first part focuses on data retrieval from Parse backend. We&#8217;ll leave data update and deletion to the next article.</p>
+<p>Okay, let&#8217;s get started.<br />
+<span id="more-2142"></span></p>
+<h2>Revisiting the Recipe App</h2>
+<p>Before we setup the Parse backend, let&#8217;s revisit the Recipe app and give you an idea about it. The Recipe app is a simple app that displays a list of recipes. User is allowed to tap on any of the recipes and the app will show the details. </p>
+<div id="attachment_2146" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Recipe-App-Revisit.jpg" alt="Recipe App Revisit" class="size-full wp-image-2146" /><p class="wp-caption-text">Simple Recipe App</p></div>
+<p>So what are we going to change?</p>
+<p>The user interface and table layout will remain the same. After going through the tutorial, you&#8217;ll end up with an app that looks just like before. However, internally the app will pull the recipes from the backend and we’ll add “Pull to Refresh” feature to the table view as well.</p>
+<p>To save your time from building the Recipe app, you can <a href="https://dl.dropboxusercontent.com/u/2857188/RecipeBookParseEmpty.zip">download the Xcode project from here</a> (tested on Xcode 4.6.3). Unzip it and try it out. The rest of the tutorial will be built on this code template.</p>
+<h2>Creating Your Parse Backend and Setup the Data</h2>
+<p>First, sign up a free account on <a href="http://parse.com">Parse.com</a>. During the sign-up process, you&#8217;ll be prompted to create your first app. Simply use &#8220;RecipeApp&#8221; as the name.</p>
+<div id="attachment_2147" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Sign-up-Parse-First-App.jpg" alt="Sign up Parse First App" class="size-full wp-image-2147" /><p class="wp-caption-text">Sign up and create your first app</p></div>
+<p>Once registered, log into the dashboard. The dashboard provides general and application-specific usage metrics for APIs, a data browser for viewing your data in the backend and interface for managing push notifications. In this tutorial, we&#8217;ll mainly deal with the data browser that is used for managing the recipe data.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Dashboard.jpg" alt="Parse Dashboard" class="aligncenter size-full wp-image-2148" /></div>
+<p>Before you can upload the recipe data to your Parse backend, you have to define the recipe class in the data browser. Click &#8220;New Class&#8221; to create a new class. Set the name as &#8220;Recipe&#8221; and type as &#8220;Custom&#8221;. Once created, you should see the class under the class sidebar. </p>
+<p>In the Recipe app, a recipe consists of the following properties:</p>
+<ul>
+<li>the name of recipe</li>
+<li>the recipe image</li>
+<li>the preparation time</li>
+<li>the ingredients</li>
+</ul>
+<p>Each of the above properties should be mapped to a specific column of Recipe class in the data browser. So select the Recipe class and click &#8220;+ Col&#8221; to add a column.</p>
+<div id="attachment_2149" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Data-Browser-Add-Col.jpg" alt="Parse Data Browser Add Col" class="size-full wp-image-2149" /><p class="wp-caption-text">Adding a new column in data browser</p></div>
+<p>When prompted, set the column name as &#8220;name&#8221; and the type as &#8220;String&#8221;. Repeat the same procedures to add the other three columns with the following column name and type:</p>
+<ul>
+<li>recipe image &#8211; set the column name as &#8220;imageFile&#8221; and type as &#8220;File&#8221;. The PFile type is used for binary data like image.</li>
+<li>preparation time &#8211; set the column name as &#8220;prepTime&#8221; and type as &#8220;String&#8221;</li>
+<li>ingredients &#8211; set the column name as &#8220;ingredients&#8221; and type as &#8220;Array&#8221;</li>
+</ul>
+<p>The Parse SDK handles the translation of native Objective-C types to JSON. For instance, if you retrieve a String type from Parse, it will be translated into a NSString object in the app. </p>
+<p>Next, we&#8217;ll add the recipe data in the Recipe class. Click &#8220;+ Row&#8221; button to create a new row.</p>
+<div id="attachment_2150" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Data-Browser-Add-Row.jpg" alt="Parse Data Browser Add Row" class="size-full wp-image-2150" /><p class="wp-caption-text">Adding a new row for Recipe class</p></div>
+<p>Each row represents a single recipe. You only need to upload the recipe image and fill in the name, preparation time and ingredients columns. For the objectId, createdAt and updatedAt columns, the values will be automatically generated by Parse.</p>
+<p>As an example, here is the code of a Recipe object:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">Recipe <span style="color: #002200;">*</span>recipe1 <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>Recipe new<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; recipe1.name <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Egg Benedict&quot;</span>;<br />
+&nbsp; &nbsp; recipe1.prepTime <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;30 min&quot;</span>;<br />
+&nbsp; &nbsp; recipe1.imageFile <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;egg_benedict.jpg&quot;</span>;<br />
+&nbsp; &nbsp; recipe1.ingredients <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;2 fresh English muffins&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;4 eggs&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;4 rashers of back bacon&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;2 egg yolks&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;1 tbsp of lemon juice&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;125 g of butter&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;salt and pepper&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>To put this recipe into Parse, fill in the &#8220;name&#8221; column as &#8220;Egg Benedict&#8221;, the &#8220;prepTime&#8221; column as &#8220;30 min&#8221; and upload the &#8220;egg_benedict.jpg&#8221; for the &#8220;imageFile&#8221; column. To fill in the &#8220;ingredients&#8221; array, use the following format:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">[&quot;2 fresh English muffins&quot;,&quot;4 eggs&quot;,&quot;4 rashers of back bacon&quot;,&quot;2 egg yolks&quot;,&quot;1 tbsp of lemon juice&quot;,&quot;125 g of butter&quot;,&quot;salt and pepper&quot;]</div></td></tr></tbody></table></div>
+<p>Repeat the above procedures to add the rest of recipes.</p>
+<div id="attachment_2151" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Backend-Recipe-Data.jpg" alt="Parse Backend Recipe Data" class="size-full wp-image-2151" /><p class="wp-caption-text">Recipes in data browser</p></div>
+<p>Isn&#8217;t it tedious to add the data one by one? Actually, we&#8217;ve prepared a data file for you. We just want to walk you through the data browser. Anyway, <a href="https://dl.dropboxusercontent.com/u/2857188/Recipe.json.zip">download the recipe data file here</a> and import the data into the data browser  (you may need to drop the Recipe class before importing).</p>
+<h2>Setting Up the Xcode Project for Parse</h2>
+<p>With the recipe data configured, we&#8217;ll tweak the Recipe app to retrieve the data from the backend. But you&#8217;ll first need to configure the Xcode project to work with Parse.</p>
+<p>First, <a href="https://www.parse.com/downloads/ios/parse-library/latest">download the Parse SDK for iOS</a>. Unzip the file and drag the Parse.framework folder into your Xcode project folder target.</p>
+<div id="attachment_2153" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Add-Parse-SDK.jpg" alt="Add Parse SDK" class="size-full wp-image-2153" /><p class="wp-caption-text">Adding Parse SDK into Framework</p></div>
+<p>You&#8217;ll need to add the following libraries into the project:</p>
+<ul>
+<li>AudioToolbox.framework</li>
+<li>CFNetwork.framework</li>
+<li>CoreGraphics.framework</li>
+<li>CoreLocation.framework</li>
+<li>libz.1.1.3.dylib</li>
+<li>MobileCoreServices.framework</li>
+<li>QuartzCore.framework</li>
+<li>Security.framework</li>
+<li>StoreKit.framework</li>
+<li>SystemConfiguration.framework</li>
+</ul>
+<p>Under the &#8220;RecipeBook&#8221; targets, select &#8220;Build Phases&#8221; and expand the &#8220;Link Binary with Libraries&#8221;. Click the &#8220;+&#8221; button and add the above libraries one by one.</p>
+<div id="attachment_2154" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Adding-library.jpg" alt="Adding library" class="size-full wp-image-2154" /><p class="wp-caption-text">Adding libraries</p></div>
+<p>Before your app can connect to Parse, you have to register it with the backend when it launches. Open &#8220;RecipeBookAppDelegate.m&#8221; and add the following header at the top of the file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;Parse/Parse.h&gt;</span></div></td></tr></tbody></table></div>
+<p>Next, add the following code in the didFinishLaunchingWithOptions: method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>Parse setApplicationId<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;IRVN6Y5kIGL9RnHcFnpgbAq4QwVWWVBxN2lTTvLq&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; clientKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;ANOHDG88JXVfHqYRbT3wLK9bXBOou94bTyWktOkU&quot;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Your application ID and client key will be different from the above. Make sure you replace them with your own ID and client key that can be found under &#8220;Settings&#8221; of the Parse dashboard.</p>
+<div id="attachment_2155" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Dashboard-Setting.jpg" alt="Parse Dashboard Setting" class="size-full wp-image-2155" /><p class="wp-caption-text">Parse Dashboard &#8211; Settings</p></div>
+<p>You&#8217;ve completed the configuration with Parse. Your app should be ready to connect with the Parse backend. Try to compile and run it. If you get everything correct, you should be able to run the app without any error. </p>
+<p>Next, we&#8217;ll see how to retrieve the recipe objects that are just created from Parse.</p>
+<h2>Using PFQueryTableViewController for Cloud Data</h2>
+<p>As of now, the app uses the standard UITableViewController to display the list of recipes. This is a standard way in iOS for displaying data in table form. To retrieve data from backend and populate them into the table, however, it is a different story. There are a number of issues to consider:</p>
+<ol>
+<li>As we need to load the data from backend over Internet, it&#8217;s required to handle any network related errors such as connection failure.</li>
+<li>We can now update the recipe in the backend. The app should provide a mean for user to refresh the data without relaunching.</li>
+<li>The existing app saves the recipes and images locally. The recipe data are ready to load into table when the app launches. That&#8217;s a complete different story when the recipes are retrieved from the backend. During the app launches, the recipe data may not be ready. It&#8217;ll take time to download the recipe data and images. How can you ensure the recipes are ready before displaying them in the table?</li>
+<li>The time required to load the images varies depending on the network speed. Should your app wait until all images are downloaded before showing the recipes in the table? That&#8217;s an unpleasant user experience if it takes too long to load. It&#8217;s better to display the list of recipes while loading the recipe image in background.</li>
+<li>What if you have a large set of recipes? In this case you may not want to load the recipes all at once. For the sake of performance, you may just load a subset of recipes. Your app will only display another subset of recipes when users hit a &#8220;Load more&#8221; button.</li>
+<li>For best performance, you may consider to implement data caching in the app. So once the recipes are downloaded, they will be cached locally.</li>
+</ol>
+<p>The above are some of the design considerations when developing data-driven apps with a backend. Luckily, the Parse SDK pre-built a controller named <a href="https://www.parse.com/docs/ios/api/Classes/PFQueryTableViewController.html">PFQueryTableViewController</a> that handles the background loading, caching and error exception. This should save you a large amount of work from creating your own solution. </p>
+<p>With this class, you&#8217;ll be able to setup a UITableView that displays your Parse data. The class inherits from UITableViewController but comes with a bunch of handy methods that make it easy to query, paginate, and display objects from Parse backend. </p>
+<h3>How To Use PFQueryTableViewController</h3>
+<p>When using Parse, each cell of a UITableView typically represents data from a PFObject. Basically, to display data in PFQueryTableViewController, all you have to do is to override these two methods:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>PFTableViewCell <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView cellForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath object<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>PFObject <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>object<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>PFQuery <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>queryForTable</div></td></tr></tbody></table></div>
+<p>The first method is similar to the cellForRowAtIndexPath: method defined in the UITableViewDataSource protocol. You override the method to provide your implementation to return a custom table cell for the PFObject. The queryForTable: method is for you to load the objects from Parse backend. </p>
+<p>Next, we&#8217;ll tweak the Recipe app and replace the UITableView with the PFQueryTableViewController. First, open RecipeBookViewController.h and change it as a subclass of PFQueryTableViewController. Don&#8217;t forget to import the Parse header too.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;Parse/Parse.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> RecipeBookViewController <span style="color: #002200;">:</span> PFQueryTableViewController</div></td></tr></tbody></table></div>
+<p>Now open the RecipeBookViewController.m. As we no longer use UITableView and the recipe array, remove the following methods and the initialization code in the viewDidLoad: method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView numberOfRowsInSection<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>section<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#91;</span>recipes count<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>UITableViewCell <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView cellForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">static</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>simpleTableIdentifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;RecipeCell&quot;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UITableViewCell <span style="color: #002200;">*</span>cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>tableView dequeueReusableCellWithIdentifier<span style="color: #002200;">:</span>simpleTableIdentifier<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>cell <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UITableViewCell alloc<span style="color: #002200;">&#93;</span> initWithStyle<span style="color: #002200;">:</span>UITableViewCellStyleDefault reuseIdentifier<span style="color: #002200;">:</span>simpleTableIdentifier<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; Recipe <span style="color: #002200;">*</span>recipe <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>recipes objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIImageView <span style="color: #002200;">*</span>imageView <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>UIImageView<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">100</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; imageView.image <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span>recipe.imageFile<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; UILabel <span style="color: #002200;">*</span>nameLabel <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>UILabel<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">101</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; nameLabel.text <span style="color: #002200;">=</span> recipe.name;<br />
+&nbsp; &nbsp; UILabel <span style="color: #002200;">*</span>prepTimeLabel <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>UILabel<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">102</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; prepTimeLabel.text <span style="color: #002200;">=</span> recipe.prepTime;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>And replace them with these methods:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br />43<br />44<br />45<br />46<br />47<br />48<br />49<br />50<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>initWithCoder<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSCoder_Class/"><span style="color: #400080;">NSCoder</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>aCoder<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; self <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>super initWithCoder<span style="color: #002200;">:</span>aCoder<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>self<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// The className to query on</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.parseClassName <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Recipe&quot;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// The key of the PFObject to display in the label of the default cell style</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.textKey <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Whether the built-in pull-to-refresh is enabled</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.pullToRefreshEnabled <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Whether the built-in pagination is enabled</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.paginationEnabled <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> self;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>PFQuery <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>queryForTable<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; PFQuery <span style="color: #002200;">*</span>query <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>PFQuery queryWithClassName<span style="color: #002200;">:</span>self.parseClassName<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> query;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>UITableViewCell <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView cellForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath object<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>PFObject <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>object<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">static</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>simpleTableIdentifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;RecipeCell&quot;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UITableViewCell <span style="color: #002200;">*</span>cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>tableView dequeueReusableCellWithIdentifier<span style="color: #002200;">:</span>simpleTableIdentifier<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>cell <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UITableViewCell alloc<span style="color: #002200;">&#93;</span> initWithStyle<span style="color: #002200;">:</span>UITableViewCellStyleDefault reuseIdentifier<span style="color: #002200;">:</span>simpleTableIdentifier<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Configure the cell</span><br />
+&nbsp; &nbsp; PFFile <span style="color: #002200;">*</span>thumbnail <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>object objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;imageFile&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; PFImageView <span style="color: #002200;">*</span>thumbnailImageView <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>PFImageView<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">100</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; thumbnailImageView.image <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;placeholder.jpg&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; thumbnailImageView.file <span style="color: #002200;">=</span> thumbnail;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>thumbnailImageView loadInBackground<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UILabel <span style="color: #002200;">*</span>nameLabel <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>UILabel<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">101</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; nameLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>object objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UILabel <span style="color: #002200;">*</span>prepTimeLabel <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>UILabel<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">102</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; prepTimeLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>object objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;prepTime&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s go through the above methods one by one. In the <strong>initWithCoder: method</strong>, we configure the behaviour of the PFQueryTableView. Here we set the name of the Parse class to retrieve, enable the built-in pull-to-refresh feature but disable the pagination.</p>
+<div class="note">
+Note: If you&#8217;ve referred to the <a href="https://parse.com/docs/ios_guide#ui-tables/iOS">Parse doc</a>, you may find that the above code slightly differs from the sample code. As we use Storyboard to design the table view, we use initWithCoder: instead of initWithStyle:. The initWithCode: method is the designated initializer when using Storyboards.
+</div>
+<p>We specify the objects to load into PFQueryTableView by implementing the <strong>queryForTable: method</strong>. The PFQuery class provides a handy way to load a list of objects from Parse. You can simply create the PFQuery object with the Parse class to query.</p>
+<p>The <strong>cellForRowAtIndexPath: method</strong> is very similar to the one we&#8217;ve implemented before. The main difference is with the use of PFObject. In brief, storing data on Parse is built around the PFObject. Each PFObject contains key-value pairs of JSON-compatible data. Here is a sample PFObject of the Recipe class:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">&quot;imageFile&quot;: {<br />
+&nbsp; &nbsp; &quot;__type&quot;: &quot;File&quot;,<br />
+&nbsp; &nbsp; &quot;name&quot;: &quot;2516c9e3-ebd6-4e11-89cf-972ad77a942b-mushroom_risotto.jpg&quot;,<br />
+&nbsp; &nbsp; &quot;url&quot;: &quot;http://files.parse.com/4838f7c6-c40b-4ed8-b750-a5a3d2948599/2516c9e3-ebd6-4e11-89cf-972ad77a942b-mushroom_risotto.jpg&quot;<br />
+&nbsp; },<br />
+&nbsp; &quot;ingredients&quot;: [<br />
+&nbsp; &nbsp; &quot;1 tbsp dried porcini mushrooms&quot;,<br />
+&nbsp; &nbsp; &quot;2 tbsp olive oil&quot;,<br />
+&nbsp; &nbsp; &quot;1 onion, chopped&quot;,<br />
+&nbsp; &nbsp; &quot;2 garlic cloves&quot;,<br />
+&nbsp; &nbsp; &quot;350g/12oz arborio rice&quot;,<br />
+&nbsp; &nbsp; &quot;1.2 litres/2 pints hot vegetable stock&quot;,<br />
+&nbsp; &nbsp; &quot;salt and pepper&quot;,<br />
+&nbsp; &nbsp; &quot;25g/1oz butter&quot;<br />
+&nbsp; ],<br />
+&nbsp; &quot;name&quot;: &quot;Mushroom Risotto&quot;,<br />
+&nbsp; &quot;prepTime&quot;: &quot;30 min&quot;</div></td></tr></tbody></table></div>
+<p>When the cellForRowAtIndexPath: method is called, you&#8217;ll get a PFObject of the Recipe class. In other words, you get a single recipe. To get the values out of the PFObject, use the objectForKey: method. Say, to get the values of the &#8220;name&#8221; key, we use:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">nameLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>object objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Parse stores files (such as images, audio, document) in the cloud in the form of PFFile. We use PFFile to reference the recipe image. The Parse SDK offers a handy class named PFImageView that downloads and displays remote image stored on Parse’s server. Best of all, the download is automatically done in background.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; PFFile <span style="color: #002200;">*</span>thumbnail <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>object objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;imageFile&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; PFImageView <span style="color: #002200;">*</span>thumbnailImageView <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>PFImageView<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">100</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; thumbnailImageView.image <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;placeholder.jpg&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; thumbnailImageView.file <span style="color: #002200;">=</span> thumbnail;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>thumbnailImageView loadInBackground<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>We simply specify the recipe image (i.e. thumbnail) to load by setting the &#8220;file&#8221; property of PFImageView. Before the full recipe image is downloaded, the image view will just show the placeholder image.</p>
+<p>Lastly go back to Storyboard. Change the class of the thumbnail in the Recipe Book View Controller from UIImageView to PFImageView.</p>
+<div id="attachment_2171" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Storyboard-PFImageView.jpg" alt="Parse Storyboard PFImageView" class="size-full wp-image-2171" /><p class="wp-caption-text">Changing the custom class from UIImageView to PFImageView</p></div>
+<p>Now compile and run the app. If everything is correct, the Recipe app should be able to retrieve data from Parse backend.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Recipe-App-using-Parse.jpg" alt="Recipe App using Parse" class="aligncenter size-full wp-image-2162" /></div>
+<h2>Pull to Refresh and Pagination</h2>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Pull-To-Refresh.jpg" alt="Parse Pull To Refresh" class="alignright size-full wp-image-2168" />The PFQueryTableView looks the same as the UITableView. But try to pull down the table and you&#8217;ll see the &#8220;Pull To Refresh&#8221; is already built-in. Go back to the data browser and upload a new recipe. When you pull to refresh the data, you&#8217;ll find the new recipe. Cool, right? You can now manage all your data in the backend.</p>
+<p>Other than pull to refresh, the PFQueryTableViewController also comes with the pagination feature. In the above section, we disable the pagination feature. To enable it, change the paginationEnabled property to YES. By default, it shows 25 objects per page. You can change the number by altering the objectsPerPage property.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">self.paginationEnabled <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+self.objectsPerPage <span style="color: #002200;">=</span> <span style="color: #2400d9;">10</span>;</div></td></tr></tbody></table></div>
+<p>Let&#8217;s say we limit the number of object per page to 10. Compile and run the app again. The app will only load the first 10 recipes when it first runs. Tapping the &#8220;Load more&#8221; row will automatically retrieve the next 10 records. The pagination feature is especially useful when dealing with a large date set. </p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Table-Load-More.jpg" alt="Parse Table Load More" class="aligncenter size-full wp-image-2169" /></div>
+<h2>Caching for Speed and Offline Access</h2>
+<p>Try to close the app and re-launch it. Every time it opens, you&#8217;ll a &#8220;Loading&#8230;&#8221; screen that the app is downloading recipes from backend. What if there is no network access? Try to close the app and disable the network connection of your iPhone or Simulator. When running the app again, you&#8217;ll see an error message.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Table-Network-Error.jpg" alt="Parse Table Network Error" class="aligncenter size-full wp-image-2170" /></div>
+<p>There is a better way to handle this situation. Parse query has a built-in support for caching that makes it a lot easier to save query results on disk. In case there is no network access, your app can load the result from cache. Caching also improves the app performance. Instead of loading data from Parse every time when the app runs, it retrieves the data from cache on startup. </p>
+<p>By default, caching is disabled. But it can be easily enabled using a single line of code. Add the following code in queryForTable: method (after the initialization of PFquery):</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">query.cachePolicy <span style="color: #002200;">=</span> kPFCachePolicyCacheThenNetwork</div></td></tr></tbody></table></div>
+<p>The Parse query supports various types of cache policy. The kPFCachePolicyCacheThenNetwork policy is just one of them. It first loads data from the cache, then from the network.</p>
+<p>Try to compile and run the app again. After you run it once, disable the WiFi or other network connection and launch the app again. This time, your app should be able to show the recipes even it&#8217;s offline.</p>
+<h2>Your Exercise</h2>
+<p>The recipe detail view doesn&#8217;t work right now. When you select any of the recipes, you&#8217;ll see a screen without any recipe information. So far we haven&#8217;t changed any code in the RecipeDetailViewController class. Also the prepareForSegue: method is still referring to the recipes array that is already obsolete. I&#8217;ll leave the changes for you as an exercise.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Backend-Exercise.jpg" alt="Parse Backend Exercise" class="aligncenter size-full wp-image-2173" /></div>
+<h2>What&#8217;s Coming Next</h2>
+<p>In this tutorial, we&#8217;ve migrated all the recipes from the app to the Parse cloud backend. With the Parse SDK, it&#8217;s pretty easy to integrate the app with Parse to retrieve the data from the cloud. This is just the first part of the tutorial series. In part 2, we&#8217;ll show you how to store and update the recipe to the backend.</p>
+<p>Parse is just one of the BaaS providers in the market. It&#8217;s easy to integrate and works pretty well. However, you&#8217;re free to explore other providers (such as <a href="http://www.stackmob.com">StackMob</a>, <a href="http://www.kinvey.com">Kinvey</a>, <a href="http://www.kii.com/">Kii Cloud</a>, <a href="https://www.mobdb.net/">MobDB</a>, etc) and pick the most suitable one for your development. The startup cost for most of the providers are almost zero. They&#8217;re free to use and you only need to pay when the number of requests reach a certain volume.</p>
+<p>For complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/RecipeBookParse.zip">download the full source code from here</a>. The Xcode project already includes answers for the exercise. </p>
+<p>As always, leave us comment and share your thought about the tutorial. We want to hear your feedback and keep improving. <a href="http://facebook.com/appcodamobile">Stay tuned</a>. Part 2 of the tutorial series is on the way.</p>
+<p><strong>Update:</strong> <a href="http://www.appcoda.com/ios-programming-save-data-parse-cloud-tutorial/">Part 2 of the tutorial series</a> is now here.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/enhance-your-simple-table-app-with-property-list/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/05/Sample-Property-List-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Enhance Your Simple Table App With Property List</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/06/Delete-Row-Featured-Image-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Delete a Row from UITableView and Model-View-Controller</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-import-contact-address-book/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/12/addressbook-featured1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Import Contacts Using Address Book Framework</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/qr-code-reader-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/12/qrcode-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building a QR Code Reader in Swift</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-app-backend-parse/"
+    dc:identifier="http://www.appcoda.com/ios-programming-app-backend-parse/"
+    dc:title="Adding a Cloud Backend for Your iOS App Using Parse &#8211; Part 1"
+    trackback:ping="http://www.appcoda.com/ios-programming-app-backend-parse/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/parse-api/" rel="tag">parse api</a>, <a href="http://www.appcoda.com/tag/parse-cloud/" rel="tag">parse cloud</a>, <a href="http://www.appcoda.com/tag/parse-sdk/" rel="tag">parse sdk</a>, <a href="http://www.appcoda.com/tag/pfquerytableviewcontroller/" rel="tag">PFQueryTableViewController</a>, <a href="http://www.appcoda.com/tag/uitableview/" rel="tag">UITableView</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-2073">
+        <div id="dsq-comment-header-2073" class="dsq-comment-header">
+            <cite id="dsq-cite-2073">
+                <span id="dsq-author-user-2073">Blake Jennings</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2073" class="dsq-comment-body">
+            <div id="dsq-comment-message-2073" class="dsq-comment-message"><p>This is incredibly thorough and helpful! Looking forward to Part 2.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2079">
+        <div id="dsq-comment-header-2079" class="dsq-comment-header">
+            <cite id="dsq-cite-2079">
+                <span id="dsq-author-user-2079">Erik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2079" class="dsq-comment-body">
+            <div id="dsq-comment-message-2079" class="dsq-comment-message"><p>Excellent, thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2093">
+        <div id="dsq-comment-header-2093" class="dsq-comment-header">
+            <cite id="dsq-cite-2093">
+                <span id="dsq-author-user-2093">Ly4S</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2093" class="dsq-comment-body">
+            <div id="dsq-comment-message-2093" class="dsq-comment-message"><p>This is brilliant, thanks for putting this together!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2095">
+        <div id="dsq-comment-header-2095" class="dsq-comment-header">
+            <cite id="dsq-cite-2095">
+                <span id="dsq-author-user-2095">Joao</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2095" class="dsq-comment-body">
+            <div id="dsq-comment-message-2095" class="dsq-comment-message"><p>Hello guys,</p>
+<p>I am trying to retrieve Current User&#8217;s profile picture, when loading my profileViewController. As I am a beginner, I am pretty sure I am struggling with something very simple; syntax maybe.</p>
+<p>I was able to get the userName in a label, but still problems with the picture.</p>
+<p>Here follows what I am doing:</p>
+<p>-(void)viewDidAppear:(BOOL)animated {</p>
+<p>//Prepare the query to get the profile image<br />
+//1<br />
+PFQuery *query = [PFQuery queryWithClassName:@&#8221;User&#8221;];<br />
+PFQuery* queryPhoto = [PFQuery queryWithClassName:@&#8221;WallImageObject&#8221;];</p>
+<p>//2<br />
+PFUser* currentUser = [PFUser currentUser];</p>
+<p>if (currentUser) {<br />
+    [query whereKey:@&#8221;user&#8221; equalTo:currentUser];<br />
+    [queryPhoto whereKey:@&#8221;image&#8221; equalTo:currentUser];</p>
+<p>    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {<br />
+        // Verify if there are no errors</p>
+<p>if (!error) {</p>
+<p>        // Set username<br />
+        self.profileViewUsernameLabel.text = [NSString stringWithFormat:@&#8221;%@&#8221;,[[PFUser currentUser]valueForKey:@&#8221;username&#8221;]] ;</p>
+<p>        // Retrieve Photo</p>
+<p>        PFFile* currenUserPhoto = [[PFUser currentUser] objectForKey:@&#8221;image&#8221;];</p>
+<p>        self.profileViewPhotoImageView.image = [UIImage imageWithData:currenUserPhoto.getData];</p>
+<p>} else {<br />
+//4<br />
+            NSString *errorString = [[error userInfo] objectForKey:@&#8221;error&#8221;];<br />
+            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@&#8221;Error&#8221; message:errorString delegate:nil cancelButtonTitle:@&#8221;Ok&#8221; otherButtonTitles:nil, nil];<br />
+            [errorAlertView show];</p>
+<p>}</p>
+<p>}];</p>
+<p>}</p>
+<p>Many Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2111">
+        <div id="dsq-comment-header-2111" class="dsq-comment-header">
+            <cite id="dsq-cite-2111">
+                <span id="dsq-author-user-2111">Sabre</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2111" class="dsq-comment-body">
+            <div id="dsq-comment-message-2111" class="dsq-comment-message"><p>I downloaded full source and tried to run before replace app ID and Client key with mine. Then It worked fine except showing placeholder images only, not any menu images. After I replaced them with my app ID and Client key, it just showed empty table view and cells. When I tapped any empty table cell, it gives an error message &#8220;RecipeBook[357:907] error: (null).&#8221;<br />
+Could anybody tell me what was wrong?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2126">
+        <div id="dsq-comment-header-2126" class="dsq-comment-header">
+            <cite id="dsq-cite-2126">
+                <span id="dsq-author-user-2126">Sabre</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2126" class="dsq-comment-body">
+            <div id="dsq-comment-message-2126" class="dsq-comment-message"><p>Should replace image files on the imported recipe.json file with my image files&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2117">
+        <div id="dsq-comment-header-2117" class="dsq-comment-header">
+            <cite id="dsq-cite-2117">
+                <span id="dsq-author-user-2117">Ross Viviani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2117" class="dsq-comment-body">
+            <div id="dsq-comment-message-2117" class="dsq-comment-message"><p>mmmm&#8230;. anyone worked out how to retrieve saved text from parse?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2141">
+        <div id="dsq-comment-header-2141" class="dsq-comment-header">
+            <cite id="dsq-cite-2141">
+                <span id="dsq-author-user-2141">SrK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2141" class="dsq-comment-body">
+            <div id="dsq-comment-message-2141" class="dsq-comment-message"><p>I get 2 Apple Mach-O Linker Error. Please help.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2176">
+        <div id="dsq-comment-header-2176" class="dsq-comment-header">
+            <cite id="dsq-cite-2176">
+                <span id="dsq-author-user-2176">Martin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2176" class="dsq-comment-body">
+            <div id="dsq-comment-message-2176" class="dsq-comment-message"><p>you forget to import into Build phases coreGraphics.framework thats all <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-50212">
+        <div id="dsq-comment-header-50212" class="dsq-comment-header">
+            <cite id="dsq-cite-50212">
+                <span id="dsq-author-user-50212">Manu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-50212" class="dsq-comment-body">
+            <div id="dsq-comment-message-50212" class="dsq-comment-message"><p>i added all the frameworks..still the same</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2142">
+        <div id="dsq-comment-header-2142" class="dsq-comment-header">
+            <cite id="dsq-cite-2142">
+                <span id="dsq-author-user-2142">SRK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2142" class="dsq-comment-body">
+            <div id="dsq-comment-message-2142" class="dsq-comment-message"><p>Thanks a lot for this tutorial. Waiting for part 2.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2154">
+        <div id="dsq-comment-header-2154" class="dsq-comment-header">
+            <cite id="dsq-cite-2154">
+                <span id="dsq-author-user-2154">Nic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2154" class="dsq-comment-body">
+            <div id="dsq-comment-message-2154" class="dsq-comment-message"><p>Thanks for this great tutorial!!<br />
+But there is a problem with imageviews. They only show placeholder image no matter how long I&#8217;ve waited</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2157">
+        <div id="dsq-comment-header-2157" class="dsq-comment-header">
+            <cite id="dsq-cite-2157">
+                <span id="dsq-author-user-2157">Pietro Bertini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2157" class="dsq-comment-body">
+            <div id="dsq-comment-message-2157" class="dsq-comment-message"><p>Same for me</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-2158">
+        <div id="dsq-comment-header-2158" class="dsq-comment-header">
+            <cite id="dsq-cite-2158">
+                <span id="dsq-author-user-2158">Chris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2158" class="dsq-comment-body">
+            <div id="dsq-comment-message-2158" class="dsq-comment-message"><p>Nic &amp; Pietro,<br />
+This seems to be a problem with the json file uploaded.<br />
+Go to the parse data interface and remove the images from the images column &#8211; then re-upload the images from your computer &#8211; this should resolve the issue.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-2162">
+        <div id="dsq-comment-header-2162" class="dsq-comment-header">
+            <cite id="dsq-cite-2162">
+                <span id="dsq-author-user-2162">Pietro Bertini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2162" class="dsq-comment-body">
+            <div id="dsq-comment-message-2162" class="dsq-comment-message"><p>Thanx a lot Chris! It worked!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-4" id="dsq-comment-2167">
+        <div id="dsq-comment-header-2167" class="dsq-comment-header">
+            <cite id="dsq-cite-2167">
+                <span id="dsq-author-user-2167">Nic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2167" class="dsq-comment-body">
+            <div id="dsq-comment-message-2167" class="dsq-comment-message"><p>It works! So json file has an issue</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-4" id="dsq-comment-5582">
+        <div id="dsq-comment-header-5582" class="dsq-comment-header">
+            <cite id="dsq-cite-5582">
+                <span id="dsq-author-user-5582">Alex</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5582" class="dsq-comment-body">
+            <div id="dsq-comment-message-5582" class="dsq-comment-message"><p>Thanks for your help man !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-4" id="dsq-comment-67998">
+        <div id="dsq-comment-header-67998" class="dsq-comment-header">
+            <cite id="dsq-cite-67998">
+                <span id="dsq-author-user-67998">Will Dennis</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-67998" class="dsq-comment-body">
+            <div id="dsq-comment-message-67998" class="dsq-comment-message"><p>Above solution worked for me as well!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2163">
+        <div id="dsq-comment-header-2163" class="dsq-comment-header">
+            <cite id="dsq-cite-2163">
+                <span id="dsq-author-user-2163">JClements</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2163" class="dsq-comment-body">
+            <div id="dsq-comment-message-2163" class="dsq-comment-message"><p>Thanks for putting this together. Like others, I&#8217;m getting the blank table cells issue even after replacing the image files. Is there any way you can post your final RecipeBookViewController.m file, I know my issue is in there somewhere, but I can&#8217;t figure it out without seeing it. Thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2197">
+        <div id="dsq-comment-header-2197" class="dsq-comment-header">
+            <cite id="dsq-cite-2197">
+                <span id="dsq-author-user-2197">sobrienti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2197" class="dsq-comment-body">
+            <div id="dsq-comment-message-2197" class="dsq-comment-message"><p>Excellent tutorial. However I do have a question : How can I implement a PFQueryTableViewController inside a UIViewController? I need to display extra information, aside from the table view cells. Thank you. </p>
+<p>Instead of using the PFQueryTableViewController protocol in the RecipeBookViewController.h file, I tried to use UIViewController but then I don&#8217;t have any Delegate/Data Source to supply&#8230;.help would be greatly appreciated <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3621">
+        <div id="dsq-comment-header-3621" class="dsq-comment-header">
+            <cite id="dsq-cite-3621">
+                <span id="dsq-author-user-3621">Adrienne Henry</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3621" class="dsq-comment-body">
+            <div id="dsq-comment-message-3621" class="dsq-comment-message"><p>I think what you are looking for is a container and then set a pfquerytable.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2245">
+        <div id="dsq-comment-header-2245" class="dsq-comment-header">
+            <cite id="dsq-cite-2245">
+                <span id="dsq-author-user-2245">yiannis ioannides</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2245" class="dsq-comment-body">
+            <div id="dsq-comment-message-2245" class="dsq-comment-message"><p>Hi mate,</p>
+<p>I tried the tutorial and it works fine. The only problem i have is that it changes the cell size although i configured it in the storyboard as the your previous tutorials. Now the table cell looks smaller and does not fit the 58&#215;58 image and the labels. </p>
+<p>Additionally how would i go about filtering recipes based on their prep time? lets say i want to show recipes that have 30 mins and less of prep time using the code above?</p>
+<p>thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2250">
+        <div id="dsq-comment-header-2250" class="dsq-comment-header">
+            <cite id="dsq-cite-2250">
+                <span id="dsq-author-user-2250">Marian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2250" class="dsq-comment-body">
+            <div id="dsq-comment-message-2250" class="dsq-comment-message"><p>2013-08-17 13:08:28.646 RecipeBook[632:c07] -[UIImageView setFile:]: unrecognized selector sent to instance 0x7ca6b10</p>
+<p>2013-08-17 13:08:28.647 RecipeBook[632:c07] *** Terminating app due to uncaught exception &#8216;NSInvalidArgumentException&#8217;, reason: &#8216;-[UIImageView setFile:]: unrecognized selector sent to instance 0x7ca6b10&#8242;</p>
+<p>*** First throw call stack:</p>
+<p>(0x1f13012 0x1d38e7e 0x1f9e4bd 0x1f02bbc 0x1f0294e 0x342d 0x3a231 0xf608fb 0xf609cf 0xf491bb 0xf59b4b 0xef62dd 0x1d4c6b0 0x43afc0 0x42f33c 0x42f150 0x3ad0bc 0x3ae227 0x3ae8e2 0x1edbafe 0x1edba3d 0x1eb97c2 0x1eb8f44 0x1eb8e1b 0x29407e3 0x2940668 0xea5ffc 0x2cdd 0x2c05)</p>
+<p>libc++abi.dylib: terminate called throwing an exception</p>
+<p>(lldb)</p>
+<p>and Xcode marks line </p>
+<p>thumbnailImageView.file = thumbnail;</p>
+<p>What did i wrong? There is only the Loading-View and this Error…</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2259">
+        <div id="dsq-comment-header-2259" class="dsq-comment-header">
+            <cite id="dsq-cite-2259">
+                <span id="dsq-author-user-2259">sobrienti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2259" class="dsq-comment-body">
+            <div id="dsq-comment-message-2259" class="dsq-comment-message"><p>Please check if thumbnailImageView belongs to the PFImageView class. The error you get means that there is no file property for thumbnailImageView.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-2967">
+        <div id="dsq-comment-header-2967" class="dsq-comment-header">
+            <cite id="dsq-cite-2967">
+                <span id="dsq-author-user-2967">Nick G.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2967" class="dsq-comment-body">
+            <div id="dsq-comment-message-2967" class="dsq-comment-message"><p>thanks, that was it! I was almost head over heals trying to figure out what it was.</p>
+<p>God Bless</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2269">
+        <div id="dsq-comment-header-2269" class="dsq-comment-header">
+            <cite id="dsq-cite-2269">
+                <span id="dsq-author-user-2269">Ken</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2269" class="dsq-comment-body">
+            <div id="dsq-comment-message-2269" class="dsq-comment-message"><p>2013-08-19 20:12:27.575 City[2137:6d03] Encountered stream error: Error Domain=NSPOSIXErrorDomain Code=61 &#8220;The operation couldn’t be completed. Connection refused&#8221;</p>
+<p>2013-08-19 20:12:27.581 City[2137:6d03] Encountered stream error: Error Domain=NSPOSIXErrorDomain Code=61 &#8220;The operation couldn’t be completed. Connection refused&#8221;</p>
+<p>2013-08-19 20:12:27.581 City[2137:6103] Failed download from S3. Going to try again. Response: (null), Error: Error Domain=NSPOSIXErrorDomain Code=61 &#8220;The operation couldn’t be completed. Connection refused&#8221;</p>
+<p>2013-08-19 20:12:27.581 City[2137:6103] Error: Download failed. (Code: 100, Version: 1.2.11)</p>
+<p>Anyone has any idea about this problem?<br />
+I try run the downloaded full source code, then it is showing this error.<br />
+At the end, i was able to download the text and textview, except the image.</p>
+<p>I try to connect to my parse account by changing the client key and application key, it still have the same problem</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3688">
+        <div id="dsq-comment-header-3688" class="dsq-comment-header">
+            <cite id="dsq-cite-3688">
+                <span id="dsq-author-user-3688">Patrick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3688" class="dsq-comment-body">
+            <div id="dsq-comment-message-3688" class="dsq-comment-message"><p>Hi did you manage to solve this? I got same error</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2279">
+        <div id="dsq-comment-header-2279" class="dsq-comment-header">
+            <cite id="dsq-cite-2279">
+                <span id="dsq-author-user-2279">Hugh Jeremy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2279" class="dsq-comment-body">
+            <div id="dsq-comment-message-2279" class="dsq-comment-message"><p>Great tutorial, I have a problem though <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /> On the &#8216;RecipeDetailViewController.m&#8217; I get the error &#8220;Incompatible pointer types assigning &#8216;PFFile *&#8217; from &#8216;NSString *'&#8221;. The app still works but I was hoping I would be able to get rid of the error.</p>
+<p>Any help is much appreciated <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2850">
+        <div id="dsq-comment-header-2850" class="dsq-comment-header">
+            <cite id="dsq-cite-2850">
+                <span id="dsq-author-user-2850">misato</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2850" class="dsq-comment-body">
+            <div id="dsq-comment-message-2850" class="dsq-comment-message"><p>Hi Hugh, </p>
+<p>I run into the same problem and solved it by adding (PFFile *).<br />
+Here is the line of code that worked out for me. It goes inside the viewDidLoad method.</p>
+<p>self.recipePhoto.file = (PFFile *)recipe.imageFile;</p>
+<p>hope it helps!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2310">
+        <div id="dsq-comment-header-2310" class="dsq-comment-header">
+            <cite id="dsq-cite-2310">
+                <span id="dsq-author-user-2310">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2310" class="dsq-comment-body">
+            <div id="dsq-comment-message-2310" class="dsq-comment-message"><p>Hi, I got &#8220;Parse Issue&#8221;, even I tried to download your sample and change the ApplicationID and ClientKey.  Please help!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3669">
+        <div id="dsq-comment-header-3669" class="dsq-comment-header">
+            <cite id="dsq-cite-3669">
+                <span id="dsq-author-user-3669">Jonatan Lindahl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3669" class="dsq-comment-body">
+            <div id="dsq-comment-message-3669" class="dsq-comment-message"><p>Try to delite the &#8220;parse framwork&#8221; and then put a new one back in again. Some times the old parse framwork from the sample does not work, you need to have a new and fresh one.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2476">
+        <div id="dsq-comment-header-2476" class="dsq-comment-header">
+            <cite id="dsq-cite-2476">
+                <span id="dsq-author-user-2476">antonio</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2476" class="dsq-comment-body">
+            <div id="dsq-comment-message-2476" class="dsq-comment-message"><p>hi anyone can say me how i can put a search bar? thanks in advanced</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2607">
+        <div id="dsq-comment-header-2607" class="dsq-comment-header">
+            <cite id="dsq-cite-2607">
+                <span id="dsq-author-user-2607">Bratkartoffl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2607" class="dsq-comment-body">
+            <div id="dsq-comment-message-2607" class="dsq-comment-message"><p>How Can i Order the TableView Cell by the Time? Any ideas?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2793">
+        <div id="dsq-comment-header-2793" class="dsq-comment-header">
+            <cite id="dsq-cite-2793">
+                <span id="dsq-author-user-2793">Danilo Lutti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2793" class="dsq-comment-body">
+            <div id="dsq-comment-message-2793" class="dsq-comment-message"><p>How about ordering and search?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2812">
+        <div id="dsq-comment-header-2812" class="dsq-comment-header">
+            <cite id="dsq-cite-2812">
+                <span id="dsq-author-user-2812">Li Fang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2812" class="dsq-comment-body">
+            <div id="dsq-comment-message-2812" class="dsq-comment-message"><p>I have a question about using third party cloud service or iCloud. Which one should I use to back up data? third party for developer&#8217;s data and iCloud for user&#8217;s data? Or use one Cloud service for all data?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3016">
+        <div id="dsq-comment-header-3016" class="dsq-comment-header">
+            <cite id="dsq-cite-3016">
+                <span id="dsq-author-user-3016">Happy Mask</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3016" class="dsq-comment-body">
+            <div id="dsq-comment-message-3016" class="dsq-comment-message"><p>Dear Simon, this is a great tutorial 😉</p>
+<p>1. Btw, i found some issue and i dont know that if it belong to Parse or not ?</p>
+<p>If you set</p>
+<p>query.cachePolicy = kPFCachePolicyCacheThenNetwork;</p>
+<p>and </p>
+<p>self.paginationEnabled = YES;</p>
+<p>        self.objectsPerPage=10;</p>
+<p>When you click loadmore and pull and do it again sometime,</p>
+<p>somehow the data is duplicated <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>2. When i click loadmore, i get the wrong indexPath.row <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>It&#8217;s count begin from 0</p>
+<p>Do you have any idea ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3024">
+        <div id="dsq-comment-header-3024" class="dsq-comment-header">
+            <cite id="dsq-cite-3024">
+                <span id="dsq-author-user-3024">Happy Mask</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3024" class="dsq-comment-body">
+            <div id="dsq-comment-message-3024" class="dsq-comment-message"><p>I&#8217;m back to nofity if someone gets error like me.</p>
+<p>Just add a check when when set cached</p>
+<p>if ([self.objects count] == 0) {</p>
+<p>        query.cachePolicy = kPFCachePolicyCacheThenNetwork;</p>
+<p>    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3166">
+        <div id="dsq-comment-header-3166" class="dsq-comment-header">
+            <cite id="dsq-cite-3166">
+                <span id="dsq-author-user-3166">Noel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3166" class="dsq-comment-body">
+            <div id="dsq-comment-message-3166" class="dsq-comment-message"><p>Hi, </p>
+<p>How would you be able to make the details you pull in from parse show up in the detail view controller as I&#8217;m unsure how this would be done?(complete beginner in ios)</p>
+<p>Be grateful for any help</p>
+<p>Noel</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3568">
+        <div id="dsq-comment-header-3568" class="dsq-comment-header">
+            <cite id="dsq-cite-3568">
+                <span id="dsq-author-user-3568">Filip</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3568" class="dsq-comment-body">
+            <div id="dsq-comment-message-3568" class="dsq-comment-message"><p>Can someone help me with passing images to detail view? Only image that will load into my detail view is the thumbnail, which is in table view cell. When I want to display different image, it doesn&#8217;t work. I am not getting any error a classes are set correctly. I&#8217;ve tried almost everything and I don&#8217;t know where the problem can be. Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3717">
+        <div id="dsq-comment-header-3717" class="dsq-comment-header">
+            <cite id="dsq-cite-3717">
+                <span id="dsq-author-user-3717">Niha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3717" class="dsq-comment-body">
+            <div id="dsq-comment-message-3717" class="dsq-comment-message"><p>Can any one guide me:</p>
+<p>In my app i need to create functionality like whats app.</p>
+<p>If i upload a picture or video,it will look like its uploaded,and actual upload process will be done when device is connected with internet.</p>
+<p>I don&#8217;t know from where to start !!!</p>
+<p>Can any one help plz..</p>
+<p>Thanks</p>
+<p>Niha</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4073">
+        <div id="dsq-comment-header-4073" class="dsq-comment-header">
+            <cite id="dsq-cite-4073">
+                <span id="dsq-author-user-4073">Marsant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4073" class="dsq-comment-body">
+            <div id="dsq-comment-message-4073" class="dsq-comment-message"><p>Tried run this example with Xcode 5.1 with target iOS 7.0 and got an error on line </p>
+<p>    thumbnailImageView.file = thumbnail;</p>
+<p>2014-04-07 12:49:52.746 RecipeBook[2624:70b] -[__NSCFString url]: unrecognized selector sent to instance 0x9d93590</p>
+<p>2014-04-07 12:49:52.749 RecipeBook[2624:70b] *** Terminating app due to uncaught exception &#8216;NSInvalidArgumentException&#8217;, reason: &#8216;-[__NSCFString url]: unrecognized selector sent to instance 0x9d93590&#8242;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4074">
+        <div id="dsq-comment-header-4074" class="dsq-comment-header">
+            <cite id="dsq-cite-4074">
+                <span id="dsq-author-user-4074">marsant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4074" class="dsq-comment-body">
+            <div id="dsq-comment-message-4074" class="dsq-comment-message"><p>Did not see the imageFile column after importing the Recipe.json file into Parse.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-4075">
+        <div id="dsq-comment-header-4075" class="dsq-comment-header">
+            <cite id="dsq-cite-4075">
+                <span id="dsq-author-user-4075">marsant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4075" class="dsq-comment-body">
+            <div id="dsq-comment-message-4075" class="dsq-comment-message"><p>Manually added 4 rows to Parse and it worked.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-7154">
+        <div id="dsq-comment-header-7154" class="dsq-comment-header">
+            <cite id="dsq-cite-7154">
+                <span id="dsq-author-user-7154">g2sleeper</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7154" class="dsq-comment-body">
+            <div id="dsq-comment-message-7154" class="dsq-comment-message"><p>When I try to import the json recipe model that is provided, I get an Error in Parse &#8220;Name must start with a letter&#8221;&#8230; can someone help me with this?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-12140">
+        <div id="dsq-comment-header-12140" class="dsq-comment-header">
+            <cite id="dsq-cite-12140">
+                <span id="dsq-author-user-12140">Brian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12140" class="dsq-comment-body">
+            <div id="dsq-comment-message-12140" class="dsq-comment-message"><p>I got the same error.  Then I realized the Class name was blank.  From the instructions, it sounded like it would provide the class name during the import, but it doesn&#8217;t.  You have to type in the class name &#8220;Recipe&#8221; and then import the file.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-12147">
+        <div id="dsq-comment-header-12147" class="dsq-comment-header">
+            <cite id="dsq-cite-12147">
+                <span id="dsq-author-user-12147">g2sleeper</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12147" class="dsq-comment-body">
+            <div id="dsq-comment-message-12147" class="dsq-comment-message"><p>Yes!  I figured that out as well&#8230; boy did I feel stupid on that one&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-11066">
+        <div id="dsq-comment-header-11066" class="dsq-comment-header">
+            <cite id="dsq-cite-11066">
+                <span id="dsq-author-user-11066">Rajat Gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11066" class="dsq-comment-body">
+            <div id="dsq-comment-message-11066" class="dsq-comment-message"><p>My tableviewdelegate is not calling and it showing a error &#8220;Offline error something went wrong.please try again&#8221;.i checked my internet its working properly.then i download your source code its working fine.Why my table view delegate is not calling.please help.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-20919">
+        <div id="dsq-comment-header-20919" class="dsq-comment-header">
+            <cite id="dsq-cite-20919">
+                <span id="dsq-author-user-20919">Juan Nozaleda</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20919" class="dsq-comment-body">
+            <div id="dsq-comment-message-20919" class="dsq-comment-message"><p>Can anybody help me?<br />
+I have tried to do de exercise, but when I click in each cell it doesn&#8217;t show anything.<br />
+thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-24565">
+        <div id="dsq-comment-header-24565" class="dsq-comment-header">
+            <cite id="dsq-cite-24565">
+                <span id="dsq-author-user-24565">Collin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24565" class="dsq-comment-body">
+            <div id="dsq-comment-message-24565" class="dsq-comment-message"><p>How can i get the application to show an image from a URL? Thank you!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29007">
+        <div id="dsq-comment-header-29007" class="dsq-comment-header">
+            <cite id="dsq-cite-29007">
+                <span id="dsq-author-user-29007">Nick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29007" class="dsq-comment-body">
+            <div id="dsq-comment-message-29007" class="dsq-comment-message"><p>I&#8217;m getting this error after the first half of the tutorial:</p>
+<p>*** Terminating app due to uncaught exception &#8216;NSInternalInconsistencyException&#8217;, reason: &#8216;-[UITableViewController loadView] loaded the &#8220;vXZ-lx-hvc-view-kh9-bI-dsS&#8221; nib but didn&#8217;t get a UITableView.&#8217;</p>
+<p>Everything worked fine after inserting the Parse header and keys. But when I try to get the data from Parse, I get the error above.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-36233">
+        <div id="dsq-comment-header-36233" class="dsq-comment-header">
+            <cite id="dsq-cite-36233">
+                <span id="dsq-author-user-36233">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-36233" class="dsq-comment-body">
+            <div id="dsq-comment-message-36233" class="dsq-comment-message"><p>I have</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-36234">
+        <div id="dsq-comment-header-36234" class="dsq-comment-header">
+            <cite id="dsq-cite-36234">
+                <span id="dsq-author-user-36234">Lionel Mischler</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-36234" class="dsq-comment-body">
+            <div id="dsq-comment-message-36234" class="dsq-comment-message"><p>I have the same error. Can someone help?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-67991">
+        <div id="dsq-comment-header-67991" class="dsq-comment-header">
+            <cite id="dsq-cite-67991">
+                <span id="dsq-author-user-67991">Will Dennis</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-67991" class="dsq-comment-body">
+            <div id="dsq-comment-message-67991" class="dsq-comment-message"><p>I had the same error. You may have an extra view in the Table View Controller if you look in your storyboard. Make sure your storyboard is set up with Table View Controller &gt; [Deleted extra view] &gt; Table View &gt; RecipeCell.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-47837">
+        <div id="dsq-comment-header-47837" class="dsq-comment-header">
+            <cite id="dsq-cite-47837">
+                <span id="dsq-author-user-47837">Morris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-47837" class="dsq-comment-body">
+            <div id="dsq-comment-message-47837" class="dsq-comment-message"><p>I get a complie error of Parse Header not found when I try to run the downloaded version of the code what gives?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-50211">
+        <div id="dsq-comment-header-50211" class="dsq-comment-header">
+            <cite id="dsq-cite-50211">
+                <span id="dsq-author-user-50211">Manu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-50211" class="dsq-comment-body">
+            <div id="dsq-comment-message-50211" class="dsq-comment-message"><p>Hi.. I am getting 4 Apple Mach-O Linking Errors&#8230;please help</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-50223">
+        <div id="dsq-comment-header-50223" class="dsq-comment-header">
+            <cite id="dsq-cite-50223">
+                <span id="dsq-author-user-50223">Manu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-50223" class="dsq-comment-body">
+            <div id="dsq-comment-message-50223" class="dsq-comment-message"><p>Hi..can anyone please help me.. build fails to compile after adding parse application id ands client id in didFinishLaunchingWithOptions: method:</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-50224">
+        <div id="dsq-comment-header-50224" class="dsq-comment-header">
+            <cite id="dsq-cite-50224">
+                <span id="dsq-author-user-50224">Manu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-50224" class="dsq-comment-body">
+            <div id="dsq-comment-message-50224" class="dsq-comment-message"><p>4 Apple Mach-O Linking Error pops up..please help</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-51105">
+        <div id="dsq-comment-header-51105" class="dsq-comment-header">
+            <cite id="dsq-cite-51105">
+                <span id="dsq-author-user-51105">rrTenz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51105" class="dsq-comment-body">
+            <div id="dsq-comment-message-51105" class="dsq-comment-message"><p>I am getting the exact same errors <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-66222">
+        <div id="dsq-comment-header-66222" class="dsq-comment-header">
+            <cite id="dsq-cite-66222">
+                <span id="dsq-author-user-66222">Kartik Subramanian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-66222" class="dsq-comment-body">
+            <div id="dsq-comment-message-66222" class="dsq-comment-message"><p>@rrTenz &#8211; when you download the latest Parse iOS SDK, there is a framework called &#8220;Bolts.framework&#8221; in the SDK bundle. Drag the Bolts framework into the Frameworks folder as well. </p>
+<p>So, you need to drag in both the Parse.framework AND the Bolts.framework from the Parse SDK into the frameworks folder. </p>
+<p>I found the answer on stackoverflow.<br />
+<a href="http://stackoverflow.com/questions/25493282/error-when-connecting-ios-app-to-parse" rel="nofollow">http://stackoverflow.com/questions/25493282/error-when-connecting-ios-app-to-parse</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-51106">
+        <div id="dsq-comment-header-51106" class="dsq-comment-header">
+            <cite id="dsq-cite-51106">
+                <span id="dsq-author-user-51106">rrTenz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51106" class="dsq-comment-body">
+            <div id="dsq-comment-message-51106" class="dsq-comment-message"><p>I figured out a workaround.  I went to <a href="https://parse.com/apps" rel="nofollow">https://parse.com/apps</a>, created a new app, and downloaded it. I then copied the 3 included frameworks into my recipe project: Bolts.framework, Parse.framework, and ParseFacebookUtils.framework.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-51182">
+        <div id="dsq-comment-header-51182" class="dsq-comment-header">
+            <cite id="dsq-cite-51182">
+                <span id="dsq-author-user-51182">Manu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51182" class="dsq-comment-body">
+            <div id="dsq-comment-message-51182" class="dsq-comment-message"><p>cool thanks&#8230;.i added these extra lib&#8230; and it worked for me&#8230;<a href="http://stackoverflow.com/questions/22509290/apple-mach-o-linker-error-parse" rel="nofollow">http://stackoverflow.com/questions/22509290/apple-mach-o-linker-error-parse</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.zescience.com/didnamp39t-get-a-uitableview-186935' rel='external nofollow' class='url'>Didn&#039;t get a UITableView</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-59102">
+        <div id="dsq-comment-header-59102" class="dsq-comment-header">
+            <cite id="dsq-cite-59102">
+                <span id="dsq-author-user-59102">saad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-59102" class="dsq-comment-body">
+            <div id="dsq-comment-message-59102" class="dsq-comment-message"><p>Please </p>
+<p>How do I make name table view in Arabic</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-65844">
+        <div id="dsq-comment-header-65844" class="dsq-comment-header">
+            <cite id="dsq-cite-65844">
+                <span id="dsq-author-user-65844">Miljan Vukićević</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-65844" class="dsq-comment-body">
+            <div id="dsq-comment-message-65844" class="dsq-comment-message"><p>Hi there! This App is fantastic startup!!!! Now i have a dumb, newbie question for the developer! Is there something easy to do about sorting these recopies&#8230; I tried step-by-step on implementing this code in and everything works, but the recepies in app are sorted from oldest to newest, is there any way to change that, so the sorting will be from newest to oldest (newest on top)? Devs pls help i know this is easy but it is very much bugging me xD Thx</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-76145">
+        <div id="dsq-comment-header-76145" class="dsq-comment-header">
+            <cite id="dsq-cite-76145">
+                <span id="dsq-author-user-76145">kanika anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-76145" class="dsq-comment-body">
+            <div id="dsq-comment-message-76145" class="dsq-comment-message"><p>Hi, Thanks for the explanation in this article. While trying to implement Parse into my application, I get the following error : &#8220;Cannot find interface declaration for &#8216;PFQueryTableViewController&#8217; &#8230;..&#8221;<br />
+Csn some one help on this? I have added all the frameworks in Frameworks folder and linked the libraries as per instructions by parse.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-78764">
+        <div id="dsq-comment-header-78764" class="dsq-comment-header">
+            <cite id="dsq-cite-78764">
+                <span id="dsq-author-user-78764">swapnil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-78764" class="dsq-comment-body">
+            <div id="dsq-comment-message-78764" class="dsq-comment-message"><p>Whenever i am subclassing my customviewcell with PFQueryTableViewController  in swift and xcode 6.1 i keep geeting errors use of undeclared PFQueryTableViewController ? how to fix it</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-101015">
+        <div id="dsq-comment-header-101015" class="dsq-comment-header">
+            <cite id="dsq-cite-101015">
+                <span id="dsq-author-user-101015">damalfa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101015" class="dsq-comment-body">
+            <div id="dsq-comment-message-101015" class="dsq-comment-message"><p>Just discovered you simply need to #import    in addition to the normal Parse.h class.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-99524">
+        <div id="dsq-comment-header-99524" class="dsq-comment-header">
+            <cite id="dsq-cite-99524">
+                <span id="dsq-author-user-99524">Dillz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99524" class="dsq-comment-body">
+            <div id="dsq-comment-message-99524" class="dsq-comment-message"><p>Please do a swift version of this? Not a fast one, one in the programming language swift. (sorry, bad pun—I had too) </p>
+<p><img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99860">
+        <div id="dsq-comment-header-99860" class="dsq-comment-header">
+            <cite id="dsq-cite-99860">
+                <span id="dsq-author-user-99860">Richard</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99860" class="dsq-comment-body">
+            <div id="dsq-comment-message-99860" class="dsq-comment-message"><p>Hallo, i have 2 issues.</p>
+<p>My Errors in Xcode</p>
+<p>1. /RecipeDetailViewController.h:14:38: Unknown type name &#8216;PFImageView'; did you mean &#8216;UIImageView&#8217;?</p>
+<p>2. /RecipeDetailViewController.m:38:22: Property &#8216;file&#8217; not found on object of type &#8216;UIImageView *&#8217;</p>
+<p>can anybody help me with this?</p>
+<p>I have adde the Framework Bolds and Parse in the newest Version. </p>
+<p>Thx<br />
+Richard</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100294">
+        <div id="dsq-comment-header-100294" class="dsq-comment-header">
+            <cite id="dsq-cite-100294">
+http://www.vytcdc.com/web-designing/program2/                <span id="dsq-author-user-100294">php training</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100294" class="dsq-comment-body">
+            <div id="dsq-comment-message-100294" class="dsq-comment-message"><p>Nice post  thanks for sharing ..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://zhengfamily88.wordpress.com/2015/03/19/parse-com-use/' rel='external nofollow' class='url'>parse.com use | Zheng Family</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-100494">
+        <div id="dsq-comment-header-100494" class="dsq-comment-header">
+            <cite id="dsq-cite-100494">
+                <span id="dsq-author-user-100494">vanylapep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100494" class="dsq-comment-body">
+            <div id="dsq-comment-message-100494" class="dsq-comment-message"><p>If I decide to create a Parse class &#8220;Ingredient&#8221; (that holds a unique set of ingredients) and have the Recipe class contains an array item from &#8220;Ingredient&#8221; (instead of an array of strings), is that possible? If yes, how do I populate the &#8220;Ingredient&#8221; class on Parse Data Browser and create a relation between the Repice and the ingredients?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-101401">
+        <div id="dsq-comment-header-101401" class="dsq-comment-header">
+            <cite id="dsq-cite-101401">
+http://www.antonio081014.com/                <span id="dsq-author-user-101401">antonio081014</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101401" class="dsq-comment-body">
+            <div id="dsq-comment-message-101401" class="dsq-comment-message"><p>Didn&#8217;t checkout all the comments yet, but to import the whole recipe to Parse Recipe class, developer not only upload the json file could be downloaded here, but also manually update each picture in that class by uploading them one by one.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-app-backend-parse/';
+var disqus_identifier = '2142 http://www.appcoda.com/?p=2142';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Adding a Cloud Backend for Your iOS App Using Parse &#8211; Part 1";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=2142';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="2142"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-app-backend-parse%2F&#038;t=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%201" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2142" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>92</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%201&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-app-backend-parse%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2142" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>20</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-app-backend-parse%2F&#038;t=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%201" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2142" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>8</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-app-backend-parse%2F&#038;title=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%201" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2142" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>7</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-app-backend-parse%2F&#038;t=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%201" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2142" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%201&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-app-backend-parse%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2142" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-app-backend-parse%2F&#038;t=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%201" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2142" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-app-backend-parse%2F&#038;title=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%201" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2142" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-app-backend-parse\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="f7949b988492b7c58fd9879990">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":2142,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:33:37 by W3 Total Cache -->

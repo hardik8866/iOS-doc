@@ -1,0 +1,1057 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Documenting Your Objective-C and Swift Code in Xcode</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="When talking about Xcode documentation, apparently I don&#039;t mean just to add a few lines of comments somewhere in the implementation files. It&#039;s definitely more than that."/>
+<link rel="canonical" href="http://www.appcoda.com/documenting-source-code-in-xcode/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="When talking about Xcode documentation, apparently I don&#039;t mean just to add a few lines of comments somewhere in the implementation files. It&#039;s definitely more than that."/>
+<meta name="twitter:title" content="Documenting Your Objective-C and Swift Code in Xcode"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2015/02/xcode-macbook-featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Documenting Your Objective-C and Swift Code in Xcode with HeaderDoc and Doxygen Comments Feed" href="http://www.appcoda.com/documenting-source-code-in-xcode/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=4760' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-4760 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-4760 post type-post status-publish format-standard hentry category-course category-intermediate category-swift-2 category-tutorials tag-doxygen tag-headerdoc tag-objective-c tag-swift tag-xcode entry"><h1 class="entry-title">Documenting Your Objective-C and Swift Code in Xcode with HeaderDoc and Doxygen</h1> 
+<div class="post-info"><span class="date published time" title="2015-02-04T00:49:36+00:00">February 4, 2015</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/documenting-source-code-in-xcode/#comments"><span class="dsq-postid" data-dsqidentifier="4760 http://www.appcoda.com/?p=4760">16 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>During the development of an application there are various steps involved in the whole process. Some of them are the definition of its specifications, the creation of graphics, the implementation, and the testing phase following the implementation. Writing the code maybe consists of the most important part, as this brings the application to life, but further than that, equally important is the proper <strong>documentation</strong> of the code. No matter how well-written the code is, if there&#8217;s lack of a good documentation accompanying it, future troubles it&#8217;s possible to arise. Unfortunately, many developers overlook or ignore the importance of the code documentation, and that&#8217;s really bad, as good software is not just good code. It&#8217;s more than that.</p>
+<p>When talking about documentation, apparently I don&#8217;t mean just to add a few lines of comments somewhere in the implementation files. It&#8217;s definitely more than that. But first, why is it such a big deal to document the code? Well, there are two cases: Whether you&#8217;re working on your own, or you are a part of a team. Let&#8217;s see in short each one.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/xcode-macbook-featured.jpg" alt="xcode-macbook-featured" class="aligncenter size-full wp-image-4808" /></div>
+<p>If you are the only developer of the under-development application, then it&#8217;s reasonable to believe that writing code documentation costs in time, so skipping doing that will bring you right into your target much sooner. Additionally, it&#8217;s easy to convince yourself that as you&#8217;re the sole developer there&#8217;s really no need to do that. But trust me, that&#8217;s the worst decision you might make during the app creation period. Suppose that you successfully implement the application, you sell it either on the app store or in a client of yours, and then you put it in the shelf. And after six months or so, you must create a new version of it by adding new features. When you open the project again and look to the existing code, a long before you write the first new line, you realize one killing truth: That you don&#8217;t remember almost anything! It&#8217;s hard to remember what you did, how you did it, and why! You must follow the one, painful way to wake that project up in your mind, which is no other than taking the project from the beginning and trying to &#8220;decode&#8221; your implementation line by line. Just a few comments here and there are not helpful, and eventually you end up making a super-effort for a long time until you understand everything. Many of you that you are now reading these lines may have come to that point, and I ensure you that there were times that I&#8217;ve been there too. This case is a real nightmare, and you often want to start building the project from scratch. And of course, the scenario described here would just be a… scenario, if we all invested a little time to write proper code documentation.</p>
+<p><span id="more-4760"></span></p>
+<p>On the other hand, if you&#8217;re working on a project as a member of a team, then avoiding documenting your code would be catastrophic. When you share code with other developers, you must explain up to a point what you do (in the code) and how you do it, and of course other developers are required to do that too. There&#8217;s no case developers in big projects to fully understand the code of other fellow developers, as among all, that leads to unneeded waste of time. So, writing documentation in this case it&#8217;s like some sort of communication, but also an assistance to other members of the team to get the meaning of your code. After all, each programmer writes code differently than others, so making clear all the points of your code is a must-do task.</p>
+<p>So, hoping that I&#8217;ve made my point, let me carry on by saying that the proper documentation and commenting regards all programming languages and all platforms. No matter whether you write apps for iOS, web or desktop systems: The point is that you should document as you go, so it&#8217;s easy for you (and everyone else) to revise your code really easy and without much effort.</p>
+<p>As you understand, in this tutorial I am going to highlight the most important aspects of the code documentation. I&#8217;m going to talk for both Objective-C and Swift, as there are developers writing apps in both languages, and of course I&#8217;m planning to show you what the similarities and differences between those two languages are. Furthermore, I&#8217;ll show you how to produce full, web-based documentation for your app, but I&#8217;m afraid that I have to say that this is still an option for the Objective-C only.</p>
+<p>As an iOS developer using the Xcode IDE, you might have been thought that the documenting possibilities would be the same for both languages. That&#8217;s not the case though, as Swift supports too few documenting options, compared always to the Objective-C, at least at the time of the writing of this post. However, they both give you enough &#8220;supplies&#8221; so you can write nice documentation. We will begin with Objective-C, as there are more than enough things to say there, and we&#8217;ll close this tutorial with code documentation in Swift. There is no need to get in more details now, as we&#8217;ll see them in the next parts.</p>
+<p>Before we begin, let me note two last things. First, I&#8217;m not trying to make you mad about documentation, just to convince you that writing proper comments will improve your programming life. Second, writing code documentation it&#8217;s just a habit you have to adopt, and definitely it&#8217;s not a waste of time.</p>
+<h2>Creating a Demo App in Objective-C</h2>
+<p>Let&#8217;s get started by creating a new project in Objective-C, which we will use as the testing base for what we are going to see next. If you haven&#8217;t done yet, launch Xcode and create a new project. As we are not going to create a real demo application, selecting the <strong>Single View Application</strong> is just fine.</p>
+<p>In the next step, name the project <strong>DocDemoObjC</strong>, and make sure to select the <em>Objective-C</em> option in the <strong>Language</strong> drop down menu:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_2_new_project_ObjC_2.png" alt="t28_2_new_project_ObjC_2" class="aligncenter size-full wp-image-4764" /></div>
+<p>Get finished with the guide by selecting a directory in your drive to save the project.</p>
+<h2>Documentation Specifics</h2>
+<p>As you know, the simplest way to write a comment in both Objective-C and Swift is to use the two slashes as shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">// This is a comment.</span></div></td></tr></tbody></table></div>
+<p>You can (and must) place anywhere in your code comments like that, so you clarify each part of it. However, when talking about code documentation, definitely I am not talking about the above notation. It would be pointless after all to devote a whole tutorial to that only. Code documentation regards a structured way to write comments using special <strong>keywords</strong>, also named <strong>tags</strong>, and marking the comments area with special characters, so the compiler perfectly understands it. There are a few simple rules that should be followed only. The result of all that is that your documentation can be displayed in three different places:</p>
+<ol>
+<li>In the <strong>Quick Help Inspector</strong> of the Utilities panel.</li>
+<li>In the <strong>Help Popup</strong> that is displayed when you press the Option key and click on the name of method, class or property.</li>
+<li>In the code-completion popup.</li>
+</ol>
+<p>Additionally, proper code documentation enables you to produce complete HTML documentation for your app using various tools, such as the <a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/HeaderDoc/intro/intro.html">HeaderDoc</a> and <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a>. We&#8217;ll talk about both of them later, and we&#8217;ll see how you can do what I just said.</p>
+<p>With all the above in mind, it&#8217;s time to make one more step further and say that there are three possible ways to mark a documentation area when writing code in Objective-C:</p>
+<ol>
+<li>To include your comments in a /** &#8211; */ block.</li>
+<li>To include your comments in a /*! &#8211; */ block.</li>
+<li>To begin each commented line with three slashes: ///</li>
+</ol>
+<p>In our examples in this tutorial we are going to use the second way to write our documentation. I&#8217;m choosing this way for two reasons: First, it&#8217;s the only one recognised by HeaderDoc, and if the comment blocks don&#8217;t begin with that, no help pages will be created. At second, even though Doxygen prefers the first way, it also recognises this too. So, it&#8217;s going to suit us in both cases. The third commenting style is usually used when documenting single lines, such as properties, but still, we&#8217;re going to stick to the second option.</p>
+<p>Now, there are specific keywords (or tags) you can use when writing documentation. Tags are divided in two categories: The first one regards <em>top level</em> tags, which they can be used to specify what kind of code exactly is commented, such as classes, structs, files, etc. Note that top level tags are not required to be used, but definitely help exporting tools (such as HeaderDoc and Doxygen) to create better results. In the second category exist the <em>second level</em> tags, which specify each details for each part of the documentation block. This kind of tags is actually what you need, as each one of them define another documentation part.</p>
+<p>Right next I give you the most important second level tags, but note that they&#8217;re not just them. We&#8217;ll see a few top level tags later. What I list is what is mostly used:</p>
+<ul>
+<li><strong>@brief</strong>: Use it to write a short description about the method, property, class, file, struct, or enum you&#8217;re documenting. No line breaks are allowed.</li>
+<li><strong>@discussion</strong>: Use it to write a thorough description. You can add line breaks if needed.</li>
+<li><strong>@param</strong>: With this you can describe a parameter of a method or function. You can have multiple such tags.</li>
+<li><strong>@return</strong>: Use it to specify the return value of a method or function.</li>
+<li><strong>@see</strong>: Use it to indicate other related method or functions. You can have multiple such tags.</li>
+<li><strong>@sa</strong>: Similar to the previous one.</li>
+<li><strong>@code</strong>: With this tag, you can embed code snippets in the documentation. When viewing the documentation in Help Inspector, the code is represented with a different font, inside a special box. Always use the <strong>@endcode</strong> tag when you finish writing code.</li>
+<li><strong>@remark</strong>: Use it to highlight any special facts about the code you&#8217;re currently documenting.</li>
+</ul>
+<p>You can find a full list of all supported tags <a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/HeaderDoc/tags/tags.html">here</a>.</p>
+<p>Note that the <strong>@</strong> character is a prefix to each tag. Also, you can use special <em>switches</em> inside text, so you change its style and formatting. For example, the <em>&lt;b&gt;Text&lt;/b&gt;</em> will make the <em>Text</em> word bold, while the <em>&lt;i&gt;Text&lt;/i&gt;</em> will make the <em>Text</em> italic. It&#8217;s also interesting that you can represent part of the text as code (not a code snippet), if you write <em>@cText</em>. This will result to a different font formatting when the help is displayed in Xcode.</p>
+<p>Alternatively to the above, you can replace the <em>@</em> symbol with the backslash (<em>\</em>). That way the tags will be represented like this: \brief, \param, \return, etc. Note that the backslash is mostly used by the Doxygen documenting system, while the <em>@</em> is used by the HeaderDoc. Here we&#8217;ll use everywhere the <em>@</em>, as it&#8217;s compatible with both documenting systems.</p>
+<h2>Code Documentation in Objective-C</h2>
+<p>Let&#8217;s see now how everything I mentioned above is used. Open the <em>ViewController.m</em> file, and in the private section of the class add the next property:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>myName;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Now, document it as shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*! @brief This property knows my name. */</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>myName;</div></td></tr></tbody></table></div>
+<p>Go then to the <em>viewDidLoad</em> method, and start typing it. You will see that in the code completion popup the description we just wrote is there!</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_3_myname_code_completion.png" alt="xcode autocomplete" class="aligncenter size-full wp-image-4765" /></div>
+<p>But not only. While holding down the Option key in your keyboard, click on the <em>myName</em> property name to let the help popup come up:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_4_myname_help_popup.png" alt="t28_4_myname_help_popup" class="aligncenter size-full wp-image-4766" /></div>
+<p>Even more, if you open the Help Inspector in the Utilities panel, you&#8217;ll find the same documentation there too:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_5_myname_help_inspector.png" alt="Help inspector" class="aligncenter size-full wp-image-4767" /></div>
+<p>Note that in the above comment the <em>@brief</em> tag could be omitted without any problem at all, as it&#8217;s inferred. That means that the next comment is valid as well:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*! This property knows my name. */</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>myName;</div></td></tr></tbody></table></div>
+<p>Also, the next notation is equal too:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/** This property knows my name. */</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>myName;</div></td></tr></tbody></table></div>
+<p>And this is also equal:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/// This property knows my name. */</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>myName;</div></td></tr></tbody></table></div>
+<p>Let&#8217;s see a first, easy example on how to document methods. At this point you must acknowledge that if your goal is to produce an HTML documentation, then only the documentation in the public methods (the header .h files) is visible. Whatever you write in the private parts of your classes is still visible in Xcode help, but no implementation is exported to the documentation. So, knowing that, let&#8217;s define a public method in the <em>ViewController.h</em> file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>toCelcius<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>fromFahrenheit;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Obviously, this method is going to convert the given Fahrenheit degrees to Celsius. Let&#8217;s add its documentation now:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*!<br />
+&nbsp; &nbsp; @brief It converts temperature degrees from Fahrenheit to Celsius scale.<br />
+<br />
+&nbsp; &nbsp; @discussion This method accepts a float value representing the temperature in &amp;lt;b&amp;gt;Fahrenheit&amp;lt;/b&amp;gt; scale and it converts it to the &amp;lt;i&amp;gt;Celsius&amp;lt;/i&amp;gt; scale.<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; To use it, simply call @c[self toCelsius: 50];<br />
+<br />
+&nbsp; &nbsp; @param &nbsp;fromFahrenheit The input value representing the degrees in the Fahrenheit scale.<br />
+<br />
+&nbsp; &nbsp; @return float The degrees in the Celsius scale.<br />
+&nbsp;*/</span><br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>toCelcius<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>fromFahrenheit;</div></td></tr></tbody></table></div>
+<p>Note that above we use the <em><b></b></em> and <em><i></i></em> HTML switches to make the included words bold and italic respectively. Also notice how we mark the inline code using the <em>@c</em> switch.</p>
+<p>To see in the Xcode help how that documentation looks, open the <em>ViewController.m</em> file and define the method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>toCelcius<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>fromFahrenheit<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#40;</span>fromFahrenheit <span style="color: #002200;">-</span> <span style="color: #2400d9;">32</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">/</span> <span style="color: #2400d9;">1.8</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Then place the caret on the method&#8217;s name, and look in the Quick Help Inspector:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_6_method1_help_inspector1.png" alt="t28_6_method1_help_inspector" class="aligncenter size-full wp-image-4769" /></div>
+<p>You see that Xcode properly formats each part of the documentation. Here&#8217;s the same in the help popup (Option + Click on the method&#8217;s name):</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_7_method1_help_popup.png" alt="t28_7_method1_help_popup" class="aligncenter size-full wp-image-4770" /></div>
+<p>If you call it in the <em>viewDidLoad</em> method, then you can see the brief description in the code-completion popup:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_8_method1_call.png" alt="method call pop over" class="aligncenter size-full wp-image-4771" /></div>
+<p>Great, isn&#8217;t it? Just imagine how helpful and self-explaining your code can be that way, especially if you&#8217;re working with other people in a team.</p>
+<p>To make this example even more interesting, let&#8217;s add one more public method that will do the exact opposing thing: Conversion from Celsius to Fahrenheit. Open the <em>ViewController.h</em> file, and add the next method declaration, along with its documentation:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*!<br />
+&nbsp; &nbsp; @brief It converts temperature degrees from Celsius to Fahrenheit scale.<br />
+<br />
+&nbsp; &nbsp; @param &nbsp;fromCelcius The celsius degrees value.<br />
+<br />
+&nbsp; &nbsp; @return float The degrees in the Fahrenheit scale.<br />
+<br />
+&nbsp; &nbsp; @code<br />
+&nbsp; &nbsp; &nbsp; &nbsp; float f = [self toCelsius:80];<br />
+&nbsp; &nbsp; @endcode<br />
+<br />
+&nbsp; &nbsp; @remark This is a super-easy method.<br />
+&nbsp;*/</span><br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>toFahrenheit<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>fromCelcius;</div></td></tr></tbody></table></div>
+<p>In the above snippet we added two new tags: The <em>@code &#8211; @endcode</em> pair, and the <em>@remark</em>. You&#8217;ll see how they&#8217;re displayed right next.</p>
+<p>Let&#8217;s go to implement the method in the <em>ViewController.m</em> file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>toFahrenheit<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>fromCelcius<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> fromCelcius <span style="color: #002200;">*</span> <span style="color: #2400d9;">1.8</span> <span style="color: #002200;">+</span> <span style="color: #2400d9;">32</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>And let&#8217;s see the Help Popup now:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_9_method2_help_popup.png" alt="t28_9_method2_help_popup" class="aligncenter size-full wp-image-4772" /></div>
+<p>Pretty nice! Now your documentation has nothing to be jealous of the Xcode default documentation.</p>
+<p>Before we move to the next part, open the <em>ViewController.h</em> file, and add the following property declaration (commented of course):</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*! An application delegate object. */</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> AppDelegate <span style="color: #002200;">*</span>appDelegate;</div></td></tr></tbody></table></div>
+<p>Along with it, import the <em>AppDelegate</em> class:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;AppDelegate.h&gt;</span></div></td></tr></tbody></table></div>
+<p>The reason we added the above property to the class is to make us able to see later how it is exported using the documentation tools (HeaderDoc and Doxygen), along with the methods we already created.</p>
+<h2>Files, Classes, Structs and Enums</h2>
+<p>In the previous part we went through the basic documenting principles that you should be aligned with when writing properties or methods/functions. I intentionally chose to begin demonstrating from that point, as the most of your developing time will be consumed there. Now that we&#8217;ve seen some of the essentials of our topic, let&#8217;s keep going by taking a look on how to add documentation notes regarding files, classes, structs and enums.</p>
+<p>Let&#8217;s get started by files, and how you write informative documentation in Objective-C. When sharing programming work with others, or you distribute your code as an open source component, then adding file documentation is almost mandatory, as that&#8217;s the best place to provide specific information to your partners or users of your code. Normally, you are going to give extra attention to the header file (.h) and the descriptions in it, as this is the one in the final documentation that will be exported (not in Xcode); however this doesn&#8217;t mean that you should not add description to implementation files. Don&#8217;t forget that when a project opens in Xcode, everything it&#8217;s there, not just the header files, so make sure you don&#8217;t leave any part of it undocumented. Besides that, implementation is not shown in exported documentation, but the description of all files is always visible.</p>
+<p>Let me introduce you a few new tags that you can use when documenting a file:</p>
+<ul>
+<li><strong>@file</strong>: Use this tag to indicate that you&#8217;re documenting a file (header or not). If you&#8217;re about to use Doxygen to produce documentation, then you&#8217;d better set the file name right after this tag. It&#8217;s a top level tag.</li>
+<li><strong>@header</strong>: Similar to the above, but used with HeaderDoc. Don&#8217;t use the above if you won&#8217;t use Doxygen.</li>
+<li><strong>@author</strong> Use it to write the author info of the file.</li>
+<li><strong>@copyright</strong>: Add copyright info.</li>
+<li><strong>@version</strong>: Use it to write the current version of the file. Pretty important if versioning matters during the project&#8217;s lifetime.</li>
+</ul>
+<p>There are more tags of course you could use, but those are the most usual ones. I would advice you to go either through the HeaderDoc or the Doxygen documentation, so you can find extra keywords to use if you want so.</p>
+<p>Let&#8217;s go to add documentation now to the <em>ViewController.h</em> header file. Go to the top of the file, right before the <em>import</em> command. There, add the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*!<br />
+&nbsp;@header ViewController.h<br />
+<br />
+&nbsp;@brief This is the header file where my super-code is contained.<br />
+<br />
+&nbsp;This file contains the most importnant method and properties decalaration. It's parted by two methods in total, which can be used to perform temperature conversions.<br />
+<br />
+&nbsp;@author Your_Name<br />
+&nbsp;@copyright &nbsp;2015 Your_Name<br />
+&nbsp;@version &nbsp; &nbsp;15.12.7<br />
+&nbsp;*/</span></div></td></tr></tbody></table></div>
+<p>You can replace the Your_Name string with your actual name, or your company&#8217;s name. Also, it&#8217;s always a good idea to use the <em>brief</em> tag instead of just omitting it, as this will enable the documenting systems (you&#8217;ll see later in HeaderDoc and Doxygen) to display the short description you add here in the output HTML pages. I remind you once again that instead of the &#8220;@&#8221; symbol, you can use the backslash, but only for Doxygen. Also, we are not going to see here how the above documentation appears, but we&#8217;ll do so a bit later when we&#8217;ll produce HTML files.</p>
+<p>All the above are great, but the truth is that the default informative comments added by Xcode in each new file you create are pretty good and enough in many cases. You would want to create a file description block when you work with other people in a team and each member must clarify the details of the file(s) he&#8217;s in charge for, or when you&#8217;re planning to produce complete documentation of the project using HeaderDoc or Doxygen, or lastly, when you&#8217;re the sole developer but the project is parted by a big number of files. Anyway, it&#8217;s up to you to decide the level of documentation you&#8217;re willing to go up to.</p>
+<p>Let&#8217;s see now how you can document a class or a protocol. Once again, I give you the most usual tags only. Look up in the documentation for more tags.</p>
+<ul>
+<li><strong>@class</strong>: Use it to point the starting point of a documentation block regarding a class. It&#8217;s a top level tag, and after it you should provide the class name.</li>
+<li><strong>@interface</strong>: Same as above.</li>
+<li><strong>@protocol</strong>: Just like the above two, just for protocols.</li>
+<li><strong>@superclass</strong>: The superclass of the current class.</li>
+<li><strong>@classdesign</strong>: Use this tag to mention any special design you follow or apply in the current class (for example, you could mention a Singleton class design, or something like this).</li>
+<li><strong>@coclass</strong>: The name of another class that the current one works with.</li>
+<li><strong>@helps</strong>: Name the class which the current one works as a helper for.</li>
+<li><strong>@helper</strong>: Name any other class(es) that work as helpers for the current one.</li>
+</ul>
+<p>Actually, you will rarely need any of the above tags, except maybe for the <em>superclass</em>. The list is much longer, but I find it pointless to add more of them here. Let me underline that the tags starting from the <em>superclass</em> and below, are not recognised by Doxygen, only by HeaderDoc. Also, the Quick Help and Help Popup windows in Xcode display the values next to each tag, but not the tags themselves. So, decide if you&#8217;re about to use them or not, always depending on whether you&#8217;re going to use a documenting system, and which one.</p>
+<p>Let&#8217;s see an example by documenting our class in the <em>ViewController.h</em> file. Just right before the interface body opening, add these:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*!<br />
+&nbsp;@class ViewController<br />
+<br />
+&nbsp;@brief The ViewController class<br />
+<br />
+&nbsp;@discussion &nbsp; &nbsp;This class was designed and implemented to help people covert temperatures between the Fahrenheit and Celsius scales.<br />
+<br />
+&nbsp;@superclass SuperClass: UIViewController\n<br />
+&nbsp;@classdesign &nbsp; &nbsp;No special design is applied here.<br />
+&nbsp;@coclass &nbsp; &nbsp;AppDelegate<br />
+&nbsp;@helps It helps no other classes.<br />
+&nbsp;@helper &nbsp; &nbsp;No helper exists for this class. <br />
+&nbsp;*/</span></div></td></tr></tbody></table></div>
+<p>Now, if you place the caret on the <em>ViewController</em> class name, or you Option+Click on it, you can see how the above description is shown in the Xcode Help.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_10_class_name_help_popup.png" alt="t28_10_class_name_help_popup" class="aligncenter size-full wp-image-4773" /></div>
+<p>As you see the tags are not displayed, but in this case it doesn&#8217;t consist of a problem.</p>
+<p>It&#8217;s also great that you can see the class short description as you declare objects of it. To really watch this, open the <em>ViewController.m</em> file and go straight ahead in the <em>viewDidLoad</em> method. In there, start typing so you declare a local <em>ViewController</em> object. You&#8217;ll see the short description of the file appearing in the code completion popup window:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_11_viewcontroller_declare_code_completion.png" alt="t28_11_viewcontroller_declare_code_completion" class="aligncenter size-full wp-image-4774" /></div>
+<p>In the same way as above you can document a protocol. Add the next lines before the class in the <em>ViewController.h</em> file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*!<br />
+&nbsp; &nbsp; @protocol ViewControllerDelegate<br />
+<br />
+&nbsp; &nbsp; @brief The ViewControllerDelegate protocol<br />
+<br />
+&nbsp; &nbsp; It's a protocol used as a demo here. In a real application it would be quite useful.<br />
+&nbsp;*/</span><br />
+<span style="color: #a61390;">@protocol</span> ViewControllerDelegate<br />
+<br />
+<span style="color: #11740a; font-style: italic;">/*!<br />
+&nbsp; &nbsp; Nothing to say here... Just testing documentation.<br />
+&nbsp;*/</span><br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>thisIsADelegateMethod;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Option+Click on the protocol&#8217;s name to see it appearing in the Help Popup window.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_12_protocol_help_popup.png" alt="t28_12_protocol_help_popup" class="aligncenter size-full wp-image-4775" /></div>
+<p>As you can see above, we also declared a delegate method. You might think at the moment that is meaningless, however I purposely want this method to be there for demo reasons only; when we&#8217;ll use HeaderDoc and Doxygen to export documentation later it will be nice to see it in the exported HTML pages.</p>
+<p>Now that we&#8217;ve talked about files, classes and protocols, and you have hopefully got the big picture, let&#8217;s see a couple more special cases: How to document structs and enumerations. Their common element is that you use the <em>@typedef</em> top level tag in both of them, so you indicate the opening of the documentation block (I remind you that using top level tags is absolutely optional).</p>
+<p>For Doxygen specifically, you should use the <em>@struct</em> tag for structs, and the <em>@enum</em> tag for enums, instead of the <em>@typedef</em>.</p>
+<p>Let&#8217;s see the following code struct. Add it to the <em>ViewController.h</em> file right before the opening line of the interface:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">typedef</span> <span style="color: #a61390;">struct</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> sun;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> clouds;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> rain;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> snow;<br />
+<span style="color: #002200;">&#125;</span> WeatherConditionsInDays;</div></td></tr></tbody></table></div>
+<p>Now add these few lines above it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*!<br />
+&nbsp;@typedef WeatherConditionsInDays<br />
+<br />
+&nbsp;@brief &nbsp;A struct about the weather.<br />
+<br />
+&nbsp;@discussion<br />
+&nbsp;The values of this structure represent how many sunny, cloudy, rainy, and snowy days existed over the last year. If this was a real app, they could be perfectly used.<br />
+<br />
+&nbsp;@field sun Good weather<br />
+&nbsp;@field clouds &nbsp;Where's the sun?<br />
+&nbsp;@field rain &nbsp; &nbsp;Get an umbrella<br />
+&nbsp;@field snow &nbsp; &nbsp;Watch out... A snowball is coming!<br />
+&nbsp;*/</span></div></td></tr></tbody></table></div>
+<p>As you see here, there&#8217;s a new tag named <em>@field</em>. This tag is handy to describe each single variable of the struct. Again, I must highlight the difference between the HeaderDoc and Doxygen. In HeaderDoc, this tag is acceptable and valid. However, in Doxygen things change as it&#8217;s not compatible with this tag. What we could do in this case is to simply comment each variable separately. Doing that will also display the comment for each one when we&#8217;ll access them in the implementation file. Let&#8217;s see that (note that the <em>@field</em> tags and the comments above variables contain different values so it&#8217;s easier to be identified later):</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*!<br />
+&nbsp;@typedef WeatherConditionsInDays<br />
+<br />
+&nbsp;@brief &nbsp;A struct about the weather.<br />
+<br />
+&nbsp;@discussion<br />
+&nbsp;The values of this structure represent how many sunny, cloudy, rainy, and snowy days existed over the last year. If this was a real app, they could be perfectly used.<br />
+<br />
+&nbsp;@field sun Good weather<br />
+&nbsp;@field clouds &nbsp;Where's the sun?<br />
+&nbsp;@field rain &nbsp; &nbsp;Get an umbrella<br />
+&nbsp;@field snow &nbsp; &nbsp;Watch out... A snowball is coming!<br />
+&nbsp;*/</span><br />
+<span style="color: #a61390;">typedef</span> <span style="color: #a61390;">struct</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">/*! Good weather */</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> sun;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">/*! At least it's not raining */</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> clouds;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">/*! Don't forget to get your umbrella */</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> rain;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">/*! Time to go skiiiiiing */</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> snow;<br />
+<span style="color: #002200;">&#125;</span> WeatherConditionsInDays;</div></td></tr></tbody></table></div>
+<p>If you go now to the <em>ViewController.m</em> file and declare an variable of this struct, then by accessing any of the above values you&#8217;ll see the description in the code completion popup window.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_13_weather_sun_code_completion.png" alt="t28_13_weather_sun_code_completion" class="aligncenter size-full wp-image-4776" /></div>
+<p>Enumerations are handled in the exact same way, so I leave it to you to as an exercise to create an enum type and document it. Easy task to accomplish, isn&#8217;t it? Once your enum is ready, use it in the <em>viewDidLoad</em> method to see if your documentation is appeared in any of the Xcode Help options.</p>
+<h2>Watching For Errors</h2>
+<p>As you have seen in all the previous examples, next to the <em>@param</em> tag you must always write the parameter&#8217;s name, and after that a proper description. Of course, it&#8217;s quite possible that you mistype a parameter name, especially if it&#8217;s a bit complex, and to create documentation containing errors. However, there&#8217;s a way to be protected against that, and I suspect that you didn&#8217;t know that Xcode can be your trusty assistant in that.</p>
+<p>Indeed, even though Xcode deals with documentation once its written, it can help you by preventing you mistyping any parameter names. All it gets to do that, is to enable a setting. Let&#8217;s see what I mean exactly:</p>
+<p>In the Project Navigator, click on the Project&#8217;s group, and then go straight ahead to the <strong>Build Settings</strong> tab, as shown in the next figure:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_14_select_build_settings.png" alt="t28_14_select_build_settings" class="aligncenter size-full wp-image-4777" /></div>
+<p>Once you do so, in the Search box just type the <em>comments</em> keyword and wait to see the results right below. One of the returned results is a setting named <strong>Documentation Comments</strong>, and (normally) its current value is set to <strong>NO</strong>. All you have to do is to set the <strong>YES</strong> value, and you&#8217;re ready.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_15_enable_documentation_settings.png" alt="enable documentation" class="aligncenter size-full wp-image-4778" /></div>
+<p>Now, let&#8217;s go to see how the above setting affects the way we document our code. Open the <em>ViewController.m</em> file, and go to the private class section, where we are about to declare a private method. Here it is:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>showCurrentTemperatureInCity<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>targetCityName showInScale<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>preferredScale;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>If we were really going to implement it, this method would return the temperature in the selected city, expressed in the preferred scale (Fahrenheit or Celsius). Now, let&#8217;s add a few comments above it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/*!<br />
+&nbsp; &nbsp; This method returns the current temperature in the selected city, expressed in either Fahrenheit or Celsious degrees.<br />
+<br />
+&nbsp; &nbsp; @param &nbsp;targetcityName &nbsp;The city that the temperature will be returned for.<br />
+&nbsp; &nbsp; @param &nbsp;preferredScale &nbsp;Fahrenheit or Celsius.<br />
+<br />
+&nbsp; &nbsp; @return float &nbsp; The current temperature of the city.<br />
+&nbsp;*/</span><br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span><span style="color: #002200;">&#41;</span>showCurrentTemperatureInCity<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>targetCityName showInScale<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>preferredScale;</div></td></tr></tbody></table></div>
+<p>Once you copy-paste the above comments in your Xcode, a warning will appear in the line where the first parameter is documented, telling us that the <em>targetcityName</em> parameter was not found in the function declaration. And guess what? That&#8217;s true! Instead of writing the parameter name properly (<em>targetCityName</em>), I wrote it wrongly by not capitalizing the first character of the “city” word (<em>targetcityName</em>). That&#8217;s something that in a big project with a lot of comments we would probably not realize, but thankfully Xcode is here to give us a hand and an extra “pair of eyes”.</p>
+<p>Now, if you click in the warning triangle icon at the left, you will notice that Xcode auto-suggests the proper parameter name, which you can click so it&#8217;s fixed. Alternatively, go and fix it on your own.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_16_fix_param_name_error.png" alt="fix parameter name" class="aligncenter size-full wp-image-4780" /></div>
+<p>With all the above, you don&#8217;t need to be afraid of making any typo while writing parameter names during documentation.</p>
+<h2>Producing Documentation With HeaderDoc</h2>
+<p>Now that we have covered the essentials about code documentation, let&#8217;s move to another important part, and let&#8217;s see how we can create HTML files containing the documentation we added to our project. In this section we are going to use HeaderDoc, a pretty nice tool that works great with the documentation written to files. For your reference, I recommend you visit <a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/HeaderDoc/intro/intro.html">this site</a> and read more about it. In short, I&#8217;m just telling you that using HeaderDoc we&#8217;re going to export all the documented parts of the project in HTML pages. In small projects doing that might be meaningless, but in large projects or in cases where you deliver your own SDK to others, an accompanying documentation is almost necessary.</p>
+<p>The HeaderDoc tool is actually a command-line tool. It supports various switches to configure the exporting process in a high-detail level, and you can find them in the link I gave you above. Here, we&#8217;re going to use just one switch, useful to specify the output directory (the directory where the documentation will reside).</p>
+<p>Let&#8217;s see some action now. Initially, let&#8217;s create a directory for the documentation that will be produced. For easy access, I&#8217;m choosing to do that in my Desktop, but you can select any other destination you desire, as long as you update the paths you&#8217;ll see later on. So, in my Desktop I created a directory named <strong>DocDemo</strong>, and in there I added two subdirectories: One named <strong>HeaderDoc</strong>, and one named <strong>Doxygen</strong>. As you guess, the documentation produced by each tool will be placed to the respective folder.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_17_output_dirs.png" alt="t28_17_output_dirs" class="aligncenter size-full wp-image-4781" /></div>
+<p>Next, you must open the <strong>Terminal</strong> app, so either click on the <strong>LaunchPad > Other group > Terminal</strong>, or in the <strong>Spotlight</strong> write the <em>terminal</em> term.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_18_spotlight_terminal.png" alt="t28_18_spotlight_terminal" class="aligncenter size-full wp-image-4782" /></div>
+<p>Now, it would be a nice idea to navigate yourself in the project directory using terminal, and you can do that easily following the next steps:</p>
+<ol>
+<li>In Terminal write the <em>cd</em> command and hit the spacebar. Don&#8217;t press the Return key.</li>
+<li>In Finder, locate the root directory that contains the project.</li>
+<li>Drag and drop this directory straight to the terminal window, as you see in the next screenshot.</li>
+</ol>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_19_drag_drop_dir.png" alt="t28_19_drag_drop_dir" class="aligncenter size-full wp-image-4783" /></div>
+<p>Then hit the Return key in the keyboard, and to verify that you&#8217;re in the right folder just use the <em>pwd</em> command (in terminal always).</p>
+<p>The HeaderDoc command we&#8217;ll use here is named <strong>headerdoc2html</strong>, and we&#8217;ll form it as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">headerdoc2html <span style="color: #002200;">-</span>o OutputDirectory InputDirectory</div></td></tr></tbody></table></div>
+<p>The <em>OutputDirectory</em> is the directory we created right before, and the input directory is the folder where the project files exist.</p>
+<p>Now, let&#8217;s use it in real. In your terminal window, write or copy-paste the following part:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">headerdoc2html <span style="color: #002200;">-</span>o</div></td></tr></tbody></table></div>
+<p>Note that after the <em>-o</em> switch there&#8217;s a space character.</p>
+<p>Next, go in Finder and click on the directory name where the documentation will be exported. Following the steps described above, drag and drop it to the terminal. After that, type the name of the input directory followed by a slash. Here&#8217;s how the whole command should look like:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">headerdoc2html <span style="color: #002200;">-</span>o <span style="color: #002200;">/</span>Users<span style="color: #002200;">/</span>gabriel<span style="color: #002200;">/</span>Desktop<span style="color: #002200;">/</span>DocDemo<span style="color: #002200;">/</span>HeaderDoc DocDemoObjC<span style="color: #002200;">/</span></div></td></tr></tbody></table></div>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_20_terminal_final.png" alt="t28_20_terminal_final" class="aligncenter size-full wp-image-4784" /></div>
+<p>You will see various stuff appearing, but no need to pay special attention to that right now. Once it gets finished, mark and copy the path of the output directory, write the next command in terminal:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">gatherheaderdoc</div></td></tr></tbody></table></div>
+<p>and paste the path. Press Return and let it run. This command will create a table of contents page, where all commented files, classes and methods will exist in one place.</p>
+<p>That&#8217;s it. Now go to Finder, and open the <strong>masterTOC.html</strong> file in your browser. Here&#8217;s what you&#8217;ll see:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_21_toc.png" alt="t28_21_toc" class="aligncenter size-full wp-image-4785" /></div>
+<p>If you click in the <em>ViewController</em> link, here&#8217;s the page that you&#8217;ll be guided to:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_22_view_controller_page.png" alt="t28_22_view_controller_page" class="aligncenter size-full wp-image-4786" /></div>
+<p>There you can find the description of the file, and the class, the protocol and the struct with links to them along with their brief descriptions. The struct details are shown in the same page.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_23_struct_doc_page.png" alt="t28_23_struct_doc_page" class="aligncenter size-full wp-image-4787" /></div>
+<p>Notice that the fields contain double values, but that&#8217;s only because we added comments both using the <em>@field</em> tag, and above each struct variable. If you want, you can go back in Xcode and delete any of the two. Next, run again the HeaderDoc commands in terminal and get back here.</p>
+<p>If you click in the class link, you&#8217;ll go to a new page, where you can see its description, the two methods and the one property we declared in the header file.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_24_class_page.png" alt="t28_24_class_page" class="aligncenter size-full wp-image-4788" /></div>
+<p>Now that you&#8217;ve seen the results, walk freely around everywhere in the documentation pages and see how everything is being displayed. HeaderDoc usage doesn&#8217;t stop here, but that&#8217;s what you&#8217;ll need in most of the cases.</p>
+<h2>Producing Documentation with Doxygen</h2>
+<p>Time to leave HeaderDoc behind us and let&#8217;s see how to use a quite widespread documenting system, named <strong>Doxygen</strong>. Before we see the details concerning it, I should say that Doxygen was not originally designed to parse documentation in Objective-C. However, it is going to perfectly work as it aims to C and C++ style languages mostly, and as you&#8217;ll see by yourself, it supports a variety of languages. Besides that, it contains a large amount of documenting tags, and if you decide to write documentation that will eventually be parsed by Doxygen, you can use any of them so as to have greater compatibility.</p>
+<p>Doxygen is a third-party application which you must download before use it. There are versions of it for all common operating systems, so it can work for you even if you&#8217;re not developing for iOS only. At this point, let me give you three important links:</p>
+<ol>
+<li><a href="http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html">In this link</a> you can find all the resources you need regarding the code documentation.</li>
+<li><a href="http://www.stack.nl/~dimitri/doxygen/manual/commands.html">Here</a> you can find all the tags supported by Doxygen, and by clicking to each one you get extra information about its usage.</li>
+<li>Lastly, you can visit <a href="http://www.stack.nl/~dimitri/doxygen/download.html">this</a> page to download the Doxygen application.</li>
+</ol>
+<p>Before we download it, let me note that you can find much more than what I just mentioned above in the Doxygen website. Actually, as you can see in the next screenshot, there&#8217;s a menu panel at the left side, which you can use to dive in various parts of it and find numerous details and how-tos.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_25_doxygen_menu.png" alt="doxygen menu" class="aligncenter size-full wp-image-4789" /></div>
+<p>Now, pay a visit to the last link I gave you above, and scroll a bit down to the page until you find an area named <strong>A binary distribution for Mac OS X 10.5 and later</strong>. Click either in the <em>ftp</em>, or in the <em>http</em> link to initiate the package downloading. Depending on your Internet connection speed, it might take a few seconds for the download to complete, as the file is about 55 Mb.</p>
+<p>Once the download process is over, open the package. Then, get the Doxygen application and drag it to your <em>Applications</em> directory.</p>
+<p>If you don&#8217;t want to add it to the Applications directory it&#8217;s okay. Just place it anywhere else you want. After all, Doxygen is a fully self-contained application, so to remove it just delete its app file, no matter where you&#8217;ll place it.</p>
+<p>Assuming now that you&#8217;ve copied it in the Applications directory, click in the Launchpad to find it easily. Click it to let it run.</p>
+<p><em>NOTE: If you get a message saying that the application cannot be opened because it&#8217;s from an unidentified developer, follow the next steps to overcome it: In Finder, open the Applications directory. Locate the Doxygen app, and then Ctrl+Click it. Select the <strong>Open</strong> option in the context menu, and in the new dialog window that will be shown, click to the <strong>Open</strong> button.</em></p>
+<p>Now, leave the Doxygen app aside, and go back to Xcode. We&#8217;ll perform two changes in two tags, so everything to be recognised. Make sure to open the <em>ViewController.h</em> file, and in its description block replace the <strong>@header</strong> top level tag with the <strong>@file</strong> tag. Also, a modification is needed to the documentation block of the struct, where the <strong>@typedef</strong> tag must be replaced with the <strong>@struct</strong> tag. After having done these, let&#8217;s leave Xcode again.</p>
+<p>If you&#8217;ve used Doxygen in the past, then you definitely know what to do. However, I&#8217;ll assume it&#8217;s your first time in this app, so let me present you the most important steps.</p>
+<p>Right next it&#8217;s the initial Doxygen window upon first run:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_28_doxygen_initial.png" alt="doxygen" class="aligncenter size-full wp-image-4790" /></div>
+<p>Before I tell you the exact settings you should apply, it&#8217;s necessary to say that Doxygen provides two modes of usage: The <strong>Wizard</strong> which consists of a simple and general way, and the <strong>Expert</strong> mode, where a huge number of settings can be specified so you customize each detail of the produced documentation.</p>
+<p>I&#8217;m not going to focus on the <em>Expert</em> mode, because the applied settings there are highly depending on the personal needs of each developer. That means that we&#8217;ll stick with the <em>Wizard</em> mode, but prior to this, I think that it worths to take a super-fast walk in the <em>Expert</em> mode. By clicking in the <strong>Expert</strong> button in the main window area, you instantly see that you are given with a great number of settings in the main panel. You can scroll up and down to go trough all of them, but they&#8217;re not just them. At the left side, there&#8217;s a smaller panel titled <strong>Topics</strong>, and by clicking to another topic you access its own settings. If you have the time, visit all of them. You might find useful options that you would like to use in your apps.</p>
+<p>Now, let&#8217;s focus in the <em>Wizard</em> mode. Make sure to click on the respective button, so you can follow what I describe next. At first, at the top of the window we must specify where Doxygen runs from. Just click in the <strong>Select</strong> button, and select the Applications directory in your computer, or any other location where you&#8217;ve copied the Doxygen app into.</p>
+<p>Next, let&#8217;s specify the project&#8217;s name. In the <strong>Project Name:</strong> field, set the <strong>DocDemo in Objective-C</strong> value (or anything else you desire). If you want, also fill the next fields in too. Below that, we must specify the path to our project. Once again, use the <strong>Select</strong> button and navigate yourself to the root directory of the project. It would be a good idea to click in the <strong>Scan recursively</strong>, so Doxygen can scan subdirectories too.</p>
+<p>Lastly, specify where the produced documentation should be stored. If you remember, we had created the <strong>Doxygen</strong> subdirectory in the <strong>DocDemo</strong> directory in Desktop for this purpose. So, click on the Select button next to the Destination Directory field, and pick it. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_31_doxygen_project_settings.png" alt="t28_31_doxygen_project_settings" class="aligncenter size-full wp-image-4793" /></div>
+<p>Next, in the <strong>Topics</strong> list at the left, click on the <strong>Mode</strong> option. In the new settings, click in the <strong>All Entities</strong> option:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_32_document_mode_settings.png" alt="t28_32_document_mode_settings" class="aligncenter size-full wp-image-4794" /></div>
+<p>Next, again in the <strong>Topics</strong> list, click on the <strong>Output</strong> option. Here you can find various exporting options. Feel free to select any kind of output you desire. For this example, I deselected the <em>LaTeX</em> option, I just left the <em>HTML</em> on.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_33_doxygen_output_settings.png" alt="t28_33_doxygen_output_settings" class="aligncenter size-full wp-image-4795" /></div>
+<p>Finally, in the <strong>Diagrams</strong> options you can just leave the default setting as they are.</p>
+<p>It&#8217;s time now to produce the documentation. Please, be sure that you&#8217;ve set all the options mentioned above before you continue. You did it? Okay, let&#8217;s keep going. Click on the <strong>Run</strong> button (next to the Wizard and Expert buttons), and in the main window area now you will see a new button titled <strong>Run doxygen</strong>. Click it to let the app start creating the HTML files for you. In the white area you&#8217;ll see some output messages, and if something is wrong, that&#8217;s the place where you&#8217;ll see it.</p>
+<p>Anyway, once it&#8217;s finished, open Finder and navigate straight ahead to the output directory to see the exported files. You will notice that a bunch of files have been created, and the one you&#8217;re looking for is named <strong>index.html</strong>. Double click it to open it in the browser. Alternatively, if you don&#8217;t care to see the exported files, simply click on the <strong>Show HTML output</strong> in the Doxygen window.</p>
+<p>This is the first screen you face by opening the index page:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_34_doc_index_page.png" alt="t28_34_doc_index_page" class="aligncenter size-full wp-image-4796" /></div>
+<p>It just contains the project title we set earlier, the generation timestamp, and a couple of links at the top. Use these links to navigate yourself around. For example, if you click on the <strong>Classes</strong> link, you&#8217;ll get a list of all classes existing in the project. The interesting part here is that next to each class they are displayed the brief descriptions we wrote (only where we wrote them).</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_35_doc_classes.png" alt="t28_35_doc_classes" class="aligncenter size-full wp-image-4797" /></div>
+<p>Here&#8217;s what you see when tapping in the <em>ViewController</em> class:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_36_doc_viewcontroller_class.png" alt="t28_36_doc_viewcontroller_class" class="aligncenter size-full wp-image-4798" /></div>
+<p>As you can see, the detailed documentation of the methods and the one public property we have in the project can be found there. Another interesting point is under the <strong>Files</strong> menu, where all the parsed files are listed, and by selecting the <em>ViewController.h</em> file. In there you find the file description, and everything we declared: The class, the protocol and the struct.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_37_doc_file_viewcontroller.png" alt="t28_37_doc_file_viewcontroller" class="aligncenter size-full wp-image-4799" /></div>
+<p>Use the <em>More…</em> links to go to the details of any of the above. There&#8217;s also a link titled <em>”Go to the source code of this file.”</em>, which if it&#8217;s tapped, it displays the code of the <em>ViewController.h</em> header file. Note that whatever is written in header files is public, so it can be displayed here. However, don&#8217;t expect to find any implementation code at all. That&#8217;s for “your eyes only”.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_38_doc_file_code.png" alt="t28_38_doc_file_code" class="aligncenter size-full wp-image-4800" /></div>
+<p>So, I&#8217;m pretty sure at this point that you&#8217;ve got the grasp of all the above. Navigate in the exported HTML pages, go back in Xcode to make changes in documentation, and re-produce everything. Also, don&#8217;t hesitate to set advanced settings and see what happens. In general, play around as much as you want, and familiarize yourself with Doxygen. It&#8217;s a great tool that can be used for both small and big projects.</p>
+<h2>Creating a Demo App in Swift</h2>
+<p>Let&#8217;s turn page now for one more time, and let&#8217;s say a few words about documenting your code in Swift. To make things as much clear as possible, let&#8217;s create a new demo project, this time in Swift.</p>
+<p>So, begin creating one in Xcode, and in the first step of the guide specify the <strong>Single View Application</strong> as the template of the application. Next, name the project <strong>DocDemoSwift</strong>, and also be sure that the selected language is the <strong>Swift</strong>. Proceed, select a directory to save the project, and let Xcode to create it.</p>
+<h2>Documenting in Swift</h2>
+<p>Code documentation in Swift is less powerful that in Objective-C, and that&#8217;s the reason I left the discussion about it for the end. Unfortunately, neither HeaderDoc nor Doxygen support Swift (at least for now, I can&#8217;t say what may happen in the future), and the documentation formatting is now based in the <strong>reStructuredText</strong>, an open source project for which you can find more info <a href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html">here</a>.</p>
+<p>From all the tags we met in the previous parts of this tutorial, there are only two that can be used in this case: The <strong>param</strong> and <strong>return</strong>, which actually becomes <strong>returns</strong> (note the “s” at the end). Also, neither the <em>@</em> or the backslash symbol is supported. Instead, both of these tags are included in semicolons, for example <em>:param:</em>. After that, the parameter name must be written, followed by its description.</p>
+<p>The <em>brief</em> and <em>discussion</em> tags are not used, but the respective parts can be added to the documentation as the tags are inferred, meaning that a short text at the beginning of the documentation block is considered to be the brief description, and bigger text parts after that are the discussion.</p>
+<p>The new and interesting thing here is that in the discussion part you can add ordered and unordered lists, as well as fields with descriptions. For example, to add an ordered list you just need to write:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #2400d9;">1</span>. First item<br />
+<span style="color: #2400d9;">2</span>. Second item<br />
+<span style="color: #2400d9;">3</span>. Third item</div></td></tr></tbody></table></div>
+<p>For unordered lists, you either use the <em>asterisk (*)</em>, or the <em>dash (-)</em> symbol. For example:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">*</span> An item<br />
+<span style="color: #002200;">*</span> Another item<br />
+<span style="color: #002200;">*</span> More items</div></td></tr></tbody></table></div>
+<p>And:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> An item<br />
+<span style="color: #002200;">-</span> Another item<br />
+<span style="color: #002200;">-</span> More items</div></td></tr></tbody></table></div>
+<p><em>Note: If you are familiar with the Markdown syntax, then the above are already known to you.</em></p>
+<p>To have fields in the discussion area, you just have to write the field name surrounded by semicolons, and then the description:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">:</span>MyField<span style="color: #002200;">:</span> This is a field example</div></td></tr></tbody></table></div>
+<p>All the above, including the two tags (<em>param</em> and <em>returns</em>) are enough so you write proper documentation. Even though not as many options as in Objective-C are provided, I believe that all the previous stuff is all you need, so I&#8217;ll show you no more.</p>
+<p>Let&#8217;s go to Xcode now to see an example of all those. Open the <em>ViewController.swift</em> file, and in there define the following method (similar to the Objective-C example):</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func toCelsius<span style="color: #002200;">&#40;</span>fromFahrenheit<span style="color: #002200;">:</span> Float<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-&amp;</span>gt; Float <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#40;</span>fromFahrenheit <span style="color: #002200;">-</span> <span style="color: #2400d9;">32</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">/</span> <span style="color: #2400d9;">1.8</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Having in mind the prior description about the documentation in Swift code, here&#8217;s how the same comments we added in Objective-C version are written here:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/**<br />
+It converts temperature degrees from Fahrenheit to Celsius scale.<br />
+<br />
+This method accepts a float value representing the temperature in Fahrenheit scale and it converts it to the Celsius scale.<br />
+To use it, simply call toCelsius(50) or self.toCelsius(50)<br />
+<br />
+:param: fromFahrenheit The input value representing the degrees in the Fahrenheit scale.<br />
+<br />
+:returns: &nbsp; float The degrees in the Celsius scale.<br />
+*/</span><br />
+func toCelsius<span style="color: #002200;">&#40;</span>fromFahrenheit<span style="color: #002200;">:</span> Float<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-&amp;</span>gt; Float <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#40;</span>fromFahrenheit <span style="color: #002200;">-</span> <span style="color: #2400d9;">32</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">/</span> <span style="color: #2400d9;">1.8</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Note that we use the <em>/** &#8211; */</em> notation here. By looking in the Help popup, here&#8217;s the result:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_40_func_help_popup_swift.png" alt="t28_40_func_help_popup_swift" class="aligncenter size-full wp-image-4802" /></div>
+<p>Also, if you start typing the method&#8217;s name in the <em>viewDidLoad</em> method, the brief description is appeared in the code completion:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_41_func_code_completion_swift.png" alt="t28_41_func_code_completion_swift" class="aligncenter size-full wp-image-4803" /></div>
+<p>Now, let&#8217;s create a super-simple new method that will do nothing at all:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func myHelloMethod<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Hello there&quot;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We are going to document the above method by creating lists and fields. What you&#8217;ll see next is clearly an example, so don&#8217;t try to find any logic in the comments.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">/**<br />
+&nbsp; &nbsp; This method was implemented to do nothing hard, just to say hello.<br />
+<br />
+&nbsp; &nbsp; Here is a demo of an ordered list:<br />
+<br />
+&nbsp; &nbsp; 1. One<br />
+&nbsp; &nbsp; 2. Two<br />
+&nbsp; &nbsp; 3. Three<br />
+&nbsp; &nbsp; 4. Four<br />
+<br />
+&nbsp; &nbsp; How about an unordered list?<br />
+<br />
+&nbsp; &nbsp; * North<br />
+&nbsp; &nbsp; * East<br />
+&nbsp; &nbsp; * South<br />
+&nbsp; &nbsp; * West<br />
+<br />
+&nbsp; &nbsp; Let's add a couple of fields now:<br />
+<br />
+&nbsp; &nbsp; :Job: My dreaming job<br />
+&nbsp; &nbsp; :Salary: &nbsp; &nbsp;My dreaming salary<br />
+<br />
+*/</span><br />
+func myHelloMethod<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Hello there&quot;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>By Option+Click in the method&#8217;s name, here&#8217;s what is being displayed in the Help popup:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/t28_42_hello_method_help_popup.png" alt="t28_42_hello_method_help_popup" class="aligncenter size-full wp-image-4804" /></div>
+<p>All the above is pretty much what you need to document your code in Swift. However, don&#8217;t hesitate to try more options after having read the <em>reStructuredText</em> manual (or some of it&#8230; it&#8217;s huge).</p>
+<h2>Summary</h2>
+<p>In this tutorial we&#8217;ve managed to see many aspects concerning the code documentation. We talked for both Objective-C and Swift, and went through the most important principles regarding each one. As you found out, in Objective-C you have a ton more options to use, but yet, the provided tools are just fine in Swift as well. What I presented today is not what only exists. There are more you can find and use, but my point was to introduce you the most usual documenting information. What you&#8217;ve read here, is what you&#8217;ll need in nine out of ten cases. Also, don&#8217;t forget the two interesting tools we met, HeaderDoc and Doxygen. Both of them can produce great documentation, and they can become nice “friends” of yours. As a last word, I&#8217;d like to highlight once again that documenting your code is really a big deal. You may often doubt about that, but trust me, it worths each second you&#8217;ll consume for this task. Help both yourself and others by writing proper documentation, straight into the point, that explains everything you do in your code. If you&#8217;re not used to doing that, you&#8217;d better start now, even if you&#8217;re not a young developer. See you!</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/how-to-add-search-bar-uitableview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/07/iOS-App-Search-Bar-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Add Search Bar in Table View</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-local-notification-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/06/Local-Notification-Tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Adding Local Notifications in Your iOS App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/introduction-auto-layout/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to Auto Layout</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/cloudkit-introduction-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/04/cloudkit-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with CloudKit in iOS 8</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/documenting-source-code-in-xcode/"
+    dc:identifier="http://www.appcoda.com/documenting-source-code-in-xcode/"
+    dc:title="Documenting Your Objective-C and Swift Code in Xcode with HeaderDoc and Doxygen"
+    trackback:ping="http://www.appcoda.com/documenting-source-code-in-xcode/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/doxygen/" rel="tag">doxygen</a>, <a href="http://www.appcoda.com/tag/headerdoc/" rel="tag">headerdoc</a>, <a href="http://www.appcoda.com/tag/objective-c/" rel="tag">Objective C</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a>, <a href="http://www.appcoda.com/tag/xcode/" rel="tag">Xcode</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-99215">
+        <div id="dsq-comment-header-99215" class="dsq-comment-header">
+            <cite id="dsq-cite-99215">
+                <span id="dsq-author-user-99215">Poojan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99215" class="dsq-comment-body">
+            <div id="dsq-comment-message-99215" class="dsq-comment-message"><p>Wow. Super helpful Thanks !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99246">
+        <div id="dsq-comment-header-99246" class="dsq-comment-header">
+            <cite id="dsq-cite-99246">
+                <span id="dsq-author-user-99246">Vincent O&#8217;Sullivan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99246" class="dsq-comment-body">
+            <div id="dsq-comment-message-99246" class="dsq-comment-message"><p>So, to summarise: &#8220;neither HeaderDoc nor Doxygen support Swift&#8221;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-99299">
+        <div id="dsq-comment-header-99299" class="dsq-comment-header">
+            <cite id="dsq-cite-99299">
+                <span id="dsq-author-user-99299">vicky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99299" class="dsq-comment-body">
+            <div id="dsq-comment-message-99299" class="dsq-comment-message"><p>cool</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99307">
+        <div id="dsq-comment-header-99307" class="dsq-comment-header">
+            <cite id="dsq-cite-99307">
+                <span id="dsq-author-user-99307">Steven</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99307" class="dsq-comment-body">
+            <div id="dsq-comment-message-99307" class="dsq-comment-message"><p>Thank you for an excellent tutorial. One tiny correction, the &#8220;:&#8221; symbol is a colon, not a semi-colon.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-99361">
+        <div id="dsq-comment-header-99361" class="dsq-comment-header">
+            <cite id="dsq-cite-99361">
+http://www.gtiapps.com/                <span id="dsq-author-user-99361">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99361" class="dsq-comment-body">
+            <div id="dsq-comment-message-99361" class="dsq-comment-message"><p>Hi, thanks for the correction. The rush of the moment, you see&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99374">
+        <div id="dsq-comment-header-99374" class="dsq-comment-header">
+            <cite id="dsq-cite-99374">
+                <span id="dsq-author-user-99374">Aashish Tyagi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99374" class="dsq-comment-body">
+            <div id="dsq-comment-message-99374" class="dsq-comment-message"><p>Good Information man, I have learnt a lot of things.:)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://scottbrenner.com/documenting-your-objective-c-and-swift-code-in-xcode/' rel='external nofollow' class='url'>Documenting Your Objective-C and Swift Code in Xcode | Scott Brenner</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99472">
+        <div id="dsq-comment-header-99472" class="dsq-comment-header">
+            <cite id="dsq-cite-99472">
+http://www.jujustore.com.br/                <span id="dsq-author-user-99472">Emerson Jose</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99472" class="dsq-comment-body">
+            <div id="dsq-comment-message-99472" class="dsq-comment-message"><p>Very cool ! Mainly the way you created documentation.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99666">
+        <div id="dsq-comment-header-99666" class="dsq-comment-header">
+            <cite id="dsq-cite-99666">
+                <span id="dsq-author-user-99666">Arash Z. Jahangiri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99666" class="dsq-comment-body">
+            <div id="dsq-comment-message-99666" class="dsq-comment-message"><p>excellent man, all the best!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100005">
+        <div id="dsq-comment-header-100005" class="dsq-comment-header">
+            <cite id="dsq-cite-100005">
+                <span id="dsq-author-user-100005">jinjereu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100005" class="dsq-comment-body">
+            <div id="dsq-comment-message-100005" class="dsq-comment-message"><p>Thanks for this! This is a must-know and must-do for every developer. Simple commenting sometimes just isn&#8217;t enough.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100167">
+        <div id="dsq-comment-header-100167" class="dsq-comment-header">
+            <cite id="dsq-cite-100167">
+                <span id="dsq-author-user-100167">cgthxon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100167" class="dsq-comment-body">
+            <div id="dsq-comment-message-100167" class="dsq-comment-message"><p>I honestly didn&#8217;t even know about that, thanka!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100316">
+        <div id="dsq-comment-header-100316" class="dsq-comment-header">
+            <cite id="dsq-cite-100316">
+                <span id="dsq-author-user-100316">Lorenzo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100316" class="dsq-comment-body">
+            <div id="dsq-comment-message-100316" class="dsq-comment-message"><p>Nice post, thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100459">
+        <div id="dsq-comment-header-100459" class="dsq-comment-header">
+            <cite id="dsq-cite-100459">
+                <span id="dsq-author-user-100459">MM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100459" class="dsq-comment-body">
+            <div id="dsq-comment-message-100459" class="dsq-comment-message"><p>Excellent tutorial, How can i generate help document for swift classes?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-100899">
+        <div id="dsq-comment-header-100899" class="dsq-comment-header">
+            <cite id="dsq-cite-100899">
+                <span id="dsq-author-user-100899">Tho Pham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100899" class="dsq-comment-body">
+            <div id="dsq-comment-message-100899" class="dsq-comment-message"><p>You should check this gem out, <a href="https://github.com/realm/jazzy" rel="nofollow">https://github.com/realm/jazzy</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-101424">
+        <div id="dsq-comment-header-101424" class="dsq-comment-header">
+            <cite id="dsq-cite-101424">
+                <span id="dsq-author-user-101424">MM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101424" class="dsq-comment-body">
+            <div id="dsq-comment-message-101424" class="dsq-comment-message"><p>Jazzy stop working for xCode 6.3, Is there any other tool that support to generate document?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://ayeohyes.wordpress.com/2015/04/18/documenting-objective-c-code/' rel='external nofollow' class='url'>Documenting Objective-C Code | AyeOhYes!</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/documenting-source-code-in-xcode/';
+var disqus_identifier = '4760 http://www.appcoda.com/?p=4760';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Documenting Your Objective-C and Swift Code in Xcode with HeaderDoc and Doxygen";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=4760';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/qr-code-generator-tutorial/">Building a QR Code Generator with Core Image Filters</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="4760"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fdocumenting-source-code-in-xcode%2F&#038;t=Documenting%20Your%20Objective-C%20and%20Swift%20Code%20in%20Xcode%20with%20HeaderDoc%20and%20Doxygen" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4760" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>168</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Documenting%20Your%20Objective-C%20and%20Swift%20Code%20in%20Xcode%20with%20HeaderDoc%20and%20Doxygen&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fdocumenting-source-code-in-xcode%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4760" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>56</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fdocumenting-source-code-in-xcode%2F&#038;t=Documenting%20Your%20Objective-C%20and%20Swift%20Code%20in%20Xcode%20with%20HeaderDoc%20and%20Doxygen" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4760" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>14</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fdocumenting-source-code-in-xcode%2F&#038;title=Documenting%20Your%20Objective-C%20and%20Swift%20Code%20in%20Xcode%20with%20HeaderDoc%20and%20Doxygen" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4760" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>25</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fdocumenting-source-code-in-xcode%2F&#038;t=Documenting%20Your%20Objective-C%20and%20Swift%20Code%20in%20Xcode%20with%20HeaderDoc%20and%20Doxygen" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4760" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Documenting%20Your%20Objective-C%20and%20Swift%20Code%20in%20Xcode%20with%20HeaderDoc%20and%20Doxygen&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fdocumenting-source-code-in-xcode%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4760" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fdocumenting-source-code-in-xcode%2F&#038;t=Documenting%20Your%20Objective-C%20and%20Swift%20Code%20in%20Xcode%20with%20HeaderDoc%20and%20Doxygen" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4760" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fdocumenting-source-code-in-xcode%2F&#038;title=Documenting%20Your%20Objective-C%20and%20Swift%20Code%20in%20Xcode%20with%20HeaderDoc%20and%20Doxygen" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4760" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/documenting-source-code-in-xcode\/","stats_nonce":"27f72d7d6e","share_counts":"c60b502e2b","follow_counts":"4fd4f218a0","total_counts":"7a2cbc80a9","media_single":"848a2abace","media_total":"2779daa846","generate_all_window_nonce":"94e43fd45b","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="01626d6e72644133792f716f66">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":4760,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-06 14:58:56 by W3 Total Cache -->

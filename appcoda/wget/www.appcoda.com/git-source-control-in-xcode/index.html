@@ -1,0 +1,984 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>How To Use GIT Source Control in Xcode | iOS Programming</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Xcode supports GIT as the source control system. In this tutorial, we&#039;ll walk you through in details how to use GIT version control in Xcode 5."/>
+<link rel="canonical" href="http://www.appcoda.com/git-source-control-in-xcode/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Xcode supports GIT as the source control system. In this tutorial, we&#039;ll walk you through in details how to use GIT version control in Xcode 5."/>
+<meta name="twitter:title" content="How To Use GIT Source Control in Xcode | iOS Programming"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/04/git-source-code.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Understanding Git Source Control in Xcode Comments Feed" href="http://www.appcoda.com/git-source-control-in-xcode/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=3340' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-3340 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-3340 post type-post status-publish format-standard hentry category-course category-intermediate category-tutorials tag-git tag-ios-programming tag-source-control tag-version-control tag-xcode-5 entry"><h1 class="entry-title">Understanding Git Source Control in Xcode</h1> 
+<div class="post-info"><span class="date published time" title="2014-04-24T00:35:40+00:00">April 24, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/git-source-control-in-xcode/#comments"><span class="dsq-postid" data-dsqidentifier="3340 http://www.appcoda.com/?p=3340">25 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>During an application development process, a quite significant part is the way developers manage to keep track of the changes been made over time. It really consists of a necessary need to be able to store and handle copies of working code versions in various stable stages, and revert back to them when bugs or problems arise. Even more, when a number of programmers work at the same project, keeping track of all changes is a one-way path. Fortunately, developers don&#8217;t have to discover their own way to do all that, as there are special software solutions, called <strong>Version Control Systems</strong>.</p>
+<p>A version control system, or in other words a revision control system, is actually a (software) mechanism that is capable of monitoring changes performed to code files over time and storing them for future reference. Besides that, it can also save extra essential data, such as the developer who made the changes, when did they happen, what was actually modified, and other kind of historical and not only data. Moreover, such a system provides the ability to compare various versions of the code, revert to a previous version of either specific files or a whole project if needed, and eventually implement a bug-free product by tracking down any malicious code.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/git-source-code.jpg" alt="git-source-code" class="aligncenter size-full wp-image-3393" /></div>
+<p>Using a version control system, developers can work on different <em>paths</em> of a project, commonly named <em>branches</em>, and when their piece of project is ready, everything is put together so the final release of the application can be built. This process is called <em>merging</em>, and it consists of a special characteristic of version control systems. Actually, that fashion of work is mandatory in teams of developers and software companies, where each one if responsible for a project&#8217;s part, and at the end everything must be gathered up and put in one place.</p>
+<p>For single developers it is not required to use a version control system, however is highly recommended, as with it&#8217;s much more easier to track down bugs or going back to stable and working versions of code, once a dead end appears or for some reason everything is messed up. The truth is that a great number of lone-rider programmers, especially the new ones, do not use such a system at all, and is common to manually keep copies of their projects when they are about to add new features or generally modify them. That&#8217;s a really bad habit, as a source control system does all that much better and efficiently, providing at the same time all the extra capabilities previously described.<br />
+<span id="more-3340"></span><br />
+One of the most well-known (if not the most famous) version control systems, is the <strong>git</strong>, and it was originally developed by the creator of <em>Linux</em>, Linus Torvalds. <a href="http://git-scm.com/">Git</a> organizes everything in virtual directories, named <em>repositories</em>, and any version tracking actually applies to them. It can be used either as a command line tool, or through desktop applications designed exactly for it. If git sounds new to you, then I would suggest to read a few more about it on the web, as discussing about it any further would be out of the scope of the tutorial.</p>
+<p>Xcode, since version 5, incorporates an enriched capability for working with git, and there&#8217;s implemented an entire menu with various options and submenus in it for managing source control. As you&#8217;ll see later on, working with git and version control is pretty easy and fast, and after you&#8217;ll have the tutorial finished there will be no excuse for not using it. </p>
+<p>Concluding this introduction, as you have already understood our mission is to learn how to work with git and version control through Xcode, and all this will be achieved by getting to know each related feature that Xcode provides. If you feel unfamiliar with all that stuff, or if you need to acquire some more knowledge before we begin, then please be my guest and search around the web for more information. I have to say in advance that during the tutorial I presume that you possess the minimum required knowledge about version control systems and what git is about, as we are going to take them for granted and focus mostly on how Xcode manages all that.</p>
+<h2>GIT Demo Overview</h2>
+<p>On the contrary with other tutorials&#8217; demo applications, in this one we are not going to implement an app that demonstrates a specific feature of the iOS SDK, nor we will have at the end a developed sample product. What we will actually do, is to create a demo project just to add a few lines of code to various points, and we&#8217;ll use it as a tool to test all the source control management options Xcode provides. In other words, we will focus on IDE, and not on iOS.</p>
+<p>In addition to the above, this time there is not an app to download. Instead, I invite you to come along and implement step by step the demo project, and add any code where is required manually (don&#8217;t worry, it&#8217;s not that much). It&#8217;s necessary to follow that way, as we are going to perform various repeated version control related actions and we must see the results in real time. That wouldn&#8217;t be possible if I would just provide an application with all actions already been made, as then the practice on your behalf would be equal to zero.</p>
+<p>So, let&#8217;s get started, and let&#8217;s take a detailed look to the version control essentials using Xcode.</p>
+<h2>Creating a Git repository</h2>
+<p>Every time a new project is getting created in Xcode, the capability to add a local git repository is always given as an option to the developer. In a project creation, a three-step guided process is involved, and at the third and last step of it Xcode provides a <em>check box</em> with the appropriate message, which if selected the git repository is added to the project&#8217;s directory. It&#8217;s easy this option to be overlooked or to be considered as another unneeded Xcode feature, and usually that&#8217;s what happens, especially in cases of developers who have never worked with version control and git before, or they are new to programming.</p>
+<p>To see everything in details, launch Xcode and create a new project. Firstly, as the application&#8217;s template select the <strong>Single View Application</strong>, in the <strong>Application</strong> category under the <strong>iOS</strong> section.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_1_template1.jpg" alt="Version Control Xcode Project Template" class="aligncenter size-full wp-image-3347" /></div>
+<p>Click on the Next button to proceed to the second step. In the <strong>Product Name</strong> field, set the <strong>GitDemo</strong> value as the project&#8217;s name, and also make sure that in the <strong>Devices</strong> drop down menu the <strong>iPhone</strong> value is selected. No need for an iPad or universal app here.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_2_template2.jpg" alt="Version Control Xcode Project Template" class="aligncenter size-full wp-image-3348" /></div>
+<p>Click once again on the Next button, and let the guide take you to the third and last step. In here, at first select a directory to save the project. Then, look at the bottom of the window, and notice a check box lying over there, with the text <em>Create git repository on (My Mac )</em>:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_3_template3.jpg" alt="Version Control Xcode Project Template GIT" class="aligncenter size-full wp-image-3349" /></div>
+<p>By default, this option is always selected and a git repo is created with every project. In case you don&#8217;t want to use git and version control in your project, you just have to deselect it, but I wouldn&#8217;t recommend this. Anyway, in this tutorial we want it enabled, there for make sure that you <em>select the check box</em>. Finally, click on the Create button.</p>
+<p>Let the project to be created, and then open a Finder window and navigate to the directory that you stored our project. In there, look for the <em>.git</em> sub-directory, which is the one Xcode automatically created for storing the git repository related data.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_4_git_directory.jpg" alt="Version Control Xcode GIT Directory" class="aligncenter size-full wp-image-3350" /></div>
+<p>If you are unable to see the <em>.git</em> directory, then you must make the hidden files on your computer visible. To do that, open a <em>Terminal</em> window, and add the next commands:</p>
+<p><em>For OS X Mavericks 10.9:</em></p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">defaults write com.apple.finder AppleShowAllFiles TRUE</div></td></tr></tbody></table></div>
+<p><em>For previous OS X versions:</em></p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">defaults write com.apple.Finder AppleShowAllFiles TRUE</div></td></tr></tbody></table></div>
+<p>Then, just reload the Finder app, so add one more command:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">killall Finder</div></td></tr></tbody></table></div>
+<p>So, as you see, here is the place where your local git repository actually gets saved for this app. Accordingly, a .git sub-directory is always created along with any new application you create, as long as you leave the respective option enabled.</p>
+<p>It&#8217;s obvious that adding a git repository to a project is totally effortless using Xcode. However, what happens if you don&#8217;t include a git repository during a project setup, or if you want to add one at a later time? Well, the good news is that you can add a repository for your project at any time, but <em>without using Xcode</em>, and even that&#8217;s a rare case to happen, I&#8217;m going to show you how. </p>
+<p>Note that if you wish, you may skip the rest and proceed to the next part of tutorial. However I would recommend to keep on reading, as the information provided right next is quite useful.</p>
+<p>Before demonstrating anything, you must download the <strong>Command Line Tools</strong> through Xcode, as we are going to work in Terminal and we need some extra tools available. If you have already downloaded this package, then keep forward. If not, then to install the command line tools, go to the <strong>Xcode &gt; Preferences&#8230;</strong> menu on Xcode, and then select the <strong>Downloads</strong> tab. In the upper side of the window, under the <strong>Components</strong> section, click on the button with a down arrow existing at the right side of the <strong>Command Line Tools</strong> option. Once the download is over, a checkmark will appear instead of the download button:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_5_command_line_tools.jpg" alt="Version Control Command Line Tool" class="aligncenter size-full wp-image-3351" /></div>
+<p>Now, create one more Xcode project for the sake of this example, and delete it when we are through. <em>Make sure to <strong>deselect</strong> the Create git repository option</em>. We don&#8217;t want Xcode to prepare a repository for us in this case. Name the project <strong>NoGitExample</strong> and beyond that, save it in your <strong>Desktop</strong>, so you can follow along with the commands I will show.</p>
+<p>Once everything is ready, open a Terminal window (if you have already opened any, make sure to close it first, so any changes made by installing the command line tools to be applied). For starters, navigate your self to the new project&#8217;s directory:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">cd /Users/YOUR-USERNAME/Desktop/NoGitExample</div></td></tr></tbody></table></div>
+<p>Don&#8217;t forget to set your Mac username in the above command. Next:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">git init</div></td></tr></tbody></table></div>
+<p>This will initialize an empty repository, and if you either go to Finder or use the <em>ls</em> terminal command, you&#8217;ll see that the <em>.git</em> sub-directory has been created. That&#8217;s great. Keep going:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">git add .</div></td></tr></tbody></table></div>
+<p>With this one, all contents of the current directory (the dot [.] symbol) will be added to the repository. Finally, commit all (make the changes permanent):</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">git commit -m 'Initial commit'</div></td></tr></tbody></table></div>
+<p>A list of all files committed to the local git repository will appear to the terminal window. The next figure illustrates the terminal of mine:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_6_git_terminal.jpg" alt="Version Control Terminal" class="aligncenter size-full wp-image-3352" /></div>
+<p>The git repository is ready, but if you go back to Xcode and open the <strong>Source Control</strong> menu, you&#8217;ll find out that everything is still disabled.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_7_disabled_source_control.jpg" alt="Version Control Disable Source Control" class="aligncenter size-full wp-image-3353" /></div>
+<p>That&#8217;s because Xcode doesn&#8217;t get notified automatically about our manual git repository addition. So, close Xcode using the menu <strong>Xcode &gt; Quit Xcode</strong> and re-open it. Now, in the <em>NoGitExample</em> project if you open the <em>Source Control</em> menu once again, you&#8217;ll see that all options have been enabled, just like if we would have added the git repository along with the project creation.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_8_enabled_source_control.jpg" alt="Version Control Enable Source Control" class="aligncenter size-full wp-image-3354" /></div>
+<p>At this point feel free to close the NoGitExample project and delete it from your Desktop as well.</p>
+<p>Now you know how to add a git repository for every project of yours, and even if you intentionally or accidentally you don&#8217;t add one during a project setup, you can do it manually at any given time.</p>
+<h2>Committing Changes</h2>
+<p>When talking about committing changes to a repository, we actually mean to store a new version of our project containing all changes that have been made to it, such as modified or newly added files. Generally, a commit should happen when a remarkable amount of work is done, and the project exists in a stable state. There&#8217;s not any general rule about how often a commit should be done, but I would suggest you that: If you think that the work you&#8217;ve done since the last time you committed any changes to the repository will cost a lot in time and effort if you ruin it by accident along the way, then it&#8217;s definitely time for a new commit.</p>
+<p>Xcode by default makes an initial commit once a new project gets created. The purpose of it is to keep a version of the project at its initial state. That happens behind the scenes, without disturbing you or asking for any kind of confirmation from you. If you don&#8217;t add a git repository when creating a new project, but you do so later manually as shown in the previous part, the initial commit is preformed with the command: <em>git commit -m &#8216;Initial commit&#8217;</em> that we previously used.</p>
+<p>Actually, you can see information regarding the initial commit if you go to the <strong>Source Control > History&#8230;</strong> menu. In there is recorded every commit you perform to the project.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_9_initial_commit_history.jpg" alt="Version Control Initial Commit" class="aligncenter size-full wp-image-3355" /></div>
+<p>Let&#8217;s see a little bit action now, and let&#8217;s do some modifications to the project. Go to the <em>ViewController.m</em> file, and in the private class section add the next property declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic<span style="color: #002200;">&#41;</span> <span style="color: #a61390;">int</span> sum;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Next, modify the <em>viewDidLoad</em> method as shown right next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>didReceiveMemoryWarning<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super didReceiveMemoryWarning<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Dispose of any resources that can be recreated.</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> a <span style="color: #002200;">=</span> <span style="color: #2400d9;">5</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> b <span style="color: #002200;">=</span> <span style="color: #2400d9;">10</span>;<br />
+<br />
+&nbsp; &nbsp; self.sum <span style="color: #002200;">=</span> a <span style="color: #002200;">+</span> b;<br />
+<br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;The result is: %d&quot;</span>, self.sum<span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you take a look at the <em>Project Navigator</em> pane, you&#8217;ll notice that next to the <em>ViewController.m</em> file, the <strong>M</strong> letter has been added, just like it&#8217;s shown the next figure:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_10_file_modified.jpg" alt="Version Control Modify File" class="aligncenter size-full wp-image-3356" /></div>
+<p>This means that the file has been modified, and there are changes in comparison to the last committed version of it. Generally, every time you modify a file the <em>M</em> letter indicates that there are new changes, not committed yet.</p>
+<p>Let&#8217;s see now how to commit. It&#8217;s very simple, and it only takes to open the <strong>Source Control > Commit&#8230;</strong> menu. The following window appears:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_11_commit_window.jpg" alt="Version Control Xcode - Commit Window" class="aligncenter size-full wp-image-3358" /></div>
+<p>Let&#8217;s see what it tells us, step by step. At the left pane (indicated with the number #1 in the figure), they are listed all the files that have been modified. In our case, only the <em>ViewController.m</em> has been changed, therefore it&#8217;s the only one displayed here. If you pay a close attention, you&#8217;ll see that there is a check box at the left side of the file, which is checked by default. If you uncheck it, the changes to file won&#8217;t be committed, but now that&#8217;s not something we desire, so let it be checked.</p>
+<p>In the middle area of the window (indicated as #2), there are two preview panes. At the left one, there is the current version of the file (not yet committed), and at the right one there&#8217;s the last committed version of the same file. In this screenshot, as the only commit that has been done was the initial one, it&#8217;s depicted the original state of the <em>ViewController.m</em> file.</p>
+<p>The blue areas at the left pane, ending as lines at the right (indicated as #3), are the actual changes that were made to the file. That kind of representation makes immediately clear all modifications, and to the point (line numbers) they were made. If you notice, at the center of the window, between the two preview panes, there are some small rounded labels, with a number on them (indicated as #4). These labels count the total changes one by one, and that&#8217;s the meaning of the numbers on them. At the left of them, there is a <em>checkmark</em> symbol. When that checkmark appears, then the respective change will be normally committed to the repository. However, you can skip to commit one or more specific changes of a file, or even discard them, if you click at the small down arrow at the right side of the number. A small menu with two options is displayed:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_12_commit_individual_options.jpg" alt="Version Control Xcode - Commit Window" class="aligncenter size-full wp-image-3359" /></div>
+<p>If you select the <strong>Don&#8217;t Commit</strong> option, the checkmark symbol is replaced by a <em>stop</em> symbol, and the respective change won&#8217;t get committed to the repository.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_13_commit_dont.jpg" alt="Version Control Xcode - Commit Don&#039;t" class="aligncenter size-full wp-image-3360" /></div>
+<p>If you select the <strong>Discard Change</strong> option on the menu, a confirmation window will appear notifying that the selected change will be reverted, and there&#8217;s no way to undo that.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_14_commit_discard_change.jpg" alt="Version Control Xcode - Commit Don&#039;t" class="aligncenter size-full wp-image-3361" /></div>
+<p>If you click on the OK button, the modifications made to the selected area will vanish, like they were never happened.</p>
+<p>If you pay close attention to the commit window image above, you&#8217;ll see that all modifications are considered as changes by Xcode, even a blank line. Actually, blank lines are Enter characters not visible on-screen, so it&#8217;s totally reasonable to be added to the collection of changes.</p>
+<p>Anyway, for the sake of the example, make sure you don&#8217;t discard any change, and you allow everything to be committed, so you must be watching the checkmark symbol on each change label.</p>
+<p>Under the two panes there is a white area, writing <em>Enter commit message here</em> at the middle of it. This area is provided to add a short description about all the changes made in this version. Click on it and add the contents shown to the next image:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_15_commit_message1.jpg" alt="Version Control Xcode - Commit Message" class="aligncenter size-full wp-image-3362" /></div>
+<p>Writing commit messages (that make sense) is useful, especially if you begin committing a lot. So, think of it as a necessary action.</p>
+<p>Now that we have made a tour to the essentials of this window, it&#8217;s time to do our first commit. At the bottom-right corner of the window, there&#8217;s a button saying: <em>Commit 1 file</em>.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_16_commit_button.jpg" alt="Version Control Xcode - Commit Button" class="aligncenter size-full wp-image-3363" /></div>
+<p>In this button the total number of files to be committed always appear. Click it and congratulations! Your first commit is real, and now belongs to history, both metaphorically and literally. What do I mean? Just open the <strong>Source Control > History&#8230;</strong> menu, and you&#8217;ll see it listed there.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_17_first_commit_history.jpg" alt="Version Control Xcode - Commit History" class="aligncenter size-full wp-image-3364" /></div>
+<p>As you see, the message we wrote is appeared there, as well as the number of the modified files. In the initial commit made by Xcode, all files were committed, but now just the one we modified.</p>
+<p>Besides that, if you close the history window and look at the Project Navigator pane, the <em>M</em> indication next to the <em>ViewController.m</em> file has gone too!</p>
+<p>Now, let&#8217;s get prepared for one more commit. This time, we are going to add some new files to our project, and the best way to do that is by creating a new class. So, press the Command-N keys combination to your keyboard, and add an <strong>Objective-C class</strong>. Make it a <strong>Subclass Of</strong> the <strong>NSObject</strong> class, and name it <strong>TestClass</strong>. Finally, add it to the project.</p>
+<p>Once you&#8217;ve finished doing all the above, notice in the Project Navigator pane that a new indication with the letter <strong>A</strong> is appeared next to the two class files. This means the these files have been added to the project, and of course, that they haven&#8217;t been committed yet.</p>
+<p>Open the <em>ViewController.h</em> file, and just import our class:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;TestClass.h&quot;</span></div></td></tr></tbody></table></div>
+<p>Next, open the <em>ViewController.m</em> file, and declare a private property as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic<span style="color: #002200;">&#41;</span> <span style="color: #a61390;">int</span> sum;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> TestClass <span style="color: #002200;">*</span>testClass;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Look again on the Project Navigator, and notice that there are four files this time not committed. The two class files we added a while ago, and the two modified existing files. Let&#8217;s commit those changes as well, therefore open the <strong>Source Control &gt; Commit&#8230;</strong> menu.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_18_commit_second.jpg" alt="Version Control Xcode - Commit " class="aligncenter size-full wp-image-3365" /></div>
+<p>This time, there are five files in total selected to be committed. The fifth (presented first in the row) is the project settings file, automatically modified by Xcode when the new class was added to the project. If you click on the <em>TestClass.h</em> or <em>TestClass.m</em> file, the pane on the left will appear without a content, as shown here:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_19_commit_right_pane_empty.jpg" alt="Version Control Xcode - Commit " class="aligncenter size-full wp-image-3366" /></div>
+<p>That happens because there isn&#8217;t a previous commit regarding both of these files, so there&#8217;s no prior version to compare with. So, seeing the right pane simply writing <em>File was added</em> is absolutely normal.</p>
+<p>Go to the message area and add the next commit message: <em>TestClass class was added to the project.</em>. After that, click on the <em>Commit 5 files</em> button and let Xcode commit the changes to the git repository.</p>
+<p>The second manual commit was successfully made. You can check this if you open the commit history from the <strong>Source Control > History&#8230;</strong> menu:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_20_second_commit_history.jpg" alt="Version Control Xcode - Commit History" class="aligncenter size-full wp-image-3368" /></div>
+<h2>Comparing Versions</h2>
+<p>After you have committed various versions of your project, is quite easy to compare them and track down code modifications. Comparing versions is especially important when newly added code doesn&#8217;t work as it was expected and you need to find any changes been made since the last stable version.</p>
+<p>To compare two different versions of a file, either use the <strong>View &gt; Version Editor &gt; Show Version Editor</strong>, or click on the <strong>Version Editor</strong> button existing on the toolbar, as shown below:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_21_version_editor_button.jpg" alt="Version Control Xcode - Editor Button" class="aligncenter size-full wp-image-3369" /></div>
+<p>Once you do any of the above, the editor splits up to two parts. Initially, both the left and right editor panes show the current version of the selected file. To switch any of the two panes to a previously committed version, go to the toolbar below the pane and click on the last button, the one with the clock image:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_22_select_previous_versions.jpg" alt="Version Control Xcode - Previous Version" class="aligncenter size-full wp-image-3370" /></div>
+<p>Immediately, any changes matching to the selection been made are shown on the screen. Usually, the left pane is used for the current version of the file, while the right one is used to access a previous revision. The known blue areas indicating the modified code are displayed, and that makes tracking down code additions really easy. So, go ahead and select any previous commit, and watch the differences appeared between the two panes.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_23_versions_compare.jpg" alt="Version Control Xcode - Compare" class="aligncenter size-full wp-image-3371" /></div>
+<p>As you may notice, between the two editor panes there are the rounded labels we first saw in the commit window. Clicking on the down arrow existing on any of them, the option to discard the respective changes is appeared. If you click on it, Xcode will ask for your confirmation and if you agree, the selected code will be discarded forever, without any chance to get it back. So, be careful not to discard any piece of code, even accidentally.</p>
+<p>Besides the way presented above, there&#8217;s one more that you can use for going back to previous revisions. If you look closely at the toolbar below the two panes, in the middle of it there is a button with a clock and an arrow.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_24_time_button.jpg" alt="Version Control Xcode - Time Button" class="aligncenter size-full wp-image-3372" /></div>
+<p>If you click it, the column between the two panes gets changed and the labels are replaced by a series of <em>timestamps</em> in which all the previous commits were made. Note that not all of them represent an actual commit, the actual number of those rounded rectangle shapes matching to previous versions, depends on the amount of the commits. For example, in our application only the two shapes on the bottom match to actual commits.</p>
+<p>At the bottom of that column, there are two arrows. The left one belonging to the left pane points to the right, and the right one belonging to the right pane points to the left. Move any of those arrows to any previous revision, and instantly you&#8217;ll see it appearing to the respective pane. If you want to compare the current version with any previous one, let one arrow pointing to the <em>local</em> row, and move the second one. The order of the timestamps, beginning from bottom to top, is from the most recent to the oldest one. That means that in the row titled <em>base</em>, you have the last commit we previously did, and if you move towards top, you&#8217;ll meet the oldest commits. The next screenshot summarizes everything I described lastly:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_25_timestamps.jpg" alt="Version Control Xcode - Timestamp" class="aligncenter size-full wp-image-3373" /></div>
+<p>Now you know how to compare versions and track changes over time, so feel free to play around with that feature before we go any further.</p>
+<h2>Who&#8217;s Got the Blame</h2>
+<p>Further than comparing file versions, Xcode allows to track down the person who did a commit, as well as the one who modified parts of code. This is a feature quite useful in cases of projects in which work more than one people. To use it, simply open the <strong>View &gt; Version Editor &gt; Show Blame View</strong> menu, or keep the mouse button down over the <strong>Version Editor</strong> button on the toolbar, and then select the <strong>Blame</strong> option. A window similar to the next one will appear to you:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_26_blame_window.jpg" alt="Version Control Xcode - Blame Window" class="aligncenter size-full wp-image-3374" /></div>
+<p>As you see, the code of the selected file is separated in segments by horizontal lines that match to specific commits. The author of each code segment, along with the commit message and some other info is shown to the right side of the window, inside a special pane.</p>
+<p>If you haven&#8217;t done so yet, open the blame view and pay some attention to the way Xcode presents the code parts separated by commit and author. It&#8217;s super fast and easy to locate for a specific bunch of code when it was committed, by whom and get some additional info if you want. That additional info can be accessed if you <em>hover</em> your mouse pointer over the blame pane. You&#8217;ll see that when the pointer is over a commit segment, an small button with an <strong>i</strong> image appears at the very right of it. If you click it, the code of the segment is selected, and a popup window appears with all the commit info. Through this window, you can also access the comparison window (indication #1) and the files modified in the specific commit (indication #2).</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_27_blame_details.jpg" alt="Version Control Xcode - Blame Details" class="aligncenter size-full wp-image-3375" /></div>
+<p>Besides the comparison view we saw in the previous section and the blame view we just discussed about, there is also the <strong>Log</strong> view, which can be accessed through the <strong>View &gt; Version Editor &gt; Show Log View</strong>, or if you keep the mouse button down on the <strong>Version Editor</strong> button on the toolbar, and then select the <strong>Log</strong> option. I won&#8217;t get into any details about it, I just leave it for you. After all, it&#8217;s not hard to understand what this log is about, and how it can be used.</p>
+<h2>Branches</h2>
+<p>Imagine that you have a working version of a project ready for release, or already released, and now you want to start building a new feature, but you don&#8217;t want to destroy by accident the currently stable and working application. What can you do in this case so as to avoid a possible disaster and ensure that your project won&#8217;t be wrongly modified? The answer is simple: Use <em>branches</em>.</p>
+<p>To clearly understand what a branch is, think of your project as a tree, where the stem is always the main, stable and working version of it. Any new features or additions made to the app, must be part of the stem in order to go to production stage. A branch in version control systems, is just like the branch of the tree, which starts from the stem, and follows a different direction. In git (and Xcode eventually), you can create branches to set new paths for your code (such as implementing new features), without the risk to break the working version during development.</p>
+<p>Actually, a branch is always created by default in git, named <em>master</em>. The initial commit performed by Xcode, takes place in this branch. Usually, solo developers work only in master branch, even though that this would be a bad practice. No matter if you are working alone or in a team, I think is quite important to use branches when you want to do vital changes or additions to your app, as this tactic may keep you out of troubles. Of course, in team projects, is almost mandatory to implement your own part of the project to a separate branch.</p>
+<p>It&#8217;s important to have in mind two facts:</p>
+<ol>
+<li>The final product that is about to be delivered either to App Store or to a client, is always the version of the project existing on the master branch.</li>
+<li>Any code or features implemented to secondary branches must be eventually merged to the master branch, in order to be included to the official release of the application (about this later).</li>
+</ol>
+<p>When you start working on a new branch, you actually begin from the point you are currently to, even if you have any uncommitted changes. From there on, any code modifications will only be available to the new branch.</p>
+<p>Let&#8217;s go to Xcode now. To create a new branch, go to the <strong>Source Control > GitDemo &#8211; master > New Branch&#8230;</strong> menu, and you&#8217;ll see the next window appearing to you:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_28_add_branch.jpg" alt="Version Control Xcode - Add Branch" class="aligncenter size-full wp-image-3376" /></div>
+<p>Add a name for the branch. I named it (as you see in the image above) <em>AnotherBranch</em>, but it doesn&#8217;t have any point here how you&#8217;ll name it. Then click on the OK button, and wait for a moment until the new branch gets created and the current code to be copied to it.</p>
+<p>You can very easily to find out what your active branch is. Simply open the <strong>Source Control</strong> menu, and next to the project&#8217;s name option you&#8217;ll see the current branch.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_29_current_branch.jpg" alt="Version Control Xcode - Current Branch" class="aligncenter size-full wp-image-3377" /></div>
+<p>Now, let&#8217;s make a commit to the new branch. Before doing so, let&#8217;s add some new code, so go to the private class section and add the next method declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+...<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>sayHello;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Then, implement it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>sayHello<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Hello&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Finally, call it in the <em>viewDidLoad</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>didReceiveMemoryWarning<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self sayHello<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, go to the <strong>Source Control > Commit&#8230;</strong> menu, and the version comparison window will appear. You&#8217;ll see that only one modified file existing here to commit, is the <em>ViewController.m</em> file, and the new additions are highlighted as always.</p>
+<p>Go and add the next commit message: First commit to new branch&#8230; and then click on the <strong>Commit 1 File</strong> button. The changes take place to the <em>AnotherBranch</em> branch.</p>
+<p>Open the <em>Version Editor</em> now (menu <strong>View > Version Editor > Show Version Editor</strong>), and go to the toolbar under the right editor pane. You&#8217;ll see that the selected branch is the <em>AnotherBranch</em>. Click on it, and you&#8217;ll see both this one and the master branches appearing. From the master branch, select any revision you want, and Xcode will highlight the changes between the current version of the <em>AnotherBranch</em> branch, and the selected revision on the master branch. Using that way, as well as everything else we talked about in the <em>Comparing Versions</em> section of the tutorial, you can easily track down code changes made among all branches of your project.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_30_compare_branches.jpg" alt="Xcode Version Control - Compare Branch" class="aligncenter size-full wp-image-3378" /></div>
+<p>Lastly, to switch to another branch, or to the master branch, go to the <strong>Source Control &gt; GitDemo &#8211; AnotherBranch &gt; Switch to Branch&#8230;</strong> menu:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_31_switch_branch.jpg" alt="Xcode Version Control - Switch Branch" class="aligncenter size-full wp-image-3380" /></div>
+<p>From the window that appears, select the branch you want to switch to, in our case the master branch:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_32_select_branch.jpg" alt="Xcode Version Control - Select Branch" class="aligncenter size-full wp-image-3381" /></div>
+<p>Select it and click on the Switch button. The master will become the active branch again, and you&#8217;ll notice that any changes made to the <em>AnotherBranch</em> branch do not appear here. That&#8217;s great, as we managed to evolve our project, without modifying the stable version.</p>
+<h2>Merging Branches</h2>
+<p>Working on branches other than the master, is always good while being in the implementation state. However, any code additions or modifications must be put together into the master branch if they are meant to exist to a next app release, so in this part we&#8217;ll see how this can be done. As you conclude by the title of the section, the functionality we&#8217;ll talk about here is called <em>merging</em>, and Xcode provides a fast way to merge the revisions of two branches into one.</p>
+<p>Let&#8217;s make a small experiment to see how merging works. First of all, make sure you are currently working on the master branch. If not, then go to the <strong>Source Control &gt; GitDemo &#8211; AnotherBranch &gt; Switch To Branch&#8230;</strong> menu, and from the displayed window select the master branch.</p>
+<p>Next, create a new branch using the <strong>Source Control > GitDemo &#8211; master > New Branch&#8230;</strong> menu, and name it <strong>LastBranch</strong>.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_33_create_last_branch.jpg" alt="Xcode Version Control - Last Branch" class="aligncenter size-full wp-image-3382" /></div>
+<p>Give Xcode some seconds to prepare it. Now, go to the <em>ViewController.m</em> file to create one more dummy private method, and begin by declaring it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+...<br />
+<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>sayByeBye;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Then implement it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>sayByeBye<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Bye - Bye&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>And finally, call it in the <em>viewDidLoad</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self sayByeBye<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Before merging, the changes made to this branch must be committed first to the local repository. Therefore, go to the <strong>Source Control > Commit&#8230;</strong> to perform the commit.</p>
+<p>Let&#8217;s get to the point now. To merge two different branches into one, you have two options:</p>
+<ol>
+<li><strong>Merge From Branch</strong>: Any changes existing to the branch you&#8217;ll choose, they will be merged to the currently working branch.</li>
+<li><strong>Merge Into Branch</strong>: Any changes existing in the currently working branch will be merged to the branch you&#8217;ll choose.</li>
+</ol>
+<p>Both of these options can be found under the <strong>Source Control > GitDemo</strong> menu. Note that when your active branch is the master, the second option is not available.</p>
+<p>Let&#8217;s suppose now that one developer has worked on the <em>AnotherBranch</em> branch we previously created and implemented on it the <em>sayHello</em> method, and another one has worked on the <em>LastBranch</em> and implemented the <em>sayByeBye</em> method, and it&#8217;s your duty to include these two new additions to the next stable release of the app. What will you do? Simply, while having the master branch active, you&#8217;ll merge from the two other branches as follows:</p>
+<p>At first, make sure your working branch is the master, and if not switch to it.</p>
+<p>Next, open the <strong>Source Control > GitDemo &#8211; master > Merge From Branch&#8230;</strong>, and from the window that opens select the <em>AnotherBranch</em> branch and click on the Merge button.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_34_branch_to_merge_from.jpg" alt="Xcode Version Control - Merge Branch" class="aligncenter size-full wp-image-3383" /></div>
+<p>A revision comparison window will appear, where you&#8217;ll have the chance to review all code changes that will be made after merging. If you want, take a quick look, and when you&#8217;re ready, click on the Merge button once again.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_35_merge_comparison_window.jpg" alt="Xcode Version Control - Merge Branch" class="aligncenter size-full wp-image-3384" /></div>
+<p>When Xcode asks you about taking snapshots of the project, click on the Enable button to proceed. Give it some moments and <em>voila</em>! In the master branch the additions been made to the <em>AnotherBranch</em> branch have now been merged.</p>
+<p>Follow the same way to merge from the <em>LastBranch</em> branch. You&#8217;ll notice that Xcode won&#8217;t let you merge again if you don&#8217;t commit the current version of the modified file. So, there&#8217;s only one way, to commit. Do it and then try to merge from the <em>LastBranch</em> once again. In the version comparison window you may see a red area indicating the changes after merging, instead of the usual blue one. That means that code existing in the branch you merge from will replace the code at the same lines on the currently working branch, the master, as shown below:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_36_merge_replace_lines.jpg" alt="Xcode Version Control - Merge Replace Line" class="aligncenter size-full wp-image-3385" /></div>
+<p>You can easily avoid this and keep both of the existing and new code, if you use the buttons lying in the toolbar below the editor panes. Having selected the area by clicking on the rounded shape pointed above with an arrow, use all buttons to see their effects. In the screenshot that follows, I have selected the first one, meaning that the existing code on the master branch will be placed first and prior to the code from the other branch in terms of line ordering:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_37_merge_line_order.jpg" alt="Xcode Version Control - Merge Line" class="aligncenter size-full wp-image-3386" /></div>
+<p>Go through all changes, and make sure that no code will be excluded by any branch. Once you have finished and you are sure that all code is there, click on the Merge button.</p>
+<p>Congratulations! You have managed to successfully merge code from multiple branches into one, and now you know how to deal with Xcode in similar cases.</p>
+<h2>Discarding Changes</h2>
+<p>The option to discard unwanted code modifications made to a project is a seriously helpful one, as with just one click you can undo all the work you have done since the last commit. It&#8217;s useful when the implementation is not going towards the desired direction and you want to fresh start from the last stable and working version. Notice though that discarding changes is an undoable operation, therefore if you accidentally do it you won&#8217;t have any chance to get your work back. So, be cautious.</p>
+<p>Previously, while we were discussing about comparing versions, we saw for first time how to discard specific code segments by using the small menu icon of each marked area between the editor panes. Here, we&#8217;ll see how to perform a discard on whole project, and instantly go the last commit point.</p>
+<p>For the testing purposes of this part, open the <em>ViewController.h</em> file and add a public method declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>aVeryCoolMethod;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s modify a bit the <em>ViewController.m</em> file by adding a small implementation segment for this method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>aVeryCoolMethod<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;I'm feeling that you'll discard me... Really?&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you notice on the Project Navigator, the <em>M</em> indication has been added next to both of the files we just touched. That&#8217;s good, as we want to see if by discarding the changes, all of the modified files will be affected and get reverted to their previous state.</p>
+<p>Let me mention an important detail here: You can either discard changes made to all files, or just to specific ones. That&#8217;s up to you, and if you want to discard selectively, then make sure firstly to select the files of which you want the changes to be discarded. To make the latter clear enough, if you select only the <em>ViewController.m</em> file and then open the <strong>Source Control</strong> menu, you&#8217;ll find an option titled <strong>Discard Changes in ViewController.m<strong>. Similarly, if you select only the <em>ViewController.h</em> file and open the same menu, you&#8217;ll see the </strong>Discard Changes in ViewController.h</strong> option this time. However, if you want to discard changes in both files (and suppose that there could be more than those two modified), just select them in the Project Navigator and open once again the <strong>Source Control</strong> menu. The respective command turns into <strong>Discard Changes in 2 Files&#8230;</strong>, as shown below:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_38_discard_two_files.jpg" alt="Xcode Version Control - Discard File" class="aligncenter size-full wp-image-3387" /></div>
+<p>In this example we are not going to use that option, but the <strong>Discard All Changes</strong> instead. By clicking it, a confirmation alert will appear on screen, and this is the one and only Xcode&#8217;s effort to prevent you from doing it accidentally.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/04/t10_39_discard_confirmation.jpg" alt="Xcode Version Control - Discard File" class="aligncenter size-full wp-image-3388" /></div>
+<p>Click on the <strong>Discard All Changes&#8230;</strong> button of the alert and the public method belongs to the past now. As you see, discarding all changes is just a couple of clicks away from your current state, so I advise you once again to be extremely careful when you&#8217;re about to discard, as well as when you generally use the <strong>Source Control</strong> menu.</p>
+<h2>Summary</h2>
+<p>Through this tutorial, I made an effort to present in a thorough and detailed way how to manage version and source control using Xcode. Behind the scenes, the real work is done by git, one of the most popular and most-used version control system. You may have noticed that no reference to <em>GitHub</em> or to any of the related Xcode features was made, but that was done on purpose, as my target was to focus entirely on git management through Xcode, and besides that, GitHub can be used if only you know how to deal with version control. Further than all these and as I already mentioned at the beginning of this tutorial, if you are a member of a team, then working with a version control system is mandatory. If you are working alone though, then you are strongly encouraged and prompted to start using version control with Xcode if you don&#8217;t do so. That&#8217;s a way to guarantee that you won&#8217;t ruin any already made with pain and cost work, and besides that, it will become easier to expand your applications when adding new features. Closing, I wish the examples presented here to be proved helpful, and by using the Xcode&#8217;s version control to eventually manage to save some working hours.</p>
+<p>As always, feel free to share your thought by leaving comment below.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-game-tutorial-maze-part-1/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/Simple-Maze-Game-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating a Simple Maze Game for iPhone - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-send-sms-text-message/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/07/SMSDemo-Featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Send SMS Text Message in iPhone Apps</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uitableview-tutorial-storyboard-xcode5/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/01/simple-table-view-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with UITableView in Xcode 5 Using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/app-extension-programming-today/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/10/app-extension-today-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to iOS 8 App Extension: Creating a Today Widget</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/git-source-control-in-xcode/"
+    dc:identifier="http://www.appcoda.com/git-source-control-in-xcode/"
+    dc:title="Understanding Git Source Control in Xcode"
+    trackback:ping="http://www.appcoda.com/git-source-control-in-xcode/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/git/" rel="tag">git</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/source-control/" rel="tag">source control</a>, <a href="http://www.appcoda.com/tag/version-control/" rel="tag">version control</a>, <a href="http://www.appcoda.com/tag/xcode-5/" rel="tag">Xcode 5</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-4935">
+        <div id="dsq-comment-header-4935" class="dsq-comment-header">
+            <cite id="dsq-cite-4935">
+http://about.me/iamradj                <span id="dsq-author-user-4935">radj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4935" class="dsq-comment-body">
+            <div id="dsq-comment-message-4935" class="dsq-comment-message"><p>Awesome and comprehensive tutorial! Never considered using Git within XCode before this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4943">
+        <div id="dsq-comment-header-4943" class="dsq-comment-header">
+            <cite id="dsq-cite-4943">
+                <span id="dsq-author-user-4943">Hamza Tariq</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4943" class="dsq-comment-body">
+            <div id="dsq-comment-message-4943" class="dsq-comment-message"><p>Let me know if you have any help to make GIT repository for existing project. Because i didn&#8217;t select check mark of GIT while creating a new project. So tell me how to do this in existing project</p>
+<p>Thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4983">
+        <div id="dsq-comment-header-4983" class="dsq-comment-header">
+            <cite id="dsq-cite-4983">
+http://www.gtiapps.com/                <span id="dsq-author-user-4983">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4983" class="dsq-comment-body">
+            <div id="dsq-comment-message-4983" class="dsq-comment-message"><p>Hi,</p>
+<p>In the <strong>Creating a Git repository</strong> section of the tutorial, right after the point where I demonstrate how to show hidden files, I describe all the procedure for adding a git repository to an existing project. Note that you have to download the command-line tools through Xcode before you do so.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-5046">
+        <div id="dsq-comment-header-5046" class="dsq-comment-header">
+            <cite id="dsq-cite-5046">
+                <span id="dsq-author-user-5046">Hamza Tariq</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5046" class="dsq-comment-body">
+            <div id="dsq-comment-message-5046" class="dsq-comment-message"><p>HI, </p>
+<p>Thanks a lot for your reference. I spend almost 2 days last week to do this stuff but didn&#8217;t find any good source and also i lost my project. Luckily i start to doing this after taking backup of all file&#8217;s.</p>
+<p>I have any other question.</p>
+<p>As i setup git for my project. No other is working on this work. I am only one. So when i try to push it it give me &#8220;No remote found&#8221;.</p>
+<p>So if there is no remote then where git is storing backup file&#8217;s of my project. If its in local then may i know local directory ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-5047">
+        <div id="dsq-comment-header-5047" class="dsq-comment-header">
+            <cite id="dsq-cite-5047">
+http://www.gtiapps.com/                <span id="dsq-author-user-5047">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5047" class="dsq-comment-body">
+            <div id="dsq-comment-message-5047" class="dsq-comment-message"><p>Git stores its repositories locally, in the same directory where your Xcode project resides. It&#8217;s a hidden directory named <em>.git</em>, and if you can&#8217;t see it then you must make hidden files visible as I describe in the tutorial, in the <strong>Creating a Git repository</strong> section.</p>
+<p>For remote storing, you must use GitHub through Xcode. Before doing so though, you must setup a GitHub account and an online repository, so you&#8217;d better read the official documentation about the related how-to.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-5049">
+        <div id="dsq-comment-header-5049" class="dsq-comment-header">
+            <cite id="dsq-cite-5049">
+                <span id="dsq-author-user-5049">Hamza Tariq</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5049" class="dsq-comment-body">
+            <div id="dsq-comment-message-5049" class="dsq-comment-message"><p>I have already check github account. As i told i spend 2 days to setup all these thing&#8217;s</p>
+<p>Github is premium service otherwise my code will be shared with every one.</p>
+<p>Is there any free source ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-5089">
+        <div id="dsq-comment-header-5089" class="dsq-comment-header">
+            <cite id="dsq-cite-5089">
+http://www.gtiapps.com/                <span id="dsq-author-user-5089">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5089" class="dsq-comment-body">
+            <div id="dsq-comment-message-5089" class="dsq-comment-message"><p>Hi,</p>
+<p>To be honest I don&#8217;t know if there&#8217;s any free service, as I use GitHub. I&#8217;m sure that a quick search on the web will give you the answer.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-5103">
+        <div id="dsq-comment-header-5103" class="dsq-comment-header">
+            <cite id="dsq-cite-5103">
+                <span id="dsq-author-user-5103">Hamza Tariq</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5103" class="dsq-comment-body">
+            <div id="dsq-comment-message-5103" class="dsq-comment-message"><p>Its ok. Well thanks alot for your help <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4951">
+        <div id="dsq-comment-header-4951" class="dsq-comment-header">
+            <cite id="dsq-cite-4951">
+                <span id="dsq-author-user-4951">Hugh Mbaezue</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4951" class="dsq-comment-body">
+            <div id="dsq-comment-message-4951" class="dsq-comment-message"><p>Yes I have been waiting on this. Thank you! You guys rock!!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4995">
+        <div id="dsq-comment-header-4995" class="dsq-comment-header">
+            <cite id="dsq-cite-4995">
+                <span id="dsq-author-user-4995">gowtham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4995" class="dsq-comment-body">
+            <div id="dsq-comment-message-4995" class="dsq-comment-message"><p>I have been waiting for this tutorial for  long time .Thank you AppCoda Team</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5333">
+        <div id="dsq-comment-header-5333" class="dsq-comment-header">
+            <cite id="dsq-cite-5333">
+                <span id="dsq-author-user-5333">pramod sharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5333" class="dsq-comment-body">
+            <div id="dsq-comment-message-5333" class="dsq-comment-message"><p>Awesome tutorial.. Thank you AppCoda</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-6232">
+        <div id="dsq-comment-header-6232" class="dsq-comment-header">
+            <cite id="dsq-cite-6232">
+                <span id="dsq-author-user-6232">Isuru</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6232" class="dsq-comment-body">
+            <div id="dsq-comment-message-6232" class="dsq-comment-message"><p>Great tutorial! </p>
+<p>I have found a little mistake. In the first piece of code, you have put it inside didReceiveMemoryWarning method. Not viewDidLoad as you have mentioned. <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-6390">
+        <div id="dsq-comment-header-6390" class="dsq-comment-header">
+            <cite id="dsq-cite-6390">
+http://www.gtiapps.com/                <span id="dsq-author-user-6390">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6390" class="dsq-comment-body">
+            <div id="dsq-comment-message-6390" class="dsq-comment-message"><p>Thanks a lot for pointing this out! I admit that I didn&#8217;t realize that I was writing in the wrong method&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.musclecoder.com/how-to-use-git-source-control-in-xcode-ios-programming/' rel='external nofollow' class='url'>How To Use GIT Source Control in Xcode | iOS Programming | MUSCLE CODER</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://chaoyuan.sinaapp.com/?p=1078' rel='external nofollow' class='url'>在Xcode中使用Git进行源码版本控制 | chaoyuan的网站</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10884">
+        <div id="dsq-comment-header-10884" class="dsq-comment-header">
+            <cite id="dsq-cite-10884">
+                <span id="dsq-author-user-10884">shanyimin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10884" class="dsq-comment-body">
+            <div id="dsq-comment-message-10884" class="dsq-comment-message"><p>Thanks a lot for your reference. There are some problems when the second merger, &#8220;sayHello&#8221; h and &#8220;sayByeBYe&#8221; of the function body to mix together, as shown, is how to solve?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22088">
+        <div id="dsq-comment-header-22088" class="dsq-comment-header">
+            <cite id="dsq-cite-22088">
+                <span id="dsq-author-user-22088">Simon Charles Gardener</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22088" class="dsq-comment-body">
+            <div id="dsq-comment-message-22088" class="dsq-comment-message"><p>Thank you &#8211; very helpful</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27569">
+        <div id="dsq-comment-header-27569" class="dsq-comment-header">
+            <cite id="dsq-cite-27569">
+                <span id="dsq-author-user-27569">Carlos_o7</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27569" class="dsq-comment-body">
+            <div id="dsq-comment-message-27569" class="dsq-comment-message"><p>Nice tutorial. Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-34832">
+        <div id="dsq-comment-header-34832" class="dsq-comment-header">
+            <cite id="dsq-cite-34832">
+                <span id="dsq-author-user-34832">XDev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34832" class="dsq-comment-body">
+            <div id="dsq-comment-message-34832" class="dsq-comment-message"><p>Thank you.. Great help..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.iamlisen.com/Xcode-source-code-version-control-with-Git.html' rel='external nofollow' class='url'>在Xcode中使用Git进行源码版本控制 | 李森的博客</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-96142">
+        <div id="dsq-comment-header-96142" class="dsq-comment-header">
+            <cite id="dsq-cite-96142">
+                <span id="dsq-author-user-96142">Aviral</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-96142" class="dsq-comment-body">
+            <div id="dsq-comment-message-96142" class="dsq-comment-message"><p>Thankx for such great tutorial, but i have a Question , How i Used it with our team, i mean how i am able to pull on mac, is it possible with Xcode Source Control.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-98399">
+        <div id="dsq-comment-header-98399" class="dsq-comment-header">
+            <cite id="dsq-cite-98399">
+http://www.clematistech.com/                <span id="dsq-author-user-98399">Sritoma Majumder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98399" class="dsq-comment-body">
+            <div id="dsq-comment-message-98399" class="dsq-comment-message"><p>Hi,<br />
+This tutorial is a great help&#8230;Previously I used to create different copies of the project. As far as I understood this tutorial is a great help if I am a standalone developer. Now if I am working in a team then how git will manage that???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99745">
+        <div id="dsq-comment-header-99745" class="dsq-comment-header">
+            <cite id="dsq-cite-99745">
+                <span id="dsq-author-user-99745">Max Meng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99745" class="dsq-comment-body">
+            <div id="dsq-comment-message-99745" class="dsq-comment-message"><p>I&#8217;m not a native English speaker, but, shouldn&#8217;t it read:</p>
+<p>&#8230;<br />
+Notice though that discarding changes IS NOT an undoable operation,<br />
+&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100922">
+        <div id="dsq-comment-header-100922" class="dsq-comment-header">
+            <cite id="dsq-cite-100922">
+                <span id="dsq-author-user-100922">nmokkary</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100922" class="dsq-comment-body">
+            <div id="dsq-comment-message-100922" class="dsq-comment-message"><p>how can i share this code to another team member ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101132">
+        <div id="dsq-comment-header-101132" class="dsq-comment-header">
+            <cite id="dsq-cite-101132">
+                <span id="dsq-author-user-101132">bitelz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101132" class="dsq-comment-body">
+            <div id="dsq-comment-message-101132" class="dsq-comment-message"><p>Good tutorial, writen really well!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/git-source-control-in-xcode/';
+var disqus_identifier = '3340 http://www.appcoda.com/?p=3340';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Understanding Git Source Control in Xcode";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=3340';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="3340"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fgit-source-control-in-xcode%2F&#038;t=Understanding%20Git%20Source%20Control%20in%20Xcode" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3340" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>60</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Understanding%20Git%20Source%20Control%20in%20Xcode&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fgit-source-control-in-xcode%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3340" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>30</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fgit-source-control-in-xcode%2F&#038;t=Understanding%20Git%20Source%20Control%20in%20Xcode" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3340" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>10</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fgit-source-control-in-xcode%2F&#038;title=Understanding%20Git%20Source%20Control%20in%20Xcode" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3340" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>8</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fgit-source-control-in-xcode%2F&#038;t=Understanding%20Git%20Source%20Control%20in%20Xcode" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3340" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Understanding%20Git%20Source%20Control%20in%20Xcode&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fgit-source-control-in-xcode%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3340" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fgit-source-control-in-xcode%2F&#038;t=Understanding%20Git%20Source%20Control%20in%20Xcode" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3340" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fgit-source-control-in-xcode%2F&#038;title=Understanding%20Git%20Source%20Control%20in%20Xcode" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3340" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/git-source-control-in-xcode\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="82e1eeedf1e7c2b0faacf2ece5">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":3340,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:35:08 by W3 Total Cache -->

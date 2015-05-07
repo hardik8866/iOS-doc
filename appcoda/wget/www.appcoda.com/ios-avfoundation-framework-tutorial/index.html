@@ -1,0 +1,1120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming: Record and Play Audio using AVFoundation Framework</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="iOS provides various framework to let you work with sound. One of the frameworks that you can use to play and record audio file is the AVFoundation Framework."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-avfoundation-framework-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="iOS provides various framework to let you work with sound. One of the frameworks that you can use to play and record audio file is the AVFoundation Framework."/>
+<meta name="twitter:title" content="iOS Programming: Record and Play Audio using AVFoundation Framework"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/02/AudioDemo-Project-Template.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; iOS Programming 101: Record and Play Audio using AVFoundation Framework Comments Feed" href="http://www.appcoda.com/ios-avfoundation-framework-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1394' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1394 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1394 post type-post status-publish format-standard hentry category-ios-programming-101 tag-audio-programming tag-avfoundation tag-ios-programming tag-ios-sdk entry"><h1 class="entry-title">iOS Programming 101: Record and Play Audio using AVFoundation Framework</h1> 
+<div class="post-info"><span class="date published time" title="2013-02-27T23:25:23+00:00">February 27, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-avfoundation-framework-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="1394 http://www.appcoda.com/?p=1394">47 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><em>Editor&#8217;s note: Some of you asked us to write a tutorial about audio recording. This week, we work with Yiqi Shi and Raymond from <a href="http://www.purpledevelopment.net/">Purple Development</a> to give you an introduction of AVFoundation framework. Yiqi and Raymond are independent iOS developers and have recently released <a href="https://itunes.apple.com/us/app/voice-memo-wifi-sharing-lite/id590371641?mt=8">Voice Memo Wifi</a> that allows users to record voice memo and share it over WiFi.</em></p>
+<p>iOS provides various framework to let you work with sound in your app. One of the frameworks that you can use to play and record audio file is the AV Foundation Framework. In this tutorial, I&#8217;ll walk you through the basics of the framework and show you how to manage audio playback, as well as, recording.</p>
+<p>To provide you with a working example, I&#8217;ll build a simple audio app that allows users to record and play audio. Our primary focus is to demonstrate the AV Foundation framework so the user interface of the app is very simple.</p>
+<p>The AV Foundation provides easy ways to deal with audio. In this tutorial, we mainly deal with these two classes:</p>
+<ul>
+<li>AVAudioPlayer &#8211; think of it as an audio player for playing sound files. By using the player, you can play sounds of any duration and in any audio format available in iOS.
+<li>AVAudioRecorder &#8211; an audio recorder for recording audio</li>
+</ul>
+<p><span id="more-1394"></span></p>
+<h2>Starting with the Project Template</h2>
+<p>First of all, create a &#8220;Single View Application&#8221; and name it as &#8220;AudioDemo&#8221;. To free you from setting up the user interface and code skeleton, you can <a href="https://dl.dropbox.com/u/2857188/AudioDemo_Start.zip">download the project template from here</a>.</p>
+<p>I&#8217;ve created a simple UI for you that it only contains three buttons including &#8220;Record&#8221;, &#8220;Stop&#8221; and &#8220;Play&#8221;. The buttons are also linked up with the code.</p>
+<div id="attachment_1408" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/AudioDemo-Project-Template.jpg" alt="AudioDemo Project Template" class="size-full wp-image-1408" /><p class="wp-caption-text">AudioDemo Project Template</p></div>
+<h2>Adding AVFoundation Framework</h2>
+<p>By default, the AVFoundation framework is not bundled in any Xcode project. So you have to add it manually. In the Project Navigator, select the &#8220;AudioDemo&#8221; project. In the Content Area, select &#8220;AudioDemo&#8221; under Targets and click &#8220;Build Phases&#8221;. Expand &#8220;Link Binary with Libraries&#8221; and click the &#8220;+&#8221; button to add the &#8220;AVFoundation.framework&#8221;. </p>
+<div id="attachment_1410" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/Adding-AVFoundation-Framework.jpg" alt="Adding AVFoundation Framework" class="size-full wp-image-1410" /><p class="wp-caption-text">Adding AVFoundation Framework</p></div>
+<p>To use the AVAudioPlayer and AVAudioRecorder class, we need to import <AVFoundation/AVFoundation.h> in ViewController.h.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;AVFoundation/AVFoundation.h&gt;</span></div></td></tr></tbody></table></div>
+<p><br/></p>
+<h2>Audio Recording using AVAudioRecorder</h2>
+<p>First, let&#8217;s take a look how we can use AVAudioRecorder to record audio. Add the AVAudioRecorderDelegate protocol and AVAudioPlayerDelegate in the ViewController.h. We&#8217;ll explain both delegates as we walk through the code.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController &lt;AVAudioRecorderDelegate, AVAudioPlayerDelegate&gt;</div></td></tr></tbody></table></div>
+<p>Next, declare the instance variables for AVAudioRecorder and AVAudioPlayer in ViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; AVAudioRecorder <span style="color: #002200;">*</span>recorder;<br />
+&nbsp; &nbsp; AVAudioPlayer <span style="color: #002200;">*</span>player;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The AVAudioRecorder class provides an easy way to record sound in iOS. To use the recorder, you have to prepare a few things:</p>
+<ul>
+<li>Specify a sound file URL. </li>
+<li>Set up the audio session. </li>
+<li>Configure the audio recorder&#8217;s initial state. </li>
+</ul>
+<p>We&#8217;ll do the setup in the &#8220;viewDidLoad&#8221; method of ViewController.m. Simply edit the method with the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Disable Stop/Play button when application launches</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>stopButton setEnabled<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>playButton setEnabled<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Set the audio file</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>pathComponents <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>NSSearchPathForDirectoriesInDomains<span style="color: #002200;">&#40;</span>NSDocumentDirectory, NSUserDomainMask, <span style="color: #a61390;">YES</span><span style="color: #002200;">&#41;</span> lastObject<span style="color: #002200;">&#93;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;MyAudioMemo.m4a&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>outputFileURL <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> fileURLWithPathComponents<span style="color: #002200;">:</span>pathComponents<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Setup audio session</span><br />
+&nbsp; &nbsp; AVAudioSession <span style="color: #002200;">*</span>session <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>AVAudioSession sharedInstance<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>session setCategory<span style="color: #002200;">:</span>AVAudioSessionCategoryPlayAndRecord error<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Define the recorder setting</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableDictionary_Class/"><span style="color: #400080;">NSMutableDictionary</span></a> <span style="color: #002200;">*</span>recordSetting <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableDictionary_Class/"><span style="color: #400080;">NSMutableDictionary</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recordSetting setValue<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithInt<span style="color: #002200;">:</span>kAudioFormatMPEG4AAC<span style="color: #002200;">&#93;</span> forKey<span style="color: #002200;">:</span>AVFormatIDKey<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recordSetting setValue<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithFloat<span style="color: #002200;">:</span><span style="color: #2400d9;">44100.0</span><span style="color: #002200;">&#93;</span> forKey<span style="color: #002200;">:</span>AVSampleRateKey<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recordSetting setValue<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithInt<span style="color: #002200;">:</span> <span style="color: #2400d9;">2</span><span style="color: #002200;">&#93;</span> forKey<span style="color: #002200;">:</span>AVNumberOfChannelsKey<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initiate and prepare the recorder</span><br />
+&nbsp; &nbsp; recorder <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>AVAudioRecorder alloc<span style="color: #002200;">&#93;</span> initWithURL<span style="color: #002200;">:</span>outputFileURL settings<span style="color: #002200;">:</span>recordSetting error<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; recorder.delegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; recorder.meteringEnabled <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recorder prepareToRecord<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p class="note">Note: For demo purpose, we skip the error handling. In real app, don&#8217;t forget to include proper error handling.</p>
+<p>In the above code, we first define the sound file URL for saving the recording. and then configure the audio session. iOS handles audio behaviour of an app by using audio sessions. Upon launch, your app automatically gets an audio session. You can grab such session by calling [AVAudioSession sharedInstance] and configure it. Here, we tell iOS that the app uses &#8220;AVAudioSessionCategoryPlayAndRecord&#8221; category which enables both audio input and output. We will not go into the details of audio session but you can check out the <a href="http://developer.apple.com/library/ios/#documentation/Audio/Conceptual/AudioSessionProgrammingGuide/Basics/Basics.html#//apple_ref/doc/uid/TP40007875-CH2-SW1">official document</a> for further details.</p>
+<p>The AVAudioRecorder uses a dictionary-based settings for its configuration. In line 21-25, we use the options keys to configure the audio data format, sample rate and number of channels. Lastly, we initiate the audio recorder by calling &#8220;prepareToRecord:&#8221; method.</p>
+<p class="note"><strong>Note:</strong> For other settings keys, you can refer to <a href="http://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVFoundationAudioSettings_Constants/Reference/reference.html#//apple_ref/doc/uid/TP40009937">AV Foundation Audio Settings Constants</a>.</p>
+<h3>Implementing Record Button</h3>
+<p>We&#8217;ve completed the audio preparation. Let&#8217;s move on to implement the action method of Record button. Before we dive into the code, let me explain how the &#8220;Record&#8221; button works. When user taps the &#8220;Record&#8221; button, the app will start recording and the button text will be changed to &#8220;Pause&#8221;. If user taps the &#8220;Pause&#8221; button, the app will pause the audio recording till the &#8220;Record&#8221; is tapped again. The audio recording will only be stopped when user taps the &#8220;Stop&#8221; button. </p>
+<p>Edit the &#8220;recordPauseTapped:&#8221; method with the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>recordPauseTapped<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Stop the audio player before recording</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>player.playing<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>player stop<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>recorder.recording<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; AVAudioSession <span style="color: #002200;">*</span>session <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>AVAudioSession sharedInstance<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>session setActive<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> error<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Start recording</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recorder record<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recordPauseButton setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Pause&quot;</span> forState<span style="color: #002200;">:</span>UIControlStateNormal<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Pause recording</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recorder pause<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recordPauseButton setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Record&quot;</span> forState<span style="color: #002200;">:</span>UIControlStateNormal<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>stopButton setEnabled<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>playButton setEnabled<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the above code, we first check whether the audio player is playing. If audio player is playing, we simply stop it by using the &#8220;stop:&#8221; method. Line 7 of the above code determines if the app is in recording mode. If it&#8217;s not in recording mode, the app activates the audio sessions and starts the recording. For recording to work (or sound to play), your audio session must be active.</p>
+<p>In general, you can use the following methods of AVAudioRecorder class to control the recording:</p>
+<ul>
+<li>record &#8211; start/resume a recording</li>
+<li>pause &#8211; pause a recording</li>
+<li>stop &#8211; stop a recording</li>
+</ul>
+<h3>Implementing Stop Button</h3>
+<p>For the Stop button, we simply call up the &#8220;stop:&#8221; method to the recorder, followed by deactivating the audio session. Edit the &#8220;stopTapped:&#8221; method with the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>stopTapped<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recorder stop<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; AVAudioSession <span style="color: #002200;">*</span>audioSession <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>AVAudioSession sharedInstance<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>audioSession setActive<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span> error<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h3>Implementing the AVAudioRecorderDelegate Protocol</h3>
+<p>You can make use of AVAudioRecorderDelegate protocol to handle audio interruptions (say, a phone call during audio recording) and the completion of recording. In the example, the ViewController is the delegate. The methods defined in AVAudioRecorderDelegate protocol are optional. Here, we&#8217;ll only implement the &#8220;audioRecorderDidFinishRecording:&#8221; method to handle the completion of recording. Add the following code to ViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span> audioRecorderDidFinishRecording<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>AVAudioRecorder <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>avrecorder successfully<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>flag<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recordPauseButton setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Record&quot;</span> forState<span style="color: #002200;">:</span>UIControlStateNormal<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>stopButton setEnabled<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>playButton setEnabled<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>; &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>After finishing the recording, we simply change the &#8220;Pause&#8221; button back to &#8220;Record&#8221; button.</p>
+<p><br/></p>
+<h2>Playing Sound using AVAudioPlayer</h2>
+<p>Finally, it comes to the implementation of the &#8220;Play&#8221; button for audio playback using AVAudioPlayer. In the ViewController.m, edit the &#8220;playTapped:&#8221; method using the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>playTapped<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>recorder.recording<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; player <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>AVAudioPlayer alloc<span style="color: #002200;">&#93;</span> initWithContentsOfURL<span style="color: #002200;">:</span>recorder.url error<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>player setDelegate<span style="color: #002200;">:</span>self<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>player play<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The above code is very straightforward. Normally, there are a few things to configure an audio player:</p>
+<ul>
+<li>Initialize the audio play and Assign a sound file to it. In the case, it&#8217;s the audio file of the recording (i.e. recorder.url).</li>
+<li>Designate an audio player delegate object, which handles interruptions as well as the playback-completed event.</li>
+<li>Call play: method to play the sound file. </li>
+</ul>
+<h3>Implementing the AVAudioPlayerDelegate Protocol</h3>
+<p>The delegate of an AVAudioPlayer object must adopt the AVAudioPlayerDelegate protocol. In this case, it&#8217;s the ViewController. The delegate allows you to handle interruptions, audio decoding errors and update the user interface when an audio has finished playing. All methods in AVAudioplayerDelegate protocol are optional, however. To demonstrate how it works, we&#8217;ll implement the &#8220;audioPlayerDidFinishPlaying:&#8221; method to display an alert prompt after the completion of audio playback. For usage of other methods, you can refer to the <a href="http://developer.apple.com/library/ios/#documentation/AVFoundation/Reference/AVAudioPlayerDelegateProtocolReference/Reference/Reference.html#//apple_ref/doc/uid/TP40008068">official documentation of AUAudioPlayerDelegate protocol</a>.</p>
+<p>Add the following code in ViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span> audioPlayerDidFinishPlaying<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>AVAudioPlayer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>player successfully<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>flag<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UIAlertView <span style="color: #002200;">*</span>alert <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Done&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;message<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Finish playing the recording!&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; delegate<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;OK&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>alert show<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p><br/></p>
+<h2>Compile and Run Your App</h2>
+<p>You can test audio recording and playback using a physical device or software simulator. If you test the app using actual device (e.g. iPhone), the audio being recorded comes from the device connected by the built-in microphone or headset microphone. On the other hand, if you test the app by using the Simulator, the audio comes from the system&#8217;s default audio input device as set in the System Preference. </p>
+<p>So go ahead to compile and run the app! Tap &#8220;Record&#8221; button to start recording. Say something, tap the &#8220;Stop&#8221; button and then select the &#8220;Play&#8221; button to listen the playback.</p>
+<div id="attachment_1504" style="width: 579px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/AudioDemo-App.jpg" alt="AudioDemo App" class="size-full wp-image-1504" /><p class="wp-caption-text">AudioDemo App</p></div>
+<p>For your reference, you can <a href="https://dl.dropbox.com/u/2857188/AudioDemo.zip">download the complete source code from here</a>. Feel free to leave me comment if you have any questions.</p>
+<p><em>This post is contributed by Yiqi Shi and Raymond from Purple Development. Yiqi and Raymond are independent iOS developers and have recently released <a href="https://itunes.apple.com/us/app/voice-memo-wifi-sharing-lite/id590371641?mt=8">Voice Memo Wifi</a> that allows users to record voice memo and share it over WiFi.</em></p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/11/ios-social-framework-facebook-twitter-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Integrate Twitter and Facebook Sharing in Your App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-how-to-customize-tab-bar-background-appearance/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/12/Sample-Custom-Tabs-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Customize Tab Bar Background and Appearance</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/customize-navigation-bar-back-butto/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/12/Demo-App-Custom-Navigation-Bar-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How to Customize Navigation Bar and Back Button</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-index-list-uitableview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/indexed-uitableview-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Adding Section and Index List in UITableView</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-avfoundation-framework-tutorial/"
+    dc:identifier="http://www.appcoda.com/ios-avfoundation-framework-tutorial/"
+    dc:title="iOS Programming 101: Record and Play Audio using AVFoundation Framework"
+    trackback:ping="http://www.appcoda.com/ios-avfoundation-framework-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/ios-programming-101/" rel="category tag">iOS Programming 101</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/audio-programming/" rel="tag">audio programming</a>, <a href="http://www.appcoda.com/tag/avfoundation/" rel="tag">AVFoundation</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/ios-sdk/" rel="tag">iOS SDK</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-1250">
+        <div id="dsq-comment-header-1250" class="dsq-comment-header">
+            <cite id="dsq-cite-1250">
+                <span id="dsq-author-user-1250">Reem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1250" class="dsq-comment-body">
+            <div id="dsq-comment-message-1250" class="dsq-comment-message"><p>Amazing tutorial<br />
+thank you so mach</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1251">
+        <div id="dsq-comment-header-1251" class="dsq-comment-header">
+            <cite id="dsq-cite-1251">
+                <span id="dsq-author-user-1251">Damien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1251" class="dsq-comment-body">
+            <div id="dsq-comment-message-1251" class="dsq-comment-message"><p>Great tutorial &#8211; very helpful!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1252">
+        <div id="dsq-comment-header-1252" class="dsq-comment-header">
+            <cite id="dsq-cite-1252">
+http://twitter.com/minasememory                <span id="dsq-author-user-1252">망각인간</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1252" class="dsq-comment-body">
+            <div id="dsq-comment-message-1252" class="dsq-comment-message"><p>Awesome!<br />
+Thanks for simon ng, Thanks for Raymond.<br />
+Thanks to the always helpful.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1253">
+        <div id="dsq-comment-header-1253" class="dsq-comment-header">
+            <cite id="dsq-cite-1253">
+                <span id="dsq-author-user-1253">kevin chen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1253" class="dsq-comment-body">
+            <div id="dsq-comment-message-1253" class="dsq-comment-message"><p>Wonderfully, thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1277">
+        <div id="dsq-comment-header-1277" class="dsq-comment-header">
+            <cite id="dsq-cite-1277">
+                <span id="dsq-author-user-1277">pantgurra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1277" class="dsq-comment-body">
+            <div id="dsq-comment-message-1277" class="dsq-comment-message"><p>I would like a tutorial how external sound, music, singing, talking etc can trigger an action, animation, image  etc. Thanks for the great turorials btw, youre doing a great job!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1281">
+        <div id="dsq-comment-header-1281" class="dsq-comment-header">
+            <cite id="dsq-cite-1281">
+                <span id="dsq-author-user-1281">Alex</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1281" class="dsq-comment-body">
+            <div id="dsq-comment-message-1281" class="dsq-comment-message"><p>That&#8217;s great! Would be possible to extend this with a voice recognition engine? E.g. I record 3 messages: 1) hello, 2) bread 3) night and then when I press a &#8220;recognize button&#8221; the app understands if what am I repeating is &#8220;hello&#8221; or &#8220;bread&#8221; or &#8220;night&#8221;? Mission impossible? <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1291">
+        <div id="dsq-comment-header-1291" class="dsq-comment-header">
+            <cite id="dsq-cite-1291">
+http://www.simonblog.com                <span id="dsq-author-user-1291">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1291" class="dsq-comment-body">
+            <div id="dsq-comment-message-1291" class="dsq-comment-message"><p>I am still waiting for Apple to open up Siri API for speech recognition. However, if you&#8217;re looking for speech recognition engine, you can take a look at OpenEars: <a href="http://www.politepix.com/openears/" rel="nofollow">http://www.politepix.com/openears/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1377">
+        <div id="dsq-comment-header-1377" class="dsq-comment-header">
+            <cite id="dsq-cite-1377">
+                <span id="dsq-author-user-1377">VladislavKovalyov</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1377" class="dsq-comment-body">
+            <div id="dsq-comment-message-1377" class="dsq-comment-message"><p>How can I save my recorded audio?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2213">
+        <div id="dsq-comment-header-2213" class="dsq-comment-header">
+            <cite id="dsq-cite-2213">
+                <span id="dsq-author-user-2213">Rikin Katyal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2213" class="dsq-comment-body">
+            <div id="dsq-comment-message-2213" class="dsq-comment-message"><p>I was wondering the same thing</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-99904">
+        <div id="dsq-comment-header-99904" class="dsq-comment-header">
+            <cite id="dsq-cite-99904">
+                <span id="dsq-author-user-99904">sol</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99904" class="dsq-comment-body">
+            <div id="dsq-comment-message-99904" class="dsq-comment-message"><p>Yeah ME TOO!!!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1426">
+        <div id="dsq-comment-header-1426" class="dsq-comment-header">
+            <cite id="dsq-cite-1426">
+                <span id="dsq-author-user-1426">onmywy133</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1426" class="dsq-comment-body">
+            <div id="dsq-comment-message-1426" class="dsq-comment-message"><p>Why does playing sound not require Audio Session ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1584">
+        <div id="dsq-comment-header-1584" class="dsq-comment-header">
+            <cite id="dsq-cite-1584">
+                <span id="dsq-author-user-1584">Kamran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1584" class="dsq-comment-body">
+            <div id="dsq-comment-message-1584" class="dsq-comment-message"><p>how to record more than one msges e.g 1.hello 2. hi 3, country&#8230; and how to store these msges in table list and then play selected msges from tablelist &#8230;please tell me&#8230;thnks in advance</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1643">
+        <div id="dsq-comment-header-1643" class="dsq-comment-header">
+            <cite id="dsq-cite-1643">
+                <span id="dsq-author-user-1643">Mitchell</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1643" class="dsq-comment-body">
+            <div id="dsq-comment-message-1643" class="dsq-comment-message"><p>I am using XCode 4.2, IOS 5, MacOS 10.6.8.<br />
+Do you have source code for the above combination please?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2916">
+        <div id="dsq-comment-header-2916" class="dsq-comment-header">
+            <cite id="dsq-cite-2916">
+                <span id="dsq-author-user-2916">tung</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2916" class="dsq-comment-body">
+            <div id="dsq-comment-message-2916" class="dsq-comment-message"><p>go to &#8220;Show the File inspector&#8221; check autolayout isn&#8217;t ticked.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1711">
+        <div id="dsq-comment-header-1711" class="dsq-comment-header">
+            <cite id="dsq-cite-1711">
+                <span id="dsq-author-user-1711">Innovative</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1711" class="dsq-comment-body">
+            <div id="dsq-comment-message-1711" class="dsq-comment-message"><p>How the user will be able to attach the additional recording to the beginning, overlay in the middle or append to the end of the original audio recording.?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1727">
+        <div id="dsq-comment-header-1727" class="dsq-comment-header">
+            <cite id="dsq-cite-1727">
+                <span id="dsq-author-user-1727">Aneta Karbowiak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1727" class="dsq-comment-body">
+            <div id="dsq-comment-message-1727" class="dsq-comment-message"><p>Hi,<br />
+I`ve read your tutoria and it`s very usefull but I wanted to ask you something more. I`ve a project with several collision detections and after each collision appears a number. I added a sound for every number. My problem is that the numbers appears correctly after each collision: 1,2,3,4&#8230;. but the sound doesn`t follow the numbers. It does like this: four, four, one, three, three&#8230;<br />
+Do you know why and how to fix it?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1752">
+        <div id="dsq-comment-header-1752" class="dsq-comment-header">
+            <cite id="dsq-cite-1752">
+                <span id="dsq-author-user-1752">Aneta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1752" class="dsq-comment-body">
+            <div id="dsq-comment-message-1752" class="dsq-comment-message"><p>Never mind. I`ve already did it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2034">
+        <div id="dsq-comment-header-2034" class="dsq-comment-header">
+            <cite id="dsq-cite-2034">
+                <span id="dsq-author-user-2034">Thakur</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2034" class="dsq-comment-body">
+            <div id="dsq-comment-message-2034" class="dsq-comment-message"><p>By looking at this tutorial Now I would Like to learn something different. Can you make an Audio apps Tutorial which shows Audio Name in Table View and play song with Play Pause Button. Can you Please make a tutorial something like that <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-99903">
+        <div id="dsq-comment-header-99903" class="dsq-comment-header">
+            <cite id="dsq-cite-99903">
+                <span id="dsq-author-user-99903">sol</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99903" class="dsq-comment-body">
+            <div id="dsq-comment-message-99903" class="dsq-comment-message"><p>YEAH PLEASE!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/08/record-and-play-louder-volume-avaudio/' rel='external nofollow' class='url'>Record and play louder volume avaudio | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://redqueencoder.com/?p=261' rel='external nofollow' class='url'>AVFoundation | The Red Queen Coder</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2806">
+        <div id="dsq-comment-header-2806" class="dsq-comment-header">
+            <cite id="dsq-cite-2806">
+                <span id="dsq-author-user-2806">Slogan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2806" class="dsq-comment-body">
+            <div id="dsq-comment-message-2806" class="dsq-comment-message"><p>Is there a way to modify this code so that instead of recording audio using the microphone (hardware), the record button records sounds that the phone is making/outputting? I have programmed a few buttons to make noises, and I want to be able to record a sequence of those noises and play back that recording.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.copyquery.com/avaudiorecorder-throwing-exception-on-preparetorecord/' rel='external nofollow' class='url'>AVAudioRecorder throwing exception on prepareToRecordCopyQuery CopyQuery | Question &amp; Answer Tool for your Technical Queries,CopyQuery, ejjuit, query, copyquery, copyquery.com, android doubt, ios question, sql query, sqlite query, nodejsquery, dns que</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2842">
+        <div id="dsq-comment-header-2842" class="dsq-comment-header">
+            <cite id="dsq-cite-2842">
+                <span id="dsq-author-user-2842">Innovative</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2842" class="dsq-comment-body">
+            <div id="dsq-comment-message-2842" class="dsq-comment-message"><p>I am running this code in iOS 7, it is not working. May i know how to record and set framerate to some xxfps(eg:24fps).? Thanks in advance.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2847">
+        <div id="dsq-comment-header-2847" class="dsq-comment-header">
+            <cite id="dsq-cite-2847">
+                <span id="dsq-author-user-2847">Евгений Михайлов</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2847" class="dsq-comment-body">
+            <div id="dsq-comment-message-2847" class="dsq-comment-message"><p>Note: For demo purpose, we skip the error handling. In real app, don’t forget to include proper error handling.</p>
+<p>What do you mean by it?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2914">
+        <div id="dsq-comment-header-2914" class="dsq-comment-header">
+            <cite id="dsq-cite-2914">
+                <span id="dsq-author-user-2914">Claire</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2914" class="dsq-comment-body">
+            <div id="dsq-comment-message-2914" class="dsq-comment-message"><p>Awesome tutorial! Thank you <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2915">
+        <div id="dsq-comment-header-2915" class="dsq-comment-header">
+            <cite id="dsq-cite-2915">
+                <span id="dsq-author-user-2915">tung ta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2915" class="dsq-comment-body">
+            <div id="dsq-comment-message-2915" class="dsq-comment-message"><p>thanks, nice tutorial!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3017">
+        <div id="dsq-comment-header-3017" class="dsq-comment-header">
+            <cite id="dsq-cite-3017">
+                <span id="dsq-author-user-3017">nagendra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3017" class="dsq-comment-body">
+            <div id="dsq-comment-message-3017" class="dsq-comment-message"><p>thanks, nice tutorial.,.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3807">
+        <div id="dsq-comment-header-3807" class="dsq-comment-header">
+            <cite id="dsq-cite-3807">
+                <span id="dsq-author-user-3807">Ваше Онтатиле Масвибилили</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3807" class="dsq-comment-body">
+            <div id="dsq-comment-message-3807" class="dsq-comment-message"><p>How would i use metering(measuring the level of audio input)?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-6095">
+        <div id="dsq-comment-header-6095" class="dsq-comment-header">
+            <cite id="dsq-cite-6095">
+                <span id="dsq-author-user-6095">Jimm</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6095" class="dsq-comment-body">
+            <div id="dsq-comment-message-6095" class="dsq-comment-message"><p>Great intro into AVAudio! Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8328">
+        <div id="dsq-comment-header-8328" class="dsq-comment-header">
+            <cite id="dsq-cite-8328">
+                <span id="dsq-author-user-8328">హరి కృష్ణ</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8328" class="dsq-comment-body">
+            <div id="dsq-comment-message-8328" class="dsq-comment-message"><p>I have a TableView Contains List of Urls and When i did selectRow In the next view AVPlayer should Play,Pause etc&#8230;.</p>
+<p>my task is that song should be played When it is in Background or When it goes to AnotherView i.e. TableView. I have Some code Like This and i pasted in AppDelegate </p>
+<p>   [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];<br />
+	[[AVAudioSession sharedInstance] setActive: YES error: nil];<br />
+    [[AVAudioSession sharedInstance] setDelegate:self];</p>
+<p>now its played in background. But it doesn&#8217;t play when we back to TableViewController from PlayerView</p>
+<p>Please help me my E-mail is <a href="/cdn-cgi/l/email-protection#335b52415a565f5258525d475a73545e525a5f1d505c5e"><span class="__cf_email__" data-cfemail="b5ddd4c7dcd0d9d4ded4dbc1dcf5d2d8d4dcd99bd6dad8">[email&#160;protected]</span><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-11539">
+        <div id="dsq-comment-header-11539" class="dsq-comment-header">
+            <cite id="dsq-cite-11539">
+                <span id="dsq-author-user-11539">harikrishna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11539" class="dsq-comment-body">
+            <div id="dsq-comment-message-11539" class="dsq-comment-message"><p>hi</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-13497">
+        <div id="dsq-comment-header-13497" class="dsq-comment-header">
+            <cite id="dsq-cite-13497">
+                <span id="dsq-author-user-13497">Hasan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13497" class="dsq-comment-body">
+            <div id="dsq-comment-message-13497" class="dsq-comment-message"><p>Very useful tutorial. Can you please please please do one using Swift language?<br />
+Thanks a lot.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-14019">
+        <div id="dsq-comment-header-14019" class="dsq-comment-header">
+            <cite id="dsq-cite-14019">
+                <span id="dsq-author-user-14019">John D. Storey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14019" class="dsq-comment-body">
+            <div id="dsq-comment-message-14019" class="dsq-comment-message"><p>Thanks <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" />  This was a great tutorial!  Keep &#8217;em coming guys</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-14453">
+        <div id="dsq-comment-header-14453" class="dsq-comment-header">
+            <cite id="dsq-cite-14453">
+                <span id="dsq-author-user-14453">Hasan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14453" class="dsq-comment-body">
+            <div id="dsq-comment-message-14453" class="dsq-comment-message"><p>Hi, can you please the same tutorial using swift? I couldn&#8217;t find any helpful guideline. Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16584">
+        <div id="dsq-comment-header-16584" class="dsq-comment-header">
+            <cite id="dsq-cite-16584">
+                <span id="dsq-author-user-16584">harikrishna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16584" class="dsq-comment-body">
+            <div id="dsq-comment-message-16584" class="dsq-comment-message"><p>Shell we record the playing song in the Background</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-17872">
+        <div id="dsq-comment-header-17872" class="dsq-comment-header">
+            <cite id="dsq-cite-17872">
+                <span id="dsq-author-user-17872">HelpPlease</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17872" class="dsq-comment-body">
+            <div id="dsq-comment-message-17872" class="dsq-comment-message"><p>What would i need to do if i wanted to have two buttons to record separate recordings?<br />
+I&#8217;m a beginner&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://appgong.com/2545/' rel='external nofollow' class='url'>iOS Programming: Record and Play Audio using AVFoundation Framework - appgong</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22958">
+        <div id="dsq-comment-header-22958" class="dsq-comment-header">
+            <cite id="dsq-cite-22958">
+                <span id="dsq-author-user-22958">sdfsdf</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22958" class="dsq-comment-body">
+            <div id="dsq-comment-message-22958" class="dsq-comment-message"><p>u have put that code link, but its empty buttons there oin xcode project&#8230;.<br />
+check out dear&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://lamyiucho.wordpress.com/2014/07/23/ios-and-avfoundationavaudioplayer/' rel='external nofollow' class='url'>iOS and avfoundation/avaudioplayer | jolam</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://swifttutorialhq.com/appcoda-com/' rel='external nofollow' class='url'>AppCoda-com - Swift Tutorial HQ</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-47857">
+        <div id="dsq-comment-header-47857" class="dsq-comment-header">
+            <cite id="dsq-cite-47857">
+                <span id="dsq-author-user-47857">Fortuna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-47857" class="dsq-comment-body">
+            <div id="dsq-comment-message-47857" class="dsq-comment-message"><p>How can I test the latency of the record audio?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-54955">
+        <div id="dsq-comment-header-54955" class="dsq-comment-header">
+            <cite id="dsq-cite-54955">
+                <span id="dsq-author-user-54955">alijnclarke</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-54955" class="dsq-comment-body">
+            <div id="dsq-comment-message-54955" class="dsq-comment-message"><p>Got this working perfectly, but i just wondered how i can set it up so that incoming text message notifications are not muted when recording? </p>
+<p>Currently the notification pops up but there is no sound <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /> </p>
+<p>(I know this is most likely a dead thread)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-55920">
+        <div id="dsq-comment-header-55920" class="dsq-comment-header">
+            <cite id="dsq-cite-55920">
+                <span id="dsq-author-user-55920">Lukasz Rutkowski</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-55920" class="dsq-comment-body">
+            <div id="dsq-comment-message-55920" class="dsq-comment-message"><p>To make the audio louder add this line to the Session setup part:<br />
+[session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-72062">
+        <div id="dsq-comment-header-72062" class="dsq-comment-header">
+            <cite id="dsq-cite-72062">
+                <span id="dsq-author-user-72062">Vimal Raval</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72062" class="dsq-comment-body">
+            <div id="dsq-comment-message-72062" class="dsq-comment-message"><p>can we test in simulator ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-94521">
+        <div id="dsq-comment-header-94521" class="dsq-comment-header">
+            <cite id="dsq-cite-94521">
+                <span id="dsq-author-user-94521">Michael Mork</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-94521" class="dsq-comment-body">
+            <div id="dsq-comment-message-94521" class="dsq-comment-message"><p>I am getting a very uninformative and frustrating error:<br />
+&#8220;fatal error: unexpectedly found nil while unwrapping an Optional value&#8221;<br />
+when attempting to instantiate the AVAudioRecorder; I am not passing optional values.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.developerfeed.com/learn-ios-hands-on-tutorial-series' rel='external nofollow' class='url'>Learning iOS Development: A Hands-on Tutorial Series | DeveloperFeed</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-avfoundation-framework-tutorial/';
+var disqus_identifier = '1394 http://www.appcoda.com/?p=1394';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "iOS Programming 101: Record and Play Audio using AVFoundation Framework";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1394';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1394"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-avfoundation-framework-tutorial%2F&#038;t=iOS%20Programming%20101%3A%20Record%20and%20Play%20Audio%20using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1394" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>56</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20Record%20and%20Play%20Audio%20using%20AVFoundation%20Framework&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-avfoundation-framework-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1394" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>19</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-avfoundation-framework-tutorial%2F&#038;t=iOS%20Programming%20101%3A%20Record%20and%20Play%20Audio%20using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1394" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>7</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-avfoundation-framework-tutorial%2F&#038;title=iOS%20Programming%20101%3A%20Record%20and%20Play%20Audio%20using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1394" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>0</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-avfoundation-framework-tutorial%2F&#038;t=iOS%20Programming%20101%3A%20Record%20and%20Play%20Audio%20using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1394" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20Record%20and%20Play%20Audio%20using%20AVFoundation%20Framework&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-avfoundation-framework-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1394" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-avfoundation-framework-tutorial%2F&#038;t=iOS%20Programming%20101%3A%20Record%20and%20Play%20Audio%20using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1394" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-avfoundation-framework-tutorial%2F&#038;title=iOS%20Programming%20101%3A%20Record%20and%20Play%20Audio%20using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1394" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-avfoundation-framework-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:42:01 by W3 Total Cache -->

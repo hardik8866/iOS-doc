@@ -1,0 +1,669 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming Tutorial: Adding AirDrop File Sharing in Your Apps</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This programming tutorial covers a new AirDrop feature in iOS 7. You&#039;ll learn how to use UIActivityViewController to share image and document between apps."/>
+<link rel="canonical" href="http://www.appcoda.com/ios7-airdrop-programming-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This programming tutorial covers a new AirDrop feature in iOS 7. You&#039;ll learn how to use UIActivityViewController to share image and document between apps."/>
+<meta name="twitter:title" content="iOS Programming Tutorial: Adding AirDrop File Sharing in Your Apps"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/10/AirDrop-Tutorial.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Adding AirDrop File Sharing Feature to Your iOS Apps Comments Feed" href="http://www.appcoda.com/ios7-airdrop-programming-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=2622' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-2622 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-2622 post type-post status-publish format-standard hentry category-course category-intermediate category-tutorials entry"><h1 class="entry-title">Adding AirDrop File Sharing Feature to Your iOS Apps</h1> 
+<div class="post-info"><span class="date published time" title="2013-10-30T22:16:55+00:00">October 30, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios7-airdrop-programming-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="2622 http://www.appcoda.com/?p=2622">15 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>AirDrop is Apple&#8217;s answer to file and data sharing. Before the debut of iOS 7, users need to rely on 3rd-party apps such as Bump to share files between iOS devices. In iOS 7, Apple introduced a new feature called AirDrop to all iPhone 5 models, the fourth-generation iPad, the iPad mini, and fifth-generation iPod touch models. With AirDrop, you can easily share data with other nearby iOS devices. In brief, the feature allows you to share photos, videos, contacts, URLs, Passbook passes, app listings on the App Store, media listings on iTunes Store, location in Maps, etc.</p>
+<p>As a developer, wouldn&#8217;t be great to incorporate the AirDrop feature in your app? So your users can easily share photos, text file or any types of document easily with nearby devices. The UIActivityViewController class bundled in the iOS 7 SDK makes it simple for developers to integrate AirDrop feature in their apps. The class shields you from the underlying details of file sharing. What you just need is tell the class the objects you want to share and it handles the rest. In this tutorial, we&#8217;ll demonstrate the usage of UIActivityViewController and see how you can use it to share images / documents by using AirDrop.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/10/AirDrop-Tutorial.jpg" alt="AirDrop Tutorial" class="aligncenter size-full wp-image-2640" /></div>
+<p>Let&#8217;s get started.<br />
+<span id="more-2622"></span></p>
+<h2>AirDrop Overview</h2>
+<p>Before we step into the implementation, let&#8217;s have a quick look at AirDrop. It&#8217;s very simple to use AirDrop. Simply bring up Control Center and tap AirDrop to enable it. You can either select &#8220;Contact Only&#8221; or &#8220;Everyone&#8221; depending on whom you want to share the data with. If you choose the Contact Only option, your device will only discovered by people listed in your contacts. Obviously, your device can be discovered by anyone for the Everyone option.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/10/Airdrop-Overview.jpg" alt="Airdrop Overview" class="aligncenter size-full wp-image-2627" /></div>
+<p>AirDrop uses Bluetooth to scan for nearby devices. When a connection is established via Bluetooth, it&#8217;ll create an ad-hoc Wi-Fi network to link the two devices together, allowing for faster data transmission. It doesn&#8217;t mean you need to connect the devices to a Wi-Fi network in order to use AirDrop. Your WiFi simply needs to be on for the data transfer.</p>
+<p>Say you want to share a photo in the Photos app from one iPhone to another. Assuming you’ve enabled AirDrop on both devices, to share the photos with another device, tap the Share button (the one with an arrow pointing up) at the lower-left of the screen.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/10/Airdrop-Overview-Receiving-Side.jpg" alt="Airdrop Overview Receiving Side" class="aligncenter size-full wp-image-2629" /></div>
+<p>In the AirDrop area, you should see the name of the devices that are eligible for sharing. AirDrop is not available when the screen is turned off. So make sure the device on the receiving side is switched on. You can then select the device to share the photo. On the other device, you&#8217;ll see a preview of the photo and a confirmation request. The recipient can accept or decline to receive the image. If you choose the accept option, the photo is then transferred and automatically saved in the camera roll.</p>
+<p>AirDrop doesn’t just work with the Photos app. You can also find the share option in most of the built-in apps such as Contacts, iTunes, App Store, Safari, to name a few. If you&#8217;re new to AirDrop, you should now have a better idea. </p>
+<p>Let&#8217;s move on and see how we can incorporate AirDrop feature in your app to share various types of data.</p>
+<h2>A Quick Look at UIActivityViewController</h2>
+<p>You may think it&#8217;ll take a lot of efforts to implement the AirDrop feature. Conversely, you just need a few lines of code to add AirDrop support. The <a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UIActivityViewController_Class/Reference/Reference.html">UIActivityViewController</a> class available in iOS 7 SDK makes it super easy to integrate the feature. The AirDrop has been built into the class.</p>
+<p>The UIActivityViewController class is a standard view controller that provides several standard services, such as copying items to the clipboard, sharing content to social media sites, sending items via Messages, etc. In iOS 7 SDK, the class comes with the AirDrop feature built-in. </p>
+<p>Say, you have an array of objects to share using AirDrop. All you need to do is to initiate a UIActivityViewController with the array of objects and present it on screen:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">UIActivityViewController <span style="color: #002200;">*</span>controller <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActivityViewController alloc<span style="color: #002200;">&#93;</span> initWithActivityItems<span style="color: #002200;">:</span>objectsToShare applicationActivities<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>controller animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>With just two lines of code, you can bring up the activity view with AirDrop option. Whenever there is a nearby device detected, the activity controller automatically shows the device and handles the data transfer if you choose to.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/10/UIActivityViewController-AirDrop.jpg" alt="UIActivityViewController AirDrop" class="aligncenter size-full wp-image-2631" /></div>
+<p>Optionally, you can exclude certain types of activities. Say, you can just display the AirDrop activity by excluding all other activities. Use the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; UIActivityViewController <span style="color: #002200;">*</span>controller <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActivityViewController alloc<span style="color: #002200;">&#93;</span> initWithActivityItems<span style="color: #002200;">:</span>objectsToShare applicationActivities<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>excludedActivities <span style="color: #002200;">=</span> @<span style="color: #002200;">&#91;</span>UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypePostToWeibo,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypeMessage, UIActivityTypeMail,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypePrint, UIActivityTypeCopyToPasteboard,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; controller.excludedActivityTypes <span style="color: #002200;">=</span> excludedActivities;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>controller animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>The activity view controller now only shows the AirDrop option:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/10/UIActivityViewController-AirDrop-Only.jpg" alt="UIActivityViewController AirDrop Only" class="aligncenter size-full wp-image-2644" /></div>
+<p>You can use UIActivityViewController to share different types of data including NSString, UIImage and NSURL. Not only you can use NSURL to share a link, it allows developers to transfer any types of files by using file URL.</p>
+<p>On the receiving side, when the other device receives the data, it&#8217;ll automatically open an app based on the data type. Say, if an UIImage is transferred, the received image will be displayed in Photos app. When you transfer a PDF file, the other device will open it in Safari. If you just share a NSString object, the data will be presented in Notes app.</p>
+<h2>A Glance at the AirDrop Demo App</h2>
+<p>To give you a better idea about UIActivityViewController and AirDrop, we&#8217;ll build a AirDrop demo app. The app is very simple. When it is first launched, you&#8217;ll see a table view listing a few files including an image file, a PDF file and a text file. You can tap the file and view the content. In the content view, there is an action button on the top-right corner of screen. Tapping it will bring up the AirDrop option and you can share the image or document with nearby device.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/10/AirDrop-Demo-App-Workflow.jpg" alt="AirDrop Demo App Workflow" class="aligncenter size-full wp-image-2638" /></div>
+<p>You&#8217;re encouraged to build the demo app from scratch. But to save your time, you can <a href="https://dl.dropboxusercontent.com/u/2857188/AirDropDemoTemplate.zip">download this project template</a> to start with. When you open Xcode project, you should find the following Storyboard:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/10/AirDrop-Demo-Storyboard.jpg" alt="AirDrop Demo Storyboard" class="aligncenter size-full wp-image-2633" /></div>
+<p>I have already implemented the ListTableViewController and DocumentViewController for you. If you compile and run the app, you&#8217;ll be presented with a list of files. When you tap any of the file, the image or document content will be displayed. But the share button is not yet implemented and that is what we&#8217;re going to talk about.</p>
+<h2>Adding AirDrop Feature</h2>
+<p>In the project template, the ListTableViewController is used to displayed the list of files in a table view, while the DocumentViewController presents the document content via a web view. The action button in the document view is associated with the share: method of the DocumentViewController class. Edit the method with the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>share<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>url <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self fileToURL<span style="color: #002200;">:</span>self.documentName<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>objectsToShare <span style="color: #002200;">=</span> @<span style="color: #002200;">&#91;</span>url<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; UIActivityViewController <span style="color: #002200;">*</span>controller <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActivityViewController alloc<span style="color: #002200;">&#93;</span> initWithActivityItems<span style="color: #002200;">:</span>objectsToShare applicationActivities<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Exclude all activities except AirDrop.</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>excludedActivities <span style="color: #002200;">=</span> @<span style="color: #002200;">&#91;</span>UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypePostToWeibo,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypeMessage, UIActivityTypeMail,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypePrint, UIActivityTypeCopyToPasteboard,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; controller.excludedActivityTypes <span style="color: #002200;">=</span> excludedActivities;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Present the controller</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>controller animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you&#8217;re not forgetful, the above code should be very familiar to you as we&#8217;ve discussed it at the very beginning. The above code simply creates a UIActivityViewController, excludes all activities except AirDrop and presents the controller as a modal view. The tricky part is how you define the objects to share. Here we turn the file to share into a NSURL object and pass the file URL as an array to AirDrop. </p>
+<p>The first two lines of code are responsible for the file URL conversion. The documentName property stores the current file (e.g. ios-game-kit-sample.pdf) displaying in document view. We simply call up the fileToURL: method with the document name and it returns the corresponding file URL. The fileToURL: method is bundled in the project template and here is the code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> fileToURL<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>filename<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>fileComponents <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>filename componentsSeparatedByString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;.&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>filePath <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSBundle_Class/"><span style="color: #400080;">NSBundle</span></a> mainBundle<span style="color: #002200;">&#93;</span> pathForResource<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>fileComponents objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span> ofType<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>fileComponents objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">1</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> fileURLWithPath<span style="color: #002200;">:</span>filePath<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The code is very straightforward. For example, the ios-game-kit-sample.pdf will be transformed to file:///Users/simon/Library/Application%20Support/iPhone%20Simulator/7.0.3/Applications/A5321493-318A-4A3B-8B37-E56B8B4405FC/AirDropDemo.app/ios-game-kit-sample.pdf. The file URL varies depending on the device you&#8217;re running. But the URL should begin with the &#8220;file://&#8221; protocol. With the file URL object, we create the corresponding array and pass it to UIActivityViewController for AirDrop sharing. </p>
+<h2>Build and Run the AirDrop Demo</h2>
+<p>You&#8217;re done. That&#8217;s what you need to implement AirDrop sharing. Compile and run the app on a real iPhone. Yes, you need a real device to test AirDrop sharing. The sharing feature won&#8217;t work on the Simulator.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/10/AirDrop-Demo-App-Share-PDF.jpg" alt="AirDrop Demo App Share PDF" class="aligncenter size-full wp-image-2643" /></div>
+<h2>Uniform Type Identifiers (UTIs)</h2>
+<p>When you share an image to another iOS device, the receiving side automatically opens Photos app and loads the image. If you transfer a PDF file, the receiving device may prompt you to pick an app for opening the file or open it directly in iBooks. How can iOS know which app to use for the type of data? </p>
+<p>UTIs (short for Uniform Type Identifiers) is Apple&#8217;s answer to identify data handled within the system. In brief, a uniform type identifier is a unique identifier for a particular type of data or file. For instance, com.adobe.pdf represents a PDF document and public.png represents a PNG image. You can find the full list of registered UTIs <a href="https://developer.apple.com/library/ios/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html">here</a>. Application that is capable of opening a specific type of file has registered to handle that UTI with the iOS. So whenever that type of file is opened, iOS hands off that file to the specific app. </p>
+<p>The system allows multiple apps to register the same UTI. In this case, iOS will prompt user with the list of capable apps for opening the file. For example, when you share a PDF document, you may experience the following screen in the receiving device:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/10/UTIs-PDF-Apps.jpg" alt="UTIs PDF Apps" class="aligncenter size-full wp-image-2642" /></div>
+<h2>Wrap Up</h2>
+<p>AirDrop is a very cool feature introduced in iOS 7. It offers a great way to share data between devices. Best of all, the built-in UIActivityViewController has made it easy for developers to add AirDrop support in their apps. As you can see from the demo app, it just needs a few lines of code to implement the feature. I highly recommend you to put this sharing feature in your app.</p>
+<p>For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/AirDropDemo.zip">download the full source code of the Xcode project from here</a>.</p>
+<p>As always, leave us comment and share your thought about the tutorial. We love to hear your feedback.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/supplementary-view-uicollectionview-flow-layout/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/01/Nested-Array-Explained-e1358687054953-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Add Header and Footer View in UICollectionView</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/video-recording-playback-ios-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/video-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Create a Simple App for Video Recording and Playback</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-index-list-uitableview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/indexed-uitableview-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Adding Section and Index List in UITableView</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/testflight-beta-testing/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/10/testflight-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Beta Test Your App Using TestFlight</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios7-airdrop-programming-tutorial/"
+    dc:identifier="http://www.appcoda.com/ios7-airdrop-programming-tutorial/"
+    dc:title="Adding AirDrop File Sharing Feature to Your iOS Apps"
+    trackback:ping="http://www.appcoda.com/ios7-airdrop-programming-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> </div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-2708">
+        <div id="dsq-comment-header-2708" class="dsq-comment-header">
+            <cite id="dsq-cite-2708">
+                <span id="dsq-author-user-2708">Harry</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2708" class="dsq-comment-body">
+            <div id="dsq-comment-message-2708" class="dsq-comment-message"><p>but if I add this feature will it make my app iPhone 5, iPad 4, iPod 5 plus only?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2709">
+        <div id="dsq-comment-header-2709" class="dsq-comment-header">
+            <cite id="dsq-cite-2709">
+                <span id="dsq-author-user-2709">Malkit Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2709" class="dsq-comment-body">
+            <div id="dsq-comment-message-2709" class="dsq-comment-message"><p>good work..thanks for sharing with us.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2719">
+        <div id="dsq-comment-header-2719" class="dsq-comment-header">
+            <cite id="dsq-cite-2719">
+                <span id="dsq-author-user-2719">Will Yan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2719" class="dsq-comment-body">
+            <div id="dsq-comment-message-2719" class="dsq-comment-message"><p>thanks a lot</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.musclecoder.com/ios-programming-tutorial-adding-airdrop-file-sharing-in-your-apps/' rel='external nofollow' class='url'>iOS Programming Tutorial: Adding AirDrop File Sharing in Your Apps | MUSCLE CODER</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2738">
+        <div id="dsq-comment-header-2738" class="dsq-comment-header">
+            <cite id="dsq-cite-2738">
+                <span id="dsq-author-user-2738">vikas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2738" class="dsq-comment-body">
+            <div id="dsq-comment-message-2738" class="dsq-comment-message"><p>Wow&#8230; Thanks for share..!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2832">
+        <div id="dsq-comment-header-2832" class="dsq-comment-header">
+            <cite id="dsq-cite-2832">
+                <span id="dsq-author-user-2832">Yannick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2832" class="dsq-comment-body">
+            <div id="dsq-comment-message-2832" class="dsq-comment-message"><p>Thanks for this tuto!<br />
+And for receive Data?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3443">
+        <div id="dsq-comment-header-3443" class="dsq-comment-header">
+            <cite id="dsq-cite-3443">
+                <span id="dsq-author-user-3443">Jeyabalaji</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3443" class="dsq-comment-body">
+            <div id="dsq-comment-message-3443" class="dsq-comment-message"><p>good and simple tutorial.. Thanks..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5505">
+        <div id="dsq-comment-header-5505" class="dsq-comment-header">
+            <cite id="dsq-cite-5505">
+                <span id="dsq-author-user-5505">javeedpasha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5505" class="dsq-comment-body">
+            <div id="dsq-comment-message-5505" class="dsq-comment-message"><p>very nice tutorial ..<br />
+Could you please provide the info on &#8220;How to integrate receiving files via Air drop?&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5867">
+        <div id="dsq-comment-header-5867" class="dsq-comment-header">
+            <cite id="dsq-cite-5867">
+                <span id="dsq-author-user-5867">grgmo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5867" class="dsq-comment-body">
+            <div id="dsq-comment-message-5867" class="dsq-comment-message"><p>Thanks for the tutorial.</p>
+<p>Just one question though, how do I share multiple images like photos app with top view containing images that you can select to share?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://appgong.com/1095/' rel='external nofollow' class='url'>iOS Programming Tutorial: Adding AirDrop File Sharing in Your Apps - appgong</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-17944">
+        <div id="dsq-comment-header-17944" class="dsq-comment-header">
+            <cite id="dsq-cite-17944">
+                <span id="dsq-author-user-17944">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17944" class="dsq-comment-body">
+            <div id="dsq-comment-message-17944" class="dsq-comment-message"><p>I have iPad 2 with me and I am not able to see any icon except mail&#8230;..what I want is I want to share with Google Drive or Box etc&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://lamyiucho.wordpress.com/2014/10/10/adding-airdrop-file-sharing-feature-to-your-ios-apps/' rel='external nofollow' class='url'>Adding AirDrop File Sharing Feature to Your iOS Apps | jolam</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://rss.kcygo.com/?p=27415' rel='external nofollow' class='url'>如何为iOS app添加AirDrop文件分享功能 | 网站采集</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-101136">
+        <div id="dsq-comment-header-101136" class="dsq-comment-header">
+            <cite id="dsq-cite-101136">
+                <span id="dsq-author-user-101136">Jean Chi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101136" class="dsq-comment-body">
+            <div id="dsq-comment-message-101136" class="dsq-comment-message"><p>I have a question:  Is there a way to import this file (which AirDrop to my iPhone) from an APP?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-101358">
+        <div id="dsq-comment-header-101358" class="dsq-comment-header">
+            <cite id="dsq-cite-101358">
+                <span id="dsq-author-user-101358">Darshan Mothreja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101358" class="dsq-comment-body">
+            <div id="dsq-comment-message-101358" class="dsq-comment-message"><p>provide the tutorial to share notes on Dropbox, Facebook and Gmail.<br />
+the tutorial you provide are off easy topics n all ..so please provide something like this which is in demand</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios7-airdrop-programming-tutorial/';
+var disqus_identifier = '2622 http://www.appcoda.com/?p=2622';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Adding AirDrop File Sharing Feature to Your iOS Apps";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=2622';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="2622"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios7-airdrop-programming-tutorial%2F&#038;t=Adding%20AirDrop%20File%20Sharing%20Feature%20to%20Your%20iOS%20Apps" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2622" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>67</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Adding%20AirDrop%20File%20Sharing%20Feature%20to%20Your%20iOS%20Apps&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-airdrop-programming-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2622" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>15</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios7-airdrop-programming-tutorial%2F&#038;t=Adding%20AirDrop%20File%20Sharing%20Feature%20to%20Your%20iOS%20Apps" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2622" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>5</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-airdrop-programming-tutorial%2F&#038;title=Adding%20AirDrop%20File%20Sharing%20Feature%20to%20Your%20iOS%20Apps" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2622" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>4</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios7-airdrop-programming-tutorial%2F&#038;t=Adding%20AirDrop%20File%20Sharing%20Feature%20to%20Your%20iOS%20Apps" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2622" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Adding%20AirDrop%20File%20Sharing%20Feature%20to%20Your%20iOS%20Apps&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-airdrop-programming-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2622" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios7-airdrop-programming-tutorial%2F&#038;t=Adding%20AirDrop%20File%20Sharing%20Feature%20to%20Your%20iOS%20Apps" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2622" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-airdrop-programming-tutorial%2F&#038;title=Adding%20AirDrop%20File%20Sharing%20Feature%20to%20Your%20iOS%20Apps" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2622" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios7-airdrop-programming-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="c9aaa5a6baac89fbb1e7b9a7ae">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":2622,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:24:51 by W3 Total Cache -->

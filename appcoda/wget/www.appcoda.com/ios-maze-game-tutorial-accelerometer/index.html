@@ -1,0 +1,748 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Creating a Simple Maze Game for iPhone - Intro to Accelerometer</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This iOS game programming tutorial shows you how to develop a simple maze game for iPhone. You&#039;ll also learn how to work with accelerometer."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-maze-game-tutorial-accelerometer/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This iOS game programming tutorial shows you how to develop a simple maze game for iPhone. You&#039;ll also learn how to work with accelerometer."/>
+<meta name="twitter:title" content="Creating a Simple Maze Game for iPhone - Intro to Accelerometer"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/05/Maze-Game-Part-2.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Simple Maze Game Part 2 &#8211; Using Accelerometer Comments Feed" href="http://www.appcoda.com/ios-maze-game-tutorial-accelerometer/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1772' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1772 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1772 post type-post status-publish format-standard hentry category-course category-tutorials tag-accelerometer tag-cabasicanimation tag-cmmotionmanager tag-core-motion tag-ios-programming tag-maze entry"><h1 class="entry-title">Simple Maze Game Part 2 &#8211; Using Accelerometer</h1> 
+<div class="post-info"><span class="date published time" title="2013-05-18T17:20:50+00:00">May 18, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/rafaelgarcia/" rel="author">Rafael Garcia</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-maze-game-tutorial-accelerometer/#comments"><span class="dsq-postid" data-dsqidentifier="1772 http://www.appcoda.com/?p=1772">16 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><em><strong>Editor&#8217;s note:</strong> This is part 2 of our simple Maze game series. We&#8217;ll continue to work on the maze game and you&#8217;ll learn how to interact with iPhone&#8217;s accelerometer.</em></p>
+<p>In the <a href="http://www.appcoda.com/ios-game-tutorial-maze-part-1/">first part of the maze game tutorial</a>, we set up all the elements needed for the game and we wrote the code to animate the ghost characters. In the second part we are going to show you how to use the accelerometer for moving the pacman.</p>
+<p>The iPhone&#8217;s built-in accelerometer has created tons of opportunities for iOS developers to create innovative and fun games. It is not uncommon you can find apps that allow user to control a game character by tilting an iPhone. And that&#8217;s what we&#8217;re going to do with our maze game. In this tutorial, we will give you a brief introduction of accelerometer, cover how to get access to the motion data by using the Core Motion framework and make the pacman move.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/05/Maze-Game-Part-2.jpg" alt="Maze Game Part 2" class="aligncenter size-full wp-image-1929" /></div>
+<p>Let&#8217;s get started.<br />
+<span id="more-1772"></span></p>
+<h2>Declaring Properties</h2>
+<p>The first thing we are going to do is to define the variables required for controlling the pacman movement. For the sake of simplicity, we have declared all the variables as properties, though in some cases it was not the best way to do so. Add the following code to the AppViewController.h file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>assign, nonatomic<span style="color: #002200;">&#41;</span> CGPoint currentPoint;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>assign, nonatomic<span style="color: #002200;">&#41;</span> CGPoint previousPoint;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>assign, nonatomic<span style="color: #002200;">&#41;</span> CGFloat pacmanXVelocity;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>assign, nonatomic<span style="color: #002200;">&#41;</span> CGFloat pacmanYVelocity;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>assign, nonatomic<span style="color: #002200;">&#41;</span> CGFloat angle;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>assign, nonatomic<span style="color: #002200;">&#41;</span> CMAcceleration acceleration;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> CMMotionManager &nbsp;<span style="color: #002200;">*</span>motionManager;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOperationQueue_Class/"><span style="color: #400080;">NSOperationQueue</span></a> <span style="color: #002200;">*</span>queue;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> <span style="color: #002200;">*</span>lastUpdateTime;</div></td></tr></tbody></table></div>
+<p>Let me briefly go through these variables:</p>
+<ul>
+<li><strong>currentPoint</strong> holds the current position of the pacman</li>
+<li><strong>previousPoint</strong> holds the position from where the pacman has been moved</li>
+<li><strong>pacmanXVelocity</strong> contains the X component of the velocity (remember that velocity is a vector), and <strong>pacmanYVelocity</strong> the Y component</li>
+<li><strong>angle</strong> is the current angle of pacman, since the sprite will rotate, as we will explain later on</li>
+<li><strong>acceleration</strong> is the current acceleration measured by the accelerometer</li>
+<li><strong>motionManager</strong> is a queue that helps us to receive and process the data sent from the accelerometer</li>
+<li><strong>lastUpdateTime</strong> allows us to control how long has been since the last call from the accelerometer</li>
+</ul>
+<h2>Managing the Accelerometer</h2>
+<p>Before we talk about iPhone&#8217;s built-in accelerometer, let&#8217;s give a brief introduction of accelerometer. As its name suggests, accelerometer measures acceleration. Here, the acceleration doesn&#8217;t refer to the rate of change of velocity as you may learn at school. Instead, it measures the force of acceleration, whether caused by gravity or by movement. In other words, when attached to iPhone, the accelerometer can measure the speed of movement and sense the angle at which it is being held.</p>
+<div class="note"><strong>Note:</strong> If you want to learn more about how iPhone&#8217;s accelerometer works, check out <a href="http://www.youtube.com/watch?feature=player_embedded&#038;v=KZVgKu6v808#!">this video</a>.</div>
+<p>You may know that Apple has added another sensor called gyroscope since the release of iPhone 4. If we want to know the precise orientation and movement of an iPhone, we should combine the measurement provided by the accelerometer and gyroscope. However, this sensor is out of the scope for this simple maze game. The accelerometer is just sufficient for detecting the device&#8217;s orientation.</p>
+<p>The iOS Core Motion framework allows developers to get motion data from device hardware and process that data. Here the hardware includes the accelerometer, magnetometer and gyroscope. By using the <a href="http://developer.apple.com/library/ios/#documentation/CoreMotion/Reference/CMMotionManager_Class/Reference/Reference.html">CMMotionManager</a> class, we can get the data detected by accelerometer at regular intervals or we can poll for them periodically. For this game we will use the later approach and get the data at regular intervals.</p>
+<h2>Get Motion Data Using CMMotionManager</h2>
+<p>Open the AppViewController.h file and add the following code to include the necessary header files:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;CoreMotion/CoreMotion.h&gt;</span></div></td></tr></tbody></table></div>
+<p>Also, define a new constant called kUpdateInterval. This constant specifies how often we want to poll for the data from the accelerometer. The more we poll for the data, the more precise is the pacman movement. That said, this also means more processor time and consumes more battery. In our case, the default value is 60 times per second, that is more than sufficient for a smooth pacman movement.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#define kUpdateInterval (1.0f / 60.0f)</span></div></td></tr></tbody></table></div>
+<p>Next, open the AppViewController.m file and come back to the viewDidLoad method. In this method, add the following code to initialize the accelerometer:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Movement of pacman</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.lastUpdateTime <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.currentPoint &nbsp;<span style="color: #002200;">=</span> CGPointMake<span style="color: #002200;">&#40;</span><span style="color: #2400d9;">0</span>, <span style="color: #2400d9;">144</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; self.motionManager <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CMMotionManager alloc<span style="color: #002200;">&#93;</span> &nbsp;init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.queue &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOperationQueue_Class/"><span style="color: #400080;">NSOperationQueue</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.motionManager.accelerometerUpdateInterval <span style="color: #002200;">=</span> kUpdateInterval;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.motionManager startAccelerometerUpdatesToQueue<span style="color: #002200;">:</span>self.queue withHandler<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp;<span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span>CMAccelerometerData <span style="color: #002200;">*</span>accelerometerData, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span> self setAcceleration<span style="color: #002200;">:</span>accelerometerData.acceleration<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>self performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>update<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>First, we initialize the lastUpdateTime to the current time and the currentPoint variable to the initial pacman position. Secondly, we create a CMMotionManager object that is the gateway to access the accelerometer data, followed by a <a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/NSOperationQueue_class/Reference/Reference.html">NSOperationQueue</a> object. The operation queue will be used to queue and dispatch the requests sent by the accelerometer.</p>
+<p>Lastly, we invoke <em>startAccelerometerUpdatesToQueue:</em> method to start accelerometer updates with the operation queue just created. For each accelerometer update, the handler as we specified will be called.</p>
+<p>In this case, the handler is not a normal call to a method. Instead we have to use a block declaration. The explanation of what is a block is out of the scope of this tutorial. However, if you are not familiar with blocks, just think of them as a function call. In the block, we simply save the current acceleration data (i.e. accelerometerData.acceleration) into the acceleration property and then it calls the <em>update:</em> method, that we&#8217;ll implement in the next section, to update the pacman&#8217;s position.</p>
+<h2>Moving the Pacman</h2>
+<p>What we have done so far is to retrieve the acceleration data and what we will do is to use that data to calculate the new position of the pacman. We will compute the new position of the pacman in the update: method. Add the following code in the AppViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>update <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; NSTimeInterval secondsSinceLastDraw <span style="color: #002200;">=</span> <span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>self.lastUpdateTime timeIntervalSinceNow<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.pacmanYVelocity <span style="color: #002200;">=</span> self.pacmanYVelocity <span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>self.acceleration.x <span style="color: #002200;">*</span> secondsSinceLastDraw<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; self.pacmanXVelocity <span style="color: #002200;">=</span> self.pacmanXVelocity <span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>self.acceleration.y <span style="color: #002200;">*</span> secondsSinceLastDraw<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; CGFloat xDelta <span style="color: #002200;">=</span> secondsSinceLastDraw <span style="color: #002200;">*</span> self.pacmanXVelocity <span style="color: #002200;">*</span> <span style="color: #2400d9;">500</span>;<br />
+&nbsp; &nbsp; CGFloat yDelta <span style="color: #002200;">=</span> secondsSinceLastDraw <span style="color: #002200;">*</span> self.pacmanYVelocity <span style="color: #002200;">*</span> <span style="color: #2400d9;">500</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.currentPoint <span style="color: #002200;">=</span> CGPointMake<span style="color: #002200;">&#40;</span>self.currentPoint.x <span style="color: #002200;">+</span> xDelta,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.currentPoint.y <span style="color: #002200;">+</span> yDelta<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self movePacman<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.lastUpdateTime <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> date<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The pacman&#8217;s new velocity vector depends on the previous velocity vector, the current acceleration vector (given by the accelerometer) and the time elapsed since the last calculation. In the previous section, we have configured the accelerometer to send data 60 times per second. However, this is only an approximation. For some reasons, we may get the data at irregular intervals. This is why we have to compute the time elapsed since the last call explicitly.</p>
+<p>Once we have the new velocity value we have to compute a delta vector with the change to be applied to pacman&#8217;s current position. This delta vector depends on the time elapsed, the current (just recalculated) velocity and a scaling factor (a fixed value of 500). We have to use this scaling factor since the delta vector is so small that the pacman sprite will barely move. The higher the scaling factor, the faster is the pacman moves.</p>
+<p>Finally, we tell pacman to move to its new position by invoking the <em>movePacman</em>: method. Add the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>movePacman <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.previousPoint <span style="color: #002200;">=</span> self.currentPoint;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; CGRect frame <span style="color: #002200;">=</span> self.pacman.frame;<br />
+&nbsp; &nbsp; frame.origin.x <span style="color: #002200;">=</span> self.currentPoint.x;<br />
+&nbsp; &nbsp; frame.origin.y <span style="color: #002200;">=</span> self.currentPoint.y;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.pacman.frame <span style="color: #002200;">=</span> frame;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The method is very straightforward. We just change the frame where the packman draws to its new position.</p>
+<h2>Pacman Rotation Using CABasicAnimation</h2>
+<p>The app should work now. If you try to run the app, however, you may find that the movement of the pacman seems a little bit static and unrealistic. Obviously, you expect the pacman to rotate while it&#8217;s moving around the maze. </p>
+<div id="attachment_1930" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/05/Maze-Game-Pacman-without-rotation.jpg" alt="Maze Game Pacman without rotation" class="size-full wp-image-1930" /><p class="wp-caption-text">Pacman won&#8217;t rotate and always faces the same direction</p></div>
+<p>Fortunately, we have already learnt about the CABasicAnimation object in the <a href="http://www.appcoda.com/ios-game-tutorial-maze-part-1/">previous tutorial</a>. We will add a few lines of code to make the pacman rotate. Copy the following code and add them to the end of the <em>movePacman:</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Rotate the sprite</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; CGFloat newAngle <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>self.pacmanXVelocity <span style="color: #002200;">+</span> self.pacmanYVelocity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">*</span> M_PI <span style="color: #002200;">*</span> <span style="color: #2400d9;">4</span>;<br />
+&nbsp; &nbsp; self.angle <span style="color: #002200;">+=</span> newAngle <span style="color: #002200;">*</span> kUpdateInterval;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; CABasicAnimation <span style="color: #002200;">*</span>rotate;<br />
+&nbsp; &nbsp; rotate &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>CABasicAnimation animationWithKeyPath<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;transform.rotation&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; rotate.fromValue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithFloat<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; rotate.toValue &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithFloat<span style="color: #002200;">:</span>self.angle<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; rotate.duration &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">=</span> kUpdateInterval;<br />
+&nbsp; &nbsp; rotate.repeatCount &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">=</span> <span style="color: #2400d9;">1</span>;<br />
+&nbsp; &nbsp; rotate.removedOnCompletion <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; rotate.fillMode &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">=</span> kCAFillModeForwards;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.pacman.layer addAnimation<span style="color: #002200;">:</span>rotate forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;10&quot;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>The calculation of the angle of rotation (newAngle) is a little bit tricky and it involves some mathematics. I had to play with different formulas until I came up with something that looks realistic. You can play with other formulas and see what happens. The important point here is that the rotation angle is not applied directly, instead we use an exponential transition from the old angle to the new one (self.angle += newAngle * kUpdateInterval), in this way we get a smoother rotation of pacman.</p>
+<p>Then we create the CABasicAnimation object. This time we say that the animation is a rotation (transform.rotation). The rotation angle goes from 0 to self.angle. We use kUpdateInterval as the duration that it is the expected time before we get a new angle. We specify that we only rotate once and that upon completion we should leave the graphic in its final state. Once we configure the CABasicAnimation object, we apply the animation to the pacman object. </p>
+<h2>Test the App</h2>
+<p>Okay, compile and run the app on a real iPhone. Yes, you need to physical iPhone to test the app as the Simulator doesn&#8217;t support the simulation of accelerometer. If the app works properly, you should see that pacman moves and rotates smoothly when tilting your iPhone. </p>
+<div id="attachment_1931" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/05/Maze-Game-Pacman-rotates.jpg" alt="Maze Game Pacman rotates" class="size-full wp-image-1931" /><p class="wp-caption-text">Pacman can now rotate as it moves</p></div>
+<h2>What&#8217;s Coming Next?</h2>
+<p>Wait, the app is buggy! Why the pacman can pass through walls and go beyond the screen?! We know that and we&#8217;ll leave the rest of the implementation to <a href="http://www.appcoda.com/ios-maze-game-programming-tutorial-collision-detection/">part 3 of the tutorials</a>. We&#8217;ve discussed quite a lot of stuffs in this tutorial and we think it&#8217;s time to take a break.</p>
+<p>For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/maze-game-part2.zip">download the full source code from here</a>. Stay tuned and we&#8217;ll soon publish the last tutorial of the maze game. </p>
+<p>As always, leave us comment and share your thought. We love to hear your feedback and further improve our tutorials.</p>
+<p><strong>Update:</strong> Check out <a href="http://www.appcoda.com/ios-maze-game-programming-tutorial-collision-detection/">part 3 of the maze game tutorials</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-customize-uitableview-storyboard/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/01/Storyboard-Empty-TableViewController-e1357451913959-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Customize UITableView and UITableViewCell Background using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/customize-navigation-status-bar-ios-7/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/10/custom-navigation-bar-iOS-7-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Customizing Navigation Bar and Status Bar in iOS 7</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uialertcontroller-swift-closures-enum/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to UIAlertController, Swift Closures and Enumeration</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/handoff-continuation-streams/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/12/handoff-stream-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with iOS 8 Handoff Part 2: Using Continuation Streams</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-maze-game-tutorial-accelerometer/"
+    dc:identifier="http://www.appcoda.com/ios-maze-game-tutorial-accelerometer/"
+    dc:title="Simple Maze Game Part 2 &#8211; Using Accelerometer"
+    trackback:ping="http://www.appcoda.com/ios-maze-game-tutorial-accelerometer/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/accelerometer/" rel="tag">accelerometer</a>, <a href="http://www.appcoda.com/tag/cabasicanimation/" rel="tag">cabasicanimation</a>, <a href="http://www.appcoda.com/tag/cmmotionmanager/" rel="tag">CMMotionManager</a>, <a href="http://www.appcoda.com/tag/core-motion/" rel="tag">core motion</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/maze/" rel="tag">maze</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-1611">
+        <div id="dsq-comment-header-1611" class="dsq-comment-header">
+            <cite id="dsq-cite-1611">
+                <span id="dsq-author-user-1611">LittlePeculiar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1611" class="dsq-comment-body">
+            <div id="dsq-comment-message-1611" class="dsq-comment-message"><p>Loved it. You explain everything so well. &#8211; THANKS <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1614">
+        <div id="dsq-comment-header-1614" class="dsq-comment-header">
+            <cite id="dsq-cite-1614">
+http://www.facebook.com/ashokdy                <span id="dsq-author-user-1614">Ashok Chakravarthi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1614" class="dsq-comment-body">
+            <div id="dsq-comment-message-1614" class="dsq-comment-message"><p>you helped me a lot thank you so much</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1630">
+        <div id="dsq-comment-header-1630" class="dsq-comment-header">
+            <cite id="dsq-cite-1630">
+                <span id="dsq-author-user-1630">Doug Leonard</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1630" class="dsq-comment-body">
+            <div id="dsq-comment-message-1630" class="dsq-comment-message"><p>You need to add instruction to add this line of code: #import </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2609">
+        <div id="dsq-comment-header-2609" class="dsq-comment-header">
+            <cite id="dsq-cite-2609">
+                <span id="dsq-author-user-2609">Sandeep Chavarkar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2609" class="dsq-comment-body">
+            <div id="dsq-comment-message-2609" class="dsq-comment-message"><p>Thanks. Your suggestion saved time.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1632">
+        <div id="dsq-comment-header-1632" class="dsq-comment-header">
+            <cite id="dsq-cite-1632">
+                <span id="dsq-author-user-1632">Anh Vuong</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1632" class="dsq-comment-body">
+            <div id="dsq-comment-message-1632" class="dsq-comment-message"><p>part 3</p>
+<p>part 3</p>
+<p>Thank so much !</p>
+<p>^^</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1644">
+        <div id="dsq-comment-header-1644" class="dsq-comment-header">
+            <cite id="dsq-cite-1644">
+http://www.simonblog.com                <span id="dsq-author-user-1644">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1644" class="dsq-comment-body">
+            <div id="dsq-comment-message-1644" class="dsq-comment-message"><p>Part 3 is now here: <a href="http://www.appcoda.com/ios-maze-game-programming-tutorial-collision-detection/" rel="nofollow">http://www.appcoda.com/ios-maze-game-programming-tutorial-collision-detection/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1940">
+        <div id="dsq-comment-header-1940" class="dsq-comment-header">
+            <cite id="dsq-cite-1940">
+                <span id="dsq-author-user-1940">mamun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1940" class="dsq-comment-body">
+            <div id="dsq-comment-message-1940" class="dsq-comment-message"><p>Why not pacman moving? Plz explain asap&#8230;..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-43727">
+        <div id="dsq-comment-header-43727" class="dsq-comment-header">
+            <cite id="dsq-cite-43727">
+                <span id="dsq-author-user-43727">Alex</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-43727" class="dsq-comment-body">
+            <div id="dsq-comment-message-43727" class="dsq-comment-message"><p>Have you tried it on real device?<br />
+Accelerator is not working in iOS simulator.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1941">
+        <div id="dsq-comment-header-1941" class="dsq-comment-header">
+            <cite id="dsq-cite-1941">
+                <span id="dsq-author-user-1941">mamun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1941" class="dsq-comment-body">
+            <div id="dsq-comment-message-1941" class="dsq-comment-message"><p>update method not firing&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2292">
+        <div id="dsq-comment-header-2292" class="dsq-comment-header">
+            <cite id="dsq-cite-2292">
+                <span id="dsq-author-user-2292">Hank Yang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2292" class="dsq-comment-body">
+            <div id="dsq-comment-message-2292" class="dsq-comment-message"><p>if there is any method to use the simulator to run the app ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2598">
+        <div id="dsq-comment-header-2598" class="dsq-comment-header">
+            <cite id="dsq-cite-2598">
+                <span id="dsq-author-user-2598">tanu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2598" class="dsq-comment-body">
+            <div id="dsq-comment-message-2598" class="dsq-comment-message"><p>paceman is not moving. Update method is not firing .. can u plz explain.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2605">
+        <div id="dsq-comment-header-2605" class="dsq-comment-header">
+            <cite id="dsq-cite-2605">
+                <span id="dsq-author-user-2605">tanu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2605" class="dsq-comment-body">
+            <div id="dsq-comment-message-2605" class="dsq-comment-message"><p>Anyone can please provide a quick update in my post ?   eagerly I am looking for that .. <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3468">
+        <div id="dsq-comment-header-3468" class="dsq-comment-header">
+            <cite id="dsq-cite-3468">
+                <span id="dsq-author-user-3468">Coen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3468" class="dsq-comment-body">
+            <div id="dsq-comment-message-3468" class="dsq-comment-message"><p>Hello can someone help me with this error?</p>
+<p>i have done all steps above but i get the next error:</p>
+<p>&#8211; (void)movePacman {</p>
+<p>self.previousPoint = self.currentPoint;</p>
+<p>    CGRect frame = self.pacman.frame;    &lt;&#8212;&#8212;&#8212;&#8212;&#8212;- No getter method for read from property </p>
+<p>    frame.origin.x = self.currentPoint.x;</p>
+<p>    frame.origin.y = self.currentPoint.y;</p>
+<p>    self.pacman.frame = frame;    &lt;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212; No getter method for read from property </p>
+<p>}</p>
+<p>Thanks a lot</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4092">
+        <div id="dsq-comment-header-4092" class="dsq-comment-header">
+            <cite id="dsq-cite-4092">
+                <span id="dsq-author-user-4092">sandeep gupta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4092" class="dsq-comment-body">
+            <div id="dsq-comment-message-4092" class="dsq-comment-message"><p>Can Any One Help Me ! My Pacman is not moving  <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22867">
+        <div id="dsq-comment-header-22867" class="dsq-comment-header">
+            <cite id="dsq-cite-22867">
+                <span id="dsq-author-user-22867">Dave</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22867" class="dsq-comment-body">
+            <div id="dsq-comment-message-22867" class="dsq-comment-message"><p>where is there (id) cast in the line:<br />
+[(id) self setAcceleration:accelerometerData.acceleration];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99574">
+        <div id="dsq-comment-header-99574" class="dsq-comment-header">
+            <cite id="dsq-cite-99574">
+                <span id="dsq-author-user-99574">OctoBaig</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99574" class="dsq-comment-body">
+            <div id="dsq-comment-message-99574" class="dsq-comment-message"><p><a href="https://github.com/MHaroonBaig/MotionKit" rel="nofollow">https://github.com/MHaroonBaig/MotionKit</a> My CoreMotion wrapper to make things a little bit easy.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-maze-game-tutorial-accelerometer/';
+var disqus_identifier = '1772 http://www.appcoda.com/?p=1772';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Simple Maze Game Part 2 &#8211; Using Accelerometer";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1772';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1772"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-maze-game-tutorial-accelerometer%2F&#038;t=Simple%20Maze%20Game%20Part%202%20%E2%80%93%20Using%20Accelerometer" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="facebook" data-post_id="1772" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Simple%20Maze%20Game%20Part%202%20%E2%80%93%20Using%20Accelerometer&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-maze-game-tutorial-accelerometer%2F&#038;via=appcodamobile" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="twitter" data-post_id="1772" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-maze-game-tutorial-accelerometer%2F&#038;t=Simple%20Maze%20Game%20Part%202%20%E2%80%93%20Using%20Accelerometer" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="googleplus" data-post_id="1772" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-maze-game-tutorial-accelerometer%2F&#038;title=Simple%20Maze%20Game%20Part%202%20%E2%80%93%20Using%20Accelerometer" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="linkedin" data-post_id="1772" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-maze-game-tutorial-accelerometer%2F&#038;t=Simple%20Maze%20Game%20Part%202%20%E2%80%93%20Using%20Accelerometer" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1772" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Simple%20Maze%20Game%20Part%202%20%E2%80%93%20Using%20Accelerometer&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-maze-game-tutorial-accelerometer%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1772" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-maze-game-tutorial-accelerometer%2F&#038;t=Simple%20Maze%20Game%20Part%202%20%E2%80%93%20Using%20Accelerometer" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1772" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-maze-game-tutorial-accelerometer%2F&#038;title=Simple%20Maze%20Game%20Part%202%20%E2%80%93%20Using%20Accelerometer" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1772" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-maze-game-tutorial-accelerometer\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:25:08 by W3 Total Cache -->

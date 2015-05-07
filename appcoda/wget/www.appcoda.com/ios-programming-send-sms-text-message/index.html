@@ -1,0 +1,558 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming Tutorial: How to Send SMS Text Message in Apps</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This short programming tutorial shows you how to send SMS text message in iPhone apps. The MessageUI framework provides MFMessageComposeViewController to bring up a standard message interface."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-send-sms-text-message/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This short programming tutorial shows you how to send SMS text message in iPhone apps. The MessageUI framework provides MFMessageComposeViewController to bring up a standard message interface."/>
+<meta name="twitter:title" content="iOS Programming Tutorial: How to Send SMS Text Message in Apps"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/07/SMSDemo-Featured.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; iOS Programming 101: How To Send SMS Text Message in iPhone Apps Comments Feed" href="http://www.appcoda.com/ios-programming-send-sms-text-message/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=2107' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-2107 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-2107 post type-post status-publish format-standard hentry category-ios-programming-101 category-tutorials tag-ios-programming tag-messageui-framework tag-mfmessagecomposeviewcontroller tag-sms entry"><h1 class="entry-title">iOS Programming 101: How To Send SMS Text Message in iPhone Apps</h1> 
+<div class="post-info"><span class="date published time" title="2013-07-13T22:23:50+00:00">July 13, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-send-sms-text-message/#comments"><span class="dsq-postid" data-dsqidentifier="2107 http://www.appcoda.com/?p=2107">7 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>This is a quick follow-up to the <a href="http://www.appcoda.com/ios-programming-create-email-attachment/">previous post</a> on email attachment. Some of you mentioned if we can write a short tutorial about sending SMS text messages within iOS apps. So here we go.</p>
+<p>Not only designed for email, the Message UI framework also provides specialized view controller for developers to present standard interface for composing SMS text message within apps. While you use MFMailComposeViewController class for email, the framework provides another class named <a href="http://developer.apple.com/library/ios/#documentation/MessageUI/Reference/MFMessageComposeViewController_class/Reference/Reference.html">MFMessageComposeViewController</a> for handling text message. </p>
+<p>Basically the usage of MFMessageComposeViewController is very similar to the mail composer class. If you&#8217;ve read the tutorials about <a href="http://www.appcoda.com/ios-programming-101-send-email-iphone-app/">sending email</a> or <a href="http://www.appcoda.com/ios-programming-create-email-attachment/">creating email with attachment</a>, you shouldn&#8217;t have any problem with the class. Anyway, we&#8217;ll go through the MFMessageComposeViewController class and demonstrate its usage using a simple app.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/SMSDemo-Featured.jpg" alt="SMSDemo Featured" class="aligncenter size-full wp-image-2115" /><br />
+<span id="more-2107"></span></div>
+<h2>Demo App</h2>
+<p>We&#8217;ll reuse the previous demo app but tweak it a bit. The app still displays a list of files in table format. However, instead of showing up the mail composer, the app will bring up the message interface with pre-populated message content when user taps any of the table rows. </p>
+<h2>Getting Started</h2>
+<p>To save your time from creating the Xcode project, you can <a href="https://dl.dropboxusercontent.com/u/2857188/SMSDemoEmpty.zip">download the project template</a> to begin the coding. We&#8217;ve pre-built the Storyboard and already loaded the table view for you.</p>
+<div class="note">Tip: If you&#8217;re a starter of iOS SDK, you&#8217;re encouraged to build the project from scratch. We have a number of programming tutorials to help you learn about table view and storyboard. Check out our <a href="http://www.appcoda.com/ios-programming-course/">free iOS programming course</a> to find out.</div>
+<h2>Importing the MessageUI Framework</h2>
+<p>First, import the MessageUI framework into the project. </p>
+<div id="attachment_2111" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/Import-MessageUI-Framework.jpg" alt="Import MessageUI Framework" class="size-full wp-image-2111" /><p class="wp-caption-text">Import MessageUI Framework</p></div>
+<h2>Implementing the Delegate</h2>
+<p>Go to the &#8220;AttachmentTableViewController.m&#8221;. Add the following code to import the MessageUI header and implement the MFMessageComposeViewControllerDelegate:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;MessageUI/MessageUI.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> AttachmentTableViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> &lt;MFMessageComposeViewControllerDelegate&gt;</div></td></tr></tbody></table></div>
+<p>The MFMessageComposeViewControllerDelegate protocol defines a single method which will be called when user finishes composing an SMS message. We have to provide the implementation of the method and handle various situations:</p>
+<ol>
+<li>User cancels the editing of SMS</li>
+<li>User taps send button and the SMS is sent successfully</li>
+<li>User taps send button but the SMS is failed to send</li>
+</ol>
+<p>Add the below code in the &#8220;AttachmentTableViewController.m&#8221;. Here, we displays an alert message when the situation 3. For other cases, we simply dismiss the message composer.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>messageComposeViewController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>MFMessageComposeViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>controller didFinishWithResult<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>MessageComposeResult<span style="color: #002200;">&#41;</span> result<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">switch</span> <span style="color: #002200;">&#40;</span>result<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> MessageComposeResultCancelled<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">break</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> MessageComposeResultFailed<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIAlertView <span style="color: #002200;">*</span>warningAlert <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Error&quot;</span> message<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Failed to send SMS!&quot;</span> delegate<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;OK&quot;</span> otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>warningAlert show<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">break</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> MessageComposeResultSent<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">break</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">default</span><span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">break</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Bring Up the Message Composer</h2>
+<p>When user selects any of the rows, we&#8217;ll retrieve the selected file and call up a custom  method to bring up the message composer. Update the &#8220;didSelectRowAtIndexPath:&#8221; method with the below code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView didSelectRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>selectedFile <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_files objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self showSMS<span style="color: #002200;">:</span>selectedFile<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The &#8220;showSMS:&#8221; method is the core code to initialize and populate the default content of the SMS text message. Add the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>showSMS<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>file <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>MFMessageComposeViewController canSendText<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; UIAlertView <span style="color: #002200;">*</span>warningAlert <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Error&quot;</span> message<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Your device doesn't support SMS!&quot;</span> delegate<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;OK&quot;</span> otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>warningAlert show<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>recipents <span style="color: #002200;">=</span> @<span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;12345678&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;72345524&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>message <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Just sent the %@ file to your email. Please check!&quot;</span>, file<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; MFMessageComposeViewController <span style="color: #002200;">*</span>messageController <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>MFMessageComposeViewController alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; messageController.messageComposeDelegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>messageController setRecipients<span style="color: #002200;">:</span>recipents<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>messageController setBody<span style="color: #002200;">:</span>message<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Present message view controller on screen</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>messageController animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Though most of the iOS devices should be capable of sending text message, as a programmer, you should cater for the exception. What if your app is used by an iPod touch with iMessages disabled? In this case, it&#8217;s obvious the device can&#8217;t send text message. So at the very beginning of the code, we verify if the device is allowed to send text message by using the &#8220;canSendText&#8221; method of the MFMessageComposeViewController. </p>
+<p>The rest of the code is very straightforward and similar to the one you did in the email tutorial. You can pre-populate multiple recipients (i.e. the phone numbers) in the text message. For the message body, it supports textual content only.</p>
+<p>With the content ready, simply invoke &#8220;presentModalViewController:&#8221; to bring up the message composer.</p>
+<h2>Compile and Run the App</h2>
+<p>That&#8217;s it! Simple and easy. You can now run the app and test it out. But please note you have to test the app on a real iOS device. The Simulator doesn&#8217;t allow you to send SMS.</p>
+<div id="attachment_2112" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/07/SMSDemo-App.jpg" alt="SMSDemo App" class="size-full wp-image-2112" /><p class="wp-caption-text">SMSDemo App</p></div>
+<h2>What if You Don&#8217;t Want In-App SMS</h2>
+<p>The above implementation provides a seamless integration of SMS feature in your app. But what if you just want to redirect to the default Messages app and send text message? It&#8217;s even simpler. You can do that by a single line of code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIApplication sharedApplication<span style="color: #002200;">&#93;</span> openURL<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;sms:98765432&quot;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>In iOS, you&#8217;re allowed to communicate with other apps by using URL. The mobile OS already comes with built-in support of the http, mailto, tel, and sms URL schemes. When you open a HTTP URL, iOS by default launches the URL via Safari. If you want to open the Messages app, you can use the sms URL schedule and specify the recipient. However, such URL scheme doesn&#8217;t allow you to put default content.</p>
+<h2>Wrap Up</h2>
+<p>In this tutorial, we show you a simple way to send text message within your app. For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/SMSDemo.zip">download the full source code here</a>.</p>
+<p>As always, we love to hear your feedback. Feel free to leave us comment and share your thought about the tutorial.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-how-to-customize-tab-bar-background-appearance/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/12/Sample-Custom-Tabs-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Customize Tab Bar Background and Appearance</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-game-tutorial-maze-part-1/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/Simple-Maze-Game-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating a Simple Maze Game for iPhone - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/intro-uikit-dynamics-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/uikit-dynamics-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Adding Animated Effects to iOS App Using UIKit Dynamics</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/view-animation-in-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/02/view-animations-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Simple View Animations in Swift</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-send-sms-text-message/"
+    dc:identifier="http://www.appcoda.com/ios-programming-send-sms-text-message/"
+    dc:title="iOS Programming 101: How To Send SMS Text Message in iPhone Apps"
+    trackback:ping="http://www.appcoda.com/ios-programming-send-sms-text-message/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/ios-programming-101/" rel="category tag">iOS Programming 101</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/messageui-framework/" rel="tag">MessageUI Framework</a>, <a href="http://www.appcoda.com/tag/mfmessagecomposeviewcontroller/" rel="tag">MFMessageComposeViewController</a>, <a href="http://www.appcoda.com/tag/sms/" rel="tag">sms</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="post pingback">
+        <p>Pingback: <a href='http://cg2010studio.wordpress.com/2014/05/31/ios-%e5%82%b3%e9%80%81%e7%b0%a1%e8%a8%8a-send-message/' rel='external nofollow' class='url'>[iOS] 傳送簡訊 (Send Message) | 逍遙文工作室</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://richardmcateer.wordpress.com/2014/10/22/mfmail-and-mfmessage/' rel='external nofollow' class='url'>MFMail and MFMessage | Flatiron School Blog</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://blog.maxpalma.com/tech/apple/xcode/ios-mashup-best-links-tutorials/' rel='external nofollow' class='url'>iOS Mashup of the Best Links and Tutorials - Max &quot;Maximus&quot; Palma Blog</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-97441">
+        <div id="dsq-comment-header-97441" class="dsq-comment-header">
+            <cite id="dsq-cite-97441">
+                <span id="dsq-author-user-97441">Gleidson Oliveira</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97441" class="dsq-comment-body">
+            <div id="dsq-comment-message-97441" class="dsq-comment-message"><p>how can I do to get the number saved, when you send a sms already be without re-typing the number?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99955">
+        <div id="dsq-comment-header-99955" class="dsq-comment-header">
+            <cite id="dsq-cite-99955">
+                <span id="dsq-author-user-99955">ajay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99955" class="dsq-comment-body">
+            <div id="dsq-comment-message-99955" class="dsq-comment-message"><p>hai.</p>
+<p> when i clicked a send button in Mf message controller i have to perform one method if message sends failed  i have to perform another method . THE QUESTION IS  &#8230; I clicked send button and  the message send fails. i check in the delegate method when i cliked send delegate methods calls . when message sends fail  no delegate method s calling. is there any other solution to find that message send successfully or failed . Please Give Suggestion.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://sanjivmusing.wordpress.com/2015/04/10/hello-world/' rel='external nofollow' class='url'>Hello world! | sanjivmusing</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-89243">
+        <div id="dsq-comment-header-89243" class="dsq-comment-header">
+            <cite id="dsq-cite-89243">
+                <span id="dsq-author-user-89243">Praveen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-89243" class="dsq-comment-body">
+            <div id="dsq-comment-message-89243" class="dsq-comment-message"><p>what is imgdata here? please explain</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-send-sms-text-message/';
+var disqus_identifier = '2107 http://www.appcoda.com/?p=2107';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "iOS Programming 101: How To Send SMS Text Message in iPhone Apps";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=2107';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="2107"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-send-sms-text-message%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Send%20SMS%20Text%20Message%20in%20iPhone%20Apps" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2107" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>52</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20How%20To%20Send%20SMS%20Text%20Message%20in%20iPhone%20Apps&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-send-sms-text-message%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2107" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>12</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-send-sms-text-message%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Send%20SMS%20Text%20Message%20in%20iPhone%20Apps" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2107" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>3</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-send-sms-text-message%2F&#038;title=iOS%20Programming%20101%3A%20How%20To%20Send%20SMS%20Text%20Message%20in%20iPhone%20Apps" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2107" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>3</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-send-sms-text-message%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Send%20SMS%20Text%20Message%20in%20iPhone%20Apps" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2107" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20How%20To%20Send%20SMS%20Text%20Message%20in%20iPhone%20Apps&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-send-sms-text-message%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2107" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-send-sms-text-message%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Send%20SMS%20Text%20Message%20in%20iPhone%20Apps" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2107" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-send-sms-text-message%2F&#038;title=iOS%20Programming%20101%3A%20How%20To%20Send%20SMS%20Text%20Message%20in%20iPhone%20Apps" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2107" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-send-sms-text-message\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:38:34 by W3 Total Cache -->

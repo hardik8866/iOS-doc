@@ -1,0 +1,1193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Integrate Game Center Leaderboard Using Game Kit Framework in iOS 7</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This iOS programming tutorial gives an introduction to Game Center and Game Kit framework. You&#039;ll learn how to add achievement and leaderboard in iOS apps."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-game-kit-framework/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This iOS programming tutorial gives an introduction to Game Center and Game Kit framework. You&#039;ll learn how to add achievement and leaderboard in iOS apps."/>
+<meta name="twitter:title" content="Integrate Game Center Leaderboard Using Game Kit Framework in iOS 7"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/02/GameCenterFeatured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Working with Game Center and Game Kit Framework Comments Feed" href="http://www.appcoda.com/ios-game-kit-framework/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=3064' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-3064 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-3064 post type-post status-publish format-standard hentry category-course category-intermediate category-tutorials tag-game-center tag-gamekit tag-ios-programming tag-xcode-5 entry"><h1 class="entry-title">Working with Game Center and Game Kit Framework</h1> 
+<div class="post-info"><span class="date published time" title="2014-03-01T10:51:07+00:00">March 1, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-game-kit-framework/#comments"><span class="dsq-postid" data-dsqidentifier="3064 http://www.appcoda.com/?p=3064">24 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>On App Store, the most popular app category among all is the Games category, something that even Apple accepts as a fact. And how this couldn&#8217;t be true, regarding that all or almost all iOS users have downloaded and played one or more games, at least one time? Personally, I&#8217;m quite confident that those users who haven&#8217;t (still) played a game, are limited from very few to none. There are various kind of game players, from the fanatic ones, until those who play from time to time, as well as numerous kind of games. However, there is one common element, no matter what kind of player each of us is, or what kind of games we like to play: Games are much more interesting when they allow players to achieve goals, or when they allow to compete or play against other players. In iOS (and MacOS), this comes true through the <strong><a href="https://developer.apple.com/game-center/">Game Center</a></strong> network Apple provides, and through the <strong><a href="https://developer.apple.com/library/ios/documentation/GameKit/Reference/GameKit_Collection/_index.html">GameKit Framework</a></strong>.</p>
+<p>Let&#8217;s take things from the beginning, and let&#8217;s talk a bit about the Game Center. One could describe it as a <em>social gaming network</em> that offers multiplaying features, available for and used from iOS and MacOS users. Achievements, leaderboards, multiplayer gaming are some of those features. It was made available along with the iOS 4.1, and since then it&#8217;s been updated with new gaming options. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/GameCenterFeatured.jpg" alt="GameCenter Featured" class="aligncenter size-full wp-image-3113" /></div>
+<p>The features supported and provided by Game Center could be synopsized in the following list:</p>
+<ul>
+<li><strong>Leaderboards</strong>: It is a database that keeps score data. Its purpose is to allow users post their scores in a game and compare them with other players&#8217; scores. It actually measures how well a player does in a game.</li>
+<li><strong>Achievements</strong>: These are goals set in a game that players try to exceed during the gameplay. Achievements give players a motivation to keep playing, earn as many of them as possible, and compare them with other players&#8217; too. The noteworthy about achievements is that they are measured in <em>points</em>. A total of 1000 points are given to game creators in order to use them the way they want, with 100 points in maximum per achievement. Each game may use as many points as it&#8217;s needed, and the way it&#8217;s needed. Later on, we will see in practice how all these work.</li>
+<li><strong>Multiplayer</strong>: This one supports a range of other sub-features, such as <em>challenges</em>, where players compete each other on either a score challenge or an achievement challenge, and <em>matchmaking</em> games for <em>real-time, turn-based, or self-hosted</em> matches.</li>
+</ul>
+<p><span id="more-3064"></span><br />
+Developing games that incorporate Game Center features is not hard, but it&#8217;s quite important to make clear that is a two-step process: The first one is to implement the game (of course) and integrate all those Game Kit framework&#8217;s libraries that should make it work with Game Center. On the other hand, the second step which should be done before you implement any Game kit-related features on your project, is to create your new app&#8217;s record on the <em>iTunes Connect</em>, enable the Game Center support and <em>setup any leaderboards and achievements</em> you want for your game. It&#8217;s not difficult to do all these, even if it seems so. If you do it once, then integrating Game Center features could be a piece of cake to everyone. Moreover, the good news is that Xcode 5 makes some of the job automatically for us, as for example to auto-create the required App ID, make the Game Kit configuration on Xcode, and more.</p>
+<p>In this tutorial we are going to see how the leaderboards and achievements can be implemented into a game, and how Game Kit framework is used in order to give a simple game another dimension. I am intentionally not going to deal with multiplayer games, as there are so many aspects to be presented, and that wouldn&#8217;t require just one tutorial. After all, this is an introduction on how to make use of Game Center and Game Kit. However, I strongly recommend to visit the <a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/GameKit_Guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008304-CH1-SW1" target="_blank">official documentation from Apple</a>, especially if you are new to all these, so in combination with this tutorial to get the max out of the Game Center.</p>
+<p>So, after having made this short prelude on today&#8217;s topic, let&#8217;s keep moving to see everything in action. All of you, readers, keep on reading to discover great and cool new stuff!</p>
+<h2>App Overview</h2>
+<p>The sample app of this tutorial is going to be a very simple game, which will display <em>additions</em> and it will provide three possible answers that a player can choose from, of which just one will be the correct one. Don&#8217;t expect to see any special graphics or visual effects, as our goal is something completely different than a good-looking interface. Before I go into more details, here is a screenshot of it:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_1_sample.jpg" alt="Game Kit and Game Center Demo" class="aligncenter size-full wp-image-3079" /></div>
+<p>In order to totally focus on the Game Center features without be distracted from the game itself, you can <a href="https://dl.dropboxusercontent.com/u/2857188/GKDemo-Starter.zip">download a <em>starter application</em></a> with the game&#8217;s basics already developed. Having it as a starting point we&#8217;ll add step by step all the GameKit-related stuff until the end of the tutorial.</p>
+<p>Right next, are presented all the game&#8217;s features as a list, so you get to know what we are going to work with:</p>
+<ul>
+<li>Each addition will consist of two integer numbers randomly produced. Each number (operand) can have up to 2 digits.</li>
+<li>Three buttons right below the addition label will display three possible answers. Just one is the correct one.</li>
+<li>The game keeps track of <em>scores</em>. Each correct answer will give 10 points to the player.</li>
+<li><em>Levels</em> are supported by the game. Actually, nothing different is going to happen from level to level, but they exist so we can better understand the achievements later on. Also, each level has 5 rounds (something that you can change in code).</li>
+<li>A <em>timer</em> makes the game more interesting and provides a time frame of 60 seconds for all rounds of a level to be completed. When a new level begins, the timer starts counting from 1 again. If the time is up, the game ends.</li>
+<li>Three <em>&#8220;lives&#8221;</em> are available to the player. When a wrong answer is given, a life is lost. When all lives have been consumed, the game ends.</li>
+<li>The game starts by using a <em>bar button item</em> at the toolbar lying at the bottom of the view. Using the same button (which changes title from <em>Start</em> to <em>Stop</em>) the player can stop the game (stop, meaning end the game, not pause for simplicity reasons).</em></li>
+<li>Another bar button item existing in the toolbar will become working later on this tutorial, that will display Game Center related tasks. These are going to be: <em>View Leaderboard, View Achievements and Reset Achievements</em>. In the starter app, this button is not working as there is no any Game Center functionality available.</li>
+</ul>
+<p>Before I reach the end of this section, I would also like to say a couple of words regarding this tutorial. We&#8217;ll begin working by performing some tasks on Xcode, but generally the whole content can conceivably break in two parts: In the first one, we&#8217;ll do some necessary preparationi work on <em>iTunes Connect</em>, where we will create a new record for our sample app, we&#8217;ll enable Game Center there, and we&#8217;ll create and configure the leaderboard and the achievements of the game. The second part regards the programming work needed to be done, so our game be able to work with Game Center.</p>
+<h2>Get the Xcode Project Template and Resources</h2>
+<p>Before doing any actual work, it&#8217;s necessary to download the starter app if you want to manage to come along in this tutorial. So fetch it, and run it to see how it works. Also, look at the code which, as you&#8217;ll find out, is easy enough and documented. Generally, familiarize yourself with the app before we add any Game Center capabilities so you know how to move in the various parts of the given code.</p>
+<p>It&#8217;s important to mention that in the project you will find a class named <em>CustomActionSheet</em>. That&#8217;s a custom-made class that I presented in a <a href="http://www.appcoda.com/objective-c-blocks-tutorial/" target="_blank">previous tutorial regarding blocks</a>, and I imported here because I wanted to deal with a completion handler and have a shorter code instead of using the default delegate methods of the action sheet. It&#8217;s not necessary to go in more details about it, you may take a look at that tutorial.</p>
+<p>Finally, you should also <a href="https://dl.dropboxusercontent.com/u/2857188/GameKitTutImages.zip">download some images</a> that you will need along the way, during the app setup on iTunes Connect.</p>
+<h2>Automate Tasks Using Xcode</h2>
+<p>Xcode 5 has accepted great improvements, and some of them include the ability to perform certain tasks automatically, such as to create a new App ID for the application you develop, without you have to visit your Apple developer&#8217;s account and do it manually. The only basic precondition is to have it provided with your Apple ID info, and everything will be done for you. Adding your Apple ID to Xcode is easy, and here is how it&#8217;s done:</p>
+<p>Initially, click on the <strong>Xcode menu > Preferences&#8230;</strong> to let the preferences window appear. At the top of it, there are various tabs, each one with a specific icon and a name. What we care about is the <strong>Accounts</strong> tab, so click it to make the contents behind it appear.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_2_accounts_tab.jpg" alt="Xcode Account tab" class="aligncenter size-full wp-image-3080" /></div>
+<p>Now, go to the bottom-left corner of the window, and click on the button with the + symbol. A small menu appears, containing three options:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_3_add_appleID.jpg" alt="GameKit - Add Apple ID in Xcode" class="aligncenter size-full wp-image-3081" /></div>
+<p>Click on the <strong>Add Apple ID&#8230;</strong> option, and in the small window that appears enter your Apple ID and Password values. When you&#8217;re done, click on the Add button.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_4_enter_AppleID_info.jpg" alt="GameKit Demo - Enter Apple ID" class="aligncenter size-full wp-image-3082" /></div>
+<p>The Accounts window should now look somehow similar to this:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_5_accounts_with_AppleID.jpg" alt="GameKit Demo - Accounts with Apple ID" class="aligncenter size-full wp-image-3083" /></div>
+<p>If you click on the <strong>View Details&#8230;</strong> button at the bottom-right corner of the window (make sure first to select your name), a new window will appear where you&#8217;ll find all of your Signing Identities and Provisioning Profiles. If you want take a look around, and when you are finished click on the Done button to close that window, and then close the Preferences window as well.</p>
+<p>Now, on the <strong>Project Navigator</strong>, click on the project target, and look at the <strong>Identity</strong> section, under the <strong>General</strong> tab.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_6_general_team.jpg" alt="Xcode Project - General Team" class="aligncenter size-full wp-image-3084" /></div>
+<p>In there, there is a drop down menu named <strong>Team</strong>. If you open it, you should see your developer name inside it. Select it, and allow that way Xcode to use it in order to access your developer account behind the scenes and create the App ID automatically. Note though that this won&#8217;t happen simply by selecting your developer name.</p>
+<p>What you have to do, is to click on the <strong>Capabilities</strong> tab at the top of Xcode, and in the list of all the provided capabilities, expand the <strong>Game Center</strong> row (second from the top) to see what will happen if you turn the respective <em>switch</em> on.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_7_gamecenter_capability.jpg" alt="Xcode Project - Add Game Center Capability" class="aligncenter size-full wp-image-3085" /></div>
+<p>Besides all the described information, Xcode will also create the App ID, which we will use in a while to create an application record on iTunes Connect. So, turn on the switch, and sit back for a while until Xcode gets finished with any preparations been made in the background.</p>
+<div class="note">
+Note: Don&#8217;t worry if Xcode shows a warning after the spinner has stopped animating and the job is over. This doesn&#8217;t mean that it failed. Before an App ID to be approved, goes through the <em>pending</em> state, and it can stay there for a while. What you have to do, is to open the Preferences window, go to the Accounts tab, and click on the <em>View Details&#8230;</em> button at the bottom-right side (the one we earlier saw). In there, use the reload button at the bottom of the window, and your problem will be probably solved. If not, just wait for a while and then give it another shot.
+</div>
+<p>So, making a synopsis at this point, we have managed to do some important preparational work. By adding the Apple ID info to the Xcode Preferences and simply turning a switch on we enabled our application as far as Xcode&#8217;s part is concerned, in order to be ready to work with the Game Center. Starting from the next section, we will leave Xcode and the project behind us for a while, as we are going to pay a visit to iTunes Connect and make some setup there too. Don&#8217;t worry though; we&#8217;ll be back soon.</p>
+<h2>Create an App Record on iTunes Connect</h2>
+<p>If you have ever published an application on the App Store, then what we will see in this step will definitely look familiar to you. Creating a record in the iTunes Connect for a new application is not actually a part of integrating Game Center features into your application, however it is necessary in order to create any leader boards and achievements. So, in this step we&#8217;ll see how we can add a new application in iTunes Connect, and how to set its data. If you find yourself being comfortable with this process, feel free to skip this section and move to the next one. However, all of you who haven&#8217;t published an app yet, or you need a refresh on your knowledge, keep on reading here. Note that as the sample application of this tutorial is not going to be a real one, you can delete it when you have it run, tested and understood how it works.</p>
+<p>So, let&#8217;s get started. Go to the <a href="https://itunesconnect.apple.com/WebObjects/iTunesConnect.woa" target="_blank">iTunes Connect</a> and use your credentials to sign in. Next, click on the <strong>Manage your apps</strong> option, at the right side of the provided options:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_8_manage_apps.jpg" alt="iTunesConnect - Manage Apps" class="aligncenter size-full wp-image-3086" /></div>
+<p>At the upper right corner of the main area, there is the <strong>Add New App</strong> button, which you should click:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_9_add_new_app.jpg" alt="iTunesConnect - Add new app" class="aligncenter size-full wp-image-3087" /></div>
+<p>You will be transferred to a new window, where you must provide the initial information regarding the application. Set the next values to the respective fields, according to the next list and the figure that illustrates it:</p>
+<ul>
+<li><strong>Default Language</strong>: English</li>
+<li><strong>App Name</strong>: GKDemoApp</li>
+<li><strong>SKU Number</strong>: gk_demo_app</li>
+<li><strong>Bundle ID</strong>: Click on the drop down menu and select the option containing the GKDemo term</li>
+</ul>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_10_new_app1.jpg" alt="iTunesConnect - Adding new app" class="aligncenter size-full wp-image-3088" /></div>
+<p>Note that the Bundle ID value was automatically created by Xcode in the previous section. If you haven&#8217;t completed what was described there, then you won&#8217;t find any option in the drop down menu having the GKDemo term in it.</p>
+<p>If you are curious about all these fields, then click on the icon with the question mark next to each one, and you&#8217;ll find a description. Once you fill them in, click on the Continue button to move forward.</p>
+<p>The next window regards the availability date, the price tier and some other selling options. Actually, we don&#8217;t care to enter real values here, as this application is never going to be sold. So, set any availability date you&#8217;d like, select any price tier you prefer (I chose the free tier) and proceed by clicking once again on the Continue button.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_11_new_app2.jpg" alt="iTunesConnect - Adding New App Info" class="aligncenter size-full wp-image-3089" /></div>
+<p>The third and last window regards information about the app itself. Go ahead and fill all the required fields in. The next three figures provide examples of that. At the bottom of the page, you are expected to provide a large app icon, at least one (or more) 3.5-inch retina display screenshot, and at least one (or more) 4-inch retina display screenshot. If you have downloaded the sample images, then you should use the following ones with the next order:</p>
+<ol>
+<li>appicon.png</li>
+<li>screenshot_35.png</li>
+<li>screenshot_4.png</li>
+</ol>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_12_new_app3_1.jpg" alt="iTunesConnect - Adding New App Info" class="aligncenter size-full wp-image-3090" /></div>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_13_new_app3_2.jpg" alt="t6_13_new_app3_2" class="aligncenter size-full wp-image-3091" /></div>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_14_new_app3_3.jpg" alt="t6_14_new_app3_3" class="aligncenter size-full wp-image-3092" /></div>
+<p>Don&#8217;t worry if you forget to set a value to any required field. Upon saving, there will be messages that will indicate what you forgot to type in. Anyway, when you are ready, save the info you just entered, and the new app record is ready. You will be navigated to a summary window, such as the next one:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_15_app_ready.jpg" alt="iTunesConnect - GameKit Demo Ready" class="aligncenter size-full wp-image-3093" /></div>
+<h2>Enable Game Center</h2>
+<p>If that&#8217;s the first time you add a new app in iTunes Connect, then congratulations, you perfectly did it, even though you have to upload the app itself (the so-called binary) in order to sell to the App Store. From the summary screen we are now, we must perform one important task. That is to enable Game Center for the app through the iTunes Connect environment as well, as, if you recall, we already did it in Xcode by turning the Game Center switch on in the Capabilities tab. So, here click on the <strong>Manage Game Center</strong> button at the top-right side of the area.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_16_manage_gc.jpg" alt="iTunesConnect - Manage Game Center" class="aligncenter size-full wp-image-3094" /></div>
+<p>The first thing you see when you click that button (and you&#8217;ll see it just once), is the next one:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_17_gc_enable.jpg" alt="iTunesConnect - Enable Game Center" class="aligncenter size-full wp-image-3095" /></div>
+<p>You just have to click on the <strong>Enable for Single Game</strong> button, and the Game Center feature will become enabled for our application. You&#8217;ll be guided to the next control panel, which you can use to disable Game Center if you change your mind (why would you like to do that?), but most importantly, here is the place where you can create leader boards and achievements.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_18_leader_ach_cpanel.jpg" alt="iTunesConnect - Adding Leaderboard" class="aligncenter size-full wp-image-3096" /></div>
+<h2>Create a Leaderboard</h2>
+<p>A <strong>leaderboard</strong> is the mechanism of Game Center to store game scores. It also consists of the primary and best way for a player to see how well does in a game, as well as to compare himself to other players. Scores stored in leader boards differ from game to game, and they can be points, units, money, coins, or any other measurement amount that fits to a game. A game can have one or more leader boards, and each leader board doesn&#8217;t require a lot of fields to be filled in, in order to be created. The cool thing is that a leader board can be <em>localized</em> without much effort, something that is great if a game supports more than one languages.</p>
+<p>In this tutorial, and in order to keep simplicity so it would be easy to get the meaning of all these, we are going to create a single leader board, using one language only. There are various score format types, such as integer, elapsed time, money, fixed point, and variations of them. Also, there are two ways to display scores, either the best or the most recent ones. In our case, we&#8217;ll make our leader board to keep integer values of scores, and we will show the best score sorting it from the highest to the lowest value. Anyway, it&#8217;s time to let us move on and see how everything applies in action.</p>
+<p>While being in the Game Center control panel illustrated in the last image above, you can see that there is a section named Leaderboards. Click on the <strong>Add Leaderboard</strong> button to create one. You will be guided to the next screen, where you need to click on the enabled <strong>Choose</strong> button.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_19_leaderboard_type.jpg" alt="iTunesConnect - Setting Leaderboard Type for GameKit Demo" class="aligncenter size-full wp-image-3097" /></div>
+<p>A new form appears, where there are certain fields needed to be filled in. The upper side of the form regards general information of the leaderboard, while in the bottom you can add all localizations you want. Let&#8217;s begin by providing the general information of the leaderboard. Note that next to each field there is an icon with a question mark, where you can click and see description about them. However, let me give you a short description of mine as well.</p>
+<ul>
+<li><strong>Leaderboard Reference Name</strong>: This is a name required to be set that will be used internally by the iTunes Connect platform. It doesn&#8217;t appear anywhere to the user. In here, set the <strong>MyDemoLeaderboard</strong> value.</li>
+<li><strong>Leaderboard ID</strong>: It&#8217;s a string value that uniquely identifies the leaderboard among all. Not all characters are permitted here, so just click on the question mark icon to see what&#8217;s allowed. Here specify the <strong>My_Demo_Leaderboard</strong> value.</li>
+<li><strong>Score Format Type</strong>: This is a drop down menu, with some predefined options in it. Actually, here is the place where we specify the format of our scores, and in our case we just want <strong>Integer</strong> scores, which is the option you should pick.</li>
+<li><strong>Score Submission Type</strong>: Here you define whether the scores will be displayed showing either the best or the most recent ones. Your choice here clearly depends on the kind of game you are making. For this sample application, just select the <strong>Best Score</strong> option.</li>
+<li><strong>Sort Order</strong>: This is the way the scores will be sorted, in either ascending or descending order. Select <strong>High to Low</strong>.</li>
+<li><strong>Score Range</strong>: Optionally, you can define a range of values that scores should be in. This is also up to your game, and in our case we don&#8217;t need to add any range at all, so leave the two fields empty.</li>
+</ul>
+<p>Here is a screenshot with those values filled in:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_20_leaderboard_filled_in.jpg" alt="GameKit Demo - Leaderboard Settings" class="aligncenter size-full wp-image-3100" /></div>
+<p>Now we have provided the necessary general information, but we won&#8217;t be able to continue if we won&#8217;t add at least one language. So, click on the <strong>Add Language</strong> button to do that.</p>
+<p>In the window that pops up, first of all select your desired language from the drop down menu at the top, which here should be <strong>English</strong>. Next, specify a name for the localized leaderboard, which in our example is the <strong>Additions Leaderboard</strong>. From the following drop down menu pick the appropriate score format, which may vary depending on the localization you chose. For now, select the <strong>100.000.122</strong> option. To the next couple of fields, you define the singular and plural voice of the score format suffix, such as <em>point and points</em>, <em>coin and coins</em>, etc. Here, add the <strong>point</strong> and <strong>points</strong> values respectively. Finally, you may optionally pick an image, which is not necessary to do here.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_21_leaderboard_add_language.jpg" alt="GameKit Demo - Adding Leaderboard Language" class="aligncenter size-full wp-image-3101" /></div>
+<p>Save the localization, then save the leaderboard, and your first leaderboard is ready!</p>
+<h2>Create Achievements</h2>
+<p>Adding achievements for your game is not hard, and it&#8217;s similar to the creation of leaderboards. To begin, click on the <strong>Add Achievement</strong> button, lying at the Achievements section of the window. A new form appears on-screen, which you have to fill in for every achievement you want to add to a game. Don&#8217;t worry though, is not that hard as you&#8217;ll see right next. Once you have made your mind what the achievements are going to be, the rest is easy.</p>
+<p>For our sample game application we are going to create five achievements. The first one is presented in details, so you learn how to do so. The rest of them are given in short format, so you know what to fill in every time in the form. A description of each achievement is also provided.</p>
+<p>In accordance to the leaderboard fields presentation, let&#8217;s see here too each single field what is about, and at the same time let&#8217;s add values so by the end of the description to have our first achievement ready, which is <em>to earn 50 points to the game</em>. So:</p>
+<ul>
+<li><strong>Achievement Reference Name</strong>: It&#8217;s a name used internally by the iTunes Connect, or by you when you&#8217;ll search for the current achievement at a later time. Set the <strong>Achievement50Points</strong> value here.</li>
+<li><strong>Achievement ID</strong>: A string that uniquely identifies the achievement among all. Provide the <strong>Achievement_50Points</strong> value here.</li>
+<li><strong>Point Value</strong>: For this field, pay some attention for a little bit. For every game you create, Game Center gives you a total of 1000 points in order to use them the way you want. These points can be split up per achievement, but 100 points at most are allowed for every single achievement, meaning that you can use as many as you want, but no more than 100 for one achievement. Depending on how many achievements you are going to add to your game, think wisely and divide the given 1000 point values in a proper manner, so you are left with enough points for all of your achievements. Also, it&#8217;s not necessary to waste all 1000 points if you don&#8217;t need to. I&#8217;m sure that after creating all achievements for this sample application, you&#8217;ll perfectly get the meaning of all that. For now, set the value <strong>50</strong>.</li>
+<li><strong>Hidden</strong>: Here you can decide if the current achievement is going to be visible to the players, or it will be revealed to them once they manage to achieve it. For now, pick the <strong>No</strong> value.</li>
+<li><strong>Achievable More Than Once</strong>: You can specify if you want the same achievement to be achieved more than one time during the game. Click on the <strong>No</strong> value.</li>
+</ul>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_22_ach_filled_in.jpg" alt="GameKit Demo - Fill in Achievement" class="aligncenter size-full wp-image-3102" /></div>
+<p>As you see on your screen, we have to set a localization as well, otherwise we are unable to save the achievement. Therefore, click on the <strong>Add Language</strong> button, and a popup window will appear.</p>
+<p>I think that it&#8217;s unnecessary to describe each single field, as their titles speak for themselves. Select the desired language, type in a unique title for the achievement, as well as the description that will be displayed before and after the player has achieved it. Note however that you won&#8217;t be able to save, until you set an image for the achievement. For the sake of the simplicity, here we&#8217;ll set the same image to all achievements. However, in your games you may want or have to set different images for each single achievement. Anyway, use the <em>ach.png</em> image from the images you downloaded and then click on the Save button.</p>
+<p>This figure illustrates all that:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_23_ach_add_lang.jpg" alt="GameKit Demo - Adding Language for Achievement" class="aligncenter size-full wp-image-3103" /></div>
+<p>Once you return at the achievements form, click on the Save button and you&#8217;re done!</p>
+<p>Following the same steps, you can create the rest of the achievements for our app. Next, I provide you all the info you might need along your way:</p>
+<ul>
+<li>Achievement #2: <em>Reach Level 3</em><br />
+<em>Achievement &#8211; General:</em></p>
+<ul>
+<li><strong>Reference Name</strong>: AchievementLevel3</li>
+<li><strong>Achievement ID</strong>: Achievement_Level3</li>
+<li><strong>Point Value</strong>: 100</li>
+<li><strong>Hidden</strong>: No</li>
+</ul>
+<p><em>Achievement &#8211; Localization:</em></p>
+<ul>
+<li><strong>Title</strong>: Level 3</li>
+<li><strong>Pre-Earned Description</strong>: Reach Level 3</li>
+<li><strong>Earned Description</strong>: Reached Level 3</li>
+<li><strong>Image</strong>: ach.png</li>
+</ul>
+</li>
+<li>Achievement #3: <em>Earn 120 points</em><br />
+<em>Achievement &#8211; General:</em></p>
+<ul>
+<li><strong>Reference Name</strong>: Achievement120Points</li>
+<li><strong>Achievement ID</strong>: Achievement_120Points</li>
+<li><strong>Point Value</strong>: 70</li>
+<li><strong>Hidden</strong>: No</li>
+</ul>
+<p><em>Achievement &#8211; Localization:</em></p>
+<ul>
+<li><strong>Title</strong>: 120 Points</li>
+<li><strong>Pre-Earned Description</strong>: Earn 120 points</li>
+<li><strong>Earned Description</strong>: Earned 120 points</li>
+<li><strong>Image</strong>: ach.png</li>
+</ul>
+</li>
+<li>Achievement #4: <em>Earn 180 points</em><br />
+<em>Achievement &#8211; General:</em></p>
+<ul>
+<li><strong>Reference Name</strong>: Achievement180Points</li>
+<li><strong>Achievement ID</strong>: Achievement_180Points</li>
+<li><strong>Point Value</strong>: 100</li>
+<li><strong>Hidden</strong>: No</li>
+</ul>
+<p><em>Achievement &#8211; Localization:</em></p>
+<ul>
+<li><strong>Title</strong>: 180 Points</li>
+<li><strong>Pre-Earned Description</strong>: Earn 180 points</li>
+<li><strong>Earned Description</strong>: Earned 180 points</li>
+<li><strong>Image</strong>: ach.png</li>
+</ul>
+</li>
+<li>Achievement #5: <em>Complete Level 5</em><br />
+<em>Achievement &#8211; General:</em></p>
+<ul>
+<li><strong>Reference Name</strong>: AchievementLevel5Complete</li>
+<li><strong>Achievement ID</strong>: Achievement_Level5Complete</li>
+<li><strong>Point Value</strong>: 100</li>
+<li><strong>Hidden</strong>: No</li>
+</ul>
+<p><em>Achievement &#8211; Localization:</em></p>
+<ul>
+<li><strong>Title</strong>: Level 5</li>
+<li><strong>Pre-Earned Description</strong>: Complete Level 5</li>
+<li><strong>Earned Description</strong>: Level 5 Complete</li>
+<li><strong>Image</strong>: ach.png</li>
+</ul>
+</li>
+</ul>
+<p>With that, we&#8217;ve done creating achievements. Note that I chose to set some easy achievements, simply regarding earning specific points and reaching certain game levels. In a real game, you might want to set more kind of achievements, as for instance an achievement based on the correct answers in a row, in order to make it much richer.</p>
+<h2>Create Test Users</h2>
+<p>During an application building, and while being in development mode, always create <strong>Test Users</strong> with fake Apple IDs to try out features such as Game Center. Do not, and I repeat that, do not use a real Apple ID for testing your application&#8217;s functionalities, otherwise you will probably see the under-construction app featuring in Game Center, and you&#8217;ll be asking yourself why. Even Apple is very strict on that. However, don&#8217;t also think that you could avoid testing the extra features of your app and not to use test users, because &#8220;surprises&#8221; might awaiting for you from real users when your app starts selling on the App Store, if it makes it until there of course.</p>
+<p>So, keeping in mind that test users are our friends, and as we are still logged in the iTunes Connect, let&#8217;s add a couple of them to test our application when it will be ready. So, start by going to the front page of iTunes Connect, and click on the <strong>Manage Users</strong> option:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_24_manage_users.jpg" alt="iTunesConnect - Manage Users" class="aligncenter size-full wp-image-3104" /></div>
+<p>You&#8217;ll be navigated to a new window, where two options are presented: The <em>iTunes Connect User</em> and the <em>Test User</em>, where obviously you should select the second one:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_25_user_types.jpg" alt="iTunesConnect - Add User Types" class="aligncenter size-full wp-image-3105" /></div>
+<p>In the next step, click on the button titled <strong>Add New User</strong> that resides at the top-left of the form, and you&#8217;ll be guided to a form similar to this one:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_26_add_new_user.jpg" alt="iTunesConnect - Add Users" class="aligncenter size-full wp-image-3106" /></div>
+<p>Create a couple (or more if you want, but it&#8217;s not necessary) of test users in order to try the leaderboard out when we&#8217;ll have it implemented. Remember that you can delete the test users at any time. Anyway, when you finish creating them, you can sign out from the iTunes Connect. There is nothing else that we need to do here, so let&#8217;s move on.</p>
+<h2>Setup Test Users</h2>
+<p>I&#8217;m pretty sure that you are now expecting to go back to the app and focus on the implementation, but I&#8217;m afraid that this won&#8217;t happen until we finish this step. Why? Because I simply want to let us get finished from all the prep work required to integrate and test the Game Center, and then totally concentrate on programming.</p>
+<p>So, instead of going back to Xcode, launch the <strong>iPhone Simulator</strong>, and then run the Game Center app. In the sign-in form, enter the credentials of the first test user you created, and get connected. You&#8217;ll be guided through a series of steps and you will set an Apple ID for the current user. Once you finish with the first one, I suggest you do the same for the rest of the test users you previously created.</p>
+<p>At this point, you might wonder why not to sign in through our app when we will implement the Game Kit features. The answer is that I&#8217;d like to stay totally focused on our app, and not on setting the test users up. Also, there is one more reason for that: It&#8217;s quite common the process of setting up a test user to repeatedly fail, due to continuous disconnections from the Game Center servers. That means that you have to try multiple times to create Apple IDs for your test users, and you wouldn&#8217;t like to do that through our app, as when you get there you&#8217;ll simply want to try it out.</p>
+<h2>Authenticate Players</h2>
+<p>Time to go back to Xcode, as any necessary preparations needed to be done, have been done. We&#8217;ll focus totally on code, and how to implement and integrate various Game Center concepts using the Game Kit framework. So, the first step that should always be performed in order to let the Game Center features get enabled into an application, is to authenticate players. Once a user gets connected to Game Center, then all of its features implemented into the application are available to the user, otherwise they are simply not. In a single device, just one player in a given time can play and be signed in to Game Center, but more than one players can access the Game Center from the same device, simply by signing in using each one his own credentials.</p>
+<p>Authenticating a player is one of the first things that should happen once the app gets launched, if not the first one. Apple recommends this process to be initiated on the <em>application:didFinishLaunchingWithOptions:</em> delegate method, but not necessarily. To keep things simple, in our example we will trigger the authentication in the <em>viewDidLoad</em> method. However, in a real game where you want various Game Center resources available to more than one view controllers, seriously consider to do that in the <em>application:didFinishLaunchingWithOptions:</em> delegate method and to declare your important objects in the <em>AppDelegate.h</em> file, so they are app-wide accessible.</p>
+<p>So, let&#8217;s get started by opening the <em>ViewController.m</em> file and going straight ahead to the private section of the interface. In there, declare the following private method, right under the already declared ones:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>authenticateLocalPlayer;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Game Kit framework provides a class named <em>GKLocalPlayer</em>. This one provides information about the currently logged in player, such as the player ID, name, friends, and more. This class also provides the mechanism of authenticating the player, therefore we are going to use it in the implementation of this private method. Let me firstly present the implementation, and then we&#8217;ll discuss it.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>authenticateLocalPlayer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; GKLocalPlayer <span style="color: #002200;">*</span>localPlayer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>GKLocalPlayer localPlayer<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; localPlayer.authenticateHandler <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span>UIViewController <span style="color: #002200;">*</span>viewController, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>viewController <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>viewController animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>GKLocalPlayer localPlayer<span style="color: #002200;">&#93;</span>.authenticated<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _gameCenterEnabled <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Get the default leaderboard identifier.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>GKLocalPlayer localPlayer<span style="color: #002200;">&#93;</span> loadDefaultLeaderboardIdentifierWithCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>leaderboardIdentifier, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _leaderboardIdentifier <span style="color: #002200;">=</span> leaderboardIdentifier;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _gameCenterEnabled <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Initially, with the first line we instantiate a <em>GKLocalPlayer</em> object using the shared instance of the class. The interesting stuff however starts in the next line. As you can see, the authentication takes place in a <em>block</em>, where two parameters are provided. The first one regards a view controller, which actually is the <em>login view controller</em> that will automatically appear if the user is not already authenticated. The second parameter, is the familiar and famous error pointer, which will contain any error that might occurs.</p>
+<p>Moving into the block body, what I just said before takes place here. We check if the <em>viewController</em> object is nil or not. When it&#8217;s not nil, then the user is not authenticated and it&#8217;s our duty to make it appear and let the player sign in to the Game Center. That&#8217;s exactly we perform in the only one line existing in the <em>if</em> clause. Note however that in a real game you should make any necessary <em>pause</em> actions before you display the login view controller, as you wouldn&#8217;t like the game to keep running while the user gets connected to Game Center. In such a simple case like ours, that&#8217;s not necessary, that&#8217;s why I immediately show the login view controller.</p>
+<p>Let&#8217;s see now the <em>else</em> case. You notice that the shared instance of the <em>GKLocalPlayer</em> class provides the <em>authenticated</em> property, which indicates whether the player is authenticated or not. If that&#8217;s the case, then we want two things to happen:</p>
+<ol>
+<li>To make known in our class that the game center features can be used, simply by making the <em>gameCenterEnabled</em> member variable true, and,</li>
+<li>to get the <em>identifier</em> of the default leaderboard we previously created. You may wonder why don&#8217;t we use directly the leaderboard ID, as we defined it earlier. Well, the <em>loadDefaultLeaderboardIdentifierWithCompletionHandler:</em> method is more formal and correct way.</li>
+</ol>
+<p>As you may notice, the completion handler block of this method gives us the leaderboard identifier, which we keep in the <em>leaderboardIdentifier</em> member variable if everything is okay. In case of error, we just show its description on the debugger.</p>
+<p>Finally, if the user is not authenticated and the same time the login view controller is nil, then the user simply cancelled the login process and we must indicate that the supported by our app Game Center features are not available, simply by making the <em>gameCenterEnabled</em> flag false.</p>
+<p>In order to see the authentication process in action, we must call this method, and we&#8217;ll do that in the <em>viewDidLoad</em> method. Just go there and add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self authenticateLocalPlayer<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>You may run the app now, and if you wait a couple of seconds you&#8217;ll see the Game Center in action. If you have a test user already logged in the Game Center, then you&#8217;ll see a welcome message like the next one:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_27_welcome_player.jpg" alt="GameKit Demo - Welcome Player" class="aligncenter size-full wp-image-3107" /></div>
+<p>If not, then you&#8217;ll be presented with the default sing-in form of the Game Center:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_28_sign_in_gc.jpg" alt="GameKit Demo - Sign in Game Center" class="aligncenter size-full wp-image-3108" /></div>
+<h2>Score Reporting</h2>
+<p>During the gameplay, every time that a correct answer is given to a random addition, the score gets increased by 10 points, and surely you know that if you&#8217;ve played our super-game at least once. When a game ends, we want to report the final score value to the Game Center, so it appears on the default leaderboard. After all, that&#8217;s why we got in trouble for creating and setting it up.</p>
+<p>Actually, updating a leaderboard with a new score is very easy, and a matter of just a few lines of code. In order to keep things tidy, we&#8217;ll create a new private method for this cause, so go once again in the private section of the class and declare the following:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>reportScore;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Two things are important now: To implement it, and to see where it should be called. Let&#8217;s start with the implementation:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>reportScore<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; GKScore <span style="color: #002200;">*</span>score <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>GKScore alloc<span style="color: #002200;">&#93;</span> initWithLeaderboardIdentifier<span style="color: #002200;">:</span>_leaderboardIdentifier<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; score.value <span style="color: #002200;">=</span> _score;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>GKScore reportScores<span style="color: #002200;">:</span>@<span style="color: #002200;">&#91;</span>score<span style="color: #002200;">&#93;</span> withCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As usually, let&#8217;s talk about it. Firstly, we initialize a <em>GKScore</em> object, by specifying in the init method the leaderboard identifier we fetched upon authentication. The <em>GKScore</em> class is responsible for handling any score-related tasks, and in here we&#8217;ll use just the basics needed to do our job. Once the local <em>score</em> object has been initialized, we assign in its <em>value</em> property the actual score, stored in the <em>score</em> member variable.</p>
+<p>Next, we invoke the <em>reportScores:withCompletionHandler:</em> class method of the <em>GKScore</em> class. Note that the first parameter expects a <em>NSArray</em> object, as it allows multiple score reporting. That&#8217;s why we set the <em>@[score]</em> object. With this syntax, we both create a <em>NSArray</em> and add the <em>score</em> object in it. Traditionally, the <em>error</em> pointer in the completion handler block will contain any error if occurs, which we simply show on the debugger.</p>
+<p>So, updating the leaderboard with a new score is as simple as that. Let&#8217;s see where we should invoke our private method, and remember that in the beginning of this section I already said that we want to report our score when the game ends. Where is this happening? In the <em>handleAnswer:</em> IBAction method. Go to this one, and locate the <em>if (_lives == 0)</em> condition. At the end of the <em>if</em> body, we will invoke it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>handleAnswer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>_lives <span style="color: #002200;">==</span> <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self reportScore<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; ....<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Also, this method should be called when the time is up, so go to the <em>updateTimerLabel:</em> and make the call at the end of the <em>if</em> clause.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>updateTimerLabel<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSTimer_Class/"><span style="color: #400080;">NSTimer</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>timer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>_timerValue &gt; <span style="color: #2400d9;">60</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self reportScore<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>You may run the game again now, and after playing for a while just&#8230; lose. Upon finishing, the score will be reported to Game Center. However, for the time being you can only see that in the Game Center app and not in our application. Therefore, that&#8217;s the next feature we are going to implement in the section that follows.</p>
+<h2>Display Leaderboard And Achievements</h2>
+<p>When you first authenticated your test user with Game Center, you might would have noticed that the second bar button item in the toolbar became working. When tapping on it, an action sheet appears, where they are provided options for viewing either the leaderboard or the achievements of the currently authenticated player. However, none of those still works, and we are going to fix this here.</p>
+<p>You might be problematized why in the title of the section I refer the achievements, except for the leaderboard, if you consider that we haven&#8217;t added any achievement-related code yet. Well, that&#8217;s because the process of showing either the leaderboard or the achievement is the same, so we&#8217;ll do it here for both of them.</p>
+<p>Before I go any further, let me underline a fact. In this tutorial, we are going to display the leaderboard and the achievements by loading a predefined, standard view controller provided by Game Kit. This is the same to the Game Center app&#8217;s one. Note though that in a real game showing this view controller in a beautiful, full of graphics user interface might be prohibiting. Game Kit framework provides alternatives for getting just the data you want without presenting any pre-made view controller, so you can build your own one, use the data in the way you want and present a good-looking view containing either the leaderboard information or the achievements. So, I advise you that in case your goal is to process the data manually rather than using the default view controller, visit the Apple documentation and learn how to manage it. It&#8217;s not hard, it&#8217;s just out of this tutorial&#8217;s scope, as this is an introduction to Game Kit.</p>
+<p>Let&#8217;s do some work now. As we usually do, declare the next method in the private section of the class:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>showLeaderboardAndAchievements<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>shouldShowLeaderboard;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>The <em>shouldShowLeaderboard</em> parameter will indicate in its implementation whether the leaderboard or the achievements should appear to the player. Let&#8217;s implement it now:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>showLeaderboardAndAchievements<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>shouldShowLeaderboard<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; GKGameCenterViewController <span style="color: #002200;">*</span>gcViewController <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>GKGameCenterViewController alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; gcViewController.gameCenterDelegate <span style="color: #002200;">=</span> self;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>shouldShowLeaderboard<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; gcViewController.viewState <span style="color: #002200;">=</span> GKGameCenterViewControllerStateLeaderboards;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; gcViewController.leaderboardIdentifier <span style="color: #002200;">=</span> _leaderboardIdentifier;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; gcViewController.viewState <span style="color: #002200;">=</span> GKGameCenterViewControllerStateAchievements;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>gcViewController animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We start by initializing a <em>GKGameCenterViewController</em> object and by making <em>self</em> (our class) the delegate of the object. When you write, or copy-paste this line, Xcode will show a warning, because we haven&#8217;t adopted the <em>GKGameCenterControllerDelegate</em> yet. Don&#8217;t worry, we&#8217;ll do that in a while.</p>
+<p>Next, depending on the parameter flag, if the leaderboard is this that should be shown to the player, then the <em>if</em> is executed, otherwise the <em>else</em> case. Note that the <em>viewState</em> property of the <em>gcViewController</em> object rules what should be displayed, so it&#8217;s up to us to provide it with the appropriate value. For displaying the leaderboard, we set the <em>GKGameCenterViewControllerStateLeaderboards</em> value, otherwise we set the <em>GKGameCenterViewControllerStateAchievements</em>. Furthermore, you see that in the leaderboard case we set the leaderboard identifier, and keep in mind that this is mandatory.</p>
+<p>Anyway, as a last move we present the <em>gcViewController</em> view controller to the user, and we&#8217;re done with this method.</p>
+<p>Our next task is to call this method, and that has to be done either when the user taps on the <em>View Leaderboard</em> or on the <em>View Achievements</em> button of the action sheet. Go to the <em>showGCOptions:</em> IBAction method, and then inside the completion handler block, where there is nothing implemented there yet. The action sheet presents three options, so we must check what&#8217;s the button the player tapped. Right below you are given the code that is needed to be added:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showGCOptions<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_customActionSheet showInView<span style="color: #002200;">:</span>self.view<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;withCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>buttonTitle, NSInteger buttonIndex<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>buttonTitle isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;View Leaderboard&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>self showLeaderboardAndAchievements<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>buttonTitle isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;View Achievements&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>self showLeaderboardAndAchievements<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp;...<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In case of leaderboard, we call the <em>showLeaderboardAndAchievements:</em> method specifying the YES as its parameter, otherwise we call it by setting the NO value. In the last <em>else</em> case, we&#8217;ll add some code later, so for now leave it empty.</p>
+<p>If you run the app now, you&#8217;ll perfectly manage to display both the leaderboard and the achievements. However, you won&#8217;t manage to dismiss the view controller, simply because we still haven&#8217;t implemented the respective delegate method that will do that.</p>
+<p>Open the <em>ViewController.h</em> file, and then modify the <em>@interface</em> header so it adopts the next protocol:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController &lt;GKGameCenterControllerDelegate&gt;</div></td></tr></tbody></table></div>
+<p>By doing so, the warning from Xcode also gets disappeared. Now, there is one really simple delegate method needed to be written. Go back to the <em>ViewController.m</em> file, and add this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>gameCenterViewControllerDidFinish<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>GKGameCenterViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>gameCenterViewController<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>gameCenterViewController dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Run the game once again, and everything will work nice! Here are a couple of screenshots, showing both the leaderboard and the achievements views:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_29_sample_leaderboard.jpg" alt="GameKit Demo - Sample Leaderboard" class="aligncenter size-full wp-image-3109" /></div>
+<h2>Manage Achievements</h2>
+<p>Up to this point, you have noticed that there is nothing extremely difficult in the code we added to the project. Continuing our work and dealing with the achievements, you&#8217;ll see that the same applies here as well. Before we see what we have to do, it&#8217;s important to mention a great difference existing between achievements and leaderboards that regards how often those two should be updated: In leaderboards, the score update takes place at the end of the game, however as far as the achievements are concerned, the updates should occur more often, in a reasonable rate, and when it&#8217;s necessary and dictated by the game logic. For example, in our case we must update the achievements every time our score and the level get changed in order to properly keep track of the player&#8217;s progress and reflect it in the achievements.</p>
+<p>When an achievement is about to be updated, then it actually awaits for a <em>progress percentage</em> that has value from 1.0 to 100.0. It&#8217;s obvious that the 100.0 is the progress value given to an achievement that has been reached. It&#8217;s the app&#8217;s duty to calculate the progress percentage for each achievement that should be updated, and provide Game Center with it. Based on this exactly, we are going to implement a method where we will firstly calculate the progress percentage regarding both the level and the score values, and then we will report the achievements to Game Center. Initially, declare the next private method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>updateAchievements;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Next, implement it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br />43<br />44<br />45<br />46<br />47<br />48<br />49<br />50<br />51<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>updateAchievements<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>achievementIdentifier;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">float</span> progressPercentage <span style="color: #002200;">=</span> <span style="color: #2400d9;">0.0</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">BOOL</span> progressInLevelAchievement <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; GKAchievement <span style="color: #002200;">*</span>levelAchievement <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; GKAchievement <span style="color: #002200;">*</span>scoreAchievement <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>_currentAdditionCounter <span style="color: #002200;">==</span> <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>_level &lt;<span style="color: #002200;">=</span> <span style="color: #2400d9;">3</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; progressPercentage <span style="color: #002200;">=</span> _level <span style="color: #002200;">*</span> <span style="color: #2400d9;">100</span> <span style="color: #002200;">/</span> <span style="color: #2400d9;">3</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; achievementIdentifier <span style="color: #002200;">=</span> @<span style="color: #002200;">&amp;</span>quot;Achievement_Level3<span style="color: #002200;">&amp;</span>quot;;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; progressInLevelAchievement <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>_level &lt; <span style="color: #2400d9;">6</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; progressPercentage <span style="color: #002200;">=</span> _level <span style="color: #002200;">*</span> <span style="color: #2400d9;">100</span> <span style="color: #002200;">/</span> <span style="color: #2400d9;">5</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; achievementIdentifier <span style="color: #002200;">=</span> @<span style="color: #002200;">&amp;</span>quot;Achievement_Level5Complete<span style="color: #002200;">&amp;</span>quot;;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; progressInLevelAchievement <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>progressInLevelAchievement<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; levelAchievement <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>GKAchievement alloc<span style="color: #002200;">&#93;</span> initWithIdentifier<span style="color: #002200;">:</span>achievementIdentifier<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; levelAchievement.percentComplete <span style="color: #002200;">=</span> progressPercentage;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>_score &lt;<span style="color: #002200;">=</span> <span style="color: #2400d9;">50</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; progressPercentage <span style="color: #002200;">=</span> _score <span style="color: #002200;">*</span> <span style="color: #2400d9;">100</span> <span style="color: #002200;">/</span> <span style="color: #2400d9;">50</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; achievementIdentifier <span style="color: #002200;">=</span> @<span style="color: #002200;">&amp;</span>quot;Achievement_50Points<span style="color: #002200;">&amp;</span>quot;;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>_score &lt;<span style="color: #002200;">=</span> <span style="color: #2400d9;">120</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; progressPercentage <span style="color: #002200;">=</span> _score <span style="color: #002200;">*</span> <span style="color: #2400d9;">100</span> <span style="color: #002200;">/</span> <span style="color: #2400d9;">120</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; achievementIdentifier <span style="color: #002200;">=</span> @<span style="color: #002200;">&amp;</span>quot;Achievement_120Points<span style="color: #002200;">&amp;</span>quot;;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; progressPercentage <span style="color: #002200;">=</span> _score <span style="color: #002200;">*</span> <span style="color: #2400d9;">100</span> <span style="color: #002200;">/</span> <span style="color: #2400d9;">180</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; achievementIdentifier <span style="color: #002200;">=</span> @<span style="color: #002200;">&amp;</span>quot;Achievement_180Points<span style="color: #002200;">&amp;</span>quot;;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; scoreAchievement <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>GKAchievement alloc<span style="color: #002200;">&#93;</span> initWithIdentifier<span style="color: #002200;">:</span>achievementIdentifier<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; scoreAchievement.percentComplete <span style="color: #002200;">=</span> progressPercentage;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>achievements <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>progressInLevelAchievement<span style="color: #002200;">&#41;</span> ? @<span style="color: #002200;">&#91;</span>levelAchievement, scoreAchievement<span style="color: #002200;">&#93;</span> <span style="color: #002200;">:</span> @<span style="color: #002200;">&#91;</span>scoreAchievement<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>GKAchievement reportAchievements<span style="color: #002200;">:</span>achievements withCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span>@<span style="color: #002200;">&amp;</span>quot;<span style="color: #002200;">%</span>@<span style="color: #002200;">&amp;</span>quot;, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>I won&#8217;t get into details about the progress percentage calculation of the game level or score. I think it&#8217;s clear how each progress gets calculated for every achievement. The important here is the new class we meet, the <em>GKAchievement</em>. As you see, an object of this class is initialized by specifying the achievement ID, therefore is necessary to define it in each case. At the end of this method, we report the achievements. The <em>reportAchievement:withCompletionHandler:</em> method expects an array of <em>GKAchievement</em> objects, therefore just right before its invocation we set the <em>achievements</em> NSArray object. Note that depending on the <em>progressInLevelAchievement</em> flag, this array contains either both the <em>levelAchievement</em> and the <em>scoreAchievement</em> objects, or just the <em>scoreAchievement</em> object.</p>
+<p>The way such a method is implemented in a game totally depends on the game logic and the achievements have been set for the game. The above implementation serves our application, but in no case would serve any other game. The only element that should remain the same, is the way the achievements are reported to Game Center. So, keep in mind that it&#8217;s up to you to figure out how to calculate the progress percentage of each achievement of your game, and then report it to Game Center.</p>
+<p>Just implementing the method above is not enough. We must call it as well, and the best place to do that is at the end of the <em>handleAnswer:</em> IBAction method. That&#8217;s because we want to report our progress right after we tap on an answer button. So, just right before the closing curly bracket of the <em>if (shouldContinue)</em> condition, add the next one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>handleAnswer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>shouldContinue<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self updateAchievements<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>You can now go and play for a while. From time to time, view your achievements and watch the progress you make. Interesting right? Even for such a small game!</p>
+<h2>Reset Achievements</h2>
+<p>There are times that you may need to reset the achievements, and thankfully Game Kit allows that to be done very easily. Note that after you have the achievements reset there is no way to go back. So, let&#8217;s see how we can do this. Until here, for every new feature we added to the project, we created a new private method. We&#8217;ll keep the same pattern here as well, so go and declare the next private method to the private section of the class:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>resetAchievements;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Right next it&#8217;s the implementation. As you&#8217;ll see, it&#8217;s a very easy task:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>resetAchievements<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>GKAchievement resetAchievementsWithCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We just make a call to the <em>resetAchievementsWithCompletionHandler:</em> class method of the <em>GKAchievement</em> class. In the completion handler you can add any code needed after the achievements have been reset. Here, we just log the error message to the debugger, if any occurs.</p>
+<p>Lastly, we need to make a call to the <em>resetAchievement</em> method. Where should this take place? Well, if you remember in the completion handler of the action sheet (in the <em>showGCOptions:</em> IBAction method) we had left an <em>else</em> case empty. That case matches to the third option of the action sheet, titled <em>Reset Achievements</em>.</p>
+<p>Locate that spot in the code by going to the <em>showGCOptions:</em> IBAction method and then in the completion handler block. Head directly to the empty <em>else</em> case and invoke the <em>resetAchievements</em> method.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showGCOptions<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_customActionSheet showInView<span style="color: #002200;">:</span>self.view<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;withCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>buttonTitle, NSInteger buttonIndex<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>buttonTitle isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;View Leaderboard&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>buttonTitle isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;View Achievements&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>self resetAchievements<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; ....<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you had previously played the game and done any progress, reset the achievements and view them again. You&#8217;ll see that all of your progress has simply&#8230; gone!</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t6_30_sample_achievements.jpg" alt="GameKit Demo - Sample Achievements" class="aligncenter size-full wp-image-3110" /></div>
+<h2>Compile and Run the App</h2>
+<p>Over the last few sections of this tutorial we made our programming introduction in the most important aspects of Game Kit. We implemented the required features for reporting scores to leaderboard and progress to achievements, as well as the most common way to view both of them and how to reset achievements. If in any of those steps you didn&#8217;t run the app, then I think that now it&#8217;s time to do it. Run it in either the Simulator or in a development device, and test all of the features we implemented. Besides from trying out just the leaderboard and the achievements, try to authenticate more than one test users with Game Center and add scores for each one in leaderboard. Also, feel free to play around with code, do any modifications you&#8217;d like and then test again.</p>
+<div class="note">
+If you want to sign a test user out of the Game Center and you don&#8217;t know how, you just have to open the Settings app, then go to Game Center and then tap (or click) on your Apple ID. An alert view with some options will be displayed, including the Sign out option as well.
+</div>
+<h2>Summary</h2>
+<p>In this tutorial we made an introduction to Game Center and Game Kit framework. We walked through two major and different aspects of the same thing, how to integrate Game Center capabilities into a game. We could say that this tutorial consists of two general parts: The first one is the preparation that was made on iTunes Connect, and the second one regards any programming job required for implementing all the desired Game Kit features. By starting from an application that had nothing related to Game Center, we managed to implement the most basic and important stuff met in most of the games existing on the App Store. Maybe this tutorial is not enough to make your path from the beginning until the App Store, but surely it shows you the way on how to deal with Game Kit. You have already been given the advice to read the official documentation as well, so do it. Closing, I hope all the content described here to be helpful both for those who want to manage Game Kit for the very first time, and for those who might need a second look on GameKit in combination with iOS 7. Happy game-making!</p>
+<p>For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/GKDemo-Final.zip">download the full source code and Xcode project from here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-101-how-to-hide-tab-bar-navigation-controller/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/07/Navigation-App-with-Tab-Bar-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Hide Tab Bar in Navigation Interface</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-101-send-email-iphone-app/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/07/SimpleEmail-Tutorial-Logo-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Send Email in Your iPhone App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uipageviewcontroller-tutorial-intro/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/06/UIPageViewController-Tutorial-Screen-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Use UIPageViewController to Build Tutorial Screens</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/google-maps-api-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/04/googlemapios-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">A Swift Tutorial for Google Maps SDK</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-game-kit-framework/"
+    dc:identifier="http://www.appcoda.com/ios-game-kit-framework/"
+    dc:title="Working with Game Center and Game Kit Framework"
+    trackback:ping="http://www.appcoda.com/ios-game-kit-framework/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/game-center/" rel="tag">Game Center</a>, <a href="http://www.appcoda.com/tag/gamekit/" rel="tag">GameKit</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/xcode-5/" rel="tag">Xcode 5</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-3671">
+        <div id="dsq-comment-header-3671" class="dsq-comment-header">
+            <cite id="dsq-cite-3671">
+                <span id="dsq-author-user-3671">Micah Elias</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3671" class="dsq-comment-body">
+            <div id="dsq-comment-message-3671" class="dsq-comment-message"><p>the line </p>
+<p>_completionHandler = handler; </p>
+<p>does not work</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4141">
+        <div id="dsq-comment-header-4141" class="dsq-comment-header">
+            <cite id="dsq-cite-4141">
+                <span id="dsq-author-user-4141">Heidilol</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4141" class="dsq-comment-body">
+            <div id="dsq-comment-message-4141" class="dsq-comment-message"><p>when my GC-Profile is public this is not working..<br />
+anyone any idea how to fix this?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-4143">
+        <div id="dsq-comment-header-4143" class="dsq-comment-header">
+            <cite id="dsq-cite-4143">
+                <span id="dsq-author-user-4143">heidilol</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4143" class="dsq-comment-body">
+            <div id="dsq-comment-message-4143" class="dsq-comment-message"><p>It also tells me when I&#8217;m tapping on &#8220;view leaderboard&#8221; inside the app that there are &#8220;no items&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-12015">
+        <div id="dsq-comment-header-12015" class="dsq-comment-header">
+            <cite id="dsq-cite-12015">
+                <span id="dsq-author-user-12015">bbaco</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12015" class="dsq-comment-body">
+            <div id="dsq-comment-message-12015" class="dsq-comment-message"><p>because you are using 4 inch simulator, return it to 3.5 and it should work</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3814">
+        <div id="dsq-comment-header-3814" class="dsq-comment-header">
+            <cite id="dsq-cite-3814">
+                <span id="dsq-author-user-3814">ios Developer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3814" class="dsq-comment-body">
+            <div id="dsq-comment-message-3814" class="dsq-comment-message"><p>hello, in my app, i used only leaderboard for users, now i want to hide/remove challenges tab from my app, so can i do that.. in itunes account, i am not able to see anything that will help to prevent user from challenges.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3978">
+        <div id="dsq-comment-header-3978" class="dsq-comment-header">
+            <cite id="dsq-cite-3978">
+                <span id="dsq-author-user-3978">ever21</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3978" class="dsq-comment-body">
+            <div id="dsq-comment-message-3978" class="dsq-comment-message"><p>Hello thank you for the awesome tutorial and everything is working great with iOS 7.0. i&#8217;m trying to make an app that works in iOS 6.0 as well. But it crashes as soon as I enter in the Login/password and hit enter.<br />
+Any idea with this issue? Thanks again!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4021">
+        <div id="dsq-comment-header-4021" class="dsq-comment-header">
+            <cite id="dsq-cite-4021">
+                <span id="dsq-author-user-4021">Gabe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4021" class="dsq-comment-body">
+            <div id="dsq-comment-message-4021" class="dsq-comment-message"><p>I love this tutorial. How would I go about learning how to use gamecenter within appdelegate?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://appgong.com/integrate-game-center-leaderboard-using-game-kit-framework-in-ios-7-1010/' rel='external nofollow' class='url'>Integrate Game Center Leaderboard Using Game Kit Framework in iOS 7 - appgong</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-10457">
+        <div id="dsq-comment-header-10457" class="dsq-comment-header">
+            <cite id="dsq-cite-10457">
+                <span id="dsq-author-user-10457">kupcza</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10457" class="dsq-comment-body">
+            <div id="dsq-comment-message-10457" class="dsq-comment-message"><p>Hi there, I&#8217;ve got problem with _completionHandler = handler; on 64bit devices.</p>
+<p>../GKDemo/CustomActionSheet.m:53:24: Incompatible block pointer types assigning to &#8216;void (^__strong)(NSString *__strong, NSInteger)&#8217; from &#8216;void (^__strong)(NSString *__strong, int)&#8217;, can you help me please?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-12142">
+        <div id="dsq-comment-header-12142" class="dsq-comment-header">
+            <cite id="dsq-cite-12142">
+                <span id="dsq-author-user-12142">Renan Henrique</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12142" class="dsq-comment-body">
+            <div id="dsq-comment-message-12142" class="dsq-comment-message"><p>I am also having problems. managed to solve?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-19924">
+        <div id="dsq-comment-header-19924" class="dsq-comment-header">
+            <cite id="dsq-cite-19924">
+                <span id="dsq-author-user-19924">Rany</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19924" class="dsq-comment-body">
+            <div id="dsq-comment-message-19924" class="dsq-comment-message"><p>-(void)showInView:(UIView *)view withCompletionHandler:(void (^)(NSString *, NSInteger))handler{<br />
+    _completionHandler = handler;<br />
+    [_actionSheet showInView:view];<br />
+}</p>
+<p>int -&gt; NSInteger<br />
+(see more: <a href="http://stackoverflow.com/questions/24197386/incompatible-block-pointer-types" rel="nofollow">http://stackoverflow.com/questions/24197386/incompatible-block-pointer-types</a>)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21155">
+        <div id="dsq-comment-header-21155" class="dsq-comment-header">
+            <cite id="dsq-cite-21155">
+                <span id="dsq-author-user-21155">arti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21155" class="dsq-comment-body">
+            <div id="dsq-comment-message-21155" class="dsq-comment-message"><p>Hi<br />
+I followed your tutorial to develop same game. But when I am trying to enter the test user credentials on game centre I am getting below error:</p>
+<p>&#8220;This game is not recognised by game center&#8221; (test credential and mail id has been verified)</p>
+<p>Please tell me  where possibly could be the mistake.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27788">
+        <div id="dsq-comment-header-27788" class="dsq-comment-header">
+            <cite id="dsq-cite-27788">
+                <span id="dsq-author-user-27788">Sameer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27788" class="dsq-comment-body">
+            <div id="dsq-comment-message-27788" class="dsq-comment-message"><p>I had this problem too. I took these steps to fix it&#8230;<br />
+1.) I made sure that in iTunes Connect Game Center was enabled. It needs to say enabled once you press &#8220;Manage Game Center&#8221;, and when you press &#8220;View Details&#8221; and scroll to the bottom.<br />
+2.) In iTunes Connect, make sure the bundle ID is correct. It should be: yourName.yourAppName<br />
+My bundle ID was incorrect, so I made a new app in iTunes Connect with the correct bundle ID, and it worked<br />
+3.) If the first two steps are correct, then make sure in Xcode Game Center is enabled, and all should work fine.</p>
+<p>If you are still having problems, look very carefully at the first part of the tutorial and make sure it matches with your app.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-40956">
+        <div id="dsq-comment-header-40956" class="dsq-comment-header">
+            <cite id="dsq-cite-40956">
+                <span id="dsq-author-user-40956">baligeko</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-40956" class="dsq-comment-body">
+            <div id="dsq-comment-message-40956" class="dsq-comment-message"><p>I would be very interested if this was translated into Swift.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://guitareducation.com.au/blog/?p=303' rel='external nofollow' class='url'>Incompatible block pointer types | Guitar and Xcode</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-95908">
+        <div id="dsq-comment-header-95908" class="dsq-comment-header">
+            <cite id="dsq-cite-95908">
+                <span id="dsq-author-user-95908">Nicholas Whitley</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-95908" class="dsq-comment-body">
+            <div id="dsq-comment-message-95908" class="dsq-comment-message"><p>In the authenticateLocalPlayer instance its giving me an error saying &#8220;Use of undeclared identifier &#8216;_gameCenterEnabled'&#8221; I can&#8217;t figure out why though I did everything you said to do, please help me.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-98725">
+        <div id="dsq-comment-header-98725" class="dsq-comment-header">
+            <cite id="dsq-cite-98725">
+                <span id="dsq-author-user-98725">rgritt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98725" class="dsq-comment-body">
+            <div id="dsq-comment-message-98725" class="dsq-comment-message"><p>I&#8217;m having the same issue, please help</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-99002">
+        <div id="dsq-comment-header-99002" class="dsq-comment-header">
+            <cite id="dsq-cite-99002">
+                <span id="dsq-author-user-99002">Simran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99002" class="dsq-comment-body">
+            <div id="dsq-comment-message-99002" class="dsq-comment-message"><p>gameCenterEnabled is a Bool value&#8230; Declare it in the viewcontroller.h file under interface as &#8211; &gt;&gt; Bool gameCenterEnabled;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.iwantsmile.net/?p=338' rel='external nofollow' class='url'>Game Center Xcode Example | Games</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-97650">
+        <div id="dsq-comment-header-97650" class="dsq-comment-header">
+            <cite id="dsq-cite-97650">
+                <span id="dsq-author-user-97650">Joseph Richardson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97650" class="dsq-comment-body">
+            <div id="dsq-comment-message-97650" class="dsq-comment-message"><p>How about a tutorial on multiplayer in swift. No Objective C.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99003">
+        <div id="dsq-comment-header-99003" class="dsq-comment-header">
+            <cite id="dsq-cite-99003">
+                <span id="dsq-author-user-99003">Simran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99003" class="dsq-comment-body">
+            <div id="dsq-comment-message-99003" class="dsq-comment-message"><p>what is _customActionSheet ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-99393">
+        <div id="dsq-comment-header-99393" class="dsq-comment-header">
+            <cite id="dsq-cite-99393">
+                <span id="dsq-author-user-99393">Alihassan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99393" class="dsq-comment-body">
+            <div id="dsq-comment-message-99393" class="dsq-comment-message"><p>Can you please post a Swift-version of this tutorial as well?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99685">
+        <div id="dsq-comment-header-99685" class="dsq-comment-header">
+            <cite id="dsq-cite-99685">
+                <span id="dsq-author-user-99685">iNoob</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99685" class="dsq-comment-body">
+            <div id="dsq-comment-message-99685" class="dsq-comment-message"><p>In simulator it works flawlessly but doesn&#8217;t on actual device (failed to authenticate)<br />
+What should I do ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100115">
+        <div id="dsq-comment-header-100115" class="dsq-comment-header">
+            <cite id="dsq-cite-100115">
+                <span id="dsq-author-user-100115">Jason Gallivan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100115" class="dsq-comment-body">
+            <div id="dsq-comment-message-100115" class="dsq-comment-message"><p>I click on the + in the itunes connect under my apps and it doesn&#8217;t do<br />
+anything.  a little blank white section looks like it appears, but there<br />
+ is nothing in it and nothing on the page.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-game-kit-framework/';
+var disqus_identifier = '3064 http://www.appcoda.com/?p=3064';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Working with Game Center and Game Kit Framework";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=3064';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="3064"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-game-kit-framework%2F&#038;t=Working%20with%20Game%20Center%20and%20Game%20Kit%20Framework" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3064" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>39</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Working%20with%20Game%20Center%20and%20Game%20Kit%20Framework&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-game-kit-framework%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3064" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>12</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-game-kit-framework%2F&#038;t=Working%20with%20Game%20Center%20and%20Game%20Kit%20Framework" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3064" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>5</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-game-kit-framework%2F&#038;title=Working%20with%20Game%20Center%20and%20Game%20Kit%20Framework" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3064" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>4</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-game-kit-framework%2F&#038;t=Working%20with%20Game%20Center%20and%20Game%20Kit%20Framework" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3064" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Working%20with%20Game%20Center%20and%20Game%20Kit%20Framework&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-game-kit-framework%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3064" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-game-kit-framework%2F&#038;t=Working%20with%20Game%20Center%20and%20Game%20Kit%20Framework" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3064" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-game-kit-framework%2F&#038;title=Working%20with%20Game%20Center%20and%20Game%20Kit%20Framework" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3064" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-game-kit-framework\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:21:33 by W3 Total Cache -->

@@ -1,0 +1,1456 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Core Data Tutorial: Fetch, Update, Delete Data from Database</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="The Core Data tutorial shows you how to update and delete data from SQLite database in iOS app. You&#039;ll also learn how to enable SQL statement for debugging purpose."/>
+<link rel="canonical" href="http://www.appcoda.com/core-data-tutorial-update-delete/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="The Core Data tutorial shows you how to update and delete data from SQLite database in iOS app. You&#039;ll also learn how to enable SQL statement for debugging purpose."/>
+<meta name="twitter:title" content="iOS Core Data Tutorial: Fetch, Update, Delete Data from Database"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2012/12/MyStore-Delete-Device.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Core Data Part 2: Update, Delete Managed Objects and View Raw SQL Statement Comments Feed" href="http://www.appcoda.com/core-data-tutorial-update-delete/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1048' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1048 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1048 post type-post status-publish format-standard hentry category-course tag-core-data tag-ios-development tag-ios-programming tag-uitableview entry"><h1 class="entry-title">Core Data Part 2: Update, Delete Managed Objects and View Raw SQL Statement</h1> 
+<div class="post-info"><span class="date published time" title="2012-12-23T15:50:14+00:00">December 23, 2012</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/core-data-tutorial-update-delete/#comments"><span class="dsq-postid" data-dsqidentifier="1048 http://www.appcoda.com/?p=1048">66 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>This is the second article for our Core Data series. Previously, we gave you <a href="http://www.appcoda.com/introduction-to-core-data/">a brief introduction of Core Data</a> and created a simple app to store all your device information. However, we only showed you how to insert records into data store through Core Data API and left out the update &#038; delete operations. </p>
+<p>In this tutorial, we&#8217;ll continue to work on the app and focus on the following areas of Core Data:</p>
+<ul>
+<li>Updating or deleting an object using Core Data API</li>
+<li>Viewing the raw SQL statement for debugging purpose</li>
+</ul>
+<p><span id="more-1048"></span></p>
+<h2>Updating or Delete an Object using Core Data</h2>
+<div class="note"><Strong>Note:</strong> If this is the first time you learn about Core Data, we recommend you to read the <a href="http://www.appcoda.com/introduction-to-core-data/">first tutorial</a>. But for those who do not want to start from the very beginning, you can <a href="https://dl.dropbox.com/u/2857188/MyStore_part1.zip">download this Xcode project</a> to continue to work on the below tutorial.
+</div>
+<p>In the last tutorial, we already discussed how to fetch and save a managed object using Core Data API. So how can you update or delete an existing managed object from database? </p>
+<h3>Deleting an Object</h3>
+<p>Let&#8217;s talk about the delete operation first. To allow user to delete a record from the table view, as you know, we can simply implement the &#8220;canEditRowAtIndexPath&#8221; and &#8220;commitEditingStyle&#8221; methods. Add the following code to the DeviceViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView canEditRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Return NO if you do not want the specified item to be editable.</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">YES</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView commitEditingStyle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableViewCellEditingStyle<span style="color: #002200;">&#41;</span>editingStyle forRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSManagedObjectContext_Class/"><span style="color: #400080;">NSManagedObjectContext</span></a> <span style="color: #002200;">*</span>context <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self managedObjectContext<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>editingStyle <span style="color: #002200;">==</span> UITableViewCellEditingStyleDelete<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Delete object from database</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>context deleteObject<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>self.devices objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>context save<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Can't Delete! %@ %@&quot;</span>, error, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Remove device from table view</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.devices removeObjectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.tableView deleteRowsAtIndexPaths<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObject<span style="color: #002200;">:</span>indexPath<span style="color: #002200;">&#93;</span> withRowAnimation<span style="color: #002200;">:</span>UITableViewRowAnimationFade<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We&#8217;ll not go into the details about how to remove a row from table view as we&#8217;ve already covered in <a href="http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/" title="Delete a Row from UITableView">our earlier tutorial</a>. Let&#8217;s focus on the code of commitEditingStyle method for deleting the managed object from database.</p>
+<p>Like saving data, we first grab the manage object context. The context provides a method called &#8220;deleteObject&#8221; that allows you to delete the specific object from database. Lastly, we invoke the &#8220;save&#8221; method to commit the change. Following the removal of the object from database, we also remove the record from the table view.</p>
+<p>Now, let&#8217;s run the app and try to remove a record from database. Your app should look similar to the following:</p>
+<div id="attachment_1053" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/12/MyStore-Delete-Device.jpg" alt="Delete a device from database" class="size-full wp-image-1053" /><p class="wp-caption-text">Delete a device from database</p></div>
+<h3>Updating an Object</h3>
+<p>Next, we&#8217;ll enhance the app to let user update the device information. Go to the Storyboard and add a new segue for the table cell. This segue is used to connect a table cell and the detail view controller. When user selects any device in the table view, the detail view controller will be displayed to show the information of the selected device.</p>
+<div id="attachment_1054" style="width: 615px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/12/MyStore-Add-UpdateDevice-Segue.jpg" alt="MyStore - Add UpdateDevice Segue" class="size-full wp-image-1054" /><p class="wp-caption-text">Add a new segue for updating device</p></div>
+<p>To differentiate the segue from the one for adding a new device, we set an identifier as &#8220;UpdateDevice&#8221;. Next, add the prepareForSegue method in DeviceViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>prepareForSegue<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIStoryboardSegue <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>segue sender<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>segue identifier<span style="color: #002200;">&#93;</span> isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;UpdateDevice&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSManagedObject_Class/"><span style="color: #400080;">NSManagedObject</span></a> <span style="color: #002200;">*</span>selectedDevice <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self.devices objectAtIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>self.tableView indexPathForSelectedRow<span style="color: #002200;">&#93;</span> row<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; DeviceDetailViewController <span style="color: #002200;">*</span>destViewController <span style="color: #002200;">=</span> segue.destinationViewController;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; destViewController.device <span style="color: #002200;">=</span> selectedDevice;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>When user selects a specific device in the table view, it&#8217;ll go through the &#8220;UpdateDevice&#8221; segue. We then retrieve the selected device and pass it to the detail view controller. </p>
+<div class="note"><strong>Note:</strong> If you have no idea about what the segue is, go back to check out the tutorial about <a href="http://www.appcoda.com/storyboards-ios-tutorial-pass-data-between-view-controller-with-segue/">passing data between view controllers with segue.</a>
+</div>
+<p>Next, add a new properties in the DeviceDetailViewController.h for saving the selected device:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSManagedObject_Class/"><span style="color: #400080;">NSManagedObject</span></a> <span style="color: #002200;">*</span>device;</div></td></tr></tbody></table></div>
+<p>As always, add the synthesis statement in the DeviceDetailViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@implementation</span> DeviceDetailViewController<br />
+<span style="color: #a61390;">@synthesize</span> device;</div></td></tr></tbody></table></div>
+<p>To display the information of the selected device, we have to change the &#8220;viewDidLoad&#8221; method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Do any additional setup after loading the view.</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>self.device<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.nameTextField setText<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>self.device valueForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.versionTextField setText<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>self.device valueForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;version&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.companyTextField setText<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>self.device valueForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;company&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s stop here and try to run the app again. As your app launches, tap any of the device records and the device information should appear in the detail view.</p>
+<div id="attachment_1056" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/12/MyStore-Display-Detail-Device-Info.jpg" alt="MyStore - Display Detail Device Info" class="size-full wp-image-1056" /><p class="wp-caption-text">Display Detailed Device Information</p></div>
+<p>However, the app is not finished yet. If you try to edit the information of an existing device, it will not update the device information properly. Go back to the DeviceDetailViewController.m and modify the &#8220;save:&#8221; method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>save<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSManagedObjectContext_Class/"><span style="color: #400080;">NSManagedObjectContext</span></a> <span style="color: #002200;">*</span>context <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self managedObjectContext<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>self.device<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Update existing device</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.device setValue<span style="color: #002200;">:</span>self.nameTextField.text forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.device setValue<span style="color: #002200;">:</span>self.versionTextField.text forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;version&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.device setValue<span style="color: #002200;">:</span>self.companyTextField.text forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;company&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Create a new device</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSManagedObject_Class/"><span style="color: #400080;">NSManagedObject</span></a> <span style="color: #002200;">*</span>newDevice <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/CoreDataFramework/Classes/NSEntityDescription_Class/"><span style="color: #400080;">NSEntityDescription</span></a> insertNewObjectForEntityForName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Device&quot;</span> inManagedObjectContext<span style="color: #002200;">:</span>context<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>newDevice setValue<span style="color: #002200;">:</span>self.nameTextField.text forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>newDevice setValue<span style="color: #002200;">:</span>self.versionTextField.text forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;version&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>newDevice setValue<span style="color: #002200;">:</span>self.companyTextField.text forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;company&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Save the object to persistent store</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>context save<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Can't Save! %@ %@&quot;</span>, error, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We&#8217;ll update the device information if any of the devices is selected. If there is no selected device, we&#8217;ll then create a new device and add it into the database.</p>
+<p>Try to test the app again. The update feature should now work properly:</p>
+<div id="attachment_1057" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/12/MyStore-Update-Device-Info-Sample-e1356271683134.jpg" alt="MyStore - Update Device Info Sample" class="size-full wp-image-1057" /><p class="wp-caption-text">Now you can update the device info properly!</p></div>
+<h2>Viewing the Raw SQL Statement</h2>
+<p>Thanks to Core Data. Even without learning SQL and database, you&#8217;re able to perform create, select, update and delete operation. However, for those with database background, you may want to know the exact SQLs executed behind the scene.</p>
+<p>To enable SQL output for debugging purpose, click &#8220;MyStore&#8221; and select &#8220;Edit Scheme&#8221;. </p>
+<div id="attachment_1058" style="width: 552px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/12/Xcode-Edit-Scheme.jpg" alt="Xcode Edit Scheme" class="size-full wp-image-1058" /><p class="wp-caption-text">Edit scheme in Xcode project</p></div>
+<p>Under &#8220;Argument Passed on Launch&#8221; section, click the &#8220;+&#8221; button and add the &#8220;-com.apple.CoreData.SQLDebug 1&#8243; parameter:</p>
+<div id="attachment_1059" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/12/Xcode-add-SQL-Debug-Parameter-e1356274393681.jpg" alt="Xcode add SQL Debug Parameter" class="size-full wp-image-1059" /><p class="wp-caption-text">Add SQL Debug Parameter</p></div>
+<p>Click &#8220;OK&#8221; to confirm. Now run your app again and you&#8217;ll see the raw SQL statement (e.g. SELECT and UPDATE) displayed in the output window.</p>
+<div id="attachment_1062" style="width: 638px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/12/Sql-statement-output-debug.jpg" alt="Sql statement output debug" class="size-full wp-image-1062" /><p class="wp-caption-text">SQL statement for Core Data Debugging</p></div>
+<h2>What&#8217;s Coming Next</h2>
+<p>We hope you enjoy the tutorial and have a better understanding about Core Data. For your reference, you can download the complete source code <a href="https://dl.dropbox.com/u/2857188/MyStore_part2.zip">here</a>. </p>
+<p>In the later tutorials, we&#8217;ll talk about object relationship and show you how to optimize the app using NSFetchedResultsController.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-static-table-view-storyboard/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/03/Static-Table-View-Demo-App1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Create Static Table View Using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios7-programming-ibeacons-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/11/beacon-01-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Use iBeacons in iOS 7 to Enhance Your Apps</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/building-rss-reader-using-uisplitviewcontroller-uipopoverviewcontroller/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/09/splitviewcontroller-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building an RSS Reader Using UISplitViewController and UIPopoverViewController</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/webkit-framework-intro/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/01/webkit-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">A Look at the WebKit Framework - Part 1</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/core-data-tutorial-update-delete/"
+    dc:identifier="http://www.appcoda.com/core-data-tutorial-update-delete/"
+    dc:title="Core Data Part 2: Update, Delete Managed Objects and View Raw SQL Statement"
+    trackback:ping="http://www.appcoda.com/core-data-tutorial-update-delete/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/core-data/" rel="tag">core data</a>, <a href="http://www.appcoda.com/tag/ios-development/" rel="tag">iOS Development</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/uitableview/" rel="tag">UITableView</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-1002">
+        <div id="dsq-comment-header-1002" class="dsq-comment-header">
+            <cite id="dsq-cite-1002">
+                <span id="dsq-author-user-1002">Curlypaws</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1002" class="dsq-comment-body">
+            <div id="dsq-comment-message-1002" class="dsq-comment-message"><p>Thanks very much Simon. It is really helpful to see the combination of storyboards and Core Data as so many of the example I’ve seen have been pre iOS5.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1016">
+        <div id="dsq-comment-header-1016" class="dsq-comment-header">
+            <cite id="dsq-cite-1016">
+                <span id="dsq-author-user-1016">Arie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1016" class="dsq-comment-body">
+            <div id="dsq-comment-message-1016" class="dsq-comment-message"><p>I keep getting errors with &#8211; (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{<br />
+    if ([[segue identifier] isEqualToString:@&#8221;UpdateDevice&#8221;]) {<br />
+        NSManagedObject *selectedDevice = [self.devices objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];<br />
+        DeviceDetailViewController *destViewController = segue.destinationViewController;<br />
+        destViewController.device = selectedDevice;<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1146">
+        <div id="dsq-comment-header-1146" class="dsq-comment-header">
+            <cite id="dsq-cite-1146">
+                <span id="dsq-author-user-1146">stuart</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1146" class="dsq-comment-body">
+            <div id="dsq-comment-message-1146" class="dsq-comment-message"><p>I am also getting error in the same area</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-1239">
+        <div id="dsq-comment-header-1239" class="dsq-comment-header">
+            <cite id="dsq-cite-1239">
+                <span id="dsq-author-user-1239">NameTest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1239" class="dsq-comment-body">
+            <div id="dsq-comment-message-1239" class="dsq-comment-message"><p>You must include &#8216;DeviceDetailViewController.h&#8217; file to DeviceViewController.m.<br />
+#import &#8220;DeviceDetailViewController.h&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1017">
+        <div id="dsq-comment-header-1017" class="dsq-comment-header">
+            <cite id="dsq-cite-1017">
+                <span id="dsq-author-user-1017">Arie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1017" class="dsq-comment-body">
+            <div id="dsq-comment-message-1017" class="dsq-comment-message"><p>2012-12-25 17:51:28.604 MyStore[1967:c07] Unresolved error Error Domain=NSCocoaErrorDomain Code=134100 &#8220;The operation couldn’t be completed. (Cocoa error 134100.)&#8221; UserInfo=0xa057fa0 {metadata={</p>
+<p>    NSPersistenceFrameworkVersion = 419;</p>
+<p>    NSStoreModelVersionHashes =     {</p>
+<p>        Device = ;</p>
+<p>    };</p>
+<p>    NSStoreModelVersionHashesVersion = 3;</p>
+<p>    NSStoreModelVersionIdentifiers =     (</p>
+<p>        &#8220;&#8221;</p>
+<p>    );</p>
+<p>    NSStoreType = SQLite;</p>
+<p>    NSStoreUUID = &#8220;CAC08A0E-5C74-499B-BA50-A14AC5E803EA&#8221;;</p>
+<p>    &#8220;_NSAutoVacuumLevel&#8221; = 2;</p>
+<p>}, reason=The model used to open the store is incompatible with the one used to create the store}, {</p>
+<p>    metadata =     {</p>
+<p>        NSPersistenceFrameworkVersion = 419;</p>
+<p>        NSStoreModelVersionHashes =         {</p>
+<p>            Device = ;</p>
+<p>        };</p>
+<p>        NSStoreModelVersionHashesVersion = 3;</p>
+<p>        NSStoreModelVersionIdentifiers =         (</p>
+<p>            &#8220;&#8221;</p>
+<p>        );</p>
+<p>        NSStoreType = SQLite;</p>
+<p>        NSStoreUUID = &#8220;CAC08A0E-5C74-499B-BA50-A14AC5E803EA&#8221;;</p>
+<p>        &#8220;_NSAutoVacuumLevel&#8221; = 2;</p>
+<p>    };</p>
+<p>    reason = &#8220;The model used to open the store is incompatible with the one used to create the store&#8221;;</p>
+<p>}</p>
+<p>(lldb)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1019">
+        <div id="dsq-comment-header-1019" class="dsq-comment-header">
+            <cite id="dsq-cite-1019">
+http://www.simonblog.com                <span id="dsq-author-user-1019">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1019" class="dsq-comment-body">
+            <div id="dsq-comment-message-1019" class="dsq-comment-message"><p>In the iOS simulator, click &#8220;iOS simulator&#8221; from the menu and select &#8220;Reset Content and Settings&#8230;&#8221;. Then try to build your project and run the app again. This may resolve the issue.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1025">
+        <div id="dsq-comment-header-1025" class="dsq-comment-header">
+            <cite id="dsq-cite-1025">
+                <span id="dsq-author-user-1025">Marian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1025" class="dsq-comment-body">
+            <div id="dsq-comment-message-1025" class="dsq-comment-message"><p>Hi!<br />
+I like your Tutorials very much. Thank you! I have an idea for a new tutorial, can you explain how to record the voice in an app?</p>
+<p>Marian</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1026">
+        <div id="dsq-comment-header-1026" class="dsq-comment-header">
+            <cite id="dsq-cite-1026">
+http://www.simonblog.com                <span id="dsq-author-user-1026">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1026" class="dsq-comment-body">
+            <div id="dsq-comment-message-1026" class="dsq-comment-message"><p>Great suggestion. I&#8217;ll put it in my todo list.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1052">
+        <div id="dsq-comment-header-1052" class="dsq-comment-header">
+            <cite id="dsq-cite-1052">
+                <span id="dsq-author-user-1052">Bob</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1052" class="dsq-comment-body">
+            <div id="dsq-comment-message-1052" class="dsq-comment-message"><p>I just got here from your previous post. As payback for your great article here is a tool I have found very helpful for understanding Core Data</p>
+<p><a href="https://github.com/yepher/CoreDataUtility" rel="nofollow">https://github.com/yepher/CoreDataUtility</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1080">
+        <div id="dsq-comment-header-1080" class="dsq-comment-header">
+            <cite id="dsq-cite-1080">
+                <span id="dsq-author-user-1080">Justin Bush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1080" class="dsq-comment-body">
+            <div id="dsq-comment-message-1080" class="dsq-comment-message"><p>Can you include iCloud compatibility in Part 3? Your tutorial&#8217;s have been very helpful, thanks a lot.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1083">
+        <div id="dsq-comment-header-1083" class="dsq-comment-header">
+            <cite id="dsq-cite-1083">
+http://www.simonblog.com                <span id="dsq-author-user-1083">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1083" class="dsq-comment-body">
+            <div id="dsq-comment-message-1083" class="dsq-comment-message"><p>We&#8217;ll cover relationships of Core Data in the next tutorial. But it&#8217;s good suggestion. We&#8217;ll write one about iCloud in the future.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1124">
+        <div id="dsq-comment-header-1124" class="dsq-comment-header">
+            <cite id="dsq-cite-1124">
+                <span id="dsq-author-user-1124">xcdr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1124" class="dsq-comment-body">
+            <div id="dsq-comment-message-1124" class="dsq-comment-message"><p>Thank you very much it is perfect tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1126">
+        <div id="dsq-comment-header-1126" class="dsq-comment-header">
+            <cite id="dsq-cite-1126">
+                <span id="dsq-author-user-1126">Redkigs</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1126" class="dsq-comment-body">
+            <div id="dsq-comment-message-1126" class="dsq-comment-message"><p>Thanks a lot! This turial us exactlt what I&#8217;m looking for.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1159">
+        <div id="dsq-comment-header-1159" class="dsq-comment-header">
+            <cite id="dsq-cite-1159">
+http://twitter.com/Sodooooo                <span id="dsq-author-user-1159">Sodbileg Gansukh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1159" class="dsq-comment-body">
+            <div id="dsq-comment-message-1159" class="dsq-comment-message"><p>That&#8217;s really good tutorial. Can you please show us how to sync Core Data with MySQL web services with relationship? I&#8217;ve already read syncing tutorial on Raywenderlich, but it looks too difficult for me.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1187">
+        <div id="dsq-comment-header-1187" class="dsq-comment-header">
+            <cite id="dsq-cite-1187">
+                <span id="dsq-author-user-1187">Jumanji</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1187" class="dsq-comment-body">
+            <div id="dsq-comment-message-1187" class="dsq-comment-message"><p>just want to say thank you very much this is a great tutorials!!! keep on posting !!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1196">
+        <div id="dsq-comment-header-1196" class="dsq-comment-header">
+            <cite id="dsq-cite-1196">
+                <span id="dsq-author-user-1196">Maciek Macie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1196" class="dsq-comment-body">
+            <div id="dsq-comment-message-1196" class="dsq-comment-message"><p>It&#8217;s not easy to find a table view + core data tutorial working on latest iOS. Thank you. I hope part 3 will be published soon</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1200">
+        <div id="dsq-comment-header-1200" class="dsq-comment-header">
+            <cite id="dsq-cite-1200">
+http://www.simonblog.com                <span id="dsq-author-user-1200">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1200" class="dsq-comment-body">
+            <div id="dsq-comment-message-1200" class="dsq-comment-message"><p>I am still editing part 3 but it should be available later this month. Stay tuned <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1205">
+        <div id="dsq-comment-header-1205" class="dsq-comment-header">
+            <cite id="dsq-cite-1205">
+                <span id="dsq-author-user-1205">Wouter</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1205" class="dsq-comment-body">
+            <div id="dsq-comment-message-1205" class="dsq-comment-message"><p>I feel like you&#8217;re intentionally leaving more and more little steps out during your tutorial, and then I get errors, but then I can fix them because of what I got from your earlier lessons! </p>
+<p>In this case for example, adding the segue gaven an error because he didn&#8217;t recognize the DeviceDetailViewController then, but of course importing the correct .h file at the top of DeviceViewController.m fixed that!</p>
+<p>Wonderful feeling <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1244">
+        <div id="dsq-comment-header-1244" class="dsq-comment-header">
+            <cite id="dsq-cite-1244">
+                <span id="dsq-author-user-1244">sumy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1244" class="dsq-comment-body">
+            <div id="dsq-comment-message-1244" class="dsq-comment-message"><p>Thankz!!! Great Tutorial&#8230;..How can add image to core data in this application(along with each device)?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1245">
+        <div id="dsq-comment-header-1245" class="dsq-comment-header">
+            <cite id="dsq-cite-1245">
+                <span id="dsq-author-user-1245">sumy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1245" class="dsq-comment-body">
+            <div id="dsq-comment-message-1245" class="dsq-comment-message"><p>How can add umage to core data in this appln( for each new device added)?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1266">
+        <div id="dsq-comment-header-1266" class="dsq-comment-header">
+            <cite id="dsq-cite-1266">
+                <span id="dsq-author-user-1266">azma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1266" class="dsq-comment-body">
+            <div id="dsq-comment-message-1266" class="dsq-comment-message"><p>Great Tutorial. In the next one, maybe discuss how to allow re-ordering of the tableview cells, having a heck of a time with that.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1271">
+        <div id="dsq-comment-header-1271" class="dsq-comment-header">
+            <cite id="dsq-cite-1271">
+                <span id="dsq-author-user-1271">pointer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1271" class="dsq-comment-body">
+            <div id="dsq-comment-message-1271" class="dsq-comment-message"><p>Excellent tutorial. Looking forward to seeing part 3.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1282">
+        <div id="dsq-comment-header-1282" class="dsq-comment-header">
+            <cite id="dsq-cite-1282">
+                <span id="dsq-author-user-1282">Vladislav Kovalyov</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1282" class="dsq-comment-body">
+            <div id="dsq-comment-message-1282" class="dsq-comment-message"><p>This is a really great and simple tutorials. But I met a problem. I create another view for edit my data. When I tap &#8220;save&#8221;, it saves edited data and show on my table view. But when I restart my app, it doesn&#8217;t save my changes. How can I fix it? </p>
+<p>P.S. Sorry for my bad English.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4078">
+        <div id="dsq-comment-header-4078" class="dsq-comment-header">
+            <cite id="dsq-cite-4078">
+                <span id="dsq-author-user-4078">Tim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4078" class="dsq-comment-body">
+            <div id="dsq-comment-message-4078" class="dsq-comment-message"><p>Me too, did you find an answer to this?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1467">
+        <div id="dsq-comment-header-1467" class="dsq-comment-header">
+            <cite id="dsq-cite-1467">
+                <span id="dsq-author-user-1467">Hugo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1467" class="dsq-comment-body">
+            <div id="dsq-comment-message-1467" class="dsq-comment-message"><p>Hi, </p>
+<p>First of all, two great introductions to Core Data ! I wish you&#8217;d write some more about relationships and iCloud sync. </p>
+<p>Anyway, I would like to know how the method save: is invoked if we are only checking if the data has been saved/removed by writing : if(![context save:&amp;error]) { &#8230; } ???</p>
+<p>Thanks !</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2795">
+        <div id="dsq-comment-header-2795" class="dsq-comment-header">
+            <cite id="dsq-cite-2795">
+                <span id="dsq-author-user-2795">Crazy8s</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2795" class="dsq-comment-body">
+            <div id="dsq-comment-message-2795" class="dsq-comment-message"><p>If you are still interested, it appears the -(BOOL)save: method both invokes the save and returns YES on completion. It is not simply a check to see if the record has already been saved.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1469">
+        <div id="dsq-comment-header-1469" class="dsq-comment-header">
+            <cite id="dsq-cite-1469">
+                <span id="dsq-author-user-1469">Felix</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1469" class="dsq-comment-body">
+            <div id="dsq-comment-message-1469" class="dsq-comment-message"><p>excellent tutorials!  Please when will session 3 be available?  Thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1479">
+        <div id="dsq-comment-header-1479" class="dsq-comment-header">
+            <cite id="dsq-cite-1479">
+http://www.simonblog.com                <span id="dsq-author-user-1479">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1479" class="dsq-comment-body">
+            <div id="dsq-comment-message-1479" class="dsq-comment-message"><p>I&#8217;ve drafted the 3rd article but need some editing before releasing it here. Stay tuned.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-1567">
+        <div id="dsq-comment-header-1567" class="dsq-comment-header">
+            <cite id="dsq-cite-1567">
+                <span id="dsq-author-user-1567">Luwen Huang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1567" class="dsq-comment-body">
+            <div id="dsq-comment-message-1567" class="dsq-comment-message"><p>This is truly great stuff &#8211; the annotated graphics and explanations make these tutorials the best available online &#8211; can&#8217;t wait for the next article!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1594">
+        <div id="dsq-comment-header-1594" class="dsq-comment-header">
+            <cite id="dsq-cite-1594">
+                <span id="dsq-author-user-1594">asaf</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1594" class="dsq-comment-body">
+            <div id="dsq-comment-message-1594" class="dsq-comment-message"><p>Great tutorial</p>
+<p>Help me so much.</p>
+<p>but i have a problem with my assignment.</p>
+<p>i have an Students db (core data), i have one main view controller that contains the TableView with all context and Fetch.</p>
+<p>to add Student, i have addStudentViewController.</p>
+<p>the insert work great.</p>
+<p>But, i have an editStudentViewController, when i click on accessoryButtonTappedForRowWithIndexPath i send the relevant information but the Edited data not store.</p>
+<p>my question: how can i pass the nsmanagedObject to another viewController or how can i do the edit by another viewController.</p>
+<p>Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1625">
+        <div id="dsq-comment-header-1625" class="dsq-comment-header">
+            <cite id="dsq-cite-1625">
+                <span id="dsq-author-user-1625">Aamir khan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1625" class="dsq-comment-body">
+            <div id="dsq-comment-message-1625" class="dsq-comment-message"><p>best tutorials but sir only little information about database so you should to uploaded the complete set of the database tutorials&#8230;&#8230;&#8230;&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1661">
+        <div id="dsq-comment-header-1661" class="dsq-comment-header">
+            <cite id="dsq-cite-1661">
+                <span id="dsq-author-user-1661">HLA</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1661" class="dsq-comment-body">
+            <div id="dsq-comment-message-1661" class="dsq-comment-message"><p>Thanks a lot&#8230;<br />
+I would like to know how to dismiss keyboard after typing text in text box.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1921">
+        <div id="dsq-comment-header-1921" class="dsq-comment-header">
+            <cite id="dsq-cite-1921">
+                <span id="dsq-author-user-1921">Owen Andrews</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1921" class="dsq-comment-body">
+            <div id="dsq-comment-message-1921" class="dsq-comment-message"><p>Fantastic tutorials! Beats Apples docs 😉</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2104">
+        <div id="dsq-comment-header-2104" class="dsq-comment-header">
+            <cite id="dsq-cite-2104">
+                <span id="dsq-author-user-2104">Robert</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2104" class="dsq-comment-body">
+            <div id="dsq-comment-message-2104" class="dsq-comment-message"><p>Great guide for Core Data basics and complete source code that works too! Thanks, been searching all morning for a good tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2366">
+        <div id="dsq-comment-header-2366" class="dsq-comment-header">
+            <cite id="dsq-cite-2366">
+                <span id="dsq-author-user-2366">Abrar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2366" class="dsq-comment-body">
+            <div id="dsq-comment-message-2366" class="dsq-comment-message"><p>Hey, awesome tutorial!! Really enjoyed it. I was wondering one more thing&#8230; what if I wanted to sort the results by device? so all the apples up top and the rest below. How would I go about doing that?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2616">
+        <div id="dsq-comment-header-2616" class="dsq-comment-header">
+            <cite id="dsq-cite-2616">
+                <span id="dsq-author-user-2616">jacob banks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2616" class="dsq-comment-body">
+            <div id="dsq-comment-message-2616" class="dsq-comment-message"><p>i did both tutorials and at the end of this one i tried  to run it and i got a black screen i have no errors or warnings can you help me.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2839">
+        <div id="dsq-comment-header-2839" class="dsq-comment-header">
+            <cite id="dsq-cite-2839">
+                <span id="dsq-author-user-2839">shalin pandey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2839" class="dsq-comment-body">
+            <div id="dsq-comment-message-2839" class="dsq-comment-message"><p>Make Your StoryBoard as Main in project Setting&#8230;&#8230;&#8230;&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2838">
+        <div id="dsq-comment-header-2838" class="dsq-comment-header">
+            <cite id="dsq-cite-2838">
+                <span id="dsq-author-user-2838">sankar ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2838" class="dsq-comment-body">
+            <div id="dsq-comment-message-2838" class="dsq-comment-message"><p>Hey I got a  error define the Identifier Please help me in this</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2975">
+        <div id="dsq-comment-header-2975" class="dsq-comment-header">
+            <cite id="dsq-cite-2975">
+                <span id="dsq-author-user-2975">Mạnh Hiền Lành</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2975" class="dsq-comment-body">
+            <div id="dsq-comment-message-2975" class="dsq-comment-message"><p>thanks a lot, can you write about core data part 3 for series guide,it&#8217;s how to use coreData in the app, please!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3650">
+        <div id="dsq-comment-header-3650" class="dsq-comment-header">
+            <cite id="dsq-cite-3650">
+                <span id="dsq-author-user-3650">pradeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3650" class="dsq-comment-body">
+            <div id="dsq-comment-message-3650" class="dsq-comment-message"><p>Could somebody help me please ? I&#8217;m getting the below error when i&#8217;m trying to update the device details (i.e., when i select device in the table view). I&#8217;m using xcode 5. Additional point : I have embedded &#8216;navigation controller&#8217; to the view controller.</p>
+<p>2014-02-27 00:54:54.537 MyStore[3595:70b] -[UINavigationController setDevice:]: unrecognized selector sent to instance 0x8c824b0</p>
+<p>2014-02-27 00:54:54.540 MyStore[3595:70b] *** Terminating app due to uncaught exception &#8216;NSInvalidArgumentException&#8217;, reason: &#8216;-[UINavigationController setDevice:]: unrecognized selector sent to instance 0x8c824b0&#8242;</p>
+<p>*** First throw call stack:</p>
+<p>(</p>
+<p>	0   CoreFoundation                      0x01aa05e4 __exceptionPreprocess + 180</p>
+<p>	1   libobjc.A.dylib                     0x018238b6 objc_exception_throw + 44</p>
+<p>	2   CoreFoundation                      0x01b3d903 -[NSObject(NSObject) doesNotRecognizeSelector:] + 275</p>
+<p>	3   CoreFoundation                      0x01a9090b ___forwarding___ + 1019</p>
+<p>	4   CoreFoundation                      0x01a904ee _CF_forwarding_prep_0 + 14</p>
+<p>	5   MyStore                             0x000043ba -[MSDeviceViewController prepareForSegue:sender:] + 458</p>
+<p>	6   UIKit                               0x00ac606c -[UIStoryboardSegueTemplate _perform:] + 156</p>
+<p>	7   UIKit                               0x00ac60f9 -[UIStoryboardSegueTemplate perform:] + 115</p>
+<p>	8   UIKit                               0x00673775 -[UITableView _selectRowAtIndexPath:animated:scrollPosition:notifyDelegate:] + 1453</p>
+<p>	9   UIKit                               0x00673924 -[UITableView _userSelectRowAtPendingSelectionIndexPath:] + 279</p>
+<p>	10  UIKit                               0x00677908 __38-[UITableView touchesEnded:withEvent:]_block_invoke + 43</p>
+<p>	11  UIKit                               0x005ae183 ___afterCACommitHandler_block_invoke + 15</p>
+<p>	12  UIKit                               0x005ae12e _applyBlockToCFArrayCopiedToStack + 403</p>
+<p>	13  UIKit                               0x005adf5a _afterCACommitHandler + 532</p>
+<p>	14  CoreFoundation                      0x01a684ce __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__ + 30</p>
+<p>	15  CoreFoundation                      0x01a6841f __CFRunLoopDoObservers + 399</p>
+<p>	16  CoreFoundation                      0x01a46344 __CFRunLoopRun + 1076</p>
+<p>	17  CoreFoundation                      0x01a45ac3 CFRunLoopRunSpecific + 467</p>
+<p>	18  CoreFoundation                      0x01a458db CFRunLoopRunInMode + 123</p>
+<p>	19  GraphicsServices                    0x039019e2 GSEventRunModal + 192</p>
+<p>	20  GraphicsServices                    0x03901809 GSEventRun + 104</p>
+<p>	21  UIKit                               0x00591d3b UIApplicationMain + 1225</p>
+<p>	22  MyStore                             0x000052ed main + 141</p>
+<p>	23  libdyld.dylib                       0x020de70d start + 1</p>
+<p>	24  ???                                 0x00000001 0x0 + 1</p>
+<p>)</p>
+<p>libc++abi.dylib: terminating with uncaught exception of type NSException</p>
+<p>Program ended with exit code: 0</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3865">
+        <div id="dsq-comment-header-3865" class="dsq-comment-header">
+            <cite id="dsq-cite-3865">
+                <span id="dsq-author-user-3865">Tabish Sohail</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3865" class="dsq-comment-body">
+            <div id="dsq-comment-message-3865" class="dsq-comment-message"><p>Thanks alot..such a nice tutorial..clearly explained step by step..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4173">
+        <div id="dsq-comment-header-4173" class="dsq-comment-header">
+            <cite id="dsq-cite-4173">
+                <span id="dsq-author-user-4173">Marco Boldetti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4173" class="dsq-comment-body">
+            <div id="dsq-comment-message-4173" class="dsq-comment-message"><p>Hello, i have a question&#8230;.<br />
+if i want to load a Core Data database on a previously loaded data, as i make? Thank&#8217;s.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15319">
+        <div id="dsq-comment-header-15319" class="dsq-comment-header">
+            <cite id="dsq-cite-15319">
+                <span id="dsq-author-user-15319">mark r</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15319" class="dsq-comment-body">
+            <div id="dsq-comment-message-15319" class="dsq-comment-message"><p>My software errors on:</p>
+<p>[self.device setValue:self.nameTextField.text forKey:@&#8221;name&#8221;];</p>
+<p>in:</p>
+<p>if (self.device) {<br />
+        // Update existing device<br />
+        [self.device setValue:self.nameTextField.text forKey:@&#8221;name&#8221;];<br />
+        [self.device setValue:self.versionTextField.text forKey:@&#8221;version&#8221;];<br />
+        [self.device setValue:self.companyTextField.text forKey:@&#8221;company&#8221;];<br />
+    }</p>
+<p>What would be the preseason for this?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-16396">
+        <div id="dsq-comment-header-16396" class="dsq-comment-header">
+            <cite id="dsq-cite-16396">
+                <span id="dsq-author-user-16396">mark r</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16396" class="dsq-comment-body">
+            <div id="dsq-comment-message-16396" class="dsq-comment-message"><p>I get the error on line return UIApplicationMain(argc, argv, nil, NSStringFromClass([EyePrescriptionTrackerAppDelegate class]));  Does anyone have any ideas why is errors here when I press the button to update my core data?  Any thoughts would be appreciated.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15403">
+        <div id="dsq-comment-header-15403" class="dsq-comment-header">
+            <cite id="dsq-cite-15403">
+                <span id="dsq-author-user-15403">Quân Chùa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15403" class="dsq-comment-body">
+            <div id="dsq-comment-message-15403" class="dsq-comment-message"><p>thanks you very very very much for your tutorials.It helped me alot. I am so lucky to visit you site <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-15535">
+        <div id="dsq-comment-header-15535" class="dsq-comment-header">
+            <cite id="dsq-cite-15535">
+http://www.appcoda.com/                <span id="dsq-author-user-15535">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15535" class="dsq-comment-body">
+            <div id="dsq-comment-message-15535" class="dsq-comment-message"><p>Great to hear that <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Keep coming back. You&#8217;ll find even more tutorials in coming weeks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15582">
+        <div id="dsq-comment-header-15582" class="dsq-comment-header">
+            <cite id="dsq-cite-15582">
+                <span id="dsq-author-user-15582">ish3lan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15582" class="dsq-comment-body">
+            <div id="dsq-comment-message-15582" class="dsq-comment-message"><p>how lucky I am for finding this tutorial<br />
+thanx for the help</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-20398">
+        <div id="dsq-comment-header-20398" class="dsq-comment-header">
+            <cite id="dsq-cite-20398">
+                <span id="dsq-author-user-20398">Annapurna priya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-20398" class="dsq-comment-body">
+            <div id="dsq-comment-message-20398" class="dsq-comment-message"><p>great tutorial.!! Explains Core Data very easily..:)<br />
+ But suppose i am getting data from server and inserting the server  data in core data. Now what i want is that, when some new data comes from the server i will update my core data database. In that case what should i do??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-25464">
+        <div id="dsq-comment-header-25464" class="dsq-comment-header">
+            <cite id="dsq-cite-25464">
+                <span id="dsq-author-user-25464">Iris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25464" class="dsq-comment-body">
+            <div id="dsq-comment-message-25464" class="dsq-comment-message"><p>Hi! Great tutorial! They&#8217;re a big help. Though I&#8217;m still having trouble fully understanding the Objective C language, little by little, I&#8217;m gaining more confidence in iOS programming thanks to you. <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Maybe you could do a tutorial on Magical Record next? Hehe. I&#8217;ll look forward to it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-27144">
+        <div id="dsq-comment-header-27144" class="dsq-comment-header">
+            <cite id="dsq-cite-27144">
+                <span id="dsq-author-user-27144">Ejiro Ogagarue</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27144" class="dsq-comment-body">
+            <div id="dsq-comment-message-27144" class="dsq-comment-message"><p>how do you update the object from a button placed in the cell instead of using the table cell row  to update the object i really need help in doing that</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27249">
+        <div id="dsq-comment-header-27249" class="dsq-comment-header">
+            <cite id="dsq-cite-27249">
+                <span id="dsq-author-user-27249">Gourav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27249" class="dsq-comment-body">
+            <div id="dsq-comment-message-27249" class="dsq-comment-message"><p>thanku bro&#8230;i did use yours source code..bt now i want know abt , how to perform many to many relationship in cvoredata &#8230;..</p>
+<p>yhnks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-29006">
+        <div id="dsq-comment-header-29006" class="dsq-comment-header">
+            <cite id="dsq-cite-29006">
+                <span id="dsq-author-user-29006">Venkatraman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29006" class="dsq-comment-body">
+            <div id="dsq-comment-message-29006" class="dsq-comment-message"><p>Can you please show us how to sync Core Data with MySQL web services with relationship? I&#8217;ve already read syncing tutorial on Raywenderlich, but it looks too difficult for me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31083">
+        <div id="dsq-comment-header-31083" class="dsq-comment-header">
+            <cite id="dsq-cite-31083">
+                <span id="dsq-author-user-31083">rana</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31083" class="dsq-comment-body">
+            <div id="dsq-comment-message-31083" class="dsq-comment-message"><p>when i click on data it goes to update view controller, but when i update data nd press save , it not comes back to list view controller..(data even updated on list vier controller,,)</p>
+<p>can anyone help me in this?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-93290">
+        <div id="dsq-comment-header-93290" class="dsq-comment-header">
+            <cite id="dsq-cite-93290">
+                <span id="dsq-author-user-93290">pradeep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-93290" class="dsq-comment-body">
+            <div id="dsq-comment-message-93290" class="dsq-comment-message"><p>Hi Rana,  Use this  [self.navigationController popViewControllerAnimated:YES];</p>
+<p>instead of [self dismissViewControllerAnimated:YES completion:nil];</p>
+<p>for both save and cancel</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-40930">
+        <div id="dsq-comment-header-40930" class="dsq-comment-header">
+            <cite id="dsq-cite-40930">
+                <span id="dsq-author-user-40930">Ali E.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-40930" class="dsq-comment-body">
+            <div id="dsq-comment-message-40930" class="dsq-comment-message"><p>Simon, I just want to say thank you! I&#8217;ve been looking for almost 3 days for Core Data tutorials, I saw many long ones but this one is the BEST ONE! Very simple! I highly recommend it for Core Data beginners. Thanks again! <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-41040">
+        <div id="dsq-comment-header-41040" class="dsq-comment-header">
+            <cite id="dsq-cite-41040">
+http://www.appcoda.com/                <span id="dsq-author-user-41040">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-41040" class="dsq-comment-body">
+            <div id="dsq-comment-message-41040" class="dsq-comment-message"><p>Thank you for your kind words <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://peppermintgraphics.com/blogs/?p=8' rel='external nofollow' class='url'>iPhone Interview Questions | iBlogs</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-67798">
+        <div id="dsq-comment-header-67798" class="dsq-comment-header">
+            <cite id="dsq-cite-67798">
+                <span id="dsq-author-user-67798">swetha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-67798" class="dsq-comment-body">
+            <div id="dsq-comment-message-67798" class="dsq-comment-message"><p>How to view the devices that we added to the list in the sql database?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-76966">
+        <div id="dsq-comment-header-76966" class="dsq-comment-header">
+            <cite id="dsq-cite-76966">
+                <span id="dsq-author-user-76966">Wingle Wong</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-76966" class="dsq-comment-body">
+            <div id="dsq-comment-message-76966" class="dsq-comment-message"><p>At the end of this article , you said &#8220;In the later tutorials, we’ll talk about object relationship and show you how to optimize the app using NSFetchedResultsController.&#8221;. But I can not find the later tutorial about this, could you give me a link?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://ttour.sinaapp.com/posts/5998/%e4%b8%80%e6%ac%be%e6%96%b0%e9%97%bb%e7%b1%bbios-app%e7%9a%84%e8%af%9e%e7%94%9f%e8%bf%87%e7%a8%8b%e5%88%9d%e5%ad%a6.html' rel='external nofollow' class='url'>一款新闻类iOS APP的诞生过程(初学) - ios - 嗅探实事</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99818">
+        <div id="dsq-comment-header-99818" class="dsq-comment-header">
+            <cite id="dsq-cite-99818">
+                <span id="dsq-author-user-99818">Mahesh M</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99818" class="dsq-comment-body">
+            <div id="dsq-comment-message-99818" class="dsq-comment-message"><p>You Guys are AweSome Yaar this tutorial is very understandable  i understood CoreData and am going to learn From You </p>
+<p>and One more thing as a request from me</p>
+<p>Please proceed the CoreData Tutorial for saving Images also because now am developing the application for storing the images and and some string values and implementing some search in the table view</p>
+<p>But know what i want is to save image data in to the database thats it </p>
+<p>Once Again Thanks <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100582">
+        <div id="dsq-comment-header-100582" class="dsq-comment-header">
+            <cite id="dsq-cite-100582">
+                <span id="dsq-author-user-100582">Omer Harel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100582" class="dsq-comment-body">
+            <div id="dsq-comment-message-100582" class="dsq-comment-message"><p>error:</p>
+<p> No visible @interface for &#8216;NSManagedObject&#8217; declares the selector &#8216;objectAtIndex:&#8217;</p>
+<p>&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</p>
+<p> (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{</p>
+<p>    if ([[segue identifier] isEqualToString:@&#8221;UpdateItem&#8221;]) {</p>
+<p>        NSManagedObject *selectedDevice = [self.devices objectAtIndex:[[self.tableView indexPathForSelectedRow]row]];</p>
+<p>        MenuViewController *destViewController = segue.destinationViewController;</p>
+<p>        destViewController.devices = selectedDevice;</p>
+<p>    }</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100994">
+        <div id="dsq-comment-header-100994" class="dsq-comment-header">
+            <cite id="dsq-cite-100994">
+                <span id="dsq-author-user-100994">Atinderpal singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100994" class="dsq-comment-body">
+            <div id="dsq-comment-message-100994" class="dsq-comment-message"><p>table view cell create in storyboard and its delegate and data source</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100995">
+        <div id="dsq-comment-header-100995" class="dsq-comment-header">
+            <cite id="dsq-cite-100995">
+                <span id="dsq-author-user-100995">Atinderpal singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100995" class="dsq-comment-body">
+            <div id="dsq-comment-message-100995" class="dsq-comment-message"><p>tableview cell also in storybord name &#8220;Cell&#8221;<br />
+otherwise not show data in tableview</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100996">
+        <div id="dsq-comment-header-100996" class="dsq-comment-header">
+            <cite id="dsq-cite-100996">
+                <span id="dsq-author-user-100996">Atinderpal singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100996" class="dsq-comment-body">
+            <div id="dsq-comment-message-100996" class="dsq-comment-message"><p>otherwise not show data in tableview</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101095">
+        <div id="dsq-comment-header-101095" class="dsq-comment-header">
+            <cite id="dsq-cite-101095">
+                <span id="dsq-author-user-101095">Nagarjuna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101095" class="dsq-comment-body">
+            <div id="dsq-comment-message-101095" class="dsq-comment-message"><p>nice tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/core-data-tutorial-update-delete/';
+var disqus_identifier = '1048 http://www.appcoda.com/?p=1048';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Core Data Part 2: Update, Delete Managed Objects and View Raw SQL Statement";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1048';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/qr-code-generator-tutorial/">Building a QR Code Generator with Core Image Filters</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1048"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fcore-data-tutorial-update-delete%2F&#038;t=Core%20Data%20Part%202%3A%20Update%2C%20Delete%20Managed%20Objects%20and%20View%20Raw%20SQL%20Statement" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1048" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>52</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Core%20Data%20Part%202%3A%20Update%2C%20Delete%20Managed%20Objects%20and%20View%20Raw%20SQL%20Statement&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcore-data-tutorial-update-delete%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1048" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>13</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fcore-data-tutorial-update-delete%2F&#038;t=Core%20Data%20Part%202%3A%20Update%2C%20Delete%20Managed%20Objects%20and%20View%20Raw%20SQL%20Statement" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1048" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>10</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcore-data-tutorial-update-delete%2F&#038;title=Core%20Data%20Part%202%3A%20Update%2C%20Delete%20Managed%20Objects%20and%20View%20Raw%20SQL%20Statement" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1048" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>0</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fcore-data-tutorial-update-delete%2F&#038;t=Core%20Data%20Part%202%3A%20Update%2C%20Delete%20Managed%20Objects%20and%20View%20Raw%20SQL%20Statement" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1048" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Core%20Data%20Part%202%3A%20Update%2C%20Delete%20Managed%20Objects%20and%20View%20Raw%20SQL%20Statement&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcore-data-tutorial-update-delete%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1048" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fcore-data-tutorial-update-delete%2F&#038;t=Core%20Data%20Part%202%3A%20Update%2C%20Delete%20Managed%20Objects%20and%20View%20Raw%20SQL%20Statement" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1048" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcore-data-tutorial-update-delete%2F&#038;title=Core%20Data%20Part%202%3A%20Update%2C%20Delete%20Managed%20Objects%20and%20View%20Raw%20SQL%20Statement" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1048" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/core-data-tutorial-update-delete\/","stats_nonce":"27f72d7d6e","share_counts":"c60b502e2b","follow_counts":"4fd4f218a0","total_counts":"7a2cbc80a9","media_single":"848a2abace","media_total":"2779daa846","generate_all_window_nonce":"94e43fd45b","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-06 15:00:41 by W3 Total Cache -->

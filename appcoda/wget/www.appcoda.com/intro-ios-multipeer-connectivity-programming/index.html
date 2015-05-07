@@ -1,0 +1,1293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>File Sharing Using iOS 7 Multipeer Connectivity Framework</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Apple introduced Multipeer Connectivity Framework in iOS 7. In this programming tutorial, we&#039;ll show you how to implement file sharing using the framework."/>
+<link rel="canonical" href="http://www.appcoda.com/intro-ios-multipeer-connectivity-programming/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Apple introduced Multipeer Connectivity Framework in iOS 7. In this programming tutorial, we&#039;ll show you how to implement file sharing using the framework."/>
+<meta name="twitter:title" content="File Sharing Using iOS 7 Multipeer Connectivity Framework"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/02/multipeer-connectivity-file-sharing.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Understanding Multipeer Connectivity Framework in iOS 7 &#8211; Part 2 Comments Feed" href="http://www.appcoda.com/intro-ios-multipeer-connectivity-programming/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=3017' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-3017 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-3017 post type-post status-publish format-standard hentry category-course category-intermediate tag-ios-7 tag-ios-programming tag-multipeer-connectivity-framework tag-xcode-5 entry"><h1 class="entry-title">Understanding Multipeer Connectivity Framework in iOS 7 &#8211; Part 2</h1> 
+<div class="post-info"><span class="date published time" title="2014-02-16T00:01:12+00:00">February 16, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/intro-ios-multipeer-connectivity-programming/#comments"><span class="dsq-postid" data-dsqidentifier="3017 http://www.appcoda.com/?p=3017">29 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><em>Editor&#8217;s note: In <a href="http://www.appcoda.com/intro-multipeer-connectivity-framework-ios-programming/">part 1 of the multipeer connectivity series</a>, we gave an introduction of the Multipeer Connectivity Framework and built chat feature of the demo app. The Multipeer Connectivity Framework is one of the many new frameworks introduced in iOS 7. As you can see in part 1, the framework allows developers  to easily establish communication between nearby devices and implement features for data exchanging. In part 2 of the series, let&#8217;s continue to explore the <a href="https://developer.apple.com/library/ios/documentation/MultipeerConnectivity/Reference/MultipeerConnectivityFramework/Introduction/Introduction.html">Multipeer Connectivity Framework</a> and see how we can implement the file sharing feature. </em></p>
+<p>Enter the multipeer connectivity tutorial.</p>
+<p>We&#8217;ll continue to work on the demo app. If you haven&#8217;t read the first part of the tutorial series, go back and <a href="http://www.appcoda.com/intro-multipeer-connectivity-framework-ios-programming/">check it out</a>. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/multipeer-connectivity-file-sharing.jpg" alt="multipeer connectivity file sharing" class="aligncenter size-full wp-image-3031" /><br />
+<span id="more-3017"></span></div>
+<h2>Setup The File Sharing User Interface</h2>
+<p>Previously, we&#8217;ve implemented the chat feature. Now let&#8217;s go to implement the second great feature of our sample application, the file sharing. As usual, we&#8217;ll start by setting up the interface on Interface Builder, therefore click on the <em>Main.storyboard</em> file to let it appear.</p>
+<p>As a first step, go to the Second View Controller scene and select and delete the default contents of it. Then, add the following controls from the Objects Library, setting the same time the properties as described next:</p>
+<ol>
+<li><strong>UILabel</strong>
+<ul>
+<li>Frame: X=20, Y=20, Width=280, Height=21</li>
+<li>Text: <em>My files:</em></li>
+</ul>
+</li>
+<li><strong>UITableView</strong>
+<ul>
+<li>Frame: X=0, Y=49, Width=320, Height=519</li>
+</ul>
+</li>
+</ol>
+<p>Next, on the table view add a <em>UITableViewCell</em> object, and set its <strong>Row Height</strong> value to 80. Add the following subviews to it:</p>
+<ol>
+<li><strong>UILabel</strong>
+<ul>
+<li>Frame: X=20, Y=8, Width=280, Height=21</li>
+<li>Tag: 100</li>
+</ul>
+</li>
+<li><strong>UILabel</strong>
+<ul>
+<li>Frame: X=20, Y=37, Width=280, Height=21</li>
+<li>Tag: 200</li>
+<li>Color: Light Gray</li>
+</ul>
+</li>
+<li><strong>UIProgressView</strong>
+<ul>
+<li>Frame: X=20, Y=66, Width=280, Height=2</li>
+<li>Tag: 300</li>
+</ul>
+</li>
+</ol>
+<p>As a final step, select the prototype cell, and in the <strong>Attributes Inspector</strong> of the Utilities Pane, set the <strong>newFileCellIdentifier</strong> value to the <strong>Identifier</strong> field, under the <strong>Table View Cell</strong> section. Using this identifier we will dequeue the cell later in code.</p>
+<p>Here is how the scene should look like after all having added all these controls:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t4_30_second_vc_scene.jpg" alt="Multipeer Demo - Chat Sample" class="aligncenter size-full wp-image-3012" /></div>
+<p>Now, let&#8217;s create an IBOutlet property to connect it to the table view. Open the <em>SecondViewController.h</em> file and add the next declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SecondViewController <span style="color: #002200;">:</span> UIViewController <br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UITableView <span style="color: #002200;">*</span>tblFiles;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Also, once being in this file, adopt some required protocols as we&#8217;ll need to implement some delegate methods, as shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SecondViewController <span style="color: #002200;">:</span> UIViewController &lt;UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate&gt;</div></td></tr></tbody></table></div>
+<p>Go back to the Interface Builder and connect the <em>tblFiles</em> property to the table view, exactly as you did in the previous interface configurations. After having done so, we are ready to proceed and write some code.</p>
+<h2>Sharing Files</h2>
+<p>We&#8217;ll begin the implementation on the <em>SecondViewController</em> class just like we did in the chat feature, meaning that we&#8217;ll first declare and instantiate an application delegate object, so we are able to access the <em>mcManager</em> object.</p>
+<p>Go to the top of the <em>SecondViewController.m</em> file and import the <em>AppDelegate.h</em> file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;AppDelegate.h&quot;</span></div></td></tr></tbody></table></div>
+<p>Next, declare an object to the private section of the interface:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SecondViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> AppDelegate <span style="color: #002200;">*</span>appDelegate;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Finally, instantiate it in the <em>viewDidLoad</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; _appDelegate <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>AppDelegate <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIApplication sharedApplication<span style="color: #002200;">&#93;</span> delegate<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>For the sake of the sample application, two demo files are provided to be used for sharing from peer to peer, the <em>sample_file1.txt</em> and the <em>sample_file2.txt</em>. It&#8217;s a good time now to download them and add them to the project.</p>
+<p>These two files, along with any files that will be transfered from other peers, should reside in the <em>Documents directory</em> of the application. Also, before we begin sending and receiving any file, we need to display them on our table view.</p>
+<p>So, let&#8217;s start working on all this, and our first task will be to take the sample files from the application bundle and copy them to the documents directory. We&#8217;ll do that by using a private method that we&#8217;ll create right next, but first, let&#8217;s declare it in the private section of the interface. Apart from the method declaration, we will also declare a <em>NSString</em> object to keep the documents directory path:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SecondViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>documentsDirectory;<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>copySampleFilesToDocDirIfNeeded;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s go to the implementation now:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>copySampleFilesToDocDirIfNeeded<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>paths <span style="color: #002200;">=</span> NSSearchPathForDirectoriesInDomains<span style="color: #002200;">&#40;</span>NSDocumentDirectory, NSUserDomainMask, <span style="color: #a61390;">YES</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; _documentsDirectory <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> alloc<span style="color: #002200;">&#93;</span> initWithString<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>paths objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>file1Path <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_documentsDirectory stringByAppendingPathComponent<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;sample_file1.txt&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>file2Path <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_documentsDirectory stringByAppendingPathComponent<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;sample_file2.txt&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a> <span style="color: #002200;">*</span>fileManager <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a> defaultManager<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>fileManager fileExistsAtPath<span style="color: #002200;">:</span>file1Path<span style="color: #002200;">&#93;</span> || <span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>fileManager fileExistsAtPath<span style="color: #002200;">:</span>file2Path<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>fileManager copyItemAtPath<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSBundle_Class/"><span style="color: #400080;">NSBundle</span></a> mainBundle<span style="color: #002200;">&#93;</span> pathForResource<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;sample_file1&quot;</span> ofType<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;txt&quot;</span><span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;toPath<span style="color: #002200;">:</span>file1Path<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; error<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>fileManager copyItemAtPath<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSBundle_Class/"><span style="color: #400080;">NSBundle</span></a> mainBundle<span style="color: #002200;">&#93;</span> pathForResource<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;sample_file2&quot;</span> ofType<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;txt&quot;</span><span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;toPath<span style="color: #002200;">:</span>file2Path<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; error<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>First of all, we specify and keep the documents directory path to the <em>documentsDirectory</em> object. This is necessary, as we are going to need it a few times later. Next, the destination path for the sample files is specified and it&#8217;s checked if each one of them exists in the documents directory. If any of them is not found, then they are copied from the main bundle to the documents directory, and if any error occurs (hopefully not), we just log its description.</p>
+<p>Now we have to call it, and the suitable place to do so is in the <em>viewDidLoad</em> method.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self copySampleFilesToDocDirIfNeeded<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>From now on, every time that the view controller is loaded our application will search for those files in the documents directory and will copy them there if they don&#8217;t exist.</p>
+<p>Regarding the table view, we want it to display all existing files, so we are able to tap on any of them and send them to other peers. That means subsequently that we need to use an array as the datasource for the table view, and this array must contain all files existing on the Documents directory. So, let&#8217;s go to declare a <em>NSMutableArray</em> object:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SecondViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> <span style="color: #002200;">*</span>arrFiles;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>How should we add objects to the <em>arrFiles</em> array? Simply by reading all files from the Documents directory and getting their names. For that reason we will need one more private method that will do exactly that. Let&#8217;s declare it too:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SecondViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>getAllDocDirFiles;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Moving straight ahead to its implementation, we are going to use a <em>NSFileManager</em> object to get all contents of the Documents directory as a <em>NSArray</em> object, and then return this array:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>getAllDocDirFiles<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a> <span style="color: #002200;">*</span>fileManager <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a> defaultManager<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>allFiles <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>fileManager contentsOfDirectoryAtPath<span style="color: #002200;">:</span>_documentsDirectory error<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> allFiles;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>There is nothing difficult to this method. If any error occurs, we just show a description to the log. Now, it&#8217;s time to add objects to the <em>arrFiles</em> array for first time, and this will take place on the <em>viewDidLoad</em> method.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; _arrFiles <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> alloc<span style="color: #002200;">&#93;</span> initWithArray<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>self getAllDocDirFiles<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We are ready to display data on the table view. For starters, let&#8217;s make <em>self</em> the delegate and datasource of it, while being in the <em>viewDidLoad</em>:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_tblFiles setDelegate<span style="color: #002200;">:</span>self<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_tblFiles setDataSource<span style="color: #002200;">:</span>self<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>To let our sample files appear on the table view upon the view controller loading, we need to force it to do that after our <em>arrFiles</em> array have got its values. Therefore add just this line on the <em>viewDidLoad</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_tblFiles reloadData<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Before you run and test what we&#8217;ve done so far in this view controller, you need to implement the table view delegate and datasource required methods. So, here they are:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>numberOfSectionsInTableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">1</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView numberOfRowsInSection<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>section<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#91;</span>_arrFiles count<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>UITableViewCell <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView cellForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UITableViewCell <span style="color: #002200;">*</span>cell;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>tableView dequeueReusableCellWithIdentifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;CellIdentifier&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>cell <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UITableViewCell alloc<span style="color: #002200;">&#93;</span> initWithStyle<span style="color: #002200;">:</span>UITableViewCellStyleDefault reuseIdentifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;CellIdentifier&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>cell setAccessoryType<span style="color: #002200;">:</span>UITableViewCellAccessoryDisclosureIndicator<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; cell.textLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_arrFiles objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>cell textLabel<span style="color: #002200;">&#93;</span> setFont<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>UIFont systemFontOfSize<span style="color: #002200;">:</span><span style="color: #2400d9;">14.0</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>CGFloat<span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView heightForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">60.0</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you want, run the application to test it, but the only thing you&#8217;ll see for now is just the listing of the sample files.</p>
+<p>Let&#8217;s keep going to enable the application send a file once it gets selected. What we actually want to happen, is when tapping on a table view row, a list of all peers to appear so we choose the peer that the selected file should be sent to. To make things easy for us and for the purposes of this example, we will use a <em>UIActionSheet</em> object, where each button of it will represent a peer. We want the action sheet to appear every time we tap on a row, so let&#8217;s see how this is done:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView didSelectRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>selectedFile <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_arrFiles objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; UIActionSheet <span style="color: #002200;">*</span>confirmSending <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span>selectedFile<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">for</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> i<span style="color: #002200;">=</span><span style="color: #2400d9;">0</span>; i &lt; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>_appDelegate.mcManager.session connectedPeers<span style="color: #002200;">&#93;</span> count<span style="color: #002200;">&#93;</span>; i<span style="color: #002200;">++</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>confirmSending addButtonWithTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>_appDelegate.mcManager.session connectedPeers<span style="color: #002200;">&#93;</span> objectAtIndex<span style="color: #002200;">:</span>i<span style="color: #002200;">&#93;</span> displayName<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>confirmSending setCancelButtonIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>confirmSending addButtonWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cancel&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>confirmSending showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; _selectedFile <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_arrFiles objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; _selectedRow <span style="color: #002200;">=</span> indexPath.row;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We start the implementation of the <em>tableview:didSelectRowAtIndexPath:</em> method by creating an action sheet object, providing the selected file name as its title. It might look weird that we set the nil value to all button titles, but this is done in purpose. It would be really handful to us if we could create a nil-terminated string that would contain all peer display names and set them as button titles, but unfortunately there is no way to do that. Therefore there is the <em>for</em> loop, where we add each single peer name one by one as a button to the action sheet. Right after the loop, we set the cancel button, which is necessary in case we just want to close the action sheet, and finally we display it.</p>
+<p>Using the last two lines we keep the selected file name and the selected row in two private members, as we will need to know these two values later. Xcode throws an error though, as we haven&#8217;t still declared them, so let&#8217;s do it now:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SecondViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>selectedFile;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic<span style="color: #002200;">&#41;</span> NSInteger selectedRow;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Now every time that a file is selected on the table view, an action sheet appears, containing every peer name as a button so we can choose the file&#8217;s recipient. But what is going to happen after we have a peer selected on the action sheet? Well, nothing, as we haven&#8217;t implemented any behaviour yet.</p>
+<p>We need to implement the <em>actionSheet:clickedButtonAtIndex:</em> delegate method (that&#8217;s also why we adopted the <em>UIActionSheetDelegate</em> protocol previously). In there, after having checked that a peer name has been tapped and not the cancel button, we will invoke another new to us method of the Multipeer Connectivity framework, named <em>sendResourceAtURL:withName:toPeer:withCompletionHandler:</em>. Actually, this is a method of the <em>MCSession</em> class. In the completion handler we will check if any error has occurred during the sending process, or if the file has successfully sent. In any case, we will let us know about the result.</p>
+<p>An important thing necessary to be denoted here is the fact that this method returns a <em>NSProgress</em> object. NSProgress is a new class in iOS 7, so pay a visit to the Apple&#8217;s documentation if you&#8217;d like to know more about it. Anyway, we care about the results of the method, as this is our only way to keep track of the sending progress and update our UI by showing a percentage value of the completion of the whole process. However, there is a big trap here and that is that our interface will freeze if we call this method on the main thread. Don&#8217;t worry though, as this is an easy obstacle to overcome. We will simply do our entire job inside a <em>dispatch_async</em> block, so our interface will remain responsive while sending files.</p>
+<p>Just a last note before we see its implementation. As this is a demo application, we want to know what files come from other peers, so we make sure that our code really works. Therefore, as you&#8217;ll see in the implementation right next, we slightly modify the file name, by adding the peer&#8217;s display name.</p>
+<p>The implementation:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>actionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIActionSheet <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>actionSheet clickedButtonAtIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>buttonIndex<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>buttonIndex <span style="color: #002200;">!=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>_appDelegate.mcManager.session connectedPeers<span style="color: #002200;">&#93;</span> count<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>filePath <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_documentsDirectory stringByAppendingPathComponent<span style="color: #002200;">:</span>_selectedFile<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>modifiedName <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@_%@&quot;</span>, _appDelegate.mcManager.peerID.displayName, _selectedFile<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>resourceURL <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> fileURLWithPath<span style="color: #002200;">:</span>filePath<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; dispatch_async<span style="color: #002200;">&#40;</span>dispatch_get_main_queue<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>, <span style="color: #002200;">^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSProgress <span style="color: #002200;">*</span>progress <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_appDelegate.mcManager.session sendResourceAtURL<span style="color: #002200;">:</span>resourceURL<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; withName<span style="color: #002200;">:</span>modifiedName<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; toPeer<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>_appDelegate.mcManager.session connectedPeers<span style="color: #002200;">&#93;</span> objectAtIndex<span style="color: #002200;">:</span>buttonIndex<span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;withCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Error: %@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;UIAlertView <span style="color: #002200;">*</span>alert <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;MCDemo&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;message<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;File was successfully sent.&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;otherButtonTitles<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Great!&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>alert performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>show<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>_arrFiles replaceObjectAtIndex<span style="color: #002200;">:</span>_selectedRow withObject<span style="color: #002200;">:</span>_selectedFile<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>_tblFiles performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>reloadData<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let me point a few things out regarding this code fragment:</p>
+<ol>
+<li>Any error description is just logged, but in the case of a successful sending we show an alert view to the user. Note that this code runs on a secondary queue, so we show the alert view on the main thread of the application.</li>
+<li>You&#8217;ll probably wonder what those two lines are, just right after the alert view:
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>_arrFiles replaceObjectAtIndex<span style="color: #002200;">:</span>_selectedRow withObject<span style="color: #002200;">:</span>_selectedFile<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#91;</span>_tblFiles performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>reloadData<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Well, as you will finally find out by yourself and as I have already stated, a percentage value is going to be displayed next to the selected file name during the sending process, indicating the whole progress. After a sending has been completed, we need to simply show the file name again, so that&#8217;s what we do here. We just replace the combined file name and progress value with the single file name, by updating the array and the table view subsequently. Further than that, here it&#8217;s clearly shown why we kept the selected row and file name on the <em>selectedRow</em> and <em>selectedFile</em> members respectively.
+</li>
+<li>Where do we keep track of the progress? Nowhere yet, as it&#8217;s necessary to say that the NSProgress class contains a property named <em>fractionCompleted</em> that gives us the progress as a <em>double</em> value. Moreover, all NSProgress class properties, including the <em>fractionCompleted</em>, are KVO (Key-Value Observing), so we must observe for any value changes of this property and update appropriately our UI.</li>
+</ol>
+<p>So, having said all that, it&#8217;s clear that our next goal is to observe the <em>fractionCompleted</em> value of the progress. To do that, add the next code fragment right before the <em>dispatch_async</em> block closing:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>actionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIActionSheet <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>actionSheet clickedButtonAtIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>buttonIndex<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>buttonIndex <span style="color: #002200;">!=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>_appDelegate.mcManager.session connectedPeers<span style="color: #002200;">&#93;</span> count<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; dispatch_async<span style="color: #002200;">&#40;</span>dispatch_get_main_queue<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>, <span style="color: #002200;">^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSProgress <span style="color: #002200;">*</span>progress <span style="color: #002200;">=</span> ...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>progress addObserver<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;forKeyPath<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;fractionCompleted&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; options<span style="color: #002200;">:</span>NSKeyValueObservingOptionNew<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; context<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With this way, we register our class with the <em>progress</em> object, so we can observe any changes on it.</p>
+<p>Now, implement the next one, so we are notified about all value changes of the <em>fractionCompleted</em> property.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>observeValueForKeyPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>keyPath ofObject<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>object change<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>change context<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>context<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>sendingMessage <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@ - Sending %.f%%&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _selectedFile,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>NSProgress <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>object fractionCompleted<span style="color: #002200;">&#93;</span> <span style="color: #002200;">*</span> <span style="color: #2400d9;">100</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_arrFiles replaceObjectAtIndex<span style="color: #002200;">:</span>_selectedRow withObject<span style="color: #002200;">:</span>sendingMessage<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_tblFiles performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>reloadData<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, we create a new string value that contains both the selected file name and the current progress expressed as a percentage value. This string replaces the existing object at the specific index in the array, and the table view is updated on the main thread, so it reflects the sending progress.</p>
+<p>If you feel so, go and give it a try. Send files and watch it working. The recipient won&#8217;t receive anything yet, as for the time being we have implemented the sender&#8217;s side, but not the receiver&#8217;s.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t4_31_sending_file.jpg" alt="Multipeer Demo - Sending File" class="aligncenter size-full wp-image-3013" /></div>
+<p>Let&#8217;s focus now on the actions that should be taken when a file is received. In this case, we are going to use the table view cell prototype we previously added in the Interface Builder. While a file receiving is in progress, we will display in the last row of the table view such a cell, showing the file&#8217;s name, the sender and the progress using the progress view object. When a file has been successfully received, this cell will be replaced by a default, normal cell that will display just the file name, exactly as the sample files are shown.</p>
+<p>Open the <em>MCManager.m</em> file, and locate the <em>session:didStartReceivingResourceWithName:fromPeer:withProgress:</em> delegate method. Its name clearly states its purpose, and we will use it to keep track of the progress while a new file is being received. In here we will act just like we did at the previous two session delegate methods, simply by adding the parameter values into a <em>NSDictionary</em> object and posting a new notification.</p>
+<p>There is something more we&#8217;ll do here though. As we want to watch the progress of the file being received and update our progress view accordingly, we will register the class with the <em>NSProgress</em> object of the parameter, so we can observe any changes taking place on the <em>fractionCompleted</em> property. Actually, we are going to do the exact same thing we previously did on the file sending feature implementation, where we also added code for observing the <em>fractionCompleted</em> changes. So, here it is:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>session<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>MCSession <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>session didStartReceivingResourceWithName<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>resourceName fromPeer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>MCPeerID <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>peerID withProgress<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSProgress <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>progress<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>dict <span style="color: #002200;">=</span> @<span style="color: #002200;">&#123;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;resourceName&quot;</span> &nbsp;<span style="color: #002200;">:</span> &nbsp; resourceName,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;peerID&quot;</span> &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">:</span> &nbsp; peerID,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;progress&quot;</span> &nbsp; &nbsp; &nbsp;<span style="color: #002200;">:</span> &nbsp; progress<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> postNotificationName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;MCDidStartReceivingResourceNotification&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; userInfo<span style="color: #002200;">:</span>dict<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; dispatch_async<span style="color: #002200;">&#40;</span>dispatch_get_main_queue<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>, <span style="color: #002200;">^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>progress addObserver<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;forKeyPath<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;fractionCompleted&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; options<span style="color: #002200;">:</span>NSKeyValueObservingOptionNew<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; context<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, we also use a <em>dispatch_async</em> block to observe the progress.</p>
+<p>Now, implement the next method so we are notified on any progress changing:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>observeValueForKeyPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>keyPath ofObject<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>object change<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>change context<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>context<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> postNotificationName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;MCReceivingProgressNotification&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; userInfo<span style="color: #002200;">:</span>@<span style="color: #002200;">&#123;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;progress&quot;</span><span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span>NSProgress <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>object<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Every time that the progress is changed, we will post a new notification.</p>
+<p>Let&#8217;s head back to the <em>SecondViewController.m</em> file now, and let&#8217;s deal with these two new notifications. In the <em>viewDidLoad</em> method add the next code snippet:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> addObserver<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;selector<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>didStartReceivingResourceWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;name<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;MCDidStartReceivingResourceNotification&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> addObserver<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;selector<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>updateReceivingProgressWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;name<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;MCReceivingProgressNotification&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>didStartReceivingResourceWithNotification:</em> and the <em>updateReceivingProgressWithNotification:</em> are both private methods that we will implement right next. Let&#8217;s begin by declaring them in the private section of the interface:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SecondViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>didStartReceivingResourceWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification;<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>updateReceivingProgressWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s go with the first one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>didStartReceivingResourceWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_arrFiles addObject<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>notification userInfo<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_tblFiles performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>reloadData<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>What we do here is pretty clear: We add the user info dictionary of the notification as an object to the <em>arrFiles</em> array, and we reload the table view data so the new file name, the sender and the initial value of the project to be displayed. But are they really going to be displayed? The answer is not until we update the <em>tableView:cellForRowAtIndexPath:</em> method of the table view, as it is currently able to show just string values in the default cell type. Let&#8217;s see the code first:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>UITableViewCell <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView cellForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UITableViewCell <span style="color: #002200;">*</span>cell;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>_arrFiles objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span> isKindOfClass<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> class<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>tableView dequeueReusableCellWithIdentifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;CellIdentifier&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>cell <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UITableViewCell alloc<span style="color: #002200;">&#93;</span> initWithStyle<span style="color: #002200;">:</span>UITableViewCellStyleDefault reuseIdentifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;CellIdentifier&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>cell setAccessoryType<span style="color: #002200;">:</span>UITableViewCellAccessoryDisclosureIndicator<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.textLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_arrFiles objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>cell textLabel<span style="color: #002200;">&#93;</span> setFont<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>UIFont systemFontOfSize<span style="color: #002200;">:</span><span style="color: #2400d9;">14.0</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>tableView dequeueReusableCellWithIdentifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;newFileCellIdentifier&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>dict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_arrFiles objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>receivedFilename <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;resourceName&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>peerDisplayName <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;peerID&quot;</span><span style="color: #002200;">&#93;</span> displayName<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSProgress <span style="color: #002200;">*</span>progress <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;progress&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UILabel <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">100</span><span style="color: #002200;">&#93;</span> setText<span style="color: #002200;">:</span>receivedFilename<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UILabel <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">200</span><span style="color: #002200;">&#93;</span> setText<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;from %@&quot;</span>, peerDisplayName<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UIProgressView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">300</span><span style="color: #002200;">&#93;</span> setProgress<span style="color: #002200;">:</span>progress.fractionCompleted<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Here is the deal: Our strategy is to check the kind of the class for each object existing in the <em>arrFiles</em> array. If it&#8217;s a NSString value, then the code we already have written is executed. However, if the object of the array that is about to be processed is kind of NSDictionary class, then we dequeue the prototype cell using the identifier we set in the Interface Builder, and then based on the tag values of each subview added to it, we set the dictionary values, after having them extracted from the dictionary object.</p>
+<p>Besides this method, alter the following as well:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>CGFloat<span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView heightForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>_arrFiles objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span> isKindOfClass<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> class<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">60.0</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">80.0</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That&#8217;s necessary so the last row to have the appropriate height when a file is being received and everything to be properly displayed.</p>
+<p>If you run the app now, you&#8217;ll see that when a file is starting to be received, a new row appears on the table view, but you&#8217;ll notice that there&#8217;s no progress at all. That&#8217;s because we haven&#8217;t implemented the <em>updateReceivingProgressWithNotification:</em> private method yet, and now it&#8217;s the right time to do it.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>updateReceivingProgressWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSProgress <span style="color: #002200;">*</span>progress <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>notification userInfo<span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;progress&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>dict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_arrFiles objectAtIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>_arrFiles.count <span style="color: #002200;">-</span> <span style="color: #2400d9;">1</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>updatedDict <span style="color: #002200;">=</span> @<span style="color: #002200;">&#123;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;resourceName&quot;</span> &nbsp;<span style="color: #002200;">:</span> &nbsp; <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;resourceName&quot;</span><span style="color: #002200;">&#93;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;peerID&quot;</span> &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">:</span> &nbsp; <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;peerID&quot;</span><span style="color: #002200;">&#93;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;progress&quot;</span> &nbsp; &nbsp; &nbsp;<span style="color: #002200;">:</span> &nbsp; progress<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_arrFiles replaceObjectAtIndex<span style="color: #002200;">:</span>_arrFiles.count <span style="color: #002200;">-</span> <span style="color: #2400d9;">1</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;withObject<span style="color: #002200;">:</span>updatedDict<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_tblFiles performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>reloadData<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>What&#8217;s actually taking place here is quite simple. From the current dictionary existing in the <em>arrFiles</em> array, we get the file name and the peer display name, and using the updated progress we add all these three objects to a new dictionary. Then we replace the previous dictionary existing in the last index of the array with the new one, and lastly we reload the table view.</p>
+<p>If you run it now, you&#8217;ll see that when a file is being received the progress view perfectly shows the progress.</p>
+<p>One last thing remains to be done, and that is to save the file in the Documents directory once it&#8217;s received. For the last time in this tutorial, let&#8217;s open the <em>MCManager.m</em> file and let&#8217;s go now to the <em>session:didFinishReceivingResourceWithName:fromPeer:atURL:withError:</em> delegate method. This one is invoked when a resource has been received, and as usual, we&#8217;ll post a new notification.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>session<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>MCSession <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>session didFinishReceivingResourceWithName<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>resourceName fromPeer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>MCPeerID <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>peerID atURL<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>localURL withError<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>error<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>dict <span style="color: #002200;">=</span> @<span style="color: #002200;">&#123;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;resourceName&quot;</span> &nbsp;<span style="color: #002200;">:</span> &nbsp; resourceName,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;peerID&quot;</span> &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">:</span> &nbsp; peerID,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;localURL&quot;</span> &nbsp; &nbsp; &nbsp;<span style="color: #002200;">:</span> &nbsp; localURL<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> postNotificationName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;didFinishReceivingResourceNotification&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; userInfo<span style="color: #002200;">:</span>dict<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s move back to the <em>SecondViewController.m</em> file, and let&#8217;s make our class able to observe for this notification too inside the <em>viewDidLoad</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> addObserver<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;selector<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>didFinishReceivingResourceWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;name<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;didFinishReceivingResourceNotification&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Following the same steps that many times followed until now, let&#8217;s declare the <em>didFinishReceivingResourceWithNotification:</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SecondViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>didFinishReceivingResourceWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>As you&#8217;ll see in the implementation, we copy the file (the resource in general) from the URL temporarily been stored to the Documents directory. At the end of the method, we remove all objects from the <em>arrFiles</em> array, and we re-read the entire Documents directory contents. There is nothing special that should be discussed any further, so here it is:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>didFinishReceivingResourceWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>dict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>notification userInfo<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>localURL <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;localURL&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>resourceName <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;resourceName&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>destinationPath <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_documentsDirectory stringByAppendingPathComponent<span style="color: #002200;">:</span>resourceName<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>destinationURL <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> fileURLWithPath<span style="color: #002200;">:</span>destinationPath<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a> <span style="color: #002200;">*</span>fileManager <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a> defaultManager<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>fileManager copyItemAtURL<span style="color: #002200;">:</span>localURL toURL<span style="color: #002200;">:</span>destinationURL error<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_arrFiles removeAllObjects<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; _arrFiles <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; _arrFiles <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> alloc<span style="color: #002200;">&#93;</span> initWithArray<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>self getAllDocDirFiles<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_tblFiles performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>reloadData<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The file sharing feature has been now completed, and that also means that our demo application is totally ready!</p>
+<h2>Compile And Run The App</h2>
+<p>I&#8217;d be surprised if you haven&#8217;t run the application yet. However, if that&#8217;s your case, then now it&#8217;s the best and appropriate time to do it. Try it using a couple of devices, or a device and the iPhone Simulator. Make connections, send text messages and share files.e</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/02/t4_32_receiving_file.jpg" alt="Multipeer Demo - Receiving File" class="aligncenter size-full wp-image-3014" /></div>
+<h2>Summary</h2>
+<p>The Multipeer Connectivity framework is a brand-new feature on iOS 7. In this tutorial series, we walked through only from a few of its potentialities, as they don&#8217;t stop here. There are a lot of things one could still explore, such as how to take security issues under account. Further than that, possibilities for new kind of applications are now available, with just one limitation, your imagination. This framework offers nice tools, and how they&#8217;ll be used it&#8217;s up to every developer&#8217;s desire. Through this tutorial I tried to offer an intro point to all those who would like to deal with Multipeer Connectivity, and I hope you find it really useful. Happy Multipeer Connections!</p>
+<p>For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/MCDemo.zip">download the Xcode project of the demo app from here</a>. Feel free to leave me feedback and comment below.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/how-to-handle-row-selection-in-uitableview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/05/simpletableapp_row_select-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Handle Row Selection in UITableView</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-univeral-app-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/11/universal-app-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming Tutorial: Creating a Universal App </div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-gesture-recognizers/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/gestures-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Using Gesture Recognizers to Handle Pinch, Rotate, Pan, Swipe and Tap Gestures</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ibdesignable-ibinspectable-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/03/Rainbow-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Your Own Custom Controls Using IBDesignable in Xcode 6</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/intro-ios-multipeer-connectivity-programming/"
+    dc:identifier="http://www.appcoda.com/intro-ios-multipeer-connectivity-programming/"
+    dc:title="Understanding Multipeer Connectivity Framework in iOS 7 &#8211; Part 2"
+    trackback:ping="http://www.appcoda.com/intro-ios-multipeer-connectivity-programming/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-7/" rel="tag">iOS 7</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/multipeer-connectivity-framework/" rel="tag">multipeer connectivity framework</a>, <a href="http://www.appcoda.com/tag/xcode-5/" rel="tag">Xcode 5</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-3536">
+        <div id="dsq-comment-header-3536" class="dsq-comment-header">
+            <cite id="dsq-cite-3536">
+                <span id="dsq-author-user-3536">Hugh Mbaezue</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3536" class="dsq-comment-body">
+            <div id="dsq-comment-message-3536" class="dsq-comment-message"><p>Gabriel you are awesome! Is there a way you can send actual images taking with your iOS device as a file?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3537">
+        <div id="dsq-comment-header-3537" class="dsq-comment-header">
+            <cite id="dsq-cite-3537">
+                <span id="dsq-author-user-3537">Gabriel Thedoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3537" class="dsq-comment-body">
+            <div id="dsq-comment-message-3537" class="dsq-comment-message"><p>Thanks a lot!</p>
+<p>Yes, you can do it; here are the steps in a list format:</p>
+<p>1. Capture the image you want with the camera of your device.</p>
+<p>2. Save it as a .png or .jpg file on the documents directory.</p>
+<p>3. Use this file and the Multipeer Connectivity to send it to other nearby devices.</p>
+<p>If you are not sure how to perform the first two steps, just make a search on the web and you&#8217;ll find all you need there.</p>
+<p>Good luck!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3547">
+        <div id="dsq-comment-header-3547" class="dsq-comment-header">
+            <cite id="dsq-cite-3547">
+                <span id="dsq-author-user-3547">Alicia V Carr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3547" class="dsq-comment-body">
+            <div id="dsq-comment-message-3547" class="dsq-comment-message"><p>Thank Gabriel this is like the BEST!!! you are AWESOME!!! I have some questions is there a way that I can connect to a person and no one else or a location also can a camera be added.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3550">
+        <div id="dsq-comment-header-3550" class="dsq-comment-header">
+            <cite id="dsq-cite-3550">
+                <span id="dsq-author-user-3550">Gabriel Thedoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3550" class="dsq-comment-body">
+            <div id="dsq-comment-message-3550" class="dsq-comment-message"><p>Hi,</p>
+<p>Firstly, thank you very much!</p>
+<p>Surely, you can establish a connection between two peers only, as long as none of them will invite other people to the session. Also, before a connection gets established, a confirmation alert view appears which you can use to decline other invitations made to you.</p>
+<p>I&#8217;m not quite sure what exactly you mean with the location, so please explain more if you&#8217;d like.</p>
+<p>Lastly, I guess that when you&#8217;re saying about adding a camera, you mean to implement live chat. Well, what you actually want to do here is to perform streaming between the peers, and that&#8217;s the third purpose of the multipeer connectivity framework, and also the one that was not covered in any of these two tutorials. If you manage to implement streaming, then combining it with the multipeer connectivity wouldn&#8217;t be hard. Anyway, the final answer is yes, you can have live cam functionality.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3553">
+        <div id="dsq-comment-header-3553" class="dsq-comment-header">
+            <cite id="dsq-cite-3553">
+                <span id="dsq-author-user-3553">Alicia V Carr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3553" class="dsq-comment-body">
+            <div id="dsq-comment-message-3553" class="dsq-comment-message"><p>Thank for the fast reply what I mean about location is connecting up to like a shelter for teens </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-3560">
+        <div id="dsq-comment-header-3560" class="dsq-comment-header">
+            <cite id="dsq-cite-3560">
+http://www.gtiapps.com/                <span id="dsq-author-user-3560">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3560" class="dsq-comment-body">
+            <div id="dsq-comment-message-3560" class="dsq-comment-message"><p>Yes, sure. Once all devices (peers) share the same WiFi network and programmatically the same service type, you can use multipeer connectivity the way you want.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://vishaldharmawat.wordpress.com/2014/02/20/file-sharing-using-ios-7-multipeer-connectivity-framework/' rel='external nofollow' class='url'>File Sharing Using iOS 7 Multipeer Connectivity Framework |  VishalDharmawat - iPhone and iPad Development</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3630">
+        <div id="dsq-comment-header-3630" class="dsq-comment-header">
+            <cite id="dsq-cite-3630">
+                <span id="dsq-author-user-3630">nithin bhaktha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3630" class="dsq-comment-body">
+            <div id="dsq-comment-message-3630" class="dsq-comment-message"><p>Wow Gabriel, this post is just amazing. Firstly, thanks for the wonderful introduction to a very special framework. But I have a query here. Something&#8217;s not working for me ! And I don&#8217;t have much experience so I just thought I will clear it this way. </p>
+<p>Well, the thing is, I created a network on my Macbook Pro and I had 2 iOS 7 (iPad 2 &amp; iPod Touch) devices join to this network. When I started Browse for devices, I just have the &#8220;Searching &#8221; and the wheel spinning. Apparently one device is not discovering the other device. But the setup works when I have bluetooth switched ON on both. Please, can you help me with this ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3632">
+        <div id="dsq-comment-header-3632" class="dsq-comment-header">
+            <cite id="dsq-cite-3632">
+http://www.gtiapps.com/                <span id="dsq-author-user-3632">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3632" class="dsq-comment-body">
+            <div id="dsq-comment-message-3632" class="dsq-comment-message"><p>Hi,<br />
+Firstly, thanks a lot!</p>
+<p>In your problem now, what exactly do you mean when saying you created a network on your Macbook? Normally, simply by having your 2 iOS devices sharing the same WiFi network you should be able to discover them. Try to delete the demo app from your devices and re-install them. Also, make sure that all IBOutlet properties have been connected to the appropriate controls, in the ConnectionsViewController class. Finally, make sure that your WiFi works fine and without problems.</p>
+<p>I hope something from all these work for you.</p>
+<p>Gabriel</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3633">
+        <div id="dsq-comment-header-3633" class="dsq-comment-header">
+            <cite id="dsq-cite-3633">
+                <span id="dsq-author-user-3633">nithin bhaktha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3633" class="dsq-comment-body">
+            <div id="dsq-comment-message-3633" class="dsq-comment-message"><p>Hey,</p>
+<p>Thanks for the quick response. Well, to connect to a same WiFi network, I created a network under WiFi preference Just below the list of WiFi&#8217;s, as I dint wanted internet connectivity. If not in this way, please suggest me the alternate. </p>
+<p>Thanks,<br />
+Nithin</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-3635">
+        <div id="dsq-comment-header-3635" class="dsq-comment-header">
+            <cite id="dsq-cite-3635">
+http://www.gtiapps.com/                <span id="dsq-author-user-3635">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3635" class="dsq-comment-body">
+            <div id="dsq-comment-message-3635" class="dsq-comment-message"><p>Hi,<br />
+Make sure that you have only one WiFi service enabled, and don&#8217;t add an extra service (such as WiFi 2) just to test the app. This is probably your problem. I&#8217;ve tested it in a couple of different WiFi networks and I had no problem at all. If that&#8217;s the case, there must be a conflict to your network that should be resolved first.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-3639">
+        <div id="dsq-comment-header-3639" class="dsq-comment-header">
+            <cite id="dsq-cite-3639">
+                <span id="dsq-author-user-3639">nithin bhaktha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3639" class="dsq-comment-body">
+            <div id="dsq-comment-message-3639" class="dsq-comment-message"><p>Thanks a lot Gabriel, I will surely make a note of this!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-3640">
+        <div id="dsq-comment-header-3640" class="dsq-comment-header">
+            <cite id="dsq-cite-3640">
+http://www.gtiapps.com/                <span id="dsq-author-user-3640">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3640" class="dsq-comment-body">
+            <div id="dsq-comment-message-3640" class="dsq-comment-message"><p>Well, you might have a point, but I can&#8217;t try it out as I don&#8217;t have an iPad 2. Maybe another reader who owns one could tell us after some testing. Let&#8217;s keep in mind that not every iOS 7 feature may be available on iPad 2, just like it happens in iPhone 4.  Anyway, good thought!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://superlevin.ifengyuan.tw/%e3%80%90%e8%bd%89%e8%b2%bc%e3%80%91xcode%e9%96%8b%e7%99%bc%e4%bb%bffirechat%e6%95%99%e5%ad%b8/' rel='external nofollow' class='url'>【轉貼】xcode開發仿FireChat教學(附原始碼) | Levin&#039;s Blog-林壽山</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3974">
+        <div id="dsq-comment-header-3974" class="dsq-comment-header">
+            <cite id="dsq-cite-3974">
+                <span id="dsq-author-user-3974">EW Parris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3974" class="dsq-comment-body">
+            <div id="dsq-comment-message-3974" class="dsq-comment-message"><p>This is a great walkthrough. Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3977">
+        <div id="dsq-comment-header-3977" class="dsq-comment-header">
+            <cite id="dsq-cite-3977">
+                <span id="dsq-author-user-3977">Gleb Ustimenko</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3977" class="dsq-comment-body">
+            <div id="dsq-comment-message-3977" class="dsq-comment-message"><p>Hi! Thanks for tutorial! I have a small question &#8211; how to correct reset all services after enter background? I am using MCNearbyServiceAdvertiser and MCNearbyServiceBrowser. After app did become active browser find peer, send invitation, receive invitation, but not connected. Nothing happens after peer accept invitation.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-5013">
+        <div id="dsq-comment-header-5013" class="dsq-comment-header">
+            <cite id="dsq-cite-5013">
+http://www.gtiapps.com/                <span id="dsq-author-user-5013">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5013" class="dsq-comment-body">
+            <div id="dsq-comment-message-5013" class="dsq-comment-message"><p>Hi Gleb,<br />
+You must re-initialize all related objects. Multipeer Connectivity does not work on background.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4052">
+        <div id="dsq-comment-header-4052" class="dsq-comment-header">
+            <cite id="dsq-cite-4052">
+                <span id="dsq-author-user-4052">Ben Azoulay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4052" class="dsq-comment-body">
+            <div id="dsq-comment-message-4052" class="dsq-comment-message"><p>hi ! thanks for this tutorial !! I have a question how can i read the txt file on the application?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4091">
+        <div id="dsq-comment-header-4091" class="dsq-comment-header">
+            <cite id="dsq-cite-4091">
+                <span id="dsq-author-user-4091">Awais Mobeen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4091" class="dsq-comment-body">
+            <div id="dsq-comment-message-4091" class="dsq-comment-message"><p>Thanks for the nice tutorial ? have any tutorial on chat app like whats app or nimbuzz ?? could u help me plz??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-5012">
+        <div id="dsq-comment-header-5012" class="dsq-comment-header">
+            <cite id="dsq-cite-5012">
+http://www.gtiapps.com/                <span id="dsq-author-user-5012">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5012" class="dsq-comment-body">
+            <div id="dsq-comment-message-5012" class="dsq-comment-message"><p>Hi Awais,<br />
+For the time being no tutorial about a chat app is scheduled, but could possibly create one on the future.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6075">
+        <div id="dsq-comment-header-6075" class="dsq-comment-header">
+            <cite id="dsq-cite-6075">
+                <span id="dsq-author-user-6075">Deepak Bhati</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6075" class="dsq-comment-body">
+            <div id="dsq-comment-message-6075" class="dsq-comment-message"><p>thanks for the awesome tutorial .<br />
+i have only one question that is there any way that send file to all peer like message , yes i can send NSData of image to all peer ,but is it possible send text and image both in same or different message  </p>
+<p>please let me know<br />
+thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-6077">
+        <div id="dsq-comment-header-6077" class="dsq-comment-header">
+            <cite id="dsq-cite-6077">
+                <span id="dsq-author-user-6077">Deepak Bhati</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6077" class="dsq-comment-body">
+            <div id="dsq-comment-message-6077" class="dsq-comment-message"><p>my basic need is send image to all peer just like send text to all ??</p>
+<p>please help</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-9388">
+        <div id="dsq-comment-header-9388" class="dsq-comment-header">
+            <cite id="dsq-cite-9388">
+                <span id="dsq-author-user-9388">Kalyan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9388" class="dsq-comment-body">
+            <div id="dsq-comment-message-9388" class="dsq-comment-message"><p>Hi</p>
+<p>Thanks for the awesome tutorial. This is very helpful for understanding the multi-peer frameworks.</p>
+<p>I have a question&#8230;please help me out to how can i share the one device internet from this app to other devices. Do we need to have the other devices with the same app installed on them?? if so how can i share the device internet (wifi/3g/2g) from this demo app so that the other device can use the internet from the main device. In this case &#8220;other devices&#8221; i mean either IOS or Android devices or both.</p>
+<p>Please help me out. Thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-27268">
+        <div id="dsq-comment-header-27268" class="dsq-comment-header">
+            <cite id="dsq-cite-27268">
+                <span id="dsq-author-user-27268">Babysmily Dronavalli</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27268" class="dsq-comment-body">
+            <div id="dsq-comment-message-27268" class="dsq-comment-message"><p>Hi,<br />
+Thanks for awesome material.<br />
+I am new to this frame work.can you tell me how to check this project in devices.<br />
+Please help me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30218">
+        <div id="dsq-comment-header-30218" class="dsq-comment-header">
+            <cite id="dsq-cite-30218">
+                <span id="dsq-author-user-30218">Jonathon Bolitho</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30218" class="dsq-comment-body">
+            <div id="dsq-comment-message-30218" class="dsq-comment-message"><p>Hi Gabriel,<br />
+I have a question, could you possibly do a tutorial on connecting between peers without going through the MCBrowserView? For example, two anonymous users connecting automatically and transferring data (maybe using a popup stating &#8211; connect with someone: accept/decline).<br />
+The MCBrowserView is just a bit restrictive if it&#8217;s not completely necessary to select a particular user. Thank you and keep up the great info!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-51789">
+        <div id="dsq-comment-header-51789" class="dsq-comment-header">
+            <cite id="dsq-cite-51789">
+                <span id="dsq-author-user-51789">Michael Kiefte</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51789" class="dsq-comment-body">
+            <div id="dsq-comment-message-51789" class="dsq-comment-message"><p>Hi Gabriel,<br />
+Thanks very much for the tutorial.  The Apple documentation on the MC framework is kind of sparse.<br />
+I&#8217;m having trouble with your app when one device disconnects from the session.  If you try to reconnect, you get odd behaviour.  Sometimes it will work for a bit, then one device loses the connection while the other device believes it&#8217;s still connected.  Other times it just won&#8217;t connect at all.<br />
+I tried setting up my own connection and got the same thing.<br />
+So if you try disconnecting one device, all is fine, but if you try to reconnect and use the app, it doesn&#8217;t quite work.<br />
+Is this known? Is there a way to work around it?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-57597">
+        <div id="dsq-comment-header-57597" class="dsq-comment-header">
+            <cite id="dsq-cite-57597">
+                <span id="dsq-author-user-57597">ebrahim Elgeded</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-57597" class="dsq-comment-body">
+            <div id="dsq-comment-message-57597" class="dsq-comment-message"><p>is there is away to use this over internet not nearby devices</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-100002">
+        <div id="dsq-comment-header-100002" class="dsq-comment-header">
+            <cite id="dsq-cite-100002">
+                <span id="dsq-author-user-100002">Gray</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100002" class="dsq-comment-body">
+            <div id="dsq-comment-message-100002" class="dsq-comment-message"><p>Awesome tutorial! Are you planning on adding streaming? Because I have been trying to stream mic audio from one device to another and I can&#8217;t figure it out for the life of me. I have the audio being processed using the the audio toolbox and it can listen and send the audio to the top speaker but I can&#8217;t figure out how to stream it to a connected user&#8230; arrrr. Any help would be appreciated. thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100159">
+        <div id="dsq-comment-header-100159" class="dsq-comment-header">
+            <cite id="dsq-cite-100159">
+                <span id="dsq-author-user-100159">Abner Abbey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100159" class="dsq-comment-body">
+            <div id="dsq-comment-message-100159" class="dsq-comment-message"><p>Why do you say you are doing the NSProgress jobs on a secondary thread? I see you are doing in the main thread. I think it&#8217;s much better to make a queue and then call the dispatch_async.</p>
+<p>dispatch_queue_t newQueue = dispatch_queue_create(&#8220;ProgressQueue&#8221;, NULL);<br />
+dipatch_async(newQueue, ^{<br />
+     //Perform nsprogress operations<br />
+    dispatch_async(dispatch_get_main_queue( ), ^{<br />
+        //Update the UI<br />
+    });<br />
+});</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/intro-ios-multipeer-connectivity-programming/';
+var disqus_identifier = '3017 http://www.appcoda.com/?p=3017';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Understanding Multipeer Connectivity Framework in iOS 7 &#8211; Part 2";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=3017';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="3017"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fintro-ios-multipeer-connectivity-programming%2F&#038;t=Understanding%20Multipeer%20Connectivity%20Framework%20in%20iOS%207%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3017" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>28</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Understanding%20Multipeer%20Connectivity%20Framework%20in%20iOS%207%20%E2%80%93%20Part%202&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fintro-ios-multipeer-connectivity-programming%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3017" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>11</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fintro-ios-multipeer-connectivity-programming%2F&#038;t=Understanding%20Multipeer%20Connectivity%20Framework%20in%20iOS%207%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3017" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>6</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fintro-ios-multipeer-connectivity-programming%2F&#038;title=Understanding%20Multipeer%20Connectivity%20Framework%20in%20iOS%207%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3017" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>1</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fintro-ios-multipeer-connectivity-programming%2F&#038;t=Understanding%20Multipeer%20Connectivity%20Framework%20in%20iOS%207%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3017" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Understanding%20Multipeer%20Connectivity%20Framework%20in%20iOS%207%20%E2%80%93%20Part%202&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fintro-ios-multipeer-connectivity-programming%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3017" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fintro-ios-multipeer-connectivity-programming%2F&#038;t=Understanding%20Multipeer%20Connectivity%20Framework%20in%20iOS%207%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3017" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fintro-ios-multipeer-connectivity-programming%2F&#038;title=Understanding%20Multipeer%20Connectivity%20Framework%20in%20iOS%207%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3017" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/intro-ios-multipeer-connectivity-programming\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:27:07 by W3 Total Cache -->

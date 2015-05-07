@@ -1,0 +1,1183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming 101: How To Send Email in iPhone App with MessageUI</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This iOS programming tutorial will show you how to use the built-in MessageUI framework to send email from your own iPhone app."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-101-send-email-iphone-app/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This iOS programming tutorial will show you how to use the built-in MessageUI framework to send email from your own iPhone app."/>
+<meta name="twitter:title" content="iOS Programming 101: How To Send Email in iPhone App with MessageUI"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2012/07/SimpleEmail-Tutorial-Logo.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; iOS Programming 101: How To Send Email in Your iPhone App Comments Feed" href="http://www.appcoda.com/ios-programming-101-send-email-iphone-app/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=672' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-672 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-672 post type-post status-publish format-standard hentry category-ios-programming-101 category-tutorials tag-ios-programming tag-ios-sdk tag-ios-tutorial tag-iphone-app-development tag-messageui-framework tag-mfmailcomposeviewcontroller entry"><h1 class="entry-title">iOS Programming 101: How To Send Email in Your iPhone App</h1> 
+<div class="post-info"><span class="date published time" title="2012-07-29T18:28:00+00:00">July 29, 2012</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-101-send-email-iphone-app/#comments"><span class="dsq-postid" data-dsqidentifier="672 http://www.appcoda.com/?p=672">53 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Here comes another tutorial for our iOS Programming 101 series. Last time, we show you <a href="http://www.appcoda.com/ios-programming-101-how-to-hide-tab-bar-navigation-controller/">how to hide tab bar in navigation interface</a>. In this tutorial, we&#8217;ll show you how easy you can let user send email in your app.</p>
+<p>The iOS SDK has made it really easy to send email using the built-in APIs. With a few line of codes, you can launch the same email interface as the stock Mail app that lets you compose an email. In this tutorial, we&#8217;ll build a very simple app to show you how to send both plain text and HTML email using the iOS SDK.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/SimpleEmail-Tutorial-Logo.jpg" alt="SimpleEmail Tutorial Logo" title="SimpleEmail Tutorial Logo" class="aligncenter size-full wp-image-697" /><br />
+<span id="more-672"></span></div>
+<h2>Create a Simple View App with a Button</h2>
+<p>First, create a simple app with a view controller and a button. If you have no idea how to do it, you better revisit the <a href="http://www.appcoda.com/hello-world-build-your-first-iphone-app/">Hello World tutorial</a>. Let&#8217;s name the project as SimpleEmail. If you&#8217;ve successfully created your project, add a &#8220;Contact Us&#8221; button in the view.</p>
+<div id="attachment_674" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/SimpleEmail-with-Contact-Us-Button.jpg" alt="SimpleEmail App with Contact Us Button" title="SimpleEmail App with Contact Us Button" class="size-full wp-image-674" /><p class="wp-caption-text">SimpleEmail App with Contact Us Button</p></div>
+<p>What the app does is that it&#8217;ll show up the email interface when user taps the &#8220;Contact Us&#8221; button. </p>
+<h2>Connecting the Contact Us Button with Action</h2>
+<p>In the past tutorials, we used to add the action method manually in the header file of the view controller file. We then link the button and the action method in the Interface Builder.</p>
+<p>This time, let us show you another way to add the action method (make sure you use Xcode 4.3 or up). </p>
+<p>In the Project Navigator, select the &#8220;SimpleEmailViewController.xib&#8221; file to go to the Interface Builder. Switch to the Assistant Editor and hide the Utility area:</p>
+<div id="attachment_677" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/Show-Assistant-Editor.jpg" alt="Show Assistant Editor" title="Show Assistant Editor" class="size-full wp-image-677" /><p class="wp-caption-text">Show Assistant Editor and Hide Utility Area</p></div>
+<p>Once you make the change, your Xcode environment should look like the below screen. The interface and its corresponding code are now shown side by side:</p>
+<div id="attachment_678" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/Assistant-Editor-Enabled1-e1343546048341.jpg" alt="Assistant Editor Enabled" title="Assistant Editor Enabled" class="size-full wp-image-678" /><p class="wp-caption-text">User Interface and Source Code Displayed Side by Side</p></div>
+<p>Now we&#8217;ll add an action method for the &#8220;Contact Us&#8221; button. Press and hold the control key, click the &#8220;Contact Us&#8221; button and drag it towards the &#8220;SimpleEmailViewController.h&#8221;. As you place the pointer between the &#8220;@interface&#8221; and &#8220;@end&#8221; keywords, you should see a prompt that allows you to insert outlet and action.</p>
+<div id="attachment_682" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/Insert-Outlet-Action.jpg" alt="Prompt to Let You Insert Outlet and Action" title="Prompt to Let You Insert Outlet and Action" class="size-full wp-image-682" /><p class="wp-caption-text">Prompt to Let You Insert Outlet and Action</p></div>
+<p>Release the mouse button and Xcode prompts you to add the outlet/action. As we&#8217;re going to add the action method, select &#8220;Action&#8221; for &#8220;Connection&#8221; and name the method as &#8220;showEmail&#8221;. You can keep the event as &#8220;Touch Up Inside&#8221;. The &#8220;showEmail&#8221; method will be invoked when users lift up the finger inside the button.</p>
+<div id="attachment_680" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/Add-action-method-showEmail.jpg" alt="Add action method showEmail" title="Add action method showEmail" class="size-full wp-image-680" /><p class="wp-caption-text">Add action method - showEmail</p></div>
+<p>Once you confirm the change by clicking the &#8220;Connect&#8221; button, Xcode automatically adds the method declaration in the SimpleEmailViewController.h.</p>
+<div id="attachment_681" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/Added-ShowEmail-Action-Method.jpg" alt="Added ShowEmail Action Method" title="Added ShowEmail Action Method" class="size-full wp-image-681" /><p class="wp-caption-text">Xcode Automatically Inserts the showEmail Method</p></div>
+<h3>Implementing the Email Interface</h3>
+<p>Next, import the &#8220;MessageUI.h&#8221; and implement the &#8220;MFMailComposeViewControllerDelegate&#8221; delegate in SimpleEmailViewController.h.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;UIKit/UIKit.h&gt;</span><br />
+<span style="color: #6e371a;">#import &lt;MessageUI/MessageUI.h&gt; </span><br />
+<br />
+<span style="color: #a61390;">@interface</span> SimpleEmailViewController <span style="color: #002200;">:</span> UIViewController &lt;MFMailComposeViewControllerDelegate&gt; <span style="color: #11740a; font-style: italic;">// Add the delegate</span><br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showEmail<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Select the &#8220;SimpleEmailViewController.m&#8221; and we&#8217;ll implement the &#8220;showEmail&#8221; method and MFMailComposeViewControllerDelegate. Add the following code in the implementation file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showEmail<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Email Subject</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>emailTitle <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Test Email&quot;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Email Content</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>messageBody <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;iOS programming is so fun!&quot;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// To address</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>toRecipents <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObject<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="24575154544b565064455454474b40450a474b49">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; MFMailComposeViewController <span style="color: #002200;">*</span>mc <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>MFMailComposeViewController alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; mc.mailComposeDelegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>mc setSubject<span style="color: #002200;">:</span>emailTitle<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>mc setMessageBody<span style="color: #002200;">:</span>messageBody isHTML<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>mc setToRecipients<span style="color: #002200;">:</span>toRecipents<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Present mail view controller on screen</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>mc animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span> mailComposeController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>MFMailComposeViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>controller didFinishWithResult<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>MFMailComposeResult<span style="color: #002200;">&#41;</span>result error<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>error<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">switch</span> <span style="color: #002200;">&#40;</span>result<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> MFMailComposeResultCancelled<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Mail cancelled&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">break</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> MFMailComposeResultSaved<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Mail saved&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">break</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> MFMailComposeResultSent<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Mail sent&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">break</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> MFMailComposeResultFailed<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Mail sent failure: %@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">break</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">default</span><span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">break</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Close the Mail Interface</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Line 3-7 of the above code define the email subject, message content and recipients. Line 9-13 creates the built-in MFMailComposeViewController. The MFMailComposeViewController class provides a standard interface that manages the editing and sending an email message. You can use this view controller to display a standard email view inside your application. We populate the fields of that view with initial values including the recipient email, subject and body text.</p>
+<p>Line 13 of the code invokes the presentViewController to display the mail interface on screen.</p>
+<p>The &#8220;didFinishWithResult:&#8221; is a method of the MFMailComposeViewControllerDelegate protocol. This method will be automatically called when the mail interface is closed (e.g. user cancels the operation). The result parameter tells you the result code when the mail composition interface is dismissed. For the sake of simplicity, we simply log the status in this example. In real world application, you should provide special handling for the result code (e.g. display an alert when the app fails to send the email).</p>
+<p>Finally, line 41 dismisses the mail composition interface.</p>
+<h2>Adding the MessageUI Framework</h2>
+<p>However, this is not done yet. If you try to compile the app, you&#8217;ll end up with the below compilation error:</p>
+<div id="attachment_702" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/SimpleEmail-Compilation-Error.jpg" alt="SimpleEmail Compilation Error" title="SimpleEmail Compilation Error" class="size-full wp-image-702" /><p class="wp-caption-text">SimpleEmail App Compilation Error</p></div>
+<p>The problem is that Xcode has no idea about what the &#8220;MFMailComposeViewController&#8221; is. Though &#8220;MFMailComposeViewController&#8221; is a built-in controller in iOS SDK, it&#8217;s developers&#8217; responsibility to embed the necessary framework in your project. When the Xcode project is first created, it only comes with three core frameworks including UIKit, Foundation and CoreGraphics. The &#8220;MFMailComposeViewController&#8221; class is included in the MessageUI framework that you have to add manually.</p>
+<p>To fix the error, we have to embed the framework in the project. In the Project Navigator, select &#8220;SimpleEmail&#8221; project and then select the &#8220;SimpleEmail&#8221; target under &#8220;Targets&#8221;. Click &#8220;Build Phases&#8221; at the top of the project editor. Then open the Link Binary With Libraries section.</p>
+<div id="attachment_689" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/Add-Framework-in-Build-Phases.jpg" alt="Add Framework in Build Phases" title="Add Framework in Build Phases" class="size-full wp-image-689" /><p class="wp-caption-text">Add Framework in Build Phases</p></div>
+<p>Next, click the &#8220;+&#8221; button and select the &#8220;MessageUI.framework&#8221;. After you click the &#8220;Add&#8221; button, Xcode will include the MessageUI framework in the project.</p>
+<div id="attachment_690" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/Add-MessageUI-Framework.jpg" alt="Add MessageUI Framework" title="Add MessageUI Framework" class="size-full wp-image-690" /><p class="wp-caption-text">Add MessageUI Framework in Your Xcode Project</p></div>
+<p>Now the error should have been fixed. Run your app and see how it works. Tapping the &#8220;Contact Us&#8221; button will show you the &#8220;Compose Email&#8221; interface with pre-populated content.</p>
+<div id="attachment_693" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/SimpleEmail-App.jpg" alt="SimpleEmail App" title="SimpleEmail App" class="size-full wp-image-693" /><p class="wp-caption-text">SimpleEmail App</p></div>
+<h2>Composing HTML Email</h2>
+<p>The SimpleEmail app now only supports plain text email. You can easily enable the support of HTML email by changing the &#8220;isHTML&#8221; parameter in &#8220;setMessageBody&#8221; method from &#8220;N&#8221; to &#8220;Y&#8221;. Try to change the code in &#8220;showEmail&#8221; method to the following:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showEmail<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Email Subject</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>emailTitle <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Test Email&quot;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Email Content</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>messageBody <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;&lt;h1&gt;Learning iOS Programming!&lt;/h1&gt;&quot;</span>; <span style="color: #11740a; font-style: italic;">// Change the message body to HTML</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// To address</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>toRecipents <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObject<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="b7c4c2c7c7d8c5c3f7d6c7c7d4d8d3d699d4d8da">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; MFMailComposeViewController <span style="color: #002200;">*</span>mc <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>MFMailComposeViewController alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; mc.mailComposeDelegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>mc setSubject<span style="color: #002200;">:</span>emailTitle<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>mc setMessageBody<span style="color: #002200;">:</span>messageBody isHTML<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>mc setToRecipients<span style="color: #002200;">:</span>toRecipents<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Present mail view controller on screen</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>mc animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Compile and run your app again. With just a simple change, the SimpleEmail app now offers HTML support!</p>
+<div id="attachment_695" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/SimpleEmail-App-with-HTML-Support.jpg" alt="SimpleEmail App with HTML Support" title="SimpleEmail App with HTML Support" class="size-full wp-image-695" /><p class="wp-caption-text">SimpleEmail App with HTML Support</p></div>
+<p>As always, leave us comment and share your thought about the tutorial. If you have any suggestion for the iOS Programming 101 series, feel free to let us know.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/why-launching-appcoda/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/03/appcoda-launch1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Why Launching AppCoda?</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/swipeable-uitableviewcell-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/05/swipeable-cell-150x150.gif) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Create Swipeable Table View Cell to Display More Options</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios8-share-extension-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/04/share-extension-1024-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building a Simple Share Extension in iOS 8 App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/handoff/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/11/handoff-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with Handoff in iOS 8</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-101-send-email-iphone-app/"
+    dc:identifier="http://www.appcoda.com/ios-programming-101-send-email-iphone-app/"
+    dc:title="iOS Programming 101: How To Send Email in Your iPhone App"
+    trackback:ping="http://www.appcoda.com/ios-programming-101-send-email-iphone-app/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/ios-programming-101/" rel="category tag">iOS Programming 101</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/ios-sdk/" rel="tag">iOS SDK</a>, <a href="http://www.appcoda.com/tag/ios-tutorial/" rel="tag">iOS Tutorial</a>, <a href="http://www.appcoda.com/tag/iphone-app-development/" rel="tag">iPhone App Development</a>, <a href="http://www.appcoda.com/tag/messageui-framework/" rel="tag">MessageUI Framework</a>, <a href="http://www.appcoda.com/tag/mfmailcomposeviewcontroller/" rel="tag">MFMailComposeViewController</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-659">
+        <div id="dsq-comment-header-659" class="dsq-comment-header">
+            <cite id="dsq-cite-659">
+                <span id="dsq-author-user-659">arjun</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-659" class="dsq-comment-body">
+            <div id="dsq-comment-message-659" class="dsq-comment-message"><p>Please post new tutorials as soon as possible. they are really helpful. Hoping for the best.<br />
+Thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-664">
+        <div id="dsq-comment-header-664" class="dsq-comment-header">
+            <cite id="dsq-cite-664">
+                <span id="dsq-author-user-664">Raghavendra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-664" class="dsq-comment-body">
+            <div id="dsq-comment-message-664" class="dsq-comment-message"><p>pls  pls pls pls pls pls pls pls   help  me    simon   &#8230;..  me   using  x  code   3.2.4       to  develop  iphone  applications&#8230;&#8230;. i  am   facing  very  difficulty     in   dveloping   customised   table   view   different  images  in each  row      specially  in  making  outlet  connections&#8230;&#8230;      u  pls   post   customised  table  view   and  each  row&#8217;s  detailed  view       step  by  step   explaination    .  pls   develop  it  in   x  code  3.2.4&#8230;.. pls post  it   tomorrow&#8230; bcos    if   won&#8217;t  show    customised   table  view&#8230;  i  will  be  kicked  from  job  pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls pls plssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-676">
+        <div id="dsq-comment-header-676" class="dsq-comment-header">
+            <cite id="dsq-cite-676">
+                <span id="dsq-author-user-676">steveald</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-676" class="dsq-comment-body">
+            <div id="dsq-comment-message-676" class="dsq-comment-message"><p>Great tutorial!! Could you expand a bit on it by showing what code to enter in the emailTitle and messageBody strings so they take values from a picker array? I have a screen that allows the user to select a term from a picker wheel and it displays the term&#8217;s definition. I would like them to be able to then email that term and definition to someone else.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-677">
+        <div id="dsq-comment-header-677" class="dsq-comment-header">
+            <cite id="dsq-cite-677">
+                <span id="dsq-author-user-677">shawc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-677" class="dsq-comment-body">
+            <div id="dsq-comment-message-677" class="dsq-comment-message"><p>This was very helpful. Thanks for posting!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-678">
+        <div id="dsq-comment-header-678" class="dsq-comment-header">
+            <cite id="dsq-cite-678">
+                <span id="dsq-author-user-678">shivank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-678" class="dsq-comment-body">
+            <div id="dsq-comment-message-678" class="dsq-comment-message"><p>Sir first i thanks to u!!<br />
+ Actually sir i want that from this tutorials i can send the message to anybody by just entering email</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-679">
+        <div id="dsq-comment-header-679" class="dsq-comment-header">
+            <cite id="dsq-cite-679">
+http://www.simonblog.com                <span id="dsq-author-user-679">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-679" class="dsq-comment-body">
+            <div id="dsq-comment-message-679" class="dsq-comment-message"><p>Do you mean you want to empty the &#8220;To&#8221; field. You can simply remove these two lines:<br />
+ NSArray *toRecipents = [NSArray arrayWithObject:@&#8221;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="ed9e989d9d829f99ad8c9d9d8e82898cc38e8280">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&#8221;];</p>
+<p>    [mc setToRecipients:toRecipents];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-681">
+        <div id="dsq-comment-header-681" class="dsq-comment-header">
+            <cite id="dsq-cite-681">
+                <span id="dsq-author-user-681">shivank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-681" class="dsq-comment-body">
+            <div id="dsq-comment-message-681" class="dsq-comment-message"><p>no sir i can&#8217;t enable to send the message on click the send button and i just want to remove the cc and bcc button</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-706">
+        <div id="dsq-comment-header-706" class="dsq-comment-header">
+            <cite id="dsq-cite-706">
+                <span id="dsq-author-user-706">Muddu Patil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-706" class="dsq-comment-body">
+            <div id="dsq-comment-message-706" class="dsq-comment-message"><p>I&#8217;m unable to receive mail i gave my email id instead of <a href="/cdn-cgi/l/email-protection#4c3f393c3c233e380c2d3c3c2f23282d622f2321"><span class="__cf_email__" data-cfemail="b3c0c6c3c3dcc1c7f3d2c3c3d0dcd7d29dd0dcde">[email&#160;protected]</span><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-719">
+        <div id="dsq-comment-header-719" class="dsq-comment-header">
+            <cite id="dsq-cite-719">
+http://www.facebook.com/sean.derning.5                <span id="dsq-author-user-719">Sean Derning</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-719" class="dsq-comment-body">
+            <div id="dsq-comment-message-719" class="dsq-comment-message"><p>Thanks for the post. Works on 4 and 4s, but crashes on 3gs with error<br />
+&#8220;Application tried to present a nil modal view controller on target&#8221;<br />
+Any ideas would be appreciated.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.entlib.net/?p=2101' rel='external nofollow' class='url'>第十六部分：如何在你的iPhone App中发送邮件 | EntLib.net 技术分享平台</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://iptips.org/2012/09/10/ios-programming-101-how-to-get-the-user-location-in-iphone-app-2/' rel='external nofollow' class='url'>iOS Programming 101: How To Get the User Location in iPhone App | iptips - iphone / ipad / ios / android / mobile / tutorials</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://t1u.org/2012/09/10/ios-programming-101-how-to-get-the-user-location-in-iphone-app-2/' rel='external nofollow' class='url'>iOS Programming 101: How To Get the User Location in iPhone App | t1u</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-778">
+        <div id="dsq-comment-header-778" class="dsq-comment-header">
+            <cite id="dsq-cite-778">
+                <span id="dsq-author-user-778">nickykiet83</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-778" class="dsq-comment-body">
+            <div id="dsq-comment-message-778" class="dsq-comment-message"><p>I did exactly as your tut, I saw NSLOG appeared &#8220;Mail sent&#8221;. After this, however, I checked my email and didn&#8217;t get it! Please tell my why?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-781">
+        <div id="dsq-comment-header-781" class="dsq-comment-header">
+            <cite id="dsq-cite-781">
+http://www.simonblog.com                <span id="dsq-author-user-781">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-781" class="dsq-comment-body">
+            <div id="dsq-comment-message-781" class="dsq-comment-message"><p>Are you testing it using the iPhone Simulator? You won&#8217;t be able to send email using the simulator. </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-782">
+        <div id="dsq-comment-header-782" class="dsq-comment-header">
+            <cite id="dsq-cite-782">
+                <span id="dsq-author-user-782">nickykiet83</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-782" class="dsq-comment-body">
+            <div id="dsq-comment-message-782" class="dsq-comment-message"><p>Ok Thanks! I&#8217;ve got it!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-784">
+        <div id="dsq-comment-header-784" class="dsq-comment-header">
+            <cite id="dsq-cite-784">
+                <span id="dsq-author-user-784">Coyote6</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-784" class="dsq-comment-body">
+            <div id="dsq-comment-message-784" class="dsq-comment-message"><p>Are the log messages in the mailComposeController method, a requirement from Apple, can those just be skipped in an actual app, or is it just a good practice to add them?  Or was that just for this tutorial to show the results?  Thanks.</p>
+<p>Great tutorials by the way.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-857">
+        <div id="dsq-comment-header-857" class="dsq-comment-header">
+            <cite id="dsq-cite-857">
+                <span id="dsq-author-user-857">Walid</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-857" class="dsq-comment-body">
+            <div id="dsq-comment-message-857" class="dsq-comment-message"><p>@raghavendra, come on dude, dont be so desperate&#8230;dig around, read api docsand u be fine. Simon is not your private tutor.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-894">
+        <div id="dsq-comment-header-894" class="dsq-comment-header">
+            <cite id="dsq-cite-894">
+                <span id="dsq-author-user-894">Kristoffer B</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-894" class="dsq-comment-body">
+            <div id="dsq-comment-message-894" class="dsq-comment-message"><p>Nice and smooth did it in one minute. Thanks a lot for this!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-951">
+        <div id="dsq-comment-header-951" class="dsq-comment-header">
+            <cite id="dsq-cite-951">
+                <span id="dsq-author-user-951">Jim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-951" class="dsq-comment-body">
+            <div id="dsq-comment-message-951" class="dsq-comment-message"><p>Excellent tutorial. I implemented it in my app in a matter of minutes.  The only problem I see is that it does not email the message.  I am using the app on an iPad.  It populates the body with &#8220;Sent from my iPad. and the NSLog output occurs.  However, there is no indication of any sent email, or received email.</p>
+<p>Thanks!  You saved me a lot of research.  I hope you can help with this problem.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-952">
+        <div id="dsq-comment-header-952" class="dsq-comment-header">
+            <cite id="dsq-cite-952">
+                <span id="dsq-author-user-952">Jim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-952" class="dsq-comment-body">
+            <div id="dsq-comment-message-952" class="dsq-comment-message"><p>Never mind.  The mail account settings were wrong.  Thanks for the tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-967">
+        <div id="dsq-comment-header-967" class="dsq-comment-header">
+            <cite id="dsq-cite-967">
+                <span id="dsq-author-user-967">MillsapsFinest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-967" class="dsq-comment-body">
+            <div id="dsq-comment-message-967" class="dsq-comment-message"><p>How would you do this in the background? like send an email without the user going to this, example: enter name &#8212;&gt; hit send &#8212;&gt; name goes to <a href="/cdn-cgi/l/email-protection#d2a5babdb7a4b7a092a1bdbfb7a6babbbcb5fcb1bdbf"><span class="__cf_email__" data-cfemail="ccbba4a3a9baa9be8cbfa3a1a9b8a4a5a2abe2afa3a1">[email&#160;protected]</span><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1427">
+        <div id="dsq-comment-header-1427" class="dsq-comment-header">
+            <cite id="dsq-cite-1427">
+                <span id="dsq-author-user-1427">Adarsh Rai</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1427" class="dsq-comment-body">
+            <div id="dsq-comment-message-1427" class="dsq-comment-message"><p>Apple does not allow to send email or message without user intervention. You just can fill all the required fields but you can not send it, programmatically.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.cyberhades.com/2012/12/24/curso-de-programacion-ios-para-principiantes/' rel='external nofollow' class='url'>Curso de programación iOS para principiantes | CyberHades</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1028">
+        <div id="dsq-comment-header-1028" class="dsq-comment-header">
+            <cite id="dsq-cite-1028">
+                <span id="dsq-author-user-1028">zil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1028" class="dsq-comment-body">
+            <div id="dsq-comment-message-1028" class="dsq-comment-message"><p>When i run the app after adding MessageUI.framework it give the exception and terminate the app. The exception is :</p>
+<p>2012-12-29 12:42:43.841 SimpleEmail[1455:c07] *** Terminating app due to uncaught exception &#8216;NSUnknownKeyException&#8217;, reason: &#8216;[ setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key showEmail.&#8217;</p>
+<p>*** First throw call stack:</p>
+<p>(0x1cfb012 0x11dfe7e 0x1d83fb1 0xc8c711 0xc0dec8 0xc0d9b7 0xc38428 0x3440cc 0x11f3663 0x1cf645a 0x342bcf 0x207e37 0x208418 0x208648 0x208882 0x157a25 0x157dbf 0x157f55 0x160f67 0x2935 0x1247b7 0x124da7 0x125fab 0x137315 0x13824b 0x129cf8 0x1f34df9 0x1f34ad0 0x1c70bf5 0x1c70962 0x1ca1bb6 0x1ca0f44 0x1ca0e1b 0x1257da 0x12765c 0x266d 0x2595 0x1)</p>
+<p>libc++abi.dylib: terminate called throwing an exception<br />
+(lldb)</p>
+<p>Please give me the solution for that as early as possible.</p>
+<p>The tutorial is very good. Thanks for that.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1129">
+        <div id="dsq-comment-header-1129" class="dsq-comment-header">
+            <cite id="dsq-cite-1129">
+                <span id="dsq-author-user-1129">Kirti Avaiya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1129" class="dsq-comment-body">
+            <div id="dsq-comment-message-1129" class="dsq-comment-message"><p>Thanks for such easier tutorial, but I have some problem encountered in the mail sending , after clicking on the send button in the simulator , output window shows the mail sent message but in actually  i dont get any test mail from my simulator .</p>
+<p>Thank you and show me some help</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1130">
+        <div id="dsq-comment-header-1130" class="dsq-comment-header">
+            <cite id="dsq-cite-1130">
+                <span id="dsq-author-user-1130">Kirti Avaiya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1130" class="dsq-comment-body">
+            <div id="dsq-comment-message-1130" class="dsq-comment-message"><p>The iPhone simulator doesn&#8217;t send email,but real device will work and send the email.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1201">
+        <div id="dsq-comment-header-1201" class="dsq-comment-header">
+            <cite id="dsq-cite-1201">
+                <span id="dsq-author-user-1201">Daniel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1201" class="dsq-comment-body">
+            <div id="dsq-comment-message-1201" class="dsq-comment-message"><p>Hello. Great Tutorial, thank you. I have got a question, how can I custom the view&#8217;s transition?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1260">
+        <div id="dsq-comment-header-1260" class="dsq-comment-header">
+            <cite id="dsq-cite-1260">
+                <span id="dsq-author-user-1260">Seven</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1260" class="dsq-comment-body">
+            <div id="dsq-comment-message-1260" class="dsq-comment-message"><p>hi thanks !</p>
+<p> but i have proplem when run my app on iphone 3Gs , ios 5.1.1 =&gt;&gt; crash </p>
+<p>&#8220;* Terminating app due to uncaught exception &#8216;NSInvalidArgumentException&#8217;, reason: &#8216;Application tried to present a nil modal view controller on target .&#8221;<br />
+ Pls help me !</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3594">
+        <div id="dsq-comment-header-3594" class="dsq-comment-header">
+            <cite id="dsq-cite-3594">
+                <span id="dsq-author-user-3594">tanzelwurm</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3594" class="dsq-comment-body">
+            <div id="dsq-comment-message-3594" class="dsq-comment-message"><p>There is no email account configured on your iphone. Try</p>
+<p>    if (mc != nil) {</p>
+<p>[self presentViewController:mc animated:YES completion:NULL];</p>
+<p>    }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1276">
+        <div id="dsq-comment-header-1276" class="dsq-comment-header">
+            <cite id="dsq-cite-1276">
+                <span id="dsq-author-user-1276">tcm692</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1276" class="dsq-comment-body">
+            <div id="dsq-comment-message-1276" class="dsq-comment-message"><p>How could you incorporate this into a tab view?  For example, I have 2 tabs and on the 2nd tab I want the users to be able to send an email&#8230;is that done with a segue to a view controller page?  Or&#8230;If I created the sending email app as above, what would I add to my tab bar app from the email app?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1336">
+        <div id="dsq-comment-header-1336" class="dsq-comment-header">
+            <cite id="dsq-cite-1336">
+                <span id="dsq-author-user-1336">mike</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1336" class="dsq-comment-body">
+            <div id="dsq-comment-message-1336" class="dsq-comment-message"><p>Thanks for the tutorial, I&#8217;ve a small problem with the email message screen.<br />
+When I click the button the email screen appears with the options to send the message or cancel.<br />
+If I click the cancel button nothing happens &#8211; I just stay stuck on the email screen without the option to go back, please can you help</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1369">
+        <div id="dsq-comment-header-1369" class="dsq-comment-header">
+            <cite id="dsq-cite-1369">
+                <span id="dsq-author-user-1369">sree</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1369" class="dsq-comment-body">
+            <div id="dsq-comment-message-1369" class="dsq-comment-message"><p>thanks for the tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1499">
+        <div id="dsq-comment-header-1499" class="dsq-comment-header">
+            <cite id="dsq-cite-1499">
+                <span id="dsq-author-user-1499">Jimmy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1499" class="dsq-comment-body">
+            <div id="dsq-comment-message-1499" class="dsq-comment-message"><p>I want to send a message, I get the info from the address book, and I get the name and email address to send the mail to, and I compose a predefined email, but in the end, I want to add my name (the phone owners name) like</p>
+<p>&#8220;hello Mark</p>
+<p>bla bla bla</p>
+<p>bla bla bla</p>
+<p>bla bla bla</p>
+<p>bla bla bla</p>
+<p>Thanks,<br />
+Jimmy&#8221;</p>
+<p>Where Mark is the recipient, and I can get this info, how do I get the &#8220;Jimmy&#8221; name, that actually is my name (the owners phone)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1628">
+        <div id="dsq-comment-header-1628" class="dsq-comment-header">
+            <cite id="dsq-cite-1628">
+                <span id="dsq-author-user-1628">Htun Lin Aung</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1628" class="dsq-comment-body">
+            <div id="dsq-comment-message-1628" class="dsq-comment-message"><p>It is very good tutorial. if u have a time, pls post the about how to send sms.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1917">
+        <div id="dsq-comment-header-1917" class="dsq-comment-header">
+            <cite id="dsq-cite-1917">
+http://www.simonblog.com                <span id="dsq-author-user-1917">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1917" class="dsq-comment-body">
+            <div id="dsq-comment-message-1917" class="dsq-comment-message"><p>Here is the tutorial: <a href="http://www.appcoda.com/ios-programming-send-sms-text-message/" rel="nofollow">http://www.appcoda.com/ios-programming-send-sms-text-message/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2339">
+        <div id="dsq-comment-header-2339" class="dsq-comment-header">
+            <cite id="dsq-cite-2339">
+                <span id="dsq-author-user-2339">osropa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2339" class="dsq-comment-body">
+            <div id="dsq-comment-message-2339" class="dsq-comment-message"><p>Great tutorial, thank you so much for it. Now my app can send mail with the data collected during its execution.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2429">
+        <div id="dsq-comment-header-2429" class="dsq-comment-header">
+            <cite id="dsq-cite-2429">
+                <span id="dsq-author-user-2429">Trina</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2429" class="dsq-comment-body">
+            <div id="dsq-comment-message-2429" class="dsq-comment-message"><p>Fantastic tutorial! This helped me so so much as I&#8217;ve only been using xcode for a little while. Thanks so much.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2517">
+        <div id="dsq-comment-header-2517" class="dsq-comment-header">
+            <cite id="dsq-cite-2517">
+                <span id="dsq-author-user-2517">Souvick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2517" class="dsq-comment-body">
+            <div id="dsq-comment-message-2517" class="dsq-comment-message"><p>How to add video attachment?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2570">
+        <div id="dsq-comment-header-2570" class="dsq-comment-header">
+            <cite id="dsq-cite-2570">
+                <span id="dsq-author-user-2570">Me</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2570" class="dsq-comment-body">
+            <div id="dsq-comment-message-2570" class="dsq-comment-message"><p>Great Tutorial! But on line &#8216;mc.mailComposeDelegate = self;&#8217; I get the warning: Assigning to &#8216;id&#8217; from incompatible type &#8216;ImpressumViewController *const __strong&#8217;. Any ideas?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3663">
+        <div id="dsq-comment-header-3663" class="dsq-comment-header">
+            <cite id="dsq-cite-3663">
+                <span id="dsq-author-user-3663">go2014</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3663" class="dsq-comment-body">
+            <div id="dsq-comment-message-3663" class="dsq-comment-message"><p>any comments on this one folks? i have the similar issue</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-11196">
+        <div id="dsq-comment-header-11196" class="dsq-comment-header">
+            <cite id="dsq-cite-11196">
+                <span id="dsq-author-user-11196">max</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11196" class="dsq-comment-body">
+            <div id="dsq-comment-message-11196" class="dsq-comment-message"><p>You forgot to add  to your header file!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2673">
+        <div id="dsq-comment-header-2673" class="dsq-comment-header">
+            <cite id="dsq-cite-2673">
+                <span id="dsq-author-user-2673">LittlePeculiar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2673" class="dsq-comment-body">
+            <div id="dsq-comment-message-2673" class="dsq-comment-message"><p>I&#8217;m using a custom navigation bar that I set up in AppDelegate, as per your tutorial in &#8220;Custom Navigation Bar and Status Bar&#8221; in iOS7. I&#8217;m having a problem when presenting MFMailComposeViewConroller running on 4-inch 64-bit. It seems that the background image I am using is the wrong size or it looks displaced. It works perfectly on 4-inch as well as 3.5-inch. Also all my other views are appearing as they should be. I&#8217;m having another issue where the status bar text goes back to black only in mail. Maybe these issues are related. It actually sounds like an Apple bug. Any help is truly appreciated.</p>
+<p>And just so you know, I am incredibly grateful for all the time and effort you put into your tutorials. This site has become invaluable to me.<br />
+Thanks so much</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2887">
+        <div id="dsq-comment-header-2887" class="dsq-comment-header">
+            <cite id="dsq-cite-2887">
+                <span id="dsq-author-user-2887">Jitender Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2887" class="dsq-comment-body">
+            <div id="dsq-comment-message-2887" class="dsq-comment-message"><p>thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3474">
+        <div id="dsq-comment-header-3474" class="dsq-comment-header">
+            <cite id="dsq-cite-3474">
+                <span id="dsq-author-user-3474">Ravi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3474" class="dsq-comment-body">
+            <div id="dsq-comment-message-3474" class="dsq-comment-message"><p>How to add multiple email address.. actually its not working the arraylist</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4122">
+        <div id="dsq-comment-header-4122" class="dsq-comment-header">
+            <cite id="dsq-cite-4122">
+                <span id="dsq-author-user-4122">elturner2000</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4122" class="dsq-comment-body">
+            <div id="dsq-comment-message-4122" class="dsq-comment-message"><p>WOW &#8211; that was excellent. Thanks Guys!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-7349">
+        <div id="dsq-comment-header-7349" class="dsq-comment-header">
+            <cite id="dsq-cite-7349">
+                <span id="dsq-author-user-7349">Arvind Kumar Barnwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7349" class="dsq-comment-body">
+            <div id="dsq-comment-message-7349" class="dsq-comment-message"><p>Mail application is not sending any mail&#8230;.I need to send the mail on anyt email id entered by the user&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10019">
+        <div id="dsq-comment-header-10019" class="dsq-comment-header">
+            <cite id="dsq-cite-10019">
+                <span id="dsq-author-user-10019">NK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10019" class="dsq-comment-body">
+            <div id="dsq-comment-message-10019" class="dsq-comment-message"><p>not having email in my inbox after send from simulator ???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-16513">
+        <div id="dsq-comment-header-16513" class="dsq-comment-header">
+            <cite id="dsq-cite-16513">
+                <span id="dsq-author-user-16513">Jeffrey Neo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16513" class="dsq-comment-body">
+            <div id="dsq-comment-message-16513" class="dsq-comment-message"><p>Add condition<br />
+    if ([MFMailComposeViewController canSendMail])<br />
+before calling<br />
+    [self presentViewController:mc animated:YES completion:NULL];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31289">
+        <div id="dsq-comment-header-31289" class="dsq-comment-header">
+            <cite id="dsq-cite-31289">
+                <span id="dsq-author-user-31289">Salman Khan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31289" class="dsq-comment-body">
+            <div id="dsq-comment-message-31289" class="dsq-comment-message"><p>its awsum</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.zescience.com/trying-to-send-an-email-through-an-iphone-app-and-getting-an-error-using-mfmailcomposeviewcontroller-in-ios-8-185500' rel='external nofollow' class='url'>Trying to send an email through an iphone app and getting an error using MFMailComposeViewController in iOS 8</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://richardmcateer.wordpress.com/2014/10/22/mfmail-and-mfmessage/' rel='external nofollow' class='url'>MFMail and MFMessage | Flatiron School Blog</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-95152">
+        <div id="dsq-comment-header-95152" class="dsq-comment-header">
+            <cite id="dsq-cite-95152">
+                <span id="dsq-author-user-95152">Milos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-95152" class="dsq-comment-body">
+            <div id="dsq-comment-message-95152" class="dsq-comment-message"><p>WOW, Thanks for great tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://zhengfamily88.wordpress.com/2015/03/24/implementing-email/' rel='external nofollow' class='url'>implementing email | Zheng Family</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-101-send-email-iphone-app/';
+var disqus_identifier = '672 http://www.appcoda.com/?p=672';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "iOS Programming 101: How To Send Email in Your iPhone App";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=672';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="672"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-send-email-iphone-app%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Send%20Email%20in%20Your%20iPhone%20App" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="facebook" data-post_id="672" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20How%20To%20Send%20Email%20in%20Your%20iPhone%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-send-email-iphone-app%2F&#038;via=appcodamobile" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="twitter" data-post_id="672" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-send-email-iphone-app%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Send%20Email%20in%20Your%20iPhone%20App" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="googleplus" data-post_id="672" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-send-email-iphone-app%2F&#038;title=iOS%20Programming%20101%3A%20How%20To%20Send%20Email%20in%20Your%20iPhone%20App" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="linkedin" data-post_id="672" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-send-email-iphone-app%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Send%20Email%20in%20Your%20iPhone%20App" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="672" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20How%20To%20Send%20Email%20in%20Your%20iPhone%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-send-email-iphone-app%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="672" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-send-email-iphone-app%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Send%20Email%20in%20Your%20iPhone%20App" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="672" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-send-email-iphone-app%2F&#038;title=iOS%20Programming%20101%3A%20How%20To%20Send%20Email%20in%20Your%20iPhone%20App" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="672" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-101-send-email-iphone-app\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="d4b7b8bba7b194e6acfaa4bab3">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":672,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:40:25 by W3 Total Cache -->

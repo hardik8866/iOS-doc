@@ -1,0 +1,1521 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming Tutorial: How To Create RSS Reader iPhone App</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="In this tutorial, we are going to learn how to create a simple RSS reader application, based on a master detail design."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-rss-reader-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In this tutorial, we are going to learn how to create a simple RSS reader application, based on a master detail design."/>
+<meta name="twitter:title" content="iOS Programming Tutorial: How To Create RSS Reader iPhone App"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/04/Simple-RSS-Reader-Tutorial.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; How to Create a Simple RSS Reader App Comments Feed" href="http://www.appcoda.com/ios-programming-rss-reader-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1585' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1585 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1585 post type-post status-publish format-standard hentry category-course category-tutorials tag-ios-programming tag-nsxmlparser tag-rss-reader tag-xml-sax-parser entry"><h1 class="entry-title">How to Create a Simple RSS Reader App</h1> 
+<div class="post-info"><span class="date published time" title="2013-04-13T00:47:08+00:00">April 13, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/rafaelgarcia/" rel="author">Rafael Garcia</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-rss-reader-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="1585 http://www.appcoda.com/?p=1585">76 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><em>Editor&#8217;s note: we received a number of requests for a tutorial about building a RSS reader app. This week, Rafael Garcia Leiva will show you how to create a simple iPhone app to consume a RSS feed. Rafael is a senior iPhone developer author of more than a dozen applications. Currently he works as freelancer developing iPhone applications and teaching introductory and advanced courses about iPhone programming. When away from a keyboard Rafael spends his time on the mountains with his wife and three children.</em></p>
+<p>Enter the RSS Reader tutorial.</p>
+<p>In this tutorial, we are going to learn how to create a simple RSS reader application. The app will be based on a master / detail design, where the master view will display the list of available feeds, and the detail view will show the corresponding web pages.</p>
+<p><div id="attachment_1645" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/Simple-RSS-Reader-Tutorial.jpg" alt="Simple RSS Reader Tutorial" class="size-full wp-image-1645" /><p class="wp-caption-text">Simple RSS Reader Tutorial</p></div><br />
+<span id="more-1585"></span><br />
+The core of the application is the <a title="Class Refernce" href="https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/Foundation/Classes/NSXMLParser_Class/Reference/Reference.html" target="_blank">NSXMLParser</a> class. NSXMLParser is the XML parser included by default with the iPhone SDK. NSXMLParser is a SAX parser, which means that it adopts an event-driven style of parsing XML files: whenever the parser has finished the processing of a part of the XML file, it calls a method from the parser&#8217;s delegate.</p>
+<h2>Creating a Master Detail Application</h2>
+<p>Open Xcode and create a new Project, choose the template Master Detail Application as shown below.</p>
+<div id="attachment_1598" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/How-to-create-an-rss-reader-2-e1365777691813.jpg" alt="Creating a new Xcode Project" class="size-full wp-image-1598" /><p class="wp-caption-text">Creating a new Xcode Project</p></div>
+<p>In the next screen, enter RSSreader as the product name and set com.appcoda in the company identifier field. Don’t forget to select the “User Storyboard” and “Use Automatic Reference Counting” options. Press next and create.</p>
+<div id="attachment_1599" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/How-to-create-an-rss-reader-3-e1365778031556.jpg" alt="Xcode Project Identification" class="size-full wp-image-1599" /><p class="wp-caption-text">Setting the project option</p></div>
+<h2>Designing the User Interface</h2>
+<p>Select the MainStoryboard.storyboard file from Xcode&#8217;s Navigator to display the storyboard on the Editor pane.</p>
+<div id="attachment_1600" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/How-to-create-an-rss-reader-4-e1365778084658.jpg" alt="RSS Reader Storyboard" class="size-full wp-image-1600" /><p class="wp-caption-text">RSS Reader Storyboard</p></div>
+<p>As you can see, we already have all the elements we need for our reader:</p>
+<ul>
+<li>A Navigation Bar to go back and forward from the stories.</li>
+<li>A Table View to display the list of available stories.</li>
+<li>A Detailed View that will contain a Web View to display the selected story.</li>
+</ul>
+<p>However, we still need to make a few changes in the storyboard to have a fully functional user interface.</p>
+<p>First select the Master View Controller and change the Navigation Bar title from “Master” to “Stories”, or to any other title you prefer. Then, click on the Assistant Editor button to open the source code associated to our Master View Controller (APPMasterViewController.h), and create an IBOutlet for our Table View (control drag from the UITableView to the source code).</p>
+<div id="attachment_1616" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/How-to-create-an-rss-reader-5-600x290.jpg" alt="Creating an outlet for table view" class="size-medium wp-image-1616" /><p class="wp-caption-text">Creating an outlet for table view</p></div>
+<p>In the Connection field we have to choose Outlet, as Name use tableView, as Type select UITableView, and finally, as Storage select Strong. That should create the following IBOutlet:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp;<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UITableView <span style="color: #002200;">*</span>tableView;</div></td></tr></tbody></table></div>
+<p>Now select the Detail View Controller and change again the title of the Navigation Bar; instead of “Detail” write “Content”. Then we have to remove the label in the center of the View, since we are not going to use it. Do not forget to remove the IBOutlet property form the APPDetailViewController.h file, and remove the detailItem property as well. Finally, drag and drop an UIWebView from the Object Library to the Detail View Controller View. Make sure that the web view takes all the available space.</p>
+<div id="attachment_1613" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/How-to-create-an-rss-reader-6-e1365779026635.jpg" alt="Adding a web view" class="size-full wp-image-1613" /><p class="wp-caption-text">Adding a web view</p></div>
+<p>Again, we have to create an IBOutlet form the UIWebView. Using the same procedure described above, control drag an outlet to the APPDetailViewController.h file, and call it webView. Add also another @property of type NSString, and with copy modifier. The string property will contain the URL address of the current selected story. If you did everything correctly, the APPDetailViewController.h should be something like:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;UIKit/UIKit.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> APPDetailViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>copy, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>url;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIWebView <span style="color: #002200;">*</span>webView;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<h2>Implementing the Master View Controller</h2>
+<p>In the APPMasterViewController.m file, replace the @interface declaration by the following:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> APPMasterViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSXMLParser_Class/"><span style="color: #400080;">NSXMLParser</span></a> <span style="color: #002200;">*</span>parser;<br />
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> <span style="color: #002200;">*</span>feeds;<br />
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableDictionary_Class/"><span style="color: #400080;">NSMutableDictionary</span></a> <span style="color: #002200;">*</span>item;<br />
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableString_Class/"><span style="color: #400080;">NSMutableString</span></a> <span style="color: #002200;">*</span>title;<br />
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableString_Class/"><span style="color: #400080;">NSMutableString</span></a> <span style="color: #002200;">*</span>link;<br />
+    <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>element;<br />
+<br />
+<span style="color: #002200;">&#125;</span><br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>In this section we have declared several helper variables: <strong><em>parser</em></strong> is the object that will download and parse the RSS XML files; <strong><em>feeds</em></strong> is a mutable array that will contain the list of feeds downloaded; <strong><em>item</em></strong> is a mutable dictionary that will contains the details of a feed, in our case its <strong><em>title</em></strong> and its <strong><em>link</em></strong>; and finally, <strong><em>element</em></strong> will help us to control with element is currently parsing the NSXMLParser object.</p>
+<p>In the viewDidLoad function we have to initialize and start the NSXMLParser object. For simplicity, in this example the URL for the feed is hard coded. We simple use the hot news feed from Apple (<a href="http://images.apple.com/main/rss/hotnews/hotnews.rss">http://images.apple.com/main/rss/hotnews/hotnews.rss</a>). In a production application, you should allow the user to change this address from the user interface.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; feeds <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>url <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> URLWithString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;http://images.apple.com/main/rss/hotnews/hotnews.rss&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; parser <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSXMLParser_Class/"><span style="color: #400080;">NSXMLParser</span></a> alloc<span style="color: #002200;">&#93;</span> initWithContentsOfURL<span style="color: #002200;">:</span>url<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>parser setDelegate<span style="color: #002200;">:</span>self<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>parser setShouldResolveExternalEntities<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>parser parse<span style="color: #002200;">&#93;</span>;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Next remove the insertNewObject method, since we will not allow the user to add feeds manually, and replace the methods for managing the table by the following:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>numberOfSectionsInTableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">1</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView numberOfRowsInSection<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>section <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> feeds.count;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>UITableViewCell <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView cellForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UITableViewCell <span style="color: #002200;">*</span>cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>tableView dequeueReusableCellWithIdentifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cell&quot;</span> forIndexPath<span style="color: #002200;">:</span>indexPath<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; cell.textLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>feeds objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;title&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The only element that is new is the following line of code, where we set the title of the current cell to the title of the feed:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">cell.textLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>feeds objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;title&quot;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Remove also the canEditRowAtIndexPath and commitEditingStyle methods, since we do not need them for this application.</p>
+<h2>Implementing the Parser Delegate</h2>
+<p>Next we have to implement the parser delegate methods. In order to do that, we have to tell the compiler that the ENTMasterViewController class implements the NSXMLParserDelegate protocol. Open the ENTMasterViewController.h file and replace the class definition by:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">@interface ENTMasterViewController : UITableViewController &lt;NSXMLParserDelegate&gt;</div></td></tr></tbody></table></div>
+<p>Whenever the parser finds a new element, it calls the didStartElement method from its delegate. In that method we have to check that the element found is an “item”, and if so, we allocate the variables to store the item.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>parser<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSXMLParser_Class/"><span style="color: #400080;">NSXMLParser</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>parser didStartElement<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>elementName namespaceURI<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>namespaceURI qualifiedName<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>qName attributes<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>attributeDict <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; element <span style="color: #002200;">=</span> elementName;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>element isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;item&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; item &nbsp; &nbsp;<span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableDictionary_Class/"><span style="color: #400080;">NSMutableDictionary</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; title &nbsp; <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableString_Class/"><span style="color: #400080;">NSMutableString</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; link &nbsp; &nbsp;<span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableString_Class/"><span style="color: #400080;">NSMutableString</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Then, the parser calls its delegate every time new characters are found. This is why we have to use mutable strings, since we have to add the new characters found to the previous ones. In our case we are interested in the “title” and “link” elements, but we could also store information about the “date” or “summary” of the story.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>parser<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSXMLParser_Class/"><span style="color: #400080;">NSXMLParser</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>parser foundCharacters<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span><span style="color: #a61390;">string</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>element isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;title&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>title appendString<span style="color: #002200;">:</span><span style="color: #a61390;">string</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>element isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;link&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>link appendString<span style="color: #002200;">:</span><span style="color: #a61390;">string</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>When the parser encounters the end of an element, it calls the didEndElement method. In that case we simply add the new object to the array of objects.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>parser<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSXMLParser_Class/"><span style="color: #400080;">NSXMLParser</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>parser didEndElement<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>elementName namespaceURI<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>namespaceURI qualifiedName<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>qName <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>elementName isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;item&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>item setObject<span style="color: #002200;">:</span>title forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;title&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>item setObject<span style="color: #002200;">:</span>link forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;link&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>feeds addObject<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>item copy<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>And when the parser encounters the end of the document, it calls the method parserDidEndDocument. In that case what we have to do is to inform to the UITableView to redisplay itself, since we have all the data to be displayed.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>parserDidEndDocument<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSXMLParser_Class/"><span style="color: #400080;">NSXMLParser</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>parser <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.tableView reloadData<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Implementing the Detail View Controller</h2>
+<p>We need a way to inform to our Detail View Controller about the URL of the feed we want to display. In order to do that we use the prepareForSegue method of the Master View Controller, where we set the url property of the destintionViewController:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>prepareForSegue<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIStoryboardSegue <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>segue sender<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>segue identifier<span style="color: #002200;">&#93;</span> isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;showDetail&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span>indexPath <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self.tableView indexPathForSelectedRow<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #a61390;">string</span> <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>feeds<span style="color: #002200;">&#91;</span>indexPath.row<span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;link&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>segue destinationViewController<span style="color: #002200;">&#93;</span> setUrl<span style="color: #002200;">:</span><span style="color: #a61390;">string</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The last step is to modify the APPDetailViewController.m file. In our case, the Detail View Controller is very simple, we only need to provide the following viewDidLoad method, and safely remove the rest of the methods:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>myURL <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> URLWithString<span style="color: #002200;">:</span> <span style="color: #002200;">&#91;</span>self.url stringByAddingPercentEscapesUsingEncoding<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSUTF8StringEncoding<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/"><span style="color: #400080;">NSURLRequest</span></a> <span style="color: #002200;">*</span>request <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/"><span style="color: #400080;">NSURLRequest</span></a> requestWithURL<span style="color: #002200;">:</span>myURL<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.webView loadRequest<span style="color: #002200;">:</span>request<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The method just ask to the webView to display the content of the selected feed. For that, first we create an NSURL with the string we have, but escaping those characters that can create problems in an URK with the option using stringByAddingPercentEscapesUsingEncoding. And then, we create an NSURLRequest to download the web page with the story.</p>
+<p>If you make no mistakes, you should be able to compile and run the RSS reader app in the simulator.</p>
+<div id="attachment_1644" style="width: 378px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/Simple-RSS-Reader-App.jpg" alt="Simple RSS Reader App" class="size-full wp-image-1644" /><p class="wp-caption-text">Simple RSS Reader App</p></div>
+<h2>Download the Full Source Code</h2>
+<p>I hope you enjoy the tutorial. You should now have a basic idea of consuming RSS feed using NSURLRequest and NSXMLParser. For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/RSSreader.zip">download the full source code from here</a>.</p>
+<p>We&#8217;ll explore some more interesting things in the upcoming tutorials. As always, leave us comment and share your thought about the tutorials.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/hello-world-app-using-xcode-5-xib/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/10/HelloWorld-App-Featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Hello World App Using Xcode 5 and Interface Builder</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios7-programming-ibeacons-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/11/beacon-01-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Use iBeacons in iOS 7 to Enhance Your Apps</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-facebook-login-manual/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/05/facebook-login-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Integrating Facebook Login in iOS App - The Manual Way</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/cloudkit-introduction-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/04/cloudkit-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with CloudKit in iOS 8</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-rss-reader-tutorial/"
+    dc:identifier="http://www.appcoda.com/ios-programming-rss-reader-tutorial/"
+    dc:title="How to Create a Simple RSS Reader App"
+    trackback:ping="http://www.appcoda.com/ios-programming-rss-reader-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/nsxmlparser/" rel="tag">NSXMLParser</a>, <a href="http://www.appcoda.com/tag/rss-reader/" rel="tag">RSS reader</a>, <a href="http://www.appcoda.com/tag/xml-sax-parser/" rel="tag">XML SAX Parser</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-1438">
+        <div id="dsq-comment-header-1438" class="dsq-comment-header">
+            <cite id="dsq-cite-1438">
+                <span id="dsq-author-user-1438">Osvaldo Cipriano</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1438" class="dsq-comment-body">
+            <div id="dsq-comment-message-1438" class="dsq-comment-message"><p>Another awesome tutorial.<br />
+How can we use images in the feed &#8220;list&#8221;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1439">
+        <div id="dsq-comment-header-1439" class="dsq-comment-header">
+            <cite id="dsq-cite-1439">
+                <span id="dsq-author-user-1439">iOS Killer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1439" class="dsq-comment-body">
+            <div id="dsq-comment-message-1439" class="dsq-comment-message"><p>Yes i was suppose to ask this only&#8230; it would be helpfull if get some help on this</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1442">
+        <div id="dsq-comment-header-1442" class="dsq-comment-header">
+            <cite id="dsq-cite-1442">
+                <span id="dsq-author-user-1442">Anonymous Programmer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1442" class="dsq-comment-body">
+            <div id="dsq-comment-message-1442" class="dsq-comment-message"><p>Be careful when writing the code in the MasterViewController&#8217;s &#8216;prepareForSegue&#8217; method. The &#8216;setURL&#8217; method only accepts NSURL Objects.</p>
+<p>Try this in place of the &#8216;setURL&#8217; method:</p>
+<p>DetailViewController *dest = segue.destinationViewController;<br />
+dest.url = string;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1448">
+        <div id="dsq-comment-header-1448" class="dsq-comment-header">
+            <cite id="dsq-cite-1448">
+http://twitter.com/fishfisher                <span id="dsq-author-user-1448">Erik Fisher</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1448" class="dsq-comment-body">
+            <div id="dsq-comment-message-1448" class="dsq-comment-message"><p>You just have to make sure you write &#8216;setUrl&#8217; and not &#8216;setURL&#8217;, as you want to reference the *url property declared in DetailViewController.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1490">
+        <div id="dsq-comment-header-1490" class="dsq-comment-header">
+            <cite id="dsq-cite-1490">
+http://twitter.com/yamilurbina                <span id="dsq-author-user-1490">Yamil Urbina</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1490" class="dsq-comment-body">
+            <div id="dsq-comment-message-1490" class="dsq-comment-message"><p>Thanks for another great tutorial! Any chance to put the code for the tutorials on Github? Would be great to fork it or just browse through the code online <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1535">
+        <div id="dsq-comment-header-1535" class="dsq-comment-header">
+            <cite id="dsq-cite-1535">
+http://www.simonblog.com                <span id="dsq-author-user-1535">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1535" class="dsq-comment-body">
+            <div id="dsq-comment-message-1535" class="dsq-comment-message"><p>You can download the whole Xcode project using the above download link. But later we may put the code on Github too.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1524">
+        <div id="dsq-comment-header-1524" class="dsq-comment-header">
+            <cite id="dsq-cite-1524">
+http://www.facebook.com/pattyla.patty.7                <span id="dsq-author-user-1524">Pattyla Patty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1524" class="dsq-comment-body">
+            <div id="dsq-comment-message-1524" class="dsq-comment-message"><p>Thanks tutorial~</p>
+<p>Testing several rss feeds but got different messages, someone have any good suggestion?  Thank u!</p>
+<p>1. <a href="http://rss.chinatimes.com/rss/latestnews-u.rss" rel="nofollow">http://rss.chinatimes.com/rss/latestnews-u.rss</a>      msg:CGAffineTransformInvert: singular matrix</p>
+<p>2.<a href="http://cnyes.feedsportal.com/c/33100/fe.ed/news.cnyes.com/rss1/industry" rel="nofollow">http://cnyes.feedsportal.com/c/33100/fe.ed/news.cnyes.com/rss1/industry</a></p>
+<p>: ImageIO: readICCData Embedded profile header length is greater than data length.</p>
+<p>3. <a href="http://www.chinatimes.com/realtimenews-stock.rss" rel="nofollow">http://www.chinatimes.com/realtimenews-stock.rss</a></p>
+<p>can&#8217;t get link (because it includes Chinese words?)   msg: Bad Request -Invalid URL </p>
+<p>4. <a href="http://www.baidu.com/search/rss.html" rel="nofollow">http://www.baidu.com/search/rss.html</a><br />
+can&#8217;t get link    msg: Not Found</p>
+<p>5.  BBC chinese &amp; UK rss   can&#8217;t work:</p>
+<p><a href="http://www.bbc.co.uk/zhongwen/trad/institutional/2011/04/111111_rss.shtml" rel="nofollow">http://www.bbc.co.uk/zhongwen/trad/institutional/2011/04/111111_rss.shtml</a></p>
+<p><a href="http://www.bbc.co.uk/news/10628494" rel="nofollow">http://www.bbc.co.uk/news/10628494</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1562">
+        <div id="dsq-comment-header-1562" class="dsq-comment-header">
+            <cite id="dsq-cite-1562">
+                <span id="dsq-author-user-1562">chris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1562" class="dsq-comment-body">
+            <div id="dsq-comment-message-1562" class="dsq-comment-message"><p>hi! I&#8217;ve inserted my wordpress feed link. the table view find my headline. but the detail view can&#8217;t find the link. can i fix this?<br />
+thx</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1563">
+        <div id="dsq-comment-header-1563" class="dsq-comment-header">
+            <cite id="dsq-cite-1563">
+                <span id="dsq-author-user-1563">chris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1563" class="dsq-comment-body">
+            <div id="dsq-comment-message-1563" class="dsq-comment-message"><p>it works when wordpress permalink is set on standard. but i need the permalink &#8220;article name&#8221;. can anybody help me?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-1564">
+        <div id="dsq-comment-header-1564" class="dsq-comment-header">
+            <cite id="dsq-cite-1564">
+http://www.freddyreyes.com/                <span id="dsq-author-user-1564">Fred R.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1564" class="dsq-comment-body">
+            <div id="dsq-comment-message-1564" class="dsq-comment-message"><p>I have the same problem. I want to use it with customized permalinks. Do you have any idea on how to fix it?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-1565">
+        <div id="dsq-comment-header-1565" class="dsq-comment-header">
+            <cite id="dsq-cite-1565">
+http://www.simonblog.com                <span id="dsq-author-user-1565">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1565" class="dsq-comment-body">
+            <div id="dsq-comment-message-1565" class="dsq-comment-message"><p>Can you show me the rss feed?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-1586">
+        <div id="dsq-comment-header-1586" class="dsq-comment-header">
+            <cite id="dsq-cite-1586">
+http://www.freddyreyes.com/                <span id="dsq-author-user-1586">FredSocial</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1586" class="dsq-comment-body">
+            <div id="dsq-comment-message-1586" class="dsq-comment-message"><p>The following wordpress blog fails: <a href="http://gigaom.com/channel/apple/feed" rel="nofollow">http://gigaom.com/channel/apple/feed</a></p>
+<p>The news feed shows up, however when you try to open any story, it gives you a &#8220;page not found&#8221; (401) error.</p>
+<p>Same issue with the apple feed that you mentioned in the example: &#8220;http://images.apple.com/main/rss/hotnews/hotnews.rss</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-1597">
+        <div id="dsq-comment-header-1597" class="dsq-comment-header">
+            <cite id="dsq-cite-1597">
+http://www.freddyreyes.com/                <span id="dsq-author-user-1597">FredSocial</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1597" class="dsq-comment-body">
+            <div id="dsq-comment-message-1597" class="dsq-comment-message"><p>I noticed that when you click on a link. The code add the following characters at the end of the URL: %09%09</p>
+<p>That is why we get the 401 error or page not found error message in the viewdetail controller</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-1621">
+        <div id="dsq-comment-header-1621" class="dsq-comment-header">
+            <cite id="dsq-cite-1621">
+http://www.freddyreyes.com/                <span id="dsq-author-user-1621">FredSocial</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1621" class="dsq-comment-body">
+            <div id="dsq-comment-message-1621" class="dsq-comment-message"><p>The issue seems to be related to the APPDetailViewController.m file in the following line: </p>
+<p>&#8211; (void)viewDidLoad {<br />
+    [super viewDidLoad];<br />
+    NSURL *myURL = [NSURL URLWithString: [self.url stringByAddingPercentEscapesUsingEncoding:<br />
+                                          NSUTF8StringEncoding]];<br />
+    NSURLRequest *request = [NSURLRequest requestWithURL:myURL];<br />
+    [self.webView loadRequest:request];<br />
+}</p>
+<p>It seems that the encoding is adding additional characters to the URL. How can we fix it?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-1636">
+        <div id="dsq-comment-header-1636" class="dsq-comment-header">
+            <cite id="dsq-cite-1636">
+                <span id="dsq-author-user-1636">Dan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1636" class="dsq-comment-body">
+            <div id="dsq-comment-message-1636" class="dsq-comment-message"><p>Looks like you have the same problem as me.  Turns out the link passed to APPDetailViewController contains trailing linefeed and spaces.  I solved it by trimming the url:</p>
+<p>    NSString *urlString = [self.url stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-1653">
+        <div id="dsq-comment-header-1653" class="dsq-comment-header">
+            <cite id="dsq-cite-1653">
+http://www.freddyreyes.com/                <span id="dsq-author-user-1653">FredSocial</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1653" class="dsq-comment-body">
+            <div id="dsq-comment-message-1653" class="dsq-comment-message"><p>Hi Dan &#8211; Can you post your code here (viewDidLoad)?</p>
+<p>I tried and it gave me an error.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-1659">
+        <div id="dsq-comment-header-1659" class="dsq-comment-header">
+            <cite id="dsq-cite-1659">
+http://www.freddyreyes.com/                <span id="dsq-author-user-1659">FredSocial</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1659" class="dsq-comment-body">
+            <div id="dsq-comment-message-1659" class="dsq-comment-message"><p>Never mind. I was able to figure it out. Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-2857">
+        <div id="dsq-comment-header-2857" class="dsq-comment-header">
+            <cite id="dsq-cite-2857">
+                <span id="dsq-author-user-2857">jasper</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2857" class="dsq-comment-body">
+            <div id="dsq-comment-message-2857" class="dsq-comment-message"><p>Would be cool if you could share the code with us fred which you used to fix it cause i am having the same problem as you and dan but i cant figure it out.</p>
+<p>I have tryed the code dan has provided but it comes up with an error.</p>
+<p>It would be much appreciated if you could share the code and some info you used to figure the error out</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-2910">
+        <div id="dsq-comment-header-2910" class="dsq-comment-header">
+            <cite id="dsq-cite-2910">
+                <span id="dsq-author-user-2910">Oscar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2910" class="dsq-comment-body">
+            <div id="dsq-comment-message-2910" class="dsq-comment-message"><p>This is the code </p>
+<p>&#8211; (void)viewDidLoad {<br />
+    [super viewDidLoad];</p>
+<p>    //NSString *URL = [self.url stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];</p>
+<p>NSURL *URL = [NSURL URLWithString: [self.url stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];</p>
+<p>    NSURLRequest *request = [NSURLRequest requestWithURL:URL];<br />
+    [self.webView loadRequest:request];</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-3208">
+        <div id="dsq-comment-header-3208" class="dsq-comment-header">
+            <cite id="dsq-cite-3208">
+                <span id="dsq-author-user-3208">francois53</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3208" class="dsq-comment-body">
+            <div id="dsq-comment-message-3208" class="dsq-comment-message"><p>Thanks !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-3684">
+        <div id="dsq-comment-header-3684" class="dsq-comment-header">
+            <cite id="dsq-cite-3684">
+                <span id="dsq-author-user-3684">puranjay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3684" class="dsq-comment-body">
+            <div id="dsq-comment-message-3684" class="dsq-comment-message"><p>after i load the project<br />
+i am not able to scroll through in the simulator<br />
+any idea y??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-2909">
+        <div id="dsq-comment-header-2909" class="dsq-comment-header">
+            <cite id="dsq-cite-2909">
+                <span id="dsq-author-user-2909">Oscar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2909" class="dsq-comment-body">
+            <div id="dsq-comment-message-2909" class="dsq-comment-message"><p>Hi, when you put this code  NSString *urlString = [self.url stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];  ??<br />
+Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1600">
+        <div id="dsq-comment-header-1600" class="dsq-comment-header">
+            <cite id="dsq-cite-1600">
+                <span id="dsq-author-user-1600">Roya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1600" class="dsq-comment-body">
+            <div id="dsq-comment-message-1600" class="dsq-comment-message"><p>Thank you! Please post more iOS tutorials.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1707">
+        <div id="dsq-comment-header-1707" class="dsq-comment-header">
+            <cite id="dsq-cite-1707">
+                <span id="dsq-author-user-1707">Chris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1707" class="dsq-comment-body">
+            <div id="dsq-comment-message-1707" class="dsq-comment-message"><p>Hi great tutorial !!! , but I have one question, how can i add &#8220;pull to refresh&#8221; to get new rss feed when I in aplication ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1708">
+        <div id="dsq-comment-header-1708" class="dsq-comment-header">
+            <cite id="dsq-cite-1708">
+                <span id="dsq-author-user-1708">Stephen W.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1708" class="dsq-comment-body">
+            <div id="dsq-comment-message-1708" class="dsq-comment-message"><p>Great article! This was my first iPhone application. Pretty great start.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1714">
+        <div id="dsq-comment-header-1714" class="dsq-comment-header">
+            <cite id="dsq-cite-1714">
+                <span id="dsq-author-user-1714">Christophe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1714" class="dsq-comment-body">
+            <div id="dsq-comment-message-1714" class="dsq-comment-message"><p>it seems that with some of the apple feed links the link is broken, for example adding a simple NSLog indicates that the link being passed is:<br />
+&#8220;http://www.apple.com/ipad/business/profiles/mayo-clinic/ ?sr=hotnews.rss&#8221;</p>
+<p>both:<br />
+&#8220;http://www.apple.com/ipad/business/profiles/mayo-clinic/?sr=hotnews.rss&#8221;<br />
+&#8220;http://www.apple.com/ipad/business/profiles/mayo-clinic/&#8221;</p>
+<p>seem to work fine</p>
+<p>by accessing the link directly (<a href="http://images.apple.com/main/rss/hotnews/hotnews.rss" rel="nofollow">http://images.apple.com/main/rss/hotnews/hotnews.rss</a>) it seems that feed itself is corrupt, are there any quick ways one can check the validity of a url ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1936">
+        <div id="dsq-comment-header-1936" class="dsq-comment-header">
+            <cite id="dsq-cite-1936">
+                <span id="dsq-author-user-1936">Josh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1936" class="dsq-comment-body">
+            <div id="dsq-comment-message-1936" class="dsq-comment-message"><p>Ah, thats why it wasn&#8217;t working. thank you for this update. I was scratching my head and looking at NSlog output.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1750">
+        <div id="dsq-comment-header-1750" class="dsq-comment-header">
+            <cite id="dsq-cite-1750">
+                <span id="dsq-author-user-1750">A.Thind</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1750" class="dsq-comment-body">
+            <div id="dsq-comment-message-1750" class="dsq-comment-message"><p>How would i go about adding and implementing a search field for this for the uitableview?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1808">
+        <div id="dsq-comment-header-1808" class="dsq-comment-header">
+            <cite id="dsq-cite-1808">
+                <span id="dsq-author-user-1808">tigreroux</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1808" class="dsq-comment-body">
+            <div id="dsq-comment-message-1808" class="dsq-comment-message"><p>I use this tutorial and added a tabbar but i don&#8217;t know how define a new feed in the second view of the tabbar</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1933">
+        <div id="dsq-comment-header-1933" class="dsq-comment-header">
+            <cite id="dsq-cite-1933">
+                <span id="dsq-author-user-1933">Hugo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1933" class="dsq-comment-body">
+            <div id="dsq-comment-message-1933" class="dsq-comment-message"><p>I think you should tell us that we&#8217;re comparing elementName to @&#8221;item&#8221; and @&#8221;title&#8221; and @&#8221;link&#8221; because the NSXMLParser is going through all the words in the XML file and it&#8217;s trying to find the tags  and  and  so that it can then extract the text content. It&#8217;s not that obvious when you know nothing about XML parsing. At least for me it wasn&#8217;t. Good tutorial nonetheless.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1989">
+        <div id="dsq-comment-header-1989" class="dsq-comment-header">
+            <cite id="dsq-cite-1989">
+                <span id="dsq-author-user-1989">sivabalan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1989" class="dsq-comment-body">
+            <div id="dsq-comment-message-1989" class="dsq-comment-message"><p>I am in need of displaying the &#8220;description&#8221; alone instead of taking user to the new link , any help with that ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://appdev.binaryappdev.com/2013/07/23/displaying-description-from-an-rss-feed-in-an-xcode-project/' rel='external nofollow' class='url'>Binary App Dev: Apps | Displaying &#8220;description&#8221; from an RSS feed in an xcode project</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://appdev.binaryappdev.com/2013/07/23/displaying-description-from-an-rss-feed-in-an-ios-app/' rel='external nofollow' class='url'>Binary App Dev: Apps | Displaying &#8220;description&#8221; from an RSS feed in an iOS app</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/07/displaying-description-from-an-rss-feed-in-an-xcode-project/' rel='external nofollow' class='url'>Displaying &quot;description&quot; from an RSS feed in an xcode project | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2003">
+        <div id="dsq-comment-header-2003" class="dsq-comment-header">
+            <cite id="dsq-cite-2003">
+                <span id="dsq-author-user-2003">chuy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2003" class="dsq-comment-body">
+            <div id="dsq-comment-message-2003" class="dsq-comment-message"><p>thanks for sharing!! this is an awesome easy-to-follow tutorial!!! thanks!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2029">
+        <div id="dsq-comment-header-2029" class="dsq-comment-header">
+            <cite id="dsq-cite-2029">
+                <span id="dsq-author-user-2029">Chris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2029" class="dsq-comment-body">
+            <div id="dsq-comment-message-2029" class="dsq-comment-message"><p>You did a great job on this tutorial. I managed to get my parser working but had problems get url attribute of  for an image in TableView. Could you tell me how I can do it. Thanks and keep posting this tutorials</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2202">
+        <div id="dsq-comment-header-2202" class="dsq-comment-header">
+            <cite id="dsq-cite-2202">
+                <span id="dsq-author-user-2202">ran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2202" class="dsq-comment-body">
+            <div id="dsq-comment-message-2202" class="dsq-comment-message"><p>Great tutorial! Clear and accurate! 10X!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/08/onclicking-menu-it-hangs-for-some-time-and-then-goes-to-secondview-controller/' rel='external nofollow' class='url'>onclicking menu it hangs for some time and then goes to secondview controller | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2282">
+        <div id="dsq-comment-header-2282" class="dsq-comment-header">
+            <cite id="dsq-cite-2282">
+http://gilcreque.com                <span id="dsq-author-user-2282">Gil Creque</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2282" class="dsq-comment-body">
+            <div id="dsq-comment-message-2282" class="dsq-comment-message"><p>You mentioned the ENTMasterViewController class when I believe you meant the APPMasterViewController</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2698">
+        <div id="dsq-comment-header-2698" class="dsq-comment-header">
+            <cite id="dsq-cite-2698">
+                <span id="dsq-author-user-2698">abraham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2698" class="dsq-comment-body">
+            <div id="dsq-comment-message-2698" class="dsq-comment-message"><p>you&#8217;re absolutely right <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-3420">
+        <div id="dsq-comment-header-3420" class="dsq-comment-header">
+            <cite id="dsq-cite-3420">
+                <span id="dsq-author-user-3420">George</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3420" class="dsq-comment-body">
+            <div id="dsq-comment-message-3420" class="dsq-comment-message"><p>Yeah, it&#8217;s this kind of carelessness that makes us beginners pull our hair. He also missed several steps because I&#8217;m getting 3 errors a warning after following to a T.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2293">
+        <div id="dsq-comment-header-2293" class="dsq-comment-header">
+            <cite id="dsq-cite-2293">
+                <span id="dsq-author-user-2293">ahmed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2293" class="dsq-comment-body">
+            <div id="dsq-comment-message-2293" class="dsq-comment-message"><p>H<br />
+ow to add load more cell for this project</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2364">
+        <div id="dsq-comment-header-2364" class="dsq-comment-header">
+            <cite id="dsq-cite-2364">
+                <span id="dsq-author-user-2364">RedProgrammer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2364" class="dsq-comment-body">
+            <div id="dsq-comment-message-2364" class="dsq-comment-message"><p>Great tutorial thanks! However, I am having some issues loading the UI. I have read the NSXMLParser blocks the the thread and so when I implement this example into my project it appears to the user as if the app is unresponsive while the XML data is parsed and loaded. I am new to obj -C but have found some information about solving this issues with Grand Central Dispatch. Is this the best method to go about solving this issue? Anyone have some example code? </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2409">
+        <div id="dsq-comment-header-2409" class="dsq-comment-header">
+            <cite id="dsq-cite-2409">
+                <span id="dsq-author-user-2409">Jeff</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2409" class="dsq-comment-body">
+            <div id="dsq-comment-message-2409" class="dsq-comment-message"><p>Anyone have an idea about Bad Request &#8211; Invalid URL?</p>
+<p>I have tried typing setURL. It still the same.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2410">
+        <div id="dsq-comment-header-2410" class="dsq-comment-header">
+            <cite id="dsq-cite-2410">
+                <span id="dsq-author-user-2410">Jeff</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2410" class="dsq-comment-body">
+            <div id="dsq-comment-message-2410" class="dsq-comment-message"><p>I tried with <a href="http://www.thestar.com.my/RSS/Editors-Choice/Main.aspx" rel="nofollow">http://www.thestar.com.my/RSS/Editors-Choice/Main.aspx</a> url.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-2800">
+        <div id="dsq-comment-header-2800" class="dsq-comment-header">
+            <cite id="dsq-cite-2800">
+                <span id="dsq-author-user-2800">NVSK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2800" class="dsq-comment-body">
+            <div id="dsq-comment-message-2800" class="dsq-comment-message"><p>Any update here? Did you find the problem? &#8216;Cos I have the same&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2439">
+        <div id="dsq-comment-header-2439" class="dsq-comment-header">
+            <cite id="dsq-cite-2439">
+http://itunes.apple.com/us/artist/tardis59/id426268500                <span id="dsq-author-user-2439">DocAsh59</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2439" class="dsq-comment-body">
+            <div id="dsq-comment-message-2439" class="dsq-comment-message"><p>Just what I was searching for! But how would you show the RSS feed but when you click on the button instead of taking you to another screen to take direct to the link in the RSS feed?<br />
+Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2458">
+        <div id="dsq-comment-header-2458" class="dsq-comment-header">
+            <cite id="dsq-cite-2458">
+                <span id="dsq-author-user-2458">samsulfreude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2458" class="dsq-comment-body">
+            <div id="dsq-comment-message-2458" class="dsq-comment-message"><p>Since iOS 7 is already here, am just wondering, will this code work with Xcode 5?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2520">
+        <div id="dsq-comment-header-2520" class="dsq-comment-header">
+            <cite id="dsq-cite-2520">
+                <span id="dsq-author-user-2520">philippe b</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2520" class="dsq-comment-body">
+            <div id="dsq-comment-message-2520" class="dsq-comment-message"><p>great tutorrial, my first app really &#8211; however although i think i followed instructions, i get a &#8216;URL not Found&#8217; in the details list &#8211; quite frustrating! anyone have the solution? thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2521">
+        <div id="dsq-comment-header-2521" class="dsq-comment-header">
+            <cite id="dsq-cite-2521">
+                <span id="dsq-author-user-2521">philippe b</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2521" class="dsq-comment-body">
+            <div id="dsq-comment-message-2521" class="dsq-comment-message"><p>PS: my feed is <a href="http://www.noolya.com/events_rss.xml" rel="nofollow">http://www.noolya.com/events_rss.xml</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2589">
+        <div id="dsq-comment-header-2589" class="dsq-comment-header">
+            <cite id="dsq-cite-2589">
+                <span id="dsq-author-user-2589">Dameon Bryant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2589" class="dsq-comment-body">
+            <div id="dsq-comment-message-2589" class="dsq-comment-message"><p>great tutorial. when I tested the code in the xcode 5 iPad simulator the uitableview displays fine but the the webuiview doesn&#8217;t display anything for the ipad. it works fine in the iphone simulator. Any suggestions?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2712">
+        <div id="dsq-comment-header-2712" class="dsq-comment-header">
+            <cite id="dsq-cite-2712">
+                <span id="dsq-author-user-2712">george</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2712" class="dsq-comment-body">
+            <div id="dsq-comment-message-2712" class="dsq-comment-message"><p>is there anyway that you can create multiply feeds, because i am doing a app for a recruitment business and they have around 5 different feed urls deepening on what kind of job. so is it possible to say 3-5 different master table and master detail with different jobs categories  feeding through</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-23193">
+        <div id="dsq-comment-header-23193" class="dsq-comment-header">
+            <cite id="dsq-cite-23193">
+                <span id="dsq-author-user-23193">Nick G.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23193" class="dsq-comment-body">
+            <div id="dsq-comment-message-23193" class="dsq-comment-message"><p>No need, just change the URL parameter depending on the kind of job and call [self.table reloadData];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2792">
+        <div id="dsq-comment-header-2792" class="dsq-comment-header">
+            <cite id="dsq-cite-2792">
+                <span id="dsq-author-user-2792">MacTechReviews</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2792" class="dsq-comment-body">
+            <div id="dsq-comment-message-2792" class="dsq-comment-message"><p>2013-11-15 10:43:07.934 RSS App[25897:70b] *** Terminating app due to uncaught exception &#8216;NSUnknownKeyException&#8217;, reason: &#8216;[ setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key detailDescriptionLabel.&#8217;</p>
+<p>Got this error, I also get it when I try and run another app.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2802">
+        <div id="dsq-comment-header-2802" class="dsq-comment-header">
+            <cite id="dsq-cite-2802">
+                <span id="dsq-author-user-2802">Nassif Najdat</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2802" class="dsq-comment-body">
+            <div id="dsq-comment-message-2802" class="dsq-comment-message"><p>Hello there,<br />
+I developing an IOS app, The app is depending on the RSS feeds from my client website, The problem is that my app is very very slow, what to do to make it faster?? it takes too much time to load the home page, and it takes too much time to load the categories news, please I need help if someone can ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3005">
+        <div id="dsq-comment-header-3005" class="dsq-comment-header">
+            <cite id="dsq-cite-3005">
+                <span id="dsq-author-user-3005">SomeDude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3005" class="dsq-comment-body">
+            <div id="dsq-comment-message-3005" class="dsq-comment-message"><p>Nice tutorial and it even works in xcode 5 with a little tweaking.  What I&#8217;m wondering about is the best way to take the feed and divide it into categories.  It wouldn&#8217;t be a multi-feed reader, but the same feed categorized into six or seven different categories of posts from a blog.  Ive looked at adding multiple sets of master/detail VCs, one set for each category, but I&#8217;ve also wondered about simply adding a bacic VC for an initial view with buttons (one for each category in the feed) and then having those buttons determine the URL that is loaded into the parser.  ONly problem is I&#8217;m too much of a novice to know not only which method would be best, but how to do either without errors galore.  Any advice?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3250">
+        <div id="dsq-comment-header-3250" class="dsq-comment-header">
+            <cite id="dsq-cite-3250">
+                <span id="dsq-author-user-3250">Stieger</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3250" class="dsq-comment-body">
+            <div id="dsq-comment-message-3250" class="dsq-comment-message"><p>Hello</p>
+<p>When i try to open my Link &#8220;http://gipsbachschluderi.ch/blog/files/feed.html&#8221; the start page will display bud the link to the feed did not work?</p>
+<p>Can you help me please ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3419">
+        <div id="dsq-comment-header-3419" class="dsq-comment-header">
+            <cite id="dsq-cite-3419">
+                <span id="dsq-author-user-3419">George</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3419" class="dsq-comment-body">
+            <div id="dsq-comment-message-3419" class="dsq-comment-message"><p>Seems to me like some steps missing. 1 warning and 3 errors after following to a T is not a good tutorial. Also, wasn&#8217;t too sure where some of the code went initially. Thanks for taking your time to write all this code, but it would be appreciated if you would test what you wrote so we don&#8217;t have to download. Otherwise, just give us the download link and we&#8217;ll look into it ourselves.</p>
+<p>Cheers!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3448">
+        <div id="dsq-comment-header-3448" class="dsq-comment-header">
+            <cite id="dsq-cite-3448">
+                <span id="dsq-author-user-3448">©ameron Tarbell</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3448" class="dsq-comment-body">
+            <div id="dsq-comment-message-3448" class="dsq-comment-message"><p>Hey 2 things. 1. The download link is broken. 2. where do i get the ENTMasterViewController class from? Is it in an apple framework?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3472">
+        <div id="dsq-comment-header-3472" class="dsq-comment-header">
+            <cite id="dsq-cite-3472">
+                <span id="dsq-author-user-3472">©ameron Tarbell</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3472" class="dsq-comment-body">
+            <div id="dsq-comment-message-3472" class="dsq-comment-message"><p>ok&#8230; Followed the tutorial and even downloaded the source code. Everytime I click on a link in the table view, the website says 404- Page not found. When I take the link from the RSS feed and paste it into my browser, it works fine! help please</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3838">
+        <div id="dsq-comment-header-3838" class="dsq-comment-header">
+            <cite id="dsq-cite-3838">
+                <span id="dsq-author-user-3838">mike</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3838" class="dsq-comment-body">
+            <div id="dsq-comment-message-3838" class="dsq-comment-message"><p>the fix described by oscar works, thanks.  for some reason all the items in the feed I am testing are not showing up, just 10 of 42 items shown in feed reader.  why is that?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4756">
+        <div id="dsq-comment-header-4756" class="dsq-comment-header">
+            <cite id="dsq-cite-4756">
+                <span id="dsq-author-user-4756">Jeremy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4756" class="dsq-comment-body">
+            <div id="dsq-comment-message-4756" class="dsq-comment-message"><p>Whoever wrote this really should follow there own process just once before they publish it.  Referring to classes by the wrong name half way through a tutorial is careless.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9708">
+        <div id="dsq-comment-header-9708" class="dsq-comment-header">
+            <cite id="dsq-cite-9708">
+                <span id="dsq-author-user-9708">Alireza Behraznia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9708" class="dsq-comment-body">
+            <div id="dsq-comment-message-9708" class="dsq-comment-message"><p>hi there i have setup everything and i get no errors no issues nothing at all and its successfully build and runs on the simulator but the problem is in the master view i see all the feeds fetched but when i tap on it it the detail view ( the uiwebview ) wont show anything is blank white, if somebody can help me it would be great</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-21088">
+        <div id="dsq-comment-header-21088" class="dsq-comment-header">
+            <cite id="dsq-cite-21088">
+                <span id="dsq-author-user-21088">Gouranga</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21088" class="dsq-comment-body">
+            <div id="dsq-comment-message-21088" class="dsq-comment-message"><p>Great Tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-22361">
+        <div id="dsq-comment-header-22361" class="dsq-comment-header">
+            <cite id="dsq-cite-22361">
+http://www.iPhoNews.ro/                <span id="dsq-author-user-22361">Radu Ursache</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22361" class="dsq-comment-body">
+            <div id="dsq-comment-message-22361" class="dsq-comment-message"><p>thank you, great tutorial!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-28548">
+        <div id="dsq-comment-header-28548" class="dsq-comment-header">
+            <cite id="dsq-cite-28548">
+                <span id="dsq-author-user-28548">Mohammed Gritli</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28548" class="dsq-comment-body">
+            <div id="dsq-comment-message-28548" class="dsq-comment-message"><p>how can i add the post image in the table view ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-29043">
+        <div id="dsq-comment-header-29043" class="dsq-comment-header">
+            <cite id="dsq-cite-29043">
+                <span id="dsq-author-user-29043">Kenson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29043" class="dsq-comment-body">
+            <div id="dsq-comment-message-29043" class="dsq-comment-message"><p>After tried it on Xcode5.1, I got a blank list. No work in 5.1?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-34893">
+        <div id="dsq-comment-header-34893" class="dsq-comment-header">
+            <cite id="dsq-cite-34893">
+                <span id="dsq-author-user-34893">Mohammed Gritli</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34893" class="dsq-comment-body">
+            <div id="dsq-comment-message-34893" class="dsq-comment-message"><p>Thank you , a great tutorial , but , is there a way i can add post image to a uiimageview in the cell next to the title ? please help</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://peppermintgraphics.com/blogs/?p=8' rel='external nofollow' class='url'>iPhone Interview Questions | iBlogs</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://zondlo.vidhut.biz/2014/09/11/parsedisplay-xml-from-a-post-method-duplicate/' rel='external nofollow' class='url'>Parse/Display XML from a POST Method [duplicate] - Zondlo</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-67481">
+        <div id="dsq-comment-header-67481" class="dsq-comment-header">
+            <cite id="dsq-cite-67481">
+                <span id="dsq-author-user-67481">Sheikh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-67481" class="dsq-comment-body">
+            <div id="dsq-comment-message-67481" class="dsq-comment-message"><p>God Bless You it&#8217;s very help ful</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-87560">
+        <div id="dsq-comment-header-87560" class="dsq-comment-header">
+            <cite id="dsq-cite-87560">
+                <span id="dsq-author-user-87560">Dimensioner</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-87560" class="dsq-comment-body">
+            <div id="dsq-comment-message-87560" class="dsq-comment-message"><p>Vague, cursory tutorial that should be updated or removed. For a tutorial in a beginner section, it gives hardly any &#8220;why&#8221; or &#8220;how&#8221; answers.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-89208">
+        <div id="dsq-comment-header-89208" class="dsq-comment-header">
+            <cite id="dsq-cite-89208">
+http://www.appcoda.com/                <span id="dsq-author-user-89208">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-89208" class="dsq-comment-body">
+            <div id="dsq-comment-message-89208" class="dsq-comment-message"><p>You can check the latest RSS Reader tutorial here:</p>
+<p><a href="http://www.appcoda.com/building-rss-reader-using-uisplitviewcontroller-uipopoverviewcontroller/" rel="nofollow">http://www.appcoda.com/building-rss-reader-using-uisplitviewcontroller-uipopoverviewcontroller/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-92465">
+        <div id="dsq-comment-header-92465" class="dsq-comment-header">
+            <cite id="dsq-cite-92465">
+                <span id="dsq-author-user-92465">NewbieProgrammer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-92465" class="dsq-comment-body">
+            <div id="dsq-comment-message-92465" class="dsq-comment-message"><p>When running the tutorial app on my iPhone&#8230;..the latest RSS feed (following) does not load when the app is launched. If I delete the app and re-run the simulator, the latest news feed is always loaded. </p>
+<p>Has anyone else ran into this problem? Would adding &#8220;[self.tableview reloadData];&#8221; to the viewDidLoad method force the table to always refresh on launching of the app? Tx</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100001">
+        <div id="dsq-comment-header-100001" class="dsq-comment-header">
+            <cite id="dsq-cite-100001">
+                <span id="dsq-author-user-100001">Soroush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100001" class="dsq-comment-body">
+            <div id="dsq-comment-message-100001" class="dsq-comment-message"><p>Great! Thank you so much :*<br />
+but I have question and that is how can add notification when new rss arrives?<br />
+Please help me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://zhengfamily88.wordpress.com/2015/03/20/315/' rel='external nofollow' class='url'>Zheng Family</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-rss-reader-tutorial/';
+var disqus_identifier = '1585 http://www.appcoda.com/?p=1585';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "How to Create a Simple RSS Reader App";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1585';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1585"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-rss-reader-tutorial%2F&#038;t=How%20to%20Create%20a%20Simple%20RSS%20Reader%20App" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1585" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>44</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=How%20to%20Create%20a%20Simple%20RSS%20Reader%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-rss-reader-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1585" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>25</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-rss-reader-tutorial%2F&#038;t=How%20to%20Create%20a%20Simple%20RSS%20Reader%20App" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1585" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>13</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-rss-reader-tutorial%2F&#038;title=How%20to%20Create%20a%20Simple%20RSS%20Reader%20App" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1585" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>1</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-rss-reader-tutorial%2F&#038;t=How%20to%20Create%20a%20Simple%20RSS%20Reader%20App" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1585" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=How%20to%20Create%20a%20Simple%20RSS%20Reader%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-rss-reader-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1585" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-rss-reader-tutorial%2F&#038;t=How%20to%20Create%20a%20Simple%20RSS%20Reader%20App" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1585" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-rss-reader-tutorial%2F&#038;title=How%20to%20Create%20a%20Simple%20RSS%20Reader%20App" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1585" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-rss-reader-tutorial\/","stats_nonce":"6d3db12c0a","share_counts":"c7703582a2","follow_counts":"34a21cd35d","total_counts":"99651600e5","media_single":"25335360aa","media_total":"51eb496c81","generate_all_window_nonce":"255ac6c77a","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="593a35362a3c196b217729373e">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":1585,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-05 04:09:47 by W3 Total Cache -->

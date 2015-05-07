@@ -1,0 +1,1788 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>How To Handle Row Selection in UITableView - AppCoda</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.appcoda.com/how-to-handle-row-selection-in-uitableview/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="If you&#8217;ve followed the iOS programming tutorials, I believe you should manage to create a simple Table View app with custom table cell. So far we focus on displaying data in the table view. But how do we know when someone taps on the table row? This is what we&#8217;ll cover in this post and [&hellip;]"/>
+<meta name="twitter:title" content="How To Handle Row Selection in UITableView - AppCoda"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2012/05/simpletableapp_row_select.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; How To Handle Row Selection in UITableView Comments Feed" href="http://www.appcoda.com/how-to-handle-row-selection-in-uitableview/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=349' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-349 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-349 post type-post status-publish format-standard hentry category-course category-tutorials tag-ios-programming tag-ios-sdk tag-ios-tutorial tag-uitableview tag-uitableviewcell entry"><h1 class="entry-title">How To Handle Row Selection in UITableView</h1> 
+<div class="post-info"><span class="date published time" title="2012-05-06T17:19:26+00:00">May 6, 2012</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/how-to-handle-row-selection-in-uitableview/#comments"><span class="dsq-postid" data-dsqidentifier="349 http://www.appcoda.com/?p=349">84 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>If you&#8217;ve followed <a href="http://www.appcoda.com/tutorials/">the iOS programming tutorials</a>, I believe you should manage to create a <a href="http://www.appcoda.com/ios-programming-tutorial-create-a-simple-table-view-app/">simple Table View app</a> with <a href="http://www.appcoda.com/customize-table-view-cells-for-uitableview/">custom table cell</a>. So far we focus on displaying data in the table view. But how do we know when someone taps on the table row? This is what we&#8217;ll cover in this post and show you how to handle row selection.</p>
+<p>First, let&#8217;s revisit our app and see what we&#8217;ll add to it.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/simpletableapp_row_select.jpg" alt="Simple Table App - Row Selection" title="Simple Table App - Row Selection" class="aligncenter size-full wp-image-352" /></div>
+<p>There are a couple of changes we&#8217;ll try it out in this tutorial:</p>
+<ul>
+<li>Display an alert message when user taps a row</li>
+<li>Display a check mark when user selects a row</li>
+</ul>
+<p><span id="more-349"></span></p>
+<h3>Understanding UITableViewDelegate</h3>
+<p>When you first built the Simple Table View app, you&#8217;ve declared two delegates (UITableViewDelegate, UITableViewDataSource)  in the SimpleTableController.h:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;UIKit/UIKit.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> SimpleTableViewController <span style="color: #002200;">:</span> UIViewController &lt;UITableViewDelegate, UITableViewDataSource&gt;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>As explained in the <a href="http://www.appcoda.com/ios-programming-tutorial-create-a-simple-table-view-app/">earlier tutorial</a>, both delegates are known as protocol in Objective-C. You have to conform with the requirements defined in these protocols in order to build a UITableView.</p>
+<p>It&#8217;s very common to come across various delegates in iOS programming. Each delegate is responsible for a specific role or task to keep the system simple and clean. Whenever an object needs to perform certain task, it depends on another object to handle it. This is usually known as <a href="http://en.wikipedia.org/wiki/Separation_of_concerns">separation of concern</a> in system design. </p>
+<p>When you look at the UITableView class, it also applies this design concept. The two delegates are catered for different purpose. The UITableViewDataSource delegate, that we&#8217;ve implemented, defines methods that are used for displaying table data. On the other hand, the UITableViewDelegate deals with the appearance of the UITableView, as well as, handles the row selection.</p>
+<p>It&#8217;s obvious we&#8217;ll make use of the UITableViewDelegate and implement the required method for handling row selection.</p>
+<h3>Handling Table Row Selection</h3>
+<p>Before we change the code, you may wonder:</p>
+<p><em>How do we know which methods in UITableViewDelegate need to implement? </em></p>
+<p>You can always refer to the Apple&#8217;s iOS programming reference. There are two ways to access the documentation. You can access the API document on Apple&#8217;s website. Or simply look it up inside Xcode. For example, you can bring up the API document of UITableViewDelegate, just place the cursor over the class name and press &#8220;control-command-?&#8221;. You&#8217;ll see the following popup:</p>
+<div id="attachment_356" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/xcode-api-doc-shortcut.jpg" alt="xcode api doc shortcut" title="xcode api doc shortcut" class="aligncenter size-full wp-image-356" /><p class="wp-caption-text">Shortcut to Access API Doc</p></div>
+<p>Click the UITableViewDelegate Protocol Reference to display the API document:</p>
+<div id="attachment_357" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/UITableViewDelegate-Protocol-Reference.jpg" alt="UITableViewDelegate Protocol Reference" title="UITableViewDelegate Protocol Reference" class="size-full wp-image-357" /><p class="wp-caption-text">UITableViewDelegate Protocol Reference</p></div>
+<p>If you&#8217;ve read through the document, you&#8217;ll find these methods that are used for managing row selection:</p>
+<p>– tableView:willSelectRowAtIndexPath:<br />
+– tableView:didSelectRowAtIndexPath:</p>
+<p>Both of the methods are used for row selection. The only difference is that &#8220;willSelectRowAtIndexPath&#8221; is called when a specified row is about to be selected. Usually you make use of this method to prevent selection of a particular cell from taking place. Typically, you use &#8220;didSelectRowAtIndexPath&#8221; method, which is invoked after user selects a row, to handle the row selection and this is where you add code to specify the action when the row is selected. In this tutorial, we&#8217;ll add a couple of actions to handle row selection:</p>
+<ul>
+<li>Display an alert message</li>
+<li>Display a check mark to indicate the row is selected</li>
+</ul>
+<h3>Let&#8217;s Code</h3>
+<p>Okay, that&#8217;s enough for the explanation. Let&#8217;s move onto the interesting part &#8211; code, code, code!</p>
+<p>In Xcode, open the &#8220;SimpleTableViewController.m&#8221; and add the following method before &#8220;@end&#8221;.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView didSelectRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UIAlertView <span style="color: #002200;">*</span>messageAlert <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Row Selected&quot;</span> message<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;You've selected a row&quot;</span> delegate<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;OK&quot;</span> otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Display Alert Message</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>messageAlert show<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The code is very easy to understand. When a row is selected, the app creates an UIAlertView and shows an alert message. Try to run the app and this is what the app looks like when you tap a row:</p>
+<div id="attachment_361" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/SimpleTableApp-Row-Selected.jpg" alt="SimpleTableApp Row Selected" title="SimpleTableApp Row Selected" class="size-full wp-image-361" /><p class="wp-caption-text">When a row is selected, an alert message is displayed</p></div>
+<div class="note">
+<h4>Your Exercise</h4>
+<p>For now, we just display a generic message when a row is selected. It&#8217;s always better to display an informational message like below:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/SimpleTableApp-Row-Selected-Recipe.jpg" alt="SimpleTableApp Row Selected Recipe" title="SimpleTableApp Row Selected Recipe" class="aligncenter size-full wp-image-363" /></div>
+<p>Think about how you can alter the code (<em>hint: the indexPath parameter contains the row number of the selected row</em>) and display the message like the screenshot shown above. It&#8217;s not difficult to do so if you&#8217;ve followed the <a href="http://www.appcoda.com/customize-table-view-cells-for-uitableview/">previous tutorial</a>.
+</div>
+<p>Easy, right? With the use of delegate, it&#8217;s very straightforward to detect row selection. Next, we&#8217;ll add a few lines of code to display a tick for the selected item. Before that, let me take a look at the default content of a table cell:</p>
+<div id="attachment_373" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/UITableViewCell-Structure.jpg" alt="UITableViewCell Structure" title="UITableViewCell Structure" class="size-full wp-image-373" /><p class="wp-caption-text">Default Structure of a UITableViewCell</p></div>
+<p>A table cell can be broken into three parts:</p>
+<ul>
+<li>Image &#8211; the left part is reserved for displaying thumbnail just like what we&#8217;ve done in the Simple Table App tutorial</li>
+<li>Content &#8211; the main part is used for displaying text label and detailed text</li>
+<li>Accessory view &#8211; the right part is reserved for accessory view. There are three types of default accessory view including disclosure indicator, detail disclosure button and check mark. The below figure shows you how these indicators look like.
+</ul>
+<div id="attachment_367" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/TableCell-Accessory-View.jpg" alt="TableCell Accessory View" title="TableCell Accessory View" class="size-full wp-image-367" /><p class="wp-caption-text">UITableViewCell Accessory View</p></div>
+<p>To display a check mark when a row is selected, you just need to add two lines of code after the &#8220;[messageAlert show]&#8221;:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; UITableViewCell <span style="color: #002200;">*</span>cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>tableView cellForRowAtIndexPath<span style="color: #002200;">:</span>indexPath<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; cell.accessoryType <span style="color: #002200;">=</span> UITableViewCellAccessoryCheckmark;</div></td></tr></tbody></table></div>
+<p>The first line retrieves the selected table cell by using the indexPath. The second link updates the accessory view of the cell with a check mark.</p>
+<p>Compile and run the app. After you tap a row, it&#8217;ll show you a check mark.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/SimpleTableApp-Check-Mark.jpg" alt="SimpleTableApp Check Mark" title="SimpleTableApp Check Mark" class="aligncenter size-full wp-image-369" /></div>
+<p>For now, when you select a row, that row will be highlighted in blue color. If you don&#8217;t like it, try to add the following code to deselect the row.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>tableView deselectRowAtIndexPath<span style="color: #002200;">:</span>indexPath animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p><br/></p>
+<h3>What&#8217;s Upcoming Next?</h3>
+<p>What do you think about the series of Table View tutorials? I hope you&#8217;ve learnt a ton! By now, you should have a better understanding about how to create table view, customize table cells and handle table row selection. Make sure you understand the information presented in the tutorials as UITableView is one of the common UI elements in iOS. If you have any questions, head to <a href="http://www.appcoda.com/forums">our forum</a> and share with us.</p>
+<p>There are still lots of stuffs to learn in iOS programming. In coming tutorials, we&#8217;ll see how you can replace the recipe array with a file and explore Navigation Controller, as well as, Storyboard to build a more complex application.</p>
+<p><strong>Update: </strong> You can now <a href="https://dl.dropboxusercontent.com/u/2857188/SimpleTable.zip">download the full source code of the Xcode project</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/first-time-app-developer-success-stories-part-2/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/04/app-developer-part-2-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">First Time App Developer Success Stories Part 2: From Zero iOS Programming Experience to Launching T...</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/beginners-guide-optionals-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/06/swift-optionals-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">A Beginner's Guide to Optionals in Swift</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/qr-code-reader-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/12/qrcode-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building a QR Code Reader in Swift</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/cloudkit-introduction-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/04/cloudkit-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with CloudKit in iOS 8</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/how-to-handle-row-selection-in-uitableview/"
+    dc:identifier="http://www.appcoda.com/how-to-handle-row-selection-in-uitableview/"
+    dc:title="How To Handle Row Selection in UITableView"
+    trackback:ping="http://www.appcoda.com/how-to-handle-row-selection-in-uitableview/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/ios-sdk/" rel="tag">iOS SDK</a>, <a href="http://www.appcoda.com/tag/ios-tutorial/" rel="tag">iOS Tutorial</a>, <a href="http://www.appcoda.com/tag/uitableview/" rel="tag">UITableView</a>, <a href="http://www.appcoda.com/tag/uitableviewcell/" rel="tag">UITableViewCell</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-190">
+        <div id="dsq-comment-header-190" class="dsq-comment-header">
+            <cite id="dsq-cite-190">
+                <span id="dsq-author-user-190">Sue Wright</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-190" class="dsq-comment-body">
+            <div id="dsq-comment-message-190" class="dsq-comment-message"><p>I love your tutorials, you are the only one who makes complete sense. What I would like to do, is to take your Menu table example which is just what I was looking for and when you click on a recipe it brings up another viewcontroller scene with more details on. In my case the first cell on my  table is BOAT abnd i want to bring up a viewconroller  that has boat details on ( I have already designed and completed these) Please help me attache my table to these screens  thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-admin bypostauthor odd alt depth-2" id="dsq-comment-195">
+        <div id="dsq-comment-header-195" class="dsq-comment-header">
+            <cite id="dsq-cite-195">
+http://www.appcoda.com                <span id="dsq-author-user-195">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-195" class="dsq-comment-body">
+            <div id="dsq-comment-message-195" class="dsq-comment-message"><p>In the upcoming tutorials, I&#8217;ll show you how to use Storyboard and Navigation Controller to display the details of the recipes. This is a recommended UI practice as you can find in other apps.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-236">
+        <div id="dsq-comment-header-236" class="dsq-comment-header">
+            <cite id="dsq-cite-236">
+                <span id="dsq-author-user-236">Ross B</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-236" class="dsq-comment-body">
+            <div id="dsq-comment-message-236" class="dsq-comment-message"><p>these tutorials are fantastic, I just wished you had more! By the way, you should put a link to this tutorial at the end of the previous one (unless i just missed it), but I had some trouble figuring out if there was one after the 2nd table view tutorial. </p>
+<p>keep up the good work, thanks a bunch.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-240">
+        <div id="dsq-comment-header-240" class="dsq-comment-header">
+            <cite id="dsq-cite-240">
+http://www.appcoda.com                <span id="dsq-author-user-240">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-240" class="dsq-comment-body">
+            <div id="dsq-comment-message-240" class="dsq-comment-message"><p>Glad to hear the tutorials are useful. More will come in coming weeks. It&#8217;s my pleasure to share what I know about iOS programming.</p>
+<p>Also thanks for your suggestion. I&#8217;ll add a link after each tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-324">
+        <div id="dsq-comment-header-324" class="dsq-comment-header">
+            <cite id="dsq-cite-324">
+                <span id="dsq-author-user-324">Prabhakar Shanmugam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-324" class="dsq-comment-body">
+            <div id="dsq-comment-message-324" class="dsq-comment-message"><p>Hi </p>
+<p>Your site is comparable to &#8220;http://tutsplus.com&#8221; </p>
+<p>Infact Better..</p>
+<p>Clean Site.  No Ads. </p>
+<p>Please do more tutorials. Explanation is so clear that we dont need a video screen cast.</p>
+<p>Keep up the great work. </p>
+<p>Thank you<br />
+Prabhakar Shanmugam</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-admin bypostauthor odd alt depth-2" id="dsq-comment-371">
+        <div id="dsq-comment-header-371" class="dsq-comment-header">
+            <cite id="dsq-cite-371">
+http://www.appcoda.com                <span id="dsq-author-user-371">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-371" class="dsq-comment-body">
+            <div id="dsq-comment-message-371" class="dsq-comment-message"><p>I love tutsplus.com. What a compliment! I&#8217;ll definitely put up more tutorials. It&#8217;s really great to help people learn iOS programming.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-342">
+        <div id="dsq-comment-header-342" class="dsq-comment-header">
+            <cite id="dsq-cite-342">
+                <span id="dsq-author-user-342">pdwalker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-342" class="dsq-comment-body">
+            <div id="dsq-comment-message-342" class="dsq-comment-message"><p>The API documentation didn&#8217;t appear for me until after I selected, downloaded and installed the api documentation under Preferences, Downloads, Documentation.</p>
+<p>Just mentioning it in case someone else doesn&#8217;t have it installed and is wondering where it is.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-452">
+        <div id="dsq-comment-header-452" class="dsq-comment-header">
+            <cite id="dsq-cite-452">
+                <span id="dsq-author-user-452">Dj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-452" class="dsq-comment-body">
+            <div id="dsq-comment-message-452" class="dsq-comment-message"><p>im not sure why but I&#8217;ve looked over everything a ton of times but no display message pops up and I&#8217;m fairly certain i got the didSelectRowAtPath code right it seems pretty simple but no message heres my viewcontroller.m file</p>
+<p>//<br />
+//  SimpleTableViewController.m<br />
+//  SimpleTable2<br />
+//<br />
+//  Created by newuser on 5/30/12.<br />
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.<br />
+//</p>
+<p>#import &#8220;SimpleTableViewController.h&#8221;<br />
+#import &#8220;SimpleTableCell.h&#8221;</p>
+<p>@interface SimpleTableViewController ()</p>
+<p>@end</p>
+<p>@implementation SimpleTableViewController<br />
+{<br />
+    NSArray *tableData;<br />
+    NSArray *thumbnails;<br />
+    NSArray *timeLabel;</p>
+<p>}<br />
+&#8211; (void)viewDidLoad<br />
+{<br />
+    [super viewDidLoad];</p>
+<p>    // Initialize Table Data<br />
+    tableData = [NSArray arrayWithObjects:@&#8221;Egg Benedict&#8221;, @&#8221;Mushroom Risotto&#8221;, @&#8221;Full Breakfast&#8221;, @&#8221;Hamburger&#8221;, @&#8221;Ham and Egg Sandwich&#8221;, @&#8221;Creme Brelee&#8221;, @&#8221;White Chocolate Donut&#8221;, @&#8221;Starbucks Coffee&#8221;, @&#8221;Vegetable Curry&#8221;, @&#8221;Instant Noodle with Egg&#8221;, @&#8221;Noodle with BBQ Pork&#8221;, @&#8221;Japanese Noodle with Pork&#8221;, @&#8221;Green Tea&#8221;, @&#8221;Thai Shrimp Cake&#8221;, @&#8221;Angry Birds Cake&#8221;, @&#8221;Ham and Cheese Panini&#8221;, nil];</p>
+<p>    //init thumbnails<br />
+    thumbnails = [NSArray arrayWithObjects:@&#8221;egg_benedict.jpg&#8221;, @&#8221;mushroom_risotto.jpg&#8221;, @&#8221;full_breakfast.jpg&#8221;, @&#8221;hamburger.jpg&#8221;, @&#8221;ham_and_egg_sandwich.jpg&#8221;, @&#8221;creme_brelee.jpg&#8221;, @&#8221;white_chocolate_donut.jpg&#8221;, @&#8221;starbucks_coffee.jpg&#8221;, @&#8221;vegetable_curry.jpg&#8221;, @&#8221;instant_noodle_with_egg.jpg&#8221;, @&#8221;noodle_with_bbq_pork.jpg&#8221;, @&#8221;japanese_noodle_with_pork.jpg&#8221;, @&#8221;green_tea.jpg&#8221;, @&#8221;thai_shrimp_cake.jpg&#8221;, @&#8221;angry_birds_cake.jpg&#8221;, @&#8221;ham_and_cheese_panini.jpg&#8221;, nil];<br />
+    //init Time<br />
+    timeLabel = [NSArray arrayWithObjects:@&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;30 mins&#8221;, nil];<br />
+}</p>
+<p>&#8211; (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section<br />
+    {<br />
+        return [tableData count];<br />
+    }<br />
+&#8211; (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath<br />
+{<br />
+    static NSString *simpleTableIdentifier = @&#8221;SimpleTableCell&#8221;;</p>
+<p>    SimpleTableCell *cell = (SimpleTableCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];</p>
+<p>    if (cell == nil)<br />
+    {<br />
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@&#8221;SimpleTableCell&#8221; owner:self options:nil];<br />
+        cell = [nib objectAtIndex:0];<br />
+    }</p>
+<p>    cell.nameLabel.text = [tableData objectAtIndex:indexPath.row];<br />
+    cell.imageView.Image = [UIImage imageNamed:[thumbnails objectAtIndex:indexPath.row]];<br />
+    cell.timeLabel.text= [timeLabel objectAtIndex:indexPath.row];<br />
+    return cell;<br />
+}</p>
+<p>&#8211; (void)viewDidUnload<br />
+{<br />
+    [super viewDidUnload];<br />
+    // Release any retained subviews of the main view.<br />
+}</p>
+<p>&#8211; (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation<br />
+{<br />
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);<br />
+}</p>
+<p>&#8211; (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;<br />
+{<br />
+    return 78;<br />
+}</p>
+<p>&#8211; (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath<br />
+{<br />
+    UIAlertView *messageAlert = [[UIAlertView alloc]<br />
+            initWithTitle:@&#8221;Row Selected&#8221; message:@&#8221;You&#8217;ve Selected A Row&#8221; delegate:nil cancelButtonTitle:@&#8221;Ok&#8221; otherButtonTitles:nil];</p>
+<p>    //display alert message<br />
+    [messageAlert show];<br />
+}<br />
+@end</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1481">
+        <div id="dsq-comment-header-1481" class="dsq-comment-header">
+            <cite id="dsq-cite-1481">
+                <span id="dsq-author-user-1481">salazzo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1481" class="dsq-comment-body">
+            <div id="dsq-comment-message-1481" class="dsq-comment-message"><p>I&#8217;m running Xcode 4.6.2 and had this problem. I solved it by going to the SimpleTableViewController.xib file, control-dragging from the table view to the File&#8217;s Owner placeholder, and selecting delegate. After that, the alert box showed up when a row was selected. Hope this helps.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3039">
+        <div id="dsq-comment-header-3039" class="dsq-comment-header">
+            <cite id="dsq-cite-3039">
+                <span id="dsq-author-user-3039">Jiadong</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3039" class="dsq-comment-body">
+            <div id="dsq-comment-message-3039" class="dsq-comment-message"><p>I have the same problem, but I checked the table view has selected delegate. And the alert box still did not pop up. By the way, I run Xcode 4.6.3.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-1559">
+        <div id="dsq-comment-header-1559" class="dsq-comment-header">
+            <cite id="dsq-cite-1559">
+http://www.facebook.com/bradley.c.woodard                <span id="dsq-author-user-1559">Brad Woodard</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1559" class="dsq-comment-body">
+            <div id="dsq-comment-message-1559" class="dsq-comment-message"><p>Did you set the  in your interface (.h) file?</p>
+<p>@interface SimpleTableViewController : UIViewController </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-1842">
+        <div id="dsq-comment-header-1842" class="dsq-comment-header">
+            <cite id="dsq-cite-1842">
+                <span id="dsq-author-user-1842">Mark Joseph Bureros</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1842" class="dsq-comment-body">
+            <div id="dsq-comment-message-1842" class="dsq-comment-message"><p>@interface SimpleTableViewController : UIViewController  is this correct ? </p>
+<p>it doesn&#8217;t pop up</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-1560">
+        <div id="dsq-comment-header-1560" class="dsq-comment-header">
+            <cite id="dsq-cite-1560">
+http://www.facebook.com/bradley.c.woodard                <span id="dsq-author-user-1560">Brad Woodard</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1560" class="dsq-comment-body">
+            <div id="dsq-comment-message-1560" class="dsq-comment-message"><p>In addition to setting the UITableViewDelegate and UITableViewDataSource, did you also set the UIAlertViewDelegate in the interface (.h) file?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-600">
+        <div id="dsq-comment-header-600" class="dsq-comment-header">
+            <cite id="dsq-cite-600">
+                <span id="dsq-author-user-600">Amy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-600" class="dsq-comment-body">
+            <div id="dsq-comment-message-600" class="dsq-comment-message"><p>Terrific tutorials! My table looks a lot like what you have and this tutorial helped greatly in achieving the look I want, but I&#8217;m stuck in an area I don&#8217;t see mentioned. In didSelectTableViewCellAtIndex, I&#8217;d like to make a tweak to the text &#8211; say make it a different color. How do I get access to it? I can get to its accessory type and background, but can&#8217;t see how to get to the custom UILabels and custom UIImages. </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-602">
+        <div id="dsq-comment-header-602" class="dsq-comment-header">
+            <cite id="dsq-cite-602">
+                <span id="dsq-author-user-602">Amy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-602" class="dsq-comment-body">
+            <div id="dsq-comment-message-602" class="dsq-comment-message"><p>For anyone interested .. I figured it out &#8230; when you are in one of the many didSelectRowAtIndexPath, willSelectRowAtIndexPath, etc &#8230; if you need to get to your custom labels, views, buttons, etc &#8230;</p>
+<p>where you normally might get your &#8220;standard&#8221; cell like this:<br />
+UITableViewCell *cell=[myTableView cellForRowAtIndexPath:indexPath];</p>
+<p>you can call out to your custom cell like this:<br />
+myCustomCell *cell=(myCustomCell *)[myTableView cellForRowAtIndexPath:indexPath];<br />
+you need the (myCustomCell *) in order to &#8220;cast&#8221; your custom cell to tell the compiler to expect it a UITableViewCell.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-604">
+        <div id="dsq-comment-header-604" class="dsq-comment-header">
+            <cite id="dsq-cite-604">
+http://www.simonblog.com                <span id="dsq-author-user-604">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-604" class="dsq-comment-body">
+            <div id="dsq-comment-message-604" class="dsq-comment-message"><p>Thanks for sharing the tips!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.entlib.net/?p=1783' rel='external nofollow' class='url'>第五部分：如何处理UITableView中的行选择 | EntLib.net 技术分享平台</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-754">
+        <div id="dsq-comment-header-754" class="dsq-comment-header">
+            <cite id="dsq-cite-754">
+                <span id="dsq-author-user-754">Kevin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-754" class="dsq-comment-body">
+            <div id="dsq-comment-message-754" class="dsq-comment-message"><p>I&#8217;m not sure why, but the first row that I select does not trigger the alert message. Every row selected DOES alert the message. Probably just a simulator bug, but just wanted some clarification if someone actually knows why that happens</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-800">
+        <div id="dsq-comment-header-800" class="dsq-comment-header">
+            <cite id="dsq-cite-800">
+                <span id="dsq-author-user-800">soxialit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-800" class="dsq-comment-body">
+            <div id="dsq-comment-message-800" class="dsq-comment-message"><p>me too!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-760">
+        <div id="dsq-comment-header-760" class="dsq-comment-header">
+            <cite id="dsq-cite-760">
+                <span id="dsq-author-user-760">jeehabara</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-760" class="dsq-comment-body">
+            <div id="dsq-comment-message-760" class="dsq-comment-message"><p>I&#8217;m not sure if this has been addressed, but there are some things I would like to know about and see if there is an easy way to fix them. For instance, after selecting a row, it displays the message and shows the checkmark, however, upon scrolling further down the list, I found that every 6 rows, another row displays a checkmark as well. What is causing this?</p>
+<p>Additionally, I would also like to know how to clear the checkmark from the selected row.</p>
+<p>Thank you for your tutorials. They are a joy to follow and learn from. Keep going! </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-799">
+        <div id="dsq-comment-header-799" class="dsq-comment-header">
+            <cite id="dsq-cite-799">
+                <span id="dsq-author-user-799">soxialit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-799" class="dsq-comment-body">
+            <div id="dsq-comment-message-799" class="dsq-comment-message"><p>same for me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-1326">
+        <div id="dsq-comment-header-1326" class="dsq-comment-header">
+            <cite id="dsq-cite-1326">
+http://twitter.com/viterete8                <span id="dsq-author-user-1326">Victor Pinto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1326" class="dsq-comment-body">
+            <div id="dsq-comment-message-1326" class="dsq-comment-message"><p>i have the same problem, any solution?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-761">
+        <div id="dsq-comment-header-761" class="dsq-comment-header">
+            <cite id="dsq-cite-761">
+                <span id="dsq-author-user-761">Tspoon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-761" class="dsq-comment-body">
+            <div id="dsq-comment-message-761" class="dsq-comment-message"><p>Quality tutorials.  Don&#8217;t think I&#8217;ve seen any better. Well done!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-891">
+        <div id="dsq-comment-header-891" class="dsq-comment-header">
+            <cite id="dsq-cite-891">
+http://twitter.com/M_Mynarski                <span id="dsq-author-user-891">Michal Mynarski</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-891" class="dsq-comment-body">
+            <div id="dsq-comment-message-891" class="dsq-comment-message"><p>These tutorials is such a great stuff. It&#8217;s better source of knowledge about programming than my lectures in college will ever be.</p>
+<p>But I have this little issue with my program after this tutorial.</p>
+<p>Alert never pops up after first clicking. It shows up after second (and then the check-mark arrived) and always give me information from last selection, not the current one. </p>
+<p>My code of this function:</p>
+<p>// funckcja odpowiedzialna za pojawianie się alertu przy wybieraniu</p>
+<p>&#8211; (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath</p>
+<p>{</p>
+<p>    //deklaracja alertu &#8220;messageAlert&#8221;</p>
+<p>    UIAlertView *messageAlert = [[UIAlertView alloc]initWithTitle:@&#8221;Zaznaczono model&#8221; message:[tableData objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@&#8221;OK&#8221; otherButtonTitles:nil, nil];</p>
+<p>    //Wyświetlanie alertu</p>
+<p>    [messageAlert show];</p>
+<p>    //animacja zaznaczenia</p>
+<p>    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];</p>
+<p>    cell.accessoryType = UITableViewCellAccessoryCheckmark;</p>
+<p>    [tableView deselectRowAtIndexPath:indexPath animated:YES];</p>
+<p>}</p>
+<p>@end</p>
+<p>Could You give me a hint about it?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-927">
+        <div id="dsq-comment-header-927" class="dsq-comment-header">
+            <cite id="dsq-cite-927">
+http://www.facebook.com/donheart.banderas                <span id="dsq-author-user-927">Donheart Banderas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-927" class="dsq-comment-body">
+            <div id="dsq-comment-message-927" class="dsq-comment-message"><p>Same issue than me, drove me crazy. Yor method is &#8220;didDeselectRowAtIndexPath&#8221; that takes the value of the &#8220;last selected&#8221;. Change it to the right one &#8220;didSelectRowAtIndexPath&#8221; and works fine.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-928">
+        <div id="dsq-comment-header-928" class="dsq-comment-header">
+            <cite id="dsq-cite-928">
+http://www.facebook.com/donheart.banderas                <span id="dsq-author-user-928">Donheart Banderas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-928" class="dsq-comment-body">
+            <div id="dsq-comment-message-928" class="dsq-comment-message"><p>I mean change from: </p>
+<p>-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath<br />
+to this one:<br />
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-933">
+        <div id="dsq-comment-header-933" class="dsq-comment-header">
+            <cite id="dsq-cite-933">
+http://twitter.com/M_Mynarski                <span id="dsq-author-user-933">Michal Mynarski</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-933" class="dsq-comment-body">
+            <div id="dsq-comment-message-933" class="dsq-comment-message"><p>You&#8217;re just genius. Such a small thing, and I just cannot find it! Thank You so much!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-7663">
+        <div id="dsq-comment-header-7663" class="dsq-comment-header">
+            <cite id="dsq-cite-7663">
+                <span id="dsq-author-user-7663">Carles</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7663" class="dsq-comment-body">
+            <div id="dsq-comment-message-7663" class="dsq-comment-message"><p>Wow, thank you very much! Had the same problem and was losing so much time trying to find what was wrong&#8230; Completely missed it!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-896">
+        <div id="dsq-comment-header-896" class="dsq-comment-header">
+            <cite id="dsq-cite-896">
+                <span id="dsq-author-user-896">Smadge</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-896" class="dsq-comment-body">
+            <div id="dsq-comment-message-896" class="dsq-comment-message"><p>Hi Simon,</p>
+<p>Thanks for all your help with these tutorials, where do you find the source code so we can debug our little problems that some of us run into once logged in to appcoda?</p>
+<p>Keep sharing Simon and thanks again</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-902">
+        <div id="dsq-comment-header-902" class="dsq-comment-header">
+            <cite id="dsq-cite-902">
+http://www.facebook.com/kparker1974                <span id="dsq-author-user-902">Kerrie Kelly Parker</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-902" class="dsq-comment-body">
+            <div id="dsq-comment-message-902" class="dsq-comment-message"><p>Hello. I&#8217;ve very much enjoyed this tutorial. I&#8217;m still very new to coding and while I&#8217;ve looked through everything trying to figure out, could I see the code for the exercise, this one below:</p>
+<p>Think about how you can alter the code (hint: the indexPath parameter contains the row number of the selected row) and display the message like the screenshot shown above. It’s not difficult to do so if you’ve followed the previous tutorial.</p>
+<p>Thank you.</p>
+<p>Kerrie</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1784">
+        <div id="dsq-comment-header-1784" class="dsq-comment-header">
+            <cite id="dsq-cite-1784">
+                <span id="dsq-author-user-1784">samKing</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1784" class="dsq-comment-body">
+            <div id="dsq-comment-message-1784" class="dsq-comment-message"><p>might be a spoiler &#8211; but understand perplexing for very new coder. This worked.</p>
+<p>UIAlertView *messageAlert = [[UIAlertView alloc] initWithTitle:@&#8221;You Selected&#8221; message:[tableData objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@&#8221;OK&#8221; otherButtonTitles:nil];</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-1890">
+        <div id="dsq-comment-header-1890" class="dsq-comment-header">
+            <cite id="dsq-cite-1890">
+                <span id="dsq-author-user-1890">k0e3</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1890" class="dsq-comment-body">
+            <div id="dsq-comment-message-1890" class="dsq-comment-message"><p>How would I do something like &#8220;[tableData objectAtIndex:indexPath.row] selected&#8221;?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-2894">
+        <div id="dsq-comment-header-2894" class="dsq-comment-header">
+            <cite id="dsq-cite-2894">
+                <span id="dsq-author-user-2894">Bharatraj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2894" class="dsq-comment-body">
+            <div id="dsq-comment-message-2894" class="dsq-comment-message"><p>U Can do the same with the following code:</p>
+<p>&#8211; (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath</p>
+<p>{</p>
+<p>    NSString *selectedRowInfo = @&#8221;You&#8217;ve selected a row : &#8220;;</p>
+<p>    selectedRowInfo = [selectedRowInfo stringByAppendingString:[@(indexPath.row)description]];</p>
+<p>    UIAlertView *messageAlert = [[UIAlertView alloc]</p>
+<p>                                 initWithTitle:@&#8221;Row Selected&#8221; message:selectedRowInfo delegate:nil cancelButtonTitle:@&#8221;OK&#8221; otherButtonTitles:nil];</p>
+<p>    // Display Alert Message</p>
+<p>    [messageAlert show];</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-923">
+        <div id="dsq-comment-header-923" class="dsq-comment-header">
+            <cite id="dsq-cite-923">
+http://twitter.com/yopa_australia                <span id="dsq-author-user-923">YOPA</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-923" class="dsq-comment-body">
+            <div id="dsq-comment-message-923" class="dsq-comment-message"><p>Tutorial works fine, EXCEPT that checkmark also appears 7 items down from item checked. Any solutions??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1015">
+        <div id="dsq-comment-header-1015" class="dsq-comment-header">
+            <cite id="dsq-cite-1015">
+http://www.facebook.com/sergtk                <span id="dsq-author-user-1015">Sergiy Tkachuk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1015" class="dsq-comment-body">
+            <div id="dsq-comment-message-1015" class="dsq-comment-message"><p>The same for me. It seems the bug in the tutorial. Cells with checked marks are reused and checkmarks are not preserved. The solution is to store marks separately and restore values back in functions -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-1557">
+        <div id="dsq-comment-header-1557" class="dsq-comment-header">
+            <cite id="dsq-cite-1557">
+http://www.facebook.com/bradley.c.woodard                <span id="dsq-author-user-1557">Brad Woodard</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1557" class="dsq-comment-body">
+            <div id="dsq-comment-message-1557" class="dsq-comment-message"><p>Sergiy, I don&#8217;t understand your reply. Can either you or Simon clarify?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-1616">
+        <div id="dsq-comment-header-1616" class="dsq-comment-header">
+            <cite id="dsq-cite-1616">
+                <span id="dsq-author-user-1616">Mike</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1616" class="dsq-comment-body">
+            <div id="dsq-comment-message-1616" class="dsq-comment-message"><p>I&#8217;m pretty sure this happens because we&#8217;re using reusable cells. In order to save resources, iOS reuses cells as you scroll down, which is why you see the checkmark appear either at the 7th or 12th row (the height of the rows changes how many cells are shown on the screen at a time)</p>
+<p>there are probably a couple ways to solve this, but the first one that comes to mind is creating another array that stores whether or not a row was previously selected, and if so, draw the checkmark.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-1617">
+        <div id="dsq-comment-header-1617" class="dsq-comment-header">
+            <cite id="dsq-cite-1617">
+                <span id="dsq-author-user-1617">Mike</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1617" class="dsq-comment-body">
+            <div id="dsq-comment-message-1617" class="dsq-comment-message"><p>Although this isn&#8217;t a super elegant solution you can do this.</p>
+<p>1) Create a new array to hold whether or not a cell was selected<br />
+NSMutableArray *tableData;<br />
+NSMutableArray *thumbnails;<br />
+NSMutableArray *prepTime;</p>
+<p>// NEW code<br />
+NSMutableArray *rowsSelected;</p>
+<p>2) Initialise the array with a bunch of @NO boolean values (There are 16 here since previously we had 16 rows) This goes inside of viewDidLoad function</p>
+<p>    rowsSelected = [NSMutableArray arrayWithObjects:@NO,@NO,@NO,@NO,@NO,@NO,@NO,@NO,@NO,@NO,@NO,@NO,@NO,@NO,@NO,@NO, nil];</p>
+<p>3) Add an if/else statement to draw the checkmark if the cell was previously selected. Inside the cellForRowAtIndexPath function</p>
+<p>// Existing code<br />
+if(cell == nil){<br />
+NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@&#8221;SimpleTableCell&#8221; owner:self options:nil];<br />
+cell = [nib objectAtIndex:0];<br />
+}</p>
+<p>// NEW code<br />
+    if([[rowsSelected objectAtIndex:indexPath.row]isEqual:@YES]){<br />
+cell.accessoryType = UITableViewCellAccessoryCheckmark;<br />
+}<br />
+else{<br />
+cell.accessoryType = UITableViewCellAccessoryNone;<br />
+}</p>
+<p>4) Add code to set whether or not a row was selected. This goes inside didSelectRowAtIndexPath</p>
+<p>// Old code<br />
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];<br />
+cell.accessoryType = UITableViewCellAccessoryCheckmark;</p>
+<p>// NEW code<br />
+    [rowsSelected replaceObjectAtIndex:indexPath.row withObject:@YES];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-1618">
+        <div id="dsq-comment-header-1618" class="dsq-comment-header">
+            <cite id="dsq-cite-1618">
+                <span id="dsq-author-user-1618">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1618" class="dsq-comment-body">
+            <div id="dsq-comment-message-1618" class="dsq-comment-message"><p>*new code does not replace old code, it appends to it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-33549">
+        <div id="dsq-comment-header-33549" class="dsq-comment-header">
+            <cite id="dsq-cite-33549">
+                <span id="dsq-author-user-33549">st_mads</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33549" class="dsq-comment-body">
+            <div id="dsq-comment-message-33549" class="dsq-comment-message"><p>did this work? any elegant solution found so far to address the multiple check issue?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1246">
+        <div id="dsq-comment-header-1246" class="dsq-comment-header">
+            <cite id="dsq-cite-1246">
+                <span id="dsq-author-user-1246">Chris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1246" class="dsq-comment-body">
+            <div id="dsq-comment-message-1246" class="dsq-comment-message"><p>I&#8217;m just starting (again) to learn making Apps, and so far these tutorials have helped a great deal. I think they are even better than the &#8220;for dummies&#8221; book I got last year. Short, simple, and small bites at a time, no deep explanations but hands on. I love it!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1255">
+        <div id="dsq-comment-header-1255" class="dsq-comment-header">
+            <cite id="dsq-cite-1255">
+http://www.simonblog.com                <span id="dsq-author-user-1255">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1255" class="dsq-comment-body">
+            <div id="dsq-comment-message-1255" class="dsq-comment-message"><p>Great to hear that! Should we publish a book? <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-1841">
+        <div id="dsq-comment-header-1841" class="dsq-comment-header">
+            <cite id="dsq-cite-1841">
+                <span id="dsq-author-user-1841">Mark Joseph Bureros</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1841" class="dsq-comment-body">
+            <div id="dsq-comment-message-1841" class="dsq-comment-message"><p>yes publish one</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://tediscript.wordpress.com/2013/03/26/uitableviewcell-ios/' rel='external nofollow' class='url'>UITableViewCell iOS | tediscript.wordpress.com</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1509">
+        <div id="dsq-comment-header-1509" class="dsq-comment-header">
+            <cite id="dsq-cite-1509">
+                <span id="dsq-author-user-1509">shailesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1509" class="dsq-comment-body">
+            <div id="dsq-comment-message-1509" class="dsq-comment-message"><p>Superb tutorial <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Very nice <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1558">
+        <div id="dsq-comment-header-1558" class="dsq-comment-header">
+            <cite id="dsq-cite-1558">
+http://www.facebook.com/bradley.c.woodard                <span id="dsq-author-user-1558">Brad Woodard</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1558" class="dsq-comment-body">
+            <div id="dsq-comment-message-1558" class="dsq-comment-message"><p>Simon,<br />
+Nice tutorial but I&#8217;m experiencing the same issue as YOPA &#8211; the checkmarks repeat every 12 cells. A fix has been suggested but I am unable to interpret what needs to be done in order to correct. Can you clarify or submit an update to the tutorial to eliminate the repeating checkmarks?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1982">
+        <div id="dsq-comment-header-1982" class="dsq-comment-header">
+            <cite id="dsq-cite-1982">
+                <span id="dsq-author-user-1982">drwu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1982" class="dsq-comment-body">
+            <div id="dsq-comment-message-1982" class="dsq-comment-message"><p>Instead of doing this: &#8220;For now, when you select a row, that row will be highlighted in blue color. If you don’t like it, try to add the following code to deselect the row.&#8221;</p>
+<p>[tableView deselectRowAtIndexPath:indexPath animated:YES];</p>
+<p>Just do the following in the &#8220;- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath&#8221; selector:</p>
+<p>cell.selectionStyle = UITableViewCellSelectionStyleNone;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2040">
+        <div id="dsq-comment-header-2040" class="dsq-comment-header">
+            <cite id="dsq-cite-2040">
+                <span id="dsq-author-user-2040">Murtaza Lokhandwala</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2040" class="dsq-comment-body">
+            <div id="dsq-comment-message-2040" class="dsq-comment-message"><p>simple &amp; clear. Enjoy alot</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.ggkf.com/xcode/ios-add-an-action-to-a-custom-uitableviewcell' rel='external nofollow' class='url'>iOS - Add an action to a custom UITableViewCell - Xcode Solutions - Developers Q &amp; A</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2267">
+        <div id="dsq-comment-header-2267" class="dsq-comment-header">
+            <cite id="dsq-cite-2267">
+                <span id="dsq-author-user-2267">maximkott</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2267" class="dsq-comment-body">
+            <div id="dsq-comment-message-2267" class="dsq-comment-message"><p>Awesome introduction to iOS and Objective-C!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2477">
+        <div id="dsq-comment-header-2477" class="dsq-comment-header">
+            <cite id="dsq-cite-2477">
+                <span id="dsq-author-user-2477">Tabish Sohail</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2477" class="dsq-comment-body">
+            <div id="dsq-comment-message-2477" class="dsq-comment-message"><p>Hiii. i always use to follow your tutorials, and i really enjoy alot.</p>
+<p>But now iOS 7 has released.When will you introduce tutorials for iOS 7 or about the changes that has been introduced in iOS 7.</p>
+<p>how to make our apps compatible for iOS 6 iOS 7 both .?</p>
+<p>Thanx.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2515">
+        <div id="dsq-comment-header-2515" class="dsq-comment-header">
+            <cite id="dsq-cite-2515">
+                <span id="dsq-author-user-2515">Hiếu Giề</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2515" class="dsq-comment-body">
+            <div id="dsq-comment-message-2515" class="dsq-comment-message"><p>Nice tutorial !<br />
+after select a row , i dont want select it any more , so how can i do it ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2810">
+        <div id="dsq-comment-header-2810" class="dsq-comment-header">
+            <cite id="dsq-cite-2810">
+                <span id="dsq-author-user-2810">King Dink</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2810" class="dsq-comment-body">
+            <div id="dsq-comment-message-2810" class="dsq-comment-message"><p>&#8211; add new property after tableData property: NSMutableArray *checkRay;</p>
+<p>&#8211; in viewDidLoad: init this property checkRay = [[NSMutableArray alloc] initWithObjects:@NO, @NO,&#8230;., nil];</p>
+<p>&#8211; add these lines at last function cellForRowAtIndexPath (before return cell):</p>
+<p>    if ([[checkRay objectAtIndex:indexPath.row] isEqual:@YES]){<br />
+              cell.accessoryType = UITableViewCellAccessoryCheckmark;<br />
+    } else {<br />
+              cell.accessoryType = UITableViewCellAccessoryNone;<br />
+    }</p>
+<p>&#8211; modify didSelectRowAtIndexPath function:</p>
+<p>     if ([[checkRay objectAtIndex:indexPath.row] isEqual:@YES]){<br />
+  [checkRay replaceObjectAtIndex:indexPath.row withObject:@NO];<br />
+    } else {<br />
+[checkRay replaceObjectAtIndex:indexPath.row withObject:@YES];<br />
+    }<br />
+[tableView reloadRowAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2602">
+        <div id="dsq-comment-header-2602" class="dsq-comment-header">
+            <cite id="dsq-cite-2602">
+                <span id="dsq-author-user-2602">raven51</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2602" class="dsq-comment-body">
+            <div id="dsq-comment-message-2602" class="dsq-comment-message"><p>Hi,</p>
+<p>2 years ago  I was distracted in the mobile world, which led me to start programming in C# for Windows phone.</p>
+<p>This year after trying to get involved in some kind of Entreprenership Startups, I soon realized that I was on the wrong track.</p>
+<p>Thaks to you all and to AppCoda I am getting a huge kick start in iOS programming. This web portal is very good and has the fundamental for a good start.</p>
+<p>Thnaks.</p>
+<p>raven51<br />
+(17OUT2013, Portugal)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2758">
+        <div id="dsq-comment-header-2758" class="dsq-comment-header">
+            <cite id="dsq-cite-2758">
+                <span id="dsq-author-user-2758">Madhur Sodhi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2758" class="dsq-comment-body">
+            <div id="dsq-comment-message-2758" class="dsq-comment-message"><p>Exercise Answer:-<br />
+in uialertview :-<br />
+message:[NSString stringWithFormat:@&#8221;%@&#8221;,[recipes objectAtIndex:indexPath.row]]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3447">
+        <div id="dsq-comment-header-3447" class="dsq-comment-header">
+            <cite id="dsq-cite-3447">
+                <span id="dsq-author-user-3447">Mateusz S</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3447" class="dsq-comment-body">
+            <div id="dsq-comment-message-3447" class="dsq-comment-message"><p>This project not working for me. When i check only one cell, then are checked many cells, not one.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://querypost.com/uitableview-didselectrowatindexpath-selects-multiple-cells-glitch/' rel='external nofollow' class='url'>UITableView didSelectRowAtIndexPath selects multiple cells glitch? | QueryPost.com</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3871">
+        <div id="dsq-comment-header-3871" class="dsq-comment-header">
+            <cite id="dsq-cite-3871">
+                <span id="dsq-author-user-3871">Satish Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3871" class="dsq-comment-body">
+            <div id="dsq-comment-message-3871" class="dsq-comment-message"><p>I&#8217;m not able to deselect  the row checked can you Pl help me out</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://boltstudios.edisonchargers.com/sitreps/14manaresigm045/week-2-reflection/' rel='external nofollow' class='url'>Week 2 Reflection | Gorio</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://hardikjain2020.wordpress.com/2014/03/27/ios-7-with-xcode-5-training/' rel='external nofollow' class='url'>Ios 7 with xcode 5 training | Iphone Tutorial Point</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4019">
+        <div id="dsq-comment-header-4019" class="dsq-comment-header">
+            <cite id="dsq-cite-4019">
+                <span id="dsq-author-user-4019">Tiago De Barros Hillesheim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4019" class="dsq-comment-body">
+            <div id="dsq-comment-message-4019" class="dsq-comment-message"><p>Couple of issues that I&#8217;m having so far:<br />
+&#8211; Scroll stops at the cell 14 &#8230; doesn&#8217;t reach the end of the table.<br />
+&#8211; Highlighted cell is gray, even though I had selected &#8220;blue&#8221; in the SimpleTableCell.xib.<br />
+&#8211; When I select a cell, a second cell, down in the view, is also checked.</p>
+<p>did anyone manage to solve this?<br />
+by the way, thanks Simon for the tuts. really impressive!<br />
+cheers</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4031">
+        <div id="dsq-comment-header-4031" class="dsq-comment-header">
+            <cite id="dsq-cite-4031">
+                <span id="dsq-author-user-4031">jkd359</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4031" class="dsq-comment-body">
+            <div id="dsq-comment-message-4031" class="dsq-comment-message"><p>I&#8217;m pretty sure &#8220;gray&#8221; is the new blue for ios7 if you catch my drift. I&#8217;ve tried both selections in my xcode and they are always the gray colour.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4029">
+        <div id="dsq-comment-header-4029" class="dsq-comment-header">
+            <cite id="dsq-cite-4029">
+                <span id="dsq-author-user-4029">jkd359</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4029" class="dsq-comment-body">
+            <div id="dsq-comment-message-4029" class="dsq-comment-message"><p>Everyone has been asking about the deselecting the row and checkmarks etc. This should solve most of the questions i think:</p>
+<p>&#8211; (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {</p>
+<p>    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;</p>
+<p>}</p>
+<p>&#8211; (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {</p>
+<p>    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4030">
+        <div id="dsq-comment-header-4030" class="dsq-comment-header">
+            <cite id="dsq-cite-4030">
+                <span id="dsq-author-user-4030">jkd359</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4030" class="dsq-comment-body">
+            <div id="dsq-comment-message-4030" class="dsq-comment-message"><p>Let me know if there are issues with this it worked for me.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-33548">
+        <div id="dsq-comment-header-33548" class="dsq-comment-header">
+            <cite id="dsq-cite-33548">
+                <span id="dsq-author-user-33548">st_mads</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33548" class="dsq-comment-body">
+            <div id="dsq-comment-message-33548" class="dsq-comment-message"><p>I&#8217;m still encountering the same problem.. not sure why still</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-33584">
+        <div id="dsq-comment-header-33584" class="dsq-comment-header">
+            <cite id="dsq-cite-33584">
+                <span id="dsq-author-user-33584">jkd359</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33584" class="dsq-comment-body">
+            <div id="dsq-comment-message-33584" class="dsq-comment-message"><p>Any code you can post up so i can have a look?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-4" id="dsq-comment-53300">
+        <div id="dsq-comment-header-53300" class="dsq-comment-header">
+            <cite id="dsq-cite-53300">
+                <span id="dsq-author-user-53300">jkd359</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-53300" class="dsq-comment-body">
+            <div id="dsq-comment-message-53300" class="dsq-comment-message"><p>Sorry Disqus wasn&#8217;t notifying me of comments &#8211; if you are still encountering the issue post up your code and i&#8217;ll have a look.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4090">
+        <div id="dsq-comment-header-4090" class="dsq-comment-header">
+            <cite id="dsq-cite-4090">
+                <span id="dsq-author-user-4090">emma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4090" class="dsq-comment-body">
+            <div id="dsq-comment-message-4090" class="dsq-comment-message"><p>for me an error box is appearing near the void area it says that. invalid argument type&#8217;void&#8217;to unary expression.<br />
+what am i supposed to do now!??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4142">
+        <div id="dsq-comment-header-4142" class="dsq-comment-header">
+            <cite id="dsq-cite-4142">
+                <span id="dsq-author-user-4142">varunpar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4142" class="dsq-comment-body">
+            <div id="dsq-comment-message-4142" class="dsq-comment-message"><p>PLease correct the project as its selecting many rows while selecting only one&#8230;. appcoda is really helpful and we we expect quality code from it..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4358">
+        <div id="dsq-comment-header-4358" class="dsq-comment-header">
+            <cite id="dsq-cite-4358">
+                <span id="dsq-author-user-4358">Sharad Goyal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4358" class="dsq-comment-body">
+            <div id="dsq-comment-message-4358" class="dsq-comment-message"><p>Hello, it is very good tutorial about table view. everything is very clear and sharp.<br />
+thanks a lot for making such efforts to let other people know.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7355">
+        <div id="dsq-comment-header-7355" class="dsq-comment-header">
+            <cite id="dsq-cite-7355">
+                <span id="dsq-author-user-7355">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7355" class="dsq-comment-body">
+            <div id="dsq-comment-message-7355" class="dsq-comment-message"><p>How do i go to different view controllers on selecting different rows in the UITableView</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10649">
+        <div id="dsq-comment-header-10649" class="dsq-comment-header">
+            <cite id="dsq-cite-10649">
+                <span id="dsq-author-user-10649">Nivendru Gavaskar (DCPL)</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10649" class="dsq-comment-body">
+            <div id="dsq-comment-message-10649" class="dsq-comment-message"><p>issue is that if you select a row and then scroll below cell will be also select</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-33550">
+        <div id="dsq-comment-header-33550" class="dsq-comment-header">
+            <cite id="dsq-cite-33550">
+                <span id="dsq-author-user-33550">st_mads</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33550" class="dsq-comment-body">
+            <div id="dsq-comment-message-33550" class="dsq-comment-message"><p>i&#8217;m encountering the multiple-select issue still.. i select a row at the top and i find another row selected some rows down. any solution so far? thanks <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-33585">
+        <div id="dsq-comment-header-33585" class="dsq-comment-header">
+            <cite id="dsq-cite-33585">
+                <span id="dsq-author-user-33585">jkd359</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33585" class="dsq-comment-body">
+            <div id="dsq-comment-message-33585" class="dsq-comment-message"><p>Post up your code and i&#8217;ll have a look.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-33623">
+        <div id="dsq-comment-header-33623" class="dsq-comment-header">
+            <cite id="dsq-cite-33623">
+                <span id="dsq-author-user-33623">st_mads</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33623" class="dsq-comment-body">
+            <div id="dsq-comment-message-33623" class="dsq-comment-message"><p>thank you. here it is (using xcode v5.1.1)..</p>
+<p>======<br />
+//  SimpleTableViewController.m</p>
+<p>#import &#8220;SimpleTableViewController.h&#8221;</p>
+<p>@interface SimpleTableViewController ()</p>
+<p>@end</p>
+<p>@implementation SimpleTableViewController</p>
+<p>NSArray *tableData;</p>
+<p>NSArray *thumbnails;</p>
+<p>NSArray *prepTime;</p>
+<p>&#8211; (void)viewDidLoad</p>
+<p>{</p>
+<p>    [super viewDidLoad];</p>
+<p>	// Do any additional setup after loading the view, typically from a nib.</p>
+<p>    tableData = [NSArray arrayWithObjects:@&#8221;Egg Benedict&#8221;, @&#8221;Mushroom Risotto&#8221;, @&#8221;Full Breakfast&#8221;, @&#8221;Hamburger&#8221;, @&#8221;Ham and Egg Sandwich&#8221;, @&#8221;Creme Brelee&#8221;, @&#8221;White Chocolate Donut&#8221;, @&#8221;Starbucks Coffee&#8221;, @&#8221;Vegetable Curry&#8221;, @&#8221;Instant Noodle with Egg&#8221;, @&#8221;Noodle with BBQ Pork&#8221;, @&#8221;Japanese Noodle with Pork&#8221;, @&#8221;Green Tea&#8221;, @&#8221;Thai Shrimp Cake&#8221;, @&#8221;Angry Birds Cake&#8221;, @&#8221;Ham and Cheese Panini&#8221;, nil];</p>
+<p>    thumbnails = [NSArray arrayWithObjects:@&#8221;egg_benedict.jpg&#8221;, @&#8221;mushroom_risotto.jpg&#8221;, @&#8221;full_breakfast.jpg&#8221;, @&#8221;hamburger.jpg&#8221;, @&#8221;ham_and_egg_sandwich.jpg&#8221;, @&#8221;creme_brelee.jpg&#8221;, @&#8221;white_chocolate_donut.jpg&#8221;, @&#8221;starbucks_coffee.jpg&#8221;, @&#8221;vegetable_curry.jpg&#8221;, @&#8221;instant_noodle_with_egg.jpg&#8221;, @&#8221;noodle_with_bbq_pork.jpg&#8221;, @&#8221;japanese_noodle_with_pork.jpg&#8221;, @&#8221;green_tea.jpg&#8221;, @&#8221;thai_shrimp_cake.jpg&#8221;, @&#8221;angry_birds_cake.jpg&#8221;, @&#8221;ham_and_cheese_panini.jpg&#8221;, nil];</p>
+<p>    prepTime = [NSArray arrayWithObjects:@&#8221;10 mins&#8221;, @&#8221;36 mins&#8221;, @&#8221;54 mins&#8221;, @&#8221;2.5 hrs&#8221;, @&#8221;15 mins&#8221;, @&#8221;10 mins&#8221;, @&#8221;10 mins&#8221;, @&#8221;5 mins&#8221;, @&#8221;45 mins&#8221;, @&#8221;7 mins&#8221;, @&#8221;25 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;5 mins&#8221;, @&#8221;30 mins&#8221;, @&#8221;2 hrs&#8221;, @&#8221;15 mins&#8221;, nil];</p>
+<p>}</p>
+<p>&#8211; (void)didReceiveMemoryWarning</p>
+<p>{</p>
+<p>    [super didReceiveMemoryWarning];</p>
+<p>    // Dispose of any resources that can be recreated.</p>
+<p>}</p>
+<p>-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section</p>
+<p>{</p>
+<p>    return [tableData count];</p>
+<p>}</p>
+<p>-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath</p>
+<p>{</p>
+<p>    static NSString *simpleTableIdentifier = @&#8221;SimpleTableCell&#8221;;</p>
+<p>    SimpleTableCellTableViewCell *cell = (SimpleTableCellTableViewCell *) [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];</p>
+<p>    if (cell == nil) {</p>
+<p>        //cell = [[SimpleTableCellTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];</p>
+<p>        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:simpleTableIdentifier owner:self options:nil];</p>
+<p>        cell = [nib objectAtIndex:0];</p>
+<p>    }</p>
+<p>    //cell.textLabel.text = [tableData objectAtIndex:indexPath.row];</p>
+<p>    cell.nameLabel.text = [tableData objectAtIndex:indexPath.row];</p>
+<p>    //cell.imageView.image = [UIImage imageNamed:@&#8221;creme_brelee.jpg&#8221;];</p>
+<p>    cell.thumbnailImageView.image = [UIImage imageNamed:[thumbnails objectAtIndex:indexPath.row]];</p>
+<p>    cell.prepTimeLabel.text = [prepTime objectAtIndex:indexPath.row];</p>
+<p>    return cell;</p>
+<p>}</p>
+<p>&#8211; (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath</p>
+<p>{</p>
+<p>    return 78;</p>
+<p>}</p>
+<p>&#8211; (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath</p>
+<p>{</p>
+<p>    //NSString *selectedRowInfo = @&#8221;You&#8217;ve selected a row : &#8220;;</p>
+<p>    //selectedRowInfo = [selectedRowInfo stringByAppendingString:[@(indexPath.row)description]];</p>
+<p>    UIAlertView *messageAlert = [[UIAlertView alloc]</p>
+<p>                                 initWithTitle:@&#8221;You&#8217;ve Selected&#8221; message:[tableData objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@&#8221;OK&#8221; otherButtonTitles:nil];</p>
+<p>    // Display Alert Message</p>
+<p>    [messageAlert show];</p>
+<p>    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;</p>
+<p>    /*UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];</p>
+<p>    cell.accessoryType = UITableViewCellAccessoryCheckmark;</p>
+<p>     */</p>
+<p>    [tableView deselectRowAtIndexPath:indexPath animated:YES];</p>
+<p>}</p>
+<p>@end</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-33720">
+        <div id="dsq-comment-header-33720" class="dsq-comment-header">
+            <cite id="dsq-cite-33720">
+                <span id="dsq-author-user-33720">jkd359</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-33720" class="dsq-comment-body">
+            <div id="dsq-comment-message-33720" class="dsq-comment-message"><p>Mmk, another way i do it is this:<br />
+In your .h file create:</p>
+<p>@property (retain) NSIndexPath *lastIndexPath;</p>
+<p>and in your &#8220;cellforRowAtIndexPath&#8221;:</p>
+<p>    if ([indexPath compare:self.lastIndexPath] == NSOrderedSame) {</p>
+<p>        cell.accessoryType = UITableViewCellAccessoryCheckmark;</p>
+<p>    } else {</p>
+<p>        cell.accessoryType = UITableViewCellAccessoryNone;</p>
+<p>    }</p>
+<p>and in your &#8220;didSelectRowAtIndexPath&#8221;:</p>
+<p>    self.lastIndexPath = indexPath;</p>
+<p>    [tableView reloadData];</p>
+<p>*Also get rid of :</p>
+<p>[[tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;</p>
+<p>/*UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];</p>
+<p>cell.accessoryType = UITableViewCellAccessoryCheckmark;</p>
+<p>*/</p>
+<p>[tableView deselectRowAtIndexPath:indexPath animated:YES];</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-50650">
+        <div id="dsq-comment-header-50650" class="dsq-comment-header">
+            <cite id="dsq-cite-50650">
+                <span id="dsq-author-user-50650">Arelem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-50650" class="dsq-comment-body">
+            <div id="dsq-comment-message-50650" class="dsq-comment-message"><p>I am very new to Xcode but have done rails and php so not new to programming. I find that most iphone/xcode tutorials tried simply do not work.<br />
+As a newbie have no idea what the error messages mean and as usual Google is helpless it reverts to StackOverflow which is for experts.<br />
+For me, the **only** Tuts_to_work_first_shot so far are these. Well Done, Excellent tuts, easy to follow well thought out and no verbal guff between the explanations. This guy is a great teacher. I will do all of these with enjoyment and recommend them to others. Thank you again.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.ariston-oliveoil.gr/index.asp?Keyword=0000001755' rel='external nofollow' class='url'>σαπουνια ελαιολαδου</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-60929">
+        <div id="dsq-comment-header-60929" class="dsq-comment-header">
+            <cite id="dsq-cite-60929">
+                <span id="dsq-author-user-60929">Sumit Singh Arya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-60929" class="dsq-comment-body">
+            <div id="dsq-comment-message-60929" class="dsq-comment-message"><p>it is perfect  but when i scrolled  tableview cell then check mark is been hide  then how i stop that<br />
+ please suggest</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-63701">
+        <div id="dsq-comment-header-63701" class="dsq-comment-header">
+            <cite id="dsq-cite-63701">
+                <span id="dsq-author-user-63701">russell</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-63701" class="dsq-comment-body">
+            <div id="dsq-comment-message-63701" class="dsq-comment-message"><p>Im on xcode 5 my checkbox is only showing up on the similator when I choose resizable phone but not on iphone 5 or 6. I am guessing I need to change the size of my main story board? How can I get it to fit the simulator screen? Great tuts by the way.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-100438">
+        <div id="dsq-comment-header-100438" class="dsq-comment-header">
+            <cite id="dsq-cite-100438">
+                <span id="dsq-author-user-100438">Gregoriz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100438" class="dsq-comment-body">
+            <div id="dsq-comment-message-100438" class="dsq-comment-message"><p>I&#8217;ve got the exact same problem. You gave me a nice hint there but as a newby, I don&#8217;t see what could make it happens</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-70706">
+        <div id="dsq-comment-header-70706" class="dsq-comment-header">
+            <cite id="dsq-cite-70706">
+                <span id="dsq-author-user-70706">soumyapc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-70706" class="dsq-comment-body">
+            <div id="dsq-comment-message-70706" class="dsq-comment-message"><p>hi I am using Xcode 3.2.4 . My app crashes when I write</p>
+<p> &#8211; (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{</p>
+<p>UIAlertView *messageAlert = [[UIAlertView alloc]<br />
+initWithTitle:@&#8221;Row Selected&#8221; message:[tableData objectAtIndex:indexPath.row] delegate:nil cancelButtonTitle:@&#8221;OK&#8221; otherButtonTitles:nil,nil]; </p>
+<p>[messageAlert show];<br />
+}<br />
+but it will work if I put message:@&#8221;whatever message&#8221;. Not able to figure out the error.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99703">
+        <div id="dsq-comment-header-99703" class="dsq-comment-header">
+            <cite id="dsq-cite-99703">
+                <span id="dsq-author-user-99703">Charles Reidy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99703" class="dsq-comment-body">
+            <div id="dsq-comment-message-99703" class="dsq-comment-message"><p>When I try to implement the tableView didSelectRowAtIndexPath method as written above, I get an error  &#8211; &#8220;invalid argument type &#8216;void&#8217; to unary expression. I don&#8217;t know why void doesn&#8217;t work, since there is no return value in the method. I&#8217;m running XCode 4.6.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100966">
+        <div id="dsq-comment-header-100966" class="dsq-comment-header">
+            <cite id="dsq-cite-100966">
+                <span id="dsq-author-user-100966">Alex Sandro</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100966" class="dsq-comment-body">
+            <div id="dsq-comment-message-100966" class="dsq-comment-message"><p>My UItableviewcessory not this showing! someone could help me ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/how-to-handle-row-selection-in-uitableview/';
+var disqus_identifier = '349 http://www.appcoda.com/?p=349';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "How To Handle Row Selection in UITableView";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=349';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="349"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-handle-row-selection-in-uitableview%2F&#038;t=How%20To%20Handle%20Row%20Selection%20in%20UITableView" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="349" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>24</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=How%20To%20Handle%20Row%20Selection%20in%20UITableView&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-handle-row-selection-in-uitableview%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="349" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>11</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-handle-row-selection-in-uitableview%2F&#038;t=How%20To%20Handle%20Row%20Selection%20in%20UITableView" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="349" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>7</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-handle-row-selection-in-uitableview%2F&#038;title=How%20To%20Handle%20Row%20Selection%20in%20UITableView" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="349" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>0</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-handle-row-selection-in-uitableview%2F&#038;t=How%20To%20Handle%20Row%20Selection%20in%20UITableView" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="349" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=How%20To%20Handle%20Row%20Selection%20in%20UITableView&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-handle-row-selection-in-uitableview%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="349" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-handle-row-selection-in-uitableview%2F&#038;t=How%20To%20Handle%20Row%20Selection%20in%20UITableView" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="349" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-handle-row-selection-in-uitableview%2F&#038;title=How%20To%20Handle%20Row%20Selection%20in%20UITableView" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="349" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/how-to-handle-row-selection-in-uitableview\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:21:48 by W3 Total Cache -->

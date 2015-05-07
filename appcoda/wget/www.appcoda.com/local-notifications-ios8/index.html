@@ -1,0 +1,1124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Creating Interactive Local Notifications in iOS 8</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.appcoda.com/local-notifications-ios8/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Notifications are the way of an application to communicate with users, especially when it&#8217;s not running in the foreground. A notification, as its name implies, is used to *notify* a user either about an event, or just to remind something important. In fact, notifications are extremely useful in reminding applications, but they&#8217;re also quite handy [&hellip;]"/>
+<meta name="twitter:title" content="Creating Interactive Local Notifications in iOS 8"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/12/ios8-local-notification.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Creating Interactive Local Notifications in iOS 8 Comments Feed" href="http://www.appcoda.com/local-notifications-ios8/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=4444' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-4444 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-4444 post type-post status-publish format-standard hentry category-course category-intermediate category-swift-2 category-tutorials tag-ios-8 tag-ios-programming tag-local-notification tag-swift entry"><h1 class="entry-title">Creating Interactive Local Notifications in iOS 8</h1> 
+<div class="post-info"><span class="date published time" title="2014-12-16T00:19:04+00:00">December 16, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/local-notifications-ios8/#comments"><span class="dsq-postid" data-dsqidentifier="4444 http://www.appcoda.com/?p=4444">11 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><b>Notifications</b> are the way of an application to communicate with users, especially when it&#8217;s not running in the foreground. A notification, as its name implies, is used to *notify* a user either about an event, or just to remind something important. In fact, notifications are extremely useful in reminding applications, but they&#8217;re also quite handy in a number of other cases. For example, a notification can be shown when a user enters a predefined region (that&#8217;s new in iOS 8), when a download is complete, or when a friend has sent a message to a chat application. No matter what, the purpose of notifications is to pull the users&#8217; attention, so they act on the message they see.</p>
+<p>From the programming point of view, notifications consist of a quite standard aspect that can be easily implemented into an application. As there&#8217;s no much room for improvisation, developers almost always follow a predefined path to add notification features in their applications. That is to specify the details of the notification that will be delivered by the system, to handle the app launching due to a notification, and finally, starting from iOS 8, to handle any actions that have been set regarding them. The per application logic is the only thing that gets changed.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/ios8-local-notification.jpg" alt="ios8-local-notification" class="aligncenter size-full wp-image-4471" /></div>
+<p>Up to iOS 8 there were essentially two kinds of notifications:</p>
+<ol>
+<li><em>Local notifications</em>: These are notifications specified by the developer and are triggered by the app itself. The exact time that they&#8217;ll appear is always scheduled.</li>
+<li><em>Remote notifications</em>: In this case, the notifications can be split in two subcategories: (a) The <em>push</em> notifications, which are initiated into a web server, then go through the Apple Push Notification servers and finally they&#8217;re shown to users at the moment they arrive to the device. (b) The <em>silent</em> notifications, which are actually push notifications, but they&#8217;re not shown to the user straight away. Instead, they&#8217;re handled internally by the application in order to perform a task, and when everything is ready, a local notification is scheduled to inform the user.</li>
+</ol>
+<p>Apart from the above, iOS 8 introduces the <em>location notifications</em>. These are actually local notifications, but they&#8217;re fired only when a user enters or exits a specific geographical or iBeacon region. Even though we won&#8217;t see much details, they&#8217;re easy to be implemented.</p>
+<p><span id="more-4444"></span></p>
+<p>The great news exist in just one important fact: New capabilities have been added to notifications in iOS 8. Simply put, from now on <em>developers are able to specify certain <strong>actions</strong> that can be taken by the user when a notification is shown, and the application can handle them even without gets launched in the foreground</em>.</p>
+<p>That&#8217;s something really remarkable, as notifications become more interactive that way. Users are given with a certain list of options that can be used to order an application to perform specific tasks instantly. No need for users to lose time by running the app and then handle the notification. Actions can now make notifications and applications more powerful, and they can maximise the user experience as well.</p>
+<p>Actions can be grouped together in <em>categories</em>. That&#8217;s pretty handy, especially if an application schedules more than few notifications to appear. With categories, all the related actions to a notification can be tied and specified at once. On the other hand, handling actions is easy also, as the implementation of a specific delegate method is the only requirement in order to receive and manage them. Each action has a special property named <em>identifier</em>, and this one is used by an application to determine each received action and act appropriately.</p>
+<p>As you understand, our goal in this tutorial is to see all the above in details. Even though actions and categories are something new indeed, you&#8217;ll eventually find out that is extremely easy to implement and configure them. However, before we move to the next part, it&#8217;s important to say that we are going to focus on local notifications only. I guess that it would be pointless to try to cover all the aspects regarding all kinds of notifications in one tutorial, and besides that, we just aim to the new capabilities of notifications introduced in iOS 8.</p>
+<p>As always, I strongly encourage you to definitely pay a visit to the official documentation. Not only to the Apple&#8217;s Developer Library (which is a must), but also watch the <a href="https://developer.apple.com/videos/wwdc/2014/">WWDC 2014 #713 session video</a>. Combining them with what you&#8217;ll be presented here with will give you all the knowledge you need regarding the new notification capabilities. Also, as we&#8217;re not going to discuss here about remote and location based notifications, the official documentation is your source if you&#8217;re about to work with them.</p>
+<h2>About Local Notifications</h2>
+<p>Local notifications are scheduled to be fired in predefined date and time by the application itself. Always keep in mind that even though notifications are good for communicating with the user, you should be cautious, as the excessive use of them would lead to a bad user experience.</p>
+<p>There are several ways to inform a user about a local notification. Right next they are presented all the supported <em>types</em> which you can use to do that. As you may already know, you can either specify some or all of them when configuring a notification in code:</p>
+<ul>
+<li><em>Alert or Banner</em>: Depending on the preferences the user sets in the Settings, a notification can be shown using either an alert view or a banner. Both of them should contain the message of the notification (which can be localized).</li>
+<li><em>Sound</em>: You can &#8220;tell&#8221; iOS to playback either a predefined or a custom sound when the notification is fired. That&#8217;s quite useful, as in most cases users won&#8217;t look at the device all the time, so any presented notifications can be easily overlooked. However, in less critical notifications, sounds could be just omitted.</li>
+<li><em>Badge</em>: A badge number can also be shown in the app&#8217;s icon when a new notification is fired. The badge number must be increased by one with a new notification, and then decreased when the notification is handled. iOS automatically shows and hides the badge, depending on whether there&#8217;s a value other than zero to display.</li>
+</ul>
+<p>Up to iOS 7, a user could only tap on the notification (or slide in the lock screen) so as the respective app to be launched, and then perform any actions that might were required. Now, developers can give users the ability to perform certain, predefined actions. The respective application may stay on the background for non-critical or not important tasks, but yet able to execute the code regarding the user&#8217;s choice. We&#8217;ll see how all this is implemented thoroughly in this tutorial.</p>
+<p>Besides all the above, a local notification can include additional data that may be needed by the app when it&#8217;s about to handle it (or when it&#8217;s about to handle an action). This data is encapsulated in a user info dictionary, which is accessed by the application when it&#8217;s launched due to the notification either in the foreground, or in background.</p>
+<p>The scheduled local notifications cannot be unlimited. On the contrary, iOS allows up to 64 local notifications to be scheduled and fired. If more than this number is set, then all the notifications after the 64th are simply discarded. However, no matter in what order notifications are scheduled, only the soonest ones will be eventually fired.</p>
+<p>So, with all that in mind, let&#8217;s get to know the app that we are going to work with today.</p>
+<h2>Demo App Overview</h2>
+<p>We are going to see all the new exciting features of notifications by developing a simple demo application. Actually, we are going to build a shopping list application, in which the user will get a reminding notification about the shopping he has to do. In this, two things will be possible to be done:</p>
+<ol>
+<li>To add and delete items.</li>
+<li>To pick a date and time that the notification should be fired.</li>
+</ol>
+<p>As you guess, we will implement one local notification only. It&#8217;s more than enough to demonstrate all the new capabilities of iOS 8.</p>
+<p>For adding a new item in the list, we&#8217;ll use a textfield. The added items will be displayed in a tableview, through which an existing item will be possible to be deleted by swiping the respective cell to the left. Furthermore, a date picker view will become available to pick a date and time for the notification. This date picker will be shown when a button is tapped, and after a date has been selected the same button will be used to schedule the notification and display the tableview again. We&#8217;ll make the date picker view to be appeared and disappeared in an animated way, so our app becomes a bit more attractive, but also to see how a simple animation can be performed using the <em>UIView</em> class in Swift.</p>
+<p>For the local notification that we&#8217;ll schedule, we&#8217;ll define three distinct actions (apart from the default one that all local notifications support and make the app simply to be launched). These actions will give the following options to the user (I write the action title and what should happen with each one):</p>
+<ul>
+<li>&#8220;OK, got it&#8221;: This action will do nothing actually, except for making the notification go away. In the app, no tasks will be performed at all.</li>
+<li>&#8220;Edit list&#8221;: With this action, the application will come in the foreground and the textfield will get the focus, so the user can start writing a new item straight away.</li>
+<li>&#8220;Delete list&#8221;: This action will make the app run in the background. The existing shopping list will be removed, but the app won&#8217;t come in the foreground. The next time that the user will launch the app the list will simply not be there.</li>
+</ul>
+<p>The next figures illustrate the demo application. As I said, it&#8217;s simple, but good enough for the purposes of this tutorial:</p>
+<p><center><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_1_app_main.png" alt="t25_1_app_main" /><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_2_pick_date.png" alt="t25_2_pick_date" /></center></p>
+<p><center><br />
+<img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_4_notification_banner.png" alt="t25_4_notification_banner" /><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_3_notification_alert_2.png" alt="t25_3_notification_alert_2" /></center></p>
+<p>As a last word, I&#8217;d like to say that I&#8217;m going to talk in details about actions when we&#8217;re about to implement them. So, for the time being just have in mind that notification actions are actually&#8230; actions that a user can take and respond to the notification, and all the stuff about them will become known shortly.</p>
+<h2>The Starter Project</h2>
+<p>As our goal is to learn all the new stuff about notifications and not to see how to build an application from scratch, you can get a starter project for the demo app <a href="https://www.dropbox.com/s/z756nzca6rrd87k/ShoppingAlertStart.zip?dl=0">here</a>. Once you download it, unzip it and get ready to work, as this project is going to be the base that we&#8217;ll start implementing to.</p>
+<p>What you&#8217;ll find already existing in the starter project is mostly the interface. Before you keep reading to the next parts, please take a few minutes and look around for a while. Open the <em>Main.storyboard</em> file in the Interface Builder, and notice the subviews being there, as well as all the IBOutlet properties and the IBAction method that have already been created and connected as needed.</p>
+<p>Besides that, you&#8217;ll see that all the necessary protocols that the <em>ViewController</em> class should conform to have already been declared. In addition to that, the minimum necessary tableview delegate and datasource methods have already been defined to the code, but without any logic implemented to them. They&#8217;re there just to avoid any Xcode errors that would be thrown if they were missing. Finally, in the <em>viewDidLoad</em> method you can find the objects for which the <em>ViewController</em> class becomes the delegate.</p>
+<p>It&#8217;s easy to understand that the starter project is a quite easy one, so you don&#8217;t need to waste a lot of time by exploring it. However, it worths to take a quick look and familiarize yourself with it.</p>
+<h2>Managing the Shopping List</h2>
+<p>Let&#8217;s get started by implementing the shopping list first. Our goal in this part is to add a new item using the textfield, and to display all added items to the tableview. Also, we will make the application capable of deleting existing items. Obviously, we need a structure to both keep our data, and to use it as the datasource for the tableview. So, let&#8217;s begin by adding a <em>NSMutableArray</em> property to the <em>ViewController</em> class. Make sure that you&#8217;ve selected the <em>ViewController.swift</em> file in the Project Navigator. In that file, navigate yourself right below the IBOutlet property declarations add add the next instance variable:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var shoppingList<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>Okay, we just did the first step. Note that we won&#8217;t initialize it in the <em>viewDidLoad</em> method as you may expected, instead we&#8217;ll do that to the point where we&#8217;ll add new objects to it. This will take place right next.</p>
+<p>Now that the structure that will be used to store the shopping list items has been declared, let&#8217;s get going by allowing the user to add a new item using the textfield. Actually, we want the newly entered item to be added to the array and displayed eventually to the tableview right after the Return button on the keyboard has been tapped. To do that, we must implement the <em>textFieldShouldReturn(textField:)</em> delegate method. As you can see in the starter project, the <em>UITextFieldDelegate</em> protocol has already been adopted, and the <em>ViewController</em> class has been set as the delegate of the <em>txtAddItem</em> textfield.</p>
+<p>So, as it seems we are ready to implement the aforementioned delegate method. In it, we want the next things to happen:</p>
+<ul>
+<li>To initialize the <em>shoppingList</em> array if it&#8217;s nil.</li>
+<li>To add the textfield&#8217;s text as a new object to the array.</li>
+<li>To make the tableview display the new item (we&#8217;ll implement the tableview behavior in just a while).</li>
+<li>To clear the textfield from any content so it&#8217;s ready to accept new text again.</li>
+<li>To remove the focus from the textfield, so the keyboard will hide.</li>
+</ul>
+<p>Do all the above look too many? Well, they&#8217;re not, and you can see that in the above code segment:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func textFieldShouldReturn<span style="color: #002200;">&#40;</span>textField<span style="color: #002200;">:</span> UITextField<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> shoppingList <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; shoppingList <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; shoppingList.addObject<span style="color: #002200;">&#40;</span>textField.text<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; tblShoppingList.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; txtAddItem.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;&quot;</span><br />
+&nbsp; &nbsp; txtAddItem.resignFirstResponder<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The above code is pretty clear on what it does, and I don&#8217;t think that you need further discussion about it.</p>
+<p>The next step is to display the items of the shopping list to the tableview. In the <em>ViewController</em> class, the delegate and datasource tableview methods that we&#8217;ll need already exist, but now we must add the proper code to make it work. Let&#8217;s begin by the easy stuff, the number of sections and rows of the tableview, and the height of each row. You may replace the entire methods in the class with those given below, or simply replace their content. It&#8217;s up to you:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func numberOfSectionsInTableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Int <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">1</span><br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, numberOfRowsInSection section<span style="color: #002200;">:</span> Int<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Int <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var rows <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let list <span style="color: #002200;">=</span> shoppingList<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; rows <span style="color: #002200;">=</span> list.count<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> rows<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, heightForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; CGFloat <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">50.0</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Note that we make sure that the <em>shoppingList</em> array isn&#8217;t nil before we get the number of the total objects it contains and return it.</p>
+<p>Next, let&#8217;s assign each object of the array to the cell&#8217;s label, so it can be displayed to the tableview. Before doing so, let me underline that in the Interface Builder there&#8217;s a prototype cell with the <em>idCellItem</em> identifier value. Our first step is to dequeue that cell, and then set each object to its text label as a string value. Here it is:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, cellForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; UITableViewCell <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var cell <span style="color: #002200;">=</span> tableView.dequeueReusableCellWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idCellItem&quot;</span><span style="color: #002200;">&#41;</span> as UITableViewCell<br />
+<br />
+&nbsp; &nbsp; cell.textLabel?.text <span style="color: #002200;">=</span> shoppingList.objectAtIndex<span style="color: #002200;">&#40;</span>indexPath.row<span style="color: #002200;">&#41;</span> as <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The downcast in the line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">cell.textLabel?.text <span style="color: #002200;">=</span> shoppingList.objectAtIndex<span style="color: #002200;">&#40;</span>indexPath.row<span style="color: #002200;">&#41;</span> as <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a></div></td></tr></tbody></table></div>
+<p>is necessary (the <em>as NSString</em> part), because we want to make clear to the compiler that we want to assign a string value to the label.</p>
+<p>So, now we are ready. We can add a new item and display all existing items to the tableview. But the truth is that we are <em>almost</em> ready, as there&#8217;s a last basic functionality missing here: The deletion of an existing item.</p>
+<p>That&#8217;s easy to do, and we&#8217;ll start by defining a new, super-simple function:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func removeItemAtIndex<span style="color: #002200;">&#40;</span>index<span style="color: #002200;">:</span> Int<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; shoppingList.removeObjectAtIndex<span style="color: #002200;">&#40;</span>index<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; tblShoppingList.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This function accepts just one parameter, the index of the object that should be removed. Using this index value, we remove the respective object from the <em>shoppingList</em> array first, and then we reload the tableview data.</p>
+<p>The above function is completely useless unless we call it when the user swipes the finger to the left so it reveals and use the well-known red Delete button. To enable this button, we must implement the <em>tableView(tableView:commitEditingStyle:forRowAtIndexPath:)</em> delegate method of the tableview. In it, we&#8217;ll call the above function. Right next you&#8217;re given its implementation:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, commitEditingStyle editingStyle<span style="color: #002200;">:</span> UITableViewCellEditingStyle, forRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> editingStyle <span style="color: #002200;">==</span> UITableViewCellEditingStyle.Delete <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; removeItemAtIndex<span style="color: #002200;">&#40;</span>indexPath.row<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Two things to notice: At first, the <em>if</em> statement is necessary so the above function gets called when the user deletes rows only, and of course to prevent any row insertion functionality. At second, the argument to the function is the row of the selected cell, which matches to the object we want to remove.</p>
+<p>I guess that you may wonder why we created the <em>removeItemAtIndex(index:)</em> function, while we could have written the two lines of code it contains in the above tableview method. Well, I won&#8217;t really answer that; instead I let you discover it if you&#8217;re curious enough. Are you?</p>
+<p>As a last word, I&#8217;d like to mention that there&#8217;s no need to add editing capability for the existing items to such a simple application. After all, there would be nothing really interesting to see, so we just skip it. What we did is good enough.</p>
+<h2>Saving and Loading List Items</h2>
+<p>Even though in the previous part we built the basic functionality of the demo app, we still must add two more important features so it works as expected. This means that we must make it capable of saving the shopping list permanently to the disk, and also load the list from the disk (if exists) when the application gets launched.</p>
+<p>As the structure of our data is a mutable array, we can easily write and read to and from the disk, using the methods that the <em>NSMutableArray</em> class provides. Obviously, for doing both of the above, we are going to create two separate functions. So, let&#8217;s get started with the next one, which is responsible for saving the contents of the array to a file. The file is named <em>shopping_list</em>:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func saveShoppingList<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let pathsArray <span style="color: #002200;">=</span> NSSearchPathForDirectoriesInDomains<span style="color: #002200;">&#40;</span>NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; let documentsDirectory <span style="color: #002200;">=</span> pathsArray<span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span> as String<br />
+&nbsp; &nbsp; let savePath <span style="color: #002200;">=</span> documentsDirectory.stringByAppendingPathComponent<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;shopping_list&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; shoppingList.writeToFile<span style="color: #002200;">&#40;</span>savePath, atomically<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The first two lines consist of a standard piece of code that returns the path to the documents directory of the app. Once we know that, we form the path to the file, specifying the file name at the same time. Lastly, the key to the above function is the <em>writeToFile(_:atomically:)</em> method of the <em>NSMutableArray</em> class. This is the one that actually saves the array contents to the disk.</p>
+<p>By having the above method implemented, we can go ahead and call it where it&#8217;s needed. If you think of what we did in the previous part, you can assume that we are going to call it in two places: When a new item is added to the list, and when an existing item is removed from the list.</p>
+<p>At first, go to the <em>textFieldShouldReturn(textField:)</em> delegate method of the textfield. Just right before the <em>return</em> command, make a call to the above method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func textFieldShouldReturn<span style="color: #002200;">&#40;</span>textField<span style="color: #002200;">:</span> UITextField<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; saveShoppingList<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Nice, each new item now will be saved to the disk too. Also, let&#8217;s pay a visit to the <em>removeItemAtIndex(index:)</em> function too, where we actually delete an item. As we just did, let&#8217;s make a call to the save function and let&#8217;s add it as the last command as well:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func removeItemAtIndex<span style="color: #002200;">&#40;</span>index<span style="color: #002200;">:</span> Int<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; saveShoppingList<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With all the above we can be sure that any changes that might take place in our data, they will become permanent too.</p>
+<p>Now, we can proceed by implementing the exact opposite functionality, the data loading. At first, let&#8217;s see the definition of the respective function:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func loadShoppingList<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let pathsArray <span style="color: #002200;">=</span> NSSearchPathForDirectoriesInDomains<span style="color: #002200;">&#40;</span>NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; let documentsDirectory <span style="color: #002200;">=</span> pathsArray<span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span> as String<br />
+&nbsp; &nbsp; let shoppingListPath <span style="color: #002200;">=</span> documentsDirectory.stringByAppendingPathComponent<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;shopping_list&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a>.defaultManager<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.fileExistsAtPath<span style="color: #002200;">&#40;</span>shoppingListPath<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; shoppingList <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><span style="color: #002200;">&#40;</span>contentsOfFile<span style="color: #002200;">:</span> shoppingListPath<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; tblShoppingList.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>It&#8217;s important to highlight the fact that we must always check if a file exists before we load its contents. In iOS, we do that by using the <em>NSFileManager</em> class exactly as shown above. If the file doesn&#8217;t exists and the condition returns false, nothing will happen at all. On the other hand, if the file exists, we initialise the <em>shoppingList</em> array with the contents of the file, and then we reload the tableview so it displays the loaded data.</p>
+<p>As a last step, we must call this function. As we want the data to be loaded right after the app has been launched, we&#8217;ll do that in the <em>viewDidLoad</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; loadShoppingList<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The two functionalities we added to the application in this part, will become really helpful later, when we&#8217;ll handle the notification actions without running the app on the foreground.</p>
+<h2>Picking a Reminding Date</h2>
+<p>The textfield and the tableview are working perfectly, especially after our last additions, and the management of a shopping list can be now flawlessly done. That means that we can move forward and focus on the date picker. In this part what we&#8217;ll do is simple but interesting. We&#8217;ll show the date picker in an animated fashion, so we can pick a date and time for the notification.</p>
+<p>If you take a look in the <em>viewDidLoad</em> method of the <em>ViewController</em> class, you&#8217;ll find a line which makes the date picker initially hidden:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">datePicker.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span></div></td></tr></tbody></table></div>
+<p>Through the steps we&#8217;ll follow here, we&#8217;ll make the <em>Schedule Reminder</em> button work like a switch: When it&#8217;s tapped once, the date picker will become visible and the tableview hidden, and when it&#8217;s tapped again it will be performed the exact opposing action.</p>
+<p>As I said, the transition from the tableview to date picker and back will be animated, and we&#8217;ll do that by implementing a new function dedicated to that. In it, we&#8217;ll use the <em>animateWithDuration(duration:animations:completionHandler:)</em> method of the <em>UIView</em> class. This method allows to create animations fast and easily, and if you&#8217;ve ever worked with it (in Swift or in Objective-C) then you definitely know that.</p>
+<p>We&#8217;ll define a new function named <em>animateMyViews(viewToHide:viewToShow:)</em>. From this signature it&#8217;s clear that it accepts two parameters, the view we want to hide animated, and the view we want to show animated. Remember that with this function we need to show and hide both the tableview and the date picker, therefore we&#8217;ll set the proper views as arguments to that function each time upon calling.</p>
+<p>Going to code now, for starters let&#8217;s see this method implemented, and then we&#8217;ll discuss about it more:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func animateMyViews<span style="color: #002200;">&#40;</span>viewToHide<span style="color: #002200;">:</span> UIView, viewToShow<span style="color: #002200;">:</span> UIView<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let animationDuration <span style="color: #002200;">=</span> <span style="color: #2400d9;">0.35</span><br />
+<br />
+&nbsp; &nbsp; UIView.animateWithDuration<span style="color: #002200;">&#40;</span>animationDuration, animations<span style="color: #002200;">:</span> <span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; viewToHide.transform <span style="color: #002200;">=</span> CGAffineTransformScale<span style="color: #002200;">&#40;</span>viewToHide.transform, <span style="color: #2400d9;">0.001</span>, <span style="color: #2400d9;">0.001</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span>completion<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; viewToHide.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; viewToShow.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; viewToShow.transform <span style="color: #002200;">=</span> CGAffineTransformScale<span style="color: #002200;">&#40;</span>viewToShow.transform, <span style="color: #2400d9;">0.001</span>, <span style="color: #2400d9;">0.001</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIView.animateWithDuration<span style="color: #002200;">&#40;</span>animationDuration, animations<span style="color: #002200;">:</span> <span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; viewToShow.transform <span style="color: #002200;">=</span> CGAffineTransformIdentity<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s see what this function does: Initially, we specify the duration of each animation in seconds. Note that two subsequent animations are going to take place here. At first there&#8217;s the animation of the view that&#8217;s about to hide, and then follows the animation of the view that&#8217;s about to show.</p>
+<p>Anyway, we begin the first animation, and we change the <em>transform</em> property of the <em>viewToHide</em> view by scaling down both its width and height. The actual frame of the view won&#8217;t be changed, but the result will be a nice zoom out effect. Once this animation is over, in the completion handler&#8217;s closure we first modify the visibility state of the two views. The first view gets hidden, the second view becomes visible. Then, we scale down the view that&#8217;s about to appear by using again the <em>transform</em> property, but we do that instantly. Lastly, we initiate the second animation where we bring the <em>transform</em> value of the appearing view back to normal. This will result to a beautiful zoom in effect.</p>
+<p>Notice that if you want to change the duration of each animation, simply change the value of the <em>animationDuration</em> variable. In the current implementation, the whole transition lasts 0.7 seconds (0.35 + 0.35).</p>
+<p>You now may be curious about this animation and how it works. You&#8217;ll be able to see it in a while, because we&#8217;re not finished yet. We must also implement the one and only IBAction method and initiate it.</p>
+<p>What we&#8217;re going to do in this method is simple: We&#8217;ll check the current state of the date picker, and if it&#8217;s hidden then we&#8217;ll call the above function setting the tableview as the first argument (the view to hide), and the date picker as the second argument (the view to show). If it&#8217;s not hidden, we&#8217;ll call the function again but we&#8217;ll put the arguments in the reverse order. Let&#8217;s see it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func scheduleReminder<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> datePicker.hidden <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; animateMyViews<span style="color: #002200;">&#40;</span>tblShoppingList, viewToShow<span style="color: #002200;">:</span> datePicker<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; animateMyViews<span style="color: #002200;">&#40;</span>datePicker, viewToShow<span style="color: #002200;">:</span> tblShoppingList<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; txtAddItem.enabled <span style="color: #002200;">=</span> <span style="color: #002200;">!</span>txtAddItem.enabled<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>if-else</em> statement is pretty clear I believe. At the end of the function, we enable or disable the textfield based on its current state, so it&#8217;s editable when the tableview is shown, and not-editable when the date picker is on.</p>
+<p>Now, the <em>Schedule Reminder</em> button can be used to transit from the tableview to the date picker, and back. Note that in the IBAction method above, we&#8217;ll add a couple of more lines later, so we schedule the local notification that will be shown.</p>
+<p>For the time being, you can play a bit with the app if you want. So, go ahead and run it either in the Simulator, on in a real device. Further than playing around with the shopping list by adding and removing items, use the button to see how the animation works. If you don&#8217;t want to run the application at this point though, the following graphic will give you an idea of the app up to now:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/animation.gif" alt="animation" class="aligncenter size-full wp-image-4449" /></div>
+<h2>Specifying Notification Types</h2>
+<p>So far we have seen some interesting and cool things, and we made our application to work as expected. Starting from this part, we will focus on the local notification that we&#8217;ll display to the user, and we&#8217;ll examine in detail all the new stuff regarding it.</p>
+<p>Before we begin, it&#8217;s necessary to say that what we&#8217;ll do in this one and the next few parts, it will take place in a new function that we&#8217;ll create. However, we&#8217;ll add its contents step by step, so we can discuss each important new feature properly.</p>
+<p>In the beginning of the tutorial I said a few words about local notifications. Among them, I mentioned the types that a notification can have: A message appearing in an alert or banner (I&#8217;ll tell you later how to switch between them), a sound, and a badge. In this part, we will specify the types for the notification that we&#8217;ll schedule. In fact, from all the supported types, we&#8217;ll allow it to support only the text message in an alert or banner, and the sound playback. We won&#8217;t care about adding a badge number, but feel free to do it by yourself if you want so at the end of the tutorial.</p>
+<p>What it&#8217;s also important to mention before we write the next part of code, is that all the configuration made regarding the notifications of an application is added as part of the settings in the Settings app. This is useful, as the first time that an application that supports notifications is run, a message asking for permissions to show notifications is shown to the user. No matter whether the user decides to allow or not the appearance of local notifications for the specific app, he might change his mind later, and eventually change the app&#8217;s notification settings through the Settings app. So, be prepared to see a confirmation alert the first time we&#8217;ll run the app next. Of course, accept notifications, otherwise you&#8217;ll see nothing at all.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_5_permissions_alert.png" alt="t25_5_permissions_alert" class="aligncenter size-full wp-image-4454" /></div>
+<p>The new function that we are about to create is called <em>setupNotificationSettings()</em>. Apart from defining it here, we&#8217;ll add just a single line of code there. You might think it&#8217;s so little work, but on the other hand a very important one. With this line, we&#8217;ll tell the app the types for the notification we want to support. This configuration will be stored to a variable, which will be written to the settings a bit later.</p>
+<p>So, having said all the above, let&#8217;s see the method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Specify the notification types.</span><br />
+&nbsp; &nbsp; var notificationTypes<span style="color: #002200;">:</span> UIUserNotificationType <span style="color: #002200;">=</span> UIUserNotificationType.Alert | UIUserNotificationType.Sound<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>UIUserNotificationType</em> is actually an <em>enum</em> structure, and it contains all the possible type values. As you can see, the bitwise OR operator (the &#8220;|&#8221; symbol) is used to logically include both types in the final result. You can find all the available values for the notification types in <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIUserNotificationSettings_class/index.html#//apple_ref/c/tdef/UIUserNotificationType">this</a> link. Also, if you feel that you need to refresh your memory about bitwise operators, take a look at the Swift manual <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AdvancedOperators.html">here</a>.</p>
+<p>Anyway, as I said before we will write the value of the <em>notificationTypes</em> variable to the settings later. Before doing so though, we have still more to see.</p>
+<h2>Creating Notification Actions</h2>
+<p>Several times up to this point I talked about notification actions, but always generally speaking. Now, it&#8217;s time to see what they really are.</p>
+<p>An action is an object of the <em>UIMutableUserNotificationAction</em> class. This class is new in iOS 8, and provides various useful properties so an action can be properly configured. These are:</p>
+<ul>
+<li><em>identifier</em>: This is a string value, that uniquely identifies an action among all in an application. Obviously, you should never define two or more actions with the same identifier. Also, using this property we&#8217;ll be able to determine the chosen action by the user upon the notification appearance. We&#8217;ll see that later.</li>
+<li><em>title</em>: The title is the text that is shown on the action button to the user. This can be either a simple, or a localized string. Be cautious and always set proper titles to your actions, so the user can instantly understand by reading the 1-2 title words what is going to happen by selecting it.</li>
+<li><em>destructive</em>: This is a bool value. When it is set to <em>true</em> the respective button in the notification has red background colour. Note that this happens in the banner mode only. Usually, actions regarding deletion, removal and anything else critical are marked as destructive, so they increase the user&#8217;s attention.</li>
+<li><em>authenticationRequired</em>: This property is a bool value also. When it becomes <em>true</em>, the user must necessarily authenticate himself to the device before the action is performed. It&#8217;s extremely useful in cases where the action is critical enough, and any unauthorised access can damage the application&#8217;s data.</li>
+<li><em>activationMode</em>: This is an <em>enum</em> property, and defines whether the app should run in the foreground or in the background when the action is performed. The possible values specifying each mode are two: (a) <em>UIUserNotificationActivationModeForeground</em>, and (b) <em>UIUserNotificationActivationModeBackground</em>. In background, the app is given just a few seconds to perform the action.</li>
+</ul>
+<p>While I was describing this demo application, I said that we&#8217;re going to create three distinct actions:</p>
+<ol>
+<li>An action to just make the notification go away, without anything else to be performed.</li>
+<li>An action to edit the list (actually to add a new item).</li>
+<li>An action to delete the entire list.</li>
+</ol>
+<p>Let&#8217;s see how each one is written in code. For every action, we will set the values to all the aforementioned properties. The first one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var justInformAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+justInformAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;justInform&quot;</span><br />
+justInformAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;OK, got it&quot;</span><br />
+justInformAction.activationMode <span style="color: #002200;">=</span> UIUserNotificationActivationMode.Background<br />
+justInformAction.destructive <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+justInformAction.authenticationRequired <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span></div></td></tr></tbody></table></div>
+<p>The identifier of this action is &#8220;justInform&#8221;. As you see, this action will be performed in the background, and as there&#8217;s nothing dangerous with it we set to <em>false</em> the <em>destructive</em> and the <em>authenticationRequired</em> properties.</p>
+<p>The next one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var modifyListAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+modifyListAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;editList&quot;</span><br />
+modifyListAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Edit list&quot;</span><br />
+modifyListAction.activationMode <span style="color: #002200;">=</span> UIUserNotificationActivationMode.Foreground<br />
+modifyListAction.destructive <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+modifyListAction.authenticationRequired <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span></div></td></tr></tbody></table></div>
+<p>Apparently, this action requires the app to run in the foreground so we can edit the shopping list. Also, we don&#8217;t want nobody else to mess with our list, so we set the <em>authenticationRequired</em> to <em>true</em>.</p>
+<p>And the third and last one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var trashAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+trashAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;trashAction&quot;</span><br />
+trashAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Delete list&quot;</span><br />
+trashAction.activationMode <span style="color: #002200;">=</span> UIUserNotificationActivationMode.Background<br />
+trashAction.destructive <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+trashAction.authenticationRequired <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span></div></td></tr></tbody></table></div>
+<p>With this action we&#8217;ll allow the user to delete the entire shopping list without launching the application in the foreground. However, this is a dangerous action for the data, therefore we tell the app that it&#8217;s destructive and that authentication is required to proceed.</p>
+<p>By looking at the above actions setup, you understand that configuring them is an easy task.</p>
+<p>Now that we have done all the above, let&#8217;s add them to the <em>setupNotificationSettings</em> function we started to implement in the previous part:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Specify the notification actions.</span><br />
+&nbsp; &nbsp; var justInformAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; justInformAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;justInform&quot;</span><br />
+&nbsp; &nbsp; justInformAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;OK, got it&quot;</span><br />
+&nbsp; &nbsp; justInformAction.activationMode <span style="color: #002200;">=</span> UIUserNotificationActivationMode.Background<br />
+&nbsp; &nbsp; justInformAction.destructive <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; justInformAction.authenticationRequired <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+<br />
+&nbsp; &nbsp; var modifyListAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; modifyListAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;editList&quot;</span><br />
+&nbsp; &nbsp; modifyListAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Edit list&quot;</span><br />
+&nbsp; &nbsp; modifyListAction.activationMode <span style="color: #002200;">=</span> UIUserNotificationActivationMode.Foreground<br />
+&nbsp; &nbsp; modifyListAction.destructive <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; modifyListAction.authenticationRequired <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<br />
+&nbsp; &nbsp; var trashAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; trashAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;trashAction&quot;</span><br />
+&nbsp; &nbsp; trashAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Delete list&quot;</span><br />
+&nbsp; &nbsp; trashAction.activationMode <span style="color: #002200;">=</span> UIUserNotificationActivationMode.Background<br />
+&nbsp; &nbsp; trashAction.destructive <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; trashAction.authenticationRequired <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Action Categories</h2>
+<p>When the actions of a notification have been defined, they can then be grouped together in <em>categories</em>. Actually, categories are what is written in the settings, and not the actions themselves, so you should always create them, unless of course you present a notification without actions. Usually, a category matches to a notification, so supposing that all notifications in an application support actions, there should be as many categories as the notifications.</p>
+<p>In this demo application, we are going to create just one notification, so we are going to have one category only. Programmatically speaking now, a category is an object of the <em>UIMutableUserNotificationCategory</em> class, which is also new in iOS 8. This class has just one property and one method. The property is a string identifier that uniquely identifies a category (similarly to actions), and the method is used to group the actions together.</p>
+<p>Let&#8217;s see a few more things about that method, and let&#8217;s start by its signature (taken by the Apple documentation directly):</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setActions<span style="color: #002200;">&#40;</span>_ actions<span style="color: #002200;">:</span> <span style="color: #002200;">&#91;</span>AnyObject<span style="color: #002200;">&#93;</span><span style="color: #002200;">!</span>, forContext context<span style="color: #002200;">:</span> UIUserNotificationActionContext<span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>The first parameter regards the actions that should be grouped for the category. It&#8217;s an array containing all the actions, and the order of the of the action objects in the array specifies the order they will appear in the notification.</p>
+<p>The second parameter is quite important. The context is an <em>enum</em> type, and describes the <em>context of the alert that the notification will appear into</em>. There are two possible values:</p>
+<ol>
+<li><em>UIUserNotificationActionContextDefault</em>: It matches to a full alert that is appeared to the centre of the screen (when the device is unlocked).</li>
+<li><em>UIUserNotificationActionContextMinimal</em>: It matches to a banner alert.</li>
+</ol>
+<p>In the <em>default</em> context, the category can accept up to <strong>four</strong> actions, which will be displayed in the predefined order in the notification alert (at the screen centre). In the <em>minimal</em> context, up to <strong>two</strong> actions can be set to appear in the banner alert. Notice that in the second case, you must choose what the most important actions are among all so they appear in the banner notification. In our implementation we&#8217;ll specify the actions for both contexts.</p>
+<p>As I said, the first parameter in the above method must be an array. For this reason, our initial step is to create two arrays with the actions for each context. Let&#8217;s go back to our function:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; let actionsArray <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a><span style="color: #002200;">&#40;</span>objects<span style="color: #002200;">:</span> justInformAction, modifyListAction, trashAction<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; let actionsArrayMinimal <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a><span style="color: #002200;">&#40;</span>objects<span style="color: #002200;">:</span> trashAction, modifyListAction<span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Next, let&#8217;s create a new category for which we will set an identifier, and then we will provide the above arrays for the two contexts:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Specify the category related to the above actions.</span><br />
+&nbsp; &nbsp; var shoppingListReminderCategory <span style="color: #002200;">=</span> UIMutableUserNotificationCategory<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; shoppingListReminderCategory.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;shoppingListReminderCategory&quot;</span><br />
+&nbsp; &nbsp; shoppingListReminderCategory.setActions<span style="color: #002200;">&#40;</span>actionsArray, forContext<span style="color: #002200;">:</span> UIUserNotificationActionContext.Default<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; shoppingListReminderCategory.setActions<span style="color: #002200;">&#40;</span>actionsArrayMinimal, forContext<span style="color: #002200;">:</span> UIUserNotificationActionContext.Minimal<span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>And&#8230; that&#8217;s all it takes to create a category regarding the actions of a notification.</p>
+<h2>Registering Notification Settings</h2>
+<p>In the last three parts we configured all the new features of the local notification, and now we have only left to write everything to settings. For this purpose, we will use the <em>UIUserNotificationSettings</em> class (new in iOS 8), and through the following <em>init</em> method we&#8217;ll provide the types and the category of the notification:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">convenience init<span style="color: #002200;">&#40;</span>forTypes allowedUserNotificationTypes<span style="color: #002200;">:</span> UIUserNotificationType, categories actionSettings<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSSet_Class/"><span style="color: #400080;">NSSet</span></a>?<span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>The first parameter is the types we defined for the notification. The second parameter is a <em>NSSet</em> object, in which all the categories for all the existing notifications in an application must be set. In this example, we have just one category, however we&#8217;ll create a <em>NSSet</em> object no matter what.</p>
+<p>Let&#8217;s continue the function implementation with that:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; let categoriesForSettings <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSSet_Class/"><span style="color: #400080;">NSSet</span></a><span style="color: #002200;">&#40;</span>objects<span style="color: #002200;">:</span> shoppingListReminderCategory<span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, we can create a new object of the <em>UIUserNotificationSettings</em> class and pass the required arguments:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; let newNotificationSettings <span style="color: #002200;">=</span> UIUserNotificationSettings<span style="color: #002200;">&#40;</span>forTypes<span style="color: #002200;">:</span> notificationTypes, categories<span style="color: #002200;">:</span> categoriesForSettings<span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Lastly, let&#8217;s write (register) the settings in the Settings app using the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+UIApplication.sharedApplication<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.registerUserNotificationSettings<span style="color: #002200;">&#40;</span>newNotificationSettings<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The first time the above code will work, it will create a new record for our application in the Settings app.</p>
+<p>Now, before I present you the whole <em>setupNotificationSettings()</em> after all the previous additions, let me say something more. This function will be called in the <em>viewDidLoad</em> method, and that means that its content will be executed every time the app runs. However, as the notification settings are not going to change and therefore it&#8217;s pointless to set them again and again, it would be wise to contain all the above code in an <em>if</em> statement. In the condition of this statement, we will check if the notification types have been specified or not, where in the second case the <em>if</em> body will be executed. This is translated to code as shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let notificationSettings<span style="color: #002200;">:</span> UIUserNotificationSettings<span style="color: #002200;">!</span> <span style="color: #002200;">=</span> UIApplication.sharedApplication<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.currentUserNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>notificationSettings.types <span style="color: #002200;">==</span> UIUserNotificationType.None<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At first, we get the existing notification settings using the <em>currentUserNotificationSettings()</em> method of the <em>UIApplication</em> class. This method returns a settings object, through which we can check the current value of the <em>types</em> property. Remember that this property is an <em>enum</em> type. If its value equals to <em>None</em>, meaning that no notification types have been set, then we&#8217;ll allow it to register the notification settings by doing all the above in the previous parts, otherwise will do nothing.</p>
+<p>With the above condition we avoid unneeded settings registration. Note though that if you want to modify any settings or add more actions, categories, etc for new notifications, you should comment out the <em>if</em> opening and closing lines and run the app once, so the new additions to be applied and so you can test it with the new settings. Then, remove the comments to revert your code to its previous state.</p>
+<p>With that, all the work in the notification details is over. Right next you can see the <em>setupNotificationSettings()</em> function fully implemented and in one part:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br />43<br />44<br />45<br />46<br />47<br />48<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let notificationSettings<span style="color: #002200;">:</span> UIUserNotificationSettings<span style="color: #002200;">!</span> <span style="color: #002200;">=</span> UIApplication.sharedApplication<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.currentUserNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>notificationSettings.types <span style="color: #002200;">==</span> UIUserNotificationType.None<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Specify the notification types.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; var notificationTypes<span style="color: #002200;">:</span> UIUserNotificationType <span style="color: #002200;">=</span> UIUserNotificationType.Alert | UIUserNotificationType.Sound<br />
+<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Specify the notification actions.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; var justInformAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; justInformAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;justInform&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; justInformAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;OK, got it&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; justInformAction.activationMode <span style="color: #002200;">=</span> UIUserNotificationActivationMode.Background<br />
+&nbsp; &nbsp; &nbsp; &nbsp; justInformAction.destructive <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; justInformAction.authenticationRequired <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; var modifyListAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; modifyListAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;editList&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; modifyListAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Edit list&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; modifyListAction.activationMode <span style="color: #002200;">=</span> UIUserNotificationActivationMode.Foreground<br />
+&nbsp; &nbsp; &nbsp; &nbsp; modifyListAction.destructive <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; modifyListAction.authenticationRequired <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; var trashAction <span style="color: #002200;">=</span> UIMutableUserNotificationAction<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; trashAction.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;trashAction&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; trashAction.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Delete list&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; trashAction.activationMode <span style="color: #002200;">=</span> UIUserNotificationActivationMode.Background<br />
+&nbsp; &nbsp; &nbsp; &nbsp; trashAction.destructive <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; trashAction.authenticationRequired <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let actionsArray <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a><span style="color: #002200;">&#40;</span>objects<span style="color: #002200;">:</span> justInformAction, modifyListAction, trashAction<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let actionsArrayMinimal <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a><span style="color: #002200;">&#40;</span>objects<span style="color: #002200;">:</span> trashAction, modifyListAction<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Specify the category related to the above actions.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; var shoppingListReminderCategory <span style="color: #002200;">=</span> UIMutableUserNotificationCategory<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; shoppingListReminderCategory.identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;shoppingListReminderCategory&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; shoppingListReminderCategory.setActions<span style="color: #002200;">&#40;</span>actionsArray, forContext<span style="color: #002200;">:</span> UIUserNotificationActionContext.Default<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; shoppingListReminderCategory.setActions<span style="color: #002200;">&#40;</span>actionsArrayMinimal, forContext<span style="color: #002200;">:</span> UIUserNotificationActionContext.Minimal<span style="color: #002200;">&#41;</span><br />
+<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let categoriesForSettings <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSSet_Class/"><span style="color: #400080;">NSSet</span></a><span style="color: #002200;">&#40;</span>objects<span style="color: #002200;">:</span> shoppingListReminderCategory<span style="color: #002200;">&#41;</span><br />
+<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Register the notification settings.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let newNotificationSettings <span style="color: #002200;">=</span> UIUserNotificationSettings<span style="color: #002200;">&#40;</span>forTypes<span style="color: #002200;">:</span> notificationTypes, categories<span style="color: #002200;">:</span> categoriesForSettings<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; UIApplication.sharedApplication<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.registerUserNotificationSettings<span style="color: #002200;">&#40;</span>newNotificationSettings<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Don&#8217;t forget to call this function in the <em>viewDidLoad</em> body:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; setupNotificationSettings<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Scheduling a Local Notification</h2>
+<p>If you ever worked with local notifications in previous versions of iOS, then you are definitely aware of how simple it is to schedule one. In iOS 8, scheduling notifications doesn&#8217;t differ from previous versions; in truth, all the basic setup it&#8217;s exactly the same. The only new here is that a category must be set to the notification, so it knows the correct actions that should be provided to user when it will be displayed.</p>
+<p>As you may suspect, we are going to create a new function for configuring and scheduling the local notification. Before we move to the implementation, let me remind you shortly what the most important properties of a local notification are:</p>
+<ul>
+<li><em>fireDate</em>: The fire date is the exact date and time that a local notification should appear. It is a <em>NSDate</em> object.</li>
+<li><em>alertBody</em>: The message of the notification is set to this property. When specifying it, be sure to be comprehensive and clear as much as possible, so the user be able to understand the message right away.<br />
+<em><em>alertAction</em>: By default, tapping on the notification when it&#8217;s displayed as a banner leads to the application running. If it&#8217;s displayed in an alert view, then a button matching to that action is automatically created. In this property, you must specify the text of that action button. For example, in this demo application we are going to set the </em>View List* as the title or the alert&#8217;s action.</li>
+</ul>
+<p>With all that in mind, let&#8217;s create a new function and let&#8217;s do the basic setup of the notification. Needless to say that first we must create an object of the <em>UILocalNotification</em> class:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func scheduleLocalNotification<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var localNotification <span style="color: #002200;">=</span> UILocalNotification<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; localNotification.fireDate <span style="color: #002200;">=</span> datePicker.date<br />
+&nbsp; &nbsp; localNotification.alertBody <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Hey, you must go shopping, remember?&quot;</span><br />
+&nbsp; &nbsp; localNotification.alertAction <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;View List&quot;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The addition to the above is that we must specify the category of actions that should be available to the user when the notification will be fired. If you recall, we specified an identifier value for the category previously, and that value exactly we are going to use here for specifying the category:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func scheduleLocalNotification<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; localNotification.category <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;shoppingListReminderCategory&quot;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That simple. Lastly, the notification will never appear unless we perform the actual scheduling using the <em>scheduleLocalNotification(_:)</em> method of the <em>UIApplication</em> class:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func scheduleLocalNotification<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; UIApplication.sharedApplication<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.scheduleLocalNotification<span style="color: #002200;">&#40;</span>localNotification<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s call the above method. To do that, we&#8217;ll update the <em>scheduleReminder(sender:)</em> IBAction method, and when the tableview is about to be shown again, we&#8217;ll make the call. However, there&#8217;s a big catch here that we must avoid: When scheduling a new local notification right after we&#8217;ve scheduled already one, the previous notification still remains active. If we overlook that, we can schedule many unneeded notifications without even to understand it. So, to prevent this from happening, we will simply remove all scheduled notifications when the date picker is appeared, and we&#8217;ll be just fine. Here&#8217;s the IBAction method once again, containing what I just said:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func scheduleReminder<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> datePicker.hidden <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; animateMyViews<span style="color: #002200;">&#40;</span>tblShoppingList, viewToShow<span style="color: #002200;">:</span> datePicker<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; UIApplication.sharedApplication<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.cancelAllLocalNotifications<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; animateMyViews<span style="color: #002200;">&#40;</span>datePicker, viewToShow<span style="color: #002200;">:</span> tblShoppingList<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; scheduleLocalNotification<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; txtAddItem.enabled <span style="color: #002200;">=</span> <span style="color: #002200;">!</span>txtAddItem.enabled<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That&#8217;s all. After having configured all the type, action and rest details of the local notification, scheduling it consists of a really fast process. Furthermore, with the above additions everything is expected to work with no problems.</p>
+<h2>Fixing the Scheduled Notification Time</h2>
+<p>Our implementation so far is great, and everything is going to perfectly work. However, when you run the app you&#8217;ll notice a behaviour regarding the firing notification time which even might be normal, I find it to be problematic. So, here I come to talk about it in advance, before we even test the notification for first time. Let me say that what I&#8217;ll describe next maybe it&#8217;s not perceived at once when you run the app, however in a real application where the exact time of the notification is crucial this would possibly cause troubles.</p>
+<p>What&#8217;s the problem? Well, I&#8217;ll make it clear with this simple example: If you schedule a notification to fire at 14:00 (never mind about the date, suppose it&#8217;s the same day) and now it&#8217;s 10:23:14, the notification won&#8217;t be fired at 14:00:00 as you might suppose. Instead, it will be fired at 14:00:14, and in my opinion, this is a problem in cases that a notification is a critical one. Why does this happen? Because in the date picker we can set the time, but without specifying the seconds value. So, the system supposes that should use the seconds value of the current time to set the firing timestamp, instead of using the 0 value.</p>
+<p>So, what can we do? Simply, we&#8217;ll fix the time manually. It&#8217;s an easy and interesting task, and no need to worry if you&#8217;ve never worked with date and time parts in the past.</p>
+<p>A date object (<em>NSDate</em> object) can be broken in parts, named <em>date components</em>. These components, which are properties of a class named <em>NSDateComponents</em> have both read and write access, therefore once we get them from the date picker&#8217;s selected date we can modify the seconds property. Obviously, from the components we can form again a <em>NSDate</em> object, and that&#8217;s so convenient for us because the date that we&#8217;ll compose will be set as the firing date for the notification.</p>
+<p>As you will see in the implementation that follows, the conversion between date and date components is based on the use of the <em>NSCalendar</em> class. This is the one that provides the desired methods to do our job. Here&#8217;s the fix wrapped in a new function:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func fixNotificationDate<span style="color: #002200;">&#40;</span>dateToFix<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var dateComponets<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDateComponents_Class/"><span style="color: #400080;">NSDateComponents</span></a> <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSCalendar_Class/"><span style="color: #400080;">NSCalendar</span></a>.currentCalendar<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.components<span style="color: #002200;">&#40;</span>NSCalendarUnit.DayCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.HourCalendarUnit | NSCalendarUnit.MinuteCalendarUnit, fromDate<span style="color: #002200;">:</span> dateToFix<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; dateComponets.second <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span><br />
+<br />
+&nbsp; &nbsp; var fixedDate<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a><span style="color: #002200;">!</span> <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSCalendar_Class/"><span style="color: #400080;">NSCalendar</span></a>.currentCalendar<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.dateFromComponents<span style="color: #002200;">&#40;</span>dateComponets<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> fixedDate<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Talking extensively about the <em>NSCalendar</em> class is out of my goals. However, it&#8217;s a quite interesting topic, so I give you <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSCalendar_Class/index.html">this</a> link to read more about it if you want.</p>
+<p>This function now must be called to the proper place, and that is when setting the notification&#8217;s firing date. So, go back to the <em>scheduleLocalNotification()</em> function, and instead of accessing the date picker&#8217;s date, make a call to this function, providing the date picker&#8217;s date as an argument. Right next you&#8217;re given the <em>scheduleLocalNotification()</em> function once again with the replacement in it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func scheduleLocalNotification<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var localNotification <span style="color: #002200;">=</span> UILocalNotification<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; localNotification.fireDate <span style="color: #002200;">=</span> fixNotificationDate<span style="color: #002200;">&#40;</span>datePicker.date<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; localNotification.alertBody <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Hey, you must go shopping, remember?&quot;</span><br />
+&nbsp; &nbsp; localNotification.alertAction <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;View List&quot;</span><br />
+&nbsp; &nbsp; localNotification.category <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;shoppingListReminderCategory&quot;</span><br />
+<br />
+&nbsp; &nbsp; UIApplication.sharedApplication<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.scheduleLocalNotification<span style="color: #002200;">&#40;</span>localNotification<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now the notification will be fired as expected.</p>
+<h2>Handling Notification Actions</h2>
+<p>There is one last aspect of the local notification that we haven&#8217;t worked with yet, and that is to handle the actions that get received by the application when the user taps on the respective buttons. As usual, there are certain delegate methods that should be implemented.</p>
+<p>Before we see what actions we&#8217;ll handle and how, let me introduce you a couple of other delegate methods that can become handy when developing your own applications. Note that in this demo we won&#8217;t really use them; we&#8217;ll just print a message to the console. Also, make sure to open the <em>AppDelegate.swift</em> file now.</p>
+<p>So, the first one regards the notification settings. This delegate method is called when the app is launched (either normally or due to a local notification&#8217;s action) and contains all the settings configured for the notifications of your app. Right next you can see its definition. What we only do, is to print the current notification types:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, didRegisterUserNotificationSettings notificationSettings<span style="color: #002200;">:</span> UIUserNotificationSettings<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>notificationSettings.types.rawValue<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Regardless of the above simple implementation, you can use it to access all kind of settings supported by the <em>UIUserNotificationSettings</em> class. This method can become useful in cases you need to check the existing settings and act depending on the values that will come up. Don&#8217;t forget that users can change these settings through the Settings app, so do never be confident that the initial configuration made in code is always valid.</p>
+<p>When scheduling a local notification, this will be fired no matter whether your application is currently running or not. Usually, developers imagine how the notifications are going to appear when the app is in the background or suspended, and all the implementation is focused on that. However, it&#8217;s your duty to handle a notification in case it will be fired when the app is running. Thankfully, iOS SKD makes things pretty straightforward, as there&#8217;s another delegate method that is called when the app is in the foreground:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, didReceiveLocalNotification notification<span style="color: #002200;">:</span> UILocalNotification<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Do something serious in a real app.</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Received Local Notification:&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>notification.alertBody<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>There will be cases where you won&#8217;t need to handle the notification if your app is running. However, in the opposite scenario, the above method is the place to deal with it and perform the proper actions.</p>
+<p>Now let&#8217;s focus on the delegate method that is called when an action button is tapped by the user. Based on the identifier values we set to the actions, we&#8217;ll determine which one has been performed, and then we will make the app execute the proper part of code. We configured three actions in total:</p>
+<ol>
+<li>One to make the notification simply go away (identifier: <em>justInform</em>).</li>
+<li>One to add a new item to the list (identifier: <em>editList</em>).</li>
+<li>One to delete entire the list (identifier: <em>trashAction</em>).</li>
+</ol>
+<p>From all the above, we don&#8217;t need to do anything when the first action is performed. However, we&#8217;ll handle the other two. Depending on the identifier value, we will post a notification (<em>NSNotification</em>) for each one, and then in the <em>ViewController</em> class we&#8217;ll observe for those notifications, and of course, we&#8217;ll handle them.</p>
+<p>Let&#8217;s get started with the new delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, handleActionWithIdentifier identifier<span style="color: #002200;">:</span> String?, forLocalNotification notification<span style="color: #002200;">:</span> UILocalNotification, completionHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;editList&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a>.defaultCenter<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.postNotificationName<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;modifyListNotification&quot;</span>, object<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;trashAction&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a>.defaultCenter<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.postNotificationName<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;deleteListNotification&quot;</span>, object<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; completionHandler<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In both cases we post a notification (a <em>NSNotification</em>), specifying a different name each time. Notice that at the end we call the completion handler, and that&#8217;s mandatory to do, so the system knows we handled the received action. This is the most important delegate method when working with local notifications, as this is the place where you&#8217;ll route your code depending on the action the user performed.</p>
+<p>Now, let&#8217;s go back to the <em>ViewController.swift</em> file. There, let&#8217;s make that class observe for the notifications we set before. In the <em>viewDidLoad</em> method add the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a>.defaultCenter<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.addObserver<span style="color: #002200;">&#40;</span>self, selector<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;handleModifyListNotification&quot;</span>, name<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;modifyListNotification&quot;</span>, object<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a>.defaultCenter<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.addObserver<span style="color: #002200;">&#40;</span>self, selector<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;handleDeleteListNotification&quot;</span>, name<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;deleteListNotification&quot;</span>, object<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>modifyListNotification()</em> and <em>deleteListNotification()</em> are both custom functions that we&#8217;ll implement right next.</p>
+<p>Let&#8217;s begin with the first one. What we want is to make the textfield the first responder when the app is launched due to the edit list action, so we&#8217;re just talking about one line of code only:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func handleModifyListNotification<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; txtAddItem.becomeFirstResponder<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With this, the keyboard will automatically be shown and the user will be able to type a new item immediately.</p>
+<p>For the delete list action, we want to remove all existing objects from the array that contains them. So, we&#8217;ll do exactly that, and then we&#8217;ll save the (empty) array back to file. Lastly, we&#8217;ll reload the tableview data, so when the user launches the app will find no items at all:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func handleDeleteListNotification<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; shoppingList.removeAllObjects<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; saveShoppingList<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; tblShoppingList.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With the above implemented, our demo application is finally ready!</p>
+<h2>Running the Demo App</h2>
+<p>Time to test our work. Go and run the application either in Simulator or in a real device. Add a few items, and then schedule the local notification. To avoid waiting for it, schedule it 1-2 minutes later after the current time and then quit the app. The following images illustrate both the use of app, and the notification appearing in various contexts:</p>
+<p><em>Adding a new item in the list:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_6_adding_listing_items.png" alt="t25_6_adding_listing_items" class="aligncenter size-full wp-image-4455" /></div>
+<p><em>Scheduling the notification:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_2_pick_date.png" alt="t25_2_pick_date" class="aligncenter size-full wp-image-4451" /></div>
+<p><em>Notification as banner, viewing the actions (minimal context):</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_4_notification_banner.png" alt="t25_4_notification_banner" class="aligncenter size-full wp-image-4453" /></div>
+<p><em>Notification as alert, all actions (default context):</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_7_notification_alert_1.png" alt="t25_7_notification_alert_1" class="aligncenter size-full wp-image-4456" /></div>
+<p><em>Notification in the notification center (minimal context):</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_8_notification_center.png" alt="t25_8_notification_center" class="aligncenter size-full wp-image-4457" /></div>
+<p>To switch between the banner and the alert view, open the Settings app of your device. Then, locate the <em>Shopping Alert</em> entry, and tap on it to see its details:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_10_shopping_alert_entry.png" alt="t25_10_shopping_alert_entry" class="aligncenter size-full wp-image-4459" /></div>
+<p>In there, select either the banner or the alert option, depending on how you want the notification to appear:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t25_12_select_banner_alert.png" alt="t25_12_select_banner_alert" class="aligncenter size-full wp-image-4461" /></div>
+<p>Then quit Settings, and schedule a new notification so you see the results of your selection.</p>
+<h2>Summary</h2>
+<p>As it seems, notifications in iOS 8 have become a lot better, as now users can perform actions directly through them and without even launching the app. In this tutorial we met various concepts, both existing and new ones. The bottom line is that setting types, actions and categories for notifications is a quite easy and fast process, and it really worths it to use them in your applications if they are actually needed. As I said in the introduction, there are more kinds of notifications as well, such as remote and location based. Even though we didn&#8217;t work with any of them, knowing how to work with local notifications, you already know the path you should follow for the other kinds too. You only need to search for the details of each one. So, with that I salute you, and waiting as always for your thoughts. Have fun!</p>
+<p>For your reference, you can <a href="https://www.dropbox.com/s/6tvbr9tzv7rdgkv/ShoppingAlertFinal.zip?dl=0">download the complete Xcode project from here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/customize-navigation-status-bar-ios-7/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/10/custom-navigation-bar-iOS-7-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Customizing Navigation Bar and Status Bar in iOS 7</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/background-transfer-service-ios7/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/04/bts-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Background Transfer Service in iOS 7 SDK: How To Download File in Background</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/beginners-guide-optionals-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/06/swift-optionals-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">A Beginner's Guide to Optionals in Swift</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-event-kit-programming-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/07/event-kit-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Access iOS Calendar, Events and Reminders Using Event Kit Framework</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/local-notifications-ios8/"
+    dc:identifier="http://www.appcoda.com/local-notifications-ios8/"
+    dc:title="Creating Interactive Local Notifications in iOS 8"
+    trackback:ping="http://www.appcoda.com/local-notifications-ios8/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-8/" rel="tag">iOS 8</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/local-notification/" rel="tag">local notification</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-92993">
+        <div id="dsq-comment-header-92993" class="dsq-comment-header">
+            <cite id="dsq-cite-92993">
+                <span id="dsq-author-user-92993">blackstar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-92993" class="dsq-comment-body">
+            <div id="dsq-comment-message-92993" class="dsq-comment-message"><p>Hi everybody, very usefull article, what i want to ask you is if there is a method that is called when a remote notification appears in the screen when the app is in background or killed</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://vishaldharmawat.wordpress.com/2014/12/22/creating-interactive-local-notifications-in-ios-8/' rel='external nofollow' class='url'>Creating Interactive Local Notifications in iOS 8 |  VishalDharmawat - iPhone and iPad Development</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-94879">
+        <div id="dsq-comment-header-94879" class="dsq-comment-header">
+            <cite id="dsq-cite-94879">
+                <span id="dsq-author-user-94879">moonlight</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-94879" class="dsq-comment-body">
+            <div id="dsq-comment-message-94879" class="dsq-comment-message"><p>Hi, I have a question about authenticationRequired property. </p>
+<p>My iPhone6 has password, and I have a interactive local notification when screen is locked; two buttons in notification, first. authenticationRequired = Yes, second. authenticationRequired = NO; when I click first button, I need to input password, but I click second button, I also need to input password, is it right? Thx!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-96776">
+        <div id="dsq-comment-header-96776" class="dsq-comment-header">
+            <cite id="dsq-cite-96776">
+                <span id="dsq-author-user-96776">Comment Guy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-96776" class="dsq-comment-body">
+            <div id="dsq-comment-message-96776" class="dsq-comment-message"><p>Another excellent tutorial. Great write up as usual. Is it possible to build this app without using an NSMutableArray for the shoppingList but rather a regular Swift String array?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-97243">
+        <div id="dsq-comment-header-97243" class="dsq-comment-header">
+            <cite id="dsq-cite-97243">
+                <span id="dsq-author-user-97243">fbara</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97243" class="dsq-comment-body">
+            <div id="dsq-comment-message-97243" class="dsq-comment-message"><p>Thanks for the incredibly detailed tutorial, Gabriel.  These are the types of tutorials I really like, detailed and full of useful info.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-97270">
+        <div id="dsq-comment-header-97270" class="dsq-comment-header">
+            <cite id="dsq-cite-97270">
+                <span id="dsq-author-user-97270">LittlePeculiar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97270" class="dsq-comment-body">
+            <div id="dsq-comment-message-97270" class="dsq-comment-message"><p>Excellent as always. Thank you for this detailed and fun tutorial. Always something I need too. <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99811">
+        <div id="dsq-comment-header-99811" class="dsq-comment-header">
+            <cite id="dsq-cite-99811">
+                <span id="dsq-author-user-99811">vanylapep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99811" class="dsq-comment-body">
+            <div id="dsq-comment-message-99811" class="dsq-comment-message"><p>I would suggest you to add handling of &#8220;empty&#8221; typed in text, ie, when I tap the text field but does not enter text and tap enter, there&#8217;s an &#8220;&#8221; entry added to the list.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-99812">
+        <div id="dsq-comment-header-99812" class="dsq-comment-header">
+            <cite id="dsq-cite-99812">
+                <span id="dsq-author-user-99812">vanylapep</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99812" class="dsq-comment-body">
+            <div id="dsq-comment-message-99812" class="dsq-comment-message"><p>I have a question. Suppose the app has more than 1 screen (view controller), in the &#8220;handleActionWithIdentifier method, how do we navigate around the app to bring the user to the correct screen? For example, if the app has a grocery list screen and also a item detail screen (when you tap on an entry on the table), how do you navigate to the item detail screen if needed?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99847">
+        <div id="dsq-comment-header-99847" class="dsq-comment-header">
+            <cite id="dsq-cite-99847">
+                <span id="dsq-author-user-99847">Eugene Martinson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99847" class="dsq-comment-body">
+            <div id="dsq-comment-message-99847" class="dsq-comment-message"><p>What if I want to delete specific item? I assume I should post notification with some object:</p>
+<p>NSNotificationCenter.defaultCenter().postNotificationName(&#8220;modifyListNotification&#8221;, object: BlablaObject)</p>
+<p>But how this object can be retrived from lcoal notification? I can barely retrive it by Date&amp;time, but there may be a lot of items created on this date and time.</p>
+<p>Hence I should scheduleLocalNotification somehow in order to know that object caused this notification?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100285">
+        <div id="dsq-comment-header-100285" class="dsq-comment-header">
+            <cite id="dsq-cite-100285">
+http://www.devsword.com                <span id="dsq-author-user-100285">Ryan Hayward</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100285" class="dsq-comment-body">
+            <div id="dsq-comment-message-100285" class="dsq-comment-message"><p>Awesome article. Thanks so much for writing it up.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-101024">
+        <div id="dsq-comment-header-101024" class="dsq-comment-header">
+            <cite id="dsq-cite-101024">
+                <span id="dsq-author-user-101024">Ravi Navapara</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101024" class="dsq-comment-body">
+            <div id="dsq-comment-message-101024" class="dsq-comment-message"><p>Where should i find this tutorial in Objective-C language..???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/local-notifications-ios8/';
+var disqus_identifier = '4444 http://www.appcoda.com/?p=4444';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Creating Interactive Local Notifications in iOS 8";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=4444';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="4444"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Flocal-notifications-ios8%2F&#038;t=Creating%20Interactive%20Local%20Notifications%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4444" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>67</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Creating%20Interactive%20Local%20Notifications%20in%20iOS%208&#038;url=http%3A%2F%2Fwww.appcoda.com%2Flocal-notifications-ios8%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4444" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>32</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Flocal-notifications-ios8%2F&#038;t=Creating%20Interactive%20Local%20Notifications%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4444" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>13</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Flocal-notifications-ios8%2F&#038;title=Creating%20Interactive%20Local%20Notifications%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4444" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>11</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Flocal-notifications-ios8%2F&#038;t=Creating%20Interactive%20Local%20Notifications%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4444" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Creating%20Interactive%20Local%20Notifications%20in%20iOS%208&#038;url=http%3A%2F%2Fwww.appcoda.com%2Flocal-notifications-ios8%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4444" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Flocal-notifications-ios8%2F&#038;t=Creating%20Interactive%20Local%20Notifications%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4444" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Flocal-notifications-ios8%2F&#038;title=Creating%20Interactive%20Local%20Notifications%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4444" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/local-notifications-ios8\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="4d2e21223e280d7f35633d232a">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":4444,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:21:01 by W3 Total Cache -->

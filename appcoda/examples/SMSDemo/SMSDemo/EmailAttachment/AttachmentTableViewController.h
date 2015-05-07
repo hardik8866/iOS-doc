@@ -1,0 +1,13 @@
+//
+//  AttachmentTableViewController.h
+//  EmailAttachment
+//
+//  Created by Simon on 6/7/13.
+//  Copyright (c) 2013 Appcoda. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface AttachmentTableViewController : UITableViewController
+
+@end

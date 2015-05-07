@@ -1,0 +1,1324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming: Integrate Twitter and Facebook Sharing in iOS 6 App</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This iOS programming tutorial walks you through the integration of Twitter and Facebook in your iPhone app. You&#039;ll learn how to use SLComposeViewController."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This iOS programming tutorial walks you through the integration of Twitter and Facebook in your iPhone app. You&#039;ll learn how to use SLComposeViewController."/>
+<meta name="twitter:title" content="iOS Programming: Integrate Twitter and Facebook Sharing in iOS 6 App"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2012/11/ios-social-framework-facebook-twitter.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; iOS Programming 101: Integrate Twitter and Facebook Sharing in Your App Comments Feed" href="http://www.appcoda.com/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=831' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-831 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-831 post type-post status-publish format-standard hentry category-ios-programming-101 tag-facebook tag-ios-6 tag-ios-programming tag-slcomposeviewcontroller tag-social-network tag-twitter entry"><h1 class="entry-title">iOS Programming 101: Integrate Twitter and Facebook Sharing in Your App</h1> 
+<div class="post-info"><span class="date published time" title="2012-11-22T22:31:59+00:00">November 22, 2012</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6/#comments"><span class="dsq-postid" data-dsqidentifier="831 http://www.appcoda.com/?p=831">72 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Following the Twitter support in iOS 5, Apple added the support of Facebook in iOS 6. In the past, developers have to make use of the Facebook and Twitter API to integrate the sharing feature in their apps. With the built-in support, it&#8217;s much easier to add these social features to your own app. </p>
+<p>In this short tutorial, we will show you how to build Twitter and Facebook sharing feature in your app. As usual, we&#8217;ll build a simple app together as we believe there is no better way to teach programming than &#8220;get your hand dirty&#8221;. </p>
+<h2>Social Framework in iOS 6</h2>
+<p>The iOS 6 introduces a new framework known as the &#8220;Social Framework&#8221;. The Social framework lets you integrate your app with any supported social networking services. Presently, it supports Facebook, Twitter and Sina Weibo. The framework gives you a standard interface to interact with different social networks and it shields you from learning the internals. You don&#8217;t have to worry about the Twitter/Facebook APIs, how to handle network connection, handle single sign-on, etc. The social framework simplifies everything. You just need to write a few lines of code to bring up the composer and users can tweet / publish Facebook post within your app.<br />
+<span id="more-831"></span><br />
+The framework comes with a very handy class named <em><a href="https://developer.apple.com/library/ios/#documentation/NetworkingInternet/Reference/SLComposeViewController_Class/Reference/Reference.html#//apple_ref/doc/uid/TP40012205">SLComposeViewController</a></em>. The SLComposeViewController class presents a standard view controller for users to compose tweet or Facebook post. It also allows developers to preset the initial text, attach images and add URL to the post. If you just want to implement simple sharing feature, this is the only class you need to know and that we will go through today.</p>
+<p>If you&#8217;re not familiar with the SLComposeViewController, this is what it looks like within your app. </p>
+<div id="attachment_837" style="width: 627px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/11/ios-social-framework-facebook-twitter.jpg" alt="User Interface for Twitter and Facebook in Your App" title="User Interface for Twitter and Facebook in Your App" class="size-full wp-image-837" /><p class="wp-caption-text">User Interface for Twitter and Facebook in Your App</p></div>
+<p>Now you should have a basic idea about the framework. Let&#8217;s get started and build a simple app with Twitter and Facebook integration.</p>
+<h2>Create the Project and Design the Interface</h2>
+<div class="note">As you need to use iOS 6 for this tutorial, please upgrade your Xcode to v4.5 or up before proceeding.</div>
+<p>First, create a new Xcode project using the Single View Template. Let&#8217;s name the project as &#8220;SocialSharing&#8221; and set the project with the following parameters:</p>
+<div id="attachment_839" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/11/SocialSharing-Xcode-Project.jpg" alt="SocialSharing Xcode Project" title="SocialSharing Xcode Project" class="size-full wp-image-839" /><p class="wp-caption-text">SocialSharing Xcode Project</p></div>
+<p>Once you&#8217;ve successfully created your project, go to the Storyboard and design the user interface. In the view, add two buttons. Name one as &#8220;Tweet&#8221; and the other one as &#8220;Facebook&#8221;.</p>
+<div id="attachment_840" style="width: 630px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/11/SocialSharing-App-Interface-Design.jpg" alt="SocialSharing App Interface Design" title="SocialSharing App Interface Design" class="size-full wp-image-840" /><p class="wp-caption-text">Designing the interface for the App</p></div>
+<h2>Establish the Connection Between Variables and UI Elements</h2>
+<p>Next, we’ll connect the UI elements with our code. In the Storyboard, select the view controller and switch to the Assistant Editor.</p>
+<div id="attachment_677" style="width: 458px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/Show-Assistant-Editor.jpg" alt="Show Assistant Editor" title="Show Assistant Editor" class="size-full wp-image-677" /><p class="wp-caption-text">Show Assistant Editor and Hide Utility Area</p></div>
+<p>Press and hold the control key, click the &#8220;Tweet&#8221; button and drag it towards the &#8220;SocialSharingViewController.h&#8221;. Create an action method and name it as &#8220;postToTwitter&#8221;. This method will be invoked when the button detects a Touch Up Inside event.</p>
+<div id="attachment_842" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/11/SocialSharing-App-Add-Action-Method.jpg" alt="SocialSharing App Add Action Method" title="SocialSharing App Add Action Method" class="size-full wp-image-842" /><p class="wp-caption-text">Add action methods for both Tweet and Facebook buttons</p></div>
+<p>Repeat the same procedures the &#8220;Facebook&#8221; button and name the action method as &#8220;postToFacebook&#8221;. Below is the final code for &#8220;SocialSharingViewController.h&#8221;:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;UIKit/UIKit.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> SocialSharingViewController <span style="color: #002200;">:</span> UIViewController<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>postToTwitter<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>postToFacebook<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<h2>Adding Twitter Support</h2>
+<p>Let&#8217;s first start with the implementation of &#8220;postToTwitter&#8221; method. Open the &#8220;SocialSharingViewController.m&#8221; and add the following code for the &#8220;postToTwitter&#8221; method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>postToTwitter<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>SLComposeViewController isAvailableForServiceType<span style="color: #002200;">:</span>SLServiceTypeTwitter<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; SLComposeViewController <span style="color: #002200;">*</span>tweetSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>SLComposeViewController<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;composeViewControllerForServiceType<span style="color: #002200;">:</span>SLServiceTypeTwitter<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>tweetSheet setInitialText<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Great fun to learn iOS programming at appcoda.com!&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>tweetSheet animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As &#8220;SLComposeViewController&#8221; is a class provided by the Social framework, remember to import the Social.h file at the very top of the &#8220;SocialSharingViewController.m&#8221;:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;Social/Social.h&gt;</span></div></td></tr></tbody></table></div>
+<p>Before we move on, let&#8217;s take a look at the above code line by line. </p>
+<p>Line #2 &#8211; Firstly, we use the &#8220;isAvailableForServiceType&#8221; method to verify if the Twitter service is accessible. One reason why users can&#8217;t access the Twitter service is that they haven&#8217;t logged on the service in the iOS. </p>
+<p>Line #4 &#8211; If the service is accessible, we then create an instance of the SLComposeViewController for the Twitter service.</p>
+<p>Line #5 &#8211; We set the initial text in the composer.</p>
+<p>Line #6 &#8211; Finally, we invoke presentViewController:tweetSheet to bring up the Twitter composer.</p>
+<p>That&#8217;s the code we need to let user tweet within your own app. It&#8217;s much easier than you thought, right? But we still miss one thing before the app can be run.</p>
+<p>By default, the Social framework is not included in the Xcode project. To compile the app properly, add the &#8220;Social.framework&#8221; in the project. In the Project Navigator, select the &#8220;SocialSharing&#8221; project. In the Content Area, select &#8220;SocialSharing&#8221; under Targets and click &#8220;Build Phases&#8221;. Expand &#8220;Link Binary with Libraries&#8221; and click the &#8220;+&#8221; button to add the &#8220;Social.framework&#8221;. </p>
+<div id="attachment_845" style="width: 661px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/11/SocialSharing-Add-Social-Framework.jpg" alt="SocialSharing Add Social Framework" title="SocialSharing Add Social Framework" class="size-full wp-image-845" /><p class="wp-caption-text">Add Social framework to the project</p></div>
+<p>Now, it&#8217;s ready to test the app. Click the &#8220;Run&#8221; button to try out the app in Simulator. When the app is launched, tap the &#8220;Tweet&#8221; button and you should see a similar screenshot as below:</p>
+<div id="attachment_847" style="width: 626px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/11/SocialSharing-Twitter-App.jpg" alt="SocialSharing Twitter App" title="SocialSharing Twitter App" class="size-full wp-image-847" /><p class="wp-caption-text">Testing the Tweet Feature</p></div>
+<p>In case you haven&#8217;t registered your Twitter account in the Simulator, you&#8217;ll end up with the below. Just go to Settings -> Twitter and sign on with your Twitter account.</p>
+<div id="attachment_848" style="width: 420px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/11/SocialSharing-Twitter-Account-Error.jpg" alt="SocialSharing Twitter Account Error" title="SocialSharing Twitter Account Error" class="size-full wp-image-848" /><p class="wp-caption-text">You haven&#8217;t registered your Twitter account in iOS</p></div>
+<h2>Adding Facebook Support</h2>
+<p>Next, we&#8217;ll implement the button for publishing wall post on Facebook. In the &#8220;SocialSharingViewController.m&#8221;, add the following code in the &#8220;postToFacebook&#8221; method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>postToFacebook<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>SLComposeViewController isAvailableForServiceType<span style="color: #002200;">:</span>SLServiceTypeFacebook<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SLComposeViewController <span style="color: #002200;">*</span>controller <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>SLComposeViewController composeViewControllerForServiceType<span style="color: #002200;">:</span>SLServiceTypeFacebook<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>controller setInitialText<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;First post from my iPhone app&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>controller animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">Nil</span><span style="color: #002200;">&#93;</span>; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That&#8217;s it. The code is very similar to the code we&#8217;ve used in the &#8220;postToTwitter&#8221; method. The only change is the service type. Instead of using SLServiceTypeTwitter, we tell SLComposeViewController to use SLServiceTypeFacebook. </p>
+<p>Let&#8217;s run the app again and click the &#8220;Facebook&#8221; button. Your app should bring up the composer for publishing Facebook post.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/11/SocialSharing-App-Facebook-Post.jpg" alt="SocialSharing App Facebook Post" title="SocialSharing App Facebook Post" class="aligncenter size-full wp-image-851" /></div>
+<h3>Adding Image and Link to Your Post</h3>
+<p>Wouldn&#8217;t be great to upload your post with image and link? The SLComposeViewController comes with some built-in methods to allow you easily do the upload. Let&#8217;s tweak the code of the Facebook button and make the upload work. </p>
+<p>First, <a href="http://www.appcoda.com/wp-content/uploads/2012/11/socialsharing-facebook-image.jpg">download this image</a> and add it to the Xcode project. (You can use any image but make sure you name it as &#8220;socialsharing-facebook-image.jpg&#8221;)</p>
+<p>You can simply use the &#8220;addImage&#8221; method to attach an image and the &#8220;addURL&#8221; method to include a link.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>controller addURL<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> URLWithString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;http://www.appcoda.com&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>controller addImage<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;socialsharing-facebook-image.jpg&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>The final code for &#8220;postToFacebook&#8221; should look like this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>postToFacebook<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>SLComposeViewController isAvailableForServiceType<span style="color: #002200;">:</span>SLServiceTypeFacebook<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; SLComposeViewController <span style="color: #002200;">*</span>controller <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>SLComposeViewController composeViewControllerForServiceType<span style="color: #002200;">:</span>SLServiceTypeFacebook<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>controller setInitialText<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;First post from my iPhone app&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>controller addURL<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> URLWithString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;http://www.appcoda.com&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>controller addImage<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;socialsharing-facebook-image.jpg&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>controller animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">Nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Go ahead to run the app and test out the Facebook feature again. You should see a thumbnail and a link bundled in the post.</p>
+<div id="attachment_856" style="width: 728px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/11/SocialSharing-Facebook-Post-with-Image.jpg" alt="SocialSharing Facebook Post with Image" title="SocialSharing Facebook Post with Image" class="size-full wp-image-856" /><p class="wp-caption-text">Upload Post with image and link</p></div>
+<h2>Summary</h2>
+<p>As you can see from this tutorial, it&#8217;s pretty easy to add Twitter and Facebook feature using the Social Framework in iOS 6. If you&#8217;re building your app, there is no reason why you shouldn&#8217;t incorporate the social features. With Twitter and Facebook support, it adds values to your app and may boost its popularity.</p>
+<p>The tutorial introduces the basics of Facebook and Twitter integration. You can try to tweak the demo app and upload multiple images to the social networks. However, if you want to access more advanced features such as display users&#8217; Facebook friends, you&#8217;ll need to study the <a href="https://developers.facebook.com/docs/tutorials/ios-sdk-tutorial/">Facebook API</a>.</p>
+<p>I hope you enjoy the tutorial and you have a better understanding about the social framework. Feel free to leave your questions and share your thought about the tutorial.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-101-send-email-iphone-app/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/07/SimpleEmail-Tutorial-Logo-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Send Email in Your iPhone App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-how-to-customize-tab-bar-background-appearance/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/12/Sample-Custom-Tabs-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Customize Tab Bar Background and Appearance</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-index-list-uitableview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/indexed-uitableview-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Adding Section and Index List in UITableView</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/swipeable-uitableviewcell-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/05/swipeable-cell-150x150.gif) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Create Swipeable Table View Cell to Display More Options</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6/"
+    dc:identifier="http://www.appcoda.com/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6/"
+    dc:title="iOS Programming 101: Integrate Twitter and Facebook Sharing in Your App"
+    trackback:ping="http://www.appcoda.com/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/ios-programming-101/" rel="category tag">iOS Programming 101</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/facebook/" rel="tag">facebook</a>, <a href="http://www.appcoda.com/tag/ios-6/" rel="tag">iOS 6</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/slcomposeviewcontroller/" rel="tag">SLComposeViewController</a>, <a href="http://www.appcoda.com/tag/social-network/" rel="tag">social network</a>, <a href="http://www.appcoda.com/tag/twitter/" rel="tag">twitter</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-907">
+        <div id="dsq-comment-header-907" class="dsq-comment-header">
+            <cite id="dsq-cite-907">
+                <span id="dsq-author-user-907">Toby Powell</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-907" class="dsq-comment-body">
+            <div id="dsq-comment-message-907" class="dsq-comment-message"><p>as always, brilliant! you make concepts simple and clear to understand. Your blog rocks! thank you</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-909">
+        <div id="dsq-comment-header-909" class="dsq-comment-header">
+            <cite id="dsq-cite-909">
+http://www.simonblog.com                <span id="dsq-author-user-909">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-909" class="dsq-comment-body">
+            <div id="dsq-comment-message-909" class="dsq-comment-message"><p>Thanks for your support!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-912">
+        <div id="dsq-comment-header-912" class="dsq-comment-header">
+            <cite id="dsq-cite-912">
+                <span id="dsq-author-user-912">Dony Purnama</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-912" class="dsq-comment-body">
+            <div id="dsq-comment-message-912" class="dsq-comment-message"><p>haahaha keep rocking with the tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.musclecoder.com/ios-programming-integrate-twitter-and-facebook-sharing-in-ios-6/' rel='external nofollow' class='url'>iOS Programming: Integrate Twitter and Facebook Sharing in iOS 6 &#8230; | MUSCLE CODER</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1110">
+        <div id="dsq-comment-header-1110" class="dsq-comment-header">
+            <cite id="dsq-cite-1110">
+                <span id="dsq-author-user-1110">wordgeist</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1110" class="dsq-comment-body">
+            <div id="dsq-comment-message-1110" class="dsq-comment-message"><p>do you know to implement the facebook like button?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1122">
+        <div id="dsq-comment-header-1122" class="dsq-comment-header">
+            <cite id="dsq-cite-1122">
+                <span id="dsq-author-user-1122">Nagababu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1122" class="dsq-comment-body">
+            <div id="dsq-comment-message-1122" class="dsq-comment-message"><p>thanks for ur code..it is very useful for learners</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1142">
+        <div id="dsq-comment-header-1142" class="dsq-comment-header">
+            <cite id="dsq-cite-1142">
+                <span id="dsq-author-user-1142">Vandana</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1142" class="dsq-comment-body">
+            <div id="dsq-comment-message-1142" class="dsq-comment-message"><p>It was very easy to understand but I faced one problem. In case of facebook if user has not logged in through twitter it does not redirects to settings so that user can login. The setting button actually takes us back to first screen.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1166">
+        <div id="dsq-comment-header-1166" class="dsq-comment-header">
+            <cite id="dsq-cite-1166">
+                <span id="dsq-author-user-1166">Podster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1166" class="dsq-comment-body">
+            <div id="dsq-comment-message-1166" class="dsq-comment-message"><p>Great tutorial. Is there anyway to show a Facebook sample on how to post multiple images to the same wall post?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1235">
+        <div id="dsq-comment-header-1235" class="dsq-comment-header">
+            <cite id="dsq-cite-1235">
+                <span id="dsq-author-user-1235">muckel_buckel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1235" class="dsq-comment-body">
+            <div id="dsq-comment-message-1235" class="dsq-comment-message"><p>The Facebook doesn&#8217;t go on my Device(iphone 5)<br />
+When i click on the button Facebook, he show nothing, but the twitter button work perfect.</p>
+<p>Pleas help</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1257">
+        <div id="dsq-comment-header-1257" class="dsq-comment-header">
+            <cite id="dsq-cite-1257">
+http://www.simonblog.com                <span id="dsq-author-user-1257">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1257" class="dsq-comment-body">
+            <div id="dsq-comment-message-1257" class="dsq-comment-message"><p>Does it show any error in console?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1258">
+        <div id="dsq-comment-header-1258" class="dsq-comment-header">
+            <cite id="dsq-cite-1258">
+                <span id="dsq-author-user-1258">Roy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1258" class="dsq-comment-body">
+            <div id="dsq-comment-message-1258" class="dsq-comment-message"><p>I need to display my app name in place of ios how can it be done ??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-100111">
+        <div id="dsq-comment-header-100111" class="dsq-comment-header">
+            <cite id="dsq-cite-100111">
+http://www.wikyapps.blogspot.com                <span id="dsq-author-user-100111">Amir Habib</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100111" class="dsq-comment-body">
+            <div id="dsq-comment-message-100111" class="dsq-comment-message"><p>Did you got any solution ???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1267">
+        <div id="dsq-comment-header-1267" class="dsq-comment-header">
+            <cite id="dsq-cite-1267">
+                <span id="dsq-author-user-1267">Shinalboma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1267" class="dsq-comment-body">
+            <div id="dsq-comment-message-1267" class="dsq-comment-message"><p>I&#8217;m trying the sharing to facebook part for my app. It&#8217;ll work if the app is on my iPhone. I&#8217;m using the simulator now and I think may need to have more code for facebook login. I&#8217;m checking with the facebook sdk tutorial now.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1327">
+        <div id="dsq-comment-header-1327" class="dsq-comment-header">
+            <cite id="dsq-cite-1327">
+                <span id="dsq-author-user-1327">Podster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1327" class="dsq-comment-body">
+            <div id="dsq-comment-message-1327" class="dsq-comment-message"><p>I also would love to know how to replace the photo album name from iOS Photos to my App Name&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1363">
+        <div id="dsq-comment-header-1363" class="dsq-comment-header">
+            <cite id="dsq-cite-1363">
+                <span id="dsq-author-user-1363">Emil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1363" class="dsq-comment-body">
+            <div id="dsq-comment-message-1363" class="dsq-comment-message"><p>Thank you so much!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://iosdeveloperforums.com/f6/link-your-appli-facebook-328.html#post713' rel='external nofollow' class='url'>Link your appli to facebook</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1420">
+        <div id="dsq-comment-header-1420" class="dsq-comment-header">
+            <cite id="dsq-cite-1420">
+                <span id="dsq-author-user-1420">Andy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1420" class="dsq-comment-body">
+            <div id="dsq-comment-message-1420" class="dsq-comment-message"><p>Is there anyway to tweet to someone specific? So if I have 2 different view controllers with 2 different tweet buttons for 2 different profiles of people, can I tweet to them specifically when the user clicks on their profile in my app? Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1447">
+        <div id="dsq-comment-header-1447" class="dsq-comment-header">
+            <cite id="dsq-cite-1447">
+                <span id="dsq-author-user-1447">GD</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1447" class="dsq-comment-body">
+            <div id="dsq-comment-message-1447" class="dsq-comment-message"><p>How we can hide the keyboard in both facebook and twitter post window.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1465">
+        <div id="dsq-comment-header-1465" class="dsq-comment-header">
+            <cite id="dsq-cite-1465">
+                <span id="dsq-author-user-1465">ashokdy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1465" class="dsq-comment-body">
+            <div id="dsq-comment-message-1465" class="dsq-comment-message"><p>Please help in uploading and downloading the files to and from the iPhone sdk</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1466">
+        <div id="dsq-comment-header-1466" class="dsq-comment-header">
+            <cite id="dsq-cite-1466">
+http://www.facebook.com/jasmin.shikalgar                <span id="dsq-author-user-1466">Jasmin Shikalgar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1466" class="dsq-comment-body">
+            <div id="dsq-comment-message-1466" class="dsq-comment-message"><p>Twitter limit of 140 characters per tweet. It becomes extremely hard especially when  try to share a  big tweet. Is there any way  to Tweet More Than 140 Characters?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1525">
+        <div id="dsq-comment-header-1525" class="dsq-comment-header">
+            <cite id="dsq-cite-1525">
+                <span id="dsq-author-user-1525">Steve</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1525" class="dsq-comment-body">
+            <div id="dsq-comment-message-1525" class="dsq-comment-message"><p>Neither the image or the link is showing up?  Help!  Will any image work or does it need to sized to fit?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1526">
+        <div id="dsq-comment-header-1526" class="dsq-comment-header">
+            <cite id="dsq-cite-1526">
+                <span id="dsq-author-user-1526">steve</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1526" class="dsq-comment-body">
+            <div id="dsq-comment-message-1526" class="dsq-comment-message"><p>Wow&#8230;.nevermind&#8230;.I get it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1527">
+        <div id="dsq-comment-header-1527" class="dsq-comment-header">
+            <cite id="dsq-cite-1527">
+                <span id="dsq-author-user-1527">Steve</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1527" class="dsq-comment-body">
+            <div id="dsq-comment-message-1527" class="dsq-comment-message"><p>Ok, scratch that&#8230;still not working.  Help!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1615">
+        <div id="dsq-comment-header-1615" class="dsq-comment-header">
+            <cite id="dsq-cite-1615">
+                <span id="dsq-author-user-1615">Sabre</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1615" class="dsq-comment-body">
+            <div id="dsq-comment-message-1615" class="dsq-comment-message"><p>The Facebook doesn&#8217;t go on my Device(iphone 4)<br />
+When I tapped on the button Facebook, it didn&#8217;t show anything without any error message, but the twitter button work perfect.<br />
+When I tested this on simulator it&#8217;s works fine but not on my device(iphone 4).<br />
+Pleas tell me the reason why it happens&#8230;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1622">
+        <div id="dsq-comment-header-1622" class="dsq-comment-header">
+            <cite id="dsq-cite-1622">
+http://www.simonblog.com                <span id="dsq-author-user-1622">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1622" class="dsq-comment-body">
+            <div id="dsq-comment-message-1622" class="dsq-comment-message"><p>What version of iOS are you using on iPhone? Facebook sharing only works on iOS 6 (or up).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-1624">
+        <div id="dsq-comment-header-1624" class="dsq-comment-header">
+            <cite id="dsq-cite-1624">
+                <span id="dsq-author-user-1624">Sabre</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1624" class="dsq-comment-body">
+            <div id="dsq-comment-message-1624" class="dsq-comment-message"><p>iOS 6.1.3</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-1745">
+        <div id="dsq-comment-header-1745" class="dsq-comment-header">
+            <cite id="dsq-cite-1745">
+                <span id="dsq-author-user-1745">clive dancey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1745" class="dsq-comment-body">
+            <div id="dsq-comment-message-1745" class="dsq-comment-message"><p>HI<br />
+Did you ever solve this problem..i have the same issue..twitter is fine in the simulator but wont work on the phone !!!&#8230;aaaagh&#8230;driving me mad..any help you have would be awesome.<br />
+thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-2114">
+        <div id="dsq-comment-header-2114" class="dsq-comment-header">
+            <cite id="dsq-cite-2114">
+                <span id="dsq-author-user-2114">Sabre</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2114" class="dsq-comment-body">
+            <div id="dsq-comment-message-2114" class="dsq-comment-message"><p>If you set the deployment target under iOS 6, then uncheck &#8220;Autolayout&#8221; in &#8220;the file inspector&#8221; of the storyboard.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-4" id="dsq-comment-2407">
+        <div id="dsq-comment-header-2407" class="dsq-comment-header">
+            <cite id="dsq-cite-2407">
+                <span id="dsq-author-user-2407">jojo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2407" class="dsq-comment-body">
+            <div id="dsq-comment-message-2407" class="dsq-comment-message"><p>try to go to setting and configure your Facebook account there then try again. works with me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1746">
+        <div id="dsq-comment-header-1746" class="dsq-comment-header">
+            <cite id="dsq-cite-1746">
+                <span id="dsq-author-user-1746">clive dancey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1746" class="dsq-comment-body">
+            <div id="dsq-comment-message-1746" class="dsq-comment-message"><p>hi<br />
+This is great in the simulator but wont work on my Iphone running 6.1..any ideas..<br />
+thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1786">
+        <div id="dsq-comment-header-1786" class="dsq-comment-header">
+            <cite id="dsq-cite-1786">
+                <span id="dsq-author-user-1786">hitesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1786" class="dsq-comment-body">
+            <div id="dsq-comment-message-1786" class="dsq-comment-message"><p>nice</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1803">
+        <div id="dsq-comment-header-1803" class="dsq-comment-header">
+            <cite id="dsq-cite-1803">
+                <span id="dsq-author-user-1803">lolo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1803" class="dsq-comment-body">
+            <div id="dsq-comment-message-1803" class="dsq-comment-message"><p>Same problem </p>
+<p>please any solution </p>
+<p>why this message keeps appearing  to me?</p>
+<p>2013-06-25 11:50:39.885 app[1255:19703] Warning: Attempt to present on whose view is not in the window hierarchy!</p>
+<p>Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/06/integerating-twitterfacebook-to-iphone-app-using-button-is-not-working/' rel='external nofollow' class='url'>integerating twitter,facebook to iphone app using button is not working | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1877">
+        <div id="dsq-comment-header-1877" class="dsq-comment-header">
+            <cite id="dsq-cite-1877">
+                <span id="dsq-author-user-1877">Raft Tone</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1877" class="dsq-comment-body">
+            <div id="dsq-comment-message-1877" class="dsq-comment-message"><p>Thank you! Helped a lot!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2080">
+        <div id="dsq-comment-header-2080" class="dsq-comment-header">
+            <cite id="dsq-cite-2080">
+                <span id="dsq-author-user-2080">Kai Bfm</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2080" class="dsq-comment-body">
+            <div id="dsq-comment-message-2080" class="dsq-comment-message"><p>Facebook sharing do not work in iOS 6.1 <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /> . How to fix this problem ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2085">
+        <div id="dsq-comment-header-2085" class="dsq-comment-header">
+            <cite id="dsq-cite-2085">
+http://www.simonblog.com                <span id="dsq-author-user-2085">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2085" class="dsq-comment-body">
+            <div id="dsq-comment-message-2085" class="dsq-comment-message"><p>What&#8217;s the error you&#8217;re experiencing?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2097">
+        <div id="dsq-comment-header-2097" class="dsq-comment-header">
+            <cite id="dsq-cite-2097">
+                <span id="dsq-author-user-2097">Kai Bfm</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2097" class="dsq-comment-body">
+            <div id="dsq-comment-message-2097" class="dsq-comment-message"><p>it don&#8217;t work on my device ( Iphone 4  IOS 6.1.3 ). When I debugged , code did not run this condition</p>
+<p>if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {</p>
+<p>}</p>
+<p>Pleas tell me the reason why it happens.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-39972">
+        <div id="dsq-comment-header-39972" class="dsq-comment-header">
+            <cite id="dsq-cite-39972">
+                <span id="dsq-author-user-39972">vikas singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-39972" class="dsq-comment-body">
+            <div id="dsq-comment-message-39972" class="dsq-comment-message"><p>remove this line</p>
+<p>if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {</p>
+<p> and run the code .it will work <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2392">
+        <div id="dsq-comment-header-2392" class="dsq-comment-header">
+            <cite id="dsq-cite-2392">
+                <span id="dsq-author-user-2392">ich</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2392" class="dsq-comment-body">
+            <div id="dsq-comment-message-2392" class="dsq-comment-message"><p>Great tutorial! Thanks a lot!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2462">
+        <div id="dsq-comment-header-2462" class="dsq-comment-header">
+            <cite id="dsq-cite-2462">
+                <span id="dsq-author-user-2462">ShanghaiTimes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2462" class="dsq-comment-body">
+            <div id="dsq-comment-message-2462" class="dsq-comment-message"><p>Brilliant stuff guys.<br />
+Can we add Weibo as well.<br />
+.. and can we have some iOS 7 tutorials as well. The interface is actually quite different, in Xcode 5. But this Twitter tutorial goes in without much pain <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+If I would just learn to spell peroperly</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://denganliang.com/2013/09/xcode-4-6-3-opencv-development-of-ios-apps.html' rel='external nofollow' class='url'>Xcode 4.6.3+OpenCV开发iOS应用 | 邓安良的网络日志</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2504">
+        <div id="dsq-comment-header-2504" class="dsq-comment-header">
+            <cite id="dsq-cite-2504">
+                <span id="dsq-author-user-2504">braden</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2504" class="dsq-comment-body">
+            <div id="dsq-comment-message-2504" class="dsq-comment-message"><p>Why the app doesn&#8217;t show up &#8220;No Twitter Account&#8221; or &#8220;No Facebook Account&#8221; alert view in iOS simulator???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2507">
+        <div id="dsq-comment-header-2507" class="dsq-comment-header">
+            <cite id="dsq-cite-2507">
+                <span id="dsq-author-user-2507">karmjit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2507" class="dsq-comment-body">
+            <div id="dsq-comment-message-2507" class="dsq-comment-message"><p>nice article&#8230; visit my blog and please provide feedback..<a href="https://www.facebook.com/learniosprogramming" rel="nofollow">https://www.facebook.com/learniosprogramming</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/10/share-it-button-doesnt-work-ios-7-xcode-5/' rel='external nofollow' class='url'>share it button doesn&#039;t work ios 7 xcode 5 | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2561">
+        <div id="dsq-comment-header-2561" class="dsq-comment-header">
+            <cite id="dsq-cite-2561">
+                <span id="dsq-author-user-2561">Vicky Mathneja</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2561" class="dsq-comment-body">
+            <div id="dsq-comment-message-2561" class="dsq-comment-message"><p>@Roy  u have to use Facebook SDK and make an appID by registering your app in Facebook</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2580">
+        <div id="dsq-comment-header-2580" class="dsq-comment-header">
+            <cite id="dsq-cite-2580">
+                <span id="dsq-author-user-2580">Jacopo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2580" class="dsq-comment-body">
+            <div id="dsq-comment-message-2580" class="dsq-comment-message"><p>Facebook and twitter sharing doesn&#8217;t work on iOS 7… the same script on ios 6 work&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29042">
+        <div id="dsq-comment-header-29042" class="dsq-comment-header">
+            <cite id="dsq-cite-29042">
+                <span id="dsq-author-user-29042">Pavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29042" class="dsq-comment-body">
+            <div id="dsq-comment-message-29042" class="dsq-comment-message"><p>What is the solution for this?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/10/instagram-framework-for-ios/' rel='external nofollow' class='url'>Instagram framework for iOS | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2634">
+        <div id="dsq-comment-header-2634" class="dsq-comment-header">
+            <cite id="dsq-cite-2634">
+                <span id="dsq-author-user-2634">Hareesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2634" class="dsq-comment-body">
+            <div id="dsq-comment-message-2634" class="dsq-comment-message"><p>This code doesn&#8217;t works,will u please source code</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://ask.wonderhowtovideo.com/6439/share-it-button-doesnt-work-ios-7-xcode-5.html' rel='external nofollow' class='url'>share it button doesn&#8217;t work ios 7 xcode 5 | Ask &amp; Answers</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2717">
+        <div id="dsq-comment-header-2717" class="dsq-comment-header">
+            <cite id="dsq-cite-2717">
+                <span id="dsq-author-user-2717">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2717" class="dsq-comment-body">
+            <div id="dsq-comment-message-2717" class="dsq-comment-message"><p>hi! Question: Is tehere a way to post to FB without promting the user? Could you make a tutorial about that?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2718">
+        <div id="dsq-comment-header-2718" class="dsq-comment-header">
+            <cite id="dsq-cite-2718">
+                <span id="dsq-author-user-2718">Goran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2718" class="dsq-comment-body">
+            <div id="dsq-comment-message-2718" class="dsq-comment-message"><p>hi! Question: Is there a way to post to FB without prompting the user? Could you make a tutorial about that?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2790">
+        <div id="dsq-comment-header-2790" class="dsq-comment-header">
+            <cite id="dsq-cite-2790">
+                <span id="dsq-author-user-2790">NissiVM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2790" class="dsq-comment-body">
+            <div id="dsq-comment-message-2790" class="dsq-comment-message"><p>Thank you so much for this tut! =]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://stackforum.com/fb-and-twitter-integration/' rel='external nofollow' class='url'>FB and Twitter Integration | Stackforum.com</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3079">
+        <div id="dsq-comment-header-3079" class="dsq-comment-header">
+            <cite id="dsq-cite-3079">
+                <span id="dsq-author-user-3079">LN Fanning</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3079" class="dsq-comment-body">
+            <div id="dsq-comment-message-3079" class="dsq-comment-message"><p>Hi there! This code has been very very useful. Thank you. I have successfully integrated fb and twitter sharing on my photo booth app. However, I am having trouble adding the image that has just been edited and saved to photo library to the tweet/fb post. What should I add in controller addImage:____? Can you help me please? Here is the code just before the (IBAction)postToTwitter:(id)sender code I added &gt;&gt;&gt;.</p>
+<p>&#8211; (IBAction)save:(id)sender {<br />
+_topBar.hidden = YES;</p>
+<p>_bottomBar.hidden = YES;<br />
+for (A4WRotateImage *view in self.view.subviews) {<br />
+if ([view isKindOfClass:[resizableSticker class]]) {<br />
+[view hideEditingHandles];<br />
+}<br />
+}</p>
+<p>UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, [UIScreen mainScreen].scale);</p>
+<p>    if ([self.view respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {</p>
+<p>[self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];</p>
+<p>        NSLog(@&#8221;RUN iOS 7&#8243;);<br />
+}<br />
+    else<br />
+    {<br />
+        NSLog(@&#8221;RUN iOS 6&#8243;);<br />
+        [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];<br />
+    }</p>
+<p>UIImage *image = UIGraphicsGetImageFromCurrentImageContext();<br />
+UIGraphicsEndImageContext();<br />
+_topBar.hidden = NO;<br />
+_bottomBar.hidden = NO;</p>
+<p>for (UIView *view in self.view.subviews) {<br />
+if ([view isKindOfClass:[resizableSticker class]]) {<br />
+[view removeFromSuperview];<br />
+}<br />
+}<br />
+_mainImage.image = image;</p>
+<p>UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);</p>
+<p>UIAlertView *saved = [[UIAlertView alloc]initWithTitle:@&#8221;Success!&#8221; message:@&#8221;Photo saved to Camera Roll.&#8221; delegate:self cancelButtonTitle:@&#8221;Ok&#8221; otherButtonTitles:nil, nil];<br />
+[saved show];</p>
+<p>[[RevMobAds session]showFullscreen];<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3104">
+        <div id="dsq-comment-header-3104" class="dsq-comment-header">
+            <cite id="dsq-cite-3104">
+                <span id="dsq-author-user-3104">john carter</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3104" class="dsq-comment-body">
+            <div id="dsq-comment-message-3104" class="dsq-comment-message"><p>How to show the success message after posting it to twitter/facebook, what is the property/method that we need to refer.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3853">
+        <div id="dsq-comment-header-3853" class="dsq-comment-header">
+            <cite id="dsq-cite-3853">
+                <span id="dsq-author-user-3853">CreativeApps LLC</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3853" class="dsq-comment-body">
+            <div id="dsq-comment-message-3853" class="dsq-comment-message"><p>Can this be used to post to another user&#8217;s wall or to a product page etc..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3861">
+        <div id="dsq-comment-header-3861" class="dsq-comment-header">
+            <cite id="dsq-cite-3861">
+                <span id="dsq-author-user-3861">ever21</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3861" class="dsq-comment-body">
+            <div id="dsq-comment-message-3861" class="dsq-comment-message"><p>Thanks for posting this!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3928">
+        <div id="dsq-comment-header-3928" class="dsq-comment-header">
+            <cite id="dsq-cite-3928">
+                <span id="dsq-author-user-3928">roeland</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3928" class="dsq-comment-body">
+            <div id="dsq-comment-message-3928" class="dsq-comment-message"><p>is it also possible to add a url to an image. so when you click in Facebook on the image, you will open safari or something on your phone? now we see the url as a text&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3938">
+        <div id="dsq-comment-header-3938" class="dsq-comment-header">
+            <cite id="dsq-cite-3938">
+                <span id="dsq-author-user-3938">Raushan Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3938" class="dsq-comment-body">
+            <div id="dsq-comment-message-3938" class="dsq-comment-message"><p>How can we authenticate facebook from our IPhone application using OAuth Protocol?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5889">
+        <div id="dsq-comment-header-5889" class="dsq-comment-header">
+            <cite id="dsq-cite-5889">
+                <span id="dsq-author-user-5889">Robert Bojor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5889" class="dsq-comment-body">
+            <div id="dsq-comment-message-5889" class="dsq-comment-message"><p>Works like a charm! Thanks for the article.</p>
+<p>An additional thing you might consider is putting the addURL: and the addImage: inside an if statement, just in case they are not added ( both methods return a BOOL ) you can append the link to the end of the message. Ex: if ([tweetSheet addURL:[NSURL URLWithString:messageURL]]) { &#8230; } else {&#8230;.}</p>
+<p>Thanks again for the article.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-6152">
+        <div id="dsq-comment-header-6152" class="dsq-comment-header">
+            <cite id="dsq-cite-6152">
+                <span id="dsq-author-user-6152">Victor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6152" class="dsq-comment-body">
+            <div id="dsq-comment-message-6152" class="dsq-comment-message"><p>Some times tweet is failing &#8220;Because last one was same as current one.&#8221;! How can we track this while using SLComposeViewController?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://forum.iculture.nl/f133/development/f58/ontwikkelen-voor-ios/155029-wie-heeft-ervaring-social-framework.html#post961364' rel='external nofollow' class='url'>Wie heeft ervaring met Social Framework? - iCulture forum | iPhone, iPad, iPod touch, Apple TV en iOS</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.ibook21.com/profile-865068/info/' rel='external nofollow' class='url'>spray tan or fake tan</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-23671">
+        <div id="dsq-comment-header-23671" class="dsq-comment-header">
+            <cite id="dsq-cite-23671">
+                <span id="dsq-author-user-23671">NIkita</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23671" class="dsq-comment-body">
+            <div id="dsq-comment-message-23671" class="dsq-comment-message"><p>thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://loginh.com/facebook-login-ios-6/' rel='external nofollow' class='url'>Facebook Login ios 6</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.zescience.com/twitter-integration-in-swift-17898' rel='external nofollow' class='url'>Twitter integration in Swift</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://loginh.com/login-twitter-ios-6/' rel='external nofollow' class='url'>login twitter ios 6</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://loginh.com/ios-6-login-with-twitter/' rel='external nofollow' class='url'>ios 6 login with twitter</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://loginh.com/facebook-login-ios-6-tutorial-3/' rel='external nofollow' class='url'>facebook login ios 6 tutorial</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://lamyiucho.wordpress.com/2014/11/27/ios-programming-101-integrate-twitter-and-facebook-sharing-in-your-app/' rel='external nofollow' class='url'>iOS Programming 101: Integrate Twitter and Facebook Sharing in Your App | jolam</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-100307">
+        <div id="dsq-comment-header-100307" class="dsq-comment-header">
+            <cite id="dsq-cite-100307">
+                <span id="dsq-author-user-100307">Abhijit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100307" class="dsq-comment-body">
+            <div id="dsq-comment-message-100307" class="dsq-comment-message"><p>how can i share my current location.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6/';
+var disqus_identifier = '831 http://www.appcoda.com/?p=831';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "iOS Programming 101: Integrate Twitter and Facebook Sharing in Your App";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=831';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="831"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6%2F&#038;t=iOS%20Programming%20101%3A%20Integrate%20Twitter%20and%20Facebook%20Sharing%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="831" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>131</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20Integrate%20Twitter%20and%20Facebook%20Sharing%20in%20Your%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="831" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>32</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6%2F&#038;t=iOS%20Programming%20101%3A%20Integrate%20Twitter%20and%20Facebook%20Sharing%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="831" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>18</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6%2F&#038;title=iOS%20Programming%20101%3A%20Integrate%20Twitter%20and%20Facebook%20Sharing%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="831" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>1</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6%2F&#038;t=iOS%20Programming%20101%3A%20Integrate%20Twitter%20and%20Facebook%20Sharing%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="831" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20Integrate%20Twitter%20and%20Facebook%20Sharing%20in%20Your%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="831" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6%2F&#038;t=iOS%20Programming%20101%3A%20Integrate%20Twitter%20and%20Facebook%20Sharing%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="831" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6%2F&#038;title=iOS%20Programming%20101%3A%20Integrate%20Twitter%20and%20Facebook%20Sharing%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="831" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:21:34 by W3 Total Cache -->

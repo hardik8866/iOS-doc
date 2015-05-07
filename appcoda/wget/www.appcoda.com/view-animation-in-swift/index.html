@@ -1,0 +1,831 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Creating Simple View Animations in Swift | iOS Tutorial</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Animations can improve the overall user experience of your app. In this tutorial, we will show you how to create simple view animations in Swift."/>
+<link rel="canonical" href="http://www.appcoda.com/view-animation-in-swift/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Animations can improve the overall user experience of your app. In this tutorial, we will show you how to create simple view animations in Swift."/>
+<meta name="twitter:title" content="Creating Simple View Animations in Swift | iOS Tutorial"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2015/02/view-animations-featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Creating Simple View Animations in Swift Comments Feed" href="http://www.appcoda.com/view-animation-in-swift/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=4812' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-4812 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-4812 post type-post status-publish format-standard hentry category-beginner category-course category-swift-2 category-tutorials tag-ios-animation tag-ios-programming tag-swift tag-xcode-6 entry"><h1 class="entry-title">Creating Simple View Animations in Swift</h1> 
+<div class="post-info"><span class="date published time" title="2015-02-11T00:33:03+00:00">February 11, 2015</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/joyceechessa/" rel="author">Joyce Echessa</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/view-animation-in-swift/#comments"><span class="dsq-postid" data-dsqidentifier="4812 http://www.appcoda.com/?p=4812">8 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Following the release of iOS 7 (and iOS 8 as well), animation and motion effects became central to the design of apps from both Apple and 3rd party developers. iOS 7 introduced a flat, minimal design to apps which inevitably resulted in some apps having a similar UI. To distinguish their apps from other apps, developers employed such features as animations and motion effects to make their apps stand out.</p>
+<p>Not only are animations used to set your app apart, they can improve the overall user experience of your application. For great examples of how animations are used to improve UX, you should look at how Apple uses animations in their apps. For example, in the Photos app, when you select a photo from a collection, the photo expands out from the selected one and on closing it, it shrinks back to the selected photo. This adds to the navigation of the app in that it lets you know exactly where you were, if browsing many pictures.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/view-animations-featured.jpg" alt="view-animations-featured" class="aligncenter size-full wp-image-4831" /></div>
+<p><a href="https://www.facebook.com/paper">Facebook&#8217;s Paper</a> also employs animations beautifully to add to the overall user experience of the app. You select an article to read by flipping it up. This action, the fact that the article expands out from its thumbnail version, suggests that in doing the opposite, i.e. flipping the article downwards, would shrink it back to its thumbnail. Here, animation is used to convey how the app works and even a first time user of the app would soon be able to make assumptions on its use and figure out its navigation without needing a tutorial.</p>
+<p>Not only do animations add to the user experience of the app, but they could be what delights and impresses your users guaranteeing repeat usage instead of uninstalling the app for a better one from the App Store.<br />
+<span id="more-4812"></span></p>
+<p>There are numerous ways of including animations in your apps, some of them being by use of UIKit Dynamics, layer animations, view controller transitions or by using a third party library like the <a href="http://www.appcoda.com/facebook-pop-framework-intro/">Facebook Pop</a> library or <a href="https://github.com/jwilling/JNWSpringAnimation">JNWSpringAnimation framework</a>.</p>
+<p>In this tutorial we are going to look at simple view animations. You can <a href="https://www.dropbox.com/s/z672xr52mbwqbyr/ViewAnimationsStarter.zip?dl=0">download the starter project</a> which is a Single View Application with a table view that lists the examples presented in the tutorial tutorial. I will be using this when we get to the examples portion of the tutorial, instead of starting from scratch.</p>
+<p>The tutorial starts off with a summary of APIs used to animate views, and ends with some examples which show the use of some of the APIs in an app.</p>
+<h2>Basic View Animations</h2>
+<p>Creating animations on your views is a matter of changing properties on them and letting UIKit animate them automatically. The properties we change are the ones marked Animatable.</p>
+<p>The following list shows the animatable properties.</p>
+<ul>
+<li>center</li>
+<li>alpha</li>
+<li>frame</li>
+<li>bounds</li>
+<li>transform</li>
+<li>backgroundColor</li>
+<li>contentStretch</li>
+</ul>
+<p>You will find that all animations involve a change of one or more of the above properties.</p>
+<p>For simple view animations, UIKit provides the following APIs that can be used to animate views on the screen.</p>
+<ul>
+<li>UIView.animateWithDuration(_:, animations:)</li>
+<li>UIView.animateWithDuration(_:, animations:, completion:)</li>
+<li>UIView.animateWithDuration(_:, delay:, options:, animations:, completion:)</li>
+</ul>
+<p>The first one takes two parameters &#8211; a value for the duration in seconds of the animation and a closure where you specify the properties you want changed. UIKit will take the original state of the view and create a smooth transition from that state to the end state according to what you specified in the animations closure.</p>
+<p>The other two APIs are similar to the first, but they take extra parameters that add more configuration to the animation. The second takes a completion closure which you can use to either specify another animation that you want done after the first or you can do some cleanup of the UI, for example, removing a view from the view hierarchy once another view is animated onto the scene.</p>
+<p>The third API takes an additional two parameters &#8211; the <em>delay</em>, which is the time to wait before the animation starts and <em>options</em>, a UIViewAnimationOptions constant, which indicates how you want to perform the animations. The following shows the options available.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/anim_image001.png" alt="anim_image001" class="aligncenter size-full wp-image-4813" /></div>
+<h2>Spring Animations</h2>
+<p>Spring animations try to model the behaviour of a real life spring, in that, when a view is moved from one point to another, it will bounce/oscillate towards the end before settling down to position.</p>
+<p>Below is the method block we use for spring animations.</p>
+<ul>
+<li>UIView.animateWithDuration(_:, delay:, usingSpringWithDamping:, initialSpringVelocity:, options:, animations:, completion:)</li>
+</ul>
+<p>The above is similar to the methods we looked at earlier except for two new parameters &#8211; <em>usingSpringWithDamping</em> and <em>initialSpringVelocity</em>. Damping is a value from 0 to 1 that determines how much the view bounces towards the end of the animation. The closer to 1 the value is, the less bouncy it will be. <em>initialSpringVelocity</em> as the name says, determines the initial velocity of the animation. This determines how strong the animation starts off. If you want it to start vigorously, then set a larger value, if you want a smooth animation, then you can set the value to 0.</p>
+<h2>Keyframe Animations</h2>
+<p>Keyframe animations enable you to set different stages of an animation. You can group different animations together that share some common properties, but still be able to control them separately.</p>
+<p>Instead of an animation that just moves along a path, UIKit will execute the different stages of the animation.</p>
+<p>The Keyframe animation APIs are as follows.</p>
+<ul>
+<li>UIView.animateKeyframesWithDuration(_:, delay:, options:, animations:)</li>
+<li>UIView.addKeyframeWithRelativeStartTime(_:, relativeDuration:)</li>
+</ul>
+<p>The above two methods are used together, the second getting nested in the first&#8217;s animations closure.</p>
+<p>The first method sets the overall configuration of the animation, like how long it takes, delay and its options. You then define one or more of the second method(the frames) inside the animations closure to set the different stages of the animation.</p>
+<p>The relative start time and relative duration of each frame is a value between 0 and 1 that expresses the percentage time within the total duration of the animation.</p>
+<h2>View Transitions</h2>
+<p>View transitions are used when you want to add a new view to your view hierarchy or remove a view from the view hierarchy.</p>
+<p>The APIs that are used to create view transitions are</p>
+<ul>
+<li>UIView.transitionWithView(_:, duration:, options:, animations:, completion:)</li>
+<li>UIView.transitionFromView(_:, toView:, duration:, options:, completion:)</li>
+</ul>
+<p>You use the first one to introduce a view to the view hierarchy. The method takes similar parameters as we have seen in the other animation methods.</p>
+<p>The second one is used to take one view from the view hierarchy and and place a new view in its place.</p>
+<h2>Examples</h2>
+<p>We&#8217;ll now look at a few examples that use some of the above API calls to animate views in the given starter project.</p>
+<h3>Example I</h3>
+<p>If you run the project, you&#8217;ll see a table view that lists the examples we&#8217;ll work through. Select Example I in the list and you should see a Login screen of an app with the username and password fields and login button.</p>
+<p>We want these to be animated onto the screen when the app starts.</p>
+<p>To get started we&#8217;ll hide the views from sight when the view first appears. Before Auto Layout, this would have been a simple matter of changing the specific view&#8217;s position in code, but since we set auto layout constraints on the views in the storyboard file, we&#8217;ll have to change the constraints in code, which will change the view&#8217;s position.</p>
+<p>First, we need to get a reference of the constraints that we will change. Open the storyboard file. Locate the following constraints in the Example I Scene.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/anim_image002.png" alt="anim_image002" class="aligncenter size-full wp-image-4814" /></div>
+<p>Open the Assistant Editor, and make sure it is the ExampleIViewController.swift that appears next to the storyboard on the split screen. Drag from the <strong>Center X Alignment &#8211; View &#8211; Username</strong> constraint to the ExampleIViewController class. Create an outlet named <em>centerAlignUsername</em>. Do the same for the <strong>Center X Alignment &#8211; View &#8211; Password</strong> and set its name to <em>centerAlignPassword</em>. Also create an outlet for the login button named loginButton and an action for the same button and name it login. Make sure you set the Type of the action to UIButton. You should have the following in code.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">@IBOutlet weak var centerAlignUsername: NSLayoutConstraint!<br />
+@IBOutlet weak var centerAlignPassword: NSLayoutConstraint!<br />
+@IBOutlet weak var loginButton: UIButton!<br />
+&nbsp; &nbsp; <br />
+@IBAction func login(sender: UIButton) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+}</div></td></tr></tbody></table></div>
+<p>In the ExampleIViewController.swift add the following method which is called before the view is presented on screen.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">override func viewWillAppear(animated: Bool) {<br />
+&nbsp; &nbsp; super.viewWillAppear(animated)<br />
+&nbsp; &nbsp; centerAlignUsername.constant -= view.bounds.width<br />
+&nbsp; &nbsp; centerAlignPassword.constant -= view.bounds.width<br />
+&nbsp; &nbsp; loginButton.alpha = 0.0<br />
+}</div></td></tr></tbody></table></div>
+<p>This moves the username and password fields just out of view and sets the alpha value of the button to 0 which makes it invisible.</p>
+<p>Add the following method which is called right when the view appears.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">override func viewDidAppear(animated: Bool) {<br />
+&nbsp; &nbsp; super.viewDidAppear(animated)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.centerAlignUsername.constant += self.view.bounds.width<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.centerAlignPassword.constant += self.view.bounds.width<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.loginButton.alpha = 1<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.view.layoutIfNeeded()<br />
+&nbsp; &nbsp; }, completion: nil)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+}</div></td></tr></tbody></table></div>
+<p>Here we use the <em>UIView.animateWithDuration()</em> method that we saw earlier. We include the <em>UIViewAnimationOptions.CurveEaseOut</em> option which makes the animation start fast then slow down at the end. You can experiment with different options here. Command-click on <em>UIViewAnimationOptions</em> to see all the options available.</p>
+<p>The animation lasts for 0.5 seconds and starts immediately. You have liberty over the duration, but you shouldn&#8217;t set such a large number as to annoy your users when animations on your app seem to take too long. Normally, the duration is set between 0.5 and 0.7 seconds, but as I said, this isn&#8217;t set in stone and you have liberty to set it to whatever feels right to you.</p>
+<p>The animation does the exact opposite of what we did in <em>viewWillAppear()</em>. <em>layoutIfNeeded()</em> is used to lay out the views immediately they are changed. If you don&#8217;t include it, you will not see them get animated onto the screen, instead they will just be shown in their final position. Run the app, and you should see the following.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/video001.gif" alt="video001" class="aligncenter size-full wp-image-4815" /></div>
+<p>The above looks more interesting than a static presentation, but the views getting animated at the same time, doesn&#8217;t create that great an effect. Modify the method as shown below.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">override func viewDidAppear(animated: Bool) {<br />
+&nbsp; &nbsp; super.viewDidAppear(animated)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.centerAlignUsername.constant += self.view.bounds.width<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.view.layoutIfNeeded()<br />
+&nbsp; &nbsp; }, completion: nil)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIView.animateWithDuration(0.5, delay: 0.3, options: .CurveEaseOut, animations: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.centerAlignPassword.constant += self.view.bounds.width<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.view.layoutIfNeeded()<br />
+&nbsp; &nbsp; }, completion: nil)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIView.animateWithDuration(0.5, delay: 0.4, options: .CurveEaseOut, animations: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.loginButton.alpha = 1<br />
+&nbsp; &nbsp; }, completion: nil)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+}</div></td></tr></tbody></table></div>
+<p>Run the app and the resulting animation has the views animating on screen at different times. Looking at the code, you can see that after the first animation block, we set a delay on subsequent ones. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/video002.gif" alt="video002" class="aligncenter size-full wp-image-4816" /></div>
+<p>In login screens, when login fails, there is usually an animation that indicates to the user that login has failed. This is sometimes done as a shake of the text fields or the login button, and a message that lets the user know that login has failed. We&#8217;ll add such an effect on the login button using springs. Modify the <em>login()</em> function as shown.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">@IBAction func login(sender: UIButton) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; let bounds = self.loginButton.bounds<br />
+&nbsp; &nbsp; UIView.animateWithDuration(1.0, delay: 0.0, usingSpringWithDamping: 0.2, initialSpringVelocity: 10, options: nil, animations: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.loginButton.bounds = CGRect(x: bounds.origin.x - 20, y: bounds.origin.y, width: bounds.size.width + 60, height: bounds.size.height)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.loginButton.enabled = false<br />
+&nbsp; &nbsp; }, completion: nil)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+}</div></td></tr></tbody></table></div>
+<p>The above changes the size of the login button when pressed and animates the action with a spring animation which will cause the button&#8217;s width to expand and bounce a little at the end before settling.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/video003.gif" alt="video003" class="aligncenter size-full wp-image-4817" /></div>
+<p>Play around with the damping value. If you set it to 1, the button will expand, with no bouncing at the end. You can also use the same method on the username and password fields. Instead of having them come onto the screen and just stop in place at the end, have them be spring-like and bounce a little before settling down.</p>
+<h3>Example II</h3>
+<p>In your app, you might need to replace the background image of a view automatically when some action happens. You could do it in a way where an image immediately replaces another on the view, or you could slowly fade it in to create a nice transition. We&#8217;ll create this effect here. Open ExampleIIViewController.swift and add the following.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">override func viewWillAppear(animated: Bool) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; let firstImageView = UIImageView(image: UIImage(named: &quot;bg01.png&quot;))<br />
+&nbsp; &nbsp; firstImageView.frame = view.frame<br />
+&nbsp; &nbsp; view.addSubview(firstImageView)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; imageFadeIn(firstImageView)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+}<br />
+&nbsp; &nbsp; <br />
+func imageFadeIn(imageView: UIImageView) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; let secondImageView = UIImageView(image: UIImage(named: &quot;bg02.png&quot;))<br />
+&nbsp; &nbsp; secondImageView.frame = view.frame<br />
+&nbsp; &nbsp; secondImageView.alpha = 0.0<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; view.insertSubview(secondImageView, aboveSubview: imageView)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIView.animateWithDuration(2.0, delay: 2.0, options: .CurveEaseOut, animations: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; secondImageView.alpha = 1.0<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }, completion: {_ in<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; imageView.image = secondImageView.image<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; secondImageView.removeFromSuperview()<br />
+&nbsp; &nbsp; })<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+}</div></td></tr></tbody></table></div>
+<p>Here we create an image view and add it to the main view. We then call <em>imageFadeIn()</em> which creates a second view with a different image. We add this view above the first image view and set its alpha to 0. In the animation block, we animate its alpha value, making it visible. We then use a completion closure to set the image view&#8217;s image to the second image and we remove the second image view from the view hierarchy since it is no longer needed. I&#8217;ve added a long delay so that the animation doesn&#8217;t happen right at the moment we select Example II from the table view. The duration is also a bit long so we can see what&#8217;s going on in the demo.</p>
+<p>The following is the effect.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/videoeg02.gif" alt="videoeg02" class="aligncenter size-full wp-image-4818" /></div>
+<h3>Example III</h3>
+<p>Next we&#8217;ll look at keyframe animations. Open ExampleIIIViewController.swift and add the following variable and functions to the file. I&#8217;ve commented the code to explain each step.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">var alertView: UIView!<br />
+&nbsp; &nbsp; <br />
+func createView() {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; // Create a red view<br />
+&nbsp; &nbsp; let alertWidth: CGFloat = view.bounds.width<br />
+&nbsp; &nbsp; let alertHeight: CGFloat = view.bounds.height<br />
+&nbsp; &nbsp; let alertViewFrame: CGRect = CGRectMake(0, 0, alertWidth, alertHeight)<br />
+&nbsp; &nbsp; alertView = UIView(frame: alertViewFrame)<br />
+&nbsp; &nbsp; alertView.backgroundColor = UIColor.redColor()<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; // Create an image view and add it to this view<br />
+&nbsp; &nbsp; let imageView = UIImageView(frame: CGRectMake(0, 0, alertWidth, alertHeight/2))<br />
+&nbsp; &nbsp; imageView.image = UIImage(named: &quot;bike_traveler.png&quot;)<br />
+&nbsp; &nbsp; alertView.addSubview(imageView)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; // Create a button and set a listener on it for when it is tapped. Then the button is added to the alert view<br />
+&nbsp; &nbsp; let button = UIButton.buttonWithType(UIButtonType.System) as UIButton<br />
+&nbsp; &nbsp; button.setTitle(&quot;Dismiss&quot;, forState: UIControlState.Normal)<br />
+&nbsp; &nbsp; button.backgroundColor = UIColor.whiteColor()<br />
+&nbsp; &nbsp; let buttonWidth: CGFloat = alertWidth/2<br />
+&nbsp; &nbsp; let buttonHeight: CGFloat = 40<br />
+&nbsp; &nbsp; button.frame = CGRectMake(alertView.center.x - buttonWidth/2, alertView.center.y - buttonHeight/2, buttonWidth, buttonHeight)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; button.addTarget(self, action: Selector(&quot;dismissAlert&quot;), forControlEvents: UIControlEvents.TouchUpInside)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; alertView.addSubview(button)<br />
+&nbsp; &nbsp; view.addSubview(alertView)<br />
+}<br />
+&nbsp; &nbsp; <br />
+func dismissAlert() {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+}</div></td></tr></tbody></table></div>
+<p>In <em>viewDidLoad()</em> call the <em>createView()</em> function. Add the following to the bottom of viewDidLoad().</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">createView()</div></td></tr></tbody></table></div>
+<p>On running the app and selecting Example III from the table view, you should see a red view with an image view at the top and a button in the middle.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/anim_image003.png" alt="anim_image003" class="aligncenter size-full wp-image-4819" /></div>
+<p>We want to have the view(which I&#8217;ll refer to as the alertView from now onwards) to shrink in size and fall downwards out of view.</p>
+<p>When we created the button, we added a listener to it. When the button is tapped, <em>dismissAlert()</em> is called. Modify the function as shown.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">func dismissAlert() {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; let bounds = alertView.bounds<br />
+&nbsp; &nbsp; let smallFrame = CGRectInset(alertView.frame, alertView.frame.size.width / 4, alertView.frame.size.height / 4)<br />
+&nbsp; &nbsp; let finalFrame = CGRectOffset(smallFrame, 0, bounds.size.height)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIView.animateKeyframesWithDuration(4, delay: 0, options: .CalculationModeCubic, animations: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.5) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.alertView.frame = smallFrame<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0.5) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.alertView.frame = finalFrame<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; }, completion: nil)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+}</div></td></tr></tbody></table></div>
+<p>In the above code, we create frames that represent what we want for the two stages of animating the view. smallFrame shrinks to half the size of alertView, maintaining the center point and finalFrame has a position at the bottom of the screen, out of view.</p>
+<p>We use a Keyframe animation with two keyframes. The first sets alertView&#8217;s frame to smallFrame and the second to finalFrame. The result will be that the alertView will shrink to half its size and then fall out of view. Notice I have put such a large number for the duration &#8211; 4 seconds. You can change this, I just wanted the animation running in slow-motion for the demo. Run the app and select Example III.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/video004.gif" alt="video004" class="aligncenter size-full wp-image-4825" /></div>
+<p>The animation isn&#8217;t quite what we expected. You can see the red alertView animate as expected, but the scale of its children doesn&#8217;t change. Changing the parent&#8217;s frame, doesn&#8217;t automatically change its children&#8217;s frames.</p>
+<p>We&#8217;ll use a feature introduced in iOS 7 called UIView snapshots to fix the animation. This allows you to take a snapshot of a UIView together with its hierarchy and render it into a new UIView.</p>
+<p>In <em>dismissAlert()</em> add the following right before the Keyframe animation code.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">let snapshot = alertView.snapshotViewAfterScreenUpdates(false)<br />
+snapshot.frame = alertView.frame<br />
+view.addSubview(snapshot)<br />
+alertView.removeFromSuperview()</div></td></tr></tbody></table></div>
+<p>Here, we create a snapshot view and add it to the main view. We then remove the alertView from view, as the snapshot will replace it.</p>
+<p>Replace the Keyframe animation with the following.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">UIView.animateKeyframesWithDuration(4, delay: 0, options: .CalculationModeCubic, animations: {<br />
+&nbsp; &nbsp; UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.5) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; snapshot.frame = smallFrame<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0.5) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; snapshot.frame = finalFrame<br />
+&nbsp; &nbsp; }<br />
+}, completion: nil)</div></td></tr></tbody></table></div>
+<p>Run the application and on tapping Dismiss, the view(snapshot, really) should animate as expected.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/video005.gif" alt="video005" class="aligncenter size-full wp-image-4822" /></div>
+<h3>Example IV</h3>
+<p>We&#8217;ve looked at how you can animate simple views. In this example we&#8217;ll look at how you can animate a table view.</p>
+<p>If you select Example IV from the table view, you will find another table view with a list of items in it. When the table view is presented, the list items are already positioned onto the table. We want to animate them onto the view to create a more interesting effect.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/video006.gif" alt="video006" class="aligncenter size-full wp-image-4823" /></div>
+<p>Open ExampleIVViewController.swift and add the following methods.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">override func viewWillAppear(animated: Bool) {<br />
+&nbsp; &nbsp; animateTable()<br />
+}<br />
+&nbsp; &nbsp; <br />
+func animateTable() {<br />
+&nbsp; &nbsp; tableView.reloadData()<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; let cells = tableView.visibleCells()<br />
+&nbsp; &nbsp; let tableHeight: CGFloat = tableView.bounds.size.height<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; for i in cells {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let cell: UITableViewCell = i as UITableViewCell<br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.transform = CGAffineTransformMakeTranslation(0, tableHeight)<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; var index = 0<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; for a in cells {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let cell: UITableViewCell = a as UITableViewCell<br />
+&nbsp; &nbsp; &nbsp; &nbsp; UIView.animateWithDuration(1.5, delay: 0.05 * Double(index), usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: nil, animations: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cell.transform = CGAffineTransformMakeTranslation(0, 0);<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }, completion: nil)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; index += 1<br />
+&nbsp; &nbsp; }<br />
+}</div></td></tr></tbody></table></div>
+<p>Here, when the view appears, the <em>animateTable()</em> function is called. We reload the table view data and loop through the cells that are currently visible on the screen and move each of them to the bottom of the screen. We then iterate over all the cells that we moved to the bottom of the screen and animate them back to position with a spring animation.</p>
+<p>Run the app and you should see the following.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/video007.gif" alt="video007" class="aligncenter size-full wp-image-4824" /></div>
+<h2>Conclusion</h2>
+<p>We have looked at various APIs that you can use to add animations to your app&#8217;s views. This is not an exhaustive guide on animation in iOS but by using the simple APIs we have looked at, you can create various animations in your apps. To dive further into iOS animations, you could look at UIKit Dynamics, layer animations, view controller transitions and even motion effects. You could also look at third party libraries like <a href="http://www.appcoda.com/facebook-pop-framework-intro/">Facebook Pop</a> and JNWSpringAnimation framework which could help you build intricate animations more easily.</p>
+<p>You can <a href="https://www.dropbox.com/s/d2mfpegh647ie4n/ViewAnimationsFinal.zip?dl=0">download the completed project here</a>.</p>
+<p>As always, leave me comment and share your thought about the tutorial.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios7-airdrop-programming-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/10/AirDrop-Tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Adding AirDrop File Sharing Feature to Your iOS Apps</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/first-time-app-developer-success-stories-part-3/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/05/first-time-app-showcase-3-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">First Time App Developer Success Stories Part 3: Am I Too Late to Learn iOS Programming</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/app-extension-programming-today/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/10/app-extension-today-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to iOS 8 App Extension: Creating a Today Widget</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/chat-app-swift-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/01/mpc-swift-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building a Chat App in Swift Using Multipeer Connectivity Framework</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/view-animation-in-swift/"
+    dc:identifier="http://www.appcoda.com/view-animation-in-swift/"
+    dc:title="Creating Simple View Animations in Swift"
+    trackback:ping="http://www.appcoda.com/view-animation-in-swift/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/beginner/" rel="category tag">Beginner</a>, <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-animation/" rel="tag">iOS animation</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a>, <a href="http://www.appcoda.com/tag/xcode-6/" rel="tag">Xcode 6</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://0.gravatar.com/avatar/f820da721cd1faa5ef4b5e14af3f1ed5?s=70&#038;d=mm&#038;r=g' srcset='http://0.gravatar.com/avatar/f820da721cd1faa5ef4b5e14af3f1ed5?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Joyce Echessa</strong><br /><p>I am a web developer who also does mobile development from time to time. I have also been writing online for some time now, a process I find enjoyable and challenging, for, at times, it is when you have to explain something to someone, that you find there is still a lot to learn. You can find me on <a href="//twitter.com/joyceechessa">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-99485">
+        <div id="dsq-comment-header-99485" class="dsq-comment-header">
+            <cite id="dsq-cite-99485">
+                <span id="dsq-author-user-99485">mike</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99485" class="dsq-comment-body">
+            <div id="dsq-comment-message-99485" class="dsq-comment-message"><p>How can you do the last animation (Example IV) using objective c?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-99506">
+        <div id="dsq-comment-header-99506" class="dsq-comment-header">
+            <cite id="dsq-cite-99506">
+http://www.echessa.com/                <span id="dsq-author-user-99506">Joyce Echessa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99506" class="dsq-comment-body">
+            <div id="dsq-comment-message-99506" class="dsq-comment-message"><p>I haven&#8217;t tested this in an IDE, I just went line by line changing Swift to Obj-c, so you might find minor errors or typos. But it should give you an idea of the Obj-c code. I only give the code for the animateTable function, since that&#8217;s where all the animation is done. (Disqus is messing up the indentation)</p>
+<p>&#8211; (void)animateTable<br />
+{<br />
+    [self.tableView reloadData];<br />
+    NSArray *cells = [self.tableView visibleCells];<br />
+    CGFloat tableHeight = self.tableView.bounds.size.height;</p>
+<p>    for (int i = 0; i &lt; [cells count]; i++) {<br />
+        UITableViewCell *cell = [cells objectAtIndex:i];<br />
+        cell.transform = CGAffineTransformMakeTranslation(0, tableHeight);<br />
+    }</p>
+<p>    //No need to use index here like in the swift code. We’ll use the for loop&#039;s index<br />
+    for (int a = 0; a &lt; [cells count]; a++) {<br />
+        UITableViewCell *cell = [cells objectAtIndex:a];<br />
+        [UIView animateWithDuration:1.5 delay:0.05*a usingSpringWithDamping:0.8 initialSpringVelocity:0 options:0 animations:^{<br />
+            cell.transform = CGAffineTransformMakeTranslation(0, 0);<br />
+        } completion:NULL];<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99508">
+        <div id="dsq-comment-header-99508" class="dsq-comment-header">
+            <cite id="dsq-cite-99508">
+                <span id="dsq-author-user-99508">IDesignIT Kungsbacka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99508" class="dsq-comment-body">
+            <div id="dsq-comment-message-99508" class="dsq-comment-message"><p>Can&#8217;t download starter project. Dropbox says file has been removed.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-99514">
+        <div id="dsq-comment-header-99514" class="dsq-comment-header">
+            <cite id="dsq-cite-99514">
+http://www.appcoda.com/                <span id="dsq-author-user-99514">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99514" class="dsq-comment-body">
+            <div id="dsq-comment-message-99514" class="dsq-comment-message"><p>Please try again. I have just updated the link.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-99519">
+        <div id="dsq-comment-header-99519" class="dsq-comment-header">
+            <cite id="dsq-cite-99519">
+                <span id="dsq-author-user-99519">Geo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99519" class="dsq-comment-body">
+            <div id="dsq-comment-message-99519" class="dsq-comment-message"><p>link still not working</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-99528">
+        <div id="dsq-comment-header-99528" class="dsq-comment-header">
+            <cite id="dsq-cite-99528">
+http://www.appcoda.com/                <span id="dsq-author-user-99528">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99528" class="dsq-comment-body">
+            <div id="dsq-comment-message-99528" class="dsq-comment-message"><p>Just tested the links again. Both links work. Would you please reload the web page and try again?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99846">
+        <div id="dsq-comment-header-99846" class="dsq-comment-header">
+            <cite id="dsq-cite-99846">
+                <span id="dsq-author-user-99846">bcwoodard</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99846" class="dsq-comment-body">
+            <div id="dsq-comment-message-99846" class="dsq-comment-message"><p>How would you include table header views (for tables with multiple sections) in the animation?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100306">
+        <div id="dsq-comment-header-100306" class="dsq-comment-header">
+            <cite id="dsq-cite-100306">
+                <span id="dsq-author-user-100306">Szabolcs Sztányi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100306" class="dsq-comment-body">
+            <div id="dsq-comment-message-100306" class="dsq-comment-message"><p>Probably it is better to use CGAffineTransform rather than modifying the bounds or the frame of the view directly.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/view-animation-in-swift/';
+var disqus_identifier = '4812 http://www.appcoda.com/?p=4812';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Creating Simple View Animations in Swift";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=4812';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="4812"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fview-animation-in-swift%2F&#038;t=Creating%20Simple%20View%20Animations%20in%20Swift" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="facebook" data-post_id="4812" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Creating%20Simple%20View%20Animations%20in%20Swift&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fview-animation-in-swift%2F&#038;via=appcodamobile" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="twitter" data-post_id="4812" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fview-animation-in-swift%2F&#038;t=Creating%20Simple%20View%20Animations%20in%20Swift" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="googleplus" data-post_id="4812" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fview-animation-in-swift%2F&#038;title=Creating%20Simple%20View%20Animations%20in%20Swift" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="linkedin" data-post_id="4812" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fview-animation-in-swift%2F&#038;t=Creating%20Simple%20View%20Animations%20in%20Swift" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4812" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Creating%20Simple%20View%20Animations%20in%20Swift&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fview-animation-in-swift%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4812" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fview-animation-in-swift%2F&#038;t=Creating%20Simple%20View%20Animations%20in%20Swift" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4812" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fview-animation-in-swift%2F&#038;title=Creating%20Simple%20View%20Animations%20in%20Swift" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4812" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/view-animation-in-swift\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="b0d3dcdfc3d5f082c89ec0ded7">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":4812,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:26:21 by W3 Total Cache -->

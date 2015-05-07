@@ -1,0 +1,1162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>How To Save App Data to Parse Cloud | iOS Programming Tutorial</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This tutorial covers how to save app data to Parse cloud backend. We&#039;ll build a simple Recipe app and you&#039;ll learn how to upload image or text to Parse cloud."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-save-data-parse-cloud-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This tutorial covers how to save app data to Parse cloud backend. We&#039;ll build a simple Recipe app and you&#039;ll learn how to upload image or text to Parse cloud."/>
+<meta name="twitter:title" content="How To Save App Data to Parse Cloud | iOS Programming Tutorial"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/08/Parse-Backend-Tutorial-2.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Adding a Cloud Backend for Your iOS App Using Parse &#8211; Part 2 Comments Feed" href="http://www.appcoda.com/ios-programming-save-data-parse-cloud-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=2263' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-2263 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-2263 post type-post status-publish format-standard hentry category-course category-tutorials tag-icloud tag-mbprogresshud tag-nsnotificationcenter tag-parse-cloud tag-parse-sdk entry"><h1 class="entry-title">Adding a Cloud Backend for Your iOS App Using Parse &#8211; Part 2</h1> 
+<div class="post-info"><span class="date published time" title="2013-08-13T08:37:55+00:00">August 13, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-save-data-parse-cloud-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="2263 http://www.appcoda.com/?p=2263">49 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>This is the second part of the Cloud Backend tutorial. In the <a href="http://www.appcoda.com/ios-programming-app-backend-parse/">first part of the tutorial series</a>, we gave you an introduction of Backend as a Service (BaaS for short) and transformed the Recipe app. Instead of storing the recipes locally, we&#8217;ve migrated the recipes to the <a href="http://www.parse.com">Parse backend</a>. The Recipe app now connects to Parse and download the recipes from the cloud. </p>
+<p>If you&#8217;ve worked through Part 1, you should have a basic idea about the Parse SDK. In part 1, you&#8217;ve learnt how to retrieve objects from Parse. In this part, we&#8217;ll show you how to save new recipe to the Parse backend. Of course, you&#8217;ll learn how to delete the recipe, as well. </p>
+<p>We will build on the Xcode project that you&#8217;ve done in Part 1. So if you haven&#8217;t gone through the project and exercise, it&#8217;s highly recommended to <a href="http://www.appcoda.com/ios-programming-app-backend-parse/">check out the first part of the series</a>. </p>
+<p>Let&#8217;s get started.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/Parse-Backend-Tutorial-2.jpg" alt="Parse Backend Tutorial 2" class="aligncenter size-full wp-image-2289" /><br />
+<span id="more-2263"></span></div>
+<h2>Getting Started</h2>
+<p>Before moving to the coding part, let&#8217;s have a quick look at the new features. Previously, we&#8217;ve built a Recipe app to retrieve recipes from  Parse and display them using PFQueryTableViewController. In this part, we&#8217;ll add two new features:</p>
+<ul>
+<li>Create new recipe and save it to the cloud</li>
+<li>Swipe to delete existing recipe from the cloud</li>
+</ul>
+<div id="attachment_2268" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/Save-and-Remove-Data-from-Parse.jpg" alt="Save and Remove Data from Parse" class="size-full wp-image-2268" /><p class="wp-caption-text">Save and remove recipe to/from the Parse cloud</p></div>
+<h2>Designing the User Interface</h2>
+<p>The main user interface is pretty much unchanged. However, in order to let users add new recipe, we&#8217;ll add a new view controller. The &#8220;New Recipe&#8221; view controller is triggered by tapping the &#8220;+&#8221; button of the main interface. Through the new screen, user can fill in the recipe information including name, preparation time, ingredients and photo. </p>
+<div id="attachment_2270" style="width: 615px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/Storyboard-New-Recipe-View-Controller.jpg" alt="Storyboard New Recipe View Controller" class="size-full wp-image-2270" /><p class="wp-caption-text">Adding a New Recipe view controller</p></div>
+<p>We&#8217;ll not show you how to build the interface as this is not the focus of this tutorial. The &#8220;New Recipe&#8221; view controller is a subclass of UITableViewController and created using <a href="http://www.appcoda.com/ios-static-table-view-storyboard/">static table view</a>. You&#8217;re encouraged to build the interface but to save your time, you can <a href="https://dl.dropboxusercontent.com/u/2857188/RecipeBookParseUpdateEmpty.zip">download the Xcode project from here</a> (tested on Xcode 4.6.3). Unzip it and try it out. The rest of the tutorial will be built on this code template.</p>
+<p>Before proceeding, remember to change the application ID and client key to your own Parse IDs in the RecipeBookAppDelegate.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>application<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIApplication <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>application didFinishLaunchingWithOptions<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>launchOptions<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Override point for customization after application launch.</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>Parse setApplicationId<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;&lt;change to your application ID&gt;&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; clientKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;&lt;change to your client key&gt;&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">YES</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Picking Recipe Photo From Photo Library</h2>
+<p>We&#8217;ll first implement the &#8220;Add Photo&#8221; function of the New Recipe view controller. When user taps on the &#8220;Add Photo&#8221; image, the app will bring up the photo library for picking the recipe photo. The iOS SDK provides the class <em>UIImagePickerController</em> to <a href="http://www.appcoda.com/ios-programming-camera-iphone-app/">capture image from camera</a> and access the photo library. Let&#8217;s see how to bring up the media browser.</p>
+<h3>Creating a Media Browser</h3>
+<p>The <em>KUTTypeImage</em> definition that we&#8217;ll use later is defined in the MobileCoreServices framework. So add the framework to the Xcode project and add the following import statement at the very beginning of NewRecipeViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;MobileCoreServices/UTCoreTypes.h&gt;</span></div></td></tr></tbody></table></div>
+<p>Next, add the following code to create the &#8220;showPhotoLibrary:&#8221; method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>showPhotoLibary<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>UIImagePickerController isSourceTypeAvailable<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIImagePickerControllerSourceTypeSavedPhotosAlbum<span style="color: #002200;">&#93;</span> <span style="color: #002200;">==</span> <span style="color: #a61390;">NO</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIImagePickerController <span style="color: #002200;">*</span>mediaUI <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIImagePickerController alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; mediaUI.sourceType <span style="color: #002200;">=</span> UIImagePickerControllerSourceTypePhotoLibrary;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Displays saved pictures from the Camera Roll album.</span><br />
+&nbsp; &nbsp; mediaUI.mediaTypes <span style="color: #002200;">=</span> @<span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>kUTTypeImage<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Hides the controls for moving &amp; scaling pictures</span><br />
+&nbsp; &nbsp; mediaUI.allowsEditing <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; mediaUI.delegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.navigationController presentModalViewController<span style="color: #002200;">:</span> mediaUI animated<span style="color: #002200;">:</span> <span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the above code, we first configure the image picker and set the source type to <em>UIImagePickerControllerSourceTypePhotoLibrary</em>. This will present a media browser that provides access to all the photo albums on the device, including the camera roll. By default, the photo library includes both saved photos and videos. In this case, the Recipe app only allows user to select recipe photo from library. So we limit the media type to <em>kUTTypeImage</em>. The rest of the code is self explanatory. </p>
+<p>When user taps &#8220;Add Photo&#8221;, that is the first row of the static table view, we&#8217;ll call up the &#8220;showPhotoLibrary:&#8221; method to display the media browser. Therefore, add the following code in the same implementation file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView didSelectRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>indexPath.row <span style="color: #002200;">==</span> <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self showPhotoLibary<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you run the app and try to add a new recipe, the app will show you the photos from selection. However, the app will not respond to your selection as we haven&#8217;t implemented the UIImagePickerControllerDelegate protocol.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/Parse-backend-photo-library.jpg" alt="Parse backend photo library" class="aligncenter size-full wp-image-2273" /></div>
+<div class="note">
+<strong>Tip</strong>: If you&#8217;re using the iPhone Simulator to test out the app, your photo library is probably empty. It&#8217;s very easy to add photo into the photo album. Just drag any of your photos from Finder to the Simulator. It&#8217;ll automatically display the photo in Safari. Simply tap and hold the image to save it into the photo library.
+</div>
+<h3>Configuring the UIImagePickerController Delegate</h3>
+<p>To respond to the user&#8217;s selection, we have to implement a delegate that conforms to UIImagePickerControllerDelegate and UINavigationControllerDelegate protocols. Obviously, the NewRecipeViewController is set as the delegate object. In the NewRecipeViewController.h, change the interface to the following:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> NewRecipeViewController <span style="color: #002200;">:</span> UITableViewController &lt;UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate&gt;</div></td></tr></tbody></table></div>
+<p>Open the NewRecipeViewController.m and add the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span> imagePickerController<span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span>UIImagePickerController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> picker didFinishPickingMediaWithInfo<span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> info <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; UIImage <span style="color: #002200;">*</span>originalImage <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>UIImage <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#91;</span>info objectForKey<span style="color: #002200;">:</span>UIImagePickerControllerOriginalImage<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.recipeImageView.image <span style="color: #002200;">=</span> originalImage;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>picker dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>; &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>When user selects a photo from the album, the <i>didFinishPickingMediaWithInfo</i> method of the delegate is called and passed an NSDictionary object containing the media (image or video) and associated data. With editing disabled, we can obtain the selected image  from the info dictionary by using the <i>UIImagePickerControllerOriginalImage</i> key. The selected image is then assigned to the image view of the new recipe.</p>
+<div class="note">Tip: If editing is allowed, you can obtain the edited image by using the <i>UIImagePickerControllerEditedImage</i> key.</div>
+<p>If you run the app again, you should be able to select the recipe photo.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/Parse-Backend-Tutorial-Select-Image.jpg" alt="Parse Backend Tutorial Select Image" class="aligncenter size-full wp-image-2281" /></div>
+<h2>Handling Text Field</h2>
+<p>If you&#8217;re using the source code template, we&#8217;ve pre-built the text fields and associate them with the code for you. The text fields are used for collecting recipe information including recipe name, preparation time and ingredients from user. The ingredients field takes in a comma-delimited string with each ingredient separated by comma. To keep the demo app simple, there is no validation for the input.</p>
+<p>We also implemented the UITextFieldDelegate in the project template. The UITextField object messages the appropriate UITextFieldDelegate method when certain events occur. In our case, we&#8217;d like to hide the keyboard when user hits the return key. This can be easily done by implementing the textFieldShouldReturn: method, which is called when the user presses the return key on the keyboard.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>textFieldShouldReturn<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITextField <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>textField<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>textField resignFirstResponder<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">YES</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Uploading Recipe to Parse Cloud</h2>
+<p>With the basic setup of the user interface, let&#8217;s move onto the core part of the tutorial. Once user hits the &#8220;Save&#8221; button, the app will call up the &#8220;save:&#8221; method and upload the new recipe including the recipe image to the Parse cloud. The Parse SDK provides an easy way to upload data. Storing data on Parse is built around the PFObject. As mentioned previously, each PFObject contains key-value pairs of JSON-compatible data. </p>
+<p>In the &#8220;NewRecipeViewController.m&#8221;, implement the &#8220;save:&#8221; method with the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br />43<br />44<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>save<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Create PFObject with recipe information</span><br />
+&nbsp; &nbsp; PFObject <span style="color: #002200;">*</span>recipe <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>PFObject objectWithClassName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Recipe&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recipe setObject<span style="color: #002200;">:</span>_nameTextField.text forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;name&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recipe setObject<span style="color: #002200;">:</span>_prepTimeTextField.text forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;prepTime&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>ingredients <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_ingredientsTextField.text componentsSeparatedByString<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;,&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recipe setObject<span style="color: #002200;">:</span>ingredients forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;ingredients&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Recipe image</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a> <span style="color: #002200;">*</span>imageData <span style="color: #002200;">=</span> UIImageJPEGRepresentation<span style="color: #002200;">&#40;</span>_recipeImageView.image, <span style="color: #2400d9;">0.8</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>filename <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@.png&quot;</span>, _nameTextField.text<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; PFFile <span style="color: #002200;">*</span>imageFile <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>PFFile fileWithName<span style="color: #002200;">:</span>filename data<span style="color: #002200;">:</span>imageData<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recipe setObject<span style="color: #002200;">:</span>imageFile forKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;imageFile&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Show progress</span><br />
+&nbsp; &nbsp; MBProgressHUD <span style="color: #002200;">*</span>hud <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>MBProgressHUD showHUDAddedTo<span style="color: #002200;">:</span>self.view animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; hud.mode <span style="color: #002200;">=</span> MBProgressHUDModeIndeterminate;<br />
+&nbsp; &nbsp; hud.labelText <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Uploading&quot;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>hud show<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Upload recipe to Parse</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>recipe saveInBackgroundWithBlock<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span> succeeded, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>hud hide<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Show success message</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIAlertView <span style="color: #002200;">*</span>alert <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Upload Complete&quot;</span> message<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Successfully saved the recipe&quot;</span> delegate<span style="color: #002200;">:</span>self cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;OK&quot;</span> otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>alert show<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Notify table view to reload the recipes from Parse cloud</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> postNotificationName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;refreshTable&quot;</span> object<span style="color: #002200;">:</span>self<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Dismiss the controller</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; UIAlertView <span style="color: #002200;">*</span>alert <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Upload Failure&quot;</span> message<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span> delegate<span style="color: #002200;">:</span>self cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;OK&quot;</span> otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>alert show<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>To save the Recipe object to the cloud, we first create a PFObject using the &#8220;Recipe&#8221; class name. The PFObject works pretty much like the NSMutableDictionary, as you can see from the above code (line 3-8).</p>
+<p>For the recipe image, you can easily store it by converting it to NSData and then using PFFile. Here we turn the original image into JPEG data using UIImageJPEGRepresentation. Once you configure the PFObject, you can invoke the &#8220;saveInBackground:&#8221; method to save the recipe. This method will automatically upload the image and save the recipe in background. But to better handle the upload, we use an alternative method called &#8220;saveInBackgroundWithBlock:&#8221;. You can provide additional logic that will execute after the save completes. In our demo, we will display an alert to indicate the completion, followed by notifying the main view controller to reload the recipes.</p>
+<h3>Displaying Upload Indicator with MBProgressHUB</h3>
+<p>Now you should have a better idea of how object saving works. But what are those lines of code (i.e. line 16-20) that come after the PFobject? As you know, it takes time to upload the recipe image. It&#8217;s always good to let user know something is in progress. The iOS SDK provides developers with UIActivityIndicatorView for displaying a spinner. But today let us introduce an awesome class developed by Matej Bukovinski. <a href="https://github.com/jdg/MBProgressHUD">MBProgressHUD</a> is an open source class that displays a translucent HUD with an indicator. You can download the class for free from Github. If you still wonder what the class does, just take a look at the following screens provided by the developer:</p>
+<div id="attachment_2284" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/MBProgressHUD-Samples.jpg" alt="MBProgressHUD Samples" class="size-full wp-image-2284" /><p class="wp-caption-text">MBProgressHUD Samples</p></div>
+<p>The MBProgressHUD class is very simple to use. Just add both MBProgressHUD.h and MBProgressHUD.m to your Xcode project, and you&#8217;re ready to go. For your convenience, we&#8217;ve bundled both classes in the project template. It only takes a few lines of code to set up the HUD. First, import the MBProgressHUD header file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;MBProgressHUD.h&quot;</span></div></td></tr></tbody></table></div>
+<p>Then initialize the HUD with the current view. The MBProgressHUD class provides different HUD modes. We just use the <em>MBProgressHUDModeInDeterminate</em> mode and change the label to &#8220;Uploading&#8221;. The last line tells the HUD to show as it is hidden by default.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">MBProgressHUD <span style="color: #002200;">*</span>hud <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>MBProgressHUD showHUDAddedTo<span style="color: #002200;">:</span>self.view animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+hud.mode <span style="color: #002200;">=</span> MBProgressHUDModeInDeterminate;<br />
+hud.labelText <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Uploading&quot;</span>;<br />
+<span style="color: #002200;">&#91;</span>hud show<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>To hide the HUD, you can call the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>hud hide<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<h3>Testing the App</h3>
+<p>This is how we use MBProgressHUD while saving the recipe to the Parse cloud. Okay, it&#8217;s time to build and run the app. Try add a new recipe and save it to the Parse cloud. During the recipe upload, you should see the HUD indicating the upload is in progress. Once complete, the table view of Recipe Book view controller will refresh and load the new recipe from Parse.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/Recipe-App-Save-Recipe.jpg" alt="Recipe App Save Recipe" class="aligncenter size-full wp-image-2286" /></div>
+<h2>Deleting Recipe from Parse Cloud</h2>
+<p>You should know how to delete a row from table view if you&#8217;ve followed the <a href="http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/">UITableView tutorial</a>. Simply implement the &#8220;commitEditingStyle:&#8221; method with the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView commitEditingStyle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableViewCellEditingStyle<span style="color: #002200;">&#41;</span>editingStyle forRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Remove the row from data model</span><br />
+&nbsp; &nbsp; PFObject <span style="color: #002200;">*</span>object <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self.objects objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>object deleteInBackgroundWithBlock<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span> succeeded, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self refreshTable<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Like saving data to the Parse cloud, PFObject provides various methods for object deletion. The &#8220;deleteInBackground:&#8221; method lets you delete the object from the cloud in background. Here we use an alternative method called &#8220;deleteInBackgroundWithBlock:&#8221; that allows to run a callback when deletion completes.</p>
+<h2>Summary</h2>
+<p>Through this tutorial series, hopefully you can see how easy it is to save data to the cloud by using the Parse SDK. If you think it&#8217;s too hard and complex to connect your app to the cloud, think again. Parse, as well as, other BaaS providers (e.g. <a href="https://www.stackmob.com/">StackMob</a>) simplify the whole development of a backend. We hope this tutorial inspires you to add a backend for your iOS app and serves as a starting point to explore other BaaS solutions. We&#8217;re looking forward to seeing your cloud app!</p>
+<p>For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/RecipeBookParseUpdate.zip">download the full source code from here</a>. As always, leave us comment and share your thought about the tutorial. We want to hear your feedback and keep improving.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/video-recording-playback-ios-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/video-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Create a Simple App for Video Recording and Playback</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-event-kit-programming-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/07/event-kit-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Access iOS Calendar, Events and Reminders Using Event Kit Framework</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-gesture-recognizers/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/gestures-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Using Gesture Recognizers to Handle Pinch, Rotate, Pan, Swipe and Tap Gestures</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/chat-app-swift-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/01/mpc-swift-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building a Chat App in Swift Using Multipeer Connectivity Framework</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-save-data-parse-cloud-tutorial/"
+    dc:identifier="http://www.appcoda.com/ios-programming-save-data-parse-cloud-tutorial/"
+    dc:title="Adding a Cloud Backend for Your iOS App Using Parse &#8211; Part 2"
+    trackback:ping="http://www.appcoda.com/ios-programming-save-data-parse-cloud-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/icloud/" rel="tag">iCloud</a>, <a href="http://www.appcoda.com/tag/mbprogresshud/" rel="tag">MBProgressHUD</a>, <a href="http://www.appcoda.com/tag/nsnotificationcenter/" rel="tag">NSNotificationCenter</a>, <a href="http://www.appcoda.com/tag/parse-cloud/" rel="tag">parse cloud</a>, <a href="http://www.appcoda.com/tag/parse-sdk/" rel="tag">parse sdk</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-2201">
+        <div id="dsq-comment-header-2201" class="dsq-comment-header">
+            <cite id="dsq-cite-2201">
+                <span id="dsq-author-user-2201">tonym</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2201" class="dsq-comment-body">
+            <div id="dsq-comment-message-2201" class="dsq-comment-message"><p>Thank you! 😀</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2204">
+        <div id="dsq-comment-header-2204" class="dsq-comment-header">
+            <cite id="dsq-cite-2204">
+                <span id="dsq-author-user-2204">Pietro Bertini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2204" class="dsq-comment-body">
+            <div id="dsq-comment-message-2204" class="dsq-comment-message"><p>Thanks a lot! Great tut!</p>
+<p>A question: is there a way to change the &#8220;Delete&#8221; button in commitEditingStyle method. I&#8217;m building an app to make reservations. It would be great if the user could reserve a specific timetable in fact deleting  the Parse object from database but the app should display something different from &#8220;Delete&#8221; maybe &#8220;Book&#8221;, or &#8220;reserve&#8221;&#8230; Any suggestion?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2206">
+        <div id="dsq-comment-header-2206" class="dsq-comment-header">
+            <cite id="dsq-cite-2206">
+http://www.simonblog.com                <span id="dsq-author-user-2206">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2206" class="dsq-comment-body">
+            <div id="dsq-comment-message-2206" class="dsq-comment-message"><p>In the RecipeBookViewController, implement the following method and return the title of the delete button:</p>
+<p>-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {<br />
+    return @&#8221;Remove me!&#8221;;<br />
+}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-2207">
+        <div id="dsq-comment-header-2207" class="dsq-comment-header">
+            <cite id="dsq-cite-2207">
+                <span id="dsq-author-user-2207">Pietro Bertini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2207" class="dsq-comment-body">
+            <div id="dsq-comment-message-2207" class="dsq-comment-message"><p>Thanx a lot!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2240">
+        <div id="dsq-comment-header-2240" class="dsq-comment-header">
+            <cite id="dsq-cite-2240">
+                <span id="dsq-author-user-2240">Podster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2240" class="dsq-comment-body">
+            <div id="dsq-comment-message-2240" class="dsq-comment-message"><p>Will there be an example on how to user Parse when the user is offline with the ability to sync once back online?</p>
+<p>Thanks for a great tutorial.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2311">
+        <div id="dsq-comment-header-2311" class="dsq-comment-header">
+            <cite id="dsq-cite-2311">
+                <span id="dsq-author-user-2311">Yuri Ferretti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2311" class="dsq-comment-body">
+            <div id="dsq-comment-message-2311" class="dsq-comment-message"><p>to delete an object in the future when you can&#8217;t ensure network connectivity just send [object deleteEventually]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2251">
+        <div id="dsq-comment-header-2251" class="dsq-comment-header">
+            <cite id="dsq-cite-2251">
+                <span id="dsq-author-user-2251">Chandler</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2251" class="dsq-comment-body">
+            <div id="dsq-comment-message-2251" class="dsq-comment-message"><p>How do you get the new items to load at the top instead of the bottom?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2268">
+        <div id="dsq-comment-header-2268" class="dsq-comment-header">
+            <cite id="dsq-cite-2268">
+                <span id="dsq-author-user-2268">Sabre</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2268" class="dsq-comment-body">
+            <div id="dsq-comment-message-2268" class="dsq-comment-message"><p>When I tried to add a new recipe named in other language, not in English, to Parse cloud, then alert message showed &#8220;Upload Failure: The operation couldn&#8217;t be completed.(Parse error 122.)&#8221; Anybody can help solving this problem???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2281">
+        <div id="dsq-comment-header-2281" class="dsq-comment-header">
+            <cite id="dsq-cite-2281">
+                <span id="dsq-author-user-2281">Mano Marks</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2281" class="dsq-comment-body">
+            <div id="dsq-comment-message-2281" class="dsq-comment-message"><p>Great tutorials. I would love to see tutorials on:<br />
+Core Animation<br />
+Using the Google Maps SDK (happy to help with this one :-))</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2284">
+        <div id="dsq-comment-header-2284" class="dsq-comment-header">
+            <cite id="dsq-cite-2284">
+http://www.simonblog.com                <span id="dsq-author-user-2284">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2284" class="dsq-comment-body">
+            <div id="dsq-comment-message-2284" class="dsq-comment-message"><p>We&#8217;re working on a few tutorials. I&#8217;ll put Core Animation on our to-do list. We&#8217;re looking for guest writer. If you can help on the Google Maps SDK, that will be great. You can contact me via the Contact page.</p>
+<p><a href="http://www.appcoda.com/contact/" rel="nofollow">http://www.appcoda.com/contact/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2287">
+        <div id="dsq-comment-header-2287" class="dsq-comment-header">
+            <cite id="dsq-cite-2287">
+                <span id="dsq-author-user-2287">Hugh Jeremy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2287" class="dsq-comment-body">
+            <div id="dsq-comment-message-2287" class="dsq-comment-message"><p>It would be great if you could add to the tutorial by sending a push notification when a new data row is added to the Parse cloud.</p>
+<p>Thanks for all the great tutorials,<br />
+Hugh</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2294">
+        <div id="dsq-comment-header-2294" class="dsq-comment-header">
+            <cite id="dsq-cite-2294">
+                <span id="dsq-author-user-2294">Oscar Blanco Castan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2294" class="dsq-comment-body">
+            <div id="dsq-comment-message-2294" class="dsq-comment-message"><p>hi anybody knows how to put search a bar?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2295">
+        <div id="dsq-comment-header-2295" class="dsq-comment-header">
+            <cite id="dsq-cite-2295">
+                <span id="dsq-author-user-2295">Oscar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2295" class="dsq-comment-body">
+            <div id="dsq-comment-message-2295" class="dsq-comment-message"><p>hi anyone can say me how i can put a search bar? thanks in advanced</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2317">
+        <div id="dsq-comment-header-2317" class="dsq-comment-header">
+            <cite id="dsq-cite-2317">
+                <span id="dsq-author-user-2317">Sabre</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2317" class="dsq-comment-body">
+            <div id="dsq-comment-message-2317" class="dsq-comment-message"><p>I always want give you many thanks for your great tutorials. I also understand that you are always busy and have little spare time to answer every silly question&#8230;<br />
+But  I hope you can consider that some beginners would be happy to have an answer for their own silly question.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2455">
+        <div id="dsq-comment-header-2455" class="dsq-comment-header">
+            <cite id="dsq-cite-2455">
+                <span id="dsq-author-user-2455">Scott</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2455" class="dsq-comment-body">
+            <div id="dsq-comment-message-2455" class="dsq-comment-message"><p>After saving a new recipe you get an EXC_BAD_ACCESS error after clicking on the UIAlert View.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2456">
+        <div id="dsq-comment-header-2456" class="dsq-comment-header">
+            <cite id="dsq-cite-2456">
+                <span id="dsq-author-user-2456">Scott</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2456" class="dsq-comment-body">
+            <div id="dsq-comment-message-2456" class="dsq-comment-message"><p>I forgot to add that I&#8217;m using Xcode 5 and running the iOS 7 simulator.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-2756">
+        <div id="dsq-comment-header-2756" class="dsq-comment-header">
+            <cite id="dsq-cite-2756">
+                <span id="dsq-author-user-2756">Erich</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2756" class="dsq-comment-body">
+            <div id="dsq-comment-message-2756" class="dsq-comment-message"><p>I got the same EXC_BAD_ACCESS whenever I clicked &#8216;OK&#8217; in the &#8220;Upload Complete&#8221; Alert-Message. Fixed it by setting the delegate there to &#8216;nil&#8217; instead of &#8216;self':</p>
+<p>UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@&#8221;Upload Complete&#8221; message:@&#8221;Successfully saved the recipe&#8221; delegate:nil cancelButtonTitle:@&#8221;OK&#8221; otherButtonTitles:nil, nil];</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-2844">
+        <div id="dsq-comment-header-2844" class="dsq-comment-header">
+            <cite id="dsq-cite-2844">
+                <span id="dsq-author-user-2844">julian_b</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2844" class="dsq-comment-body">
+            <div id="dsq-comment-message-2844" class="dsq-comment-message"><p>thx for the fix&#8230; worked for me also on Xcode 5 and iOS 7</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-3067">
+        <div id="dsq-comment-header-3067" class="dsq-comment-header">
+            <cite id="dsq-cite-3067">
+                <span id="dsq-author-user-3067">Zull_SHA1</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3067" class="dsq-comment-body">
+            <div id="dsq-comment-message-3067" class="dsq-comment-message"><p>thanx Erich..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2466">
+        <div id="dsq-comment-header-2466" class="dsq-comment-header">
+            <cite id="dsq-cite-2466">
+                <span id="dsq-author-user-2466">Matthew Waller</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2466" class="dsq-comment-body">
+            <div id="dsq-comment-message-2466" class="dsq-comment-message"><p>Hi, great tutorial. Was wondering if there is a way to simply replace an array in the source code with the information on Parse. There is a lot here about displaying the array, is there any way to do a PFQuery and simply bring in new values for an array? Thanks for any help you can offer.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2536">
+        <div id="dsq-comment-header-2536" class="dsq-comment-header">
+            <cite id="dsq-cite-2536">
+                <span id="dsq-author-user-2536">ahong222</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2536" class="dsq-comment-body">
+            <div id="dsq-comment-message-2536" class="dsq-comment-message"><p>I run the project download from here in xcode5,there is a problem after add a recipe object successful,there is no log,just jump to this file:&#8221;#import &#8220;RecipeBookAppDelegate.h&#8221;</p>
+<p>int main(int argc, char *argv[])</p>
+<p>{</p>
+<p>    @autoreleasepool {</p>
+<p>        return UIApplicationMain(argc, argv, nil, NSStringFromClass([RecipeBookAppDelegate class]));//stop here</p>
+<p>    }</p>
+<p>}</p>
+<p>&#8220;,do you know what is the problem?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3196">
+        <div id="dsq-comment-header-3196" class="dsq-comment-header">
+            <cite id="dsq-cite-3196">
+                <span id="dsq-author-user-3196">felix</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3196" class="dsq-comment-body">
+            <div id="dsq-comment-message-3196" class="dsq-comment-message"><p>Hi any help for this? I face the same issue</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2537">
+        <div id="dsq-comment-header-2537" class="dsq-comment-header">
+            <cite id="dsq-cite-2537">
+                <span id="dsq-author-user-2537">Sebastian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2537" class="dsq-comment-body">
+            <div id="dsq-comment-message-2537" class="dsq-comment-message"><p>is there any way to add the data of a geopoint (parse geopoint column) to the tablecell?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2545">
+        <div id="dsq-comment-header-2545" class="dsq-comment-header">
+            <cite id="dsq-cite-2545">
+                <span id="dsq-author-user-2545">Scott</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2545" class="dsq-comment-body">
+            <div id="dsq-comment-message-2545" class="dsq-comment-message"><p>What if the user made a mistake when saving a new recipe.  How could you edit the recipe without creating a duplicate?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2796">
+        <div id="dsq-comment-header-2796" class="dsq-comment-header">
+            <cite id="dsq-cite-2796">
+                <span id="dsq-author-user-2796">NissiVM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2796" class="dsq-comment-body">
+            <div id="dsq-comment-message-2796" class="dsq-comment-message"><p>Hi, great tutorial! =]</p>
+<p>I have a question: Is it possible to have the &#8220;Load more&#8230;&#8221; in a button, instead of in a row? When you slide left the &#8220;Load more&#8230;&#8221; row the Delete button appears and when you click it an exception occurs.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2797">
+        <div id="dsq-comment-header-2797" class="dsq-comment-header">
+            <cite id="dsq-cite-2797">
+                <span id="dsq-author-user-2797">NissiVM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2797" class="dsq-comment-body">
+            <div id="dsq-comment-message-2797" class="dsq-comment-message"><p>This method prevents the row from be editable:</p>
+<p>&#8211; (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath<br />
+{<br />
+    if([self.objects count] == indexPath.row) {<br />
+        return NO;<br />
+    }else{<br />
+        return YES;<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2808">
+        <div id="dsq-comment-header-2808" class="dsq-comment-header">
+            <cite id="dsq-cite-2808">
+                <span id="dsq-author-user-2808">Fırat Tuncer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2808" class="dsq-comment-body">
+            <div id="dsq-comment-message-2808" class="dsq-comment-message"><p>After downloaded and run the finished project source code the following problem occured: I can retrieve name, ingredients, prep time but the image files. On Xcode5 iOS 7 simulator. Anyone had the same issue?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3236">
+        <div id="dsq-comment-header-3236" class="dsq-comment-header">
+            <cite id="dsq-cite-3236">
+                <span id="dsq-author-user-3236">jetty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3236" class="dsq-comment-body">
+            <div id="dsq-comment-message-3236" class="dsq-comment-message"><p>Hello from France! I just found your site and it is really great. Continue like that <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2014/03/exporting-parse-self-object-into-an-excel-spreadsheet-using-libxl/' rel='external nofollow' class='url'>Exporting parse self.object into an excel spreadsheet using libxl | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://querypost.com/exporting-parse-self-object-into-an-excel-spreadsheet-using-libxl/' rel='external nofollow' class='url'>Exporting parse self.object into an excel spreadsheet using libxl | QueryPost.com</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://querypost.com/automatically-populating-an-excel-spreadsheet-with-self-object-from-parse/' rel='external nofollow' class='url'>Automatically populating an excel spreadsheet with self.object from parse | QueryPost.com</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://stackforum.com/populate-an-excel-spreadsheet-with-self-objects/' rel='external nofollow' class='url'>populate an excel spreadsheet with self.objects | Stackforum.com</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://hardikjain2020.wordpress.com/2014/03/27/ios-7-with-xcode-5-training/' rel='external nofollow' class='url'>Ios 7 with xcode 5 training | Iphone Tutorial Point</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5274">
+        <div id="dsq-comment-header-5274" class="dsq-comment-header">
+            <cite id="dsq-cite-5274">
+http://avlabs.co/                <span id="dsq-author-user-5274">Vibhoo Mishra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5274" class="dsq-comment-body">
+            <div id="dsq-comment-message-5274" class="dsq-comment-message"><p>I am new to Objective-c when i am running this tutorial i am getting following error message, when trying to save the things </p>
+<p>&#8220;Terminating app due to uncaught exception &#8216;NSInvalidArgumentException&#8217;, reason: &#8216;Can&#8217;t use nil for keys or values on PFObject. Use NSNull for values.&#8217; &#8221;</p>
+<p>Please Help me ASAP</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-5279">
+        <div id="dsq-comment-header-5279" class="dsq-comment-header">
+            <cite id="dsq-cite-5279">
+http://avlabs.co/                <span id="dsq-author-user-5279">Vibhoo Mishra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5279" class="dsq-comment-body">
+            <div id="dsq-comment-message-5279" class="dsq-comment-message"><p>Problem is Solved</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.uitvaartcompact.nl/fckeditor/_samples/cfm/boxershort-calvin-klein.cfm' rel='external nofollow' class='url'>Boxershort Calvin Klein</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-9872">
+        <div id="dsq-comment-header-9872" class="dsq-comment-header">
+            <cite id="dsq-cite-9872">
+                <span id="dsq-author-user-9872">g2sleeper</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9872" class="dsq-comment-body">
+            <div id="dsq-comment-message-9872" class="dsq-comment-message"><p>When I try to import the json recipe model that is provided, I get an Error in Parse &#8220;Name must start with a letter&#8221;&#8230; can someone help me with this?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15388">
+        <div id="dsq-comment-header-15388" class="dsq-comment-header">
+            <cite id="dsq-cite-15388">
+                <span id="dsq-author-user-15388">Joey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15388" class="dsq-comment-body">
+            <div id="dsq-comment-message-15388" class="dsq-comment-message"><p>Thanks for this great tutorial and I can design ios apps to add / delete record in Parse clouds now even I&#8217;m a very beginner programmer. However, do you have the sample code for update the records. I don&#8217;t know how to write the programming code to update the record.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-21834">
+        <div id="dsq-comment-header-21834" class="dsq-comment-header">
+            <cite id="dsq-cite-21834">
+                <span id="dsq-author-user-21834">John GuySmith</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-21834" class="dsq-comment-body">
+            <div id="dsq-comment-message-21834" class="dsq-comment-message"><p>how do you order the recipes alphabetically or by date created?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-26754">
+        <div id="dsq-comment-header-26754" class="dsq-comment-header">
+            <cite id="dsq-cite-26754">
+                <span id="dsq-author-user-26754">Sylvain Lanson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26754" class="dsq-comment-body">
+            <div id="dsq-comment-message-26754" class="dsq-comment-message"><p>hello<br />
+this a great tutorial but i have a problem, i won&#8217;t the recent publication in up of the page not down<br />
+thanks for your tutorial and your help<br />
+ps: i&#8217;m french ^^</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://spottedbynormanncopenhagen.com/2014/03/28/spring-cleaning-with-design-classics/' rel='external nofollow' class='url'>Ibiza holidays problems with 2014 honda accord</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-60560">
+        <div id="dsq-comment-header-60560" class="dsq-comment-header">
+            <cite id="dsq-cite-60560">
+                <span id="dsq-author-user-60560">saad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-60560" class="dsq-comment-body">
+            <div id="dsq-comment-message-60560" class="dsq-comment-message"><p>I have two problems </p>
+<p>The first problem: </p>
+<p>When top-notch data on the cloud </p>
+<p>The first news rises and descends to the bottom of the new news </p>
+<p>The second problem: </p>
+<p>When I want to upload the news of the new name does not accept letters of Arab</p>
+<p>please Help plzz &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-97089">
+        <div id="dsq-comment-header-97089" class="dsq-comment-header">
+            <cite id="dsq-cite-97089">
+                <span id="dsq-author-user-97089">steve</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97089" class="dsq-comment-body">
+            <div id="dsq-comment-message-97089" class="dsq-comment-message"><p>Hi,</p>
+<p>How can I retrive some data to Specific Users?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-98981">
+        <div id="dsq-comment-header-98981" class="dsq-comment-header">
+            <cite id="dsq-cite-98981">
+                <span id="dsq-author-user-98981">Aaron Kalantarov</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98981" class="dsq-comment-body">
+            <div id="dsq-comment-message-98981" class="dsq-comment-message"><p>how to export data to exel with libxl??? please help.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://hkvlaanderen.nl/what-is-parse-com/' rel='external nofollow' class='url'>What is Parse.com » Multipurpose Wordpress theme</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100273">
+        <div id="dsq-comment-header-100273" class="dsq-comment-header">
+            <cite id="dsq-cite-100273">
+                <span id="dsq-author-user-100273">rushabh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100273" class="dsq-comment-body">
+            <div id="dsq-comment-message-100273" class="dsq-comment-message"><p>How to use in swift  MBProgressHUD</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://scottbrenner.com/how-to-save-app-data-to-parse-cloud-ios-programming-tutorial/' rel='external nofollow' class='url'>How To Save App Data to Parse Cloud | iOS Programming Tutorial | Scott Brenner</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100801">
+        <div id="dsq-comment-header-100801" class="dsq-comment-header">
+            <cite id="dsq-cite-100801">
+                <span id="dsq-author-user-100801">Gurjas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100801" class="dsq-comment-body">
+            <div id="dsq-comment-message-100801" class="dsq-comment-message"><p>great tutorial <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> will recommend this site for sure 😀</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101261">
+        <div id="dsq-comment-header-101261" class="dsq-comment-header">
+            <cite id="dsq-cite-101261">
+                <span id="dsq-author-user-101261">gmmck</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101261" class="dsq-comment-body">
+            <div id="dsq-comment-message-101261" class="dsq-comment-message"><p>is there a swift version of this awesome tutorial?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-save-data-parse-cloud-tutorial/';
+var disqus_identifier = '2263 http://www.appcoda.com/?p=2263';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Adding a Cloud Backend for Your iOS App Using Parse &#8211; Part 2";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=2263';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="2263"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-save-data-parse-cloud-tutorial%2F&#038;t=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2263" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>64</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%202&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-save-data-parse-cloud-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2263" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>16</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-save-data-parse-cloud-tutorial%2F&#038;t=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2263" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>5</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-save-data-parse-cloud-tutorial%2F&#038;title=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2263" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>2</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-save-data-parse-cloud-tutorial%2F&#038;t=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2263" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%202&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-save-data-parse-cloud-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2263" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-save-data-parse-cloud-tutorial%2F&#038;t=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2263" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-save-data-parse-cloud-tutorial%2F&#038;title=Adding%20a%20Cloud%20Backend%20for%20Your%20iOS%20App%20Using%20Parse%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2263" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-save-data-parse-cloud-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:22:21 by W3 Total Cache -->

@@ -1,0 +1,811 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Modify Web Content Using WebKit Framework in iOS 8</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This tutorial gives you an introduction to WebKit framework in iOS 8 and shows you how to modify web page content using javascript and WKWebView."/>
+<link rel="canonical" href="http://www.appcoda.com/webkit-framework-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This tutorial gives you an introduction to WebKit framework in iOS 8 and shows you how to modify web page content using javascript and WKWebView."/>
+<meta name="twitter:title" content="Modify Web Content Using WebKit Framework in iOS 8"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2015/01/webkit-javascript.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; A Look at the WebKit Framework in iOS 8 – Part 2 Comments Feed" href="http://www.appcoda.com/webkit-framework-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=4655' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-4655 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-4655 post type-post status-publish format-standard hentry category-beginner category-course category-swift-2 category-tutorials tag-ios-programming tag-swift tag-webkit tag-wknavigationdelegate tag-wkwebview entry"><h1 class="entry-title">A Look at the WebKit Framework in iOS 8 – Part 2</h1> 
+<div class="post-info"><span class="date published time" title="2015-01-15T00:34:31+00:00">January 15, 2015</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/joyceechessa/" rel="author">Joyce Echessa</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/webkit-framework-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="4655 http://www.appcoda.com/?p=4655">5 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>In the <a href="http://www.appcoda.com/webkit-framework-intro/">first part of the WebKit tutorial</a>, we covered the basics of the WebKit framework. In this tutorial, we&#8217;ll dive deeper into WebKit and look at how we can customize web pages loaded by our native app. We&#8217;ll also see how we can extract data from web pages and use it in our app.</p>
+<p>We&#8217;ll build an app that is specifically meant to browse <strong>appcoda.com</strong>. To follow along, <a href="https://www.dropbox.com/s/u1jp90qe7h2sok6/CodaStarter.zip?dl=0">download the starter project</a>. The starter project is a simple browser named Coda, much like the one we built in the first part of this tutorial. The only difference is that it doesn&#8217;t have a text field for the user to input a url to be loaded and I replaced the Back, Forward and Reload buttons text with icons.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/01/webkit-javascript.jpg" alt="webkit-javascript" class="alignright size-full wp-image-4675" /></div>
+<p><span id="more-4655"></span></p>
+<h2>Handling External Links</h2>
+<p>If you run the app and click on an external link, the web view will load that link&#8217;s content. The app is meant to be a dedicated Appcoda browser therefore we&#8217;ll have to prevent the loading of external links. If a user taps an external link, the page will be opened in Safari.</p>
+<p>What we want here is to customize the way pages are loaded. To do this, we have to intervene with the usual page loading process. Before we look at how this is done, let&#8217;s look at the page loading process.</p>
+<p>The page loading process starts with an Action. This is anything that triggers a page load like tapping a link, using the back, forward or reload buttons, JavaScript setting the <em>window.location</em> property, subframe loading or a call to <em>WKWebView loadRequest()</em>. Then a Request is sent off to the server and we get back a Response (this could be a positive response or an error message like 404). Then the server sends back some Data and the process completes.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/01/image011.png" alt="webkit demo project" class="aligncenter size-full wp-image-4660" /></div>
+<p>WebKit allows your app to inject itself after the Action and Response phases, and to decide whether to continue the load, cancel it or tweak it according to your needs.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/01/image021.png" alt="webkit demo project" class="aligncenter size-full wp-image-4661" /></div>
+<p>Add the following method to <em>ViewController</em>.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">func webView(webView: WKWebView!, decidePolicyForNavigationAction navigationAction: WKNavigationAction!, decisionHandler: ((WKNavigationActionPolicy) -&gt; Void)!) {<br />
+&nbsp; &nbsp; if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&quot;www.appcoda.com&quot;)) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; UIApplication.sharedApplication().openURL(navigationAction.request.URL)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; decisionHandler(WKNavigationActionPolicy.Cancel)<br />
+&nbsp; &nbsp; } else {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; decisionHandler(WKNavigationActionPolicy.Allow)<br />
+&nbsp; &nbsp; }<br />
+}</div></td></tr></tbody></table></div>
+<p>The above is a <em>WKNavigationDelegate</em> protocol method that gets called several times during the page load. One of its parameters is an <em>WKNavigationAction</em> object which contains information that can help you decide whether to continue page load or not. In the above code, we use two of its properties, <em>navigationType</em> and <em>request</em>. We only want to interrupt external links that have been initiated by a user and so we check for the <em>navigationType</em>. We then check the <em>request</em> url to determine whether it is an external link. If both conditions are met, then the URL is opened by the device&#8217;s browser (Safari) and <em>WKNavigationActionPolicy.Cancel</em> stops the process. Otherwise the page loads as usual and renders in the web view.</p>
+<p>Run the app and any tap on an external link will open up Safari which will load the page.</p>
+<h2>Setting the Page Title</h2>
+<p>It would be useful to have the page title showing as an indicator to where the user is on the website. In the previous article we looked at some observable properties of <em>WKWebView</em> like <em>loading</em> and <em>estimatedProgress</em>. <em>title</em> is another observable property which we&#8217;ll use to get the title of the currently loaded page.</p>
+<p>Add the following to <em>viewDidLoad()</em> right underneath the other calls to <em>addObserver()</em></p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">webView.addObserver(self, forKeyPath: &quot;title&quot;, options: .New, context: nil)</div></td></tr></tbody></table></div>
+<p>Then in <em>observeValueForKeyPath(_:, ofObject:)</em> add the following at the bottom of the function, right after the other if statements.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">if (keyPath == &quot;title&quot;) {<br />
+&nbsp; &nbsp; title = webView.title<br />
+}</div></td></tr></tbody></table></div>
+<p>Run the app and browse around and the title on the navigation bar will update accordingly.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/01/image031.png" alt="image03" class="aligncenter size-full wp-image-4662" /></div>
+<h2>Modifying Web Page Content</h2>
+<p>The Coda app now works well as an exclusive Appcoda browser, but there are a few things we can do to improve the user experience.</p>
+<p>By their very nature, mobile apps are known to present data and information in a concise way. Users expect to see just the information they need and not have to scroll through a lot of other data to get to it.</p>
+<p>At the moment, the Coda app displays everything on the Appcoda web page. We want to omit some things that aren&#8217;t related to the content. We&#8217;ll remove the sidebar and the section at the bottom of the page that shows the <a href="http://www.appcoda.com/swift/">Appcoda Swift book</a>.</p>
+<p>To do this, we&#8217;ll use JavaScript to inject CSS rules into the web page that will hide these sections. First we need to inspect the website and determine the elements to target.</p>
+<p>To inspect a webpage, you use the Developer tools which are usually available in all the major browsers. You can also install them as plugins/add-ons to your browser e.g. <a href="http://getfirebug.com/">Firebug</a> for Firefox. I am going to be using the Chrome Developer tools but you can use whichever browser and tools you want. The process will basically be the same.</p>
+<p>To open the Chrome developer tools, go to View > Developer > Developer Tools.</p>
+<p>This will open the Developer window at the bottom of the screen. The Developer window is split into sections with the top showing the page source on the left and CSS on the right. At the bottom, is the JavaScript Console where you can write your code and have it executed on the page.</p>
+<p>We need to check for the <em>id</em> attributes that mark the sections we want to hide.</p>
+<p>The sidebar is found on all pages on the site but the book section is only found on an article page. Click on any article and open the Developer Tools. To start off, right click on the sidebar and select Inspect Element. In the Developer tools window, the html code corresponding to the place you clicked on will be highlighted. If you hover your mouse on the code, a highlight will appear on the area in the webpage that corresponds to the code. We want to get an <em>id</em> (or <em>class</em>) of the root element that encloses the whole sidebar.</p>
+<p>Depending on where you landed on when you selected Inspect Element, move upwards collapsing the tags and checking to see that it is only the sidebar that is highlighted on the page. The last tag to be collapsed will be the root element. In our case, it is a div tag with an <em>id</em> of &#8216;sidebar&#8217;.</p>
+<p>It is best to first write and test your code in the browser before taking it into your app, because if you get it wrong, debugging it there would be a lot harder. We&#8217;ll test our CSS and JavaScript on the browser first.</p>
+<p>Click on the div tag that we&#8217;ve identified above. On the right of the view, you&#8217;ll see its CSS styles. Click on the + button in that window which will add a style rule as shown below.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">div#sidebar {<br />
+}</div></td></tr></tbody></table></div>
+<p>For the above rule add the following:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">display:none;</div></td></tr></tbody></table></div>
+<p>When you add the above, the sidebar should disappear from the page.</p>
+<p>Delete the style rule to bring the sidebar back. We&#8217;ll now add the code to the DOM with JavaScript. Below the html view, is the JavaScript console. Paste the following to the console.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">var styleTag = document.createElement(&quot;style&quot;);</div></td></tr></tbody></table></div>
+<p>The above creates the  element and assigns it to a variable. Next add the following which will add the css rule to the style element we created. I have included the class name for the book section as well.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">styleTag.textContent = 'div#sidebar, .after-post.widget-area {display:none;}';</div></td></tr></tbody></table></div>
+<p>Lastly, add the following to add the style tag to the DOM. Immediately the code is executed, the sidebar and book section will disappear from the page.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">document.documentElement.appendChild(styleTag);</div></td></tr></tbody></table></div>
+<p>The above process is what is required to hide sections from a web page. </p>
+<p>Back in Xcode, create a new file with File > New > File > iOS > Other > Empty and name it <em>hideSections.js</em>. Add the following to the file.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">var styleTag = document.createElement(&quot;style&quot;);<br />
+styleTag.textContent = 'div#sidebar, .after-post.widget-area {display:none;}';<br />
+document.documentElement.appendChild(styleTag);</div></td></tr></tbody></table></div>
+<p>In <em>ViewController</em>, replace <em>init()</em> with the following.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">required init(coder aDecoder: NSCoder) {<br />
+&nbsp; &nbsp; let config = WKWebViewConfiguration()<br />
+&nbsp; &nbsp; let scriptURL = NSBundle.mainBundle().pathForResource(&quot;hideSections&quot;, ofType: &quot;js&quot;)<br />
+&nbsp; &nbsp; let scriptContent = String(contentsOfFile:scriptURL!, encoding:NSUTF8StringEncoding, error: nil)<br />
+&nbsp; &nbsp; let script = WKUserScript(source: scriptContent!, injectionTime: .AtDocumentStart, forMainFrameOnly: true)<br />
+&nbsp; &nbsp; config.userContentController.addUserScript(script)<br />
+&nbsp; &nbsp; self.webView = WKWebView(frame: CGRectZero, configuration: config)<br />
+&nbsp; &nbsp; super.init(coder: aDecoder)<br />
+&nbsp; &nbsp; self.webView.navigationDelegate = self<br />
+}</div></td></tr></tbody></table></div>
+<p>The above code creates a <em>WKWebViewConfiguration</em> object which holds some properties that allow the creation of the bridge between native code and the hosted web content. The JavaScript is then loaded and wrapped in an instance of <em>WKUserScript</em>. The script is then added to the configuration&#8217;s <em>userContentController</em> and then the <em>webView</em> is initialized with the configuration.</p>
+<p>When creating the instance of <em>WKUserScript</em>, we specify when the script should be injected and whether it acts on the whole page or a specific frame.</p>
+<p>Run the application and you&#8217;ll no longer see the sidebar(in iPhone, this was appearing towards the bottom of the page) and book section content.</p>
+<h2>Extracting Data From the Web Page</h2>
+<p>The homepage of the Appcoda website shows a summary of the last 10 articles to be posted. When viewing this page on our web view, you have to do a lot of scrolling to get to the bottom articles. We want to have an easier way to get to the recent articles. We&#8217;ll create a table view which will hold a list of the recent articles.</p>
+<p>We&#8217;ll get this list by extracting data from the homepage. I won&#8217;t go into inspecting html here again. I&#8217;ll just give the JavaScript I used to extract the posts and explain what it does.</p>
+<p>If you run the following in the JavaScript console while you are on the homepage, a list of post titles and their urls will be printed to the console.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">var postsWrapper = document.querySelector('#content')<br />
+var posts = postsWrapper.querySelectorAll('.post.type-post.status-publish')<br />
+<br />
+for (var i = 0; i &lt; posts.length; i++) {<br />
+&nbsp; &nbsp; var post = posts[i];<br />
+&nbsp; &nbsp; var postTitle = post.querySelector('h2.entry-title a').textContent;<br />
+&nbsp; &nbsp; var postURL = post.querySelector('h2.entry-title a').getAttribute('href');<br />
+&nbsp; &nbsp; console.log(&quot;Title: &quot;, postTitle, &quot; URL: &quot;, postURL);<br />
+}</div></td></tr></tbody></table></div>
+<p>If you look at the structure of html for the posts on the page, it will be something as shown below.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">&lt;div id='content'&gt;<br />
+&nbsp; &nbsp; &lt;div class='post type-post status-publish'&gt;<br />
+&nbsp; &nbsp; &lt;h2 class='entry-title'&gt;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &lt;a&gt;&lt;/a&gt;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &lt;/h2&gt;<br />
+&nbsp; &nbsp; &lt;div class='post-info'&gt;&lt;/div&gt;<br />
+&nbsp; &nbsp; &lt;div class='entry-content'&gt;&lt;/div&gt;<br />
+&nbsp; &nbsp; &lt;div class='post-meta'&gt;&lt;/div&gt;<br />
+&nbsp; &nbsp; &lt;/div&gt;<br />
+&nbsp; &nbsp; &lt;div class='post type-post status-publish'&gt;&lt;/div&gt;<br />
+&nbsp; &nbsp; &lt;div class='post type-post status-publish'&gt;&lt;/div&gt;<br />
+&nbsp; &nbsp; &lt;div class='post type-post status-publish'&gt;&lt;/div&gt;<br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; ...<br />
+&lt;/div&gt;</div></td></tr></tbody></table></div>
+<p>In the JavaScript code above, we get the element with the id of &#8216;content&#8217;. This is the div that is the immediate parent of the list of posts. We then get all elements which are under this div and assign them to the variable <em>posts</em>. This will hold an array of the post divs. We then iterate over this array, and get the text content of the anchor tag that is found in the h2 element of each post div. We also get the value of the anchor tag&#8217;s href attribute which holds the URL of the post. We then print this to the console.</p>
+<p>In Xcode, create a new file with File > New > File > iOS > Other > Empty. Name it <em>getPosts.js</em>. Paste the following to the file.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">var postsWrapper = document.querySelector('#content')<br />
+var posts = postsWrapper.querySelectorAll('.post.type-post.status-publish')<br />
+<br />
+function parsePosts() {<br />
+&nbsp; &nbsp; pos = []<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; for (var i = 0; i &lt; posts.length; i++) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; var post = posts[i];<br />
+&nbsp; &nbsp; &nbsp; &nbsp; var postTitle = post.querySelector('h2.entry-title a').textContent;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; var postURL = post.querySelector('h2.entry-title a').getAttribute('href');<br />
+&nbsp; &nbsp; &nbsp; &nbsp; pos.push({'postTitle' : postTitle, 'postURL' : postURL});<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; return pos<br />
+}<br />
+<br />
+var postsList = parsePosts();<br />
+webkit.messageHandlers.didGetPosts.postMessage(postsList);</div></td></tr></tbody></table></div>
+<p>The above gets the values of all the post titles and urls and saves them to an array. The last line enables JavaScript and native code communication. <em>webkit.messageHandlers</em> is a global object that facilitates the triggering of callbacks in the native code. <em>didGetPosts</em> represents a message with the same name in the native code. <em>postMessage</em> passes data through to the callback.</p>
+<p>In the storyboard, drag a Bar Button Item to the navigation bar and place it on the left side. Change its text to &#8216;Recent&#8217;. Create an outlet for it and name it <em>recentPostsButton</em>. You should have the following in code.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">@IBOutlet weak var recentPostsButton: UIBarButtonItem!</div></td></tr></tbody></table></div>
+<p>At the bottom of <em>viewDidLoad()</em>, add the following. We want the button disabled until the posts list is loaded.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">recentPostsButton.enabled = false</div></td></tr></tbody></table></div>
+<p>In <em>ViewController</em>, add the following below the import statements.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">let MessageHandler = &quot;didGetPosts&quot;</div></td></tr></tbody></table></div>
+<p>Add the following property to the class.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">var postsWebView: WKWebView?</div></td></tr></tbody></table></div>
+<p>Add the following to the bottom of <em>viewDidLoad()</em></p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">let config = WKWebViewConfiguration()<br />
+let scriptURL = NSBundle.mainBundle().pathForResource(&quot;getPosts&quot;, ofType: &quot;js&quot;)<br />
+let scriptContent = String(contentsOfFile:scriptURL!, encoding:NSUTF8StringEncoding, error: nil)<br />
+let script = WKUserScript(source: scriptContent!, injectionTime: .AtDocumentEnd, forMainFrameOnly: true)<br />
+config.userContentController.addUserScript(script)<br />
+config.userContentController.addScriptMessageHandler(self, name: MessageHandler)<br />
+postsWebView = WKWebView(frame: CGRectZero, configuration: config)<br />
+postsWebView!.loadRequest(NSURLRequest(URL:NSURL(string:&quot;http://www.appcoda.com&quot;)!))</div></td></tr></tbody></table></div>
+<p>Here we load the JavaScript just like we did with the other JavaScript file, only this time we want to inject it <em>.AtDocumentEnd</em> when the whole DOM has been constructed. We also add the <em>MessageHandler</em> to the<br />
+<em>WKWebViewConfiguration</em> and initialize an instance of <em>WKWebView</em> with the configuration before loading a request with the URL of the homepage.</p>
+<p>Update the class declaration so that it conforms to the <em>WKScriptMessageHandler</em> protocol.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler</div></td></tr></tbody></table></div>
+<p>We&#8217;ll create a model class to hold the post data. Create a class with File > New > File > iOS > Source > Cocoa Touch Class. Name it <em>Post</em> and make it a subclass of <em>NSObject</em>. Paste the following to the class.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">import UIKit<br />
+<br />
+class Post: NSObject {<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; var postTitle: String = &quot;&quot;<br />
+&nbsp; &nbsp; var postURL: String = &quot;&quot;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; init(dictionary: Dictionary) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.postTitle = dictionary[&quot;postTitle&quot;]!<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.postURL = dictionary[&quot;postURL&quot;]!<br />
+&nbsp; &nbsp; &nbsp; &nbsp; super.init()<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp;<br />
+}</div></td></tr></tbody></table></div>
+<p>Add the following variable to <em>ViewController</em>.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">var posts: [Post] = []</div></td></tr></tbody></table></div>
+<p>Add the following required <em>WKScriptMessageHandler</em> protocol method to the class.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {<br />
+&nbsp; &nbsp; if (message.name == MessageHandler) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; if let postsList = message.body as? [Dictionary] {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for ps in postsList {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let post = Post(dictionary: ps)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; posts.append(post)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; recentPostsButton.enabled = true<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; }<br />
+}</div></td></tr></tbody></table></div>
+<p>This checks to see if the name of the received message matches with what we are expecting and if it does, it extracts the array of dictionaries attached to the message and creates <em>Post</em> objects with this data before adding each post to the posts array. Then the <em>recentPostsButton</em> is enabled.</p>
+<p>Open the storyboard and add a Table View Controller onto the canvas. Select it and embed it in a navigation controller with Editor > Embed In > Navigation Controller.</p>
+<p>Control-drag from the Recent button on the View Controller scene to the new navigation controller and select <em>popover presentation</em> from the popup. Select the segue that has been added and set its Identifier to <em>recentPosts</em>.</p>
+<p>Create a new file with File > New > File > iOS > Source > Cocoa Touch class. Name it PostsTableViewController and make it a subclass of UITableViewController.</p>
+<p>In the storyboard, select the Table View Controller and set its class to <em>PostsTableViewController</em> in the Identity Inspector. Select the prototype cell of the table view and set its Identifier in the Attributes Inspector to <em>postCell</em>.</p>
+<p>Edit the <em>PostsTableViewController</em> class as shown.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">import UIKit<br />
+<br />
+class PostsTableViewController: UITableViewController {<br />
+<br />
+&nbsp; &nbsp; var posts: [Post] = []<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; override init(style: UITableViewStyle) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; super.init(style: style)<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; required init(coder aDecoder: NSCoder) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; super.init(coder: aDecoder)<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; override func viewDidLoad() {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; super.viewDidLoad()<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.title = &quot;Recent Articles&quot;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; tableView.reloadData()<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; override func numberOfSectionsInTableView(tableView:<br />
+&nbsp; &nbsp; &nbsp; &nbsp; UITableView?) -&gt; Int {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; return 1<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -&gt; Int {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; return posts.count<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let cell = tableView.dequeueReusableCellWithIdentifier(&quot;postCell&quot;, forIndexPath: indexPath) as UITableViewCell<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let post = posts[indexPath.row]<br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.textLabel?.text = post.postTitle<br />
+&nbsp; &nbsp; &nbsp; &nbsp; return cell<br />
+&nbsp; &nbsp; }<br />
+}</div></td></tr></tbody></table></div>
+<p>Here we implement the table view controller data source methods that will populate the table view with the post titles.</p>
+<p>Add the following to <em>ViewController</em>.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {<br />
+&nbsp; &nbsp; if (segue.identifier == &quot;recentPosts&quot;) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let navigationController = segue.destinationViewController as UINavigationController<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let postsViewController = navigationController.topViewController as PostsTableViewController<br />
+&nbsp; &nbsp; &nbsp; &nbsp; postsViewController.posts = posts<br />
+&nbsp; &nbsp; }<br />
+}</div></td></tr></tbody></table></div>
+<p>This is called when the Recent button is tapped, right before the table view controller is shown. It passes the list of posts to the table view controller.</p>
+<p>Run the app. On tapping the Recent button, you will be presented with a table view with a list of recent articles. On the iPhone, this takes up the whole screen but on the iPad, it appears in a popover.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/01/image041.png" alt="image04" class="aligncenter size-full wp-image-4663" /></div>
+<p>When you tap on a table cell, nothing happens. We want the tapped on article to be loaded on the web view.</p>
+<p>In <em>ViewController</em>, add the following below the import statements.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">let PostSelected = &quot;postSelected&quot;</div></td></tr></tbody></table></div>
+<p>We will be posting a notification when a table cell is selected. The above constant holds the name of the notification.</p>
+<p>In <em>PostsTableViewController</em> add the following method.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {<br />
+&nbsp; &nbsp; let post = posts[indexPath.row]<br />
+&nbsp; &nbsp; NSNotificationCenter.defaultCenter().postNotificationName(PostSelected, object: post)<br />
+&nbsp; &nbsp; dismissViewControllerAnimated(true, completion: nil)<br />
+}</div></td></tr></tbody></table></div>
+<p>This posts a notification each time a cell is selected and dismisses the table view controller.</p>
+<p>In <em>ViewController</em>, add the following at the bottom of <em>viewDidLoad()</em></p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">NSNotificationCenter.defaultCenter().addObserver(self, selector: &quot;postSelected:&quot;, name: PostSelected, object: nil)</div></td></tr></tbody></table></div>
+<p>The above sets the view controller as an observer of the notifications posted when a cell is selected in the table view.</p>
+<p>Add the following to <em>ViewController</em>.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">func postSelected(notification:NSNotification) {<br />
+&nbsp; &nbsp; webView.loadRequest(NSURLRequest())<br />
+&nbsp; &nbsp; let post = notification.object as Post<br />
+&nbsp; &nbsp; webView.loadRequest(NSURLRequest(URL:NSURL(string:post.postURL)!))<br />
+}</div></td></tr></tbody></table></div>
+<p>This gets the post object attached to the notification and loads the post URL in the web view.</p>
+<p>Run the application and you should be able to navigate to any recent article you select from the table view.</p>
+<p>At the moment, when we tap on the Recent button, we have no way of dismissing the table view, unless we select a recent article to be loaded. We&#8217;ll add a cancel button.</p>
+<p>In the storyboard, drag a Bar Button Item to the right hand side of the navigation bar in the table view controller. Set its Identifier to <em>Cancel</em> in the Attributes Inspector.</p>
+<p>Open Assistant Editor and control-drag from the Cancel button to the <em>PostsTableViewController</em> class to create an action. Name it <em>cancel</em> and make sure the Type is set to <em>UIBarButtonItem</em>. Edit the action as shown.</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">@IBAction func cancel(sender: UIBarButtonItem) {<br />
+&nbsp; &nbsp; dismissViewControllerAnimated(true, completion: nil)<br />
+}</div></td></tr></tbody></table></div>
+<p>You should now have a Cancel button that dismisses the table view when tapped.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/01/image051.png" alt="image05" class="aligncenter size-full wp-image-4664" /></div>
+<h2>Conclusion</h2>
+<p>The new WebKit framework gives developers the ability to create apps that interact seamlessly with hosted web pages. We&#8217;ve looked at how to customize a web page&#8217;s appearance, extract data from it and use the data in our app&#8217;s interface.</p>
+<p>If your app is a container for web content, then using the WebKit framework will result in an app whose performance and look-and-feel are on par with native apps. WebKit might be a game-changer for such apps, which previously felt sluggish to use.</p>
+<p>If you want to find out more about the framework, <a href="https://developer.apple.com/videos/wwdc/2014/?id=206">this WWDC video</a> is a good place to start.</p>
+<p>You can <a href="https://www.dropbox.com/s/gaph32bj9bq2sj0/CodaFinal.zip?dl=0">download the completed project here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-static-table-view-storyboard/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/03/Static-Table-View-Demo-App1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Create Static Table View Using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uipageviewcontroller-storyboard-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/11/page-view-controller-1-150x150.jpeg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Create UIPageViewController Using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/understanding-key-value-observing-coding/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/kvo-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Understanding Key-Value Observing and Coding</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/handoff/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/11/handoff-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with Handoff in iOS 8</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/webkit-framework-tutorial/"
+    dc:identifier="http://www.appcoda.com/webkit-framework-tutorial/"
+    dc:title="A Look at the WebKit Framework in iOS 8 – Part 2"
+    trackback:ping="http://www.appcoda.com/webkit-framework-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/beginner/" rel="category tag">Beginner</a>, <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a>, <a href="http://www.appcoda.com/tag/webkit/" rel="tag">webkit</a>, <a href="http://www.appcoda.com/tag/wknavigationdelegate/" rel="tag">WKNavigationDelegate</a>, <a href="http://www.appcoda.com/tag/wkwebview/" rel="tag">WKWebView</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://0.gravatar.com/avatar/f820da721cd1faa5ef4b5e14af3f1ed5?s=70&#038;d=mm&#038;r=g' srcset='http://0.gravatar.com/avatar/f820da721cd1faa5ef4b5e14af3f1ed5?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Joyce Echessa</strong><br /><p>I am a web developer who also does mobile development from time to time. I have also been writing online for some time now, a process I find enjoyable and challenging, for, at times, it is when you have to explain something to someone, that you find there is still a lot to learn. You can find me on <a href="//twitter.com/joyceechessa">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-97907">
+        <div id="dsq-comment-header-97907" class="dsq-comment-header">
+            <cite id="dsq-cite-97907">
+http://www.chriskong.com/                <span id="dsq-author-user-97907">Chris Kong</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97907" class="dsq-comment-body">
+            <div id="dsq-comment-message-97907" class="dsq-comment-message"><p>Typo on this line of code: </p>
+<p>if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&#8220;www.appcoda.com&#8221;)) {</p>
+<p>I checked the final file attached. It should be:</p>
+<p>if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&#8220;www.appcoda.com&#8221;)) {</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-98138">
+        <div id="dsq-comment-header-98138" class="dsq-comment-header">
+            <cite id="dsq-cite-98138">
+http://www.echessa.com/                <span id="dsq-author-user-98138">Joyce Echessa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98138" class="dsq-comment-body">
+            <div id="dsq-comment-message-98138" class="dsq-comment-message"><p>Some characters in the code blocks were getting changed to html entity codes. I&#8217;ve fixed this. Thanks for letting me know.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-98095">
+        <div id="dsq-comment-header-98095" class="dsq-comment-header">
+            <cite id="dsq-cite-98095">
+                <span id="dsq-author-user-98095">JFM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98095" class="dsq-comment-body">
+            <div id="dsq-comment-message-98095" class="dsq-comment-message"><p>Thanks Joyce for a great tutorial!</p>
+<p>There are a couple of things that needs to be updated in the text above to make it work.</p>
+<p>As Chris Kong pointed out there is a typo, but there is also a typo in the row right before that row. The -&gt; has been turned into a HTML Ampersand Character Code, so those two rows should instead be:</p>
+<p>    func webView(webView: WKWebView!, decidePolicyForNavigationAction navigationAction: WKNavigationAction!, decisionHandler: ((WKNavigationActionPolicy) -&gt; Void)!) {</p>
+<p>        if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&#8220;www.appcoda.com&#8221;)) {</p>
+<p>To make the book section disappear as described in the text, the second row in hideSections.js needs to changed from:</p>
+<p>styleTag.textContent = &#8216;div#sidebar, .after-post.widget-area {display:none;}';</p>
+<p>to:</p>
+<p>styleTag.textContent = &#8216;div#sidebar, .footer-widgets {display:none;}';</p>
+<p>The first JavaScript code in the section Extracting Data From the Web Page, needs to be changed to the following, as several characters have turned into HTML Ampersand Char Codes:</p>
+<p>var postsWrapper = document.querySelector(&#8216;#content&#8217;)<br />
+var posts = postsWrapper.querySelectorAll(&#8216;.post.type-post.status-publish&#8217;)</p>
+<p>for (var i = 0; i &lt; posts.length; i++) {<br />
+   var post = posts[i];<br />
+   var postTitle = post.querySelector(&#039;h2.entry-title a&#039;).textContent;<br />
+   var postURL = post.querySelector(&#039;h2.entry-title a&#039;).getAttribute(&#039;href&#039;);<br />
+   console.log(&quot;Title: &quot;, postTitle, &quot; URL: &quot;, postURL);<br />
+}</p>
+<p>The same goes for the getPosts.js where the rows containing HTML Ampersands Char Codes need to be replaced as follows:</p>
+<p>    for (var i = 0; i &lt; posts.length; i++) {<br />
+   var post = posts[i];<br />
+   var postTitle = post.querySelector(&#039;h2.entry-title a&#039;).textContent;<br />
+   var postURL = post.querySelector(&#039;h2.entry-title a&#039;).getAttribute(&#039;href&#039;);<br />
+   pos.push({&#039;postTitle&#039; : postTitle, &#039;postURL&#039; : postURL});<br />
+    }</p>
+<p>The curly bracket is missing on the row:</p>
+<p>class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {</p>
+<p>It might be worth mentioning that when updating the class declaration to conform to the WKScriptMessageHandler protocol, an error will occur that the ViewController does not conform to the protocol, but that we will fix that in a bit by adding the required userContentController method.</p>
+<p>The init in the Post class needs to be changed from:</p>
+<p>    init(dictionary: Dictionary) {</p>
+<p>to:</p>
+<p>    init(dictionary: Dictionary) {</p>
+<p>The userContentController method needs to be updated from:</p>
+<p>            if let postsList = message.body as? [Dictionary] {</p>
+<p>to:</p>
+<p>            if let postsList = message.body as? [Dictionary] {</p>
+<p>It might be worth mentioning that it is the id for the Table View Cell that should be updated when talking about the prototype cell.</p>
+<p>Some rows in the PostsTableViewController class has to be updated as several characters have turned into HTML Ampersand Char Codes as follows:</p>
+<p>Change:</p>
+<p>    override func numberOfSectionsInTableView(tableView: UITableView?) -&gt; Int {</p>
+<p>to:</p>
+<p>    override func numberOfSectionsInTableView(tableView: UITableView?) -&gt; Int {</p>
+<p>Change:</p>
+<p>    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -&gt; Int {</p>
+<p>to:</p>
+<p>    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -&gt; Int {</p>
+<p>Change:</p>
+<p>    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {</p>
+<p>to:</p>
+<p>    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {</p>
+<p>Otherwise it should work 😉</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-98139">
+        <div id="dsq-comment-header-98139" class="dsq-comment-header">
+            <cite id="dsq-cite-98139">
+http://www.echessa.com/                <span id="dsq-author-user-98139">Joyce Echessa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98139" class="dsq-comment-body">
+            <div id="dsq-comment-message-98139" class="dsq-comment-message"><p>I&#8217;ve fixed the code blocks that contained html entity codes. Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-99927">
+        <div id="dsq-comment-header-99927" class="dsq-comment-header">
+            <cite id="dsq-cite-99927">
+                <span id="dsq-author-user-99927">Michael Leveton</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99927" class="dsq-comment-body">
+            <div id="dsq-comment-message-99927" class="dsq-comment-message"><p>I translated this to Objective-C here: <a href="https://github.com/Leveton/MELCoda" rel="nofollow">https://github.com/Leveton/MELCoda</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/webkit-framework-tutorial/';
+var disqus_identifier = '4655 http://www.appcoda.com/?p=4655';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "A Look at the WebKit Framework in iOS 8 – Part 2";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=4655';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="4655"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fwebkit-framework-tutorial%2F&#038;t=A%20Look%20at%20the%20WebKit%20Framework%20in%20iOS%208%20%E2%80%93%20Part%202" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="facebook" data-post_id="4655" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=A%20Look%20at%20the%20WebKit%20Framework%20in%20iOS%208%20%E2%80%93%20Part%202&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fwebkit-framework-tutorial%2F&#038;via=appcodamobile" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="twitter" data-post_id="4655" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fwebkit-framework-tutorial%2F&#038;t=A%20Look%20at%20the%20WebKit%20Framework%20in%20iOS%208%20%E2%80%93%20Part%202" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="googleplus" data-post_id="4655" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fwebkit-framework-tutorial%2F&#038;title=A%20Look%20at%20the%20WebKit%20Framework%20in%20iOS%208%20%E2%80%93%20Part%202" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="linkedin" data-post_id="4655" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fwebkit-framework-tutorial%2F&#038;t=A%20Look%20at%20the%20WebKit%20Framework%20in%20iOS%208%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4655" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=A%20Look%20at%20the%20WebKit%20Framework%20in%20iOS%208%20%E2%80%93%20Part%202&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fwebkit-framework-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4655" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fwebkit-framework-tutorial%2F&#038;t=A%20Look%20at%20the%20WebKit%20Framework%20in%20iOS%208%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4655" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fwebkit-framework-tutorial%2F&#038;title=A%20Look%20at%20the%20WebKit%20Framework%20in%20iOS%208%20%E2%80%93%20Part%202" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4655" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/webkit-framework-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="7516191a061035470d5b051b12">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":4655,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:35:50 by W3 Total Cache -->

@@ -1,0 +1,1060 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Introduction to Auto Layout in iOS Programming</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Starting from Xcode 6, you should learn to love Auto Layout. Without using Auto Layout, it would be hard for you to build an app that fits all screen sizes."/>
+<link rel="canonical" href="http://www.appcoda.com/introduction-auto-layout/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Starting from Xcode 6, you should learn to love Auto Layout. Without using Auto Layout, it would be hard for you to build an app that fits all screen sizes."/>
+<meta name="twitter:title" content="Introduction to Auto Layout in iOS Programming"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-featured.png"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Introduction to Auto Layout Comments Feed" href="http://www.appcoda.com/introduction-auto-layout/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=3519' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-3519 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-3519 post type-post status-publish format-standard hentry category-beginner category-course category-tutorials tag-auto-layout tag-ios-programming tag-xcode-5 tag-xcode-6 entry"><h1 class="entry-title">Introduction to Auto Layout</h1> 
+<div class="post-info"><span class="date published time" title="2014-07-27T20:56:04+00:00">July 27, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/ziadtamim/" rel="author">Ziad Tamim</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/introduction-auto-layout/#comments"><span class="dsq-postid" data-dsqidentifier="3519 http://www.appcoda.com/?p=3519">52 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><strong>Editor&#8217;s note:</strong> If you&#8217;ve downloaded the <a href="https://developer.apple.com/swift/resources/">Xcode 6 beta</a> and played around with it, one thing you may notice is the change of Interface Builder. The default view controller is now wider and doesn&#8217;t look like an iPhone 5. When you position a button in the center of the view and run the app, it doesn&#8217;t look good. The button is not centered properly. </p>
+<p>What&#8217;s wrong? How can you make it right? The answer is Auto Layout. Auto Layout is a constraint-based layout system. It allows developers to create an adaptive interface that responds appropriately to changes in screen size and device orientation. We seldom talk about Auto Layout in our tutorials. Some beginners find it hard to learn and avoid using it. Starting from Xcode 6, you should learn to love Auto Layout. Apple is expected to release 4.7-inch and 5.5-inch iPhone 6 this fall. Without using Auto Layout, it would be very hard for you to build an app that supports all screen sizes.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-featured.png" alt="auto-layout-featured" class="aligncenter size-full wp-image-3895" /></div>
+<p>So starting from this week, we&#8217;ll publish a series of articles about Auto Layout. We&#8217;ll start with the basics.</p>
+<p>Enter the introduction of Auto Layout by Ziad.</p>
+<p>I know that there are many developers who hates Auto Layout, maybe because it&#8217;s relatively new or it&#8217;s hard to use for the very first time. But believe me, once you get comfortable with it, it becomes one of your greatest tools that you can&#8217;t live without when developing your app. In this tutorial, I will give you a very brief introduction of Auto Layout.<br />
+<span id="more-3519"></span></p>
+<h3>Why Auto Layout?</h3>
+<p>Auto Layout is a way that lets developers create user interface by defining relationships between elements. It provides a flexible and powerful system that describes how views and the UI controls relate to each other. By using Auto Layout, you can get an incredible control over layout, with a wide range of customization, and yield the perfect interface.</p>
+<p>Auto Layout is a fantastic tool. It does things that earlier technologies could never dream of. From the edge case handling of creation of reciprocal relationships between views, Auto Layout introduces immense power. What&#8217;s more, Auto Layout is compatible with many of Apple&#8217;s most exciting application programming interfaces (APIs), including animations, motion effects, and sprites.</p>
+<p>Okay, let me give you an example and hopefully you&#8217;ll have a better idea why Auto Layout is needed. In Storyboard, you place a button right in the center of the view. Run the app on both iPhone Retina (3.5-inch) and iPhone Retina (4-inch) simulators. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-press-me-center.jpg" alt="Auto Layout - Button not centered" class="aligncenter size-full wp-image-3891" /></div>
+<p>You&#8217;ll end up with the above results and it turns out that the button isn&#8217;t centered when running on a 3.5-inch device. </p>
+<p>Why? What&#8217;s wrong with it?</p>
+<p>Without using Auto Layout, the UI controls (e.g. button) we layout in the Storyboard is of fixed position. In other words, we &#8220;hard-code&#8221; the frame origin of the control. For example, the &#8220;Press Me&#8221; button&#8217;s frame origin is set to (104, 255). Therefore, whether you&#8217;re using a 3.5-inch or 4-inch device, iOS will draw the label in the specified position. This explains why the &#8220;Press Me&#8221; button was not displayed properly on a 3.5-inch iPhone, for which the screen height is different. </p>
+<p>Obviously, we want to the app look good on both 3.5-inch and 4-inch iPhone. And this is why we need Auto Layout. </p>
+<h3>How To Use Auto Layout in Interface Builder</h3>
+<p>Before we show you how to fix the alignment issue in the example, let&#8217;s have a brief walkthrough of the Interface Builder and get to know how Auto Layout can be applied.</p>
+<p>First, set up a new project based on the Single View Application iOS app template. In the project options, choose iPhone for the device family, save the project, then open the Storyboard. You will notice a menu at the bottom-right corner. The buttons in the menu are related to Auto Layout. You can use for alignment, sizing, spacing and resolving constraint issue.</p>
+<ul>
+<li>Align &#8211; Create alignment constraints, such as aligning the left edges of two views.</li>
+<li>Pin &#8211; Create spacing constraints, such as defining the width of a UI control.</li>
+<li>Issues &#8211; Resolve layout issues.</li>
+<li>Resizing &#8211; Specify how resizing affects constraints.</li>
+</ul>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-control.png" alt="Xcode Auto Layout Menu in Interface Builder" class="aligncenter size-full wp-image-3874" /></div>
+<p>Other than the Auto Layout menu, Apple has made it flexible for developer to setup Auto Layout by using Control+drag. You simply control-drag from any view to another view to set constraints between each other. When you release the mouse, it presents a list of possible constraints for you to select from.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-control-drag.gif" alt="Auto Layout Control Drag" class="aligncenter size-full wp-image-3876" /></div>
+<p>Once you setup a constraint in a view, the constraint line is displayed in either in orange or blue. The orange constraint lines indicates that there are insufficent constraints and you need to fix it. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-01-at-8.20.01-PM.png" class="aligncenter size-full wp-image-3581" alt="Auto Layout - Missing Constraints" /></div>
+<p>The blue constraint line indicates that your view layout is being setup correctly and there is no ambiguity.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-01-at-8.20.15-PM.png" class="aligncenter size-full wp-image-3582" alt="Auto Layout - Constraints Defined Correctly" /></div>
+<p>Sometimes after you create the constraint, the Interface Builder outline view shows a disclosure arrow. The red arrow also indicates that there are conflicts or ambiguities. Click the disclosure arrow, and you’ll see a list of the issues. The issues are displayed on a scene-by-scene basis. Typical issues include missing constraints, conflicting constraints and misplaced views.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-13-at-1.41.28-AM.png" alt="Screen Shot 2014-06-13 at 1.41.28 AM" class="aligncenter size-full wp-image-3671" alt="Auto Layout Issues" /></div>
+<p>In the Size Inspector, you can view a list of all the constraints that have been added. These constraints appear in a section called &#8220;Constraints&#8221;. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-01-at-8.31.11-PM.png" class="aligncenter size-full wp-image-3586" /></div>
+<p>In addition to the size inspector view, the constraints also appear in the Interface Builder Outline under the corresponding view.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-01-at-8.38.52-PM.png" class="aligncenter size-full wp-image-3589" /></div>
+<h3>Auto Layout Example &#8211; Center a Button or Image</h3>
+<p>By now, you should have a basic understanding of Auto Layout and how you can configure constraints. Let&#8217;s consider the example again and see how we can center a button or an image.</p>
+<p>As mentioned before, Auto Layout is a constraint-based layout system. It allows developers to create an adaptive interface that responds appropriately to changes in screen size and device orientation. Okay, it sounds good. But what does the term &#8220;constraint-based layout&#8221; mean? Let me put it in a more descriptive way. Consider the &#8220;Press Me&#8221; button again, how do you describe its position? Probably you&#8217;ll describe like this.</p>
+<p><em>The button should be centered both horizontally and vertically, regardless of the screen size.</em></p>
+<p>Here you already define two constraints (centered horizontally and centered vertically). These constraints express rules for the layout of label in the interface. Auto Layout is all about constraints. The constraints, however, are expressed in mathematical form. For example, if you’re defining the position of a button, you might want to say &#8220;the left edge should be 30 points from the left edge of its containing view.&#8221; This translates to button.left = (container.left + 30).</p>
+<p>Okay, that&#8217;s quite enough for the Auto Layout concept. </p>
+<p>Now let&#8217;s see how to center an image view in the middle of the screen regardless of the screen size and orientation (portrait / landscape).</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-14-at-12.31.17-PM.png" alt="Screen Shot 2014-06-14 at 12.31.17 PM" class="aligncenter size-full wp-image-3693" /></div>
+<p>Assuming you&#8217;ve added an image view and placed it in the center of the view, the first step is to add the width and height constraints. In this example, we&#8217;ll show you how to use Auto Layout menu to apply the constraints. Select the image view and then click the Pin icon in the Auto Layout menu. Select height and width, then hit the &#8220;Add 2 constraints&#8221; button.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-size-constraints.jpg" alt="Auto Layout - Adding Size Constraints" class="aligncenter size-full wp-image-3879" /></div>
+<p>You may notice that a red arrow appears in the Interface Builder outline. This tells us that there are some constraint problems with our image view. Xcode can help us fix them. Simply click on that red arrow, followed the red indicator and finally click &#8220;Add missing constraints&#8221;.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-14-at-11.20.44-AM.png" class="aligncenter size-full wp-image-3686" alt="missing constraints" /></div>
+<p>Okay, we have set the size constraints. Next we&#8217;ll set another constraint to centre the image view even if the users rotate the device to landscape orientation. To do that, select the image view and click the Alignment icon in the Auto Layout menu. In the pop-over menu, select both &#8220;Vertical center in container&#8221; and &#8220;Horizontal center in container&#8221; options, followed by clicking the &#8220;Add Constraints&#8221; button.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-13-at-1.04.19-PM.png" alt="Screen Shot 2014-06-13 at 1.04.19 PM" class="aligncenter size-full wp-image-3680" alt="Adding alignment constraint" /></div>
+<p>Now you&#8217;re ready to test your app. Compile and launch the App. Try to switch between portrait and landscape mode. You will see that the image view stays centered.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-example-image.jpg" alt="Auto Layout By Example - Centre Image" class="aligncenter size-full wp-image-3881" /></div>
+<p>Here we just demonstrate how to use Auto Layout menu to add constraints. You can do the same thing by using control-drag. The below image illustrates how it can be done.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-centre-button.gif" alt="Auto Layout - Center Button" class="aligncenter size-full wp-image-3885" /></div>
+<h3>Auto Layout Example &#8211; Login Button</h4>
+<p>As you know, the display of iPhone 5 and iPhone 4 are of different size. It will need some tweaks to support both screen size. Consider the below login screen, the login button is placed at the bottom of the view. If you haven&#8217;t applied Auto Layout, the app may not be able to display the login button on a 3.5-inch device.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-login-compare.jpg" alt="Auto Layout - Login Button" class="aligncenter size-full wp-image-3887" /></div>
+<p>So how can you resolve this issue? Again, to fix that we need to setup a constraint to make it stay to the bottom of the screen. On top of that, its width should be changed when it&#8217;s in the landscape mode.</p>
+<p>First we&#8217;ll add a size constraint for the height of the button. We only add a constraint for the height as the width will change depending on the device&#8217;s orientation. control-drag vertically the button and choosing &#8220;height&#8221;, then fix the ambiguity in the Interface Builder Outline by adding all the missing constraints.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-14-at-1.00.07-PM.png" class="aligncenter size-full wp-image-3700" alt="Auto Layout - Set Height Constraint" /></div>
+<p>To ensure the button maintains the same distance from the sides of the view (whether it&#8217;s in portrait or landscape mode), we need to add another constraint. Control-drag from the button to the left side of the superview and select &#8220;leading space to the container&#8221;. Repeat the same procedure for the right side and select &#8220;trailing space to the container&#8221;. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-login-trailing.gif" alt="Auto Layout - Trailing and Leading" class="aligncenter size-full wp-image-3888" /></div>
+<p>The last step is to add a constraint such that the button stays to the bottom of the view. Control-drag from the button to the bottom of the superview and select &#8220;bottom space to bottom layout&#8221;.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/Screen-Shot-2014-06-14-at-1.02.02-PM.png" class="aligncenter size-full wp-image-3703" alt="Auto Layout - Bottom space to bottom layout" /></div>
+<p>Now, you can build and run the project on any devices. Thanks to Auto Layout. The login button should display correctly on 3.5-inch iPhone. And the login button scales proportionally when the device is rotated. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-login-landscape.jpg" alt="Auto Layout - Landscape" class="aligncenter size-full wp-image-3890" /></div>
+<h3>What&#8217;s Coming Next</h3>
+<p>In this tutorial, we covered the basics of Auto Layout using Interface Builder. I hope you start to love Auto Layout after going through the tutorial and examples. Auto Layout is very powerful once you manage the basics. You&#8217;ll be able to build adaptive UI to fit multiple screen sizes. In the upcoming tutorials, we will cover more Auto Layout examples and show you how to use Auto Layout programmatically.</p>
+<p>For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/AutoLayout.zip">download the Xcode project from here</a>.</p>
+<p>What do you think about the tutorial and Auto Layout? Leave me comment and share your thought.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/why-launching-appcoda/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/03/appcoda-launch1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Why Launching AppCoda?</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-app-backend-parse/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Tutorial-part-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Adding a Cloud Backend for Your iOS App Using Parse - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios7-background-fetch-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/background-app-refresh-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working With Background Fetch in iOS 7</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/local-notifications-ios8/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/12/ios8-local-notification-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Interactive Local Notifications in iOS 8</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/introduction-auto-layout/"
+    dc:identifier="http://www.appcoda.com/introduction-auto-layout/"
+    dc:title="Introduction to Auto Layout"
+    trackback:ping="http://www.appcoda.com/introduction-auto-layout/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/beginner/" rel="category tag">Beginner</a>, <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/auto-layout/" rel="tag">Auto Layout</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/xcode-5/" rel="tag">Xcode 5</a>, <a href="http://www.appcoda.com/tag/xcode-6/" rel="tag">Xcode 6</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://0.gravatar.com/avatar/c56f27251dfe38184c7606d447e2c69b?s=70&#038;d=mm&#038;r=g' srcset='http://0.gravatar.com/avatar/c56f27251dfe38184c7606d447e2c69b?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Ziad Tamim</strong><br /><p>Ziad is a senior iOS Developer, Mobile Strategy Advisor and Consultant for startups. He has been writing iOS apps and games since the infancy of the App Store and built over 80 apps for clients. Right now, he runs a mobile development studio called TAMIN LAB. You can contact him via <a href="https://www.linkedin.com/in/ziadtamim">LinkedIn</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-27678">
+        <div id="dsq-comment-header-27678" class="dsq-comment-header">
+            <cite id="dsq-cite-27678">
+                <span id="dsq-author-user-27678">Glory</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27678" class="dsq-comment-body">
+            <div id="dsq-comment-message-27678" class="dsq-comment-message"><p>Thanks!!!! You have done a very good job. How about the autolayout by coding?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-27763">
+        <div id="dsq-comment-header-27763" class="dsq-comment-header">
+            <cite id="dsq-cite-27763">
+                <span id="dsq-author-user-27763">Siginur Alexey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27763" class="dsq-comment-body">
+            <div id="dsq-comment-message-27763" class="dsq-comment-message"><p>It&#8217;s interesting for me too&#8230;<br />
+I Have Problems with UITableView&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-27993">
+        <div id="dsq-comment-header-27993" class="dsq-comment-header">
+            <cite id="dsq-cite-27993">
+                <span id="dsq-author-user-27993">Adam Dehaven</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27993" class="dsq-comment-body">
+            <div id="dsq-comment-message-27993" class="dsq-comment-message"><p>Keep the auto layout tutorials coming!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-40205">
+        <div id="dsq-comment-header-40205" class="dsq-comment-header">
+            <cite id="dsq-cite-40205">
+http://www.appcoda.com/                <span id="dsq-author-user-40205">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-40205" class="dsq-comment-body">
+            <div id="dsq-comment-message-40205" class="dsq-comment-message"><p>Thanks Adam! Great to see that you like auto layout.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28705">
+        <div id="dsq-comment-header-28705" class="dsq-comment-header">
+            <cite id="dsq-cite-28705">
+                <span id="dsq-author-user-28705">AAN</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28705" class="dsq-comment-body">
+            <div id="dsq-comment-message-28705" class="dsq-comment-message"><p>Thanks a lot !.. Waiting for more !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.musclecoder.com/introduction-to-auto-layout-in-ios-programming-appcoda/' rel='external nofollow' class='url'>Introduction to Auto Layout in iOS Programming &#8211; AppCoda | MUSCLE CODER</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29364">
+        <div id="dsq-comment-header-29364" class="dsq-comment-header">
+            <cite id="dsq-cite-29364">
+                <span id="dsq-author-user-29364">Jack Daniel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29364" class="dsq-comment-body">
+            <div id="dsq-comment-message-29364" class="dsq-comment-message"><p>but what about finished and already existing apps? how we can change them to the new layout?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29798">
+        <div id="dsq-comment-header-29798" class="dsq-comment-header">
+            <cite id="dsq-cite-29798">
+                <span id="dsq-author-user-29798">Sadik Hasan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29798" class="dsq-comment-body">
+            <div id="dsq-comment-message-29798" class="dsq-comment-message"><p>Thanks for the tutorial, I have been waiting for this. If you keep this run on auto layout, I think you are going to help majority of iOS app developers to fix their design issues. Thank you so much.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-29865">
+        <div id="dsq-comment-header-29865" class="dsq-comment-header">
+            <cite id="dsq-cite-29865">
+http://www.appcoda.com/                <span id="dsq-author-user-29865">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29865" class="dsq-comment-body">
+            <div id="dsq-comment-message-29865" class="dsq-comment-message"><p>Thanks for your words. Glad to hear the tutorial is helpful. We&#8217;re working on the next Auto Layout tutorial. Stay tuned.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-31201">
+        <div id="dsq-comment-header-31201" class="dsq-comment-header">
+            <cite id="dsq-cite-31201">
+                <span id="dsq-author-user-31201">Salman Khan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31201" class="dsq-comment-body">
+            <div id="dsq-comment-message-31201" class="dsq-comment-message"><p>kindly show steps briefly</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.albertopasca.it/whiletrue/2014/07/introduction-to-auto-layout/' rel='external nofollow' class='url'>[Xcode] &#8211; Introduction to Auto Layout</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-31953">
+        <div id="dsq-comment-header-31953" class="dsq-comment-header">
+            <cite id="dsq-cite-31953">
+                <span id="dsq-author-user-31953">jack kishore</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31953" class="dsq-comment-body">
+            <div id="dsq-comment-message-31953" class="dsq-comment-message"><p>Thanks for the tutorial&#8230;. I need more tutorial still.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-34001">
+        <div id="dsq-comment-header-34001" class="dsq-comment-header">
+            <cite id="dsq-cite-34001">
+                <span id="dsq-author-user-34001">KingMax</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34001" class="dsq-comment-body">
+            <div id="dsq-comment-message-34001" class="dsq-comment-message"><p>thank you. I have trouble with auto layout in my iOS app, until i read the tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-34656">
+        <div id="dsq-comment-header-34656" class="dsq-comment-header">
+            <cite id="dsq-cite-34656">
+http://inlentera.wordpress.com                <span id="dsq-author-user-34656">Ardi Al Haidar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34656" class="dsq-comment-body">
+            <div id="dsq-comment-message-34656" class="dsq-comment-message"><p>Thanks. I start to love Auto Layout 😀</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-40112">
+        <div id="dsq-comment-header-40112" class="dsq-comment-header">
+            <cite id="dsq-cite-40112">
+                <span id="dsq-author-user-40112">napolux</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-40112" class="dsq-comment-body">
+            <div id="dsq-comment-message-40112" class="dsq-comment-message"><p>(in the part about the login button&#8230;) &#8220;then fix the ambiguity in the Interface Builder Outline by adding all the missing constraints.&#8221; How can I fix it? It&#8217;s not really clear from the tutorial</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-40204">
+        <div id="dsq-comment-header-40204" class="dsq-comment-header">
+            <cite id="dsq-cite-40204">
+http://www.appcoda.com/                <span id="dsq-author-user-40204">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-40204" class="dsq-comment-body">
+            <div id="dsq-comment-message-40204" class="dsq-comment-message"><p>In the Document Outline of the Interface Builder, you should see a red arrow indicator. Click it and then click the red indicator, followed by selecting &#8220;Add missing constraints&#8221;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-41863">
+        <div id="dsq-comment-header-41863" class="dsq-comment-header">
+            <cite id="dsq-cite-41863">
+                <span id="dsq-author-user-41863">napolux</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-41863" class="dsq-comment-body">
+            <div id="dsq-comment-message-41863" class="dsq-comment-message"><p>Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-41794">
+        <div id="dsq-comment-header-41794" class="dsq-comment-header">
+            <cite id="dsq-cite-41794">
+                <span id="dsq-author-user-41794">Satheesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-41794" class="dsq-comment-body">
+            <div id="dsq-comment-message-41794" class="dsq-comment-message"><p>As you said, I have started loving auto layout </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-42582">
+        <div id="dsq-comment-header-42582" class="dsq-comment-header">
+            <cite id="dsq-cite-42582">
+                <span id="dsq-author-user-42582">Kashif Jilani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-42582" class="dsq-comment-body">
+            <div id="dsq-comment-message-42582" class="dsq-comment-message"><p>Its Amazing, waiting for second tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.brianjcoleman.com/autolayout-swift/' rel='external nofollow' class='url'>How to use Auto Layout in Swift - iOS Life</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://myapple.pl/programowanie-ios/308524-swift-probelm-z-reskalowaniem-image-view.html#post2343155' rel='external nofollow' class='url'>SWIFT - probelm z reskalowaniem image view</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-51218">
+        <div id="dsq-comment-header-51218" class="dsq-comment-header">
+            <cite id="dsq-cite-51218">
+                <span id="dsq-author-user-51218">answerhuang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51218" class="dsq-comment-body">
+            <div id="dsq-comment-message-51218" class="dsq-comment-message"><p>How to use auto layout  when I need change size of a view or a control between different screen size.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.swift120.com/?p=93' rel='external nofollow' class='url'>理解iOS 8中的Self Sizing Cells和Dynamic Type | swift急救站</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-55434">
+        <div id="dsq-comment-header-55434" class="dsq-comment-header">
+            <cite id="dsq-cite-55434">
+                <span id="dsq-author-user-55434">xiaoyan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-55434" class="dsq-comment-body">
+            <div id="dsq-comment-message-55434" class="dsq-comment-message"><p>Yes,I like auto layout very much.<br />
+But  how can I use it with pure code  and  How can I use it without storyBoard?<br />
+Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-55846">
+        <div id="dsq-comment-header-55846" class="dsq-comment-header">
+            <cite id="dsq-cite-55846">
+                <span id="dsq-author-user-55846">fds fdsa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-55846" class="dsq-comment-body">
+            <div id="dsq-comment-message-55846" class="dsq-comment-message"><p>What do I think about autolayout? It&#8217;s crap. I followed your instructions on the button exactly and the damn button does not appear. I have xcode 6 running in mavericks. Is there a bug</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-96105">
+        <div id="dsq-comment-header-96105" class="dsq-comment-header">
+            <cite id="dsq-cite-96105">
+                <span id="dsq-author-user-96105">Денис</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-96105" class="dsq-comment-body">
+            <div id="dsq-comment-message-96105" class="dsq-comment-message"><p>Don&#8217;t be so angry. It works. And everything is okay. I think it&#8217;ll be better if you try to explain after what step you see the problem.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-98743">
+        <div id="dsq-comment-header-98743" class="dsq-comment-header">
+            <cite id="dsq-cite-98743">
+                <span id="dsq-author-user-98743">Jasper</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98743" class="dsq-comment-body">
+            <div id="dsq-comment-message-98743" class="dsq-comment-message"><p>I experienced the same problem, and it was because I didn&#8217;t resize the button horizontally first. The idea is to have the constraint of 0 distance from your button&#8217;s left edge to the container&#8217;s left edge, and 0 distance from the button&#8217;s right edge to the container&#8217;s right edge. What I did at first was, since I didn&#8217;t resize the button, and it was 200 pixels away from the left edge, I unwittingly asked Autolayout to enforce that distance between the button and the container edge &#8211; and this pushed the button outside the screen.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-57563">
+        <div id="dsq-comment-header-57563" class="dsq-comment-header">
+            <cite id="dsq-cite-57563">
+                <span id="dsq-author-user-57563">Ahmad Azar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-57563" class="dsq-comment-body">
+            <div id="dsq-comment-message-57563" class="dsq-comment-message"><p>Nice job thank you for help me about autolayout 😀 I like it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-63795">
+        <div id="dsq-comment-header-63795" class="dsq-comment-header">
+            <cite id="dsq-cite-63795">
+                <span id="dsq-author-user-63795">Özgür Özkan Akdemirci</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-63795" class="dsq-comment-body">
+            <div id="dsq-comment-message-63795" class="dsq-comment-message"><p>For two days i was trying to follow and understand the tutorials about auto layout. At last i was able to complete your button example. Now it&#8217;s my app&#8217;s turn. Hope i&#8217;ll complete easily =). Thanks&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-65854">
+        <div id="dsq-comment-header-65854" class="dsq-comment-header">
+            <cite id="dsq-cite-65854">
+                <span id="dsq-author-user-65854">Wendell Beverly</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-65854" class="dsq-comment-body">
+            <div id="dsq-comment-message-65854" class="dsq-comment-message"><p>I&#8217;m still plagued by autolayout woes.  I have 7 image and button views on my main view, and I&#8217;ve tried and tried to use autolayout, both using the &#8220;Add missing constraints&#8221; and doing it all manually myself, and it never works out well.  Views get misplaced, are sized wrong, and sometimes disappear off the visible area altogether.<br />
+Still not in love with autolayout, but I&#8217;ll keep plugging away at it as I see the potential benefit, just haven&#8217;t figured it all out yet.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-96106">
+        <div id="dsq-comment-header-96106" class="dsq-comment-header">
+            <cite id="dsq-cite-96106">
+                <span id="dsq-author-user-96106">Денис</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-96106" class="dsq-comment-body">
+            <div id="dsq-comment-message-96106" class="dsq-comment-message"><p>Could you show me your project? maybe by means dropbox, I think I can help you. There are some  features when you&#8217;re debugging constraints. You have to do correct choose on that step.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-67276">
+        <div id="dsq-comment-header-67276" class="dsq-comment-header">
+            <cite id="dsq-cite-67276">
+                <span id="dsq-author-user-67276">Sagar Sandy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-67276" class="dsq-comment-body">
+            <div id="dsq-comment-message-67276" class="dsq-comment-message"><p>Thanks man, nice introduction..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-67674">
+        <div id="dsq-comment-header-67674" class="dsq-comment-header">
+            <cite id="dsq-cite-67674">
+                <span id="dsq-author-user-67674">Chris Norwood</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-67674" class="dsq-comment-body">
+            <div id="dsq-comment-message-67674" class="dsq-comment-message"><p>Last night I was totally frustrated with the AutoLayout feature&#8230; read you article and nailed it with ease. Very, very useful, thanks. <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-71353">
+        <div id="dsq-comment-header-71353" class="dsq-comment-header">
+            <cite id="dsq-cite-71353">
+                <span id="dsq-author-user-71353">Klaus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-71353" class="dsq-comment-body">
+            <div id="dsq-comment-message-71353" class="dsq-comment-message"><p>Hey! Nice article. But what you do with auto layout here, can easily be done without auto layout. I thought I&#8217;d find some infos here about the sense and situations, where you set constraints between elements on the same &#8216;level&#8217;. And also, how you set up device dependent constraints. But you said it&#8217;s for the very beginners, may be you could give some tip like that on another tutorial?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-72354">
+        <div id="dsq-comment-header-72354" class="dsq-comment-header">
+            <cite id="dsq-cite-72354">
+                <span id="dsq-author-user-72354">Ben Wise</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72354" class="dsq-comment-body">
+            <div id="dsq-comment-message-72354" class="dsq-comment-message"><p>Thanks this was really helpful.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-76996">
+        <div id="dsq-comment-header-76996" class="dsq-comment-header">
+            <cite id="dsq-cite-76996">
+                <span id="dsq-author-user-76996">Bill</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-76996" class="dsq-comment-body">
+            <div id="dsq-comment-message-76996" class="dsq-comment-message"><p>nice, lear a lot, thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-79493">
+        <div id="dsq-comment-header-79493" class="dsq-comment-header">
+            <cite id="dsq-cite-79493">
+                <span id="dsq-author-user-79493">Radha Krishna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-79493" class="dsq-comment-body">
+            <div id="dsq-comment-message-79493" class="dsq-comment-message"><p>First of all big thanks for your tutorials. I am big fan of yours.</p>
+<p>Followed your instructions exactly. but didn&#8217;t worked for me. I tried using Xcode 6.01 and 6.1 versions, but no luck. I tried to run on 4s Simulator button just disappears.</p>
+<p>Could you please do one thing. Please create new project using Xcode 6.0.1 or 6.1 and decrease the button size do your instructions and run on simulator. except iPhone 6 plus simulator, all the iPhone simulators gone wrong.</p>
+<p>Please check once and I am waiting for your reply. if any updates are there,Please update your tutorial.<br />
+Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-79530">
+        <div id="dsq-comment-header-79530" class="dsq-comment-header">
+            <cite id="dsq-cite-79530">
+                <span id="dsq-author-user-79530">srini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-79530" class="dsq-comment-body">
+            <div id="dsq-comment-message-79530" class="dsq-comment-message"><p>very nice</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-83793">
+        <div id="dsq-comment-header-83793" class="dsq-comment-header">
+            <cite id="dsq-cite-83793">
+                <span id="dsq-author-user-83793">febShab</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-83793" class="dsq-comment-body">
+            <div id="dsq-comment-message-83793" class="dsq-comment-message"><p>I followed your instructions. Image is working fine but the log in button width is not coming correctly.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.anjun.cc/?p=26' rel='external nofollow' class='url'>ios autolayut 3 | 安俊的博客</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://ttour.sinaapp.com/posts/8014/%e5%94%90%e5%b7%a7%e7%9a%84ios%e6%8a%80%e6%9c%af%e5%8d%9a%e5%ae%a2%e5%a5%bd%e6%96%87%e5%88%97%e8%a1%a8.html' rel='external nofollow' class='url'>唐巧的iOS技术博客好文列表 - ios - 嗅探实事</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-96769">
+        <div id="dsq-comment-header-96769" class="dsq-comment-header">
+            <cite id="dsq-cite-96769">
+                <span id="dsq-author-user-96769">Mel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-96769" class="dsq-comment-body">
+            <div id="dsq-comment-message-96769" class="dsq-comment-message"><p>Thanks for a very nice tutorial!<br />
+Waiting for more on auto layout.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.jawadrashid.com/swift-tutorial-udacity-3/' rel='external nofollow' class='url'>iOS Development With Swift Part 3</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-97904">
+        <div id="dsq-comment-header-97904" class="dsq-comment-header">
+            <cite id="dsq-cite-97904">
+                <span id="dsq-author-user-97904">hahaahah</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97904" class="dsq-comment-body">
+            <div id="dsq-comment-message-97904" class="dsq-comment-message"><p>why i can feel very easy&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-98744">
+        <div id="dsq-comment-header-98744" class="dsq-comment-header">
+            <cite id="dsq-cite-98744">
+                <span id="dsq-author-user-98744">jasper</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98744" class="dsq-comment-body">
+            <div id="dsq-comment-message-98744" class="dsq-comment-message"><p>Some animations are too fast. And maybe something needs to be said about the numbers (distances) &#8211; I had to figure that one out on my own. Other than that, very helpful tutorial. Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-98745">
+        <div id="dsq-comment-header-98745" class="dsq-comment-header">
+            <cite id="dsq-cite-98745">
+                <span id="dsq-author-user-98745">jasper</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98745" class="dsq-comment-body">
+            <div id="dsq-comment-message-98745" class="dsq-comment-message"><p>How did you create the screenshots and animations? what software did you use?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://umangsoftware.wordpress.com/2014/11/26/diving-into-the-ios-world/' rel='external nofollow' class='url'>Diving into the iOS world! | Umang Software Technologies</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://iphoneworldbegin.wordpress.com/2015/02/06/newww-1-4-me/' rel='external nofollow' class='url'>newww 1 4 me | iphoneworldbegin</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-99816">
+        <div id="dsq-comment-header-99816" class="dsq-comment-header">
+            <cite id="dsq-cite-99816">
+                <span id="dsq-author-user-99816">yogendra bagoriya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99816" class="dsq-comment-body">
+            <div id="dsq-comment-message-99816" class="dsq-comment-message"><p>Really good stuff for beginner. I am waiting for tutorial of &#8220;Programmatically Auto layout&#8221;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-100369">
+        <div id="dsq-comment-header-100369" class="dsq-comment-header">
+            <cite id="dsq-cite-100369">
+                <span id="dsq-author-user-100369">vince</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100369" class="dsq-comment-body">
+            <div id="dsq-comment-message-100369" class="dsq-comment-message"><p>I been struggling with Auto Layout, until i see this article. very well-written and explained. thank you!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100393">
+        <div id="dsq-comment-header-100393" class="dsq-comment-header">
+            <cite id="dsq-cite-100393">
+                <span id="dsq-author-user-100393">Scott</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100393" class="dsq-comment-body">
+            <div id="dsq-comment-message-100393" class="dsq-comment-message"><p>Thank you very much for taking the time to write up this article &#8211; very helpful, and much appreciated!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://developerplayground.net/how-to-use-an-universal-storyboard-in-xcode' rel='external nofollow' class='url'>How to use an Universal Storyboard in Xcode - Stefans Developer Playground</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/introduction-auto-layout/';
+var disqus_identifier = '3519 http://www.appcoda.com/?p=3519';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Introduction to Auto Layout";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=3519';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="3519"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fintroduction-auto-layout%2F&#038;t=Introduction%20to%20Auto%20Layout" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3519" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>252</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Introduction%20to%20Auto%20Layout&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fintroduction-auto-layout%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3519" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>51</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fintroduction-auto-layout%2F&#038;t=Introduction%20to%20Auto%20Layout" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3519" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>26</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fintroduction-auto-layout%2F&#038;title=Introduction%20to%20Auto%20Layout" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3519" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>19</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fintroduction-auto-layout%2F&#038;t=Introduction%20to%20Auto%20Layout" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3519" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Introduction%20to%20Auto%20Layout&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fintroduction-auto-layout%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3519" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fintroduction-auto-layout%2F&#038;t=Introduction%20to%20Auto%20Layout" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3519" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fintroduction-auto-layout%2F&#038;title=Introduction%20to%20Auto%20Layout" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3519" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/introduction-auto-layout\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="583b34372b3d186a207628363f">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":3519,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:20:52 by W3 Total Cache -->

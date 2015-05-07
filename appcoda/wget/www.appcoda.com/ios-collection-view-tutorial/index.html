@@ -1,0 +1,1019 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Collection View Tutorial: Handling Single and Multiple Selection</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This collection view tutorial shows you how to interact with collection cells and how to handle single and multiple selection in UICollectionView."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-collection-view-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This collection view tutorial shows you how to interact with collection cells and how to handle single and multiple selection in UICollectionView."/>
+<meta name="twitter:title" content="Collection View Tutorial: Handling Single and Multiple Selection"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/02/Recipe-App-Multiple-Selection.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Handling Single and Multiple Selection in Collection View Comments Feed" href="http://www.appcoda.com/ios-collection-view-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1282' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1282 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1282 post type-post status-publish format-standard hentry category-course category-tutorials tag-app-development tag-collection-view tag-ios-programming tag-iphone-programming tag-uicollectionview entry"><h1 class="entry-title">Handling Single and Multiple Selection in Collection View</h1> 
+<div class="post-info"><span class="date published time" title="2013-02-18T20:46:27+00:00">February 18, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-collection-view-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="1282 http://www.appcoda.com/?p=1282">32 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>In the past two tutorials, we covered the <a href="http://www.appcoda.com/ios-programming-uicollectionview-tutorial/">basics of UICollectionView</a> and <a href="http://www.appcoda.com/supplementary-view-uicollectionview-flow-layout/">header/footer customization</a>. You should already know how to display items using UICollectionView. However, we haven&#8217;t covered how to interact with the collection view cell.</p>
+<p>As mentioned before, the Collection View works in a way pretty much like Table View. But to give you a better idea, we&#8217;ll show how to interact with the collection items such as the ways to handle single and multiple item selection. To provide you with a working example of how the item selection works, we&#8217;ll continue to improve the Recipe app. Here are what we&#8217;re going to implement:</p>
+<ol>
+<li>To demonstrate how you can handle single selection, we&#8217;ll improve the Recipe app. When user taps a recipe photo, the app will bring up a modal view and display the photo in larger size.</li>
+<li>We&#8217;ll also implement Facebook sharing in the app in order to show you multiple item selection. Users are allowed to select multiple photos and share them on Facebook. </li>
+</ol>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/Recipe-App-Multiple-Selection.jpg" alt="Recipe App Multiple Selection" class="aligncenter size-full wp-image-1385" /></div>
+<p>The interface of the app is very simple and will not win any design award. However, it&#8217;ll give you an idea of how to interact with collection view. To spare you from setting up the Xcode project, you can <a href="https://dl.dropbox.com/u/2857188/CollectionViewItemSelection.zip">download this Xcode template</a>. Please note that the Xcode project is created using Xcode 4.6 and tested on iOS 6. If you find any problem opening/compiling the project, please upgrade your Xcode to the latest version.<br />
+<span id="more-1282"></span></p>
+<h2>Handling Single Selection</h2>
+<p>First, we&#8217;ll improve the Recipe app to handle single selection. When user taps any of the recipe photo, the app will bring up a modal view to display the photo in higher resolution. </p>
+<h3>Designing the User Interface</h3>
+<p>To begin, let&#8217;s design the view controller for displaying the recipe photo. Go to Storyboard, drag a View Controller from Object library. Then add an Image View to it and set the width and height to 320 and 200 respectively. Lastly, add a navigation bar to the top of view and assign it with a Bar Button Item. Set the name of the button item as &#8220;Close&#8221;. Your View Controller should look similar to the below one:</p>
+<div id="attachment_1318" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/CollectionView-Modal-View-Controller.jpg" alt="Designing the Modal View Controller" class="size-full wp-image-1318" /><p class="wp-caption-text">Designing the Modal View Controller</p></div>
+<p>As we want to display the view controller when user taps any of the recipe photo in the collection view, we&#8217;ll connect the collection view with the view controller using a segue. Press the control button, click on the &#8220;Recipe View Cell&#8221; and drag it towards the View Controller. Select &#8220;modal&#8221; for the style and set the segue identifier to &#8220;showRecipePhoto&#8221;.</p>
+<div id="attachment_1320" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/Modal-View-Controller-Segue.jpg" alt="Segue Connection" class="size-full wp-image-1320" /><p class="wp-caption-text">Segue Connection</p></div>
+<p>If you compile and run the app, you&#8217;ll end up with an empty view when selecting any of the recipe photo. As we haven&#8217;t provided the code implementation, the modal view controller has no idea of the selected recipe photo. So, create a new class (as a subclass of UIViewController) and name it as &#8220;RecipeViewController&#8221;. In Storyboard, select the view controller we just created and set the custom class to RecipeViewController.</p>
+<div id="attachment_1321" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/Modal-View-Controller-RecipeViewController.jpg" alt="Set the custom class as RecipeViewController" class="size-full wp-image-1321" /><p class="wp-caption-text">Set the custom class as RecipeViewController</p></div>
+<p>Next, we&#8217;ll establish a connection between the image view and the RecipeViewController.h. Press and hold the control key, click the image view and drag it towards the &#8220;RecipeViewController.h&#8221;. Name the variable as &#8220;recipeImageView&#8221;. Repeat the same procedure and establish a connection with &#8220;action&#8221; type for the close button. </p>
+<div id="attachment_1322" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/RecipeViewController-Establish-Variable-Connection.jpg" alt="Establish Variable Connection" class="size-full wp-image-1322" /><p class="wp-caption-text">Establish Variable Connection</p></div>
+<h3>Into the Code</h3>
+<p>In order to let other controllers pass the image name, we&#8217;ll also add a &#8220;recipeImageName&#8221; property for this purpose. Here is the code excerpt of the RecipeViewController.h:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> RecipeViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIImageView <span style="color: #002200;">*</span>recipeImageView;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>recipeImageName;<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>close<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>When displayed, the RecipeViewController will load the specified recipe image in the image view. So in the RecipeViewController.m, change the viewDidLoad method to the following:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.recipeImageView.image <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span>self.recipeImageName<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Okay, we have completed the implementation of RecipeViewController. But there is still one thing left. How can we identify the selected item of the collection view and pass the image name to the RecipeViewController? We&#8217;ll implement the prepareForSegue:sender: method in RecipeCollectionViewController, which is the source view controller of the segue. Select the &#8220;RecipeBookViewController.m&#8221; and add the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>prepareForSegue<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIStoryboardSegue <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>segue sender<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>segue.identifier isEqualToString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;showRecipePhoto&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>indexPaths <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self.collectionView indexPathsForSelectedItems<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; RecipeViewController <span style="color: #002200;">*</span>destViewController <span style="color: #002200;">=</span> segue.destinationViewController;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span>indexPath <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>indexPaths objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; destViewController.recipeImageName <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>recipeImages<span style="color: #002200;">&#91;</span>indexPath.section<span style="color: #002200;">&#93;</span> objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.collectionView deselectItemAtIndexPath<span style="color: #002200;">:</span>indexPath animated<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p class="note"><strong>Note:</strong> If you forget how segue works, it is highly recommended to check out <a href="http://www.appcoda.com/storyboards-ios-tutorial-pass-data-between-view-controller-with-segue/">our segue tutorial</a> before proceeding.</p>
+<p>The UICollectionView class provides the indexPathsForSelectedItems method that returns the index paths for the selected items. You may wonder why there are multiple index paths returned. The reason is that UICollectionView supports multiple selection that we&#8217;ll cover in the next section. Each of the index path corresponds to a particular selected item. As for this example, we only have single item selection. Therefore, we&#8217;ll pick the first index path and retrieve the selected image (Line 5-6). </p>
+<p>In collection view, when user taps on a collection cell, the cell changes to the highlighted state and then to the selected state. Therefore, we add a line of code to deselect the selected item once the image is displayed in the modal view controller.</p>
+<p>Don&#8217;t forget to add the import statement at the very beginning of RecipeCollectionViewController.m, otherwise, your code won&#8217;t compile properly:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;RecipeViewController.h&quot;</span></div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s build and run the app. After the app is launched, tap any of the recipe and you should see a modal view showing the selected recipe image.</p>
+<div id="attachment_1325" style="width: 606px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/RecipeCollectionApp-Single-Selection.jpg" alt="Recipe App - Single Selection" class="size-full wp-image-1325" /><p class="wp-caption-text">Recipe App &#8211; Single Selection</p></div>
+<p>If you&#8217;ve tried to close the modal view, it doesn&#8217;t work properly. Obviously, we leave out the implementation of the &#8220;close&#8221; method in RecipeViewController. Simply edit the following method in the RecipeViewController.m and add a line of code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>close<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This dismissViewControllerAnimated method tells the view controller to dismiss. Compile and run the app again. The close button should now work.</p>
+<h2>Handling Multiple Selection</h2>
+<p>UICollectionView supports both single and multiple selection. However, user is allowed to select single item by default. The <em>allowsMultipleSelection</em> property of UICollectionView class controls whether multiple items can be selected simultaneously. To enable multiple selection, the trick is to set the property to YES. </p>
+<p>To give you a better idea of how multiple selection works, we&#8217;ll continue to tweak the Recipe app. User are allowed to select multiple recipes and share them on Facebook in the following ways:</p>
+<ol>
+<li>User taps the &#8220;Share&#8221; button in the navigation bar to start the sharing process and the button title is automatically changed to &#8220;Upload&#8221;.</li>
+<li>User selects the recipe photos to share.</li>
+<li>After the selection, user taps the &#8220;Upload&#8221; button. The app will bring up the Facebook dialog to share the photos on Facebook.</li>
+</ol>
+<p class="note"><strong>Note:</strong> We assume that you&#8217;re familiar with the implementation of Facebook sharing. If you&#8217;re new to it, we recommend you to check out the <a href="http://www.appcoda.com/ios-programming-101-integrate-twitter-and-facebook-sharing-in-ios-6/">Facebook sharing tutorial</a> before moving on.</p>
+<h3>Designing the User Interface</h3>
+<p>We&#8217;ll first add the &#8220;Share&#8221; button in the navigation bar. Go to Storyboard, drag a Bar Button Item from Object library and add it to the navigation bar of Recipe Collection View Controller.</p>
+<div id="attachment_1329" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/UICollectionView-Multiple-Selection-Share-Button.jpg" alt="UICollectionView Multiple Selection Share Button" class="size-full wp-image-1329" /><p class="wp-caption-text">Adding the Share Button</p></div>
+<p>Like before, establish a connection between the Share button and RecipeCollectionViewController.h. Name the property as &#8220;shareButton&#8221;. We also add an action method that is called when the Share button is tapped.</p>
+<div id="attachment_1330" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/UICollectionView-Share-Button-IBAction.jpg" alt="UICollectionView Share Button IBAction" class="size-full wp-image-1330" /><p class="wp-caption-text">Establish Connections with the Share Button</p></div>
+<p>Your code of RecipeCollectionViewController.h should look like this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> RecipeCollectionViewController <span style="color: #002200;">:</span> UICollectionViewController<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIBarButtonItem <span style="color: #002200;">*</span>shareButton;<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>shareButtonTouched<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<h3>Into the Code</h3>
+<p>The Recipe app now offers two modes: single selection and multiple selection. When user taps the &#8220;Share&#8221; button, the app will go into the multiple selection mode that allows user to select multiple photos for sharing. To support the multiple selection mode, we&#8217;ll add two variables to the RecipeCollectionViewController.m:</p>
+<ul>
+<li><em>shareEnabled</em> &#8211; it&#8217;s a boolean variable to indicate the selection mode. If it&#8217;s set to YES, it indicates the &#8220;Share&#8221; button is tapped and multiple selection is enabled.</li>
+<li><em>selectedRecipes</em> &#8211; it&#8217;s an array to store the selected recipes</li>
+</ul>
+<p>Your code should look like below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> RecipeCollectionViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>recipeImages;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">BOOL</span> shareEnabled;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> <span style="color: #002200;">*</span>selectedRecipes;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In addition, add the following line of code in viewDidLoad method to initialize the array:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; selectedRecipes <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> array<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<h3>Managing Item Selection and Deselection</h3>
+<p>The UICollectionViewDelegate protocol defines methods that allow you to manage the selection and highlighting of items in a collection view. When user selects an item, the collectionView:didSelectItemAtIndexPath: method is invoked. We&#8217;ll implement this method and add the selected items into the selectedRecipes array. Place the following code before the &#8220;@end&#8221; statement:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>collectionView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UICollectionView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>collectionView didSelectItemAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>shareEnabled<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Determine the selected items by using the indexPath</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>selectedRecipe <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>recipeImages<span style="color: #002200;">&#91;</span>indexPath.section<span style="color: #002200;">&#93;</span> objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Add the selected item into the array</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>selectedRecipes addObject<span style="color: #002200;">:</span>selectedRecipe<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The UICollectionViewCell class provides a property to set the background view of a selected item. To indicate a selected item, we&#8217;ll change the background image of collection cell to a different image (i.e. photo-frame-selected.png). Simply place the following code in the collectionView:cellForItemAtIndexPath: method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; cell.selectedBackgroundView <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIImageView alloc<span style="color: #002200;">&#93;</span> initWithImage<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;photo-frame-selected.png&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<div id="attachment_1377" style="width: 600px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/Collection-View-Cell-Selected.jpg" alt="Collection View Cell Selected" class="size-full wp-image-1377" /><p class="wp-caption-text">Change the background image for selected cell</p></div>
+<p>Not only we have to handle item selection, we also need to cater for deselection. For any reasons, user may deselect an item from the collection view. When an item is deselected, it should be removed from the selectedRecipes array. So place the following code after the above method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>collectionView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UICollectionView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>collectionView didDeselectItemAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>shareEnabled<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>deSelectedRecipe <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>recipeImages<span style="color: #002200;">&#91;</span>indexPath.section<span style="color: #002200;">&#93;</span> objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>selectedRecipes removeObject<span style="color: #002200;">:</span>deSelectedRecipe<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Next, we&#8217;ll move onto the implementation of shareButtonTouched: method, which is called when user taps the Share button. Edit the method with the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>shareButtonTouched<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>shareEnabled<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Post selected photos to Facebook</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>selectedRecipes count<span style="color: #002200;">&#93;</span> &gt; <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>SLComposeViewController isAvailableForServiceType<span style="color: #002200;">:</span>SLServiceTypeFacebook<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SLComposeViewController <span style="color: #002200;">*</span>controller <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>SLComposeViewController composeViewControllerForServiceType<span style="color: #002200;">:</span>SLServiceTypeFacebook<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>controller setInitialText<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Check out my recipes!&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">for</span> <span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>recipePhoto <span style="color: #a61390;">in</span> selectedRecipes<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>controller addImage<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span>recipePhoto<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>controller animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">Nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Deselect all selected items</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">for</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span>indexPath <span style="color: #a61390;">in</span> self.collectionView.indexPathsForSelectedItems<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.collectionView deselectItemAtIndexPath<span style="color: #002200;">:</span>indexPath animated<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Remove all items from selectedRecipes array</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>selectedRecipes removeAllObjects<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Change the sharing mode to NO</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; shareEnabled <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.collectionView.allowsMultipleSelection <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.shareButton.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Share&quot;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.shareButton setStyle<span style="color: #002200;">:</span>UIBarButtonItemStylePlain<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Change shareEnabled to YES and change the button text to DONE</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; shareEnabled <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.collectionView.allowsMultipleSelection <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.shareButton.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Upload&quot;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.shareButton setStyle<span style="color: #002200;">:</span>UIBarButtonItemStyleDone<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>To help you understand the above, let&#8217;s take a look at the code line by line:</p>
+<p>Line 35-38: If sharing mode is originally disabled, we&#8217;ll put the app into sharing mode and enables multiple selection. At the same time, we change the title of button to &#8220;Upload&#8221;.</p>
+<p>Line 5-16: In sharing mode, after user taps the &#8220;Upload&#8221; button, we&#8217;ll bring up Facebook composer. The SLComposeViewController comes with some built-in methods to allow you easily upload multiple photos. We simply use the &#8220;addImage&#8221; method to attach the images.</p>
+<p>Line 19-24: After uploading the photos to Facebook, we deselect the selected items and remove them from the selectedRecipes array.</p>
+<p>Line 27-30: Lastly, we switch back to the single selection mode.</p>
+<p>As &#8220;SLComposeViewController&#8221; is a class provided by the Social framework, remember to import the Social.h file at the very top of the &#8220;RecipeCollectionViewController.m&#8221;:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;Social/Social.h&gt;</span></div></td></tr></tbody></table></div>
+<p>By default, the Social framework is not included in the Xcode project. To compile the app properly, add the &#8220;Social.framework&#8221; in the project. In the Project Navigator, select the &#8220;CollectionViewDemo&#8221; project. In the Content Area, select &#8220;CollectionViewDemo&#8221; under Targets and click &#8220;Build Phases&#8221;. Expand &#8220;Link Binary with Libraries&#8221; and click the &#8220;+&#8221; button to add the &#8220;Social.framework&#8221;.</p>
+<div id="attachment_1373" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/Collection-View-Adds-Social-Framework.jpg" alt="Collection View Adds Social Framework" class="size-full wp-image-1373" /><p class="wp-caption-text">Add Social Framework</p></div>
+<p>We&#8217;re almost done. However, if you run the app now, you&#8217;ll end up with a bug. After switching to the sharing mode, the modal view still appears when you select any of the recipe photos. This is not what we expect. The reason is that the segue is invoked every time when the collection cell is tapped. With the release of iOS 6, you can specify if you want the segue to be triggered by using a new method called <em>shouldPerformSegueWithIdentifier</em>. Obviously, we only want to trigger the segue when it&#8217;s in single selection mode. Place the following code before the &#8220;@end&#8221; statement:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>shouldPerformSegueWithIdentifier<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>identifier sender<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>shareEnabled<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Great! Now compile and run the app again. Tap the Share button, select a few recipe photos and tap the Upload button to share them over Facebook.</p>
+<div id="attachment_1380" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/02/Recipe-Collection-App-Facebook-Deliverable.jpg" alt="Recipe Collection App Facebook Deliverable" class="size-full wp-image-1380" /><p class="wp-caption-text">Recipe App &#8211; Multiple Selection</p></div>
+<h2>What&#8217;s Coming Next</h2>
+<p>I hope you love this tutorial. For your complete reference, you can <a href="https://dl.dropbox.com/u/2857188/CollectionViewItemSelection_Final.zip">download the complete Xcode project from here</a>. After going through the series of Collection View tutorials, you should know how to arrange data items in grid view, add header/footer view and interact with the collection cells.</p>
+<p>In the coming tutorial, we&#8217;ll look into something new and show you how to manage audio in your iOS app. As always, if you have any problem or suggestions about the tutorial, leave us comment and share your thought.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/sqlite-database-ios-app-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/06/sqlite-database-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Use SQLite to Manage Data in iOS Apps</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-gesture-recognizers/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/gestures-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Using Gesture Recognizers to Handle Pinch, Rotate, Pan, Swipe and Tap Gestures</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/custom-view-controller-transitions-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/03/custom-view-transition-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to Custom View Controller Transitions and Animations</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ibeacons-swift-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/03/ibeacons-featured-photo-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Developing iBeacons Apps with Swift</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-collection-view-tutorial/"
+    dc:identifier="http://www.appcoda.com/ios-collection-view-tutorial/"
+    dc:title="Handling Single and Multiple Selection in Collection View"
+    trackback:ping="http://www.appcoda.com/ios-collection-view-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/app-development/" rel="tag">app development</a>, <a href="http://www.appcoda.com/tag/collection-view/" rel="tag">Collection View</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/iphone-programming/" rel="tag">iPhone Programming</a>, <a href="http://www.appcoda.com/tag/uicollectionview/" rel="tag">UICollectionView</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-1216">
+        <div id="dsq-comment-header-1216" class="dsq-comment-header">
+            <cite id="dsq-cite-1216">
+                <span id="dsq-author-user-1216">rufusmi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1216" class="dsq-comment-body">
+            <div id="dsq-comment-message-1216" class="dsq-comment-message"><p>I just want to say thank you for all of your work you put into these app development tutorials and setting up this website. Thanks for all of your hard work simon!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1225">
+        <div id="dsq-comment-header-1225" class="dsq-comment-header">
+            <cite id="dsq-cite-1225">
+                <span id="dsq-author-user-1225">kevin chen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1225" class="dsq-comment-body">
+            <div id="dsq-comment-message-1225" class="dsq-comment-message"><p>Thanks, It is very good. Hope for next tutorial.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1243">
+        <div id="dsq-comment-header-1243" class="dsq-comment-header">
+            <cite id="dsq-cite-1243">
+                <span id="dsq-author-user-1243">DoctorCobweb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1243" class="dsq-comment-body">
+            <div id="dsq-comment-message-1243" class="dsq-comment-message"><p>just make a copy of the photo-fram.png file, edit it using GIMP (say), add the coloured border then export it to &#8220;photo-frame-selected.png&#8221;. if the alpha channel is set it will screw up your UI when running the app. i deleted the alpha channel on my edit because for some reason it became non zero. hope this helps.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1328">
+        <div id="dsq-comment-header-1328" class="dsq-comment-header">
+            <cite id="dsq-cite-1328">
+                <span id="dsq-author-user-1328">Podster</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1328" class="dsq-comment-body">
+            <div id="dsq-comment-message-1328" class="dsq-comment-message"><p>I would love to know how to replace the photo album name from iOS Photos to my App Name&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1348">
+        <div id="dsq-comment-header-1348" class="dsq-comment-header">
+            <cite id="dsq-cite-1348">
+                <span id="dsq-author-user-1348">Chih-han</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1348" class="dsq-comment-body">
+            <div id="dsq-comment-message-1348" class="dsq-comment-message"><p>You lost photo-frame-selected.png in your zip file.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1385">
+        <div id="dsq-comment-header-1385" class="dsq-comment-header">
+            <cite id="dsq-cite-1385">
+                <span id="dsq-author-user-1385">bagusflyer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1385" class="dsq-comment-body">
+            <div id="dsq-comment-message-1385" class="dsq-comment-message"><p>Great tutorial. But you missed one part which you mentioned you in your first tutorial about UICollectionView. Which is DecorationView. Are you going to discuss this in your following tutorial? Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1416">
+        <div id="dsq-comment-header-1416" class="dsq-comment-header">
+            <cite id="dsq-cite-1416">
+                <span id="dsq-author-user-1416">Charles</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1416" class="dsq-comment-body">
+            <div id="dsq-comment-message-1416" class="dsq-comment-message"><p>when i run it, it terminates due to uncaught exception&#8230;</p>
+<p>2013-04-10 22:02:53.742 CollectionViewDemo[1505:c07] *** Terminating app due to uncaught exception &#8216;NSUnknownKeyException&#8217;, reason: &#8216;[ setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key shareButton.&#8217;</p>
+<p>*** First throw call stack:</p>
+<p>(0x234e012 0x11b9e7e 0x23d6fb1 0xc65e41 0xbe75f8 0xbe70e7 0xc11b58 0x31b019 0x11cd663 0x234945a 0x319b1c 0x54554a 0x5456c3 0xfd71e 0xfd9a2 0xfc876 0x10dcb5 0x10ebeb 0x100698 0x28a8df9 0x28a8ad0 0x22c3bf5 0x22c3962 0x22f4bb6 0x22f3f44 0x22f3e1b 0xfc17a 0xfdffc 0x1f0d 0x1e35)</p>
+<p>libc++abi.dylib: terminate called throwing an exception</p>
+<p>(lldb)</p>
+<p>I tried work through the tutorial and got this problem after implementing the prepareforsegue above.<br />
+So i download the complete code package and try to run, same error&#8230; <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+any advise?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1903">
+        <div id="dsq-comment-header-1903" class="dsq-comment-header">
+            <cite id="dsq-cite-1903">
+                <span id="dsq-author-user-1903">John R Dempsey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1903" class="dsq-comment-body">
+            <div id="dsq-comment-message-1903" class="dsq-comment-message"><p>I get the same error</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-2156">
+        <div id="dsq-comment-header-2156" class="dsq-comment-header">
+            <cite id="dsq-cite-2156">
+                <span id="dsq-author-user-2156">mikkkk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2156" class="dsq-comment-body">
+            <div id="dsq-comment-message-2156" class="dsq-comment-message"><p>Sounds like there are some invalid connections between shareButton and RecipeCollectionViewController.h.</p>
+<p>Check that the shareButton outlet and action are connected properly i.e. the button&#8217;s IBOutlet and IBAction method to the RecipeCollectionViewController.h. You should dismiss any other connections for the button to make it work in this tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1477">
+        <div id="dsq-comment-header-1477" class="dsq-comment-header">
+            <cite id="dsq-cite-1477">
+                <span id="dsq-author-user-1477">Tanvi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1477" class="dsq-comment-body">
+            <div id="dsq-comment-message-1477" class="dsq-comment-message"><p>Hey, thanks for such a nice tutorials. I have one query on header view. I<br />
+ have multiple sections in my Data Grid. How can i fix my header for<br />
+multiple sections. Means, i want header should not move while scrolling<br />
+data grid. Can you help me out?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2326">
+        <div id="dsq-comment-header-2326" class="dsq-comment-header">
+            <cite id="dsq-cite-2326">
+                <span id="dsq-author-user-2326">SpokaneDude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2326" class="dsq-comment-body">
+            <div id="dsq-comment-message-2326" class="dsq-comment-message"><p>Tanvi:  did you get this resolved?  I need something similar to this: the left column and top row have to scroll with the remainder of the cells, like you can do with any spreadsheet program (lock row or column).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://rhezjovovich.wordpress.com/2013/05/01/uicollectionview-basics/' rel='external nofollow' class='url'>UICollectionView Basics | rhezjovovich</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1885">
+        <div id="dsq-comment-header-1885" class="dsq-comment-header">
+            <cite id="dsq-cite-1885">
+                <span id="dsq-author-user-1885">Nic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1885" class="dsq-comment-body">
+            <div id="dsq-comment-message-1885" class="dsq-comment-message"><p>Thanks for your tutorial. I&#8217;ve learnt a lot.<br />
+It would be great if you have a sticky header ( always on top in one section ) in collection view.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2074">
+        <div id="dsq-comment-header-2074" class="dsq-comment-header">
+            <cite id="dsq-cite-2074">
+                <span id="dsq-author-user-2074">k0e3</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2074" class="dsq-comment-body">
+            <div id="dsq-comment-message-2074" class="dsq-comment-message"><p>How come before we used a button for cancel and save, but now it&#8217;s a bar button item?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2075">
+        <div id="dsq-comment-header-2075" class="dsq-comment-header">
+            <cite id="dsq-cite-2075">
+                <span id="dsq-author-user-2075">k0e3</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2075" class="dsq-comment-body">
+            <div id="dsq-comment-message-2075" class="dsq-comment-message"><p>Never mind, I must be going insane.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2403">
+        <div id="dsq-comment-header-2403" class="dsq-comment-header">
+            <cite id="dsq-cite-2403">
+                <span id="dsq-author-user-2403">PeterOhalo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2403" class="dsq-comment-body">
+            <div id="dsq-comment-message-2403" class="dsq-comment-message"><p>Thanks its works</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2620">
+        <div id="dsq-comment-header-2620" class="dsq-comment-header">
+            <cite id="dsq-cite-2620">
+                <span id="dsq-author-user-2620">Birdy Birdas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2620" class="dsq-comment-body">
+            <div id="dsq-comment-message-2620" class="dsq-comment-message"><p>i cannot segue to Display an image to view on Xcode5</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2880">
+        <div id="dsq-comment-header-2880" class="dsq-comment-header">
+            <cite id="dsq-cite-2880">
+                <span id="dsq-author-user-2880">b</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2880" class="dsq-comment-body">
+            <div id="dsq-comment-message-2880" class="dsq-comment-message"><p>Excellent series of tutorials.  Got me up and running with collection views quickly.  Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2899">
+        <div id="dsq-comment-header-2899" class="dsq-comment-header">
+            <cite id="dsq-cite-2899">
+                <span id="dsq-author-user-2899">Mohamed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2899" class="dsq-comment-body">
+            <div id="dsq-comment-message-2899" class="dsq-comment-message"><p>great tutorial but if i replace the collection view by scrollview so i need to when user select the image from scroll controller send the image to another view controller; so please help me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2985">
+        <div id="dsq-comment-header-2985" class="dsq-comment-header">
+            <cite id="dsq-cite-2985">
+                <span id="dsq-author-user-2985">Mạnh Hiền Lành</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2985" class="dsq-comment-body">
+            <div id="dsq-comment-message-2985" class="dsq-comment-message"><p>it&#8217;s can&#8217;t share on Facebook , i tried run your project,why is???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3013">
+        <div id="dsq-comment-header-3013" class="dsq-comment-header">
+            <cite id="dsq-cite-3013">
+                <span id="dsq-author-user-3013">yolou</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3013" class="dsq-comment-body">
+            <div id="dsq-comment-message-3013" class="dsq-comment-message"><p>How to put the navigation bar above the uicollection header view, the header view is occupying the place where the navigation bar should be,</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4087">
+        <div id="dsq-comment-header-4087" class="dsq-comment-header">
+            <cite id="dsq-cite-4087">
+                <span id="dsq-author-user-4087">Tiago De Barros Hillesheim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4087" class="dsq-comment-body">
+            <div id="dsq-comment-message-4087" class="dsq-comment-message"><p>Probably you don&#8217;t have a Nav controller. Select the Collection View Controller and then choose &#8220;Editor&#8221; &gt; &#8220;Embed In&#8221; &gt; &#8220;Navigation Controller&#8221; &#8230; the view collection should go down a bit.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3044">
+        <div id="dsq-comment-header-3044" class="dsq-comment-header">
+            <cite id="dsq-cite-3044">
+                <span id="dsq-author-user-3044">sankar ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3044" class="dsq-comment-body">
+            <div id="dsq-comment-message-3044" class="dsq-comment-message"><p>Hello ,<br />
+I want to know how to select the cell in the UICollection View, Here the  Tutorial is Fine but I didn&#8217;t get the Image that Background Selected&#8230; from your source code itself help me in this!!!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4088">
+        <div id="dsq-comment-header-4088" class="dsq-comment-header">
+            <cite id="dsq-cite-4088">
+                <span id="dsq-author-user-4088">Tiago De Barros Hillesheim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4088" class="dsq-comment-body">
+            <div id="dsq-comment-message-4088" class="dsq-comment-message"><p>This image is not in the zip, you have to create it. Open the original frame in Photoshop, change the color or something and save it as &#8220;photo-frame-selected.png&#8221;. You must import the file to the project, even if it&#8217;s already in the folder.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3332">
+        <div id="dsq-comment-header-3332" class="dsq-comment-header">
+            <cite id="dsq-cite-3332">
+                <span id="dsq-author-user-3332">Hala Salih</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3332" class="dsq-comment-body">
+            <div id="dsq-comment-message-3332" class="dsq-comment-message"><p>I followed this tutorial till the handling multiple selection part, whenever I click and image, the app crashes and I get a memory warning, after some googling, I replaced the method imagenamed with imageWithContentsOfFile and it still crashes .. (using xcode 5.0.2 and iOS 7.0.4)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3334">
+        <div id="dsq-comment-header-3334" class="dsq-comment-header">
+            <cite id="dsq-cite-3334">
+                <span id="dsq-author-user-3334">Hala Salih</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3334" class="dsq-comment-body">
+            <div id="dsq-comment-message-3334" class="dsq-comment-message"><p>Found the solution .. replace the line I mentioned above with this:</p>
+<p>destViewController.recipeImageName = recipeImages[indexPath.row]</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-98746">
+        <div id="dsq-comment-header-98746" class="dsq-comment-header">
+            <cite id="dsq-cite-98746">
+                <span id="dsq-author-user-98746">Tini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98746" class="dsq-comment-body">
+            <div id="dsq-comment-message-98746" class="dsq-comment-message"><p>Thanks,it solved my error</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3355">
+        <div id="dsq-comment-header-3355" class="dsq-comment-header">
+            <cite id="dsq-cite-3355">
+                <span id="dsq-author-user-3355">Spehler Rémy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3355" class="dsq-comment-body">
+            <div id="dsq-comment-message-3355" class="dsq-comment-message"><p>Hi<br />
+Thank you very much for this great tutorial!!! It works perfectly.<br />
+One question please: I want to select one picture, the symbol of one area, and after this choice N°1, select one catégorie with PickerView, choice N°2, but Choice N°2 must redirect on the webpage (Choice N°1 + ChoiceN°2).<br />
+Do you think it&#8217;s possible?<br />
+Thank you for your help.<br />
+Gracefully<br />
+Rémy</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3518">
+        <div id="dsq-comment-header-3518" class="dsq-comment-header">
+            <cite id="dsq-cite-3518">
+                <span id="dsq-author-user-3518">Richard Lewison</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3518" class="dsq-comment-body">
+            <div id="dsq-comment-message-3518" class="dsq-comment-message"><p>Great set of tutorials. There are some differences when developing for iOS7 that you may want to mention.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3927">
+        <div id="dsq-comment-header-3927" class="dsq-comment-header">
+            <cite id="dsq-cite-3927">
+                <span id="dsq-author-user-3927">Betoneira</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3927" class="dsq-comment-body">
+            <div id="dsq-comment-message-3927" class="dsq-comment-message"><p>Nice Tutorial, many thanks for this. I am wondering how to load images from web server, this means the images are stored outside the app. The code i use is:</p>
+<p>NSURL * recipePhotosFile = [NSURL URLWithString:@&#8221;http://www.server.com/recipePhotos.plist&#8221;];<br />
+    recipePhotos= [[NSDictionary alloc] initWithContentsOfURL:recipePhotosFile];<br />
+    NSArray *mainDishImages = [recipePhotos objectForKey:@&#8221;Fotos&#8221;];</p>
+<p>With this code the thumbs are populated with the images at the plist, but i need to have them all inside app and i need them outside to be able to add more images.</p>
+<p>Thank you in advance</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6972">
+        <div id="dsq-comment-header-6972" class="dsq-comment-header">
+            <cite id="dsq-cite-6972">
+                <span id="dsq-author-user-6972">venkatinjarapu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6972" class="dsq-comment-body">
+            <div id="dsq-comment-message-6972" class="dsq-comment-message"><p>It was very use full for me thanks man</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://yunhos.wordpress.com/2015/03/03/collection-view-%ec%97%90%ec%84%9c-%eb%a9%80%ed%8b%b0%ec%85%80%eb%a0%89%ed%8a%b8/' rel='external nofollow' class='url'>collection view 에서 멀티셀렉트 | 아빠와딸 인디개발자</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-collection-view-tutorial/';
+var disqus_identifier = '1282 http://www.appcoda.com/?p=1282';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Handling Single and Multiple Selection in Collection View";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1282';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1282"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-collection-view-tutorial%2F&#038;t=Handling%20Single%20and%20Multiple%20Selection%20in%20Collection%20View" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1282" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>59</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Handling%20Single%20and%20Multiple%20Selection%20in%20Collection%20View&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-collection-view-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1282" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>17</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-collection-view-tutorial%2F&#038;t=Handling%20Single%20and%20Multiple%20Selection%20in%20Collection%20View" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1282" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>8</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-collection-view-tutorial%2F&#038;title=Handling%20Single%20and%20Multiple%20Selection%20in%20Collection%20View" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1282" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>4</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-collection-view-tutorial%2F&#038;t=Handling%20Single%20and%20Multiple%20Selection%20in%20Collection%20View" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1282" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Handling%20Single%20and%20Multiple%20Selection%20in%20Collection%20View&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-collection-view-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1282" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-collection-view-tutorial%2F&#038;t=Handling%20Single%20and%20Multiple%20Selection%20in%20Collection%20View" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1282" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-collection-view-tutorial%2F&#038;title=Handling%20Single%20and%20Multiple%20Selection%20in%20Collection%20View" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1282" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-collection-view-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="690a05061a0c295b114719070e">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":1282,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:21:07 by W3 Total Cache -->

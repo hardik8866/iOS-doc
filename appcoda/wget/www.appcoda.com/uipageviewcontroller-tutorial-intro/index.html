@@ -1,0 +1,1381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Use UIPageViewController to Build Tutorial Screens in iOS App</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This iOS programming tutorial is an easy introduction about how to use the UIPageViewController class. You can use the class to build walkthrough screens in your iOS app."/>
+<link rel="canonical" href="http://www.appcoda.com/uipageviewcontroller-tutorial-intro/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This iOS programming tutorial is an easy introduction about how to use the UIPageViewController class. You can use the class to build walkthrough screens in your iOS app."/>
+<meta name="twitter:title" content="Use UIPageViewController to Build Tutorial Screens in iOS App"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/06/UIPageViewController-Tutorial-Screen.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; How to Use UIPageViewController to Build Tutorial Screens Comments Feed" href="http://www.appcoda.com/uipageviewcontroller-tutorial-intro/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1977' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1977 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1977 post type-post status-publish format-standard hentry category-course category-tutorials tag-ios-programming tag-iphone-programming tag-objective-c tag-uipagecontroller tag-uipageviewcontroller entry"><h1 class="entry-title">How to Use UIPageViewController to Build Tutorial Screens</h1> 
+<div class="post-info"><span class="date published time" title="2013-06-16T18:36:53+00:00">June 16, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/rafaelgarcia/" rel="author">Rafael Garcia</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/uipageviewcontroller-tutorial-intro/#comments"><span class="dsq-postid" data-dsqidentifier="1977 http://www.appcoda.com/?p=1977">72 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><em><strong>Editor&#8217;s note:</strong> For the very first time you launch an app, you&#8217;ll probably find a series of tutorial screens to walk you through the basic features. It&#8217;s a common practice to explain how the app works. This week, we&#8217;ll show you how to build a similar type of tutorials by using UIPageViewController.</em></p>
+<p>The <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UIPageViewControllerClassReferenceClassRef/UIPageViewControllerClassReference.html">UIPageViewController class</a> was introduced into the iOS 5 SDK as a mechanism to implement a page turning style of user interface in iOS applications. The UIPageViewController is a highly configurable class that it lets developers to configure:</p>
+<ul>
+<li>the orientation of the page views &#8211; vertical or horizontal</li>
+<li>the transition style &#8211; page turning style or a dot based style</li>
+<li>the axis (spine) on which the page will turn</li>
+</ul>
+<p>In this tutorial we are going to show how to use the UIPageViewController to implement an app that allows users to scroll between multiple screens. You can find examples of this type of page view implementation in games like Angry Birds to show the available levels or in apps that include <a href="http://pttrns.com/categories/16-walkthroughs">tutorial/walkthrough screens</a>. </p>
+<div id="attachment_2021" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/06/UIPageViewController-Tutorial-Screen.jpg" alt="Sample Walkthrough Screens from Path" class="size-full wp-image-2021" /><p class="wp-caption-text">Sample Walkthrough Screens from Path</p></div>
+<p>Prior to iOS 5 we had to use the <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UIPageControl_Class/Reference/Reference.html">UIPageControl class</a> and explicitly control the animations, as well as, transitions between pages. This procedure has been highly simplified with the introduction of the UIPageViewController. We&#8217;ll keep the demo app very simple and focus to demonstrate the usage of UIPageViewController. However, with the basic understanding of the page view controller, you can easily build the tutorial screens in your app.<br />
+<span id="more-1977"></span></p>
+<h2>A Glance at the Demo App</h2>
+<p>The application we are going to create is very simple: it consists of five different screens that each page displays a unique screen label. You&#8217;re allowed to navigate between pages by swiping through the screen.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/06/pageviewcontroller1.png" alt="pageviewcontroller1" class="aligncenter size-full wp-image-2007" /></div>
+<h2>Creating the Project</h2>
+<p>Open Xcode and create a new Project by using the Single View Application template. It might seem a little bit strange to select the Single View Application template as Xcode already comes with a Page-Based Application template, which contains a fully functional app based on the UIPageViewController. However, this template is a little bit complex and it will take us more time to clean-up the code of the template than to start from scratch. Needless to say, we can better grasp the concept behind the UIPageViewController when we start from scratch.</p>
+<div id="attachment_2016" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/06/UIPageViewController-Demo-Project.jpg" alt="UIPageViewController Demo Project" class="size-full wp-image-2016" /><p class="wp-caption-text">Creating a new project using Single View Application template</p></div>
+<p>Okay, let&#8217;s move on. In the next screen enter <em>PageApp</em> as the product name and set <em>com.appcoda</em> in the company identifier field. Select the <em>Use Authomatic Reference Counting</em> option, but unselect the <em>Use Storyboard</em> since we&#8217;re not going to use storyboards for this project. Press next and create the project. Then, select the APPViewController.xib file and change the background of the view to black color.</p>
+<h2>Creating the Tutorial Screen</h2>
+<p>The next step is to implement the view controller class that we use to display our five tutorial screens. Select File -> New -> File &#8230; and from the list of available templates, select the &#8220;Objective-C class&#8221; template. Name the class <em>APPChildViewController</em> and make it a subclass of UIViewController. Also, check the box labeled &#8220;With XIB for user interface&#8221; in order to create the corresponding user interface.</p>
+<p>Select the APPChildViewController.xib file just created. Change the background of the view to <em>Black</em> and reduce the vertical size of the view to 512 points to leave some free space for the dots of the page controller (which has a default height of 36 points). Finally add a white UILabel centered on the screen, with a big font size, and change its content to &#8220;Screen #n&#8221;. The resulting view should look something like:</p>
+<div id="attachment_2008" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/06/pageviewcontroller2.png" alt="User Interface for the main screen" class="size-full wp-image-2008" /><p class="wp-caption-text">User Interface for the main screen</p></div>
+<div class="note">Note: We keep the five tutorial screens very simple that it only displays the screen number in each screen. In the actual app, you may display images to elaborate your app feature.</div>
+<p>Next, we have to create an IBOutlet for that label. In order to do that, change the Editor to the Assistant mode meanwhile the APPChildViewController.xib file is selected. The APPChildViewController.h file should be opened. Control and drag from the UILabel to the APPViewController.h and create an IBOutlet. Set the name as <em>screenNumber</em>. Finally, create a new property of type NSInteger called <em>index</em>. The resulting APPChildViewControl.h file should be something like:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;UIKit/UIKit.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> APPChildViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>assign, nonatomic<span style="color: #002200;">&#41;</span> NSInteger index;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>screenNumber;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>The index property allows us to control which screen is currently shown. In order to do that, once we have created a child screen, we have to set up its index through the index property. At the same time, we update the text of the label as well. Add the following line of code to the end of the <em>viewDidAppear:</em> method in the file APPChildViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">self.screenNumber.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Screen #%d&quot;</span>, self.index<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<h2>Handling the View Controllers</h2>
+<p>The UIPageViewController class highlights the distinction between a view controller and a container controller. The container controller is used to contain and manage multiple view controllers shown in the app, as well as, controlling the way one view controller switches to another. Here the UIPageViewController is the container controller that lets the user navigate between pages of content, where each page is managed by its own view controller object.</p>
+<p>In order to make UIPageViewController work, our APPViewController has to adopt the <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UIPageViewControllerDataSourceProtocolRef/UIPageViewControllerDataSource.html">UIPageViewControllerDataSource protocol</a>. By implementing the data source protocol, we tell the page view controller what to display for each page.</p>
+<p>Open the APPViewController.h file and modify the @interface declaration, and add a new property to hold the UIPageViewController:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;UIKit/UIKit.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> APPViewController <span style="color: #002200;">:</span> UIViewController &lt;UIPageViewControllerDataSource&gt;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> UIPageViewController <span style="color: #002200;">*</span>pageController;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Next, we have to implement at least two methods of the protocol: </p>
+<ul>
+<li>viewControllerAfterViewController &#8211; provides the view controller after the current view controller. In other words, we tell the app what to display for the next screen.</li>
+<li>viewControllerBeforeViewController &#8211; provides the view controller before the current view controller. In other words, we tell the app what to display when user switches back to the previous screen.</li>
+</ul>
+<p>Add the following lines of code before the end of the APPViewController.c file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>UIViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>pageViewController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPageViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>pageViewController viewControllerBeforeViewController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>viewController <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; NSUInteger index <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>APPChildViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>viewController index<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>index <span style="color: #002200;">==</span> <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; index<span style="color: #002200;">--</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#91;</span>self viewControllerAtIndex<span style="color: #002200;">:</span>index<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>UIViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>pageViewController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPageViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>pageViewController viewControllerAfterViewController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>viewController <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; NSUInteger index <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>APPChildViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>viewController index<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<br />
+&nbsp; &nbsp; index<span style="color: #002200;">++</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>index <span style="color: #002200;">==</span> <span style="color: #2400d9;">5</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#91;</span>self viewControllerAtIndex<span style="color: #002200;">:</span>index<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The above methods are very straightforward. We simply increase/decrease the screen number and return the view controller to display. However, please note that we have to check if we have reached the boundaries of the pages and return nil in that case. In the demo app, we have a maximum of five pages. So we&#8217;ll return nil if user has come to the end of the pages. </p>
+<p>As you may wonder, there are two ways to create the view controllers for the container. We can either create them all at once and put them into the container. However, this way is not recommended as it takes up too much resources. Another way is to create the view controller only when they are needed. Here, the &#8220;viewControllerAtIndex&#8221; method is designed for this purpose. It takes in the index parameter and creates the corresponding view controller (i.e. APPChildViewController) on the fly.</p>
+<p>Add the following method at the end of the APPViewController.m file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>APPChildViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>viewControllerAtIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSUInteger<span style="color: #002200;">&#41;</span>index <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; APPChildViewController <span style="color: #002200;">*</span>childViewController <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>APPChildViewController alloc<span style="color: #002200;">&#93;</span> initWithNibName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;APPChildViewController&quot;</span> bundle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; childViewController.index <span style="color: #002200;">=</span> index;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> childViewController;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Finally, you have to tell iOS the number of dots to display in the page view controller and which dot must be selected at the beginning. Add the following two methods at the end of the APPViewController.m file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>presentationCountForPageViewController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPageViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>pageViewController <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// The number of items reflected in the page indicator.</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">5</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>presentationIndexForPageViewController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPageViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>pageViewController <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// The selected item reflected in the page indicator.</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">0</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Again the above code is very straightforward. We simply tell iOS that we have 5 pages to display in the page view controller and the first page should be selected by default.</p>
+<h2>Initializing the UIPageViewController</h2>
+<p>The final step is to create and initialize the UIPageViewController. The best place to do that is in the viewDidLoad method. Open the APPViewController.m file and change the method to:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.pageController <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIPageViewController alloc<span style="color: #002200;">&#93;</span> initWithTransitionStyle<span style="color: #002200;">:</span>UIPageViewControllerTransitionStyleScroll navigationOrientation<span style="color: #002200;">:</span>UIPageViewControllerNavigationOrientationHorizontal options<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.pageController.dataSource <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>self.pageController view<span style="color: #002200;">&#93;</span> setFrame<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>self view<span style="color: #002200;">&#93;</span> bounds<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; APPChildViewController <span style="color: #002200;">*</span>initialViewController <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self viewControllerAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>viewControllers <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObject<span style="color: #002200;">:</span>initialViewController<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.pageController setViewControllers<span style="color: #002200;">:</span>viewControllers direction<span style="color: #002200;">:</span>UIPageViewControllerNavigationDirectionForward animated<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self addChildViewController<span style="color: #002200;">:</span>self.pageController<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>self view<span style="color: #002200;">&#93;</span> addSubview<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>self.pageController view<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.pageController didMoveToParentViewController<span style="color: #002200;">:</span>self<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s see what the method does. We first create the UIPageViewController object and specify the navigation style, as well as, the navigation orientation. Here we use <em>UIPageViewControllerTransitionStyleScroll</em> as the transition and UIPageViewControllerNavigationOrientationHorizontal as orientation. Please note that the transition using dots is only available if we use an horizontal orientation and a scroll style. Other orientations or transitions styles will default the  switch to a page turning style.</p>
+<p>Next we specify the data source, in this case it is the class itself. We also modify the frame of the controller in order to opt for the full screen. We then create the first child screen and add that screen to an array of controllers. We do not add more controllers to the array of controllers as we have opted to create them on demand.</p>
+<p>And finally, we have to replace the current controller by our new page controller, and to add the page controller view to the current view.</p>
+<h2>Compile and Run the App</h2>
+<p>And there we go, start the application and see how the UIPageViewController works. You should be able to test the page view controller by using the iPhone Simulator. Try to swipe through the screen to navigate between pages.</p>
+<div id="attachment_2020" style="width: 378px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/06/PageView-App.jpg" alt="PageView Demo App" class="size-full wp-image-2020" /><p class="wp-caption-text">PageView Demo App</p></div>
+<h2>Download Full Source Code</h2>
+<p>In this tutorial, we have given a basic introduction of UIPageViewController. This is a very handy class for implementing tutorials in your app. Try to modify the sample app and build a more elegant tutorials.</p>
+<p>For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/PageApp.zip">download the full source code from here</a>. As always, leave us comment and share your thought. </p>
+<p>Stay tuned. We&#8217;ll have a few more tutorials in the coming weeks.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-basic-how-does-the-hello-world-app-work/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/04/Hello-World-Interface-Builder-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming Basic: How Does the Hello World App Work?</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/intro-uikit-dynamics-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/uikit-dynamics-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Adding Animated Effects to iOS App Using UIKit Dynamics</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/self-sizing-cells/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/09/self-sizing-cell-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Understanding Self Sizing Cells and Dynamic Type in iOS 8</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/webkit-framework-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/01/webkit-javascript-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">A Look at the WebKit Framework in iOS 8 – Part 2</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/uipageviewcontroller-tutorial-intro/"
+    dc:identifier="http://www.appcoda.com/uipageviewcontroller-tutorial-intro/"
+    dc:title="How to Use UIPageViewController to Build Tutorial Screens"
+    trackback:ping="http://www.appcoda.com/uipageviewcontroller-tutorial-intro/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/iphone-programming/" rel="tag">iPhone Programming</a>, <a href="http://www.appcoda.com/tag/objective-c/" rel="tag">Objective C</a>, <a href="http://www.appcoda.com/tag/uipagecontroller/" rel="tag">UIPageController</a>, <a href="http://www.appcoda.com/tag/uipageviewcontroller/" rel="tag">UIPageViewController</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-1756">
+        <div id="dsq-comment-header-1756" class="dsq-comment-header">
+            <cite id="dsq-cite-1756">
+                <span id="dsq-author-user-1756">Ирина Антонюк</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1756" class="dsq-comment-body">
+            <div id="dsq-comment-message-1756" class="dsq-comment-message"><p>Thanks a lot for this lesson&#8230; It`s very in time for me! Looking forward for new one&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1759">
+        <div id="dsq-comment-header-1759" class="dsq-comment-header">
+            <cite id="dsq-cite-1759">
+                <span id="dsq-author-user-1759">David</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1759" class="dsq-comment-body">
+            <div id="dsq-comment-message-1759" class="dsq-comment-message"><p>Great! Awesome! as normaly</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1767">
+        <div id="dsq-comment-header-1767" class="dsq-comment-header">
+            <cite id="dsq-cite-1767">
+                <span id="dsq-author-user-1767">LittlePeculiar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1767" class="dsq-comment-body">
+            <div id="dsq-comment-message-1767" class="dsq-comment-message"><p>Very Cool app. As always, thank you for this site. It&#8217;s become my favorite for iOS tutorials.</p>
+<p>Awesome</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1773">
+        <div id="dsq-comment-header-1773" class="dsq-comment-header">
+            <cite id="dsq-cite-1773">
+http://www.simonblog.com                <span id="dsq-author-user-1773">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1773" class="dsq-comment-body">
+            <div id="dsq-comment-message-1773" class="dsq-comment-message"><p>Thanks! Glad to hear that <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1796">
+        <div id="dsq-comment-header-1796" class="dsq-comment-header">
+            <cite id="dsq-cite-1796">
+                <span id="dsq-author-user-1796">lanqy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1796" class="dsq-comment-body">
+            <div id="dsq-comment-message-1796" class="dsq-comment-message"><p>On iPhone 4S the dots Page controller doesn&#8217;t show,I try to change the view height but doesn&#8217;t work, how to show the dots page?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3027">
+        <div id="dsq-comment-header-3027" class="dsq-comment-header">
+            <cite id="dsq-cite-3027">
+                <span id="dsq-author-user-3027">KingG</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3027" class="dsq-comment-body">
+            <div id="dsq-comment-message-3027" class="dsq-comment-message"><p>hi, i think it shows&#8230;.maybe u have to scroll down&#8230;:)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1827">
+        <div id="dsq-comment-header-1827" class="dsq-comment-header">
+            <cite id="dsq-cite-1827">
+                <span id="dsq-author-user-1827">Hunt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1827" class="dsq-comment-body">
+            <div id="dsq-comment-message-1827" class="dsq-comment-message"><p>Many thanks! I have a question. How to scrolling automaticaly beetwen screens?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1848">
+        <div id="dsq-comment-header-1848" class="dsq-comment-header">
+            <cite id="dsq-cite-1848">
+                <span id="dsq-author-user-1848">John R Dempsey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1848" class="dsq-comment-body">
+            <div id="dsq-comment-message-1848" class="dsq-comment-message"><p>I cant tell where the .c file is as I dont seem to have one while following this tutorial &#8230; any help would be appreciated <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1919">
+        <div id="dsq-comment-header-1919" class="dsq-comment-header">
+            <cite id="dsq-cite-1919">
+                <span id="dsq-author-user-1919">Erik Fisher</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1919" class="dsq-comment-body">
+            <div id="dsq-comment-message-1919" class="dsq-comment-message"><p>It&#8217;s just a typo. It&#8217;s supposed to say APPViewController.m;)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1901">
+        <div id="dsq-comment-header-1901" class="dsq-comment-header">
+            <cite id="dsq-cite-1901">
+                <span id="dsq-author-user-1901">Ranjit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1901" class="dsq-comment-body">
+            <div id="dsq-comment-message-1901" class="dsq-comment-message"><p>Hi, thanks for your blog, but I think their is a bug in this project, the index is not getting updated properly.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-41484">
+        <div id="dsq-comment-header-41484" class="dsq-comment-header">
+            <cite id="dsq-cite-41484">
+                <span id="dsq-author-user-41484">newbie1</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-41484" class="dsq-comment-body">
+            <div id="dsq-comment-message-41484" class="dsq-comment-message"><p>i am getting error &#8220;no visible @interface for declares the selector &#8216;viewControllerAtIndex&#8217; &#8221;<br />
+Any idea why this would be ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1904">
+        <div id="dsq-comment-header-1904" class="dsq-comment-header">
+            <cite id="dsq-cite-1904">
+                <span id="dsq-author-user-1904">Dave Haupert</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1904" class="dsq-comment-body">
+            <div id="dsq-comment-message-1904" class="dsq-comment-message"><p>I appreciate this tutorial so much- but it appears to have a memory leak.  I put a dealloc routine in the AppChildViewController and set a breakpoint and it is never called.  the viewControllerAtIndex gets called for viewcontrollers already created.  I&#8217;m going to change things up to cache them somehow but wanted to give you the heads up!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/07/pageviewcontroller-delegate-functions-called-twice/' rel='external nofollow' class='url'>PageViewController delegate functions called twice | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/07/pageviewcontroller-delegate-functions-called-twice/' rel='external nofollow' class='url'>PageViewController delegate functions called twice | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1929">
+        <div id="dsq-comment-header-1929" class="dsq-comment-header">
+            <cite id="dsq-cite-1929">
+                <span id="dsq-author-user-1929">Nic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1929" class="dsq-comment-body">
+            <div id="dsq-comment-message-1929" class="dsq-comment-message"><p>Nice tutorial. Big thanks!! But why would we have to change the vertical size ??<br />
+I see no difference between before-and-after changing.  Dots still show up and distance remains the same.<br />
+Thanks for your explanation.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1958">
+        <div id="dsq-comment-header-1958" class="dsq-comment-header">
+            <cite id="dsq-cite-1958">
+                <span id="dsq-author-user-1958">座頭市</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1958" class="dsq-comment-body">
+            <div id="dsq-comment-message-1958" class="dsq-comment-message"><p>@property (assign, nonatomic) NSInteger index;</p>
+<p>How to connect? just a write?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2402">
+        <div id="dsq-comment-header-2402" class="dsq-comment-header">
+            <cite id="dsq-cite-2402">
+                <span id="dsq-author-user-2402">azam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2402" class="dsq-comment-body">
+            <div id="dsq-comment-message-2402" class="dsq-comment-message"><p>you don&#8217;t connect NSInteger. it is not UI element.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1959">
+        <div id="dsq-comment-header-1959" class="dsq-comment-header">
+            <cite id="dsq-cite-1959">
+                <span id="dsq-author-user-1959">座頭市</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1959" class="dsq-comment-body">
+            <div id="dsq-comment-message-1959" class="dsq-comment-message"><p>This course ask for the detailed description.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1968">
+        <div id="dsq-comment-header-1968" class="dsq-comment-header">
+            <cite id="dsq-cite-1968">
+                <span id="dsq-author-user-1968">pdxbenjamin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1968" class="dsq-comment-body">
+            <div id="dsq-comment-message-1968" class="dsq-comment-message"><p>I&#8217;m having an odd issue with the instruction &#8220;reduce the vertical size of the view to 512 points&#8221;  my height option is grayed out and un-changeable</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2169">
+        <div id="dsq-comment-header-2169" class="dsq-comment-header">
+            <cite id="dsq-cite-2169">
+                <span id="dsq-author-user-2169">mikkkkk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2169" class="dsq-comment-body">
+            <div id="dsq-comment-message-2169" class="dsq-comment-message"><p>Check the Attributes inspector, under Simulated Metrics. The size should be &#8220;Freeform&#8221;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2055">
+        <div id="dsq-comment-header-2055" class="dsq-comment-header">
+            <cite id="dsq-cite-2055">
+                <span id="dsq-author-user-2055">Mohammed Gritli</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2055" class="dsq-comment-body">
+            <div id="dsq-comment-message-2055" class="dsq-comment-message"><p>can you please do another tutorial using storyboards !!! i&#8217;d really appreciate it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2076">
+        <div id="dsq-comment-header-2076" class="dsq-comment-header">
+            <cite id="dsq-cite-2076">
+                <span id="dsq-author-user-2076">Jorge Costa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2076" class="dsq-comment-body">
+            <div id="dsq-comment-message-2076" class="dsq-comment-message"><p>Hi Simon, great tutorial! Simple as normaly.</p>
+<p>I have a question for you&#8230; I&#8217;m trying to add buttons to jump to a specific page, do you know how to do that?</p>
+<p>Cheers,</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/08/using-uipageviewcontroller-to-show-full-size-images/' rel='external nofollow' class='url'>using uipageviewcontroller to show full size images | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/08/using-uipageviewcontroller-to-show-full-size-images/' rel='external nofollow' class='url'>using uipageviewcontroller to show full size images | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2260">
+        <div id="dsq-comment-header-2260" class="dsq-comment-header">
+            <cite id="dsq-cite-2260">
+                <span id="dsq-author-user-2260">bruce</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2260" class="dsq-comment-body">
+            <div id="dsq-comment-message-2260" class="dsq-comment-message"><p>Good tutorial. But I have a question. How to add a home page button on the screen interface, so that I can click the home page,it will go to the first page.<br />
+Another question is that if the each page has voice file, how to turn the page automatically after the audio of a page finish playing. Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2547">
+        <div id="dsq-comment-header-2547" class="dsq-comment-header">
+            <cite id="dsq-cite-2547">
+                <span id="dsq-author-user-2547">neel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2547" class="dsq-comment-body">
+            <div id="dsq-comment-message-2547" class="dsq-comment-message"><p>Hello bruce,</p>
+<p>did you get answer for your question, since i am also looking for a solution where how to add a home page button on the screen interface, so that i can click the home page, it will go to the first page. And after that one more question, how to attached voice file with each pages and if the page turn automatically or manually then accordingly audio of a page finish playing thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2283">
+        <div id="dsq-comment-header-2283" class="dsq-comment-header">
+            <cite id="dsq-cite-2283">
+                <span id="dsq-author-user-2283">Carlos Torres</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2283" class="dsq-comment-body">
+            <div id="dsq-comment-message-2283" class="dsq-comment-message"><p>How can I unbounce it?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2408">
+        <div id="dsq-comment-header-2408" class="dsq-comment-header">
+            <cite id="dsq-cite-2408">
+                <span id="dsq-author-user-2408">leancuisine</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2408" class="dsq-comment-body">
+            <div id="dsq-comment-message-2408" class="dsq-comment-message"><p>Anyone wanting to try this with Storyboard should alter the function &#8211; (AppChildViewController *)viewControllerAtIndex:(NSUInteger)index in APPViewController.m</p>
+<p>Swap this:<br />
+APPChildViewController *childViewController = [[APPChildViewController alloc] initWithNibName:@&#8221;APPChildViewController&#8221; bundle:nil];</p>
+<p>for this:<br />
+UIStoryboard*  sb = [UIStoryboard storyboardWithName:@&#8221;myStoryboard&#8221; bundle:nil];<br />
+  APPChildViewController *childViewController = [sb instantiateViewControllerWithIdentifier:@&#8221;myStoryboardID&#8221;];</p>
+<p>(&#8220;myStoryboard&#8221; is the name of your projects storyboard as visible in the project navigator (file list). &#8220;myStoryboardID&#8221; is the ID you set on the APPChildViewController using interface builder.)<br />
+&#8212;<br />
+A big thank you to AppCoda for your great tutorials!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2432">
+        <div id="dsq-comment-header-2432" class="dsq-comment-header">
+            <cite id="dsq-cite-2432">
+                <span id="dsq-author-user-2432">Eric Roland Goldberg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2432" class="dsq-comment-body">
+            <div id="dsq-comment-message-2432" class="dsq-comment-message"><p>You can just use &#8220;self.storyboard&#8221; instead of storyboardWithName:bundle: if you&#8217;re calling it from within a view controller that is itself instantiated from a Storyboard. More modular that way.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-2482">
+        <div id="dsq-comment-header-2482" class="dsq-comment-header">
+            <cite id="dsq-cite-2482">
+http://tywhite.blogspot.com                <span id="dsq-author-user-2482">tywhite</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2482" class="dsq-comment-body">
+            <div id="dsq-comment-message-2482" class="dsq-comment-message"><p>How do I set the ID on APPChildViewController in interface builder? I&#8217;m in Xcode 5, so no option but to have a storyboard present, but I don&#8217;t know how to get APPChildViewController into the storyboard, let alone set an ID on it. Help! (And sorry for being a n00b)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3683">
+        <div id="dsq-comment-header-3683" class="dsq-comment-header">
+            <cite id="dsq-cite-3683">
+                <span id="dsq-author-user-3683">Eftixia Happines</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3683" class="dsq-comment-body">
+            <div id="dsq-comment-message-3683" class="dsq-comment-message"><p>please share how?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-98449">
+        <div id="dsq-comment-header-98449" class="dsq-comment-header">
+            <cite id="dsq-cite-98449">
+                <span id="dsq-author-user-98449">Peter Park</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98449" class="dsq-comment-body">
+            <div id="dsq-comment-message-98449" class="dsq-comment-message"><p>I&#8217;m sure you&#8217;ve already figured it out, but just in case someone is wondering this, this is on storyboard, with the child view controller selected.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-98460">
+        <div id="dsq-comment-header-98460" class="dsq-comment-header">
+            <cite id="dsq-cite-98460">
+                <span id="dsq-author-user-98460">Peter Park</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98460" class="dsq-comment-body">
+            <div id="dsq-comment-message-98460" class="dsq-comment-message"><p>Thank you! This is exactly what I needed.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2481">
+        <div id="dsq-comment-header-2481" class="dsq-comment-header">
+            <cite id="dsq-cite-2481">
+http://tywhite.blogspot.com                <span id="dsq-author-user-2481">tywhite</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2481" class="dsq-comment-body">
+            <div id="dsq-comment-message-2481" class="dsq-comment-message"><p>Would love if this tutorial would get updated for XCode 5 &#8212; I&#8217;m a first timer and running into all sorts of issues that I suspect are merely from the slightly different setup.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2495">
+        <div id="dsq-comment-header-2495" class="dsq-comment-header">
+            <cite id="dsq-cite-2495">
+                <span id="dsq-author-user-2495">Ivan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2495" class="dsq-comment-body">
+            <div id="dsq-comment-message-2495" class="dsq-comment-message"><p>Definitely best iOS tutorials that I&#8217;ve seen so far</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2533">
+        <div id="dsq-comment-header-2533" class="dsq-comment-header">
+            <cite id="dsq-cite-2533">
+                <span id="dsq-author-user-2533">Hugh Jeremy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2533" class="dsq-comment-body">
+            <div id="dsq-comment-message-2533" class="dsq-comment-message"><p>How can you make it go back to the first page after you&#8217;ve reached the last page, and go to the last page with a left swipe from the first page?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2541">
+        <div id="dsq-comment-header-2541" class="dsq-comment-header">
+            <cite id="dsq-cite-2541">
+                <span id="dsq-author-user-2541">John R Dempsey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2541" class="dsq-comment-body">
+            <div id="dsq-comment-message-2541" class="dsq-comment-message"><p>I need to access the pageControl dots &#8211; I have used the tutorial above and it works great but I cant figure out how to move the pageControls location or how to access it to change the dots tint color. Any help on this will be greatly appreciated.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2542">
+        <div id="dsq-comment-header-2542" class="dsq-comment-header">
+            <cite id="dsq-cite-2542">
+                <span id="dsq-author-user-2542">John R Dempsey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2542" class="dsq-comment-body">
+            <div id="dsq-comment-message-2542" class="dsq-comment-message"><p>I found the answer you need to do this in the controller that sets the pageController</p>
+<p>    NSArray *subviews = self.pageController.view.subviews;</p>
+<p>    UIPageControl *thisControl = nil;</p>
+<p>    for (int i=0; i&lt;[subviews count]; i++) {</p>
+<p>         if ([[subviews objectAtIndex:i] isKindOfClass:[UIPageControl class]]) {</p>
+<p>                 thisControl = (UIPageControl *)[subviews objectAtIndex:i];</p>
+<p>        }</p>
+<p>    }</p>
+<p>This will allow you to access the pageControl element</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.querypost.com/does-somebody-know-a-good-uipageviewcontroller-tutorial/' rel='external nofollow' class='url'>Does somebody know a good UIPageViewController tutorial? - QueryPost.com</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2874">
+        <div id="dsq-comment-header-2874" class="dsq-comment-header">
+            <cite id="dsq-cite-2874">
+                <span id="dsq-author-user-2874">htta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2874" class="dsq-comment-body">
+            <div id="dsq-comment-message-2874" class="dsq-comment-message"><p>fake</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2898">
+        <div id="dsq-comment-header-2898" class="dsq-comment-header">
+            <cite id="dsq-cite-2898">
+                <span id="dsq-author-user-2898">Mohamed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2898" class="dsq-comment-body">
+            <div id="dsq-comment-message-2898" class="dsq-comment-message"><p>it&#8217;s a very good tutorial; please can you tell me how pass the image from page controller view to another view controller after select it(by one touch); please help me</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3237">
+        <div id="dsq-comment-header-3237" class="dsq-comment-header">
+            <cite id="dsq-cite-3237">
+                <span id="dsq-author-user-3237">Nick G.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3237" class="dsq-comment-body">
+            <div id="dsq-comment-message-3237" class="dsq-comment-message"><p>First, create a segue between the View Controller with the images and the destination controller, then create in the View Controller with the images a prepareForSegue method.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2924">
+        <div id="dsq-comment-header-2924" class="dsq-comment-header">
+            <cite id="dsq-cite-2924">
+                <span id="dsq-author-user-2924">H.S.H</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2924" class="dsq-comment-body">
+            <div id="dsq-comment-message-2924" class="dsq-comment-message"><p>Hello,<br />
+I have a question:<br />
+how can I enable the user to indicate the number of pages rather than setting it myself?<br />
+thanks in advance</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2943">
+        <div id="dsq-comment-header-2943" class="dsq-comment-header">
+            <cite id="dsq-cite-2943">
+                <span id="dsq-author-user-2943">Bruno Santos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2943" class="dsq-comment-body">
+            <div id="dsq-comment-message-2943" class="dsq-comment-message"><p>I added some images to each page and I want the dots to appear in front of the pages, but I having trouble in doing that. The black background appears with the dots appears in front of the images.</p>
+<p>Can anyone help me with that?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3068">
+        <div id="dsq-comment-header-3068" class="dsq-comment-header">
+            <cite id="dsq-cite-3068">
+                <span id="dsq-author-user-3068">Gerard Grundy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3068" class="dsq-comment-body">
+            <div id="dsq-comment-message-3068" class="dsq-comment-message"><p>Hi awesome tutorial!  I have added this to a previous app of mine and managed to load the tute view though how can I return to my app after the last page is viewed?  My app is in storyboard. </p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3660">
+        <div id="dsq-comment-header-3660" class="dsq-comment-header">
+            <cite id="dsq-cite-3660">
+                <span id="dsq-author-user-3660">Gerard Grundy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3660" class="dsq-comment-body">
+            <div id="dsq-comment-message-3660" class="dsq-comment-message"><p>I figured how to do this email me if your interested. <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <a href="http://disq.us/8hd7de" rel="nofollow">http://disq.us/8hd7de</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://stackanswer.com/tutorial-screens-for-app/' rel='external nofollow' class='url'>Tutorial screens for app | StackAnswer.com</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3624">
+        <div id="dsq-comment-header-3624" class="dsq-comment-header">
+            <cite id="dsq-cite-3624">
+                <span id="dsq-author-user-3624">iOSNewbie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3624" class="dsq-comment-body">
+            <div id="dsq-comment-message-3624" class="dsq-comment-message"><p>NSUInteger index = [(APPChildViewController *)viewController index]; in viewControllerBeforeViewController gives the error no visible @interface for APPChildViewController declares the selector index.  Anyone knows why?</p>
+<p>Thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3626">
+        <div id="dsq-comment-header-3626" class="dsq-comment-header">
+            <cite id="dsq-cite-3626">
+                <span id="dsq-author-user-3626">iOSNewbie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3626" class="dsq-comment-body">
+            <div id="dsq-comment-message-3626" class="dsq-comment-message"><p>My Bad.  I had a typo.  Works fine. thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://ridingmylearningcurve.wordpress.com/2014/03/23/uipageviewcontroller/' rel='external nofollow' class='url'>UIPageViewController | My daily learning</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4097">
+        <div id="dsq-comment-header-4097" class="dsq-comment-header">
+            <cite id="dsq-cite-4097">
+                <span id="dsq-author-user-4097">TheKog</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4097" class="dsq-comment-body">
+            <div id="dsq-comment-message-4097" class="dsq-comment-message"><p>My question is about the array of viewControllers created in viewDidLoad. You added the initial childViewController to the array and initialized the pageController with setViewControllers. Later when anvigation causes you to allocate additional childViewControllers and you return them in the viewControllerBefore/After methods, are they added to the array by the system? I am confused as to whether the app needs to manage its own array of childViewControllers or not for correct memory usage and proper dynamic allocation of childViewControllers. And finally shouldn&#8217;t you free up childViewControllers at some point? What if you were page swiping through 100 pages each with various images? At some point pages should be freed up &#8211; how would you handle this? Thanks in advance your tutorial was useful but my questions are relative to Apple&#8217;s PageControl tutorial as related.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-5052">
+        <div id="dsq-comment-header-5052" class="dsq-comment-header">
+            <cite id="dsq-cite-5052">
+                <span id="dsq-author-user-5052">Behinder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5052" class="dsq-comment-body">
+            <div id="dsq-comment-message-5052" class="dsq-comment-message"><p>Did nobody do tutorial of uipageview controller using storyboards which is preffered way of doing things in xcode 5? <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-14207">
+        <div id="dsq-comment-header-14207" class="dsq-comment-header">
+            <cite id="dsq-cite-14207">
+                <span id="dsq-author-user-14207">Play Lotto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14207" class="dsq-comment-body">
+            <div id="dsq-comment-message-14207" class="dsq-comment-message"><p>How to dismiss the tutorial and go back to your app?<br />
+I am trying to put an exit button, but it&#8217;s not working&#8230;it would be great to implement the tutorial screen with a demo app or empty view to back to<br />
+thanks a lot</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-25356">
+        <div id="dsq-comment-header-25356" class="dsq-comment-header">
+            <cite id="dsq-cite-25356">
+                <span id="dsq-author-user-25356">Akashshr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25356" class="dsq-comment-body">
+            <div id="dsq-comment-message-25356" class="dsq-comment-message"><p>Thanks! Appreciate a good tut</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-46867">
+        <div id="dsq-comment-header-46867" class="dsq-comment-header">
+            <cite id="dsq-cite-46867">
+                <span id="dsq-author-user-46867">Irina</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-46867" class="dsq-comment-body">
+            <div id="dsq-comment-message-46867" class="dsq-comment-message"><p>If you swipe super fast, at some point the dots stop showing the correct placement.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.zescience.com/condition-based-swipe-to-next-view-controller-uipageviewcontroller-157108' rel='external nofollow' class='url'>Condition based swipe to next view controller &#8211; UIPageViewController</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-62329">
+        <div id="dsq-comment-header-62329" class="dsq-comment-header">
+            <cite id="dsq-cite-62329">
+                <span id="dsq-author-user-62329">zalak shah</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-62329" class="dsq-comment-body">
+            <div id="dsq-comment-message-62329" class="dsq-comment-message"><p>hi, its nice tutorial, can you say me, how to do for page curl with UIPageViewControllerSpineLocationMid and with double side = YES</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.kyleduo.com/?p=278' rel='external nofollow' class='url'>【译】如何使用Storyboard创建UIPageViewController | Kyle&#039;s blog</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://amityug.org/wordpress/zinck/2014/12/08/tutorial-screens-for-app/' rel='external nofollow' class='url'>Tutorial screens for app | Zinck Answers</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-91751">
+        <div id="dsq-comment-header-91751" class="dsq-comment-header">
+            <cite id="dsq-cite-91751">
+                <span id="dsq-author-user-91751">orit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-91751" class="dsq-comment-body">
+            <div id="dsq-comment-message-91751" class="dsq-comment-message"><p>How can I add a button that when i click on it- it will go on to the next page? (of course i will have 2 button one for left and one for right) Thank you!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://answersresource.wordpress.com/2014/12/30/dismiss-modal-segue/' rel='external nofollow' class='url'>Dismiss modal segue | Questions and Answers Resource</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://fatal-errors.com/dismiss-modal-segue/366910' rel='external nofollow' class='url'>Dismiss modal segue | Solutions for enthusiast and professional programmers</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://dluat.com/the-right-approach-for-building-a-text-carousel-with-uipagecontrol/' rel='external nofollow' class='url'>The right approach for building a text carousel with UIPageControl | DL-UAT</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-98980">
+        <div id="dsq-comment-header-98980" class="dsq-comment-header">
+            <cite id="dsq-cite-98980">
+                <span id="dsq-author-user-98980">LAOMUSIC ARTS</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98980" class="dsq-comment-body">
+            <div id="dsq-comment-message-98980" class="dsq-comment-message"><p>On line 34 from APPChildVC.m, the values of type &#8220;NSInteger&#8221; should not be used as a format arguments.<br />
+Fiy it by adding an explicit cast to &#8220;long&#8221;:<br />
+(your original code):<br />
+ self.screenNumber.text = [NSString stringWithFormat:@&#8221;Screen #%d&#8221;, self.index];<br />
+(then will become&#8230;)</p>
+<p>self.screenNumber.text = [NSString stringWithFormat:@&#8221;Screen #%ld&#8221;, (long)self.index];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99290">
+        <div id="dsq-comment-header-99290" class="dsq-comment-header">
+            <cite id="dsq-cite-99290">
+                <span id="dsq-author-user-99290">ganesh m</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99290" class="dsq-comment-body">
+            <div id="dsq-comment-message-99290" class="dsq-comment-message"><p>Hi this is Ganesh i am having 3 years of experience as a java developer and i am certified. i have knowledge on OOPS concepts in java but dont know indepth. After learning php will be enough to get a good career in IT with good package? and i crossed <a href="http://www.besanttechnologies.com/training-courses/php-training/php-training-institute-in-chennai" rel="nofollow">php training in chennai</a> website where someone please help me to identity the syllabus covers everything or not??</p>
+<p>thanks,Ganesh.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99291">
+        <div id="dsq-comment-header-99291" class="dsq-comment-header">
+            <cite id="dsq-cite-99291">
+                <span id="dsq-author-user-99291">ganesh m</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99291" class="dsq-comment-body">
+            <div id="dsq-comment-message-99291" class="dsq-comment-message"><p>Hi this is Ganesh i am having 3 years of experience as a java developer and i am certified. i have knowledge on OOPS concepts in java but dont know indepth. After learning php will be enough to get a good career in IT with good package? and i crossed <a href="http://www.phptrainingchennai.in" rel="nofollow">php training in chennai</a> website where someone please help me to identity the syllabus covers everything or not??</p>
+<p>thanks,Ganesh.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99292">
+        <div id="dsq-comment-header-99292" class="dsq-comment-header">
+            <cite id="dsq-cite-99292">
+                <span id="dsq-author-user-99292">ganesh m</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99292" class="dsq-comment-body">
+            <div id="dsq-comment-message-99292" class="dsq-comment-message"><p>Hi this is Ganesh i am having 3 years of experience as a java developer and i am certified. i have knowledge on OOPS concepts in java but dont know indepth. After learning php will be enough to get a good career in IT with good package? and i crossed <a href="http://www.besanttechnologies.com/training-courses/php-training/php-training-institute-in-chennai" rel="nofollow">php training in chennai</a> website where someone please help me to identity the syllabus covers everything or not??</p>
+<p>thanks,Ganesh.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99293">
+        <div id="dsq-comment-header-99293" class="dsq-comment-header">
+            <cite id="dsq-cite-99293">
+                <span id="dsq-author-user-99293">ganesh m</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99293" class="dsq-comment-body">
+            <div id="dsq-comment-message-99293" class="dsq-comment-message"><p>Hi this is Ganesh i am having 3 years of experience as a java developer and i am certified. i have knowledge on OOPS concepts in java but dont know indepth. After learning php will be enough to get a good career in IT with good package? and i crossed <a href="http://www.phptrainingchennai.in" rel="nofollow">php training in chennai</a> website where someone please help me to identity the syllabus covers everything or not??</p>
+<p>thanks,Ganesh</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99691">
+        <div id="dsq-comment-header-99691" class="dsq-comment-header">
+            <cite id="dsq-cite-99691">
+                <span id="dsq-author-user-99691">jackson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99691" class="dsq-comment-body">
+            <div id="dsq-comment-message-99691" class="dsq-comment-message"><p>Your blog is really useful for me. Thanks for sharing this informative blog. If anyone wants to get real time <a href="http://www.fita.in/oracle-training-in-chennai/" rel="nofollow">Oracle Training in Chennai</a> reach FITA located at Chennai. They give professional and job oriented training for all students.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99868">
+        <div id="dsq-comment-header-99868" class="dsq-comment-header">
+            <cite id="dsq-cite-99868">
+                <span id="dsq-author-user-99868">jackson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99868" class="dsq-comment-body">
+            <div id="dsq-comment-message-99868" class="dsq-comment-message"><p>Thanks for sharing this blog. FITA provides <a href="http://saptraininginchennai.org/" rel="nofollow">SAP Training in Chennai</a> with years of experienced professionals and fully hands-on classes. SAP is one of the CRM. Today&#8217;s most of the IT industry use this software for customer relationship management. To know more details about sap reach FITA Academy. Rated as No.1 <a href="http://www.saptraininginchennai.net/" rel="nofollow">SAP Institutes in Chennai</a>.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99921">
+        <div id="dsq-comment-header-99921" class="dsq-comment-header">
+            <cite id="dsq-cite-99921">
+                <span id="dsq-author-user-99921">jackson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99921" class="dsq-comment-body">
+            <div id="dsq-comment-message-99921" class="dsq-comment-message"><p>Thanks for sharing this informative blog. If anyone wants to get real time <a href="http://www.oracletraining.co.in/" rel="nofollow">Oracle Training in Chennai</a> reach FITA <a href="http://www.fita.in/oracle-training-in-chennai/" rel="nofollow">Oracle Training Institutes in Chennai</a>. They give professional and job oriented training for all students.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100166">
+        <div id="dsq-comment-header-100166" class="dsq-comment-header">
+            <cite id="dsq-cite-100166">
+http://www.fita.in/                <span id="dsq-author-user-100166">Jesica Paul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100166" class="dsq-comment-body">
+            <div id="dsq-comment-message-100166" class="dsq-comment-message"><p>Your information about Selenium scripts is really interesting.<br />
+Also I want to know the latest new techniques which are implemented in<br />
+selenium. Can you please update it in your website <a href="http://www.fita.in/selenium-training-in-chennai/" rel="nofollow">Best<br />
+Selenium training institute in Chennai</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/uipageviewcontroller-tutorial-intro/';
+var disqus_identifier = '1977 http://www.appcoda.com/?p=1977';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "How to Use UIPageViewController to Build Tutorial Screens";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1977';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1977"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fuipageviewcontroller-tutorial-intro%2F&#038;t=How%20to%20Use%20UIPageViewController%20to%20Build%20Tutorial%20Screens" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1977" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>76</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=How%20to%20Use%20UIPageViewController%20to%20Build%20Tutorial%20Screens&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fuipageviewcontroller-tutorial-intro%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1977" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>31</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fuipageviewcontroller-tutorial-intro%2F&#038;t=How%20to%20Use%20UIPageViewController%20to%20Build%20Tutorial%20Screens" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1977" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>21</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fuipageviewcontroller-tutorial-intro%2F&#038;title=How%20to%20Use%20UIPageViewController%20to%20Build%20Tutorial%20Screens" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1977" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>12</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fuipageviewcontroller-tutorial-intro%2F&#038;t=How%20to%20Use%20UIPageViewController%20to%20Build%20Tutorial%20Screens" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1977" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=How%20to%20Use%20UIPageViewController%20to%20Build%20Tutorial%20Screens&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fuipageviewcontroller-tutorial-intro%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1977" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fuipageviewcontroller-tutorial-intro%2F&#038;t=How%20to%20Use%20UIPageViewController%20to%20Build%20Tutorial%20Screens" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1977" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fuipageviewcontroller-tutorial-intro%2F&#038;title=How%20to%20Use%20UIPageViewController%20to%20Build%20Tutorial%20Screens" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1977" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/uipageviewcontroller-tutorial-intro\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:20:23 by W3 Total Cache -->

@@ -1,0 +1,1081 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming 101: Simple Animation Using UIImageView</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This is a quick iOS programming tutorial to show you how to use UIImageView for implementing simple animation in your iPhone app."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-animation-uiimageview/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This is a quick iOS programming tutorial to show you how to use UIImageView for implementing simple animation in your iPhone app."/>
+<meta name="twitter:title" content="iOS Programming 101: Simple Animation Using UIImageView"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/03/simple-animation.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; iOS Programming 101: Simple Animation Using UIImageView Comments Feed" href="http://www.appcoda.com/ios-programming-animation-uiimageview/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1565' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1565 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1565 post type-post status-publish format-standard hentry category-ios-programming-101 category-tutorials tag-ios-animation tag-ios-programming tag-uiimageview entry"><h1 class="entry-title">iOS Programming 101: Simple Animation Using UIImageView</h1> 
+<div class="post-info"><span class="date published time" title="2013-03-31T00:18:02+00:00">March 31, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-animation-uiimageview/#comments"><span class="dsq-postid" data-dsqidentifier="1565 http://www.appcoda.com/?p=1565">49 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>As you may know, we have released <a href="https://itunes.apple.com/us/app/brain-power-gangnam-style/id600235919?mt=8">our first iOS game</a> on App Store. Honestly, we do not have any game development experience. As we always said, &#8220;getting your hands dirty is the best way to learn programming&#8221;. </p>
+<p>We started out by developing a simple memory game. We&#8217;re sure that it won&#8217;t be a big hit. However, it&#8217;s a great learning experience even the game do not generate good money. In coming tutorials, we&#8217;ll share with you some of the implementation techniques such as game center integration, in-app purchase implementation, <a href="http://www.nextpeer.com">Nextpeer</a> integration for multiplayer support, etc. To start off, let&#8217;s see how you can use UIImageView to implement simple animation.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/03/simple-animation.jpg" alt="simple animation" class="aligncenter size-full wp-image-1570" /><br />
+<span id="more-1565"></span></div>
+<h2>UIImageView for Animations</h2>
+<p>In iOS, creating sophisticated animations does not require you to write complex code. The UIImageView class provides the easiest way for developers to implement animations. All you need to do is to create an UIImageView object with a series of images for animating. Once you trigger the animation, the image view will automatically render the individual frames. Cool, right? </p>
+<div id="attachment_1578" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/03/Cartoon-Images.jpg" alt="Cartoon Images" class="size-full wp-image-1578" /><p class="wp-caption-text">Image series for animation</p></div>
+<p>The UIImageView makes it very easy to implement simple animation. Let&#8217;s create a new Xcode project and see how it works.</p>
+<h2>Creating SimpleAnimation Project</h2>
+<p>First, fire up Xcode (make sure you&#8217;re using 4.6 or up) and create a new project using &#8220;Single View application&#8221; template.</p>
+<div id="attachment_1571" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/03/Xcode-Simple-Animation-Project.jpg" alt="Xcode Simple Animation Project" class="size-full wp-image-1571" /><p class="wp-caption-text">Create a new project using the Single View Application template</p></div>
+<p>Click &#8220;Next&#8221; to continue. In reference to the below figure, fill in all the required values for the Xcode project. Make sure you enables the &#8220;Use Storyboards&#8221; option.</p>
+<div id="attachment_1572" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/03/Xcode-Simple-Animation-Project-Settings.jpg" alt="Xcode Simple Animation Project Settings" class="size-full wp-image-1572" /><p class="wp-caption-text">Simple Animation Project Settings</p></div>
+<p>Click &#8220;Next&#8221; to continue. Xcode then asks you where you saves the &#8220;SimpleAnimation&#8221; project. Pick any folder (e.g. Desktop) to save your project.</p>
+<h2>Implementing the ViewController</h2>
+<p>Before implementing the ViewController class, first <a href="https://dl.dropbox.com/u/2857188/animation_images.zip">download the image pack</a> which includes all images for creating the animation. Unzip the image pack and add all images to the SimpleAnimation project.</p>
+<p>In the project navigator, select the &#8220;ViewController.m&#8221; and edit the &#8220;viewDidLoad&#8221; method with the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Load images</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>imageNames <span style="color: #002200;">=</span> @<span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_1.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_2.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_3.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_4.png&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_5.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_6.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_7.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_8.png&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_9.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_10.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_11.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_12.png&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_13.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_14.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_15.png&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;win_16.png&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> <span style="color: #002200;">*</span>images <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">for</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> i <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span>; i &lt; imageNames.count; i<span style="color: #002200;">++</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>images addObject<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>imageNames objectAtIndex<span style="color: #002200;">:</span>i<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Normal Animation</span><br />
+&nbsp; &nbsp; UIImageView <span style="color: #002200;">*</span>animationImageView <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIImageView alloc<span style="color: #002200;">&#93;</span> initWithFrame<span style="color: #002200;">:</span>CGRectMake<span style="color: #002200;">&#40;</span><span style="color: #2400d9;">60</span>, <span style="color: #2400d9;">95</span>, <span style="color: #2400d9;">86</span>, <span style="color: #2400d9;">193</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; animationImageView.animationImages <span style="color: #002200;">=</span> images;<br />
+&nbsp; &nbsp; animationImageView.animationDuration <span style="color: #002200;">=</span> <span style="color: #2400d9;">0.5</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.view addSubview<span style="color: #002200;">:</span>animationImageView<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>animationImageView startAnimating<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That&#8217;s the code we need to create the animation. We first load all the images and save it into an array. We then create an UIImageView object and provide it with the image array as the value of <em>animationImages</em>. This array represents the &#8220;frames&#8221; of a dancing cartoon. You can control the frame rate by setting the <em>animationDuration</em> property. The property specifies the amount of time it takes to go through one cycle of the images. In the example, it takes 0.5 second to go through 16 images. </p>
+<p>Optionally, you can also set the animationRepeatCount property, that specifies the number of times to repeat the animation. If it&#8217;s not set, the animation will be repeated indefinitely.</p>
+<p>With all the properties configured, you can simply call up <em>startAnimating</em> method to begin animating the image. Compile and run the app to see how it works.</p>
+<p>In order to give you a better idea about the animationDuration property, try to add a slow motion animation by adding the below code in the &#8220;viewDidLoad&#8221; method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Slow motion animation</span><br />
+&nbsp; &nbsp; UIImageView <span style="color: #002200;">*</span>slowAnimationImageView <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIImageView alloc<span style="color: #002200;">&#93;</span> initWithFrame<span style="color: #002200;">:</span>CGRectMake<span style="color: #002200;">&#40;</span><span style="color: #2400d9;">160</span>, <span style="color: #2400d9;">95</span>, <span style="color: #2400d9;">86</span>, <span style="color: #2400d9;">193</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; slowAnimationImageView.animationImages <span style="color: #002200;">=</span> images;<br />
+&nbsp; &nbsp; slowAnimationImageView.animationDuration <span style="color: #002200;">=</span> <span style="color: #2400d9;">5</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.view addSubview<span style="color: #002200;">:</span>slowAnimationImageView<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>slowAnimationImageView startAnimating<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>The above code will add another animation but with different animation duration. Compile and run the app again. Your app should look like this:</p>
+<div id="attachment_1574" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/03/SimpleAnimation-Deliverable.jpg" alt="SimpleAnimation Deliverable" class="size-full wp-image-1574" /><p class="wp-caption-text">SimpleAnimation App</p></div>
+<h2>What&#8217;s Coming Next?</h2>
+<p>UIImageView provides a very easy way to implement interesting animation. Later, we&#8217;ll look into other ways to create visual effects. For your complete reference, you can <a href="https://dl.dropbox.com/u/2857188/SimpleAnimation.zip">download the whole Xcode project here</a>.</p>
+<p>As always, feel free to leave us comment and feedback. And don&#8217;t just read the tutorial. Remember to &#8220;get your hands dirty&#8221;. This is the best way to learn programming. </p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-customize-uitableview-storyboard/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/01/Storyboard-Empty-TableViewController-e1357451913959-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Customize UITableView and UITableViewCell Background using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/video-recording-playback-ios-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/video-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Create a Simple App for Video Recording and Playback</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/understanding-key-value-observing-coding/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/kvo-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Understanding Key-Value Observing and Coding</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uialertcontroller-swift-closures-enum/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to UIAlertController, Swift Closures and Enumeration</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-animation-uiimageview/"
+    dc:identifier="http://www.appcoda.com/ios-programming-animation-uiimageview/"
+    dc:title="iOS Programming 101: Simple Animation Using UIImageView"
+    trackback:ping="http://www.appcoda.com/ios-programming-animation-uiimageview/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/ios-programming-101/" rel="category tag">iOS Programming 101</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-animation/" rel="tag">iOS animation</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/uiimageview/" rel="tag">UIImageView</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-1366">
+        <div id="dsq-comment-header-1366" class="dsq-comment-header">
+            <cite id="dsq-cite-1366">
+                <span id="dsq-author-user-1366">David</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1366" class="dsq-comment-body">
+            <div id="dsq-comment-message-1366" class="dsq-comment-message"><p>Thanks for all! Your work is awesome! Thaks again!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1367">
+        <div id="dsq-comment-header-1367" class="dsq-comment-header">
+            <cite id="dsq-cite-1367">
+                <span id="dsq-author-user-1367">Osvaldo Cipriano</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1367" class="dsq-comment-body">
+            <div id="dsq-comment-message-1367" class="dsq-comment-message"><p>Thanks again for another tutorial. </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1368">
+        <div id="dsq-comment-header-1368" class="dsq-comment-header">
+            <cite id="dsq-cite-1368">
+                <span id="dsq-author-user-1368">Cenny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1368" class="dsq-comment-body">
+            <div id="dsq-comment-message-1368" class="dsq-comment-message"><p>Great work, Love it!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1381">
+        <div id="dsq-comment-header-1381" class="dsq-comment-header">
+            <cite id="dsq-cite-1381">
+                <span id="dsq-author-user-1381">Ren Glad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1381" class="dsq-comment-body">
+            <div id="dsq-comment-message-1381" class="dsq-comment-message"><p>Thank u sooooooo much,pls continue this serials</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1384">
+        <div id="dsq-comment-header-1384" class="dsq-comment-header">
+            <cite id="dsq-cite-1384">
+http://www.facebook.com/sangram.anand                <span id="dsq-author-user-1384">Sangram Anand</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1384" class="dsq-comment-body">
+            <div id="dsq-comment-message-1384" class="dsq-comment-message"><p>Thanks for the tuts..:)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1392">
+        <div id="dsq-comment-header-1392" class="dsq-comment-header">
+            <cite id="dsq-cite-1392">
+http://www.facebook.com/andrew.crowe.5680                <span id="dsq-author-user-1392">Andrew Crowe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1392" class="dsq-comment-body">
+            <div id="dsq-comment-message-1392" class="dsq-comment-message"><p>How would u link animation start to button?<br />
+and also how to link animation to stop on another button?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1480">
+        <div id="dsq-comment-header-1480" class="dsq-comment-header">
+            <cite id="dsq-cite-1480">
+http://www.facebook.com/zomgtyegah                <span id="dsq-author-user-1480">Ty Septiani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1480" class="dsq-comment-body">
+            <div id="dsq-comment-message-1480" class="dsq-comment-message"><p>that is easy. create the two buttons and link the IBAction to each button. Then inside each method of the button, for example, inside the method for start button, put the code &#8220;[animationImageView startAnimating];&#8221; and the same for the stop button. Hope this helps.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1456">
+        <div id="dsq-comment-header-1456" class="dsq-comment-header">
+            <cite id="dsq-cite-1456">
+                <span id="dsq-author-user-1456">Ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1456" class="dsq-comment-body">
+            <div id="dsq-comment-message-1456" class="dsq-comment-message"><p>nice one upload some more interesting animations</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1572">
+        <div id="dsq-comment-header-1572" class="dsq-comment-header">
+            <cite id="dsq-cite-1572">
+http://twitter.com/CeylonMobile                <span id="dsq-author-user-1572">Ceylon Mobile</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1572" class="dsq-comment-body">
+            <div id="dsq-comment-message-1572" class="dsq-comment-message"><p>nice thanks. i was wondering wht to put when my app is on Landscape mode. now i have grate thing to put. thanks again</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1647">
+        <div id="dsq-comment-header-1647" class="dsq-comment-header">
+            <cite id="dsq-cite-1647">
+                <span id="dsq-author-user-1647">Dennis Rubio</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1647" class="dsq-comment-body">
+            <div id="dsq-comment-message-1647" class="dsq-comment-message"><p>Do you have the full tutorial on how you guys created the game? Would love to know. Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1648">
+        <div id="dsq-comment-header-1648" class="dsq-comment-header">
+            <cite id="dsq-cite-1648">
+http://www.simonblog.com                <span id="dsq-author-user-1648">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1648" class="dsq-comment-body">
+            <div id="dsq-comment-message-1648" class="dsq-comment-message"><p>This is the only tutorial we published about the game. Later, we may release a guide for it. </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1674">
+        <div id="dsq-comment-header-1674" class="dsq-comment-header">
+            <cite id="dsq-cite-1674">
+                <span id="dsq-author-user-1674">JuanRa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1674" class="dsq-comment-body">
+            <div id="dsq-comment-message-1674" class="dsq-comment-message"><p>Wonderful tutorial, thank you for posting it! I have a minor issue with my animation.. it lasts many frames, around 80, for the loop to complete, but i cant seem to be able to call more than 27 images on &#8220;NSArray *imageNames and it crashes when I run it, any thoughts?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1710">
+        <div id="dsq-comment-header-1710" class="dsq-comment-header">
+            <cite id="dsq-cite-1710">
+                <span id="dsq-author-user-1710">Kishore Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1710" class="dsq-comment-body">
+            <div id="dsq-comment-message-1710" class="dsq-comment-message"><p>It&#8217;s a great tutorial.u guys rock&#8230;&#8230;&#8230;.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1729">
+        <div id="dsq-comment-header-1729" class="dsq-comment-header">
+            <cite id="dsq-cite-1729">
+                <span id="dsq-author-user-1729">hemanth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1729" class="dsq-comment-body">
+            <div id="dsq-comment-message-1729" class="dsq-comment-message"><p>nice tutorial&#8230;. enjoy&#8217;d a lot. Please  add more on animation,</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1743">
+        <div id="dsq-comment-header-1743" class="dsq-comment-header">
+            <cite id="dsq-cite-1743">
+                <span id="dsq-author-user-1743">HLA</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1743" class="dsq-comment-body">
+            <div id="dsq-comment-message-1743" class="dsq-comment-message"><p>i want to know that i can create the combo box like website combo box on app.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1880">
+        <div id="dsq-comment-header-1880" class="dsq-comment-header">
+            <cite id="dsq-cite-1880">
+                <span id="dsq-author-user-1880">Splatush</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1880" class="dsq-comment-body">
+            <div id="dsq-comment-message-1880" class="dsq-comment-message"><p>Thanks! Everything is working great, but i just don&#8217;t know how to make it loop only once, can anyone help please?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1881">
+        <div id="dsq-comment-header-1881" class="dsq-comment-header">
+            <cite id="dsq-cite-1881">
+                <span id="dsq-author-user-1881">12Game2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1881" class="dsq-comment-body">
+            <div id="dsq-comment-message-1881" class="dsq-comment-message"><p>Yes, can someone please help, im having the same problem, i can&#8217;t find the &#8220;animationRepeatCount&#8221; property</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1882">
+        <div id="dsq-comment-header-1882" class="dsq-comment-header">
+            <cite id="dsq-cite-1882">
+                <span id="dsq-author-user-1882">Random Dude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1882" class="dsq-comment-body">
+            <div id="dsq-comment-message-1882" class="dsq-comment-message"><p>COOL! How do I add a picture to it</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1883">
+        <div id="dsq-comment-header-1883" class="dsq-comment-header">
+            <cite id="dsq-cite-1883">
+                <span id="dsq-author-user-1883">Random Dude</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1883" class="dsq-comment-body">
+            <div id="dsq-comment-message-1883" class="dsq-comment-message"><p>i meant, how do i add a picture after the animation plays?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1911">
+        <div id="dsq-comment-header-1911" class="dsq-comment-header">
+            <cite id="dsq-cite-1911">
+                <span id="dsq-author-user-1911">dirty man:D</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1911" class="dsq-comment-body">
+            <div id="dsq-comment-message-1911" class="dsq-comment-message"><p>I&#8217;m feel so dirty now;) nice tutorial:)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1935">
+        <div id="dsq-comment-header-1935" class="dsq-comment-header">
+            <cite id="dsq-cite-1935">
+                <span id="dsq-author-user-1935">James</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1935" class="dsq-comment-body">
+            <div id="dsq-comment-message-1935" class="dsq-comment-message"><p>This tutorial is quite helpful. Currently, Flash (start from cs6) can export the animation movieclip to png sequence files. After that, we can use the same concept to create animation in ios. I write a IOS animation engine, it can help to animated png sequence file in a simple way. Here is the example: <a href="http://jmsliu.com/1355/create-animation-in-ios-apps-with-png-sequence-files.html" rel="nofollow">Create Animation in IOS Apps With PNG Sequence Files</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1951">
+        <div id="dsq-comment-header-1951" class="dsq-comment-header">
+            <cite id="dsq-cite-1951">
+                <span id="dsq-author-user-1951">Greg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1951" class="dsq-comment-body">
+            <div id="dsq-comment-message-1951" class="dsq-comment-message"><p>Thank you for the  great tutorial! Very helpful.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1955">
+        <div id="dsq-comment-header-1955" class="dsq-comment-header">
+            <cite id="dsq-cite-1955">
+                <span id="dsq-author-user-1955">acvivo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1955" class="dsq-comment-body">
+            <div id="dsq-comment-message-1955" class="dsq-comment-message"><p>I like to use:</p>
+<p>UIImageView *animationImageView = [[UIImageView alloc] initWithImage:[UIImage animatedImageNamed:@&#8221;win_&#8221; duration:0.8]];</p>
+<p>It&#8217;s way less code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2148">
+        <div id="dsq-comment-header-2148" class="dsq-comment-header">
+            <cite id="dsq-cite-2148">
+                <span id="dsq-author-user-2148">montekaka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2148" class="dsq-comment-body">
+            <div id="dsq-comment-message-2148" class="dsq-comment-message"><p>Thanks so much.</p>
+<p>Can we save add some sound with the animation and save the animation as video?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/08/how-i-can-insert-a-effect-with-this-source/' rel='external nofollow' class='url'>how I can insert a effect with this source? | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2745">
+        <div id="dsq-comment-header-2745" class="dsq-comment-header">
+            <cite id="dsq-cite-2745">
+                <span id="dsq-author-user-2745">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2745" class="dsq-comment-body">
+            <div id="dsq-comment-message-2745" class="dsq-comment-message"><p>How to show label with animation on button click..??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2904">
+        <div id="dsq-comment-header-2904" class="dsq-comment-header">
+            <cite id="dsq-cite-2904">
+                <span id="dsq-author-user-2904">Deepak Kumar Arya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2904" class="dsq-comment-body">
+            <div id="dsq-comment-message-2904" class="dsq-comment-message"><p>How cud we get these image?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-5018">
+        <div id="dsq-comment-header-5018" class="dsq-comment-header">
+            <cite id="dsq-cite-5018">
+                <span id="dsq-author-user-5018">Malik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5018" class="dsq-comment-body">
+            <div id="dsq-comment-message-5018" class="dsq-comment-message"><p><a href="https://dl.dropbox.com/u/2857188/animation_images.zip" rel="nofollow">https://dl.dropbox.com/u/2857188/animation_images.zip</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3291">
+        <div id="dsq-comment-header-3291" class="dsq-comment-header">
+            <cite id="dsq-cite-3291">
+                <span id="dsq-author-user-3291">Manas Pathak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3291" class="dsq-comment-body">
+            <div id="dsq-comment-message-3291" class="dsq-comment-message"><p>just wonderful tutorial&#8230;it helps me lot&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3793">
+        <div id="dsq-comment-header-3793" class="dsq-comment-header">
+            <cite id="dsq-cite-3793">
+                <span id="dsq-author-user-3793">JeanR</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3793" class="dsq-comment-body">
+            <div id="dsq-comment-message-3793" class="dsq-comment-message"><p>Would it be possible to control the speed of the animation with a bar (as for sound control) ?<br />
+Would it be possible to make moving the animation in reverse order ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4024">
+        <div id="dsq-comment-header-4024" class="dsq-comment-header">
+            <cite id="dsq-cite-4024">
+                <span id="dsq-author-user-4024">Prateek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4024" class="dsq-comment-body">
+            <div id="dsq-comment-message-4024" class="dsq-comment-message"><p>HUGE Memory issues with this method</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-6089">
+        <div id="dsq-comment-header-6089" class="dsq-comment-header">
+            <cite id="dsq-cite-6089">
+                <span id="dsq-author-user-6089">jjmias</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6089" class="dsq-comment-body">
+            <div id="dsq-comment-message-6089" class="dsq-comment-message"><p>Yeah I am noticing the same thing, how do we make this less of a memory hog?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-6157">
+        <div id="dsq-comment-header-6157" class="dsq-comment-header">
+            <cite id="dsq-cite-6157">
+                <span id="dsq-author-user-6157">Prateek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6157" class="dsq-comment-body">
+            <div id="dsq-comment-message-6157" class="dsq-comment-message"><p>I dropped the memory foot print of the images. Convert to .jpeg or if you need the alpha layer use 16 bit textures. TexturePacker PNG Optimization with dithering is also a good bet if you own the product.. Also don&#8217;t forget to clear the array when your done with it. Or else it hogs the memory.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-15701">
+        <div id="dsq-comment-header-15701" class="dsq-comment-header">
+            <cite id="dsq-cite-15701">
+                <span id="dsq-author-user-15701">Mosterd</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15701" class="dsq-comment-body">
+            <div id="dsq-comment-message-15701" class="dsq-comment-message"><p>Hi, how do you clear the array?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-16022">
+        <div id="dsq-comment-header-16022" class="dsq-comment-header">
+            <cite id="dsq-cite-16022">
+                <span id="dsq-author-user-16022">Prateek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16022" class="dsq-comment-body">
+            <div id="dsq-comment-message-16022" class="dsq-comment-message"><p>set it as nil, remove all references.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-5957">
+        <div id="dsq-comment-header-5957" class="dsq-comment-header">
+            <cite id="dsq-cite-5957">
+http://www.joshiscorner.com                <span id="dsq-author-user-5957">Abhijit Joshi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5957" class="dsq-comment-body">
+            <div id="dsq-comment-message-5957" class="dsq-comment-message"><p>Great tutorial. Exactly what I was looking for. Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-11682">
+        <div id="dsq-comment-header-11682" class="dsq-comment-header">
+            <cite id="dsq-cite-11682">
+                <span id="dsq-author-user-11682">joeygrindsgears</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-11682" class="dsq-comment-body">
+            <div id="dsq-comment-message-11682" class="dsq-comment-message"><p>The NSArray is unnecessary. You could just directly add the images to the NSMutableArray because you already know the amount of images and the last image number: </p>
+<p>NSMutableArray *images = [[NSMutableArray alloc] init];</p>
+<p>for (int i = 0; i &lt; NUM_OF_IMAGES; i++) {</p>
+<p>[images addObject:[UIImage imageNamed:[NSString stringWithFormat:@&quot;win_%d.png&quot;, i]]];</p>
+<p>	}</p>
+<p>NOTE: make sure NUM_OF_IMAGES is actually the number of total images you are including. Or for clarity, for (int i = 0; i &lt;= NUM_OF_IMAGES &#8211; 1; i++) {&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-27069">
+        <div id="dsq-comment-header-27069" class="dsq-comment-header">
+            <cite id="dsq-cite-27069">
+                <span id="dsq-author-user-27069">Nick G.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27069" class="dsq-comment-body">
+            <div id="dsq-comment-message-27069" class="dsq-comment-message"><p>This just saved my life, I have more than 300 images and I really don&#8217;t want to copy paste each of there names</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-27123">
+        <div id="dsq-comment-header-27123" class="dsq-comment-header">
+            <cite id="dsq-cite-27123">
+                <span id="dsq-author-user-27123">joeygrindsgears</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-27123" class="dsq-comment-body">
+            <div id="dsq-comment-message-27123" class="dsq-comment-message"><p>anytime man. happy coding!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-31441">
+        <div id="dsq-comment-header-31441" class="dsq-comment-header">
+            <cite id="dsq-cite-31441">
+                <span id="dsq-author-user-31441">smartone2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31441" class="dsq-comment-body">
+            <div id="dsq-comment-message-31441" class="dsq-comment-message"><p>sorry but when i tried your nsmutablearray  option &#8212; i am getting this error</p>
+<p>&#8220;Terminating app due to uncaught exception &#8216;NSInvalidArgumentException&#8217;, reason: &#8216;*** -[__NSArrayM insertObject:atIndex:]: object cannot be nil&#8217;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-31721">
+        <div id="dsq-comment-header-31721" class="dsq-comment-header">
+            <cite id="dsq-cite-31721">
+                <span id="dsq-author-user-31721">smartone2</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31721" class="dsq-comment-body">
+            <div id="dsq-comment-message-31721" class="dsq-comment-message"><p>figured it out<br />
+)<br />
+in the example in this page &#8212;  the image (@&#8221;win_%d.png&#8221;) actually starts at 1 not 0 so the</p>
+<p>for (int i = 0; i &lt; NUM_OF_IMAGES; i++) </p>
+<p>should be </p>
+<p>for (int i = 1; i &lt; NUM_OF_IMAGES; i++)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-31784">
+        <div id="dsq-comment-header-31784" class="dsq-comment-header">
+            <cite id="dsq-cite-31784">
+                <span id="dsq-author-user-31784">joeygrindsgears</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31784" class="dsq-comment-body">
+            <div id="dsq-comment-message-31784" class="dsq-comment-message"><p>Ah. You&#8217;re right. Edited. Thanks a lot and good luck.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-28502">
+        <div id="dsq-comment-header-28502" class="dsq-comment-header">
+            <cite id="dsq-cite-28502">
+                <span id="dsq-author-user-28502">damodarbabu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28502" class="dsq-comment-body">
+            <div id="dsq-comment-message-28502" class="dsq-comment-message"><p>hi the tutorial is good for learning candiates and i want a clarification about if we give two animations i mean if i give two different images and for clicking one button i want to dialplay one type of related images as we took in the for loop condition and at the same time when we click another button we want to display another image in same layout how to do please clarify this is very important conecpt for each and every individual</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-29881">
+        <div id="dsq-comment-header-29881" class="dsq-comment-header">
+            <cite id="dsq-cite-29881">
+                <span id="dsq-author-user-29881">BMac1435</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29881" class="dsq-comment-body">
+            <div id="dsq-comment-message-29881" class="dsq-comment-message"><p>How do I fix the picture size? When I run the simulator, the picture size and placement are not where I placed the UIImageView in my Storyboard.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-31794">
+        <div id="dsq-comment-header-31794" class="dsq-comment-header">
+            <cite id="dsq-cite-31794">
+http://www.skywardapps.com                <span id="dsq-author-user-31794">Adam Hall</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31794" class="dsq-comment-body">
+            <div id="dsq-comment-message-31794" class="dsq-comment-message"><p>This is completely obsolete now; as of iOS7 you can do everything above (as long as you follow a specific image naming convention) in one line of code.</p>
+<p>See <a href="http://stackoverflow.com/a/21911723/3166810" rel="nofollow">http://stackoverflow.com/a/21911723/3166810</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34868">
+        <div id="dsq-comment-header-34868" class="dsq-comment-header">
+            <cite id="dsq-cite-34868">
+                <span id="dsq-author-user-34868">tom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34868" class="dsq-comment-body">
+            <div id="dsq-comment-message-34868" class="dsq-comment-message"><p>The first time the animation runs, it &#8220;chugs&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.tipsegg.com/ios-animation/' rel='external nofollow' class='url'>ios animation - TipsEgg</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://blog.maxpalma.com/tech/apple/xcode/ios-mashup-best-links-tutorials/' rel='external nofollow' class='url'>iOS Mashup of the Best Links and Tutorials - Max &quot;Maximus&quot; Palma Blog</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-96862">
+        <div id="dsq-comment-header-96862" class="dsq-comment-header">
+            <cite id="dsq-cite-96862">
+                <span id="dsq-author-user-96862">Ashish</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-96862" class="dsq-comment-body">
+            <div id="dsq-comment-message-96862" class="dsq-comment-message"><p>Thank you for taking the time to write this post. Very useful :).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-animation-uiimageview/';
+var disqus_identifier = '1565 http://www.appcoda.com/?p=1565';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "iOS Programming 101: Simple Animation Using UIImageView";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1565';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1565"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-animation-uiimageview%2F&#038;t=iOS%20Programming%20101%3A%20Simple%20Animation%20Using%20UIImageView" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1565" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>48</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20Simple%20Animation%20Using%20UIImageView&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-animation-uiimageview%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1565" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>25</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-animation-uiimageview%2F&#038;t=iOS%20Programming%20101%3A%20Simple%20Animation%20Using%20UIImageView" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1565" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>4</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-animation-uiimageview%2F&#038;title=iOS%20Programming%20101%3A%20Simple%20Animation%20Using%20UIImageView" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1565" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>1</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-animation-uiimageview%2F&#038;t=iOS%20Programming%20101%3A%20Simple%20Animation%20Using%20UIImageView" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1565" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20Simple%20Animation%20Using%20UIImageView&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-animation-uiimageview%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1565" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-animation-uiimageview%2F&#038;t=iOS%20Programming%20101%3A%20Simple%20Animation%20Using%20UIImageView" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1565" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-animation-uiimageview%2F&#038;title=iOS%20Programming%20101%3A%20Simple%20Animation%20Using%20UIImageView" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1565" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-animation-uiimageview\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:26:11 by W3 Total Cache -->

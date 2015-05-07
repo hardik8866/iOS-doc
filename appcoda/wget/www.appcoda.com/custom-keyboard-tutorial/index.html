@@ -1,0 +1,925 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Creating a Custom Keyboard Using iOS 8 App Extension</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This iOS programming tutorial shows you how to create a custom keyboard using iOS 8 app extension in Swift. We&#039;ll build a simple custom keyboard together."/>
+<link rel="canonical" href="http://www.appcoda.com/custom-keyboard-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This iOS programming tutorial shows you how to create a custom keyboard using iOS 8 app extension in Swift. We&#039;ll build a simple custom keyboard together."/>
+<meta name="twitter:title" content="Creating a Custom Keyboard Using iOS 8 App Extension"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/10/custom-keyboard-featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Creating a Custom Keyboard Using iOS 8 App Extension Comments Feed" href="http://www.appcoda.com/custom-keyboard-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.2"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.2'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.2" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=4238' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-4238 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-4238 post type-post status-publish format-standard hentry category-course category-intermediate category-swift-2 category-tutorials tag-app-extension tag-custom-keyboard tag-ios-8 tag-ios-programming tag-swift entry"><h1 class="entry-title">Creating a Custom Keyboard Using iOS 8 App Extension</h1> 
+<div class="post-info"><span class="date published time" title="2014-10-30T22:36:21+00:00">October 30, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/joyceechessa/" rel="author">Joyce Echessa</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/custom-keyboard-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="4238 http://www.appcoda.com/?p=4238">21 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Prior to iOS 8, developers could provide custom keyboards or supplement the system keyboard with custom keys within only their application. With iOS 8, Apple has made it possible to create custom keyboards that will be able to be used system wide in other apps. You can now ship a custom keyboard with your app and users will be able to choose it as the keyboard to use for every app that requires text input.</p>
+<p>To create a successful keyboard that users are more likely to keep on using, you have to meet some of the expectations that they have for what a keyboard should do. Since they will have been using the system keyboard for a long time, it is a good place to look at when deducing what your keyboard design and functionality should be.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/custom-keyboard-featured.jpg" alt="custom-keyboard-featured" class="aligncenter size-full wp-image-4289" /></div>
+<p>The system keyboard is fast, responsive and capable. It doesn&#8217;t interrupt the user with requests or information. Users have come to expect the following features from their keyboard. These are not requirements for creating custom keyboards, but just examples of what you could include in your keyboard to increase the chances of it being popular in a competitive market.</p>
+<ul>
+<li>Auto suggestion and auto correction</li>
+<li>Inserting period upon double space</li>
+<li>Caps lock support</li>
+<li>Keycap artwork</li>
+<li>Multistage input for ideographic languages</li>
+<li>Appropriate layout and features based on keyboard type trait for example presenting appropriate keys for easy email input when the user switches to an email field.</li>
+</ul>
+<p><span id="more-4238"></span></p>
+<h2>Custom Keyboard Limitations</h2>
+<p>There are some system keyboard features that are unavailable to custom keyboards. These include:</p>
+<ul>
+<li>Custom keyboards don&#8217;t have access to most of the general keyboard settings in the Settings app such as Auto-capitalization, Enable Caps Lock or dictionary reset. However you can provide your own settings bundle that can be displayed in Settings.app. You can check the <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/UserDefaults/Preferences/Preferences.html#//apple_ref/doc/uid/10000059i-CH6" title="Implementing an iOS Settings Bundle guide" target="_blank">Implementing an iOS Settings Bundle guide</a> for more on this.</li>
+<li>A Custom Keyboard cannot be used to type into certain text input objects. These include the secure text input objects (any object that has its <em>secureText</em> property set to <em>YES</em>) and phone pad objects (any object that has a keyboard type trait of <em>UIKeyboardTypePhonePad</em> or <em>UIKeyboardTypeNamePhonePad</em>). When the user types in any of these text input objects, the system temporarily replaces your custom keyboard with the system keyboard, and on typing in a non-secure or non-phone pad object, your keyboard resumes.</li>
+<li>Input dictation isn&#8217;t possible for a custom keyboard since, like all extensions in iOS 8, it has no access to the device microphone.</li>
+<li>Selecting text is also not possible. Text selection is under the control of the app that is using the keyboard.</li>
+<li>Closely related to the above point, editing menu options i.e. Cut, Copy, Paste are inaccessible. If an app provides an editing menu interface, the keyboard has no access to it.</li>
+<li>You cannot display key artwork above the top edge of a custom keyboard&#8217;s primary view the same way Apple does when you tap and hold a key in the top view.</li>
+<li>App developers can reject the use of custom keyboards in their app. This can especially be done in apps that are sensitive to security such as banking apps.</li>
+</ul>
+<h2>Essential Features of Custom Keyboards</h2>
+<p>The <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/ExtensibilityPG/Keyboard.html#//apple_ref/doc/uid/TP40014214-CH16-SW1" title="Apple Extensions guide" target="_blank">Apple Extensions guide</a> specifies two development essentials for every custom keyboard:</p>
+<ul>
+<li><strong>Trust</strong>. A custom keyboard gives you access to what a user types. You should therefore establish and maintain their trust by being visible about privacy policies. Users should be assured that their keystroke data will only be used for the document they are typing and not for other purposes not obvious to them. If the keyboard employs use of other user data such as Location Service or Address Book database, then this should be conveyed to the user.</li>
+<li><strong>Next Keyboard key</strong>.This is a mandatory feature that allows users to switch to another keyboard. On the system keyboard, this is seen as the button with a globe on it. You tap once to switch to the next keyboard and long press it to view available keyboards.</li>
+</ul>
+<h2>Creating the Keyboard</h2>
+<p>We are going to look at two ways to build a keyboard&#8217;s UI &#8211; programmatically and using an Interface Builder document. The method you pick is a matter of preference, but I find that if the keyboard UI is complicated, it is better to use an Interface Builder document where you&#8217;ll be able to use Auto Layout and preview the effects of the constraints you&#8217;ve added without running the app, while in the case of creating the UI in code, you&#8217;ll end up writing a lot of code to set up constraints, which you can only see the effects of by running the project. Debugging this can be a bit of a headache.</p>
+<p>To get started, create a new iPhone Simple View Application. Name it <strong>AC Custom Keyboard</strong>. This will be the container app for the custom keyboard. All extensions must be bundled within a containing app, and the containing app must provide some functionality. Apple are strict on this and so you cannot just have a skeleton container app whose sole purpose is to distribute your extension.</p>
+<p>Next we&#8217;ll add an extension target to the project. Click on the project in the Project Navigator then select Editor &gt; Add Target &gt; iOS &gt; Application Extension &gt; Custom Keyboard and click Next</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/custom_extension-509x300.png" alt="custom_extension" class="aligncenter size-medium wp-image-4256" /></div>
+<p>On the next window, set <strong>AC Keyboard</strong> as the product name and leave the other fields as they are and click Finish. You’ll be prompted to activate the new targets’ scheme, click Cancel.</p>
+<p>A new group will have been created on the Project Navigator with the name of your keyboard &#8211; <strong>AC Keyboard</strong>. In it is the keyboard&#8217;s view controller and a property list file. The Info.plist file contains settings for the keyboard. Notable ones are:</p>
+<ul>
+<li><strong>Bundle display name</strong> &#8211; This is the display name for the keyboard, change it if you want a different name to be seen by users.</li>
+<li><strong>isASCIICapable</strong> &#8211; This is a key found within the NSExtension/NSExtensionAttributes dictionary. It determines if the custom keyboard can support ASCII characters.</li>
+<li><strong>PrefersRightToLeft</strong> &#8211; Specifies the direction of the primary language of the keyboard.</li>
+<li><strong>PrimaryLanguage</strong> &#8211; The primary language of the keyboard. The default is en-US.</li>
+<li><strong>RequestsOpenAccess</strong> &#8211; Determines the network access of the keyboard.</li>
+</ul>
+<p>In Main.storyboard, add a TextView to the main View. Center it so that it completely covers the view. Run the application and bring up the keyboard by tapping anywhere on the screen. To change keyboards, tap the globe button on the system keyboard. If there is no globe button, tap the button with a smiley icon. If you want to see all available keyboards, hold the globe key and a list of keyboards will appear. Our keyboard isn&#8217;t on the list. You need to first add it in Settings.</p>
+<p>Navigate to Settings > General > Keyboard > Keyboards > Add New Keyboard and select <strong>AC Custom Keyboard</strong>. This will add it to the list of available keyboards. Go back to your app and bring up the keyboard by tapping the text view. Tap and hold the globe key and select AC Keyboard from the list that pops up.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/set-custom-keyboard.png" alt="set-custom-keyboard" class="aligncenter size-full wp-image-4286" /></div>
+<p>On switching from the system keyboard to the custom one, you will see an almost empty keyboard with only one button for the Next Keyboard.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/keyboard_default_view.png" alt="keyboard_default_view" class="aligncenter size-full wp-image-4257" /></div>
+<p>To add some keys to the keyboard, open KeyboardViewController.swift and make the following changes.</p>
+<p>In <em>viewDidLoad()</em> add the following at the bottom of the function right after the code for the next keyboard button.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">let buttonTitles = [&quot;Q&quot;, &quot;W&quot;, &quot;E&quot;, &quot;R&quot;, &quot;T&quot;, &quot;Y&quot;]<br />
+var buttons = createButtons(buttonTitles)<br />
+var topRow = UIView(frame: CGRectMake(0, 0, 320, 40))<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+for button in buttons {<br />
+&nbsp; &nbsp; topRow.addSubview(button)<br />
+}<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+self.view.addSubview(topRow)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+addConstraints(buttons, containingView: topRow)</div></td></tr></tbody></table></div>
+<p>Next add the function below which will create buttons with titles of the strings passed into it.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">func createButtons(titles: [String]) -&amp;gt; [UIButton] {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; var buttons = [UIButton]()<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; for title in titles {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let button = UIButton.buttonWithType(.System) as UIButton<br />
+&nbsp; &nbsp; &nbsp; &nbsp; button.setTitle(title, forState: .Normal)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; button.setTranslatesAutoresizingMaskIntoConstraints(false)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; button.backgroundColor = UIColor(white: 1.0, alpha: 1.0)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; button.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; button.addTarget(self, action: &quot;keyPressed:&quot;, forControlEvents: .TouchUpInside)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; buttons.append(button)<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; return buttons<br />
+}</div></td></tr></tbody></table></div>
+<p>This function iterates through an array of Strings and creates buttons with the respective titles. It also adds a target to each button so that when it is tapped, the function <em>keyPressed()</em> will be called. Next add this function.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">func keyPressed(sender: AnyObject?) {<br />
+&nbsp; &nbsp; let button = sender as UIButton<br />
+&nbsp; &nbsp; let title = button.titleForState(.Normal)<br />
+&nbsp; &nbsp; (textDocumentProxy as UIKeyInput).insertText(title!)<br />
+}</div></td></tr></tbody></table></div>
+<p>Here you get the title of the tapped button and insert it at the insertion point of the current text input object via the <em>textDocumentProperty</em>. This is an object conforming to the <em>UITextDocumentProxy</em> protocol, which acts as a proxy between the keyboard and the text input object that summoned it.</p>
+<p>Next we add the <em>addConstraints()</em> method which will add constraints to the buttons and the containingView.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">func addConstraints(buttons: [UIButton], containingView: UIView){<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; for (index, button) in enumerate(buttons) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var topConstraint = NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: containingView, attribute: .Top, multiplier: 1.0, constant: 1)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var bottomConstraint = NSLayoutConstraint(item: button, attribute: .Bottom, relatedBy: .Equal, toItem: containingView, attribute: .Bottom, multiplier: 1.0, constant: -1)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var leftConstraint : NSLayoutConstraint!<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if index == 0 {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; leftConstraint = NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal, toItem: containingView, attribute: .Left, multiplier: 1.0, constant: 1)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; leftConstraint = NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal, toItem: buttons[index-1], attribute: .Right, multiplier: 1.0, constant: 1)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var widthConstraint = NSLayoutConstraint(item: buttons[0], attribute: .Width, relatedBy: .Equal, toItem: button, attribute: .Width, multiplier: 1.0, constant: 0)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; containingView.addConstraint(widthConstraint)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var rightConstraint : NSLayoutConstraint!<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if index == buttons.count - 1 {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; rightConstraint = NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .Equal, toItem: containingView, attribute: .Right, multiplier: 1.0, constant: -1)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }else{<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; rightConstraint = NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .Equal, toItem: buttons[index+1], attribute: .Left, multiplier: 1.0, constant: -1)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; containingView.addConstraints([topConstraint, bottomConstraint, rightConstraint, leftConstraint])<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; }</div></td></tr></tbody></table></div>
+<p>Run the app and you should see a similar keyboard as shown below</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/programmatic_ui.png" alt="programmatic_ui" class="aligncenter size-full wp-image-4258" /></div>
+<p>As you can see, adding views programmatically requires you to set up constraints in code and if your keyboard&#8217;s UI is complicated and has many keys, this can get complicated and hard to debug. Next we will look at using the Interface Builder to create buttons.</p>
+<p>Create a nib file by navigating to File &gt; New &gt; File &gt; iOS &gt; User Interface &gt; View. Name it KeyboardView and make sure it is under the AC Keyboard target.</p>
+<p>Select the nib&#8217;s view and in the Attributes Inspector, set its Size as Freeform and Status Bar to None. Then go to the Size Inspector and set its width to 320 and height to 220.</p>
+<p>In KeyboardViewController.swift add the following in <em>viewDidLoad()</em> after the call to <em>super.viewDidLoad()</em>. This sets the nib file as the view of the view controller.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">let nib = UINib(nibName: &quot;KeyboardView&quot;, bundle: nil)<br />
+let objects = nib.instantiateWithOwner(self, options: nil)<br />
+view = objects[0] as UIView;</div></td></tr></tbody></table></div>
+<p>Add a view to the nib&#8217;s main view. Click on the Pin menu at the bottom of the Interface Builder interface and give it the following constraints &#8211; Height of 40, Trailing space of 0, Leading space of 0 and Top space to container of 42. Make sure Constrain to margin is not checked.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/add_constraints.png" alt="add_constraints" class="aligncenter size-full wp-image-4259" /></div>
+<p>Add 9 buttons to the view. Set their text color to Dark Gray and change their titles to these letters respectively: &#8216;A&#8217;, &#8216;S&#8217;, &#8216;D&#8217;, &#8216;F&#8217;, &#8216;G&#8217;, &#8216;H&#8217;, &#8216;J&#8217;, &#8216;K&#8217;, &#8216;L&#8217;. Now for the constraints.</p>
+<p>With each button, select the Align menu and select Vertical Center in Container.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/alignment.png" alt="alignment auto layout" class="aligncenter size-full wp-image-4260" /></div>
+<p>Select the A button and add a Leading space to Superview fo 5. Select L and add a Leading space to Superview of 5. Control-drag from A to S and select Horizontal Spacing. We&#8217;ll change its value later. Do the same with S to D, D to F, F to G, and so on.</p>
+<p>Select A and in the Size Inspector, make sure that its Leading Space to S ie set to a constant of 5. Select the next letter and set its Trailing space to the letter following it to 5. When you are done, all letters should have a Leading Space and Trailing space set to 5. Select the main view then Editor &gt; Resolve Auto Layout Issues &gt; All Views &gt; Update Frames.</p>
+<p>Run the application and you should see the keys you just added set up below the ones you added in code.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/interface_builder_ui.png" alt="interface_builder_ui" class="aligncenter size-full wp-image-4261" /></div>
+<p>To create outlets and actions for the keys, select the File&#8217;s Owner from the Document Outline, then in the Identity Inspector, set the class as KeyboardViewController. You can then create actions and outlets like you usually do in storyboard files by Control-dragging from a control to the view controller class. (You&#8217;ll see more of this in the example that follows).</p>
+<p>Now that we have seen how to create a keyboard&#8217;s UI programmatically and with a nib file, let us add some functionality to it. For this, I have a <a href="https://www.dropbox.com/s/vkjgax4xs46j87c/CustomKeyboardStarter.zip?dl=0">starter project</a> that we will be using. The project is a of a simple keyboard that we will add some functionality to. It is shown below. You should note that to keep it simple, I didn&#8217;t design for all size classes so, while it looks nice on the iPhone 5S, it doesn&#8217;t look quite the same for bigger screens. You can download the code here. Also note that the keyboard&#8217;s name is Appcoda Keyboard and not the AC Keyboard we had earlier.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/keyboard_starter.png" alt="keyboard_starter" class="aligncenter size-full wp-image-4262" /></div>
+<p>I have already set up the actions and outlets we&#8217;ll require, but haven&#8217;t written the code for them (except for the Next Keyboard key).</p>
+<p>First, you&#8217;ll notice that the Next Keyboard key has been replaced with a key titled KB. The action method for this can be seen it the view controller file as shown below.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">&nbsp; &nbsp; @IBAction func nextKeyboardPressed(button: UIButton) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; advanceToNextInputMode()<br />
+&nbsp; &nbsp; }</div></td></tr></tbody></table></div>
+<p>We are first going to set up the actions for keys with letters and symbols i.e. any key you tap and see its title as the typed text. I created an action method for all these keys called <em>keyPressed()</em>. Modify this method as shown.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">&nbsp; &nbsp; @IBAction func keyPressed(button: UIButton) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; var string = button.titleLabel!.text<br />
+&nbsp; &nbsp; &nbsp; &nbsp; (textDocumentProxy as UIKeyInput).insertText(&quot;\(string!)&quot;)<br />
+&nbsp; &nbsp; }</div></td></tr></tbody></table></div>
+<p>This is similar to what we had before. The title of the button is inserted at the insertion point of the current text input object via the <em>textDocumentProperty</em>. All the letters we type will be in Caps, but we will fix this shortly. Next modify the following functions to set up actions for the backspace(BS), space(SPACE) and return(RTN) keys respectively.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">&nbsp; &nbsp; @IBAction func backSpacePressed(button: UIButton) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; (textDocumentProxy as UIKeyInput).deleteBackward()<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; @IBAction func spacePressed(button: UIButton) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; (textDocumentProxy as UIKeyInput).insertText(&quot; &quot;)<br />
+&nbsp; &nbsp; }<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; @IBAction func returnPressed(button: UIButton) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; (textDocumentProxy as UIKeyInput).insertText(&quot;\n&quot;)<br />
+&nbsp; &nbsp; }</div></td></tr></tbody></table></div>
+<p>Run the app and test the keys.</p>
+<p>In the view file, you will notice two views labelled Char Set 1 and Char Set 2. These are on the same row with one on top of the other. In <em>viewDidLoad()</em> the second view is hidden. Modify the <em>charSetPressed()</em> function as shown so that when the user presses the key labelled 1/2, the key&#8217;s text will change to 2/2 and a new set of characters will appear on the first row of the keyboard.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">&nbsp; &nbsp; @IBAction func charSetPressed(button: UIButton) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; if button.titleLabel!.text == &quot;1/2&quot; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; charSet1.hidden = true<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; charSet2.hidden = false<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; button.setTitle(&quot;2/2&quot;, forState: .Normal)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; } else if button.titleLabel!.text == &quot;2/2&quot; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; charSet1.hidden = false<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; charSet2.hidden = true<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; button.setTitle(&quot;1/2&quot;, forState: .Normal)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; }</div></td></tr></tbody></table></div>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/charset.png" alt="charset" class="aligncenter size-full wp-image-4263" /><br />
+If you look at the system keyboard, there is usually an indication, in the form of a brief animation when you tap a key. We should add some sort of feedback so the user knows that they tapped the right key. Add the following at the end of the keyPressed() method.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">&nbsp; &nbsp; UIView.animateWithDuration(0.2, animations: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; button.transform = CGAffineTransformScale(CGAffineTransformIdentity, 2.0, 2.0)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }, completion: {(_) -&amp;gt; Void in<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; button.transform =<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; CGAffineTransformScale(CGAffineTransformIdentity, 1, 1)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; })</div></td></tr></tbody></table></div>
+<p>This makes a key scale up briefly when tapped before going back to its original size.</p>
+<p>Lastly we&#8217;ll implement the Capslock key(CL). Modify the capsLockPressed() function as follows.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">&nbsp; &nbsp; @IBAction func capsLockPressed(button: UIButton) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; capsLockOn = !capsLockOn<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; changeCaps(row1)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; changeCaps(row2)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; changeCaps(row3)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; changeCaps(row4)<br />
+&nbsp; &nbsp; }</div></td></tr></tbody></table></div>
+<p>Notice that at the beginning of the file, we set <em>capsLockOn</em> to true. The above method toggles this value to be true/false and then calls a function that will change the case of the typed text as well as the title of the buttons. Add the following method to the class.</p>
+<div class="codecolorer-container text geshi language-swift" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">&nbsp; &nbsp; func changeCaps(containerView: UIView) {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; for view in containerView.subviews {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if let button = view as? UIButton {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let buttonTitle = button.titleLabel!.text<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if capsLockOn {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let text = buttonTitle!.uppercaseString<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; button.setTitle(&quot;\(text)&quot;, forState: .Normal)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let text = buttonTitle!.lowercaseString<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; button.setTitle(&quot;\(text)&quot;, forState: .Normal)<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; }</div></td></tr></tbody></table></div>
+<p>Run the app and you should be able to change the case of the letters.</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2014/10/capslock.png" alt="custom keyboard - capslock" class="aligncenter size-full wp-image-4264" /></div>
+<h2>Conclusion</h2>
+<p>This tutorial doesn&#8217;t cover all that you can do with the keyboard extension. There is still a lot you can do to make the keyboard better. You can have it detect the beginning of sentences so that the first letter of the next typed word is capitalized, you can add auto-correction, auto-completion e.t.c. This is a new technology on the Apple platform, and it will be interesting to see what developers come up with.</p>
+<p>For your reference, you can <a href="https://www.dropbox.com/s/gfewd0qekxr5u4i/CustomKeyboardFinal.zip?dl=0">download the Xcode project here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-collection-view-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/02/Recipe-App-Multiple-Selection-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Handling Single and Multiple Selection in Collection View</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-camera-iphone-app/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Build a Simple Camera App Using UIImagePickerController</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/first-time-app-developer-success-stories-part-3/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/05/first-time-app-showcase-3-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">First Time App Developer Success Stories Part 3: Am I Too Late to Learn iOS Programming</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/text-to-speech-ios-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/02/text-to-speech-app-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building a Text to Speech App Using AVSpeechSynthesizer</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/custom-keyboard-tutorial/"
+    dc:identifier="http://www.appcoda.com/custom-keyboard-tutorial/"
+    dc:title="Creating a Custom Keyboard Using iOS 8 App Extension"
+    trackback:ping="http://www.appcoda.com/custom-keyboard-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/app-extension/" rel="tag">app extension</a>, <a href="http://www.appcoda.com/tag/custom-keyboard/" rel="tag">custom keyboard</a>, <a href="http://www.appcoda.com/tag/ios-8/" rel="tag">iOS 8</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://0.gravatar.com/avatar/f820da721cd1faa5ef4b5e14af3f1ed5?s=70&#038;d=mm&#038;r=g' srcset='http://0.gravatar.com/avatar/f820da721cd1faa5ef4b5e14af3f1ed5?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Joyce Echessa</strong><br /><p>I am a web developer who also does mobile development from time to time. I have also been writing online for some time now, a process I find enjoyable and challenging, for, at times, it is when you have to explain something to someone, that you find there is still a lot to learn. You can find me on <a href="//twitter.com/joyceechessa">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-70779">
+        <div id="dsq-comment-header-70779" class="dsq-comment-header">
+            <cite id="dsq-cite-70779">
+                <span id="dsq-author-user-70779">Preston</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-70779" class="dsq-comment-body">
+            <div id="dsq-comment-message-70779" class="dsq-comment-message"><p>This is a great tutorial, but I was wondering how we can implement those special characters, like an Up arrow for Capitilize and. A globe for next keyboard. How do we access those?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-70885">
+        <div id="dsq-comment-header-70885" class="dsq-comment-header">
+            <cite id="dsq-cite-70885">
+http://www.echessa.com/                <span id="dsq-author-user-70885">Joyce Echessa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-70885" class="dsq-comment-body">
+            <div id="dsq-comment-message-70885" class="dsq-comment-message"><p>Thanks. Capitalization and Next Keyboard key have been implemented. In the example, the Capitalize button is labelled CL (for caps lock) If you want an Up arrow for it, you will have to use an icon instead of text. The next keyboard key has also been implemented &#8211; it&#8217;s the button labelled KB. You can have the key display an icon instead of text (To do this, set the button&#8217;s Background to an image in the Attributes Inspector).<br />
+If you want a globe icon specifically, you might run into some copyright issues with Apple, unless you design it to be very different from Apple&#8217;s. In the Apple HIG document, it is stated that you should avoid to use images that replicate Apple products and your icon design must not be easily mistaken for one of the system provided icons.<br />
+Hope that helps.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-72176">
+        <div id="dsq-comment-header-72176" class="dsq-comment-header">
+            <cite id="dsq-cite-72176">
+                <span id="dsq-author-user-72176">Jezuz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72176" class="dsq-comment-body">
+            <div id="dsq-comment-message-72176" class="dsq-comment-message"><p>Nice tutorial, as always!</p>
+<p>I would like to add the key sound to my custom keyboard but I cannot do that, and there is delay when I add the line:</p>
+<p>    AudioServicesPlaySystemSound(1104)</p>
+<p>At the KeyPressend func.<br />
+Is there any other way to add that sound?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-72915">
+        <div id="dsq-comment-header-72915" class="dsq-comment-header">
+            <cite id="dsq-cite-72915">
+https://impulcity.com                <span id="dsq-author-user-72915">Austin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72915" class="dsq-comment-body">
+            <div id="dsq-comment-message-72915" class="dsq-comment-message"><p>For some reason I can&#8217;t get my iOS simulator to show this keyboard at all? I have made sure it&#8217;s activated in Settings.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-74815">
+        <div id="dsq-comment-header-74815" class="dsq-comment-header">
+            <cite id="dsq-cite-74815">
+                <span id="dsq-author-user-74815">fbara</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-74815" class="dsq-comment-body">
+            <div id="dsq-comment-message-74815" class="dsq-comment-message"><p>I have the same problem and had to use my device instead of the simulators for this tutorial.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-75598">
+        <div id="dsq-comment-header-75598" class="dsq-comment-header">
+            <cite id="dsq-cite-75598">
+                <span id="dsq-author-user-75598">jai</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-75598" class="dsq-comment-body">
+            <div id="dsq-comment-message-75598" class="dsq-comment-message"><p>Press command K when you have the mouse clicked on the keyboard.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-99942">
+        <div id="dsq-comment-header-99942" class="dsq-comment-header">
+            <cite id="dsq-cite-99942">
+                <span id="dsq-author-user-99942">Shashank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99942" class="dsq-comment-body">
+            <div id="dsq-comment-message-99942" class="dsq-comment-message"><p>I had the sam eproblem. I found that the custom keyboards don&#8217;t work in certain fields in the simulator. Try the search field and press command + K. That worked for me. Hope this helps someone else.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-73356">
+        <div id="dsq-comment-header-73356" class="dsq-comment-header">
+            <cite id="dsq-cite-73356">
+                <span id="dsq-author-user-73356">alex</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-73356" class="dsq-comment-body">
+            <div id="dsq-comment-message-73356" class="dsq-comment-message"><p>Hi, i wana create armenian keyboard with its own character , can u help me?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-83511">
+        <div id="dsq-comment-header-83511" class="dsq-comment-header">
+            <cite id="dsq-cite-83511">
+http://www.mobilepundits.com/                <span id="dsq-author-user-83511">Krishnayan Swami</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-83511" class="dsq-comment-body">
+            <div id="dsq-comment-message-83511" class="dsq-comment-message"><p>This is something I’ve been looking forward to try out too.<br />
+I read Apple’s documentation but it was a little too overwhelming for me. This<br />
+tutorial looks like a good start. Thank you.<br />
+  <a href="http://www.mobilepundits.com/Outsource_iPhone_Development.html" rel="nofollow"><br />
+  Outsource<br />
+  iPhone Application Development</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://customwristbands.zone/ios-8-custom-keyboard-demo/' rel='external nofollow' class='url'>iOS 8 Custom Keyboard Demo! - Custom Rubber Bracelets</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://wristbands.zone/ios-8-custom-keyboard-demo/' rel='external nofollow' class='url'>iOS 8 Custom Keyboard Demo! - Rubber Bracelets</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-95154">
+        <div id="dsq-comment-header-95154" class="dsq-comment-header">
+            <cite id="dsq-cite-95154">
+http://kienforcefidele.wordpress.com                <span id="dsq-author-user-95154">fidele007</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-95154" class="dsq-comment-body">
+            <div id="dsq-comment-message-95154" class="dsq-comment-message"><p>Hi, great tuturial. However, when I compiled the code and installed it on my iPhone, the keyboard won&#8217;t load at all. Is there something wrong?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-97311">
+        <div id="dsq-comment-header-97311" class="dsq-comment-header">
+            <cite id="dsq-cite-97311">
+http://www.echessa.com/                <span id="dsq-author-user-97311">Joyce Echessa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97311" class="dsq-comment-body">
+            <div id="dsq-comment-message-97311" class="dsq-comment-message"><p>Did you add the keyboard in Settings?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-96966">
+        <div id="dsq-comment-header-96966" class="dsq-comment-header">
+            <cite id="dsq-cite-96966">
+                <span id="dsq-author-user-96966">Palash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-96966" class="dsq-comment-body">
+            <div id="dsq-comment-message-96966" class="dsq-comment-message"><p>Hi I&#8217;m not able to add UIImages for backspace and caps lock icons. How can I do that.</p>
+<p>Cheers,<br />
+Palash</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-97316">
+        <div id="dsq-comment-header-97316" class="dsq-comment-header">
+            <cite id="dsq-cite-97316">
+http://www.echessa.com/                <span id="dsq-author-user-97316">Joyce Echessa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97316" class="dsq-comment-body">
+            <div id="dsq-comment-message-97316" class="dsq-comment-message"><p>You can either set the image in Interface Builder or in code. In Interface builder, the button has an Image property that you can set in the Attributes Inspector.<br />
+To set the image in code, use the following</p>
+<p>myButton.image = UIImage(named: &#8220;my_icon_image&#8221;)</p>
+<p>Hope that helps.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-98443">
+        <div id="dsq-comment-header-98443" class="dsq-comment-header">
+            <cite id="dsq-cite-98443">
+                <span id="dsq-author-user-98443">Hong Seongho</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98443" class="dsq-comment-body">
+            <div id="dsq-comment-message-98443" class="dsq-comment-message"><p>hello I&#8217;m trying to make korean keyboard<br />
+i made keyboard that have essential function<br />
+but it has big problem<br />
+example, I want to make &#8220;한글&#8221;<br />
+but i make ㅎㅏㄴㄱㅡㄹ<br />
+what should i do?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-98736">
+        <div id="dsq-comment-header-98736" class="dsq-comment-header">
+            <cite id="dsq-cite-98736">
+                <span id="dsq-author-user-98736">Syed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98736" class="dsq-comment-body">
+            <div id="dsq-comment-message-98736" class="dsq-comment-message"><p>How do I add the long press gesture for the &#8216;delete&#8217; key?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99760">
+        <div id="dsq-comment-header-99760" class="dsq-comment-header">
+            <cite id="dsq-cite-99760">
+                <span id="dsq-author-user-99760">R.P Gayan Chanaka</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99760" class="dsq-comment-body">
+            <div id="dsq-comment-message-99760" class="dsq-comment-message"><p>Hi Im totally a new to swift and programing</p>
+<p>when i compile  i get a error  with<br />
+these two lines </p>
+<p>var buttons = createButtons(buttonTitles)</p>
+<p> addConstraints(buttons, containingView: topRow)</p>
+<p>it says  </p>
+<p>use of unresolved identifier &#8220;createButtons&#8221;</p>
+<p>use of unresolved identifier &#8220;addConstraints&#8221;</p>
+<p>what i should do??</p>
+<p>please help </p>
+<p>Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-99802">
+        <div id="dsq-comment-header-99802" class="dsq-comment-header">
+            <cite id="dsq-cite-99802">
+                <span id="dsq-author-user-99802">Rye</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99802" class="dsq-comment-body">
+            <div id="dsq-comment-message-99802" class="dsq-comment-message"><p>Great tutorial. How would I adjust .xib to have it work on an iPhone 6 and 6 Super? Do I size the .xib for the 6 Super and then create autolayouts? Or something else?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-101005">
+        <div id="dsq-comment-header-101005" class="dsq-comment-header">
+            <cite id="dsq-cite-101005">
+http://hnsbillionaires.wix.com/hammadnasir                <span id="dsq-author-user-101005">Hammad Nasir</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101005" class="dsq-comment-body">
+            <div id="dsq-comment-message-101005" class="dsq-comment-message"><p>Hello all, I&#8217;m having a problem here. I added the custom keyboard to the keyboards but it is not showing the custom keyboard in the available keyboards.<br />
+What to do now?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-101449">
+        <div id="dsq-comment-header-101449" class="dsq-comment-header">
+            <cite id="dsq-cite-101449">
+                <span id="dsq-author-user-101449">Mike</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101449" class="dsq-comment-body">
+            <div id="dsq-comment-message-101449" class="dsq-comment-message"><p>Hi Joyce, great tutorial, this has helped me get off the ground! I have been working with the NIB file, and when i try to instantiate it they way you do in your code, i get an error. It turns out that there isn&#8217;t anything being returned by the nib.InstantiateWithOwner call, so the array turns out to be empty. Any thoughts as to why this might be? I also tried to add your keyboardView.xib to my project &#8211; &#8220;This code is not key-value compliant for the key charset1&#8243;. any help you can give so i can get up and running would be great.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/custom-keyboard-tutorial/';
+var disqus_identifier = '4238 http://www.appcoda.com/?p=4238';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Creating a Custom Keyboard Using iOS 8 App Extension";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=4238';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/qr-code-generator-tutorial/">Building a QR Code Generator with Core Image Filters</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="4238"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fcustom-keyboard-tutorial%2F&#038;t=Creating%20a%20Custom%20Keyboard%20Using%20iOS%208%20App%20Extension" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4238" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>71</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Creating%20a%20Custom%20Keyboard%20Using%20iOS%208%20App%20Extension&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcustom-keyboard-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4238" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>17</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fcustom-keyboard-tutorial%2F&#038;t=Creating%20a%20Custom%20Keyboard%20Using%20iOS%208%20App%20Extension" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4238" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>7</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcustom-keyboard-tutorial%2F&#038;title=Creating%20a%20Custom%20Keyboard%20Using%20iOS%208%20App%20Extension" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4238" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>9</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fcustom-keyboard-tutorial%2F&#038;t=Creating%20a%20Custom%20Keyboard%20Using%20iOS%208%20App%20Extension" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4238" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Creating%20a%20Custom%20Keyboard%20Using%20iOS%208%20App%20Extension&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcustom-keyboard-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4238" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fcustom-keyboard-tutorial%2F&#038;t=Creating%20a%20Custom%20Keyboard%20Using%20iOS%208%20App%20Extension" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4238" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcustom-keyboard-tutorial%2F&#038;title=Creating%20a%20Custom%20Keyboard%20Using%20iOS%208%20App%20Extension" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4238" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/custom-keyboard-tutorial\/","stats_nonce":"4912f40683","share_counts":"57fc159fb1","follow_counts":"5ea6e90008","total_counts":"c585bb41ad","media_single":"58b9c2bd1c","media_total":"59fb140e9b","generate_all_window_nonce":"ddc73cf3e4","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="33505f5c405673014b1d435d54">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":4238,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-07 20:53:09 by W3 Total Cache -->

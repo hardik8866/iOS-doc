@@ -1,0 +1,899 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming Tutorial: Record and Play Video in iPhone App</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="In this tutorial we&#039;ll show you how to create an iOS app for video recording and playback. This tutorial will explain the MPMoviePlayerController and UIImagePickerController."/>
+<link rel="canonical" href="http://www.appcoda.com/video-recording-playback-ios-programming/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In this tutorial we&#039;ll show you how to create an iOS app for video recording and playback. This tutorial will explain the MPMoviePlayerController and UIImagePickerController."/>
+<meta name="twitter:title" content="iOS Programming Tutorial: Record and Play Video in iPhone App"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/04/video-1.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Create a Simple App for Video Recording and Playback Comments Feed" href="http://www.appcoda.com/video-recording-playback-ios-programming/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1687' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1687 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1687 post type-post status-publish format-standard hentry category-course category-tutorials tag-media-framework tag-video tag-video-player entry"><h1 class="entry-title">Create a Simple App for Video Recording and Playback</h1> 
+<div class="post-info"><span class="date published time" title="2013-04-30T23:51:08+00:00">April 30, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/rafaelgarcia/" rel="author">Rafael Garcia</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/video-recording-playback-ios-programming/#comments"><span class="dsq-postid" data-dsqidentifier="1687 http://www.appcoda.com/?p=1687">29 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><em>Update: The post has been updated to support Xcode 5 and iOS 7.</em></p>
+<p>In the <a href="http://www.appcoda.com/ios-programming-camera-iphone-app/" title="Camera App">previous post</a> we covered how to create a simple camera app. In this post, we&#8217;re going to create a similar application but for video recording and playback.</p>
+<p>The iOS API for recording and playing videos can be a little bit confusing for newcomers, as there are several options available. If you just want to play a video, you can use the MediaPlayer framework, which allows us to play a video stored locally in our device, or from a remote location. However, if you need advanced features such as media asset management, media editing, track management, and others, you have to use the AVFoundation framework. We&#8217;ll keep thing simple and start off by covering the MediaPlayer framework.</p>
+<p>On top of that, the MediaPlayer framework brings us two main classes to display videos or movies. If you want to display a video immediately and inline (e.g. a subview smaller than the full screen), you should use the <a href="http://developer.apple.com/library/ios/#documentation/MediaPlayer/Reference/MPMoviePlayerController_Class/Reference/Reference.html">MPMoviePlayerController</a>. By using MPMoviePlayerController, playback occurs in a view owned by the movie player. You can incorporate a movie player’s view into a view owned by your app. On the contrary, if you want to play a full screen video, for example by presenting the video modally, you should use the <a href="http://developer.apple.com/library/ios/#documentation/mediaplayer/reference/mpmovieplayerviewcontroller_class/Reference/Reference.html">MPMoviePlayerViewController</a> class. The MPMoviePlayerViewController class is designed to present a simple view controller for displaying full-screen movies.</p>
+<p>In this tutorial, we will focus on the MPMoviePlayerController. If you grasp the basics, however, you should have no problem utilizing the MPMoviePlayerViewController class.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/video-1.jpg" alt="Simple Video App" class="aligncenter size-full wp-image-3413" /><br />
+<span id="more-1687"></span></div>
+<h2>Demo App Overview</h2>
+<p>Like any other tutorials, we&#8217;ll build a simple demo app to walk you through the concept. The demo app is very simple without fancy user interface. Once opened, the app displays a screen with a single &#8220;Capture&#8221; button. When you tap the button, it&#8217;ll bring up the video camera for video recording. Once finished the recording, the video is automatically shown in the main screen. Users are allowed to play back the video inline. Pretty simple, right?</p>
+<h2>Creating Xcode Project</h2>
+<p>Open Xcode and create a new Project, choose the Single View Application template. Name the project as VideoApp and set the class prefix as Video. Click next to create and save the project.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/video-2.jpg" alt="VideoApp - New Xcode Project" class="aligncenter size-full wp-image-3414" /></div>
+<h2>Designing User Interface</h2>
+<p>Next, let&#8217;s design the user interface of the app. Go to the Main.storyboard. Add a button and place it at the bottom of the screen centered. Change its title to &#8220;Capture&#8221;. Your design should look like below.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/video-3.jpg" alt="VideoApp - Storyboard User Interface" class="aligncenter size-full wp-image-3415" /></div>
+<p>Again, the next thing to do is to establish a connection between the Capture button and code. In order to do that, switch to the Assistant Editor mode. Create an action method in the VideoViewController.h for the Capture button. Name the method as &#8220;captureVideo&#8221;.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/video-4-e1399049044576.jpg" alt="VideoApp - Associate the button with code" class="aligncenter size-full wp-image-3416" /></div>
+<h2>Implementing the VideoViewController</h2>
+<p>Open the VideoViewController.h file and add the following code to include the necessary header files:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;MediaPlayer/MediaPlayer.h&gt;</span><br />
+<span style="color: #6e371a;">#import &lt;MobileCoreServices/MobileCoreServices.h&gt;</span></div></td></tr></tbody></table></div>
+<p>In the previous tutorial, we use the UIImagePickerController class to take static photo. The same class is also capable to capture video. If you&#8217;re not forgetful, you should still remember how to use UIImagePickerController. Here, the VideoViewController has to implement both the  UIImagePickerControllerDelegate and UINavigationControllerDelegate protocols. </p>
+<p>On top of that, we&#8217;ll add two properties (videoURL and videoController) in the VideoViewController.h. The videoURL property stores the URL of the current video, while the videoController property is dedicated for video play back.<br />
+If you did everything correctly, your VideoViewController.h file should be something like below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;UIKit/UIKit.h&gt;</span><br />
+<span style="color: #6e371a;">#import &lt;MediaPlayer/MediaPlayer.h&gt;</span><br />
+<span style="color: #6e371a;">#import &lt;MobileCoreServices/MobileCoreServices.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> VideoViewController <span style="color: #002200;">:</span> UIViewController &lt;UIImagePickerControllerDelegate, UINavigationControllerDelegate&gt;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>videoURL;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> MPMoviePlayerController <span style="color: #002200;">*</span>videoController;<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>captureVideo<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<h2>Implementing Picker Controller for Video Recording</h2>
+<p>When the user taps the &#8220;Capture&#8221; button, the captureVideo: method is called. This method is responsible to create, configure and display the image picker for video recording. We&#8217;ll implement the method using the below code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>captureVideo<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>UIImagePickerController isSourceTypeAvailable<span style="color: #002200;">:</span>UIImagePickerControllerSourceTypeCamera<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; UIImagePickerController <span style="color: #002200;">*</span>picker <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIImagePickerController alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; picker.delegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; picker.allowsEditing <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; picker.sourceType <span style="color: #002200;">=</span> UIImagePickerControllerSourceTypeCamera;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; picker.mediaTypes <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> alloc<span style="color: #002200;">&#93;</span> initWithObjects<span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> kUTTypeMovie, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>picker animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you&#8217;ve read the previous tutorial, you should have a basic idea of UIImagePickerController. The above code shouldn&#8217;t be new to you. It&#8217;s almost the same as the one we use for taking photo, except that we set the picker’s media types to <em>kUTTypeMovie</em>. Depending on the media types, the picker displays different interface for photos or videos. By default the media type is set to <em>kUTTypeImage</em>, which designates the photo camera interface. As we need the picker to launch the video capture interface, we set the media type to <em>kUTTypeMovie</em>.</p>
+<h2>Implementing Video Playback</h2>
+<p>Once user finishes recording and confirm to save the video, the app will automatically play back the video in the main screen. In order to implement the video playback, there are a few things to be done:</p>
+<ol>
+<li>Get the system URL of the video just captured</li>
+<li>Remove the UImagePickerController</li>
+<li>Play the video by using the MPMoviePlayerController class, which is a built-in class for the playback of a video from a file (or a network stream)</li>
+</ol>
+<p>As you know, the didFinishPickingMediaWithInfo: method will be called when user confirms to use the video. The file URL of the video is bundled in the info parameter. So in this method, we first get the URL of the video (please note that this video is not saved in the photo library unless we do it explicitly). Secondly, we dismiss the picker. Lastly, we instantiate the MPMoviePlayerController class and pass it with the video URL for playback. We also change the size of the view to leave some free space for the “Capture” button. And finally, we present the view and play the video.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>imagePickerController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIImagePickerController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>picker didFinishPickingMediaWithInfo<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>info <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.videoURL <span style="color: #002200;">=</span> info<span style="color: #002200;">&#91;</span>UIImagePickerControllerMediaURL<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>picker dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self.videoController <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>MPMoviePlayerController alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.videoController setContentURL<span style="color: #002200;">:</span>self.videoURL<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.videoController.view setFrame<span style="color: #002200;">:</span>CGRectMake <span style="color: #002200;">&#40;</span><span style="color: #2400d9;">0</span>, <span style="color: #2400d9;">0</span>, <span style="color: #2400d9;">320</span>, <span style="color: #2400d9;">460</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.view addSubview<span style="color: #002200;">:</span>self.videoController.view<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.videoController play<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>There is still one thing left. We should implement the imagePickerControllerDidCancel: method. We mentioned this method in the previous chapter. The method is invoked when user cancels the video recording. In this case, we simply dismiss the picker.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>imagePickerControllerDidCancel<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIImagePickerController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>picker <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>picker dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Compile and Test the App</h2>
+<p>OK, it is time to compile and test our application. Like the Camera app we developed in the previous chapter, you can&#8217;t test it using the built-in iPhone Simulator. You have to use a real device for the testing as the iPhone simulator doesn’t have a camera.</p>
+<p>If you compile and run the app on your iPhone, you should be able to bring up the video camera interface after tapping the &#8220;Capture&#8221; button. Once capturing the video, it&#8217;s automatically played back in the main screen. </p>
+<div class="note"><strong>Editor&#8217;s note</strong>: If you&#8217;ve followed <a href="http://www.appcoda.com/ios-programming-course/">our development course</a> from the very beginning, I think it&#8217;s time for you to register the <a href="https://developer.apple.com/programs/ios/">iOS Developer Program</a> and test your apps on a physical iPhone.</div>
+<h2>Using the Movie Player Notifications</h2>
+<p>A nice feature of the <a href="http://developer.apple.com/library/ios/#documentation/MediaPlayer/Reference/MPMoviePlayerController_Class/Reference/Reference.html">MPMoviePlayerController</a> is that it has a collection of notifications that we can use to control the video playback. For example, when the video has finished playing, the MPMoviePlayerPlaybackDidFinishNotification will be sent. Add the following code to the didFinishPickingMediaWithInfo: method, just before the [self.videoController play] statement:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> addObserver<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;selector<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>videoPlayBackDidFinish<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;name<span style="color: #002200;">:</span>MPMoviePlayerPlaybackDidFinishNotification<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;object<span style="color: #002200;">:</span>self.videoController<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>You may be new to NSNotificationCenter. Simply think of it as a centralized hub of notifications within an app. Through it, any part of your app can notify or be notified by other parts of the app. In the above code, it tells the NSNotificationCenter to listen for the MPMoviePlayerPlaybackDidFinishNotification and calls up the videoPlayBackDidFinish: method accordingly. </p>
+<p>In this case, the videoPlayBackDidFinish: method will stop the video, remove its view and display an alert message. Of course, we&#8217;ll remove the notification. Otherwise, it will be called twice! Add the following code in the VideoAppController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>videoPlayBackDidFinish<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span>removeObserver<span style="color: #002200;">:</span>self name<span style="color: #002200;">:</span>MPMoviePlayerPlaybackDidFinishNotification object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Stop the video player and remove it from view</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.videoController stop<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.videoController.view removeFromSuperview<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.videoController <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Display a message</span><br />
+&nbsp; &nbsp; UIAlertView <span style="color: #002200;">*</span>alert <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Video Playback&quot;</span> message<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Just finished the video playback. The video is now removed.&quot;</span> delegate<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;OK&quot;</span> otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>alert show<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now compile and test the app again. Try to record a video. The app will automatically play back the video but it&#8217;s removed the player from the view once the play back completes.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/video-5.jpg" alt="Simple Video App Demo" class="aligncenter size-full wp-image-3417" /></div>
+<h2>Summary</h2>
+<p>By now, you should have a better idea about implementing video recording and playback in iOS. The UIImagePickerController makes it simple to bundle video capturing feature in your app. With a few lines of code, you can bring up the built-in video camera and capture video. On the other hand, the MediaPlayer framework provides handy facilities for video or movie playback. The use of framework is not limited to video playback. It allows developers to access the iPod library, play music, podcast and audio book files. So don&#8217;t stop here, check out <a href="https://developer.apple.com/library/ios/documentation/MediaPlayer/Reference/MediaPlayer_Framework/_index.html#//apple_ref/doc/uid/TP40006952">Apple&#8217;s official reference</a> to learn more about the framework.</p>
+<p>For your complete reference, you can <a href="https://www.dropbox.com/s/95uqqcz01fzjnie/VideoApp.zip">download the source code for the sample Xcode project here</a>.</p>
+<p>As always, leave us comment and share your thought about the tutorial.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/how-to-add-splash-screen-in-your-ios-app/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/05/Sample-iOS-Splash-Screen-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Add Splash Screen in Your iOS App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-animation-uiimageview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/03/simple-animation-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Simple Animation Using UIImageView</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/build-hello-world-app-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/plugins/related-posts-thumbnails/img/default.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Hello World App in Swift Using Xcode 6</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-8-action-extensions-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/03/ios8-action-extensions-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building Action Extensions in iOS 8</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/video-recording-playback-ios-programming/"
+    dc:identifier="http://www.appcoda.com/video-recording-playback-ios-programming/"
+    dc:title="Create a Simple App for Video Recording and Playback"
+    trackback:ping="http://www.appcoda.com/video-recording-playback-ios-programming/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/media-framework/" rel="tag">media framework</a>, <a href="http://www.appcoda.com/tag/video/" rel="tag">video</a>, <a href="http://www.appcoda.com/tag/video-player/" rel="tag">video player</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="post pingback">
+        <p>Pingback: <a href='http://ditapps.wordpress.com/2013/05/01/create-a-simple-app-for-video-recording-and-playback/' rel='external nofollow' class='url'>Create a Simple App for Video Recording and Playback &#8211; Prof. Kim&#039;s Daily Life</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1516">
+        <div id="dsq-comment-header-1516" class="dsq-comment-header">
+            <cite id="dsq-cite-1516">
+                <span id="dsq-author-user-1516">Osvaldo Cipriano</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1516" class="dsq-comment-body">
+            <div id="dsq-comment-message-1516" class="dsq-comment-message"><p>Great tutorial as always <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1667">
+        <div id="dsq-comment-header-1667" class="dsq-comment-header">
+            <cite id="dsq-cite-1667">
+                <span id="dsq-author-user-1667">jadacoast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1667" class="dsq-comment-body">
+            <div id="dsq-comment-message-1667" class="dsq-comment-message"><p>Thanks for this <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> I&#8217;m having an issue with receiving a SIGABRT warning though however no warnings/issues are being reported in the code. I&#8217;ve also tried running the full source code which doesn&#8217;t get the error however only appears as a black screen when running it on a device.</p>
+<p>Any help on this?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2426">
+        <div id="dsq-comment-header-2426" class="dsq-comment-header">
+            <cite id="dsq-cite-2426">
+                <span id="dsq-author-user-2426">K</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2426" class="dsq-comment-body">
+            <div id="dsq-comment-message-2426" class="dsq-comment-message"><p>Im having the same issue. Even the source code is giving me this issue? any help would be greatly appreciated.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-2976">
+        <div id="dsq-comment-header-2976" class="dsq-comment-header">
+            <cite id="dsq-cite-2976">
+                <span id="dsq-author-user-2976">Avi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2976" class="dsq-comment-body">
+            <div id="dsq-comment-message-2976" class="dsq-comment-message"><p>Remove the &#8220;copy&#8221; part from the properties in the ViewController.h file. Seems those controls don&#8217;t conform to the NSCopying protocol, so the call to copy them fails.</p>
+<p>Example:<br />
+@property (nonatomic) NSURL *movieURL;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1668">
+        <div id="dsq-comment-header-1668" class="dsq-comment-header">
+            <cite id="dsq-cite-1668">
+                <span id="dsq-author-user-1668">jadacoast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1668" class="dsq-comment-body">
+            <div id="dsq-comment-message-1668" class="dsq-comment-message"><p>Just on the below, I added a breakpoint before running on the device and it&#8217;s highlighted a the below line of code from the AppDelegate.h file:</p>
+<p>    [self.window makeKeyAndVisible];</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1669">
+        <div id="dsq-comment-header-1669" class="dsq-comment-header">
+            <cite id="dsq-cite-1669">
+                <span id="dsq-author-user-1669">jadacoast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1669" class="dsq-comment-body">
+            <div id="dsq-comment-message-1669" class="dsq-comment-message"><p>**AppDelegate.m file</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-1670">
+        <div id="dsq-comment-header-1670" class="dsq-comment-header">
+            <cite id="dsq-cite-1670">
+                <span id="dsq-author-user-1670">jadacoast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1670" class="dsq-comment-body">
+            <div id="dsq-comment-message-1670" class="dsq-comment-message"><p>Fixed the SIGABRT error! Had connected the Button twice and hadn&#8217;t destroyed the previous connection <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Now just appearing with a black screen like the Full Source Code..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-1671">
+        <div id="dsq-comment-header-1671" class="dsq-comment-header">
+            <cite id="dsq-cite-1671">
+                <span id="dsq-author-user-1671">jadacoast</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1671" class="dsq-comment-body">
+            <div id="dsq-comment-message-1671" class="dsq-comment-message"><p>Just in case anyone else has the same problem- I fixed the black screen by changing the parameters for CGRectMake; think the ones given were taking up the whole display on my device hence the black screen. </p>
+<p>Thanks again for the tut!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-2505">
+        <div id="dsq-comment-header-2505" class="dsq-comment-header">
+            <cite id="dsq-cite-2505">
+                <span id="dsq-author-user-2505">Sandeep Chavarkar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2505" class="dsq-comment-body">
+            <div id="dsq-comment-message-2505" class="dsq-comment-message"><p>Thanks for solving the black screen problem. You need to change parameters for CGRectMake. I used (0, 0, 320, 380) and it worked.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-4" id="dsq-comment-2753">
+        <div id="dsq-comment-header-2753" class="dsq-comment-header">
+            <cite id="dsq-cite-2753">
+                <span id="dsq-author-user-2753">Yves Dufour</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2753" class="dsq-comment-body">
+            <div id="dsq-comment-message-2753" class="dsq-comment-message"><p>so many iPhone  generations now, &#8230; !!<br />
+insert in application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions<br />
+after :<br />
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];<br />
+insert :<br />
+    self.window.frame = CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, [[UIScreen mainScreen]bounds].size.height);</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2086">
+        <div id="dsq-comment-header-2086" class="dsq-comment-header">
+            <cite id="dsq-cite-2086">
+                <span id="dsq-author-user-2086">Greg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2086" class="dsq-comment-body">
+            <div id="dsq-comment-message-2086" class="dsq-comment-message"><p>Great tutorial, thanks for posting!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2324">
+        <div id="dsq-comment-header-2324" class="dsq-comment-header">
+            <cite id="dsq-cite-2324">
+                <span id="dsq-author-user-2324">Vedit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2324" class="dsq-comment-body">
+            <div id="dsq-comment-message-2324" class="dsq-comment-message"><p>self.movieURL = info[UIImagePickerControllerMediaURL];</p>
+<p>i got the error here that Array subscript is not an integer</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2480">
+        <div id="dsq-comment-header-2480" class="dsq-comment-header">
+            <cite id="dsq-cite-2480">
+                <span id="dsq-author-user-2480">Chainsaw</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2480" class="dsq-comment-body">
+            <div id="dsq-comment-message-2480" class="dsq-comment-message"><p>Is it possible to have this app default to the front camera instead of the rear?</p>
+<p>Thank you for this wonderful tutorial!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2535">
+        <div id="dsq-comment-header-2535" class="dsq-comment-header">
+            <cite id="dsq-cite-2535">
+                <span id="dsq-author-user-2535">Madhavan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2535" class="dsq-comment-body">
+            <div id="dsq-comment-message-2535" class="dsq-comment-message"><p>Is it possible to mute the audio for MPMovieplayer controller</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2652">
+        <div id="dsq-comment-header-2652" class="dsq-comment-header">
+            <cite id="dsq-cite-2652">
+                <span id="dsq-author-user-2652">Gary Stewart</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2652" class="dsq-comment-body">
+            <div id="dsq-comment-message-2652" class="dsq-comment-message"><p>How can I set the frames per second? I want to drop the rate to give a blur effect when capturing? Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2678">
+        <div id="dsq-comment-header-2678" class="dsq-comment-header">
+            <cite id="dsq-cite-2678">
+                <span id="dsq-author-user-2678">pd</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2678" class="dsq-comment-body">
+            <div id="dsq-comment-message-2678" class="dsq-comment-message"><p>When a user clicks on a URI in a browser that points to a video, how can I register my app to receive the intent in iOS?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2763">
+        <div id="dsq-comment-header-2763" class="dsq-comment-header">
+            <cite id="dsq-cite-2763">
+                <span id="dsq-author-user-2763">amayalore</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2763" class="dsq-comment-body">
+            <div id="dsq-comment-message-2763" class="dsq-comment-message"><p>Great tutorial! My issue is I&#8217;m trying to use MoviePlayerController in a UITableViewCell. I am having trouble figuring this one out &#8212; is there a way to create a class for a particular cell? Or must I use selectRowAtIndexPath? I&#8217;m new to this and am not clear how to do so. Any suggestions?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2775">
+        <div id="dsq-comment-header-2775" class="dsq-comment-header">
+            <cite id="dsq-cite-2775">
+                <span id="dsq-author-user-2775">Reakol</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2775" class="dsq-comment-body">
+            <div id="dsq-comment-message-2775" class="dsq-comment-message"><p>Everything is easy except from the easiest part lol, how do you the associate the code with the button? </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3269">
+        <div id="dsq-comment-header-3269" class="dsq-comment-header">
+            <cite id="dsq-cite-3269">
+                <span id="dsq-author-user-3269">dubsyrop</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3269" class="dsq-comment-body">
+            <div id="dsq-comment-message-3269" class="dsq-comment-message"><p>its good tutorial, but can you say, how can i record device screen as a video ??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3349">
+        <div id="dsq-comment-header-3349" class="dsq-comment-header">
+            <cite id="dsq-cite-3349">
+                <span id="dsq-author-user-3349">Er Ritesh Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3349" class="dsq-comment-body">
+            <div id="dsq-comment-message-3349" class="dsq-comment-message"><p>it is good but i just wanna play a saved .mp4 file.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3562">
+        <div id="dsq-comment-header-3562" class="dsq-comment-header">
+            <cite id="dsq-cite-3562">
+                <span id="dsq-author-user-3562">BananenSiroop</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3562" class="dsq-comment-body">
+            <div id="dsq-comment-message-3562" class="dsq-comment-message"><p>Simply change the sourceType of the picker</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4013">
+        <div id="dsq-comment-header-4013" class="dsq-comment-header">
+            <cite id="dsq-cite-4013">
+                <span id="dsq-author-user-4013">Steve</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4013" class="dsq-comment-body">
+            <div id="dsq-comment-message-4013" class="dsq-comment-message"><p>Hello, I downloaded your source code project to try to run on my iphone.  I&#8217;m running iOS 7.1.  I built and ran it, and all I got was a black screen.  Any thoughts as to why?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5967">
+        <div id="dsq-comment-header-5967" class="dsq-comment-header">
+            <cite id="dsq-cite-5967">
+http://twitter.com/ShanghaiTimes                <span id="dsq-author-user-5967">ShanghaiTimes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5967" class="dsq-comment-body">
+            <div id="dsq-comment-message-5967" class="dsq-comment-message"><p>Hey guys. Ancient tutorial &#8230; anyone got the time to update it to Xcode 5.2/iOS7.2 etc. Like Steve, all I get is a black screen. The Take Video appears briefly, then is overlaid by black screen</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-6081">
+        <div id="dsq-comment-header-6081" class="dsq-comment-header">
+            <cite id="dsq-cite-6081">
+http://www.appcoda.com/                <span id="dsq-author-user-6081">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6081" class="dsq-comment-body">
+            <div id="dsq-comment-message-6081" class="dsq-comment-message"><p>It&#8217;s now updated to support Xcode 5 and iOS 7. Please try again.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-6044">
+        <div id="dsq-comment-header-6044" class="dsq-comment-header">
+            <cite id="dsq-cite-6044">
+http://twitter.com/ShanghaiTimes                <span id="dsq-author-user-6044">ShanghaiTimes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6044" class="dsq-comment-body">
+            <div id="dsq-comment-message-6044" class="dsq-comment-message"><p>Warning Will robinson&#8230;.</p>
+<p>2014-05-02 07:59:20.822 VideoApp[78278:60b] *** Terminating app due to uncaught exception &#8216;NSUnknownKeyException&#8217;, reason: &#8216;[ setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key view.&#8217;</p>
+<p>*** First throw call stack:</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-6082">
+        <div id="dsq-comment-header-6082" class="dsq-comment-header">
+            <cite id="dsq-cite-6082">
+http://twitter.com/ShanghaiTimes                <span id="dsq-author-user-6082">ShanghaiTimes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6082" class="dsq-comment-body">
+            <div id="dsq-comment-message-6082" class="dsq-comment-message"><p>Thanks Simon, you&#8217;re the man. Thanks for fixing that. #AppCoda tutes are the best.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100731">
+        <div id="dsq-comment-header-100731" class="dsq-comment-header">
+            <cite id="dsq-cite-100731">
+                <span id="dsq-author-user-100731">HARSH MEHROTRA</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100731" class="dsq-comment-body">
+            <div id="dsq-comment-message-100731" class="dsq-comment-message"><p>Your code worked well! But I need to put a check on the size of video. Like if I have recorded 10 MB video, it should get stopped. How can I achieve that?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100864">
+        <div id="dsq-comment-header-100864" class="dsq-comment-header">
+            <cite id="dsq-cite-100864">
+                <span id="dsq-author-user-100864">Greg Lee</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100864" class="dsq-comment-body">
+            <div id="dsq-comment-message-100864" class="dsq-comment-message"><p>Might be really obvious but solved my &#8220;SIGABRT warning&#8221; issue by removing the line &#8220;picker.sourceType = UIImagePickerControllerSourceTypeCamera&#8221; line (as I am using the simulator)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/video-recording-playback-ios-programming/';
+var disqus_identifier = '1687 http://www.appcoda.com/?p=1687';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Create a Simple App for Video Recording and Playback";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1687';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1687"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fvideo-recording-playback-ios-programming%2F&#038;t=Create%20a%20Simple%20App%20for%20Video%20Recording%20and%20Playback" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1687" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>29</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Create%20a%20Simple%20App%20for%20Video%20Recording%20and%20Playback&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fvideo-recording-playback-ios-programming%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1687" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>17</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fvideo-recording-playback-ios-programming%2F&#038;t=Create%20a%20Simple%20App%20for%20Video%20Recording%20and%20Playback" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1687" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>5</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fvideo-recording-playback-ios-programming%2F&#038;title=Create%20a%20Simple%20App%20for%20Video%20Recording%20and%20Playback" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1687" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>0</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fvideo-recording-playback-ios-programming%2F&#038;t=Create%20a%20Simple%20App%20for%20Video%20Recording%20and%20Playback" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1687" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Create%20a%20Simple%20App%20for%20Video%20Recording%20and%20Playback&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fvideo-recording-playback-ios-programming%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1687" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fvideo-recording-playback-ios-programming%2F&#038;t=Create%20a%20Simple%20App%20for%20Video%20Recording%20and%20Playback" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1687" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fvideo-recording-playback-ios-programming%2F&#038;title=Create%20a%20Simple%20App%20for%20Video%20Recording%20and%20Playback" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1687" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/video-recording-playback-ios-programming\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:20:51 by W3 Total Cache -->

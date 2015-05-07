@@ -1,0 +1,1076 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Integrating Facebook Login in iOS Apps - The Manual Way</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="In this tutorial, I&#039;ll show you how to implement Facebook Login using Facebook SDK in your iOS apps. We&#039;ll implement the whole login process manually."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-facebook-login-manual/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In this tutorial, I&#039;ll show you how to implement Facebook Login using Facebook SDK in your iOS apps. We&#039;ll implement the whole login process manually."/>
+<meta name="twitter:title" content="Integrating Facebook Login in iOS Apps - The Manual Way"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/05/facebook-login.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Integrating Facebook Login in iOS App &#8211; The Manual Way Comments Feed" href="http://www.appcoda.com/ios-programming-facebook-login-manual/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=3521' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-3521 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-3521 post type-post status-publish format-standard hentry category-course category-intermediate tag-facebook tag-facebook-sdk tag-ios-programming entry"><h1 class="entry-title">Integrating Facebook Login in iOS App &#8211; The Manual Way</h1> 
+<div class="post-info"><span class="date published time" title="2014-05-30T00:42:43+00:00">May 30, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-facebook-login-manual/#comments"><span class="dsq-postid" data-dsqidentifier="3521 http://www.appcoda.com/?p=3521">11 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>In my <a href="http://www.appcoda.com/ios-programming-facebook-login-sdk/">previous tutorial</a>, I presented an easy and fast way to implement the login with Facebook feature. Based on the <em>FBLoginView</em> class, I demonstrated how logging in and out from Facebook can be done in really a few minutes with the assistance of a predefined login button. In this tutorial we&#8217;ll do the exact same thing, but this time we won&#8217;t use any automatic solution. Instead, we will implement every part of the login process manually and we&#8217;ll see in some detail level how everything works when connecting to Facebook. That&#8217;s a useful knowledge to have, as there are many cases that the default login view we saw in the last tutorial isn&#8217;t handful at all.</p>
+<p>Before we start programming, it is necessary to present some basic terms, so you&#8217;ve got an idea about the whole process. The first important thing you should know, is that after a successful login with Facebook the app receives an <em>access token</em>. This is a unique key, that allows to perform requests and exchange data with Facebook in a secure fashion, without having to authorize the app all the time. One could say that the whole login hassle happens just to get that access token. Once received, and depending on the <em>permissions</em> your app asks for, you can freely get and send data.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/facebook-login.jpg" alt="facebook-login" class="aligncenter size-full wp-image-3539" /><br />
+<span id="more-3521"></span></div>
+<p>The key class of the Facebook SDK that handles everything that has to do with the access token, is the <em>FBSession</em> class. This one, manages all the various <em>session states</em> that a connection can have, and is the one that determines the logged in status. It would be useful to take a quick look at the state <em>lifecycle</em>, as that would help to understand what we&#8217;ll do next. Let&#8217;s see some details:</p>
+<ul>
+<li>When an app is launched, the initial session state, meaning the initial state value set to the <em>FBSession</em> class by default, is the <em>FBSessionStateCreated</em>. The class searches for an existing, stored access token, and if founds one, it goes to the <em>FBSessionStateCreatedTokenLoaded</em>, and then to the <em>FBSessionStateOpen</em>, where the session is open and data exchange can take place with no problem.</li>
+<li>When no access token exists and a login process is on the way, then from the initial <em>FBSessionStateCreated</em> state, when the login UI is appeared the state changes to <em>FBSessionStateCreatedOpening</em>. If all goes well on login/app authorization, then the state gets the <em>FBSessionStateOpen</em> value. However, if during the credentials entry or on app authorization the user taps on the Cancel button and stops the login process, then the state gets the <em>FBSessionStateClosedLoginFailed</em> value.</li>
+<li>There are cases where the initial permissions asked during login are not enough, so additional permissions are needed to be granted. If that successfully takes place, then the state changes its value from <em>FBSessionStateOpen</em> to <em>FBSessionStateOpenTokenExtended</em>. Note that no extra permissions can be asked if the current session state doesn&#8217;t have the <em>FBSessionStateOpen</em> value.</li>
+<li>Finally, when logging out, then from any of the two open states, the <em>FBSessionStateOpen</em> and the <em>FBSessionStateOpenTokenExtended</em>, the session ends up with the <em>FBSessionStateClosed</em> state value.</li>
+</ul>
+<p>In the above description, I mentioned a couple of times the term &#8220;permissions&#8221;, so now let me make a comment on them. Permissions actually determine what assets, features or resources an app can have access to, and they are separated in two categories: The <em>read</em> and <em>publish</em> permissions. To the read category belong all those that describe access to user info, while to the second one belong all those that allow an app to publish on behalf of the user. If no permissions are requested for a specific resource, then accessing it is impossible. A login process is initiated using read permissions, and always the public user info, or in other words the &#8220;public_profile&#8221; permission, is granted by default. When users login with Facebook through an app may become hesitant when they&#8217;re asked to grant permissions, so make sure to ask only for those permissions that are necessary for the app. We&#8217;ll talk about permission more later in the tutorial as well.</p>
+<p>Finally, a word about the <em>Graph API</em>, as this is a term you&#8217;ll meet in the sections that follow. The Graph API, is actually the Facebook API for communicating and exchanging data. Is HTTP-based, and it&#8217;s used for all the tasks you want to do with Facebook. Regarding the Facebook SDK for iOS, there is a wide number of methods that work with it. In this tutorial we&#8217;ll use just a couple of them. If you are curious though and you&#8217;d like to see more about it, then feel free to read more on Facebook documentation. Of course, if you&#8217;re about to develop an app that works with Facebook and does more than logging users in, you definitely need to read some stuff.</p>
+<p>All the discussion made so far, will help you understand all that coming next. If you need more theory or to get fundamental knowledge, then there&#8217;s no better option than visiting the source itself, meaning the Facebook documentation. For now, we&#8217;ve said enough already, so let&#8217;s begin doing some work.</p>
+<h2>App Overview</h2>
+<p>The next figure illustrates the final outcome of our implementation in this tutorial:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_1_final_sample.jpg" alt="Facebook login - App Demo" class="aligncenter size-full wp-image-3526" /></div>
+<p>The main goal is to manage to login with Facebook, and then logout, using a custom button. Further than doing that, we&#8217;ll also get some piece of the user&#8217;s public info, the e-mail address and the profile picture after a successful login.</p>
+<p>The UI will contain a few controls: Some labels for showing the user&#8217;s info and the current connection status, an image view for displaying the profile picture, an activity indicator that will animate when opening a session, and of course, the custom login/logout button. We&#8217;ll see more details about all these subviews when we&#8217;ll setup the interface.</p>
+<p>Lastly, there&#8217;s a dedicated section in this tutorial almost for every part of the sample app that&#8217;s about to be implemented. Even though we&#8217;ll pay some attention to create the app, we&#8217;ll mostly focus on the login implementation, and all the related stuff.</p>
+<p>Note that if you download the sample project, make sure to correctly enter your app&#8217;s FacebookAppID, FacebookDisplayName string values and the URL Types array. Also, you must necessarily add the Facebook SDK framework to the project. For more information about all that, see the <em>Initial Steps</em> section of the tutorial.</p>
+<p>Having said all that, let&#8217;s get started.</p>
+<h2>Creating the App</h2>
+<p>As always, the first step we have to do is to create a new sample project. Therefore, launch Xcode and do so. In the initial guide that appears, select the <strong>Single View Application</strong> as the project template, in the <strong>Applications</strong> category, under the <strong>iOS</strong> section.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_2_template1.jpg" alt="Facebook login - New Project" class="aligncenter size-full wp-image-3527" /></div>
+<p>Click Next to proceed. In the second step of the guide, in the <strong>Product Name</strong> field set the <strong>ManualFBLogin</strong> as the project&#8217;s name. Also, make sure that in the <strong>Devices</strong> drop down menu, the <strong>iPhone</strong> option is selected.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_3_template2.jpg" alt="Facebook login - project option" class="aligncenter size-full wp-image-3528" /></div>
+<p>Click Next, and in the third and last step of the guide select a directory to save the project and then click on the Create button.</p>
+<h2>Initial Steps</h2>
+<p>This part is very crucial, as it involves the necessary setup needed to be done in both Facebook developers website and Xcode project before writing even a single line of code. In the previous tutorial regarding the Facebook login, I presented in details all the actions you should take, so go in the <a href="http://www.appcoda.com/ios-programming-facebook-login-sdk/">Preparing the Environment</a> section and follow everything described there step by step. Here&#8217;s a summary of what you should do:</p>
+<ol>
+<li>Create a new app record on the <a href="https://developers.facebook.com">Facebook developers website</a>.</li>
+<li>Fill in all the necessary fields, and correctly copy the app&#8217;s bundle ID.</li>
+<li>Add the Facebook SDK framework to the project.</li>
+<li>In the .plist file of the project add all the needed keys and the respective values properly.</li>
+</ol>
+<p>When you are ready with all the above, you can return here and continue with this tutorial. <strong>Don&#8217;t skip this step.</strong></p>
+<h2>Interface Setup</h2>
+<p>Our goal here is to configure the interface by adding all the necessary subviews to the <em>View Controller</em> scene, and by declaring and connecting all the respective IBOutlet properties. We will work in the Interface Builder, so click on the <em>Main.storyboard</em> file to let it appear.</p>
+<p>The following screenshot demonstrates what the final outcome of our work here will be.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_4_ib_sample.jpg" alt="Facebook Login Manual - Interface" class="aligncenter size-full wp-image-3529" /></div>
+<p>The subviews we must add to the interface are the next ones:</p>
+<ul>
+<li>An <em>image view</em> to display the user&#8217;s profile picture.</li>
+<li>A <em>label</em> to show the user&#8217;s full name (first and last name).</li>
+<li>A <em>label</em> to show the user&#8217;s e-mail address.</li>
+<li>A <em>label</em> centered in the view that will display the status.</li>
+<li>An <em>activity indicator view</em> that will animate when the app is opening an existing session.</li>
+<li>A <em>button</em> at the bottom of the view, that will be used to log in and out.</li>
+</ul>
+<p>As you notice, the login button is fully customized and it has nothing to do with the <em>login view</em>, the pre-made login button of the Facebook SDK.</p>
+<p>Let&#8217;s start adding all the subviews one by one and setting all the appropriate attributes of them. For each subview described below, find the appropriate object in the <strong>Object Library</strong> and drag and drop it in the default view.</p>
+<h3>UIImageView</h3>
+<ul>
+<li><strong>Frame</strong>: X=20, Y=60, Width=63, Height=63</li>
+</ul>
+<h3>UILabel</h3>
+<ul>
+<li><strong>Frame</strong>: X=91, Y=60, Width=209, Height=63</li>
+<li><strong>Text</strong>: <em>None</em> or <em>Fullname</em></li>
+<li><strong>Text Color</strong>: White</li>
+<li><strong>Font</strong>: System Bold, 15.0</li>
+<li><strong>Text Alignment</strong>: Center</li>
+<li><strong>Lines</strong>: 5</li>
+<li><strong>Line Break</strong>: Word Wrap</li>
+</ul>
+<h3>UILabel</h3>
+<ul>
+<li><strong>Frame</strong>: X=20, Y=148, Width=280, Height=21</li>
+<li><strong>Text</strong>: <em>None</em> or <em>E-mail</em></li>
+<li><strong>Text Color</strong>: White</li>
+<li><strong>Font</strong>: System Bold, 15.0</li>
+<li><strong>Text Alignment</strong>: Center</li>
+</ul>
+<h3>UILabel</h3>
+<ul>
+<li><strong>Frame</strong>: X=20, Y=273, Width=280, Height=21</li>
+<li><strong>Text</strong>: <em>You are not logged in.</em></li>
+<li><strong>Text Color</strong>: White</li>
+<li><strong>Font</strong>: System Bold, 17.0</li>
+<li><strong>Text Alignment</strong>: Center</li>
+</ul>
+<h3>UIActivityIndicator</h3>
+<ul>
+<li><strong>Frame</strong>: X=150, Y=302, Width=20, Height=20</li>
+<li><strong>Style</strong>: White</li>
+</ul>
+<h3>UIButton</h3>
+<ul>
+<li><strong>Frame</strong>: X=0, Y=508, Width=320, Height=60</li>
+<li><strong>Title</strong>: <em>Login</em></li>
+<li><strong>Text Color</strong>: White</li>
+<li><strong>Font</strong>: System Bold, 15.0</li>
+<li><strong>Background Color</strong>: R=255, G=128, B=0</li>
+</ul>
+<p>Finally, set the view&#8217;s background color to R=59, G=89, B=152.</p>
+<p>Your scene should now look like the screenshot illustrated at the beginning of this part.</p>
+<p>Now that all the necessary subviews have been added to the view, it&#8217;s time to declare some IBOutlet properties and then connect them to these subviews. Open the <em>ViewController.h</em> file and add the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIButton <span style="color: #002200;">*</span>btnToggleLoginState;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIImageView <span style="color: #002200;">*</span>imgProfilePicture;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>lblFullname;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>lblEmail;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>lblStatus;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIActivityIndicatorView <span style="color: #002200;">*</span>activityIndicator;<br />
+<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>The name of each property clearly declares its purpose. Further than the above, let&#8217;s also declare an IBAction method that we&#8217;ll use to login and logout. Add the next line right after the last property declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>toggleLoginState<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;</div></td></tr></tbody></table></div>
+<p>Finally, head back to the <em>Main.storyboard</em> file, and connect the IBOutlet properties to the appropriate subviews. Here are the matches:</p>
+<ul>
+<li>The <em>btnToggleLoginState</em> property must be connected to the login button at the bottom.</li>
+<li>The <em>imgProfilePicture</em> property must be connected to the image view.</li>
+<li>The <em>lblFullname</em> property must be connected to the label next to the image view.</li>
+<li>The <em>lblEmail</em> property must be connected to the e-mail label, right under the image view.</li>
+<li>The <em>lblStatus</em> property must be connected to the status label to the center of the view.</li>
+<li>The <em>activityIndicator</em> property must be connected to the activity indicator view.</li>
+</ul>
+<p>Here is a figure illustrating a property connection:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_5_iboutlet_connect.jpg" alt="Facebook login - IBConnect" class="aligncenter size-full wp-image-3530" /></div>
+<h2>Additional In-Code Configuration</h2>
+<p>Having finished with the interface configuration, it&#8217;s time to move on to code. Before we dive into the heart of the topic though, we will perform some code-level setup that will determine the initial state of the app. Note that what we&#8217;ll do here is not required for the Facebook SDK to work. However it will help you make your project similar to the sample in case you develop following this tutorial step by step. So, here&#8217;s in short the most important tasks we&#8217;ll do:</p>
+<ul>
+<li>We will create a private method to set the hidden state of the subviews.</li>
+<li>We will add the necessary code needed to make the image view rounded.</li>
+<li>We will change the status bar style, making it have a light color.</li>
+</ul>
+<p>Let&#8217;s begin with the easy one. Open the <em>ViewController.m</em> file, and in the <em>viewDidLoad</em> method add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIApplication sharedApplication<span style="color: #002200;">&#93;</span> setStatusBarStyle<span style="color: #002200;">:</span>UIStatusBarStyleLightContent<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>This will turn the dark status bar into a light one.</p>
+<p>Next let&#8217;s make the image view rounded, with a white border around it. In order to do that, we must access the <em>CALayer</em> <em>layer</em> property of it, and set three specific properties of the <em>layer</em> object. However the <em>CALayer</em> class is not part of the <em>UIKit</em> framework, therefore we must import the <em>QuartzCore</em> framework. In the top of the file add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;QuartzCore/QuartzCore.h&gt;</span></div></td></tr></tbody></table></div>
+<p>The following four lines make the image view rounded, with a white border and 1px thick. Make sure to add them in the</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">viewDidLoad</div></td></tr></tbody></table></div>
+<p>method.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">self.imgProfilePicture.layer.masksToBounds <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+self.imgProfilePicture.layer.cornerRadius <span style="color: #002200;">=</span> <span style="color: #2400d9;">30.0</span>;<br />
+self.imgProfilePicture.layer.borderColor <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>UIColor whiteColor<span style="color: #002200;">&#93;</span>.CGColor;<br />
+self.imgProfilePicture.layer.borderWidth <span style="color: #002200;">=</span> <span style="color: #2400d9;">1.0</span>;</div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s create a private method that will enable us to hide and show all the user info related subviews, depending on whether the user is logged in or not. At first, we must declare it in the private class section:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>hideUserInfo<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>shouldHide;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>The <em>shouldHide</em> parameter flag will specify if the <em>hidden</em> property of the following subviews will be YES or NO. The method definition:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>hideUserInfo<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>shouldHide<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; self.imgProfilePicture.hidden <span style="color: #002200;">=</span> shouldHide;<br />
+&nbsp; &nbsp; self.lblFullname.hidden <span style="color: #002200;">=</span> shouldHide;<br />
+&nbsp; &nbsp; self.lblTotalFriends.hidden <span style="color: #002200;">=</span> shouldHide;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Initially, we want all of the above subviews to be hidden. Later, when the connected state will be determined using the Facebook SDK, they&#8217;ll become visible if needed. So, let&#8217;s go to the <em>viewDidLoad</em> method and make a call to this method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>self hideUserInfo<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Besides than making those subviews hidden, it&#8217;s necessary to hide the activity indicator as well. We wouldn&#8217;t like the spinner appear with no reason. So, right below the above method call, add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">self.activityIndicator.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;</div></td></tr></tbody></table></div>
+<p>Note that the activity indicator will be handled separately from the rest of the subviews. The same applies to the status label.</p>
+<p>Finally, let&#8217;s declare and instantiate an <em>AppDelegate</em> property, which we are going to use later during the implementation. Firstly, import the <em>AppDelegate.h</em> header file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;AppDelegate.h&quot;</span></div></td></tr></tbody></table></div>
+<p>Next, go to the private class section and add a property declaration as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> AppDelegate <span style="color: #002200;">*</span>appDelegate;</div></td></tr></tbody></table></div>
+<p>Lastly, in the <em>viewDidLoad</em> method, instantiate it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">self.appDelegate <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>AppDelegate <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIApplication sharedApplication<span style="color: #002200;">&#93;</span> delegate<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Now we are ready to focus on the login implementation.</p>
+<h2>Logging In</h2>
+<p>The Facebook SDK contains a great number of libraries and classes. Among them, there is one class that is responsible for handling sessions, therefore its job is to handle the login process as well. That class is named <em>FBSession</em>, and it&#8217;s the one we need in order to achieve our goal.</p>
+<p>The <em>FBSession</em> class implements the next method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">openActiveSessionWithReadPermissions<span style="color: #002200;">:</span>allowLoginUI<span style="color: #002200;">:</span>completionHandler<span style="color: #002200;">:</span></div></td></tr></tbody></table></div>
+<p>With this one the login process is started. Let&#8217;s take a quick look at its parameters:</p>
+<ul>
+<li><em>openActiveSessionWithReadPermissions</em>: The <em>read</em> permissions that are required by the app are provided here. For your knowledge, it&#8217;s not necessary to request for all permissions at once, as the more they are, the less possible is for the user to authorize and use the app. Additional permissions can be asked during the app execution. There are publish permissions too that can be requested along the way, but we don&#8217;t care about any of them right now. In this example, we will ask for the <em>public_profile</em> and the <em>email</em> permissions. You can find a full reference about permissions <a href="https://developers.facebook.com/docs/facebook-login/permissions/v2.0">here</a>.</li>
+<li><em>allowLoginUI</em>: This parameter accepts a YES or NO value. If YES, then it shows either the Facebook app (if installed) or Safari to enter credentials if needed, and then to authorize the app.</li>
+<li><em>completionHandler</em>: The completion handler block is called when the login process has finished. It returns three parameters: A <em>session (FBSession)</em> object, the session <em>state</em> value, and an <em>error</em> object in case it occurs any. We&#8217;ll talk more about the session and its various states in the next section of the tutorial.</li>
+</ul>
+<p>Let&#8217;s start working now, and we&#8217;ll discuss every detail along the way. The &#8220;entry&#8221; point that we&#8217;ll begin from, is the <em>toggleLoginState:</em> IBAction method we had previously declared. Using this method, we&#8217;ll initiate both the login and the logout operations. The first thing we have to consider, is to check whether there is an open session or not. In case there isn&#8217;t any, then we&#8217;ll use the method described above to login. However, prior to implementation, make sure to import the Facebook framework at the top of the <em>ViewController.m</em> file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;FacebookSDK/FacebookSDK.h&gt;</span></div></td></tr></tbody></table></div>
+<p>Then, let&#8217;s see the initial implementation of the IBAction method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>toggleLoginState<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>FBSession activeSession<span style="color: #002200;">&#93;</span>.state <span style="color: #002200;">!=</span> FBSessionStateOpen <span style="color: #002200;">&amp;</span>amp;<span style="color: #002200;">&amp;</span>amp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>FBSession activeSession<span style="color: #002200;">&#93;</span>.state <span style="color: #002200;">!=</span> FBSessionStateOpenTokenExtended<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>A couple of observations here:</p>
+<ul>
+<li>The current session, also named <em>active session</em>, is accessed just like this: <em>[FBSession activeSession]</em>.</li>
+<li>Using the <em>state</em> property of the active session, we determine if there is an open session or not. The two open session states are shown above.</li>
+</ul>
+<p>Now, instead of directly calling the <em>openActiveSessionWithReadPermissions:allowLoginUI:completionHandler:</em> method of the <em>FBSession</em> class, we&#8217;ll make a small detour. We&#8217;ll <em>implement a public method in the AppDelegate class, and in there we&#8217;ll make the call</em>. That might seem strange to you at the moment, but I have two specific reasons to do that:</p>
+<ol>
+<li>Later on, we&#8217;ll have to use the <em>openActiveSessionWithReadPermissions:allowLoginUI:completionHandler:</em> method again to open a stored session, and it wouldn&#8217;t be a good idea to write the same code twice.</li>
+<li>It is a more general solution that can be used in larger projects.</li>
+</ol>
+<p>Having said that, open the <em>AppDelegate.h</em> file, and firstly import the Facebook framework:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;FacebookSDK/FacebookSDK.h&gt;</span></div></td></tr></tbody></table></div>
+<p>Then add the next method declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> AppDelegate <span style="color: #002200;">:</span> UIResponder &lt;UIApplicationDelegate&gt;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> UIWindow <span style="color: #002200;">*</span>window;<br />
+<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>openActiveSessionWithPermissions<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>permissions allowLoginUI<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>allowLoginUI;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>The parameters we&#8217;ll provide to the <em>openActiveSessionWithPermissions:allowLoginUI:</em> custom method will be passed to the <em>openActiveSessionWithReadPermissions:allowLoginUI:completionHandler:</em> of the <em>FBSession</em> class. What follows next is the method&#8217;s definition, but what are we going to do there?</p>
+<p>Well, the answer lies to the completion handler of the <em>openActiveSessionWithReadPermissions:allowLoginUI:completionHandler:</em> method, where we must handle the various session states. In our case, after the user has logged in, we must update the UI and show the user&#8217;s info. The same should happen later on, when we&#8217;ll open an existing session on a subsequent app launch. However, we can&#8217;t access the <em>ViewController</em>&#8216;s interface through the <em>AppDelegate</em> class directly. The simplest solution would be to inform the <em>ViewController</em> when the login/session opening process is over, and perform in that class all the session handling. A simple way to do that is using a <em>notification</em>. Indeed, we&#8217;ll post a notification when the completion handler will be called, and along with it we&#8217;ll post the completion handler&#8217;s results (session, session state, error).</p>
+<p>So, speaking with code this time, go to the <em>AppDelegate.m</em> file to define the public method. Here it is:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>openActiveSessionWithPermissions<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>permissions allowLoginUI<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>allowLoginUI<span style="color: #002200;">&#123;</span> &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>FBSession openActiveSessionWithReadPermissions<span style="color: #002200;">:</span>permissions<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;allowLoginUI<span style="color: #002200;">:</span>allowLoginUI<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; completionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span>FBSession <span style="color: #002200;">*</span>session, FBSessionState status, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Create a NSDictionary object and set the parameter values.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>sessionStateInfo <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> alloc<span style="color: #002200;">&#93;</span> initWithObjectsAndKeys<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; session, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;session&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNumber_Class/"><span style="color: #400080;">NSNumber</span></a> numberWithInteger<span style="color: #002200;">:</span>status<span style="color: #002200;">&#93;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;state&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; error, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;error&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Create a new notification, add the sessionStateInfo dictionary to it and post it.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> postNotificationName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;SessionStateChangeNotification&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; userInfo<span style="color: #002200;">:</span>sessionStateInfo<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>You see that we initialize a <em>NSDictionary</em> object and we set all the values returned by the completion handler to it. Then, a new <em>NSNotification</em> object is posted, using the custom name <em>SessionStateChangeNotification</em> and the dictionary created right before.</p>
+<p>Now, back at the <em>toggleLoginState:</em> IBAction method in the <em>ViewController.m</em> file, let&#8217;s make a call to the above method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>toggleLoginState<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>FBSession activeSession<span style="color: #002200;">&#93;</span>.state <span style="color: #002200;">!=</span> FBSessionStateOpen <span style="color: #002200;">&amp;</span>amp;<span style="color: #002200;">&amp;</span>amp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>FBSession activeSession<span style="color: #002200;">&#93;</span>.state <span style="color: #002200;">!=</span> FBSessionStateOpenTokenExtended<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.appDelegate openActiveSessionWithPermissions<span style="color: #002200;">:</span>@<span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;public_profile&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;email&quot;</span><span style="color: #002200;">&#93;</span> allowLoginUI<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>To recap, when the user taps on the Login custom button, the <em>openActiveSessionWithPermissions:allowLoginUI:</em> public method of the <em>AppDelegate</em> is first called, which invokes in turn the <em>openActiveSessionWithReadPermissions:allowLoginUI:completionHandler:</em> of the <em>FBSession</em> class. Once the whole login process is over, we inform the <em>ViewController</em> using a notification, where we&#8217;ll handle the various session states in a while.</p>
+<p>Before we reach the end of this section is necessary to perform a couple more steps: The first is to implement an application delegate method, the next one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>application<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIApplication <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>application openURL<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>url sourceApplication<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sourceApplication annotation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>annotation<span style="color: #002200;">&#123;</span> &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#91;</span>FBAppCall handleOpenURL<span style="color: #002200;">:</span>url sourceApplication<span style="color: #002200;">:</span>sourceApplication<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This one is called after the login credentials entry and app authorization have finished in Facebook app or Safari. The</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">[FBAppCall handleOpenURL:url sourceApplication:sourceApplication]</div></td></tr></tbody></table></div>
+<p>manages the results of all the actions taken outside the app (successful login/authorization or cancelation), and properly directs the login flow back in our app again.</p>
+<p>The second step is to take our measures in case the user leaves the app while the login dialog is visible either in Facebook app or in Safari. In such a case, it&#8217;s necessary to use the Facebook framework for doing some cleanup and removing any unfinished session processes. Thankfully this is easy and it takes only a single line. Go to the <em>applicationDidBecomeActive:</em> of the application delegate, and add the next one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>applicationDidBecomeActive<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIApplication <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>application<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>FBAppCall handleDidBecomeActive<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>handleDidBecomeActive</em> method of the <em>FBAppCall</em> class will check for an unfinished login process at the next app launch, and it will clear all the unnecessary &#8220;leftovers&#8221;, if any found.</p>
+<h2>Handling Session States</h2>
+<p>Posting the notification after a finished login process is an important step, but it consists only of the half work that must be done. The other half regards two things: To observe for the notification and to handle the session states.</p>
+<p>Let&#8217;s begin by observing for the notification. Open the <em>ViewController.m</em> file, and head to the <em>viewDidLoad</em> method. In there, add the following code snippet:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> addObserver<span style="color: #002200;">:</span>self selector<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>handleFBSessionStateChangeWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span> name<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;SessionStateChangeNotification&quot;</span> object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>With that statement, we force our class to observe for the notification specified by the given name, and when it arrives we will call the <em>handleFBSessionStateChangeWithNotification:</em> method. This is a private method that we are about to implement right now.</p>
+<p>Initially, go to the private class section and declare it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleFBSessionStateChangeWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>In its definition we&#8217;ll handle the session states we are interested in. These are:</p>
+<ul>
+<li><em>FBSessionStateOpen</em>: When a session is open.</li>
+<li><em>FBSessionStateClosed</em>: When a session is closed.</li>
+<li><em>FBSessionStateClosedLoginFailed</em>: When the user cancels the login /authorization process.</li>
+</ul>
+<p>Actually, here is what we are going to do:</p>
+<ol>
+<li>From the notification parameter object, we&#8217;ll extract the dictionary.</li>
+<li>We&#8217;ll assign to local variables the session state value and the error object which we&#8217;ll take from the dictionary.</li>
+<li>We&#8217;ll show the appropriate status message, along with the activity indicator.</li>
+<li>If no error occurred, then if the session is open we&#8217;ll make a call to Facebook Graph API to get all the info we want. If the session is closed or failed, we&#8217;ll update the UI.</li>
+<li>If an error occurred, we&#8217;ll output the error description and perform any UI-related tasks.</li>
+</ol>
+<p>The next code fragment contains all these:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleFBSessionStateChangeWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Get the session, state and error values from the notification's userInfo dictionary.</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>userInfo <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>notification userInfo<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; FBSessionState sessionState <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>userInfo objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;state&quot;</span><span style="color: #002200;">&#93;</span> integerValue<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>userInfo objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;error&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; self.lblStatus.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Logging you in...&quot;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.activityIndicator startAnimating<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.activityIndicator.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Handle the session state.</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Usually, the only interesting states are the opened session, the closed session and the failed login.</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In case that there's not any error, then check if the session opened or closed.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>sessionState <span style="color: #002200;">==</span> FBSessionStateOpen<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// The session is open. Get the user information and update the UI.</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.btnToggleLoginState setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Logout&quot;</span> forState<span style="color: #002200;">:</span>UIControlStateNormal<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>sessionState <span style="color: #002200;">==</span> FBSessionStateClosed || sessionState <span style="color: #002200;">==</span> FBSessionStateClosedLoginFailed<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// A session was closed or the login was failed or canceled. Update the UI accordingly. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.btnToggleLoginState setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Login&quot;</span> forState<span style="color: #002200;">:</span>UIControlStateNormal<span style="color: #002200;">&#93;</span>; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.lblStatus.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;You are not logged in.&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.activityIndicator.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In case an error has occured, then just log the error and update the UI accordingly.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Error: %@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self hideUserInfo<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.btnToggleLoginState setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Login&quot;</span> forState<span style="color: #002200;">:</span>UIControlStateNormal<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you look closely at the code, you&#8217;ll notice that we&#8217;ve handled everything we care about, but we didn&#8217;t get the user&#8217;s info yet. That&#8217;s something we&#8217;ll do right next, as I&#8217;d like us to focus our attention a bit more on that.</p>
+<h2>Getting User Info</h2>
+<p>Summarizing what we&#8217;ve done so far, I&#8217;d say that the most important steps we have managed to complete are the login process initiation and the session state handling. What we haven&#8217;t still done, is to get the user&#8217;s information after a successful login or after having loaded an existing, and display it on-screen.</p>
+<p>Getting user&#8217;s data is easy. It takes only a call to the <em>startWithGraphPath:parameters:HTTPMethod:completionHandler:</em> method of the <em>FBRequestConnection</em> class. As you conclude from the method&#8217;s name, it makes a HTTP request to the appropriate API and sends all the provided parameters, which are given as a dictionary object. This method is a general one and can be used for several kinds of requests.</p>
+<p>Back to our sample app now, let me specify the kind of info we&#8217;ll ask for the connected user. We&#8217;re going to get the first name, the last name, the e-mail address and the profile picture URL, which we&#8217;ll then use for showing the user&#8217;s image on the view. The dictionary object, and according to the Facebook Graph API, is expressed as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@<span style="color: #002200;">&#123;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;fields&quot;</span><span style="color: #002200;">:</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;first_name, last_name, picture.type(normal), email&quot;</span><span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Notice that for the profile picture we use the <em>picture.type(normal)</em> value, asking from Facebook to return the normal size picture. There are four picture types that can be used:</p>
+<ol>
+<li>Small</li>
+<li>Normal</li>
+<li>Large</li>
+<li>Square</li>
+</ol>
+<p>The completion handler of the <em>startWithGraphPath:parameters:HTTPMethod:completionHandler:</em> method contains three parameters:</p>
+<ol>
+<li>A <em>FBRequestConnection</em> object. We won&#8217;t need it here.</li>
+<li>An <em>id</em> object that contains the actual data. In our case, this is going to be a <em>NSDictionary</em> object.</li>
+<li>An error pointer.</li>
+</ol>
+<p>If no error occurred during the request, then we&#8217;ll get the user data from the returned dictionary and we&#8217;ll assign it as a value to the appropriate subview. Also, we&#8217;ll get the picture from the returned URL, and after all UI controls have taken their values, we&#8217;ll just unhide them. In case of an error, we&#8217;ll only output its description.</p>
+<p>In the next code fragment it&#8217;s given the <em>handleFBSessionStateChangeWithNotification:</em> method implementation once again. However, this time contains the call to the <em>startWithGraphPath:parameters:HTTPMethod:completionHandler:</em> method in the case of an open session.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br />43<br />44<br />45<br />46<br />47<br />48<br />49<br />50<br />51<br />52<br />53<br />54<br />55<br />56<br />57<br />58<br />59<br />60<br />61<br />62<br />63<br />64<br />65<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleFBSessionStateChangeWithNotification<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Get the session, state and error values from the notification's userInfo dictionary.</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>userInfo <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>notification userInfo<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; FBSessionState sessionState <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>userInfo objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;state&quot;</span><span style="color: #002200;">&#93;</span> integerValue<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>userInfo objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;error&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; self.lblStatus.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Logging you in...&quot;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.activityIndicator startAnimating<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.activityIndicator.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Handle the session state.</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Usually, the only interesting states are the opened session, the closed session and the failed login.</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In case that there's not any error, then check if the session opened or closed.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>sessionState <span style="color: #002200;">==</span> FBSessionStateOpen<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// The session is open. Get the user information and update the UI. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>FBRequestConnection startWithGraphPath<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;me&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;parameters<span style="color: #002200;">:</span>@<span style="color: #002200;">&#123;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;fields&quot;</span><span style="color: #002200;">:</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;first_name, last_name, picture.type(normal), email&quot;</span><span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;HTTPMethod<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;GET&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; completionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span>FBRequestConnection <span style="color: #002200;">*</span>connection, <span style="color: #a61390;">id</span> result, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Set the use full name.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.lblFullname.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@ %@&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>result objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;first_name&quot;</span><span style="color: #002200;">&#93;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>result objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;last_name&quot;</span><span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Set the e-mail address.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.lblEmail.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>result objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;email&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Get the user's profile picture.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>pictureURL <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> URLWithString<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>result objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;picture&quot;</span><span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;data&quot;</span><span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;url&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.imgProfilePicture.image <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>UIImage imageWithData<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a> dataWithContentsOfURL<span style="color: #002200;">:</span>pictureURL<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Make the user info visible.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self hideUserInfo<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Stop the activity indicator from animating and hide the status label.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.lblStatus.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.activityIndicator stopAnimating<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.activityIndicator.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.btnToggleLoginState setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Logout&quot;</span> forState<span style="color: #002200;">:</span>UIControlStateNormal<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>sessionState <span style="color: #002200;">==</span> FBSessionStateClosed || sessionState <span style="color: #002200;">==</span> FBSessionStateClosedLoginFailed<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// A session was closed or the login was failed. Update the UI accordingly.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.btnToggleLoginState setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Login&quot;</span> forState<span style="color: #002200;">:</span>UIControlStateNormal<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.lblStatus.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;You are not logged in.&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.activityIndicator.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In case an error has occurred, then just log the error and update the UI accordingly.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Error: %@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self hideUserInfo<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.btnToggleLoginState setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Login&quot;</span> forState<span style="color: #002200;">:</span>UIControlStateNormal<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you add a <em>NSLog</em> command to the above completion handler and print the <em>result</em> object, then you&#8217;ll get something like the next one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #2400d9;">2014</span><span style="color: #002200;">-</span>05<span style="color: #002200;">-</span><span style="color: #2400d9;">25</span> <span style="color: #2400d9;">11</span><span style="color: #002200;">:</span><span style="color: #2400d9;">39</span><span style="color: #002200;">:</span><span style="color: #2400d9;">14.573</span> ManualFBLogin<span style="color: #002200;">&#91;</span><span style="color: #2400d9;">748</span><span style="color: #002200;">:</span>90b<span style="color: #002200;">&#93;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; email <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="57303635253e323b0833263f36342d240823322423322517233135392079393223">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&quot;</span><br />
+&nbsp; &nbsp; <span style="color: #bf1d1a;">&quot;first_name&quot;</span> <span style="color: #002200;">=</span> Gabriel;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">id</span> <span style="color: #002200;">=</span> <span style="color: #2400d9;">1377148289239707</span>;<br />
+&nbsp; &nbsp; <span style="color: #bf1d1a;">&quot;last_name&quot;</span> <span style="color: #002200;">=</span> Tester;<br />
+&nbsp; &nbsp; picture <span style="color: #002200;">=</span> &nbsp; &nbsp; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; data <span style="color: #002200;">=</span> &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #bf1d1a;">&quot;is_silhouette&quot;</span> <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; url <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/t1.0-1/s100x100/10390960_1392345714386631_6289945774589507432_s.jpg&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, the <em>picture</em> object is a dictionary which in turn contains the <em>data</em> dictionary, and that&#8217;s the one containing the picture data we want. Based on that, it&#8217;s easy to understand how the NSURL object in the above method is formed:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>pictureURL <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> URLWithString<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>result objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;picture&quot;</span><span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;data&quot;</span><span style="color: #002200;">&#93;</span> objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;url&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Before we consider our work in this section done, I must say that using the <em>startWithGraphPath:parameters:HTTPMethod:completionHandler:</em> method is not the only way to get the user&#8217;s public info. Actually, there&#8217;s a method dedicated to that, the <em>startForMeWithCompletionHandler:</em>, and it&#8217;s part of the <em>FBRequestConnection</em> class. It has a disadvantage though, as it doesn&#8217;t return the URL of the profile picture and that&#8217;s why we didn&#8217;t use it in the first place.</p>
+<p>If you wish so, feel free to make a call to that method and print to the debugger the results it brings back. Make sure to add it in the open session case, right before or after the <em>startWithGraphPath:parameters:HTTPMethod:completionHandler:</em> call. Here&#8217;s how you should invoke it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>FBRequestConnection startForMeWithCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span>FBRequestConnection <span style="color: #002200;">*</span>connection, <span style="color: #a61390;">id</span> result, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, result<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>This will output to the debugger something similar to this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; email <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="52353330203b373e0d36233a333128210d263721263720122634303c257c3c3726">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&quot;</span><br />
+&nbsp; &nbsp; <span style="color: #bf1d1a;">&quot;first_name&quot;</span> <span style="color: #002200;">=</span> Gabriel;<br />
+&nbsp; &nbsp; gender <span style="color: #002200;">=</span> male;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">id</span> <span style="color: #002200;">=</span> <span style="color: #2400d9;">1377148289239707</span>;<br />
+&nbsp; &nbsp; <span style="color: #bf1d1a;">&quot;last_name&quot;</span> <span style="color: #002200;">=</span> Tester;<br />
+&nbsp; &nbsp; link <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;https://www.facebook.com/app_scoped_user_id/1377148289239707/&quot;</span><br />
+&nbsp; &nbsp; locale <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;en_US&quot;</span><br />
+&nbsp; &nbsp; name <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Gabriel Tester&quot;</span><br />
+&nbsp; &nbsp; timezone <span style="color: #002200;">=</span> <span style="color: #2400d9;">3</span>;<br />
+&nbsp; &nbsp; <span style="color: #bf1d1a;">&quot;updated_time&quot;</span> <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;2014-05-21T18:49:16+0000&quot;</span><br />
+&nbsp; &nbsp; verified <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Using this method just like that provides a nice way to find out what the public info regarding the user is, and what the names of the relevant fields are.</p>
+<p>Now it&#8217;s a good time to run the app for first time. Initially, tap on the login button to get connected:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_6_logged_out.jpg" alt="Facebook login - Logout" class="aligncenter size-full wp-image-3531" /></div>
+<p>Provide your credentials and authorize the app:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_7_authorize.jpg" alt="Facebook login - authorize" class="aligncenter size-full wp-image-3532" /></div>
+<p>If everything runs normally, then you&#8217;ll see your info appearing in the app, once you get back to it.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_8_logged_in.jpg" alt="Facebook login - complete" class="aligncenter size-full wp-image-3533" /></div>
+<h2>Opening a Session</h2>
+<p>If you try to run the app twice, you&#8217;ll notice that even though you&#8217;ve logged in the first time, you seem to be logged out upon the second launch. Actually, you are logged in indeed, but for the time being the app doesn&#8217;t know that. Fixing that situation is easy, but before we do so, let&#8217;s see some more details.</p>
+<p>Every time that you successfully login with Facebook, the Facebook API returns some info regarding the connection, and saves it persistently. The most important piece of information contained is the access token that defines the session state and allows you to make requests without additional authorization to be needed upon subsequent app launches. Along with that token, its expiration date and some other stuff are included as well. The truth is that you don&#8217;t need to be aware of all these, as the Facebook SDK handles it behind the scenes. However,it is always good to know where everything is stored, so you can manually check if the proper info has been returned when debugging.</p>
+<p>All the session-related info is stored into a .plist file, which you can find in a path similar to this (make sure that you have the hidden files visible):</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">/</span>Users<span style="color: #002200;">/</span>gabriel<span style="color: #002200;">/</span>Library<span style="color: #002200;">/</span>Application Support<span style="color: #002200;">/</span>iPhone Simulator<span style="color: #002200;">/</span><span style="color: #2400d9;">7.1</span><span style="color: #002200;">/</span>Applications<span style="color: #002200;">/</span>A62A3F77<span style="color: #002200;">-</span>6A8C<span style="color: #002200;">-</span>477D<span style="color: #002200;">-</span>96FE<span style="color: #002200;">-</span>C32FB23B166B<span style="color: #002200;">/</span>Library<span style="color: #002200;">/</span>Preferences</div></td></tr></tbody></table></div>
+<p>The file of our app is named <em>com.Your_Company_Name.ManualFBLogin.plist</em>, and if you open it you can see if the token info is really there. Note that you shouldn&#8217;t edit it, otherwise expect something bad to happen in the app.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_9_plist.jpg" alt="Facebook login plist" class="aligncenter size-full wp-image-3534" /></div>
+<p>Having said all the above, let&#8217;s focus on our app again. As I said, for the time being the app doesn&#8217;t know if you are logged in or not, therefore will present you the default, logged out state on a subsequent launch. The goal is to make it read the above file in order to determine the connected state and then open the existing session. This should be done when the app is launched, and a good place to do so would be the <em>application:didFinishLaunchingWithOptions:</em> method of the application delegate. However, keep in mind that when the session state changes, we want to update our UI, and the problem that arises here is that this method is called before the view controller is loaded. That means that even if we load and open the session, the view controller won&#8217;t be ready soon enough to observe for the notification that will be posted upon a session state change, so the UI won&#8217;t be refreshed.</p>
+<p>The solution in our case to load and open the session in the <em>applicationDidBecomeActive:</em> method of the <em>AppDelegate</em> class. If you remember, in a previous section of this tutorial we had added the next line in that method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>FBAppCall handleDidBecomeActive<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Now, we must modify once again that method. In the next code segment is presented the code that must be added in order to properly open a saved session:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>applicationDidBecomeActive<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIApplication <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>application<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>FBSession activeSession<span style="color: #002200;">&#93;</span>.state <span style="color: #002200;">==</span> FBSessionStateCreatedTokenLoaded<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self openActiveSessionWithPermissions<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> allowLoginUI<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>FBAppCall handleDidBecomeActive<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Initially, the Facebook SDK checks if there&#8217;s a stored access token. If so, then we call the <em>openActiveSessionWithPermissions:allowLoginUI:</em> public method we had created previously, providing no permissions and not allowing the login UI to appear. That way, the app loads from the .plist file the saved session, and then posts the notification. The notification is received by the <em>ViewController</em> class, and ultimately the session is properly handled. If a valid access token exists, and if the session normally opens, then our app requests the user&#8217;s info from Facebook every time the app launches.</p>
+<p>If you add the above few lines and you run the app again, you&#8217;ll see that this time you won&#8217;t seem to be logged out.</p>
+<p>Before closing, there are three things I&#8217;d like to mention:</p>
+<ol>
+<li>The option to open the session in the <em>applicationDidBecomeActive:</em> is not a rule. I just chose to do so in this project, so the session opening works flawlessly with the custom notification posting and the session state handling. In your projects you could either choose this way, or open the session anywhere that best serves you.</li>
+<li>This is a sample project, so every time the app launches we request the user&#8217;s info from Facebook. In a real-world app though, and depending on the security level of your app, you could store the user&#8217;s info locally, and make requests to update it only when that&#8217;s necessary.</li>
+<li>In the beginning of this section I showed you where the access token along with the rest of the session info is saved to an app. However, Facebook allows to use a custom strategy for storing the session and managing all the procedures that deal with it (such as opening or loading it). That&#8217;s something out of the scope of this tutorial, so I won&#8217;t get into any details at all. I believe that you should be aware of that, so if you&#8217;d like to learn more you just have to visit the official Facebook documentation.</li>
+</ol>
+<h2>Logging Out</h2>
+<p>Everything is ready, apart from one thing. We still haven&#8217;t implemented the logout functionality, and that&#8217;s necessary for having a complete login mechanism.</p>
+<p>Logging out is literally a matter of a single line of code. If you recall, in the <em>toggleLoginState:</em> IBAction method we have two cases: The first one where no open session exists and the user should login, and the opposite case (the <em>else</em> case), where the user is already logged in and now should log out.</p>
+<p>In the next code fragment you are given the whole IBAction method, including the logout functionality. As you&#8217;ll see, we also update the UI accordingly.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>toggleLoginState<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>FBSession activeSession<span style="color: #002200;">&#93;</span>.state <span style="color: #002200;">!=</span> FBSessionStateOpen <span style="color: #002200;">&amp;</span>amp;<span style="color: #002200;">&amp;</span>amp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>FBSession activeSession<span style="color: #002200;">&#93;</span>.state <span style="color: #002200;">!=</span> FBSessionStateOpenTokenExtended<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.appDelegate openActiveSessionWithPermissions<span style="color: #002200;">:</span>@<span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;public_profile&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;email&quot;</span><span style="color: #002200;">&#93;</span> allowLoginUI<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Close an existing session.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>FBSession activeSession<span style="color: #002200;">&#93;</span> closeAndClearTokenInformation<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Update the UI.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self hideUserInfo<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.lblStatus.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.lblStatus.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;You are not logged in.&quot;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Compile and Run the App</h2>
+<p>Reaching almost at the end of the tutorial, it&#8217;s hard to imagine that you haven&#8217;t still compiled and run the app. However, if you haven&#8217;t done so, then this is the right time to do it. Before you click on the Run button on Xcode, make sure that you have properly configured both Facebook account and Xcode, and you followed everything step by step described in the previous sections.</p>
+<p>The next animated graphics illustrate the whole process of login/logout we implemented in this tutorial:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t13_10_login_process.gif" alt="Facebook login workflow" class="aligncenter size-full wp-image-3535" /></div>
+<h2>Summary</h2>
+<p>This tutorial, in combination with the previous one regarding the Facebook login view, gives you all the tools you need for logging in with Facebook. As you see, it&#8217;s not difficult to do so as long as you follow some specific rules. I should mention that no special reference to error handling was made. That was in purpose, as it would be out of my goals to discuss it here. There&#8217;s an extensive description about that topic in Facebook documentation, so I&#8217;d advise you to give it a reading. Lastly, as a final word I would suggest to always stay up-to-date regarding the changes in Facebook SDK, as there might be significant modifications from version to version. I hope you&#8217;ve been helped by this post, and as always, leave us your thoughts.</p>
+<p>For your reference, you can download the complete Xcode project from <a href="https://dl.dropboxusercontent.com/u/2857188/ManualFBLogin.zip">here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/video-recording-playback-ios-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/video-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Create a Simple App for Video Recording and Playback</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-local-notification-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/06/Local-Notification-Tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Adding Local Notifications in Your iOS App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uipageviewcontroller-storyboard-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/11/page-view-controller-1-150x150.jpeg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Create UIPageViewController Using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/beginners-guide-optionals-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/06/swift-optionals-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">A Beginner's Guide to Optionals in Swift</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-facebook-login-manual/"
+    dc:identifier="http://www.appcoda.com/ios-programming-facebook-login-manual/"
+    dc:title="Integrating Facebook Login in iOS App &#8211; The Manual Way"
+    trackback:ping="http://www.appcoda.com/ios-programming-facebook-login-manual/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/facebook/" rel="tag">facebook</a>, <a href="http://www.appcoda.com/tag/facebook-sdk/" rel="tag">facebook sdk</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-9891">
+        <div id="dsq-comment-header-9891" class="dsq-comment-header">
+            <cite id="dsq-cite-9891">
+                <span id="dsq-author-user-9891">ohdowload</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9891" class="dsq-comment-body">
+            <div id="dsq-comment-message-9891" class="dsq-comment-message"><p>thank you for the great tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9965">
+        <div id="dsq-comment-header-9965" class="dsq-comment-header">
+            <cite id="dsq-cite-9965">
+                <span id="dsq-author-user-9965">Олег Корчицкий</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9965" class="dsq-comment-body">
+            <div id="dsq-comment-message-9965" class="dsq-comment-message"><p>Thank! This will save me a lot of time!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-10169">
+        <div id="dsq-comment-header-10169" class="dsq-comment-header">
+            <cite id="dsq-cite-10169">
+                <span id="dsq-author-user-10169">Yuri Ferretti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10169" class="dsq-comment-body">
+            <div id="dsq-comment-message-10169" class="dsq-comment-message"><p>I have one question&#8230;..Is the session-related plist file located in NSUserDefaults? Because in my app I would like to check if I my token has already expired using TokenInformationExpirationDateKey and if so refresh and store the new one.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-19369">
+        <div id="dsq-comment-header-19369" class="dsq-comment-header">
+            <cite id="dsq-cite-19369">
+                <span id="dsq-author-user-19369">Dave</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-19369" class="dsq-comment-body">
+            <div id="dsq-comment-message-19369" class="dsq-comment-message"><p>Thanks for the tut. I get an error though: <strong>method definition for toggleLoginState not found</strong>, and so the Login button doesn&#8217;t do anything. I tested your download, and it works fine &#8211; what am I missing?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-46307">
+        <div id="dsq-comment-header-46307" class="dsq-comment-header">
+            <cite id="dsq-cite-46307">
+                <span id="dsq-author-user-46307">Naser</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-46307" class="dsq-comment-body">
+            <div id="dsq-comment-message-46307" class="dsq-comment-message"><p>the Xcode sample project is not downloading !!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-51289">
+        <div id="dsq-comment-header-51289" class="dsq-comment-header">
+            <cite id="dsq-cite-51289">
+                <span id="dsq-author-user-51289">Anita Agrawal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51289" class="dsq-comment-body">
+            <div id="dsq-comment-message-51289" class="dsq-comment-message"><p>Hi Gabriel,</p>
+<p>I am getting exception:</p>
+<p>Terminating app due to uncaught exception &#8216;com.facebook.sdk:InvalidOperationException&#8217;, reason: &#8216;FBSession: No AppID provided; either pass an AppID to init, or add a string valued key with the appropriate id named FacebookAppID to the bundle *.plist&#8217;</p>
+<p>I have added required fields in the *.plist with proper FacebookAppID and FacebookDisplayName.<br />
+Will you please explain why this exception is coming?<br />
+Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-51616">
+        <div id="dsq-comment-header-51616" class="dsq-comment-header">
+            <cite id="dsq-cite-51616">
+                <span id="dsq-author-user-51616">rhytima</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51616" class="dsq-comment-body">
+            <div id="dsq-comment-message-51616" class="dsq-comment-message"><p>Thanks for the tutorial.I am getting the the label edit the info you provide on facebook authorization,which i dont want to show.Can you help me out how that label can be hidden</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-57629">
+        <div id="dsq-comment-header-57629" class="dsq-comment-header">
+            <cite id="dsq-cite-57629">
+                <span id="dsq-author-user-57629">Liam Weston</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-57629" class="dsq-comment-body">
+            <div id="dsq-comment-message-57629" class="dsq-comment-message"><p>When the user logs out they can just tap the login button and it logs them in again without having to re-enter their credentials and their is no way of changing to another user. Have I done something wrong or is there more work to do to be able to do those things?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-84073">
+        <div id="dsq-comment-header-84073" class="dsq-comment-header">
+            <cite id="dsq-cite-84073">
+                <span id="dsq-author-user-84073">denbenji</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-84073" class="dsq-comment-body">
+            <div id="dsq-comment-message-84073" class="dsq-comment-message"><p>Thanks for the tutorial.. How do you maintain the FBSession when the app closes?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://iphoneworldbegin.wordpress.com/2015/02/06/newww-1-4-me/' rel='external nofollow' class='url'>newww 1 4 me | iphoneworldbegin</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-100000">
+        <div id="dsq-comment-header-100000" class="dsq-comment-header">
+            <cite id="dsq-cite-100000">
+                <span id="dsq-author-user-100000">M. V.C.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100000" class="dsq-comment-body">
+            <div id="dsq-comment-message-100000" class="dsq-comment-message"><p>Great tutorial, much better than Facebook developpers web. But&#8230;. works fine in emulator, but not at all in my iPhone 5 (both iOS 8.1.2): not remain connected to Facebook if I close the app (ManualFBLogin).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-facebook-login-manual/';
+var disqus_identifier = '3521 http://www.appcoda.com/?p=3521';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Integrating Facebook Login in iOS App &#8211; The Manual Way";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=3521';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="3521"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-facebook-login-manual%2F&#038;t=Integrating%20Facebook%20Login%20in%20iOS%20App%20%E2%80%93%20The%20Manual%20Way" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3521" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>76</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Integrating%20Facebook%20Login%20in%20iOS%20App%20%E2%80%93%20The%20Manual%20Way&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-facebook-login-manual%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3521" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>8</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-facebook-login-manual%2F&#038;t=Integrating%20Facebook%20Login%20in%20iOS%20App%20%E2%80%93%20The%20Manual%20Way" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3521" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>6</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-facebook-login-manual%2F&#038;title=Integrating%20Facebook%20Login%20in%20iOS%20App%20%E2%80%93%20The%20Manual%20Way" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3521" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>3</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-facebook-login-manual%2F&#038;t=Integrating%20Facebook%20Login%20in%20iOS%20App%20%E2%80%93%20The%20Manual%20Way" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3521" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Integrating%20Facebook%20Login%20in%20iOS%20App%20%E2%80%93%20The%20Manual%20Way&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-facebook-login-manual%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3521" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-facebook-login-manual%2F&#038;t=Integrating%20Facebook%20Login%20in%20iOS%20App%20%E2%80%93%20The%20Manual%20Way" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3521" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-facebook-login-manual%2F&#038;title=Integrating%20Facebook%20Login%20in%20iOS%20App%20%E2%80%93%20The%20Manual%20Way" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3521" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-facebook-login-manual\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="c8aba4a7bbad88fab0e6b8a6af">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":3521,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:24:50 by W3 Total Cache -->

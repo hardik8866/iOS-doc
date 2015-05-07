@@ -1,0 +1,735 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>How to Beta Test iOS 8 Apps Using TestFlight</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="In this tutorial, we&#039;ll walk you through the steps to beta test your app using TestFlight. In iOS 8, Apple released TestFlight to streamline beta testing."/>
+<link rel="canonical" href="http://www.appcoda.com/testflight-beta-testing/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In this tutorial, we&#039;ll walk you through the steps to beta test your app using TestFlight. In iOS 8, Apple released TestFlight to streamline beta testing."/>
+<meta name="twitter:title" content="How to Beta Test iOS 8 Apps Using TestFlight"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-featured.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; How to Beta Test Your App Using TestFlight Comments Feed" href="http://www.appcoda.com/testflight-beta-testing/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=4164' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-4164 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-4164 post type-post status-publish format-standard hentry category-course category-intermediate category-tutorials tag-beta-testing tag-ios-8 tag-ios-programming tag-testflight tag-xcode-6 entry"><h1 class="entry-title">How to Beta Test Your App Using TestFlight</h1> 
+<div class="post-info"><span class="date published time" title="2014-10-17T22:59:10+00:00">October 17, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/testflight-beta-testing/#comments"><span class="dsq-postid" data-dsqidentifier="4164 http://www.appcoda.com/?p=4164">17 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Suppose you built an app and completed the testing of your app on a real device. So what&#8217;s next? Submit your app directly to App Store and make it available for download? Yes, you can if your app is a simple one. However, if you&#8217;re developing a high quality app, don&#8217;t rush to get your app out. I suggest you beta test the app before the actual release.</p>
+<p>A beta test is a step in the cycle of a software product release. I know you&#8217;ve tested your app using the built-in simulator and on your own device. Interestingly, you may not be able to uncover some of the bugs, even though you&#8217;re the app creator. By going through beta test, you would be amazed at the number of flaws discovered at this stage. Beta testing is generally opened to a select number of users. They may be your potential app users, your blog followers, your colleagues, friends or even family members. The whole point of beta testing is to let a small group of real people get their hands on your app, test it and provide feedback. You want your beta tester to discover as many bugs as possible in this stage so that you can fix them before rolling out your app to the public.</p>
+<p>You may be wondering how can you conduct a beta test for your app, how beta testers run your app before it’s available on App Store and how testers report bugs?</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-featured.jpg" alt="testflight-featured" class="aligncenter size-full wp-image-4185" /></div>
+<p>In iOS 8, Apple released a new tool called <strong>TestFlight</strong> to streamline the beta testing. You may have heard of TestFlight before. It has been around for several years as an independent mobile platform for mobile app testing. In February 2014, Apple acquired TestFlight&#8217;s parent company, Burstly. With the official release of Xcode 6 and iOS 8, TestFlight is now integrated into iTunes Connect that allows you to invite beta testers using just their email addresses.</p>
+<p>TestFlight allows you to arrange testing with external testers and internal users. Conceptually, both can be your testers at the beta testing stage. However, TestFlight refers internal users as members of your development team who have been assigned the Technical or Admin role in iTunes Connect. You&#8217;re allowed to invite up to 25 internal users to test your app. An external tester, on the other hand, is considered as an user outside your team and company. You can invite up to 1,000 users to beta test your app. There is a catch, though. Your app must be approved by Apple before you can invite your external testers for testing. This restriction doesn&#8217;t apply to internal users. Your internal users can begin beta testing once you upload your app to iTunes Connect.</p>
+<p>In this tutorial, I will walk you through the beta test process using TestFlight. At the time of this writing, you can only arrange beta test for internal users only. So we will focus on beta testing with internal users. In general, you need to go through the below tasks to distribute an app for beta testing:</p>
+<ul>
+<li>Create an app record on iTunes Connect.</li>
+<li>Update the build string.</li>
+<li>Archive and upload your app.</li>
+<li>Manage beta testing in iTunes Connect.</li>
+</ul>
+<p>Let&#8217;s get started.<br />
+<span id="more-4164"></span></p>
+<h3>Creating an App Record on iTunes Connect</h3>
+<p>Firstly, you need an app record on iTunes Connect before you can beta test an app. iTunes Connect is a web-based application for iOS developers to manage their apps sold on App Store. Assuming you have enrolled in the iOS Developer Program, you should be able to access iTunes Connect at <a href="http://itunesconnect.apple.com">http://itunesconnect.apple.com</a>.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-1.jpg" alt="TestFlight - New App Record" class="aligncenter size-full wp-image-4168" /></div>
+<p>Once signed into iTunes Connect, select My Apps and the + icon to create a new iOS app. You&#8217;ll be prompted to complete the following information:</p>
+<ul>
+<li>App name &#8211; your app name appears on App Store</li>
+<li>Primary language &#8211; the primary language of your app such as English</li>
+<li>Bundle ID &#8211; the bundle ID of your app</li>
+<li>Version &#8211; the version number of your app. If this is the first release, you can just put in<br />
+1.0.</li>
+<li>SKU &#8211; stands for Stock Keeping Unit. It can be anything you like. For example, your app<br />
+name is &#8220;Awesome Food App&#8221;. You can use &#8220;awesome_food_app&#8221; as the SKU. You can use letters, numbers, hyphens, periods and underscores except space.</li>
+</ul>
+<p>Once you click the Create button, you&#8217;ll proceed to another screen to fill in the details of your app.</p>
+<p><strong>App Video and Preview</strong></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-3.png" alt="TestFlight App Info" class="aligncenter size-full wp-image-4169" /></div>
+<p>These are the preview screens for your app. In iOS 8, Apple lets you incorporate an app video in the preview. You need to provide at least one screenshot for 3.5- inch (640&#215;960 pixels for portrait or 960&#215;640 pixels for landscape), 4-inch (640&#215;1136 pixels for portrait or 1136&#215;640 pixels for landscape), 4.7-inch (750&#215;1334 pixels) and 5.5-inch (1242&#215;2208 pixels) devices. You can further refer to <a href="https://developer.apple.com/library/ios/ documentation/LanguagesUtilities/ Conceptual/iTunesConnect_Guide/ Appendices/Properties.html">Apple&#8217;s iTunes Connect Developer guide</a> for details.</p>
+<p><strong>App Description and URL</strong></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-4.png" alt="TestFlight - App Info" class="aligncenter size-full wp-image-4170" /></div>
+<p>Next, fill in your app description and at at least one keyword that describes your app. It&#8217;s one of the most important elements affecting your app download. You may have heard of App Store Optimization (ASO). Keyword optimization is a part of ASO. I will not go into keyword optimization here. If you want to learn more about keyword optimization, you can refer to <a href="https://blog.sensortower.com/blog/2013/10/02/the-definitive-3-step-process-for-selecting-keywords-that-get-your-ios-app-ranked-and-downloaded/">this article</a> or just google ASO.</p>
+<p>The support URL is mandatory. You can fill in the URL of your website or blog. If you don&#8217;t have one, register a website at wordpress.com.</p>
+<p><strong>General App Information</strong></p>
+<p>The next section is about the general information of your app. You need to upload the app icon. Remember the app icon (1024&#215;1024 pixels) must be not contained any transparency element. Here is a sample of the app icon.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-5-e1413552502778.png" alt="app icon" class="aligncenter size-full wp-image-4171" /></div>
+<p>The icon has a square shape. After you upload the app icon to iTunes Connect, the icon will be converted to appear with rounded corners.</p>
+<p>Next, fill in the version number (e.g. 1.0) and pick a category that best describes your app.</p>
+<p>You need to give a rating for your app. Just click the Edit button next to Rating and complete the form. iTunes Connect generates a rating for your app based on your answers.</p>
+<p>For the copyright field, you can just fill in your name or company preceded by the year the rights were obtained (e.g. 2014 AppCoda Limited).</p>
+<p>If you want to list your app on Korean App Store, you need to provide the Trade Representative Contact Information.</p>
+<p><strong>App Review Information</strong></p>
+<p>You can skip the Build section and go straight to the App Review Information. Simply fill in your contact information.</p>
+<p>The demo account field is optional. It is for those apps that require login.</p>
+<p><strong>Version Release</strong><br />
+You&#8217;re allowed to release your app automatically or manually right once it has been approved by App Review. Just set it to Automatically release this version.</p>
+<p>Finally click the Save button on the top right corner to save the changes.</p>
+<p>If you didn&#8217;t miss any information, the &#8220;Submit for Review&#8221; should be enabled. That means your app record was successfully created on iTunes Connect.</p>
+<h3>Update Your Build String</h3>
+<p>Now go back to Xcode. You&#8217;re going to build your app and upload to iTunes Connect. But before that, review your project and make sure the version number matches what you entered in iTunes Connect.</p>
+<p>In the project navigator, select the project and the target to display the project editor. Under the General tab, review the version field under Identity section. As this is the first build, set the Build field to 1.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-71.png" alt="testflight-24-7" class="aligncenter size-full wp-image-4194" /></div>
+<h3>Archiving and Uploading Your App</h3>
+<p>Before archiving your app, you should include the app icon and launch image in your Xcode project. The app icons are managed by the asset catalog. You should find the AppIcon set in Images.xcassets. To add an icon to the set, select an app icon in the Finder and drag it to the appropriate image well in the set viewer. You will need to provide various sizes of app icons to fit for different devices. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-8-1.png" alt="App Icon in image asset" class="aligncenter size-full wp-image-4183" /></div>
+<p>Assuming you&#8217;ve included the app icon and launch screen in your Xcode project. You&#8217;re now ready to archive upload your app to iTunes Connect. It&#8217;s pretty easy to archive your app in Xcode 6. First, review the Archive scheme settings and ensure the build configuration sets to Release (instead of Debug).</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-13.png" alt="TestFlight Scheme Setting" class="aligncenter size-full wp-image-4174" /></div>
+<p>Go up to the Xcode menu. Choose Product > Scheme > Edit Scheme. Select Archive scheme and review the Build Configuration setting. The option should be set to Release.</p>
+<p>Now you&#8217;re ready to archive your app. The Archive feature is disabled if you&#8217;re using a simulator. So first select iOS Device or your device name (if you have connected your iPhone to your Mac) from the Scheme toolbar menu. Then go up to the Xcode menu and choose Product > Archive.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-12.png" alt="Archive App" class="aligncenter size-full wp-image-4173" /></div>
+<p>After archiving, your archive will appear in the Organizer. It&#8217;s ready to upload to iTunes Connect. But it&#8217;s best to go through the validation process to see if there are any issues. Just click the Validate button and then select your developer account. Xcode will then validate your archive.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-14.png" alt="App Upload - Organizer" class="aligncenter size-full wp-image-4175" /></div>
+<p>If the validation is successful, you can click the Submit button to upload the archive to iTunes Connect.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-15.png" alt="TestFlight Upload Successful" class="aligncenter size-full wp-image-4182" /></div>
+<h3>Manage Beta Testing in iTunes Connect</h3>
+<p>Now that you&#8217;ve uploaded your build to iTunes Connect. Go back to <a href="http://itunesconnect.apple.com">http://itunesconnect.apple.com</a>. Select My Apps and then your app.</p>
+<p>You will find your app archive under PreRelease tab. To enable beta testing, flip the TestFlight Beta Testing to ON. The status will be changed from Inactive to Invite Testers.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-16.png" alt="Enable Testflight" class="aligncenter size-full wp-image-4176" /></div>
+<p>Click Invite Testers and then click &#8220;Users and Roles&#8221; to invite your internal testers to try out the app. For existing users with Admin, Legal, or Technical role, you will see an Internal Tester switch. Flip it to ON to assign it as a tester.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-17.png" alt="Testflight Enable Beta Tester" class="aligncenter size-full wp-image-4177" /></div>
+<div class="note">Note: If the tester you want to invite is not in the list, you can click + icon to create an account for the user and set its role to Technical. Once saved, ask the tester to confirm his/her email so as to activate the account.</div>
+<p>Then go back to your app. Under the Prerelease tab, select Internal Testers tab and you will see the tester that you just assigned. Click the checkbox of the tester and click Invite<br />
+button to send an invitation of the TestFlight Beta Testing. Your tester will receive an email of the invitation.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-18.png" alt="Testflight - send invitation" class="aligncenter size-full wp-image-4178" /></div>
+<p>The tester just needs to click the Open TestFlight button and iOS automatically opens TestFlight app. The tester can then install your app for beta testing. If your tester does not have the <a href="https://itunes.apple.com/us/app/testflight/id899247664?mt=8">TestFlight app</a> installed, he/she will need to install it first.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/testflight-24-19.png" alt="Testflight app" class="aligncenter size-full wp-image-4179" /></div>
+<p>For any future update of your beta app, your internal testers will always get the most recent build you uploaded.</p>
+<h3>Summary</h3>
+<p>Apple&#8217;s acquisition of TestFlight provides us with a powerful tool to easily beta test our apps. In this tutorial, I have walked you through the basics of TestFlight Beta Testing. If you&#8217;re building your next app, use the tool to invite your friends to test out your app before the official release. This is an important step to build a high quality app.</p>
+<p>What do you think about the tutorial? Leave us comment and share your thought.</p>
+<p><em>This is an excerpt of our Beginning iOS 8 Programming with Swift book. If you like the tutorial, check out <a href="http://www.appcoda.com/swift/">our new book</a> and support us.</em></p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-local-notification-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/06/Local-Notification-Tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Adding Local Notifications in Your iOS App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/first-time-app-developer-success-stories-part-3/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/05/first-time-app-showcase-3-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">First Time App Developer Success Stories Part 3: Am I Too Late to Learn iOS Programming</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/custom-keyboard-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/10/custom-keyboard-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating a Custom Keyboard Using iOS 8 App Extension</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/cloudkit-introduction-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/04/cloudkit-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with CloudKit in iOS 8</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/testflight-beta-testing/"
+    dc:identifier="http://www.appcoda.com/testflight-beta-testing/"
+    dc:title="How to Beta Test Your App Using TestFlight"
+    trackback:ping="http://www.appcoda.com/testflight-beta-testing/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/beta-testing/" rel="tag">beta testing</a>, <a href="http://www.appcoda.com/tag/ios-8/" rel="tag">iOS 8</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/testflight/" rel="tag">testflight</a>, <a href="http://www.appcoda.com/tag/xcode-6/" rel="tag">Xcode 6</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-65594">
+        <div id="dsq-comment-header-65594" class="dsq-comment-header">
+            <cite id="dsq-cite-65594">
+http://ashishkakkad.wordpress.com/                <span id="dsq-author-user-65594">Ashish Kakkad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-65594" class="dsq-comment-body">
+            <div id="dsq-comment-message-65594" class="dsq-comment-message"><p>Thanks. You have done great job. This will help me.</p>
+<p>Thanks once again !<br />
+ASHISH KAKKAD</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-65702">
+        <div id="dsq-comment-header-65702" class="dsq-comment-header">
+            <cite id="dsq-cite-65702">
+                <span id="dsq-author-user-65702">Pavel Gnatyuk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-65702" class="dsq-comment-body">
+            <div id="dsq-comment-message-65702" class="dsq-comment-message"><p>It is impossible to invite the external users. &#8220;Coming soon&#8221; &#8211; Apple says.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-65916">
+        <div id="dsq-comment-header-65916" class="dsq-comment-header">
+            <cite id="dsq-cite-65916">
+http://www.appcoda.com/                <span id="dsq-author-user-65916">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-65916" class="dsq-comment-body">
+            <div id="dsq-comment-message-65916" class="dsq-comment-message"><p>Yes. For now, you can only invite internal users.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-65847">
+        <div id="dsq-comment-header-65847" class="dsq-comment-header">
+            <cite id="dsq-cite-65847">
+                <span id="dsq-author-user-65847">Wendell Beverly</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-65847" class="dsq-comment-body">
+            <div id="dsq-comment-message-65847" class="dsq-comment-message"><p>Good tutorial, I&#8217;ll be trying this out later, as I&#8217;ve got an app that I am close to releasing.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-66670">
+        <div id="dsq-comment-header-66670" class="dsq-comment-header">
+            <cite id="dsq-cite-66670">
+                <span id="dsq-author-user-66670">Hoang Nguyen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-66670" class="dsq-comment-body">
+            <div id="dsq-comment-message-66670" class="dsq-comment-message"><p>Simon Nguyen ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-73303">
+        <div id="dsq-comment-header-73303" class="dsq-comment-header">
+            <cite id="dsq-cite-73303">
+                <span id="dsq-author-user-73303">gabbyb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-73303" class="dsq-comment-body">
+            <div id="dsq-comment-message-73303" class="dsq-comment-message"><p>Anyone know if the invitee (external tester) needs to own the app already?  Or can they beta test without owning the app?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-98255">
+        <div id="dsq-comment-header-98255" class="dsq-comment-header">
+            <cite id="dsq-cite-98255">
+                <span id="dsq-author-user-98255">Victor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98255" class="dsq-comment-body">
+            <div id="dsq-comment-message-98255" class="dsq-comment-message"><p>it&#8217;s not required to have AppStore version to be able participate in tests &#8211; that why Apple restricts beta-versions life period to 1 month and also overseeing distribution for external testers.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-83570">
+        <div id="dsq-comment-header-83570" class="dsq-comment-header">
+            <cite id="dsq-cite-83570">
+                <span id="dsq-author-user-83570">Rahul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-83570" class="dsq-comment-body">
+            <div id="dsq-comment-message-83570" class="dsq-comment-message"><p>Nice tutorial &#8230;Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-85324">
+        <div id="dsq-comment-header-85324" class="dsq-comment-header">
+            <cite id="dsq-cite-85324">
+                <span id="dsq-author-user-85324">Kartik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-85324" class="dsq-comment-body">
+            <div id="dsq-comment-message-85324" class="dsq-comment-message"><p>Nice tutorial&#8230;Does this beta testing provide us the ability to test the updated version of the app.<br />
+I mean, once i install the app from testflight does it replace the older version of App downloaded from AppStore?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-98254">
+        <div id="dsq-comment-header-98254" class="dsq-comment-header">
+            <cite id="dsq-cite-98254">
+                <span id="dsq-author-user-98254">Victor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98254" class="dsq-comment-body">
+            <div id="dsq-comment-message-98254" class="dsq-comment-message"><p>replacement &#8211; yes, the AppStore version will be replaced and App icon will have special circle/dot sign highlighting beta-version.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99842">
+        <div id="dsq-comment-header-99842" class="dsq-comment-header">
+            <cite id="dsq-cite-99842">
+                <span id="dsq-author-user-99842">Sergey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99842" class="dsq-comment-body">
+            <div id="dsq-comment-message-99842" class="dsq-comment-message"><p>OK, Apple shut down TestFlight. So the only way to test app is itunes connect testing. And it is super inconvenient. Let&#8217;s pretend I need my app be tested by a customer. But I don&#8217;t want him to see my other apps. In iTunesConnect I can grant him with technical user role and enable testing as internal tester, but in this case he will be able to see all my apps. Any solutions?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-100395">
+        <div id="dsq-comment-header-100395" class="dsq-comment-header">
+            <cite id="dsq-cite-100395">
+                <span id="dsq-author-user-100395">Matt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100395" class="dsq-comment-body">
+            <div id="dsq-comment-message-100395" class="dsq-comment-message"><p>You can add someone as an external tester</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-100445">
+        <div id="dsq-comment-header-100445" class="dsq-comment-header">
+            <cite id="dsq-cite-100445">
+                <span id="dsq-author-user-100445">Sergey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100445" class="dsq-comment-body">
+            <div id="dsq-comment-message-100445" class="dsq-comment-message"><p>But before external tester can test the app it has to be reviewed for beta testing by Apple which takes about one week</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-101017">
+        <div id="dsq-comment-header-101017" class="dsq-comment-header">
+            <cite id="dsq-cite-101017">
+                <span id="dsq-author-user-101017">dstudeba</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101017" class="dsq-comment-body">
+            <div id="dsq-comment-message-101017" class="dsq-comment-message"><p>The beta App review is shorter.  Mine just took a day.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100079">
+        <div id="dsq-comment-header-100079" class="dsq-comment-header">
+            <cite id="dsq-cite-100079">
+                <span id="dsq-author-user-100079">Damitha Raveendra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100079" class="dsq-comment-body">
+            <div id="dsq-comment-message-100079" class="dsq-comment-message"><p>Thanks for the information. Nice tutorial. Loved Testflight earlier, not so after this change.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-100481">
+        <div id="dsq-comment-header-100481" class="dsq-comment-header">
+            <cite id="dsq-cite-100481">
+http://www.hoadn.com/                <span id="dsq-author-user-100481">Dang Ngoc Hoa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100481" class="dsq-comment-body">
+            <div id="dsq-comment-message-100481" class="dsq-comment-message"><p>Thank you for this post, very informative.<br />
+I am having problem with this at the moment, it&#8217;s seem that apple change the rules again. We have to test the app via Prerelease before make an submit to apple for review.<br />
+What i don&#8217;t like about this, after uploaded, it&#8217;s take too long to process the app.<br />
+Any idea about this?<br />
+Why all my new submit via app loader go to prerelease instead of release build?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100533">
+        <div id="dsq-comment-header-100533" class="dsq-comment-header">
+            <cite id="dsq-cite-100533">
+                <span id="dsq-author-user-100533">Glob Design</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100533" class="dsq-comment-body">
+            <div id="dsq-comment-message-100533" class="dsq-comment-message"><p>There is no way to ever resend an invite email in TestFlight in iTunes Connect. None. TestFlight sucks bigtime.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/testflight-beta-testing/';
+var disqus_identifier = '4164 http://www.appcoda.com/?p=4164';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "How to Beta Test Your App Using TestFlight";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=4164';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="4164"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Ftestflight-beta-testing%2F&#038;t=How%20to%20Beta%20Test%20Your%20App%20Using%20TestFlight" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4164" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>78</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=How%20to%20Beta%20Test%20Your%20App%20Using%20TestFlight&#038;url=http%3A%2F%2Fwww.appcoda.com%2Ftestflight-beta-testing%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4164" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>28</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Ftestflight-beta-testing%2F&#038;t=How%20to%20Beta%20Test%20Your%20App%20Using%20TestFlight" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4164" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>7</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Ftestflight-beta-testing%2F&#038;title=How%20to%20Beta%20Test%20Your%20App%20Using%20TestFlight" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4164" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>6</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Ftestflight-beta-testing%2F&#038;t=How%20to%20Beta%20Test%20Your%20App%20Using%20TestFlight" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4164" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=How%20to%20Beta%20Test%20Your%20App%20Using%20TestFlight&#038;url=http%3A%2F%2Fwww.appcoda.com%2Ftestflight-beta-testing%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4164" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Ftestflight-beta-testing%2F&#038;t=How%20to%20Beta%20Test%20Your%20App%20Using%20TestFlight" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4164" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Ftestflight-beta-testing%2F&#038;title=How%20to%20Beta%20Test%20Your%20App%20Using%20TestFlight" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4164" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/testflight-beta-testing\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="b2d1deddc1d7f280ca9cc2dcd5">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":4164,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:23:14 by W3 Total Cache -->

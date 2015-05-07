@@ -1,0 +1,871 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Introduction to UIActionSheet and UIPopoverController in iOS 7</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="In this tutorial, we give you a basic introduction to UIActionSheet and UIPopoverController. We&#039;ll work on a demo app to walk you through step-by-step."/>
+<link rel="canonical" href="http://www.appcoda.com/uiactionsheet-uipopovercontroller-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In this tutorial, we give you a basic introduction to UIActionSheet and UIPopoverController. We&#039;ll work on a demo app to walk you through step-by-step."/>
+<meta name="twitter:title" content="Introduction to UIActionSheet and UIPopoverController in iOS 7"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/05/uiactionsheet-featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Introduction to UIActionSheet and UIPopoverController Comments Feed" href="http://www.appcoda.com/uiactionsheet-uipopovercontroller-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=3447' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-3447 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-3447 post type-post status-publish format-standard hentry category-beginner category-course category-tutorials tag-ios-programming tag-uiactionsheet tag-uipopovercontroller tag-xcode-5 entry"><h1 class="entry-title">Introduction to UIActionSheet and UIPopoverController</h1> 
+<div class="post-info"><span class="date published time" title="2014-05-09T17:50:00+00:00">May 9, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/uiactionsheet-uipopovercontroller-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="3447 http://www.appcoda.com/?p=3447">9 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>All mobile applications, no matter what they are about, they have one common and obvious characteristic: They offer <em>interaction</em>, which means that they are not static, but require input or actions needed to be taken by users from time to time in order to function properly. One quite usual behavior, is the ability to provide ways that allow users to make <em>choices</em> or take decisions where it&#8217;s needed, and ultimately act that way on the applications&#8217; data or functionalities. iOS SDK provides a pre-made action-taking view controller, the <strong>UIActionSheet</strong>.</p>
+<p>Action sheets consist of a really convenient and fast way to display a bunch of options that the user should select from, and it is widely used in great number of applications. Its disadvantage though is that it adopts the iOS&#8217;s look and feel without being able to be graphically modified, therefore it might not fit to applications with customized GUI. </p>
+<p>Beyond action sheets, another very important and cool tool designed especially for the iPad, is the <strong>UIPopoverController</strong>. A popover controller is actually a <em>container</em> which is used to display content on top of another content. What makes it unique is the fact that it can be displayed almost everywhere around the screen of the iPad, but usually it&#8217;s shown near to the button that caused its appearing with a nice arrow pointing to the button&#8217;s direction. iOS by default encloses action sheets in popover controllers on iPad, but they can also be manually created for custom content.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/uiactionsheet-featured.jpg" alt="uiactionsheet-featured" class="aligncenter size-full wp-image-3469" /></div>
+<p>Before we begin working with those two view controllers, let&#8217;s do some more talking about them in order to get to know their basics, and then we&#8217;ll proceed on how to use them in projects. So, let me start by telling that both the UIActionSheet and UIPopoverController exist to serve the same purpose, and that is to provide a quick way for presenting content to the user. This content can be either a button-based menu (action sheet), or anything else originating from a view controller (popover controller). Undoubtably, they are both pretty useful tools, and everyone developing for iOS should master both of them. Their great difference lies to where each one is used, and that&#8217;s the essential fact you should be aware of: An action sheet can be used on any iOS device (iPhone, iPad), but a popover controller can be used only on iPad, as I have already said.<br />
+<span id="more-3447"></span></p>
+<p>Focusing now a bit on the UIActionSheet, right next is shown a sample of it on iPhone (that&#8217;s an action sheet we&#8217;ll create next in this tutorial):</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_1_normal_action_sheet.jpg" alt="Normal Action Sheet in iOS 7" class="aligncenter size-full wp-image-3452" /></div>
+<p>As you can see in the figure above, an action sheet can have three different kind of buttons: A <em>destructive</em> button displayed in red and usually used to highlight deletion actions, a <em>cancel</em> button that simply makes the action sheet to be dismissed, and a bunch of other normal buttons, whose number can vary depending on the provided options to the user. When an action sheet is presented, all of those buttons can be used, or just a combination of them, but surely the action sheet can&#8217;t be empty. We&#8217;ll see examples of that along our way in this tutorial.</p>
+<p>When working on iPad, actions sheets are displayed embedded into popover controllers. From the developers&#8217; point of view, no action is required for that, as the iOS automatically does it. However, it&#8217;s on the programmer&#8217;s hands to properly display the popover controller with the action sheet in it, and stay aligned to the Human Interface Guidelines. Further than that, keep in mind that the <em>cancel</em> button of the action sheet is not displayed on iPad, as tapping anywhere else but the action sheet is the same as tapping on the cancel button.</p>
+<p>About the UIPopoverController now, the next figure illustrates a popover controller on iPad (again, this is a popover we&#8217;ll create in this tutorial later on):</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_2_uipopovercontroller_example.jpg" alt="UIPopoverController Example in iOS 7" class="aligncenter size-full wp-image-3453" /></div>
+<p>If you have never worked with it, then it might sounds hard to make use of it. However, as you&#8217;ll ultimately find out, initializing and using popover controllers is just a matter of a couple of lines. Popovers are excellent tools, as they can show content almost anywhere you want around the screen. They are suitable for cases that user must interact in a quick fashion with a view controller, without losing from his eyes the current one. Besides that, the arrow pointing their origin is a beautiful visual effect, always attractive to the users.</p>
+<p>If you feel you want to learn more theoretical stuff about action sheets or popover controllers, then visit Apple&#8217;s documentation and have an in-depth study. That&#8217;s something I definitely encourage you to do. However, now it is time to proceed and see how everything works in practice.</p>
+<h2>App Overview</h2>
+<p>Now that you have a taste of what we are going to work with in this tutorial, let&#8217;s take a glance at the sample application we are about to develop next. So, let me begin by saying that we will deal firstly with action sheets. We&#8217;ll see how they can be presented, how to customize the displayed options, and of course, how to handle the user response and actions. All that will be done for the iPhone device family initially, through simple and practical examples.</p>
+<p>Next, we&#8217;ll see how action sheets work on iPad devices, and how they are displayed enclosed in popover controllers (UIPopoverController) automatically by the system. Actually, we will see how the examples implemented for the iPhone apply on iPad, and what differences may exist.</p>
+<p>Finally, we&#8217;ll focus on the popover controller itself. We will programmatically initialize and display one, in which we&#8217;ll add the contents of a new view controller.</p>
+<p>Everything will be presented in details, so if you are new to all these, be sure that you&#8217;ll definitely learn something when you reach the end of the tutorial. Having said all that, let&#8217;s get started.</p>
+<h2>App Creation</h2>
+<p>Let&#8217;s get started by creating the sample app of this tutorial. Launch Xcode and create a new project. In the first step of the guide that appears, select the <strong>Single View Application</strong> as the template of the app, in the <strong>Application</strong> category under the <strong>iOS</strong> section. Then click on the Next button.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_3_template1.jpg" alt="Create new Xcode Project" class="aligncenter size-full wp-image-3454" /></div>
+<p>In the second step, in the <strong>Product Name</strong> field set the <strong>ActionSheetDemo</strong> value. Then in the <strong>Devices</strong> drop down menu, select the <strong>Universal</strong> option so it works on both the iPhone and the iPad. Once you do so, click on the Next button again.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_4_template2.jpg" alt="UIActionSheet - Set Project Options" class="aligncenter size-full wp-image-3455" /></div>
+<p>Finally, in the last step select a destination directory to save the project and click Create. It is now ready, so we can keep on going with the UIActionSheet demonstration.</p>
+<h2>Presenting a UIActionSheet</h2>
+<p>Now that there is a project to work on, let&#8217;s see how a UIActionSheet view controller can be displayed. Before doing so though, open the <em>Main_iPhone.storyboard</em> file by clicking on its name on the Project Navigator. Once the Interface Builder is appeared, add the following three <em>UIButton</em> objects, as described and shown below:</p>
+<p><em>Button #1:</em><br />
+1. <strong>Title</strong>: <em>Normal Action Sheet</em><br />
+2. <strong>Frame</strong>: X=81, Y=228, Width=159, Height=33</p>
+<p><em>Button #2:</em><br />
+1. <strong>Title</strong>: <em>Delete Confirmation Action Sheet</em><br />
+2. <strong>Frame</strong>: X=32, Y=269, Width=256, Height=33</p>
+<p><em>Button #3:</em><br />
+1. <strong>Title</strong>: <em>Colors Action Sheet</em><br />
+2. <strong>Frame</strong>: X=83, Y=310, Width=154, Height =33</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_5_iphone_ib_buttons.jpg" alt="Storyboard - Associate button outlet" class="aligncenter size-full wp-image-3456" /></div>
+<p>Now, open the <em>ViewController.h</em> file, and declare the next three IBAction methods:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showNormalActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showDeleteConfirmation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showColorsActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Then, return to the Interface Builder and connect each one to the appropriate button, matching the method names with the button titles. Get finished with that and then open the <em>ViewController.m</em> file to write some code.</p>
+<p>Let&#8217;s begin by implementing the <em>showNormalActionSheet:</em> IBAction method, and let&#8217;s display our first action sheet. What you always have to do is to initialize a UIActionSheet object (either local or a class property) in the way that&#8217;s shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"> <span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showNormalActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; UIActionSheet <span style="color: #002200;">*</span>actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;What do you want to do with the file?&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cancel&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Delete it&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Copy&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Move&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Duplicate&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you may conclude from the above code, in this action sheet we hypothetically provide to the user some file handling options. Let&#8217;s talk a bit about the initialization method, which as you see it accepts a great number of parameters. The first one is a title that&#8217;s displayed on top of the action sheet with small letters, and usually is a prompt message or a question about the action that&#8217;s about to be taken. The second one is the delegate of the action sheet, which can be set to <em>nil</em> if you are not planning to implement any delegate method (something that&#8217;s really rare though), otherwise the <em>self</em> object is usually set. The <em>cancelButtonTitle</em> parameter accepts a desired title for the cancel button, which always is placed at the bottom of the action sheet, separately from the others, and as its name suggests, it simply forces the action sheet to be dismissed without any action performed. Next, the destructive button is a special button colored in red, and is used to indicate a critical action, such as a deletion. In the respective parameter you set its title. This button is always first in the buttons&#8217; order. Finally, the <em>otherButtonTitles</em> parameter accepts a nil terminated string, and in here the titles of the rest buttons existing on the action sheet are set. All of the normal buttons are positioned between the destructive and the cancel button.</p>
+<p>When initializing an action sheet, it&#8217;s not mandatory to have all kind of buttons if you don&#8217;t need them. To avoid a button&#8217;s appearance on the sheet, you simply set the nil value to the respective parameter and the button won&#8217;t appear. We&#8217;ll see that later.</p>
+<p>Now, to make the action sheet appear when the button gets tapped, you need to add one more command right after the initialization:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showNormalActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UIActionSheet <span style="color: #002200;">*</span>actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;What do you want to do with the file?&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cancel&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Delete it&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Copy&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Move&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Duplicate&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Before you test it, open the <em>ViewController.h</em> file and make our class conform to the <em>UIActionSheetDelegate</em> protocol. That&#8217;s necessary to fix the warning Xcode appears in the line where we declare <em>self</em> as the delegate of the action sheet. So, modify the interface header line as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController &lt;UIActionSheetDelegate&gt;</div></td></tr></tbody></table></div>
+<p>Build and run the application now for first time. Click on the <strong>Normal Action Sheet</strong> button, and the action sheet will appear. Pretty nice, don&#8217;t you think? With just a couple of lines we managed to implement an option menu and present it to the user.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_1_normal_action_sheet.jpg" alt="Normal Action Sheet in iOS 7" class="aligncenter size-full wp-image-3452" /></div>
+<p>Tap on any button you want and the action sheet will disappear. Even though it gets dismissed, for the time being we are unable to handle the tapped button. Don&#8217;t worry about that, we&#8217;ll fix it later on.</p>
+<h2>Customizing UIActionSheet Options</h2>
+<p>In the previous example, we created our first action sheet and we saw how it looks like when all of the buttons are used. However, such an action sheet might not always be suitable for every case you may encounter, and then you&#8217;ll definitely need to adjust the displayed options only to those you desire. I already mentioned previously that you can skip a button&#8217;s appearance if you simply set the nil value to the respective parameter value, and in this part of the tutorial we&#8217;ll see a couple of such examples.</p>
+<p>Let&#8217;s begin working with the second button we added to the view, titled <strong>Delete Confirmation Action Sheet</strong>. Let&#8217;s suppose that you have a table view full of contacts, and before deleting one you want to show a confirmation action sheet to the user. In that case, you would like to use a delete button to perform the actual deletion, and a cancel button just to dismiss it. This can be achieved easily, as long as you set to the <em>otherButtonTitles</em> parameter the nil value. The following IBAction implementation demonstrates exactly that (make sure you work on the <em>ViewController.m</em> file):</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showDeleteConfirmation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UIActionSheet <span style="color: #002200;">*</span>actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Really delete the selected contact?&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;No, I changed my mind&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Yes, delete it&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, the title of the action sheet is in accordance to the current occasion. Further than that, you see that you can set any title you wish to both the delete and cancel buttons.</p>
+<p>Now, run once again the application, and tap (or click on the Simulator) on the second button. Here&#8217;s you what you should see:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_6_delete_confirmation_action_sheet.jpg" alt="UIActionSheet - Delete Confirmation" class="aligncenter size-full wp-image-3457" /></div>
+<p>Let&#8217;s see now one more example. Let&#8217;s suppose you want to present an action sheet to let users select a color among five possible values, you don&#8217;t need of course to have a destructive button, and you don&#8217;t want to provide a cancel button too. In this case, you have to set the nil values to both the destructive and cancel button titles, and simply provide the nil terminated string with all the colors titles. The implementation of the next IBAction method shows just that:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showColorsActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UIActionSheet <span style="color: #002200;">*</span>actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Pick a color:&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Red&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Green&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Blue&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Orange&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Purple&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you run the application now, you&#8217;ll see that only simple buttons are displayed on the action sheet, while the destructive and cancel buttons have been omitted. Here&#8217;s a sample of what you should see on your screen when tapping on the third button:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_7_colors_action_sheet.jpg" alt="Colors Action Sheet" class="aligncenter size-full wp-image-3458" /></div>
+<p>Through these two examples it was made clear how you can use the provided kinds of buttons depending on your project&#8217;s needs. It&#8217;s amazingly easy to create a menu of options and show them to the user, make various button combinations, and as you&#8217;ll see right next, it&#8217;s very easy to handle the user response too. The only drawback is that you cannot modify the sheet&#8217;s visual style, and that can consist of a prohibitive reason for not using it to customized applications.</p>
+<h2>Handling Actions</h2>
+<p>The <em>UIActionSheetDelegate</em> protocol we previously adopted, provides a few delegate methods that can be used in order to fully control the user response to action sheets. In this section we are going to talk about all of them, and we&#8217;ll begin by the most commonly used one, the <em>actionSheet:clickedButtonAtIndex:</em>.</p>
+<p>This method as you probably correctly guess, returns the index of the button that was tapped to an action sheet. You should always keep in mind that the index of the top most button is 0 (zero), and moving towards bottom the index gets increased by one. There will be times that you&#8217;ll want to get the title of the tapped button instead of its index. That&#8217;s easy to get, as the <em>actionSheet</em> parameter object supports a method named <em>buttonTitleAtIndex:</em>. Providing it simply with the tapped button index, you get the appropriate title. Also, in most of the times you&#8217;ll probably use a <em>switch</em> or an <em>if</em> structure in order to perform the appropriate action, depending on the user response.</p>
+<p>When you have just one action sheet in your view controller, then it&#8217;s simple to handle it using this delegate method. However, when you have multiple action sheets just like here, then you must define in which one a button has been tapped. That can be achieved by setting a <em>tag</em> value to each action sheet. So, go to all three IBAction methods we previously implemented and set to each action sheet a tag value as shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">// showNormalActionSheet:</span><br />
+actionSheet.tag <span style="color: #002200;">=</span> <span style="color: #2400d9;">100</span>;<br />
+<br />
+<span style="color: #11740a; font-style: italic;">// showDeleteConfirmation:</span><br />
+actionSheet.tag <span style="color: #002200;">=</span> <span style="color: #2400d9;">200</span>;<br />
+<br />
+<span style="color: #11740a; font-style: italic;">// showColorsActionSheet:</span><br />
+actionSheet.tag <span style="color: #002200;">=</span> <span style="color: #2400d9;">300</span>;</div></td></tr></tbody></table></div>
+<p>In the following implementation of the delegate method, we&#8217;ll show a message in the debugger, customized depending on the displayed action sheet. Also, we&#8217;ll log the tapped button index and its title:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>actionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIActionSheet <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>actionSheet clickedButtonAtIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>buttonIndex<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>actionSheet.tag <span style="color: #002200;">==</span> <span style="color: #2400d9;">100</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;The Normal action sheet.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>actionSheet.tag <span style="color: #002200;">==</span> <span style="color: #2400d9;">200</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;The Delete confirmation action sheet.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;The Color selection action sheet.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Index = %d - Title = %@&quot;</span>, buttonIndex, <span style="color: #002200;">&#91;</span>actionSheet buttonTitleAtIndex<span style="color: #002200;">:</span>buttonIndex<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Test the app now. Depending on what action sheet you display and the button you tap, the respective message appears on the debugger.</p>
+<p>Let&#8217;s go back to code, and let&#8217;s examine the rest of the delegate methods, which you may find useful in many situations during your programming life. The first one is the <em>actionSheet:didDismissWithButtonIndex:</em> method. This one works just like the previous one, but it gets called <em>after</em> the action sheet has been dismissed. The next code segment illustrates a simple use of it, where firstly we make sure that the dismissed action sheet&#8217;s tag value equals to 300, and then display the selected color name:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>actionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIActionSheet <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>actionSheet didDismissWithButtonIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>buttonIndex<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>actionSheet.tag <span style="color: #002200;">==</span> <span style="color: #2400d9;">300</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;From didDismissWithButtonIndex - Selected Color: %@&quot;</span>, <span style="color: #002200;">&#91;</span>actionSheet buttonTitleAtIndex<span style="color: #002200;">:</span>buttonIndex<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Run the app once again, and tap on the third button. Select a color and look at your debugger. You&#8217;ll notice that the message from this method is logged with a small delay, and after the action sheet has disappeared.</p>
+<p>Besides that method, there&#8217;s also the <em>actionSheet:willDismissWithButtonIndex:</em> one. On contrary to the above delegate method, this one is called <em>before</em> the action sheet gets dismissed. Implement it and add the same code as previously:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>actionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIActionSheet <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>actionSheet willDismissWithButtonIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>buttonIndex<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>actionSheet.tag <span style="color: #002200;">==</span> <span style="color: #2400d9;">300</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;From willDismissWithButtonIndex - Selected Color: %@&quot;</span>, <span style="color: #002200;">&#91;</span>actionSheet buttonTitleAtIndex<span style="color: #002200;">:</span>buttonIndex<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Run the application again and watch your debugger. You&#8217;ll see that the message coming from this method is appeared before the action sheet disappears.</p>
+<p>These are the delegate methods provided, but it&#8217;s almost certain that in 98% of cases the first one is what you&#8217;ll use.</p>
+<h2>Action Sheet on iPad</h2>
+<p>Up to this point, we&#8217;ve managed to learn the basic principles regarding the UIActionSheet, and the ways the user response can be handled. Also, our implementation was limited to iPhone-style devices only, as this is our primary device target when messing around with new stuff. However, now that theUIActionSheet essentials have become known, it&#8217;s important to see how action sheets should be treated when working on iPad devices, as things change a bit here.</p>
+<p>If you ever developed for iPad, or if you are simply an iPad user, then you know that it contains a pretty nice view controller, not available on iPhone or iPod devices, the <strong>UIPopoverController</strong>. As I have already said in the introduction of the tutorial, the UIPopoverController is quite useful when it&#8217;s necessary to show contents next to a button, cell, or anything else that has triggered an action. iPad devices are suitable for using them, as the big screen leaves enough room to display them in various sizes.</p>
+<p>So, going back to our previous talk, when an action sheet is necessary to be presented to an iPad, <em>iOS encloses it into a UIPopoverController view</em>. The really important clue here is that the <em>cancel</em> button does not appear on the action sheet, because the result of that button is the same to tapping out of the popover controller; both of those dismiss popover controller/action sheet without performing any task. The existence of the cancel button would be confusing for users, so Apple engineers designed it that way so it gets removed when the target device is an iPad.</p>
+<p>Apart from the above, there are also differences on the way an action sheet is shown, programmatically speaking this time. Before getting into those details though, it would be more meaningful and rewarding to see everything in practice, so let me make a turn and guide you from another path.</p>
+<p>On the Project Navigator pane, click on the <em>Main_iPad.storyboard</em> file to let the iPad interface appear in the Interface Builder. Add the three buttons we added on the iPhone interface here too, as my goal is to demonstrate how similar things are handled differently in both devices. The button details:</p>
+<p><em>Button #1:</em><br />
+1. <strong>Title</strong>: <em>Normal Action Sheet</em><br />
+2. <strong>Frame</strong>: X=313, Y=459, Width=142, Height=30</p>
+<p><em>Button #2:</em><br />
+1. <strong>Title</strong>: <em>Delete Confirmation Action Sheet</em><br />
+2. <strong>Frame</strong>: X=270, Y=497, Width=229, Height=33</p>
+<p><em>Button #3:</em><br />
+1. <strong>Title</strong>: <em>Colors Action Sheet</em><br />
+2. <strong>Frame</strong>: X=316, Y=535, Width=137, Height =30</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_8_ipad_ib_buttons.jpg" alt="iPad PopoverController Demo" class="aligncenter size-full wp-image-3459" /></div>
+<p>Finish with the button preparation and then connect the existing IBAction methods to them appropriately. When you are ready, go to the <em>ViewController.m</em> file and in the implementation of the <em>showNormalActionSheet:</em> method. If you followed the steps in the previous sections of the tutorial, here&#8217;s what it should look like:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showNormalActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UIActionSheet <span style="color: #002200;">*</span>actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;What do you want to do with the file?&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cancel&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Delete it&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Copy&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Move&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Duplicate&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; actionSheet.tag <span style="color: #002200;">=</span> <span style="color: #2400d9;">100</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Run the app, but make sure to either select an iPad simulator device, or connect a real device directly. You must be watching a view similar to the next one if you tap (or click) on the first button:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_9_ipad_default_actionsheet.jpg" alt="iPad Default ActionSheet" class="aligncenter size-full wp-image-3460" /></div>
+<p>What you see is the default way an action sheet appears to an iPad, and as you notice the cancel button is missing. When tapping anywhere out of the popover view, you&#8217;ll see in the debugger the message from the <em>actionSheet:clickedButtonAtIndex:</em> method, just like if you were tapping on the cancel button.</p>
+<p>The way the action sheet appears is not the best possible solution, as the purpose of the popover controller is to be displayed next to the control that triggers its appearance, and even more, an arrow pointing to that control should be visible too. Very rarely, almost never one could say, an action sheet appears just like that in the centre of the screen.</p>
+<p>So, what can we do to overcome this? Well, only two steps are required. The first one is to define whether the device the app works is an iPhone/iPod or an iPad. In the second case, we just have to change the way the action sheet appears on the screen. In action now, go to the IBAction method, and right below the initialization of the action sheet, add the next condition:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>UI_USER_INTERFACE_IDIOM<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">==</span> UIUserInterfaceIdiomPad<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In this case the device is an iPad.</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In this case the device is an iPhone/iPod Touch.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With the <em>UI_USER_INTERFACE_IDIOM()</em> macro you can check if you have an iPad or iPhone user interface, and ultimately follow the one or another path. In the above code, we use the <em>else</em> case to present the action sheet normally to an iPhone/iPod Touch device. </p>
+<p>If you run the app now, you&#8217;ll find out that when tapping on the first button nothing happens, and that&#8217;s totally normal as there&#8217;s nothing to be executed in the <em>if</em> clause. Return to the code, and add in the <em>if</em> body the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>actionSheet showFromRect<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender frame<span style="color: #002200;">&#93;</span> inView<span style="color: #002200;">:</span>self.view animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>This action sheet method accepts three parameters: The frame to be shown from, the view that it will be shown to, and a flag indicating an animating appearance or not. In our case, we want the popover controller of the action sheet to originate from the button that triggers its display, so in the <em>showFromRect</em> parameter we specify the frame of the sender button. The rest is easy. Now run the app again and tap on the first button. The result is the proper and desired one:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_10_ipad_normal_actionsheet.jpg" alt="Normal Action sheet on iPad" class="aligncenter size-full wp-image-3461" /></div>
+<p>Below you are given all three IBAction methods modified appropriately, so the properly work for all devices:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br />43<br />44<br />45<br />46<br />47<br />48<br />49<br />50<br />51<br />52<br />53<br />54<br />55<br />56<br />57<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showNormalActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UIActionSheet <span style="color: #002200;">*</span>actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;What do you want to do with the file?&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cancel&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Delete it&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Copy&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Move&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Duplicate&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>UI_USER_INTERFACE_IDIOM<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">==</span> UIUserInterfaceIdiomPad<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In this case the device is an iPad.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showFromRect<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender frame<span style="color: #002200;">&#93;</span> inView<span style="color: #002200;">:</span>self.view animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In this case the device is an iPhone/iPod Touch.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; actionSheet.tag <span style="color: #002200;">=</span> <span style="color: #2400d9;">100</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showDeleteConfirmation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UIActionSheet <span style="color: #002200;">*</span>actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Really delete the selected contact?&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;No, I changed my mind&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Yes, delete it&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>UI_USER_INTERFACE_IDIOM<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">==</span> UIUserInterfaceIdiomPad<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In this case the device is an iPad.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showFromRect<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender frame<span style="color: #002200;">&#93;</span> inView<span style="color: #002200;">:</span>self.view animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In this case the device is an iPhone/iPod Touch.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; actionSheet.tag <span style="color: #002200;">=</span> <span style="color: #2400d9;">200</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showColorsActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UIActionSheet <span style="color: #002200;">*</span>actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Pick a color:&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Red&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Green&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Blue&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Orange&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Purple&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>UI_USER_INTERFACE_IDIOM<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">==</span> UIUserInterfaceIdiomPad<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In this case the device is an iPad.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showFromRect<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender frame<span style="color: #002200;">&#93;</span> inView<span style="color: #002200;">:</span>self.view animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// In this case the device is an iPhone/iPod Touch.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>actionSheet showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; actionSheet.tag <span style="color: #002200;">=</span> <span style="color: #2400d9;">300</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now you know how to distinguish the device in which your app runs, and how to properly present an action sheet. Go ahead and try out all three buttons to see how the action sheet appears on iPad:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_11_ipad_delete_confirmation.jpg" alt="Delete Confirmation on iPad" class="aligncenter size-full wp-image-3462" /></div>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_12_ipad_colors_actionsheet.jpg" alt="Color selection action sheet on iPad" class="aligncenter size-full wp-image-3463" /></div>
+<p>You may notice that when showing the colors action sheet and then tapping out of the popover controller, the app crashes. That&#8217;s because there is not a cancel button. To counterattack it, in the <em>showColorsActionSheet:</em> method either instead of nil set a cancel button title, or at the top of the method add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>cancelTitle <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>UI_USER_INTERFACE_IDIOM<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">==</span> UIUserInterfaceIdiomPad<span style="color: #002200;">&#41;</span> ? <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cancel&quot;</span> <span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span>;</div></td></tr></tbody></table></div>
+<p>and in the <em>cancelButtonTitle</em> parameter set the <em>cancelTitle</em> value. This time it will work perfectly.</p>
+<h2>Action Sheet Showing Extras</h2>
+<p>Until the last section of this tutorial we saw two ways for presenting an action sheet. The first one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>actionSheet showInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>works on all devices, while the next one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>actionSheet showFromRect<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender frame<span style="color: #002200;">&#93;</span> inView<span style="color: #002200;">:</span>self.view animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>has effect only on iPad. Further than those two methods, there are a few more that I consider as a good idea I should refer to, so let&#8217;s give them a quick look.</p>
+<p>The first method we&#8217;ll talk about, is the <em>showFromTabBar:</em>, which as you guess is useful when there is a tab bar in your application. It mostly works on iPhone/iPod Touch devices, and its purpose is to allow an action sheet to properly appear without get overlapped by the tab bar. Actually, the action sheet originates from it and not from the view&#8217;s bottom side. On iPad the action sheet will simply appear on the centre of the screen, without any arrow pointing to some point.</p>
+<p>Similar to the above is the <em>showFromToolbar:</em> method. It&#8217;s used when a toolbar exists at the bottom side of the view, and the action sheet must be properly shown without be overlapped by the toolbar.</p>
+<p>Finally, there&#8217;s also the <em>showFromBarButtonItem:animated:</em> method, which is helpful on iPad for displaying an action sheet with its popover view pointing to the bar button item that triggered the appearing.</p>
+<p>As you see, there are methods suitable for iPhone devices, and methods suitable for iPad devices. However, this doesn&#8217;t mean that they cannot be used the other way round. On iPhone, all methods have the same result and the action sheet is shown from the bottom side of the screen, or from the tab bar/toolbar. On iPad methods that do not display the popover with the action sheet to a specific place with a pointing arrow, they just show it to the centre of the screen. When displaying action sheets, always make sure that you use the appropriate method for presenting them so as to make sure that you are aligned to the recommended interface guidelines.</p>
+<h2>Working with UIPopoverController</h2>
+<p>Now that we have talked about action sheets and how they are displayed on both iPhone and iPad devices, let&#8217;s do some more discussion about the UIPopoverController. Until now we referenced it a lot of times, but still we haven&#8217;t made any implementation that allow us to manually create and show one. So, in this part we will see how it can be used in general cases, as the purpose of its existence lies to usages other than simply displaying action sheets.</p>
+<p>The great with the popover controller is that it can display the contents of any view controller to the position you define, usually near the button that triggers its appearance. It can get any size you want, and the arrow that points to the button that originates from, along with the fade effect, result to a very fancy, convenient and useful tool for presenting content on top of other content when working on iPad.</p>
+<p>We will see how popover controller works through a practical example. We will use a new view controller and we will display its contents in the popover. This view controller will contain a sample user data form, where some basic info can be filled in and selected (user name, age range and gender). The following Interface Builder screenshot will make it more clear:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_13_ib_data_entry.jpg" alt="Interface Builder Data Entry" class="aligncenter size-full wp-image-3464" /></div>
+<p>Also, the view controller will have its own <em>xib</em> file with the interface designed in it, which will be called upon initialization. Finally, through the implementation of a protocol and a delegate method we&#8217;ll get the entered/selected data from the new view controller back to the normal one.</p>
+<p>To focus on the important stuff, we won&#8217;t manually create the new view controller. Instead, please go ahead to <a href="https://dl.dropboxusercontent.com/u/2857188/TestViewController.zip">download the related files</a> now, and add them to the project. Make sure you add all of the following files:</p>
+<ul>
+<li>TestViewController.h</li>
+<li>TestViewController.m</li>
+<li>TestViewController.xib</li>
+</ul>
+<p>Supposing at this point that you have downloaded and added all files and you are ready to proceed, let&#8217;s create a new button to the iPad interface. Click on the <em>Main_iPad.storyboard</em> file, and let Interface Builder appear. Then, get a UIButton from the Object Library, and set the next properties:</p>
+<ol>
+<li><strong>Frame</strong>: X=310, Y=239, Width=149, Height=30</li>
+<li><strong>Title</strong>: <em>User Data Entry Form</em></li>
+</ol>
+<p>After that, open the <em>ViewController.h</em> file, and declare the following IBAction method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showUserDataEntryForm<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;</div></td></tr></tbody></table></div>
+<p>Return to the Interface Builder, and connect that action method to the newly added button.</p>
+<p>Now, open once again the <em>ViewController.h</em> file, and firstly import the <em>TestViewController</em> class as shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;TestViewController.h&quot;</span></div></td></tr></tbody></table></div>
+<p>Also, make the <em>ViewController</em> class conform to the <em>TestViewControllerDelegate</em> protocol by adding it to the interface header line like below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController &lt;UIActionSheetDelegate, TestViewControllerDelegate&gt;</div></td></tr></tbody></table></div>
+<p>By adopting the above protocol, we&#8217;ll be able to use the delegate method of the <em>TestViewController</em> class later on and to get the entered data.</p>
+<p>Now, let&#8217;s go to the most essential part of this section, to the implementation of the IBAction method we previously declared and to the usage of the popover controller. For starters though, we must declare a private class property for the popover, so open the <em>ViewController.m</em> and go to the private section of the interface. In there, add the following property declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> UIPopoverController <span style="color: #002200;">*</span>userDataPopover;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Now, move straight ahead to the IBAction method implementation, where we will initialize and use the above object. As I already said in the beginning of this section, the special characteristic of the popover controller is the ability to display the contents of another view controller, therefore the first step we must make is to initialize an object of the <em>TestViewController</em> class.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showUserDataEntryForm<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; TestViewController <span style="color: #002200;">*</span>testViewController <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>TestViewController alloc<span style="color: #002200;">&#93;</span> initWithNibName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;TestViewController&quot;</span> bundle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; testViewController.delegate <span style="color: #002200;">=</span> self;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, upon initialization we load the view controller&#8217;s xib file as well, and beyond that, we make our class the delegate of the <em>testViewController</em> object. Now that we have a view controller on our hands, let&#8217;s use the popover controller object we privately declared and let it finally appear. We only need to add three commands, which we&#8217;ll see step by step. Initially, let&#8217;s perform the initialization:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">self.userDataPopover <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIPopoverController alloc<span style="color: #002200;">&#93;</span> initWithContentViewController<span style="color: #002200;">:</span>testViewController<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>It&#8217;s obvious that the view controller we want to display is directly given as a parameter to the popover controller. That&#8217;s why we first declared and initialized the <em>TestViewController</em> object. The next step is to define the popover size, which usually matches the contained view&#8217;s size:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">self.userDataPopover.popoverContentSize <span style="color: #002200;">=</span> CGSizeMake<span style="color: #002200;">&#40;</span><span style="color: #2400d9;">320.0</span>, <span style="color: #2400d9;">400.0</span><span style="color: #002200;">&#41;</span>;</div></td></tr></tbody></table></div>
+<p>Finally, let&#8217;s display it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>self.userDataPopover presentPopoverFromRect<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender frame<span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;inView<span style="color: #002200;">:</span>self.view<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;permittedArrowDirections<span style="color: #002200;">:</span>UIPopoverArrowDirectionAny<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>This method accepts four parameters as you can notice. The first one is the frame from which the popover originates, and usually is the button&#8217;s frame that is used to present it. The next one, is the view in which the popover controller will appear to. As you understand, it&#8217;s not always necessary to display it in the default view, but that&#8217;s the most common case. The third parameter specifies the direction of the arrow that appears on the popover controller, pointing to the button that originates from. Unless you make sure that the popover controller will always be displayed on the same place, then you&#8217;d better use <em>UIPopoverArrowDirectionAny</em> parameter to allow the system decide the position of the arrow. Don&#8217;t forget that when changing iPad&#8217;s orientation the popover controller can be re-positioned to a new place, and is quite possible that the arrow should point towards another direction. Finally, the last parameter specifies whether the popover will appear using animation or not, and usually that value is set to YES.</p>
+<p>Here&#8217;s the whole IBAction method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showUserDataEntryForm<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; TestViewController <span style="color: #002200;">*</span>testViewController <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>TestViewController alloc<span style="color: #002200;">&#93;</span> initWithNibName<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;TestViewController&quot;</span> bundle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; testViewController.delegate <span style="color: #002200;">=</span> self;<br />
+<br />
+&nbsp; &nbsp; self.userDataPopover <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIPopoverController alloc<span style="color: #002200;">&#93;</span> initWithContentViewController<span style="color: #002200;">:</span>testViewController<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.userDataPopover.popoverContentSize <span style="color: #002200;">=</span> CGSizeMake<span style="color: #002200;">&#40;</span><span style="color: #2400d9;">320.0</span>, <span style="color: #2400d9;">400.0</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.userDataPopover presentPopoverFromRect<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender frame<span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;inView<span style="color: #002200;">:</span>self.view<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;permittedArrowDirections<span style="color: #002200;">:</span>UIPopoverArrowDirectionAny<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you give the app a try now, then when tapping on the new button existing on the interface you&#8217;ll see the popover controller appearing and containing the <em>TestViewController</em> interface. Cool and fast way to show some content, right?</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/05/t11_2_uipopovercontroller_example.jpg" alt="UIPopoverController Example in iOS 7" class="aligncenter size-full wp-image-3453" /></div>
+<p>Back to code now, let&#8217;s implement the delegate method of the <em>TestViewController</em> class, in which we&#8217;ll simply log on the debugger the entered and selected data, and the we will dismiss the popover controller. There&#8217;s nothing especially hard in it, so here I give you its implementation:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>userDataChangedWithUsername<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>username andAgeRange<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>ageRange andGender<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>gender<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Your name is %@, your age range is %@ and your gender is %@&quot;</span>, username, ageRange, gender<span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.userDataPopover dismissPopoverAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Run the app once again now. You&#8217;ll find out that the Done button properly works, and on the debugger you see all the data you entered on the form. Also, the popover controller gets disappeared from the screen.</p>
+<p>In most of cases, what you read in here is the way that you&#8217;ll need to use the popover controller. The &#8220;hard&#8221; thing is to prepare the view controller that it will be contained, along with all the logic behind it, not the popover itself. However, in the rare cases you might need to use delegate methods, first make sure that your class conforms to the <em>UIPopoverControllerDelegate</em>, and then proceed to the implementation. The provided delegates methods are:</p>
+<ol>
+<li><em>popoverControllerShouldDismissPopover:</em> This one is called before the popover controller disappears from the screen.</li>
+<li><em>popoverControllerDidDismissPopover:</em> This one is called after the popover controller has disappeared from the screen.</li>
+</ol>
+<p>Use any, or both of them depending on your needs.</p>
+<h2>Summary</h2>
+<p>Reaching the end of this tutorial, it becomes clear that using action sheets and popover controllers consist of a very easy, fast and convenient way to present menus and content to the user. The great common element on both of them, is the fact that they can be presented almost instantly, with a little effort. The only drawback is that they may do not fit to the ecosystem on highly customized applications, but that&#8217;s something that developers know from the beginning. Closing, in case you don&#8217;t use any or both of these view controllers, I would advise you to start doing so, as they are time-saving tools and even more, it&#8217;s possible to make your apps look even more professional. Happy&#8230; action-taking!</p>
+<p>For your reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/ActionSheetDemo.zip">download the complete Xcode project from here</a>. Again, leave me comment if you have any questions.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/why-launching-appcoda/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/03/appcoda-launch1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Why Launching AppCoda?</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-game-tutorial-maze-part-1/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/Simple-Maze-Game-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating a Simple Maze Game for iPhone - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-univeral-app-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/11/universal-app-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming Tutorial: Creating a Universal App </div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/sidebar-menu-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-0-smaller-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating a Sidebar Menu Using SWRevealViewController in Swift</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/uiactionsheet-uipopovercontroller-tutorial/"
+    dc:identifier="http://www.appcoda.com/uiactionsheet-uipopovercontroller-tutorial/"
+    dc:title="Introduction to UIActionSheet and UIPopoverController"
+    trackback:ping="http://www.appcoda.com/uiactionsheet-uipopovercontroller-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/beginner/" rel="category tag">Beginner</a>, <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/uiactionsheet/" rel="tag">UIActionSheet</a>, <a href="http://www.appcoda.com/tag/uipopovercontroller/" rel="tag">UIPopoverController</a>, <a href="http://www.appcoda.com/tag/xcode-5/" rel="tag">Xcode 5</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-7309">
+        <div id="dsq-comment-header-7309" class="dsq-comment-header">
+            <cite id="dsq-cite-7309">
+                <span id="dsq-author-user-7309">Zane Kleinberg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7309" class="dsq-comment-body">
+            <div id="dsq-comment-message-7309" class="dsq-comment-message"><p>How can I use the UIPopoverController on the iPhone?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-7348">
+        <div id="dsq-comment-header-7348" class="dsq-comment-header">
+            <cite id="dsq-cite-7348">
+                <span id="dsq-author-user-7348">rmzVilaa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7348" class="dsq-comment-body">
+            <div id="dsq-comment-message-7348" class="dsq-comment-message"><p>Hi Zane, as the author says, &#8220;a popover controller can be used only on iPad&#8221;, and you can confirm this in the oficial documentation of Apple about the class, &#8220;Popover controllers are for use exclusively on iPad devices&#8221;. Good luck</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-13275">
+        <div id="dsq-comment-header-13275" class="dsq-comment-header">
+            <cite id="dsq-cite-13275">
+                <span id="dsq-author-user-13275">john</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13275" class="dsq-comment-body">
+            <div id="dsq-comment-message-13275" class="dsq-comment-message"><p>How to add a different background color to the PopOver, is their any custom subclassing to this?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-25341">
+        <div id="dsq-comment-header-25341" class="dsq-comment-header">
+            <cite id="dsq-cite-25341">
+                <span id="dsq-author-user-25341">Alex</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-25341" class="dsq-comment-body">
+            <div id="dsq-comment-message-25341" class="dsq-comment-message"><p>Is it possible to do a tutorial on how to show a view controller in a popover?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-51642">
+        <div id="dsq-comment-header-51642" class="dsq-comment-header">
+            <cite id="dsq-cite-51642">
+                <span id="dsq-author-user-51642">Gunjot Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51642" class="dsq-comment-body">
+            <div id="dsq-comment-message-51642" class="dsq-comment-message"><p>Thanks a lot for your great tutorials.<br />
+The best source i found.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://lamyiucho.wordpress.com/2014/10/10/introduction-to-uiactionsheet-and-uipopovercontroller/' rel='external nofollow' class='url'>Introduction to UIActionSheet and UIPopoverController | jolam</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='https://zhengfamily88.wordpress.com/2015/03/20/315/' rel='external nofollow' class='url'>Adding AirDrop File Sharing Feature to Your iOS Apps | Zheng Family</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100704">
+        <div id="dsq-comment-header-100704" class="dsq-comment-header">
+            <cite id="dsq-cite-100704">
+                <span id="dsq-author-user-100704">All Time Hero</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100704" class="dsq-comment-body">
+            <div id="dsq-comment-message-100704" class="dsq-comment-message"><p>Great. thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-101220">
+        <div id="dsq-comment-header-101220" class="dsq-comment-header">
+            <cite id="dsq-cite-101220">
+                <span id="dsq-author-user-101220">Eric</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101220" class="dsq-comment-body">
+            <div id="dsq-comment-message-101220" class="dsq-comment-message"><p>Hello and thank you for this tutorial is very good.<br />
+ I try to do the same thing but with a button and a DatePicker.</p>
+<p> The problem is that the object does not delagate. How can I do?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/uiactionsheet-uipopovercontroller-tutorial/';
+var disqus_identifier = '3447 http://www.appcoda.com/?p=3447';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Introduction to UIActionSheet and UIPopoverController";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=3447';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="3447"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fuiactionsheet-uipopovercontroller-tutorial%2F&#038;t=Introduction%20to%20UIActionSheet%20and%20UIPopoverController" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3447" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>48</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Introduction%20to%20UIActionSheet%20and%20UIPopoverController&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fuiactionsheet-uipopovercontroller-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3447" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>14</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fuiactionsheet-uipopovercontroller-tutorial%2F&#038;t=Introduction%20to%20UIActionSheet%20and%20UIPopoverController" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3447" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>4</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fuiactionsheet-uipopovercontroller-tutorial%2F&#038;title=Introduction%20to%20UIActionSheet%20and%20UIPopoverController" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3447" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>5</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fuiactionsheet-uipopovercontroller-tutorial%2F&#038;t=Introduction%20to%20UIActionSheet%20and%20UIPopoverController" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3447" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Introduction%20to%20UIActionSheet%20and%20UIPopoverController&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fuiactionsheet-uipopovercontroller-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3447" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fuiactionsheet-uipopovercontroller-tutorial%2F&#038;t=Introduction%20to%20UIActionSheet%20and%20UIPopoverController" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3447" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fuiactionsheet-uipopovercontroller-tutorial%2F&#038;title=Introduction%20to%20UIActionSheet%20and%20UIPopoverController" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3447" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/uiactionsheet-uipopovercontroller-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="187b74776b7d582a603668767f">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":3447,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:33:27 by W3 Total Cache -->

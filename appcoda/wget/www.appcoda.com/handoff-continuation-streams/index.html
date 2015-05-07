@@ -1,0 +1,895 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Working with iOS 8 Handoff Part 2: Continuation Streams</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This is part 2 of our handoff programming series. In this tutorial, we&#039;ll explore continuation streams, which is an optional feature of Handoff in iOS 8."/>
+<link rel="canonical" href="http://www.appcoda.com/handoff-continuation-streams/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This is part 2 of our handoff programming series. In this tutorial, we&#039;ll explore continuation streams, which is an optional feature of Handoff in iOS 8."/>
+<meta name="twitter:title" content="Working with iOS 8 Handoff Part 2: Continuation Streams"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/12/handoff-stream-featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Working with iOS 8 Handoff Part 2: Using Continuation Streams Comments Feed" href="http://www.appcoda.com/handoff-continuation-streams/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=4406' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-4406 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-4406 post type-post status-publish format-standard hentry category-advanced category-course category-swift-2 category-tutorials tag-handoff tag-ios-8 tag-swift tag-swift-programming entry"><h1 class="entry-title">Working with iOS 8 Handoff Part 2: Using Continuation Streams</h1> 
+<div class="post-info"><span class="date published time" title="2014-12-02T23:48:09+00:00">December 2, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/handoff-continuation-streams/#comments"><span class="dsq-postid" data-dsqidentifier="4406 http://www.appcoda.com/?p=4406">1 Comment</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>In my <a href="http://www.appcoda.com/handoff/">last tutorial</a> we met for first time the Handoff capability that was introduced in iOS 8.0. With it, an activity that is started in one iOS device can be continued to another from the point that was left off. Also, an activity can be continued on a Mac too, as long as the operating system is the version 10.10 (Yosemite) and a respective application exists. Obviously, it is a nice new feature that developers can take advantage of in order to create cool applications based on an entirely new philosophy.</p>
+<p>Through the demo application of the previous post we managed to see the basics of the Handoff: How it&#8217;s integrated into an application, how a user activity is defined and how it can be continued to another device. In this tutorial we&#8217;ll extend that application and we will learn a bit more advanced techniques which can become handy in several cases. If you haven&#8217;t read the previous tutorial regarding Handoff, then I encourage you to read it first so it&#8217;s easier for you to follow here. Before you proceed make sure that you&#8217;ve perfectly understood what the prerequisites of the Handoff are, and what a <em>user activity</em> is, as it consists of the base of the Handoff and everything else regarding it.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/handoff-stream-featured.jpg" alt="handoff-stream-featured" class="aligncenter size-full wp-image-4418" /></div>
+<p>A user activity object contains various useful properties, such as the user activity type which uniquely identifies an activity, and a user info dictionary, which contains the data that should be handed off. The most important data is transferred with this dictionary from device to device. However it&#8217;s not possible to transfer a lot of data to another device using this dictionary, and to be precise, Apple recommends to send data that it&#8217;s less than 3KB in size. In most cases this limit is more than enough, but a question arises here: How is it possible to send more data if needed so? The answer lies to the use of <em>streams</em>, which in the case of Handoff are called <strong>continuation streams</strong>, and this is exactly the topic of this tutorial.<br />
+<span id="more-4406"></span></p>
+<p>Continuation streams are optional when working with Handoff, and they are not required in order for it to properly work. However, it&#8217;s quite possible that you need it sometime, and as there&#8217;s no much help out there, it&#8217;s a good opportunity to discuss it here. Prior knowledge about streams is not required, but it would help a lot if you have worked with it in the past. If this isn&#8217;t your case, don&#8217;t worry. The actual work on streams is little and easy, and I&#8217;ll help you get it as much as possible.</p>
+<p>So, consider this tutorial as an addition to the previous one, and if you are ready let&#8217;s get started. I believe that by the end of this post you&#8217;ll have acquired all the necessary knowledge needed to fully support Handoff in your applications.</p>
+<h2>About the App</h2>
+<p>Before we start working on the topic of the today&#8217;s post, let me do a quick recap of the previous demo application. In it, we implemented a rudimentary contacts manager with three distinct and simple features:</p>
+<ol>
+<li>Insertion of a new contact (just the basic info; first name, last name, phone number and e-mail address).</li>
+<li>Listing of all the existing ones.</li>
+<li>Viewing of the details for a selected contact.</li>
+</ol>
+<p>The Handoff capability was implemented in addition to all the above. In order to achieve to hand off data from one device to another, we defined two <em>user activities</em>:</p>
+<ul>
+<li>The first one regards the editing of a contact. When a new one is being added to the app, the current state of the respective view controller along with any entered data is handed off to the second device once the Return key gets tapped on the keyboard.</li>
+<li>The second one regards the view of a contact&#8217;s details. Once the respective view controller is loaded and the data is displayed, the app hands off the current state to the other device.</li>
+</ul>
+<p>In both cases, the work can be continued exactly from the point that was left off.</p>
+<p>Focusing on what is coming next now, it&#8217;s important to make clear that our goal is to evolve the above application by making it capable of sending and receiving data through continuation streams. More specifically, here&#8217;s what we are going to perform:</p>
+<p>We will define a new user activity along with a new activity type, and we&#8217;ll use it in the view controller where all the existing contacts are listed (the <em>ViewController</em> class). This activity is necessary in order to send all existing contacts through streaming to another device, and obviously the best place to do that is when all contacts are displayed. The user info dictionary of the activity won&#8217;t be used to pass &#8220;vital&#8221; data. Actually, we don&#8217;t need it at all. However, because the handoff doesn&#8217;t work if no data is sent, we&#8217;ll just pass to the other device the total number of the existing contacts. With it, we&#8217;ll trigger the streaming functionality.</p>
+<p>The continuation streams work as follows: Once the continuing device receives an activity to continue with, it asks from the originating device to provide it with more data using streams by invoking a special method that we&#8217;ll see later. A delegate method on the originating device (implemented in the proper place) gets this request, prepares the data that should be sent and then streams it. Note that any data that is about to be transferred using streams, must be of <em>NSData</em> type. When all data has received, the continuing application handles it in the best possible way, and that&#8217;s all. The nature of each application specifies how the received data from a stream should be managed. For example, in our demo application we&#8217;ll post a notification to the <em>ViewController</em> class telling that new contacts data has received, so any previous data to be replaced.</p>
+<p>We&#8217;ll handle streams with the help of specific classes. We&#8217;ll use the <em>NSInputStream</em> class to manage input streams (streams to read from), and the <em>NSOutputStream</em> class to manage output streams (streams to write to). Also, we&#8217;ll adopt the <em>NSStreamDelegate</em> protocol where it&#8217;s necessary to do so.</p>
+<p>We are going to see everything in details as we move along. For the time being and for your convenience, you can <a href="https://www.dropbox.com/s/536ue0w0wbbidpo/HandoffStreamStarter.zip?dl=0">download the demo application</a> of the previous tutorial as our starter project here.</p>
+<p>With all the above said, let&#8217;s do some programming.</p>
+<h2>Contact Class: Conforming to NSCoding Protocol</h2>
+<p>Among the classes of the last tutorial&#8217;s project, there is one named <em>Contact</em>. It&#8217;s a custom class that was implemented in the previous post in order to describe a single contact object and to perform certain operations regarding contacts. Also, this is the place where we&#8217;ll start working from, so let me tell in short what we are about to do.</p>
+<p>As I said previously, the data that should be sent using streaming to another device must be expressed as a <em>NSData</em> object. In our case, what we want is to send the array with all existing contacts from one application to another using continuation streams. However, the array is just a <em>NSMutableArray</em> object which contains objects of the <em>Contact</em> class, and in order to convert it to a <em>NSData</em> object we must serialize it. This can&#8217;t be done though at once, because the class of any object that is about to be serialized must conform to the <em>NSCoding</em> protocol, and that&#8217;s a problem for us because our class does not conform to it.</p>
+<p>The <em>Contact</em> class can become quite easy an NSCoding-compliant one, as long as we implement two special methods for encoding and decoding its properties. After having done so, serialization can be performed with no problem at all. So, begin by opening the <em>Contact.swift</em> file. The first move is to adopt the <em>NSCoding</em> protocol. Go to the class header line, and modify it as shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class Contact<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a>, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Protocols/NSCoding_Protocol/"><span style="color: #2a6f76;">NSCoding</span></a></div></td></tr></tbody></table></div>
+<p>Okay, now let&#8217;s define the following method which is provided by the <em>NSCoding</em> protocol, so as to encode (archive) all the properties of the class.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func encodeWithCoder<span style="color: #002200;">&#40;</span>aCoder<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSCoder_Class/"><span style="color: #400080;">NSCoder</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; aCoder.encodeObject<span style="color: #002200;">&#40;</span>firstname, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;firstname&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; aCoder.encodeObject<span style="color: #002200;">&#40;</span>lastname, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;lastname&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; aCoder.encodeObject<span style="color: #002200;">&#40;</span>phoneNumber, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;phoneNumber&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; aCoder.encodeObject<span style="color: #002200;">&#40;</span>email, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;email&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; aCoder.encodeObject<span style="color: #002200;">&#40;</span>documentsDirectory, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;docdir&quot;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>encodeObject(_:forKey:)</em> method used above is one of the many similar methods that the <em>NSCoder</em> class supports for encoding almost every type of data. For every single property declared in the class, we call that method and we specify a unique key, so we&#8217;re able to decode them properly later.</p>
+<p>With the above method any <em>Contact</em> object can be archived, but it&#8217;s still unable to be unarchived. To achieve that too, we&#8217;ll implement the second and last method that is declared in the <em>NSCoding</em> protocol:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">required init<span style="color: #002200;">&#40;</span>coder aDecoder<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSCoder_Class/"><span style="color: #400080;">NSCoder</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; firstname <span style="color: #002200;">=</span> aDecoder.decodeObjectForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;firstname&quot;</span><span style="color: #002200;">&#41;</span> as? <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><br />
+&nbsp; &nbsp; lastname <span style="color: #002200;">=</span> aDecoder.decodeObjectForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;lastname&quot;</span><span style="color: #002200;">&#41;</span> as? <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><br />
+&nbsp; &nbsp; phoneNumber <span style="color: #002200;">=</span> aDecoder.decodeObjectForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;phoneNumber&quot;</span><span style="color: #002200;">&#41;</span> as? <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><br />
+&nbsp; &nbsp; email <span style="color: #002200;">=</span> aDecoder.decodeObjectForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;email&quot;</span><span style="color: #002200;">&#41;</span> as? <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><br />
+&nbsp; &nbsp; documentsDirectory <span style="color: #002200;">=</span> aDecoder.decodeObjectForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;docdir&quot;</span><span style="color: #002200;">&#41;</span> as? <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This time we do the exact opposite work: From the archived object of the parameter named <em>aDecoder</em>, we decode (unarchive) each single property of the class. Notice that the keys used above are the same to those that we set during the encoding of the properties. Also, the optional downcasting (the <em>as?</em>) here is required, as there may be a variable that was not set with an actual value (so it&#8217;s just nil) before archiving.</p>
+<p>The above are the only additions needed to be made to the <em>Contact</em> class. The &#8220;moral&#8221; that comes out it is this: You should always adopt to the <em>NSCoding</em> protocol (if the superclass doesn&#8217;t) and implement the encoding and decoding methods in your custom made classes, if you are planning to serialize them at some point. Anyway, speaking of serialization is out the scope, so I just recommend to look at the official documentation for further reading.</p>
+<h2>Defining a New Activity Type</h2>
+<p>In the next part of the tutorial we are going to configure and use a new user activity in the <em>ViewController</em> class. However, an activity cannot successfully work if an activity type hasn&#8217;t been set in the plist file of the project. So, here we&#8217;ll add this new type and then we&#8217;ll proceed in the user activity itself.</p>
+<p>Similarly to what we did in the previous tutorial, in the Project Navigator open the <strong>Supporting Files</strong> group, and then click in the <em>Info.plist</em> file. There locate the <em>NSUserActivityTypes</em> entry, and then expand it. The NSUserActivityTypes is an array, and each single content of it matches to an activity type that our application want to support. For the time being, there are already two types defined from the previous implementation. Our goal is to add a new one, so simply select the NSUserActivityTypes array, and then go to the <strong>Editor > Add Item</strong> menu.</p>
+<p>A new entry will be added as the first item of the array. Leave the default <em>String</em> type in it, and then specify the new activity type in the value textfield. The name of the new type is:</p>
+<p><strong>com.appcoda.handoffdemo.list-contacts</strong></p>
+<p>To avoid any mistyping, just copy and paste it from here. The new user activity that we&#8217;ll use next will be in the contact listing view controller, therefore we specify a name relevant to that. I remind you that an activity type should have a reverse-DNS style, just like the above, even though that&#8217;s not mandatory. It&#8217;s the best option for creating unique strings and making sure that there will be no chance to have the same type specified in two or more applications.</p>
+<p>In the NSUserActivityTypes array you should now have three items in total. The next image shows that:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t24_1_plist_sample.png" alt="t24_1_plist_sample" class="aligncenter size-full wp-image-4410" /></div>
+<p>Lastly, before we move forward, let me just remind you that even if an activity type is properly set in code to the respective user activity, the Handoff won&#8217;t work if the type is not specified in the plist file. That&#8217;s why what we did here is the first step regarding the new activity.</p>
+<h2>Creating a New User Activity</h2>
+<p>As I said many times until now, we are going to configure a new user activity which we&#8217;ll use for managing continuation streams. Now that we specified the activity type in the plist file, the app is capable of recognizing the new activity as a valid one, and eventually make the Handoff function.</p>
+<p>In the last post, in both the <em>EditContactViewController</em> and the <em>ViewContactViewController</em> class we created a custom method named <em>createUserActivity()</em>. In its body we set up the <em>userActivity</em> property of each view controller, and we finally called it upon the view appearance. The implementation of a similar method will be the first step in our effort to create a new user activity here too. Remember that the new user activity must be configured in the view controller in which the contacts are listed, therefore in the Project Navigator click on the <em>ViewController.swift</em> file to edit the respective class.</p>
+<p>Begin by adding the next code segment:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func createUserActivity<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; userActivity <span style="color: #002200;">=</span> NSUserActivity<span style="color: #002200;">&#40;</span>activityType<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;com.appcoda.handoffdemo.list-contacts&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; userActivity?.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;List Contacts&quot;</span><br />
+&nbsp; &nbsp; userActivity?.supportsContinuationStreams <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; userActivity?.delegate <span style="color: #002200;">=</span> self<br />
+&nbsp; &nbsp; userActivity?.becomeCurrent<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The first two commands, as well as the last one, are already known from the previous implementation. At start we initialize the user activity by specifying the proper type. Next we set a title to it. With the last command we make the activity current, meaning that this will be the one that will be handed of when needed.</p>
+<p>The interesting and important lines here are those two between. With this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">userActivity?.supportsContinuationStreams <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span></div></td></tr></tbody></table></div>
+<p>we make the activity capable of supporting continuation streams. The name of the property is quite explanatory.</p>
+<p>With the next command:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">userActivity?.delegate <span style="color: #002200;">=</span> self</div></td></tr></tbody></table></div>
+<p>the <em>ViewController</em> class becomes the delegate of the activity. This is a mandatory command, because we&#8217;ll need to implement a delegate method later which will handle the request for streaming from the continuing application.</p>
+<p>At this point Xcode complains because we set our class as the delegate of the activity. To silence the error, we must adopt a new protocol named <em>NSUserActivityDelegate</em>. Go to the top of the class (to the header line of it) and add the mentioned protocol:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class ViewController<span style="color: #002200;">:</span> UIViewController, UITableViewDelegate, UITableViewDataSource, EditContactViewControllerDelegate, NSUserActivityDelegate</div></td></tr></tbody></table></div>
+<p>Now that the <em>createUserActivity</em> function is ready, it&#8217;s time to call it. We will do that in the <em>viewDidAppear</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">:</span> Bool<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; super.viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; createUserActivity<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The first step is ready. Next, we must implement a method of the <em>NSUserActivity</em> class which we&#8217;ll use to update the state of the activity. Actually, if there&#8217;s data to send, then the Handoff will function when this method is called automatically by the iOS,. Let&#8217;s implement it first and then we&#8217;ll comment it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func updateUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">:</span> NSUserActivity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var contactsInfoDictionary<span style="color: #002200;">:</span> <span style="color: #002200;">&#91;</span>String<span style="color: #002200;">:</span> Int<span style="color: #002200;">&#93;</span> <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">&quot;totalContacts&quot;</span><span style="color: #002200;">:</span> contactsArray.count<span style="color: #002200;">&#93;</span><br />
+<br />
+&nbsp; &nbsp; userActivity?.addUserInfoEntriesFromDictionary<span style="color: #002200;">&#40;</span>contactsInfoDictionary<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; super.updateUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>I said previously that we are not going to hand off important data using the user info dictionary of the activity. We&#8217;ll do that with the continuation streams. However, if no data is send using the above method the hand off doesn&#8217;t work, and this fact makes it impossible to start streaming. So, we set the total number of the existing contacts to the user info dictionary just to trigger the hand off functionality. Specifically, in the first line we create a new dictionary which contains one value only: The number of the objects in the <em>contactsArray</em>. Next, this dictionary is assigned to the user info dictionary of the activity, and finally, the respective super method is called to update the super class as well.</p>
+<p>The implementation of the above method means that the user activity will be updated every time its state its changed, and in this case we want this to happen when the number of the existing contacts gets increased or decreased. The <em>NSUserActivity</em> class has a property (a flag) named <em>needsSave</em>, which when is true makes the system call the above method. With that in mind, it&#8217;s up to us to decide when we want this flag to become <em>true</em>. There are two places that this should happen: When a new contact is saved, and when an existing contact has been deleted.</p>
+<p>Start by going to the <em>contactWasSaved(contact:)</em> delegate method of the <em>EditContactViewControllerDelegate</em> protocol. For the time being the current implementation is the following:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func contactWasSaved<span style="color: #002200;">&#40;</span>contact<span style="color: #002200;">:</span> Contact<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; contactsArray.addObject<span style="color: #002200;">&#40;</span>contact<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; self.tblContacts.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>By adding the flag I said before, here&#8217;s how it should look like:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func contactWasSaved<span style="color: #002200;">&#40;</span>contact<span style="color: #002200;">:</span> Contact<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; contactsArray.addObject<span style="color: #002200;">&#40;</span>contact<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; self.tblContacts.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; userActivity?.needsSave <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With the above simple addition, every time that a new contact gets added to the app the state of the user activity will be updated, and that means that the handoff will work.</p>
+<p>Now, let&#8217;s do the same when a contact is deleted. This will take place in the <em>deleteContactAtIndex(index:)</em> method. Similarly as before, add the exact same command as before at the end of that method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func deleteContactAtIndex<span style="color: #002200;">&#40;</span>index<span style="color: #002200;">:</span> Int<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; contactsArray.removeObjectAtIndex<span style="color: #002200;">&#40;</span>index<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; Contact.updateSavedContacts<span style="color: #002200;">&#40;</span>contactsArray<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; tblContacts.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; userActivity?.needsSave <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now you can be sure that when a contact is deleted, the handoff will work.</p>
+<p>The new activity has been set up and we can proceed to the continuation streams. However, before doing so let&#8217;s perform one more small addition to the class, this time to the <em>restoreUserActivityState(activity:)</em> method. As it&#8217;s known, this method is called when a user activity is received by the app (when an activity is handed off), and it must be implemented to each view controller existing in the hierarchy up to the top most one. In the existing implementation that is shown below, we simply perform the proper segue depending on the view controller that the handed off activity regards:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">:</span> NSUserActivity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; continuedActivity <span style="color: #002200;">=</span> activity<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> activity.activityType <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;com.appcoda.handoffdemo.edit-contact&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.performSegueWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idSegueEditContact&quot;</span>, sender<span style="color: #002200;">:</span> self<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.performSegueWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idSegueViewContact&quot;</span>, sender<span style="color: #002200;">:</span> self<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; super.restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now that we have set up another activity, the above method is incomplete. We must modify it so it handles the new user activity, and of course to check for the new user activity type. In the case of this demo application we don&#8217;t really want to do something specific, so we&#8217;ll just log to the console the total number of the contacts existing in the user info dictionary of the received activity. Here&#8217;s the same method updated as needed:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">:</span> NSUserActivity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; continuedActivity <span style="color: #002200;">=</span> activity<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> activity.activityType <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;com.appcoda.handoffdemo.list-contacts&quot;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let totalNewContacts <span style="color: #002200;">=</span> activity.userInfo<span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">&quot;totalContacts&quot;</span><span style="color: #002200;">&#93;</span> as Int<br />
+&nbsp; &nbsp; &nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>totalNewContacts<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> activity.activityType <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;com.appcoda.handoffdemo.edit-contact&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.performSegueWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idSegueEditContact&quot;</span>, sender<span style="color: #002200;">:</span> self<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.performSegueWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idSegueViewContact&quot;</span>, sender<span style="color: #002200;">:</span> self<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; super.restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At this point all the initial implementation and preparation in the <em>ViewController</em> class is over. From now on we&#8217;ll focus on the continuation streams, and we&#8217;ll return here later to prepare the output stream that will contain the contact data.</p>
+<h2>Initiating Continuation Streams</h2>
+<p>A continuation streaming process is always triggered by the continuing device/application. If you recall, there are certain methods that are implemented in the application delegate of an app either mandatorily or optionally to handle the continuity, and among them the most important one is the <em>application(application:continueUserActivity:restorationHandler:)</em>. This delegate method is called at the moment a handed off user activity is received by the device, and its job is to promote that activity to the proper responder (i.e. to the proper view controller).</p>
+<p>What I just said is already known, as we met it in the last post. The new element now is that the above delegate method is extra valuable, as it consists of the place where the continuation streams begin to work. However, this is a quite generic word, so let me be more specific and say that there&#8217;s a special method of the <em>NSUserActivity</em> class that should be called in the body of the <em>application(application:continueUserActivity:restorationHandler:)</em> when continuations streams should be used.</p>
+<p>Let&#8217;s see everything in code now. In the <em>AppDelegate.swift</em> file the current implementation of the above application delegate method is this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, continueUserActivity userActivity<span style="color: #002200;">:</span> NSUserActivity, restorationHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>AnyObject<span style="color: #002200;">&#93;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let win <span style="color: #002200;">=</span> window <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let navController <span style="color: #002200;">=</span> win.rootViewController as UINavigationController<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let viewController <span style="color: #002200;">=</span> navController.topViewController as ViewController<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; viewController.restoreUserActivityState<span style="color: #002200;">&#40;</span>userActivity<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>What the above does is simple: It uses the <em>restoreUserActivityState(activity:)</em> method to propagate the received user activity to the proper view controller. Now, we&#8217;ll extend it a bit more, checking if continuation streams can actually work with the current activity:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, continueUserActivity userActivity<span style="color: #002200;">:</span> NSUserActivity, restorationHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>AnyObject<span style="color: #002200;">&#93;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> userActivity.supportsContinuationStreams <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>supportsContintuationStreams</em> property of the activity object tells for sure if streaming is supported by the current activity. It&#8217;s the same property that we set to <em>true</em> when we initialized the user activity in the <em>ViewController</em> class. This check is meaningful if you have more than one activities that support continuation streams, and not just one, like in this application. Here exists just for demonstrative reasons.</p>
+<p>The next step is to begin the continuation stream process by asking the originating device for more data:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, continueUserActivity userActivity<span style="color: #002200;">:</span> NSUserActivity, restorationHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>AnyObject<span style="color: #002200;">&#93;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> userActivity.supportsContinuationStreams <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; userActivity.getContinuationStreamsWithCompletionHandler<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span>inputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSInputStream_Class/"><span style="color: #400080;">NSInputStream</span></a><span style="color: #002200;">!</span>, outputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOutputStream_Class/"><span style="color: #400080;">NSOutputStream</span></a><span style="color: #002200;">!</span>, error<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>getContinuationStreamsWithCompletionHandler()</em> method does all the job. Simply by calling it, the originating device is provided with the stream objects of the completion handler, while the app here awaits to get data back through streaming. The input stream of the completion handler is the output stream that the originating device will write data to.</p>
+<p>For the time being we won&#8217;t do anything else here. Optionally, we could send some data using the output stream, but that&#8217;s not necessary. The next step is to handle the originating side of the app, where we are going to write the actual data to the stream, and after that we&#8217;ll get back here.</p>
+<h2>Writing Data to Output Stream</h2>
+<p>When the originating device/application is asked for continuation streams, the <em>userActivity(userActivity:didReceiveInputStream:outputStream:)</em> delegate method of the current activity is called. This delegate method is provided by the <em>NSUserActivityDelegate</em> protocol, which we have already adopted in the <em>ViewController</em> class. It&#8217;s our duty to prepare the data that will be streamed in this method, and eventually write to the output stream. Notice that the output stream that we&#8217;ll write data to, will become the input stream in the continuing device.</p>
+<p>Open the <em>ViewController.swift</em> file, and define that delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func userActivity<span style="color: #002200;">&#40;</span>userActivity<span style="color: #002200;">:</span> NSUserActivity, didReceiveInputStream inputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSInputStream_Class/"><span style="color: #400080;">NSInputStream</span></a>, outputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOutputStream_Class/"><span style="color: #400080;">NSOutputStream</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Before we implement it, let&#8217;s declare the following three instance variables (properties) to the class:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var outputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOutputStream_Class/"><span style="color: #400080;">NSOutputStream</span></a><span style="color: #002200;">!</span><br />
+<br />
+var dataToStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a><span style="color: #002200;">!</span><br />
+<br />
+var byteIndex<span style="color: #002200;">:</span> Int<span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>In the <em>outputStream</em> variable we will assign the output stream that the above delegate method has as a parameter. This is necessary to do, as after having configured the output stream and set the data to send, we&#8217;ll work with a delegate method of the <em>NSStreamDelegate</em> protocol that requires the stream object to remain <em>alive</em>, even if the program execution exits from the <em>userActivity(userActivity:didReceiveInputStream:outputStream:)</em> method.</p>
+<p>In the second variable named <em>dataToStream</em> we&#8217;ll assign the data that will be streamed. As you see, this is a <em>NSData</em> object. Actually, the contacts array will be serialized, and the results of the serialization will be assigned to that variable. All will become clear about this in just a while.</p>
+<p>Finally, the <em>byteIndex</em> integer variable is just a <em>pointer</em> that will indicate to the program the exact byte of the <em>dataToStream</em> object that should start writing to the output stream from. Also more about this in code.</p>
+<p>With the above three instance variables already declared, let&#8217;s go back to the <em>userActivity(userActivity:didReceiveInputStream:outputStream:)</em> method implementation. Right next I give it in one piece, and then we&#8217;ll discuss about it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func userActivity<span style="color: #002200;">&#40;</span>userActivity<span style="color: #002200;">:</span> NSUserActivity, didReceiveInputStream inputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSInputStream_Class/"><span style="color: #400080;">NSInputStream</span></a>, outputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOutputStream_Class/"><span style="color: #400080;">NSOutputStream</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let allContacts <span style="color: #002200;">=</span> contactsArray <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; byteIndex <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; dataToStream <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSKeyedArchiver_Class/"><span style="color: #400080;">NSKeyedArchiver</span></a>.archivedDataWithRootObject<span style="color: #002200;">&#40;</span>allContacts<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.outputStream <span style="color: #002200;">=</span> outputStream<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.outputStream.delegate <span style="color: #002200;">=</span> self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.outputStream.scheduleInRunLoop<span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSRunLoop_Class/"><span style="color: #400080;">NSRunLoop</span></a>.mainRunLoop<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>, forMode<span style="color: #002200;">:</span> NSDefaultRunLoopMode<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.outputStream.open<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>First of all, using an optional binding we make sure that there&#8217;s data to send. If the <em>allContacts</em> variable gets assigned with a value, then the app can proceed to the stream preparation.</p>
+<p>In the <em>if let</em> statement body now, at first the <em>byteIndex</em> variable gets its initial value. As this variable points to the byte position that should be grabbed data from and then written to the output stream, it&#8217;s obvious that initially it should read from the beginning of the <em>dataToStream</em> object. Note that all this will happen later.</p>
+<p>The next line is important: The contacts array is archived and serialized using the <em>NSKeyedArchiver</em> class, and the resulting data is assigned to the <em>dataToStream</em> object. Note that the serialization wouldn&#8217;t work and an error would be produced here during the app execution in case we skipped to make the <em>Contact</em> class NSCoding-compliant. Even though you can&#8217;t see directly how the <em>encodeWithCoder(_:)</em> affects the serialization, be sure that without it we would be unable to convert the contacts data from a <em>NSMutableArray</em> to a <em>NSData</em> object.</p>
+<p>Lastly, the output stream is being prepared. At first, we assign the <em>outputStream</em> parameter stream object to the instance variable we previously declared. Next, the <em>ViewController</em> class becomes the delegate of that output stream, as we&#8217;ll implement a delegate method right next to handle the data that will be streamed. Then, the thread to which the output stream will run is specified. To keep it simple, we let it run to the main thread of the application. Ultimately, using the <em>open()</em> method, the stream is opening for writing. Keep in mind that both the input and output streams this delegate method accepts are not opened, therefore you should do so manually as shown above.</p>
+<p>Now, our app knows what to do when it&#8217;s asked for continuation streams. Our next step is to adopt the <em>NSStreamDelegate</em> protocol, and then to implement a specific delegate method that is required to handle the data that will be written to the stream. Begin by going to the header of the class, and add the mentioned protocol as shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class ViewController<span style="color: #002200;">:</span> UIViewController, UITableViewDelegate, UITableViewDataSource, EditContactViewControllerDelegate, NSUserActivityDelegate, NSStreamDelegate</div></td></tr></tbody></table></div>
+<p>The delegate method that we&#8217;re about to implement now is called <em>stream(aStream:handleEvent:)</em>. This method should be always defined when working with streams for two main reasons: At first, this is the proper place to write data to output streams, or to read from input streams. At second, using the <em>handleEvent</em> parameter value, you are given the ability to define and check each possible state that a stream may enter to (open, ended, has available space, and more&#8230;), and of course to respectively act.</p>
+<p>Let&#8217;s get started. At first we must make sure that the current stream is the output one we want to edit, and that there&#8217;s available space on that stream to write to:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func stream<span style="color: #002200;">&#40;</span>aStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSStream_Class/"><span style="color: #400080;">NSStream</span></a>, handleEvent eventCode<span style="color: #002200;">:</span> NSStreamEvent<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> aStream <span style="color: #002200;">==</span> self.outputStream<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> eventCode <span style="color: #002200;">==</span> NSStreamEvent.HasSpaceAvailable<span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In this demo application the first <em>if</em> statement is not actually necessary, however I&#8217;m just showing you that you should always make sure that the stream you&#8217;re about to work with is the correct one.</p>
+<p>Next, the actual work for writing to the output stream is taking place. Note that the presented code is the Apple&#8217;s code from the documentation regarding the writing to output streams. I intentionally used it, because I considered to be a good idea to to have the same code in case you want to read more about streams (how to write to and how to read from them). There&#8217;s one difference only, the Apple&#8217;s example is written in Objective-C, while here I&#8217;ve converted it in Swift.</p>
+<p>Having said the above, let me give you the code and then explain how it works:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func stream<span style="color: #002200;">&#40;</span>aStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSStream_Class/"><span style="color: #400080;">NSStream</span></a>, handleEvent eventCode<span style="color: #002200;">:</span> NSStreamEvent<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> aStream <span style="color: #002200;">==</span> self.outputStream<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> eventCode <span style="color: #002200;">==</span> NSStreamEvent.HasSpaceAvailable<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var readBytes <span style="color: #002200;">=</span> dataToStream.bytes &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; readBytes <span style="color: #002200;">+=</span> byteIndex<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var dataLength <span style="color: #002200;">=</span> dataToStream.length<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var len<span style="color: #002200;">:</span> Int<span style="color: #002200;">!</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> dataLength <span style="color: #002200;">-</span> byteIndex &gt;<span style="color: #002200;">=</span> <span style="color: #2400d9;">1024</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; len <span style="color: #002200;">=</span> <span style="color: #2400d9;">1024</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; len <span style="color: #002200;">=</span> dataLength <span style="color: #002200;">-</span> byteIndex<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var buffer <span style="color: #002200;">=</span> Array&lt;UInt8&gt;<span style="color: #002200;">&#40;</span>count<span style="color: #002200;">:</span> len, repeatedValue<span style="color: #002200;">:</span> <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.opengroup.org/onlinepubs/009695399/functions/memcpy.html"><span style="color: #a61390;">memcpy</span></a><span style="color: #002200;">&#40;</span>UnsafeMutablePointer<span style="color: #002200;">&#40;</span>buffer<span style="color: #002200;">&#41;</span>, readBytes, UInt<span style="color: #002200;">&#40;</span>len<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; len <span style="color: #002200;">=</span> outputStream.write<span style="color: #002200;">&#40;</span>buffer, maxLength<span style="color: #002200;">:</span> len<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; byteIndex <span style="color: #002200;">=</span> byteIndex <span style="color: #002200;">+</span> len<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s begin &#8220;decoding&#8221; the above. If you&#8217;re new to this then keep reading. On the other hand, if you&#8217;re familiarized with streams you may skip the following. So, the first two lines&#8230;</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var readBytes <span style="color: #002200;">=</span> dataToStream.bytes &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+readBytes <span style="color: #002200;">+=</span> byteIndex</div></td></tr></tbody></table></div>
+<p>&#8230;are important for two reasons: At first, we make the <em>readBytes</em> variable to point to the contents of the <em>dataToStream</em> object. These contents are returned by the <em>bytes</em> property of the <em>NSData</em> class. This pointer defines where the program should start reading in the source data object from, with aim to write this data later to the output stream. By default, it points to the beginning of the data, so we use the <em>byteIndex</em> variable (the one we declared previously) for making the <em>readBytes</em> pointer point to the proper byte.</p>
+<p>Next, with the <em>var dataLength = dataToStream.length</em> line we just keep in a local variable the length of the whole data that&#8217;s about to be sent. It&#8217;s used right below.</p>
+<p>The data that will be streamed will be in packets of 1024 bytes in size (you can change that if you want), and that number specifies the length of an <em>array to which the read bytes will be added to</em>. In the next few lines this length is specified.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var len<span style="color: #002200;">:</span> Int<span style="color: #002200;">!</span><br />
+<span style="color: #a61390;">if</span> dataLength <span style="color: #002200;">-</span> byteIndex &gt;<span style="color: #002200;">=</span> <span style="color: #2400d9;">1024</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; len <span style="color: #002200;">=</span> <span style="color: #2400d9;">1024</span><br />
+<span style="color: #002200;">&#125;</span><br />
+<span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; len <span style="color: #002200;">=</span> dataLength <span style="color: #002200;">-</span> byteIndex<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Obviously, as long as there are enough bytes, the <em>len</em> variable will be equal to the 1024 value, however, it&#8217;s quite impossible for the last bytes to be 1024 exactly, therefore the length of the last &#8220;packet&#8221; is calculated on the fly.</p>
+<p>After that, an array known as <em>buffer</em> is being allocated. Note that its size is equal to the <em>len</em> value calculated above.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var buffer <span style="color: #002200;">=</span> Array&lt;UInt8&gt;<span style="color: #002200;">&#40;</span>count<span style="color: #002200;">:</span> len, repeatedValue<span style="color: #002200;">:</span> <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>With the following line, the read bytes from the source data is written to the buffer:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><a href="http://www.opengroup.org/onlinepubs/009695399/functions/memcpy.html"><span style="color: #a61390;">memcpy</span></a><span style="color: #002200;">&#40;</span>UnsafeMutablePointer<span style="color: #002200;">&#40;</span>buffer<span style="color: #002200;">&#41;</span>, readBytes, UInt<span style="color: #002200;">&#40;</span>len<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>But the most important one is the next command. It writes the buffer to the output stream:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">len <span style="color: #002200;">=</span> outputStream.write<span style="color: #002200;">&#40;</span>buffer, maxLength<span style="color: #002200;">:</span> len<span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>The above <em>write</em> stream method gets two arguments, the buffer with the data, and the size of the buffer. What it returns is the actual length of bytes that was written to the stream. Normally, this value is equal to the calculated one, however if any error occurs, it just returns -1. Keep that in mind if you want to check whether the output stream was written indeed or not.</p>
+<p>Lastly, we increase the <em>byteIndex</em> variable by the size of the written data to the stream:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">byteIndex <span style="color: #002200;">=</span> byteIndex <span style="color: #002200;">+</span> len</div></td></tr></tbody></table></div>
+<p>The above delegate method is called repeatedly until all the data has been sent, so upon the next calling the <em>byteIndex</em> variable will make the <em>readBytes</em> point to the proper byte.</p>
+<p>There&#8217;s one last thing that we should take care about before we say that we&#8217;ve finished our work here. If you remember, previously we used the <em>open()</em> function to open the output stream, and that means that we&#8217;re also responsible of closing it once there&#8217;s no more data to write. It doesn&#8217;t close automatically. To do that, we must check when its end is found, and then do so. Let&#8217;s add some more code to the above delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func stream<span style="color: #002200;">&#40;</span>aStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSStream_Class/"><span style="color: #400080;">NSStream</span></a>, handleEvent eventCode<span style="color: #002200;">:</span> NSStreamEvent<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> aStream <span style="color: #002200;">==</span> self.outputStream<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> eventCode <span style="color: #002200;">==</span> NSStreamEvent.HasSpaceAvailable<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> eventCode <span style="color: #002200;">==</span> NSStreamEvent.EndEncountered<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outputStream.close<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outputStream.removeFromRunLoop<span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSRunLoop_Class/"><span style="color: #400080;">NSRunLoop</span></a>.mainRunLoop<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>, forMode<span style="color: #002200;">:</span> NSDefaultRunLoopMode<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outputStream <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, a new <em>if</em> statement was added. In it, once we are sure that the end of the stream has been found, we close it, we remove it from the running thread, and finally we make it nil, so we can reuse it if needed (in this demo application this isn&#8217;t going to happen).</p>
+<p>Now everything is ready from the point of view of the originating device. Once it&#8217;s asked to send data using continuation streams, it prepares it and it sends it. Let&#8217;s see next how the continuing part will handle the received streamed data.</p>
+<h2>Reading Data From The Input Stream</h2>
+<p>Let&#8217;s see now what actions must be taken so the app can successfully handle the input continuation streams. In this part, what we&#8217;ll do is more or less the exact opposite thing of what we just did. Specifically, we will get the input stream, we&#8217;ll open it and then we&#8217;ll read the data that contains. Ultimately, when the reading is over we&#8217;ll convert the received contacts data to an array and we&#8217;ll replace the existing ones. The last action will take place in the last part. For now, we&#8217;ll focus on the input stream reading only.</p>
+<p>As you probably assume, we&#8217;ll work in the <em>AppDelegate.swift</em> file, and more specifically to the <em>application(application:continueUserActivity:restorationHandler:)</em> method. Previously, we made a call to the <em>getContinuationStreamsWithCompletionHandler()</em> there, but we didn&#8217;t add any code at all in the completion handler&#8217;s closure. Now we&#8217;ll add the proper code to handle the input stream.</p>
+<p>Once again, make sure that you&#8217;ve selected the <em>AppDelegate.swift</em> file in the Project Navigator. Initially, we&#8217;ll declare three instance variables that we&#8217;ll make use of in the upcoming implementation:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var inputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSInputStream_Class/"><span style="color: #400080;">NSInputStream</span></a><span style="color: #002200;">!</span><br />
+<br />
+var receivedData<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableData_Class/"><span style="color: #400080;">NSMutableData</span></a><span style="color: #002200;">!</span><br />
+<br />
+var currentActivityType<span style="color: #002200;">:</span> String<span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>Obviously, in the <em>inputStream</em> variable we&#8217;ll assign the incoming stream and then we&#8217;ll handle it. In the <em>receivedData</em> variable we&#8217;ll store the received data. Later, we&#8217;ll send this object to the <em>ViewController</em> class, so it converts it to an array object and use the contacts data. Note that the <em>receivedData</em> object is of type <em>NSMutableData</em> and not <em>NSData</em>. That&#8217;s important, because we want to be able to change its contents, and the <em>NSData</em> type is an immutable one. Lastly, the <em>currentActivityType</em> will keep the activity type of the current activity, and based on that we&#8217;ll make sure that we handle the data of the right activity.</p>
+<p>With the above variables being ready, let&#8217;s add the missing code from the <em>getContinuationStreamsWithCompletionHandler()</em> method&#8217;s completion handler:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, continueUserActivity userActivity<span style="color: #002200;">:</span> NSUserActivity, restorationHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>AnyObject<span style="color: #002200;">&#93;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> userActivity.supportsContinuationStreams <span style="color: #002200;">&#123;</span> &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; userActivity.getContinuationStreamsWithCompletionHandler<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span>inputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSInputStream_Class/"><span style="color: #400080;">NSInputStream</span></a><span style="color: #002200;">!</span>, outputStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOutputStream_Class/"><span style="color: #400080;">NSOutputStream</span></a><span style="color: #002200;">!</span>, error<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> let someError <span style="color: #002200;">=</span> error<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>someError.localizedDescription<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> let inStream <span style="color: #002200;">=</span> inputStream<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.receivedData <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableData_Class/"><span style="color: #400080;">NSMutableData</span></a><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.currentActivityType <span style="color: #002200;">=</span> userActivity.activityType<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.inputStream <span style="color: #002200;">=</span> inStream<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.inputStream.delegate <span style="color: #002200;">=</span> self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.inputStream.scheduleInRunLoop<span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSRunLoop_Class/"><span style="color: #400080;">NSRunLoop</span></a>.mainRunLoop<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>, forMode<span style="color: #002200;">:</span> NSDefaultRunLoopMode<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.inputStream.open<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At first, we make sure that no error has occurred. In case that it actually has, then we simply print the error description. Don&#8217;t forget that in a real-world application you should implement a better approach and error handling than that.</p>
+<p>The interesting part begins if no error occurs. In this case, the first thing we do is to initialize the mutable data object, the <em>receivedData</em>. Next, we store to the <em>currentActivityType</em> instance variable the type of the current activity. No matter if you don&#8217;t get the meaning of that right now; you&#8217;ll understand it later.</p>
+<p>Finally, we assign the input stream to the <em>inputStream</em> instance variable that we previously declared. We make the <em>AppDelegate</em> class the delegate of the input stream, and then we schedule it to run in the main thread. Once all those have been done, we just open it so we read it.</p>
+<p>Let me note two things here: First, you can easily assume that we&#8217;ll implement the <em>stream(aStream:handleEvent:)</em> delegate method of the <em>NSStreamDelegate</em> protocol. At second, pay special attention to the optional binding of the completion handler&#8217;s input stream. We don&#8217;t proceed unless we make sure that the input stream is not nil. In case we don&#8217;t do that and for some reason the input stream is nil, the application will crash.</p>
+<p>Let&#8217;s get going. Undoubtably, before we continue we must adopt the <em>NSStreamDelegate</em> protocol. Therefore, move at the beginning of the <em>AppDelegate</em> class and do so:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class AppDelegate<span style="color: #002200;">:</span> UIResponder, UIApplicationDelegate, NSStreamDelegate</div></td></tr></tbody></table></div>
+<p>Let&#8217;s handle the input stream now. Let me give you the implementation first, and then we&#8217;ll talk about it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func stream<span style="color: #002200;">&#40;</span>aStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSStream_Class/"><span style="color: #400080;">NSStream</span></a>, handleEvent eventCode<span style="color: #002200;">:</span> NSStreamEvent<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> aStream <span style="color: #002200;">==</span> inputStream<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> eventCode <span style="color: #002200;">==</span> NSStreamEvent.HasBytesAvailable<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var buffer <span style="color: #002200;">=</span> Array&lt;UInt8&gt;<span style="color: #002200;">&#40;</span>count<span style="color: #002200;">:</span> <span style="color: #2400d9;">1024</span>, repeatedValue<span style="color: #002200;">:</span> <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var len <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; len <span style="color: #002200;">=</span> inputStream.read<span style="color: #002200;">&#40;</span>UnsafeMutablePointer<span style="color: #002200;">&#40;</span>buffer<span style="color: #002200;">&#41;</span>, maxLength<span style="color: #002200;">:</span> <span style="color: #2400d9;">1024</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> len &gt; <span style="color: #2400d9;">0</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; receivedData.appendBytes<span style="color: #002200;">&#40;</span>buffer, length<span style="color: #002200;">:</span> len<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As I also said in the previous section regarding the writing to the output stream, similarly you can find the respective Objective-C code of the above snippet to the official Apple documentation regarding the stream reading.</p>
+<p>Let&#8217;s discuss now what happens in the above segment. Once again, we implement the <em>stream(aStream:handleEvent:)</em> delegate method to handle the stream. At first, we check if the current stream is the one we are interested in. If that&#8217;s the case, then we make sure that there is data to read from using the <em>HasBytesAvailable</em> event code value. Assuming that everything is okay, we proceed. What we do here, is the opposite thing from what we did when we wrote to the output stream. Let&#8217;s see it with a bit more details:</p>
+<p>As a first step, we initialize an array (the buffer of the data) and we make its length equal to 1024. If you remember, that was the size of the buffer to the output stream too. We set this value, so the buffer can store data up to 1024 bytes in length.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var buffer <span style="color: #002200;">=</span> Array&lt;UInt8&gt;<span style="color: #002200;">&#40;</span>count<span style="color: #002200;">:</span> <span style="color: #2400d9;">1024</span>, repeatedValue<span style="color: #002200;">:</span> <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>Next, we initialize an integer variable. In this one, the actual length of the read data is going to be stored:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var len <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span></div></td></tr></tbody></table></div>
+<p>The actual reading is taking place right next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">len <span style="color: #002200;">=</span> inputStream.read<span style="color: #002200;">&#40;</span>UnsafeMutablePointer<span style="color: #002200;">&#40;</span>buffer<span style="color: #002200;">&#41;</span>, maxLength<span style="color: #002200;">:</span> <span style="color: #2400d9;">1024</span><span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>The <em>read</em> method of the input stream object accepts two arguments; the buffer and the size of the data that should be read. In the <em>len</em> variable the actual length of the read data is stored.</p>
+<p>Finally, we append to the mutable data object the received data:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">if</span> len &gt; <span style="color: #2400d9;">0</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; receivedData.appendBytes<span style="color: #002200;">&#40;</span>buffer, length<span style="color: #002200;">:</span> len<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Note that the <em>receivedData</em> object gets more and more bytes until the end of the input stream is reached.</p>
+<p>So, the above code is good enough for reading from the input stream, but there&#8217;s a final touch missing here. The input stream must be also closed once its end is found. In the <em>stream(aStream:handleEvent:)</em> method add the following snippet:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func stream<span style="color: #002200;">&#40;</span>aStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSStream_Class/"><span style="color: #400080;">NSStream</span></a>, handleEvent eventCode<span style="color: #002200;">:</span> NSStreamEvent<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> aStream <span style="color: #002200;">==</span> inputStream<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> eventCode <span style="color: #002200;">==</span> NSStreamEvent.HasBytesAvailable<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> eventCode <span style="color: #002200;">==</span> NSStreamEvent.EndEncountered<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; inputStream.close<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; inputStream.removeFromRunLoop<span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSRunLoop_Class/"><span style="color: #400080;">NSRunLoop</span></a>.mainRunLoop<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>, forMode<span style="color: #002200;">:</span> NSDefaultRunLoopMode<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; inputStream <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>When the program execution encounters the end of the input stream, we can safely close it, remove it from the thread that is being executed, and finally make it nil.</p>
+<p>That&#8217;s it! The app can now handle an input continuation stream and store the incoming data. What we have only left to do, is to manage this data.</p>
+<h2>Handling The Received Data</h2>
+<p>At this point, we know that when the reading process from the input stream is finished the <em>receivedData</em> property contains the data we expect (also supposing that no error has occurred). Even though in the previous part we managed to successfully handle the input stream, we took no actions at all regarding the conversion of the <em>receivedData</em> variable from a <em>NSMutableData</em> to a <em>NSMutableArray</em> object. So, let&#8217;s do that here and we&#8217;re then ready to test the app.</p>
+<p>Initially, we&#8217;ll keep working in the <em>stream(aStream:handleEvent:)</em> delegate method of the <em>AppDelegate.swift</em> file. Specifically, in the <em>if eventCode == NSStreamEvent.EndEncountered</em> statement, we&#8217;ll post a notification with the <em>receivedData</em> variable as its object. Later, we&#8217;ll handle this notification in the <em>ViewController</em> class. Let&#8217;s see it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func stream<span style="color: #002200;">&#40;</span>aStream<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSStream_Class/"><span style="color: #400080;">NSStream</span></a>, handleEvent eventCode<span style="color: #002200;">:</span> NSStreamEvent<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> aStream <span style="color: #002200;">==</span> inputStream<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> eventCode <span style="color: #002200;">==</span> NSStreamEvent.HasBytesAvailable<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> eventCode <span style="color: #002200;">==</span> NSStreamEvent.EndEncountered<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> let activityType <span style="color: #002200;">=</span> currentActivityType<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> activityType <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;com.appcoda.handoffdemo.list-contacts&quot;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a>.defaultCenter<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.postNotificationName<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;receivedContactsDataNotification&quot;</span>, object<span style="color: #002200;">:</span>receivedData<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the above snippet, you can see that we use the <em>currentActivityType</em> instance variable to make sure that the activity type matches to the activity which we handle the input stream for. Using the optional binding we ensure that the <em>currentActivityType</em> is not nil. Besides any check, the only thing we do is to post a new notification, named <em>receivedContactsDataNotification</em>. With it, we post the <em>receivedData</em> as its object, and we&#8217;re okay.</p>
+<p>Now, let&#8217;s open the <em>ViewController.swift</em> file for last time, and let&#8217;s begin by adding an observer for the above notification. In the <em>viewDidLoad</em> method add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a>.defaultCenter<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.addObserver<span style="color: #002200;">&#40;</span>self, selector<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;handleReceivedContactsDataWithNotification:&quot;</span>, name<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;receivedContactsDataNotification&quot;</span>, object<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>handleReceivedContactsDataWithNotification(_:)</em> is a new method that we are about to implement just now:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func handleReceivedContactsDataWithNotification<span style="color: #002200;">&#40;</span>notification<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let contactsData <span style="color: #002200;">=</span> notification.object as <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a><br />
+<br />
+&nbsp; &nbsp; contactsArray.removeAllObjects<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; contactsArray <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSKeyedUnarchiver_Class/"><span style="color: #400080;">NSKeyedUnarchiver</span></a>.unarchiveObjectWithData<span style="color: #002200;">&#40;</span>contactsData<span style="color: #002200;">&#41;</span> as <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><br />
+<br />
+&nbsp; &nbsp; Contact.updateSavedContacts<span style="color: #002200;">&#40;</span>contactsArray<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; dispatch_async<span style="color: #002200;">&#40;</span>dispatch_get_main_queue<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>, <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.tblContacts.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the above code segment, initially we assign the notification&#8217;s object to a constant. That&#8217;s supposed to be the received data object. Next, we remove any <em>Contact</em> objects currently existing in the <em>contactsArray</em> array, and we assign the new data to it by unarchiving the <em>contactsData</em> object. Of course, we should not forget to save the new contacts permanently by calling the <em>updateSavedContacts(_:)</em> class method. Lastly, we reload the tableview data in the main thread, so it reflects all the changes that have been done. </p>
+<p>Everything is ready, so let&#8217;s go and give it a try.</p>
+<h2>Compile and Run the App</h2>
+<p>Even to an application as simple as this one, it looks pretty amazing to start adding contacts on one device and then continue doing so them to another one. And as we have made it through this point, this is the best time to plug your devices into your Mac, and build and run the application. I remind you that the Simulator can&#8217;t be used, so you will have to use real devices, no matter what they are. Personally, I used an iPhone and an iPad mini. The iPhone was my originating device, while the iPad the continuing one.</p>
+<p>Before you test continuation streams, make sure that you have added a few contacts to the originating device. Then, use Handoff and see them being transferred to the continuing device. The next screenshots demonstrate just that.</p>
+<p><em>The iPad app initially with just one sample contact:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t24_2_handoff_1.png" alt="t24_2_handoff_1" class="aligncenter size-full wp-image-4411" /></div>
+<p><em>The iPhone app with the contacts that will be transferred to iPad using continuation streams:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t24_3_handoff_2.png" alt="t24_3_handoff_2" class="aligncenter size-full wp-image-4412" /></div>
+<p><em>Using the app&#8217;s icon to Handoff:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t24_4_handoff_3.png" alt="t24_4_handoff_3" class="aligncenter size-full wp-image-4413" /></div>
+<p><em>The iPad app after having received the contacts data:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/12/t24_5_handoff_4.png" alt="t24_5_handoff_4" class="aligncenter size-full wp-image-4414" /></div>
+<h2>Summary</h2>
+<p>The last couple posts were dedicated to the Handoff, a brand new capability that Apple brought with iOS 8. Through them, I want to believe that you have acquired the minimum knowledge (at least) that&#8217;s required so as to integrate Handoff to your applications. Personally, I think that Handoff can unleash new possibilities to both existing and new apps, so give it a serious consideration when you design your next application. Attention though; Handoff should not be confused with existing iOS capabilities or to be thought as a replacement of other technologies. Always remember that its purpose is to let you continue an activity to another device, but it&#8217;s not meant to be used for simply exchanging data or communicating between devices. There are other frameworks and APIs to do that. So, with that we&#8217;ve come to the end of the tutorial. I hope you&#8217;ve enjoyed it as much as I did at the time of the writing. We always like to hear back from you, so take the chance and drop us a line. So long!</p>
+<p>For your reference, you can <a href="https://www.dropbox.com/s/j4a7h0dxlkby7as/HandoffStreamDemo.zip?dl=0">download the complete Xcode project here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-basic-how-does-the-hello-world-app-work/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/04/Hello-World-Interface-Builder-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming Basic: How Does the Hello World App Work?</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-camera-iphone-app/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Build a Simple Camera App Using UIImagePickerController</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-index-list-uitableview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/indexed-uitableview-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Adding Section and Index List in UITableView</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/qr-code-reader-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/12/qrcode-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building a QR Code Reader in Swift</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/handoff-continuation-streams/"
+    dc:identifier="http://www.appcoda.com/handoff-continuation-streams/"
+    dc:title="Working with iOS 8 Handoff Part 2: Using Continuation Streams"
+    trackback:ping="http://www.appcoda.com/handoff-continuation-streams/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/advanced/" rel="category tag">Advanced</a>, <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/handoff/" rel="tag">handoff</a>, <a href="http://www.appcoda.com/tag/ios-8/" rel="tag">iOS 8</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a>, <a href="http://www.appcoda.com/tag/swift-programming/" rel="tag">swift programming</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-100965">
+        <div id="dsq-comment-header-100965" class="dsq-comment-header">
+            <cite id="dsq-cite-100965">
+                <span id="dsq-author-user-100965">Marc Peysale</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100965" class="dsq-comment-body">
+            <div id="dsq-comment-message-100965" class="dsq-comment-message"><p>Hi!<br />
+Nice tutorials!<br />
+I&#8217;m trying to implement Handoff in my app and I need to transport arrays containing among other things UIImage, so I need continuation streams, but even though I followed your tutorial, I can&#8217;t get the streams to be initialized properly, the getContinuationStreams always has an error saying &#8220;Connection Lost&#8221;, and the inputStream and outputStream are both  nil<br />
+The delegate method didReceiveInputStream doesn&#8217;t seem to be called on the sending app, even though userActivityWasContinued is called after I get the error on the receiving device<br />
+Any ideas?<br />
+Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/handoff-continuation-streams/';
+var disqus_identifier = '4406 http://www.appcoda.com/?p=4406';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Working with iOS 8 Handoff Part 2: Using Continuation Streams";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=4406';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="4406"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fhandoff-continuation-streams%2F&#038;t=Working%20with%20iOS%208%20Handoff%20Part%202%3A%20Using%20Continuation%20Streams" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4406" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>24</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Working%20with%20iOS%208%20Handoff%20Part%202%3A%20Using%20Continuation%20Streams&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff-continuation-streams%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4406" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>30</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff-continuation-streams%2F&#038;t=Working%20with%20iOS%208%20Handoff%20Part%202%3A%20Using%20Continuation%20Streams" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4406" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>6</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff-continuation-streams%2F&#038;title=Working%20with%20iOS%208%20Handoff%20Part%202%3A%20Using%20Continuation%20Streams" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4406" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>1</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fhandoff-continuation-streams%2F&#038;t=Working%20with%20iOS%208%20Handoff%20Part%202%3A%20Using%20Continuation%20Streams" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4406" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Working%20with%20iOS%208%20Handoff%20Part%202%3A%20Using%20Continuation%20Streams&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff-continuation-streams%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4406" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff-continuation-streams%2F&#038;t=Working%20with%20iOS%208%20Handoff%20Part%202%3A%20Using%20Continuation%20Streams" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4406" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff-continuation-streams%2F&#038;title=Working%20with%20iOS%208%20Handoff%20Part%202%3A%20Using%20Continuation%20Streams" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4406" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/handoff-continuation-streams\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="71121d1e02143143095f011f16">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":4406,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 13:04:39 by W3 Total Cache -->

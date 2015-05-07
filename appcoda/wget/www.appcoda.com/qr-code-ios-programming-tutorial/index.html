@@ -1,0 +1,1602 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>How To Scan and Read QR Code Using iOS AVFoundation Framework</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This iOS programming tutorial shows you how to read and scan QR code using AVFoundation framework in iOS 7 SDK. We&#039;ll build a simple demo app together."/>
+<link rel="canonical" href="http://www.appcoda.com/qr-code-ios-programming-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This iOS programming tutorial shows you how to read and scan QR code using AVFoundation framework in iOS 7 SDK. We&#039;ll build a simple demo app together."/>
+<meta name="twitter:title" content="How To Scan and Read QR Code Using iOS AVFoundation Framework"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/12/QRCode-Featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; How To Scan QR Code Using AVFoundation Framework Comments Feed" href="http://www.appcoda.com/qr-code-ios-programming-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=2780' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-2780 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-2780 post type-post status-publish format-standard hentry category-course category-intermediate tag-avfoundation tag-ios-programming tag-ios-sdk tag-qr-code entry"><h1 class="entry-title">How To Scan QR Code Using AVFoundation Framework</h1> 
+<div class="post-info"><span class="date published time" title="2013-12-09T21:36:34+00:00">December 9, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/qr-code-ios-programming-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="2780 http://www.appcoda.com/?p=2780">59 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>iOS 7 brings a wealth of new features that set it apart from all other mobile operating systems. Both major additions and minor improvements have been made, offering developers new or updated frameworks and APIs to work with, and the opportunity to provide single users with a much richer experience. The <strong>AVFoundation</strong> framework is just one of them, as it has accepted great enhancements and new class additions that make even more tools available. One of the new features that the AVFoundation incorporates, is the ability to discover and read bar codes in real-time, and one of the supported bar code types that we especially interested in at this tutorial, is the <strong>QR Code</strong>. </p>
+<p>A <strong>Quick Response Code (QR Code)</strong> is actually a two-dimensional (2D) barcode. Instead of the vertical lines like those that the well-known barcode contains, a QR Code can have its lines designed in both horizontal and vertical directions. The data that&#8217;s being encapsulated into such a code, is read by devices specificly designed for this job, or by smart devices (smartphones, tablets) using the appropriate software. A QR Code can store a great amount of data (in relation to the ordinary barcode), so there is a variety of information that can be encoded in it. Some typical content examples of a QR Code are:</p>
+<ul>
+<li>URL</li>
+<li>Phone number</li>
+<li>Simple text</li>
+<li>SMS text</li>
+</ul>
+<p>QR Codes are used mainly for marketing reasons, but not only. One can create a QR Code to use on its website, or on any other place that may wants.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/QRCode-Featured.jpg" alt="QRCode Featured" class="aligncenter size-full wp-image-2789" /></div>
+<p>Thanks to iOS 7, creating applications that can scan and translate a QR Code has been really a piece of cake. So, if you have ever been tempted to create such an app, or you are just curious to learn more about all these, then just keep reading!</p>
+<p><span id="more-2780"></span></p>
+<h2>Demo App Overview</h2>
+<p>The demo application that we are going to implement in this tutorial is fairly simple and straightforward. It is going to be <em>universal</em>, meaning that it will be able to work in both iPhone and iPad, so you can run it on any device you might have with iOS 7 installed on it. Right next is shown a figure of the outcome in iPhone:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_2_iPhone_sample.png" alt="QR Code Demo App for iPhone" class="aligncenter size-full wp-image-2762" /></div>
+<p>For the iPad, the interface is more or less the same:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_3_iPad_sample.png" alt="QR Code Demo App for iPad" class="aligncenter size-full wp-image-2764" /></div>
+<p>Before I proceed to a discussion regarding the demo figures above, it&#8217;s important to underline at this point that any barcode scanning, including QR codes, is totally based on <strong>video capturing</strong>, that&#8217;s why AVFoundation framework supports the barcode reading feature. Keep this info on mind, as it&#8217;s the starting point for the entire application.</p>
+<p>Even though it&#8217;s not hard to figure out what all subviews layed on the interface are for, I&#8217;ll make a quick reference on them, so it&#8217;ll become absolutely clear what our app is going to contain.</p>
+<p>So, beginning from top to bottom, at first there is a <strong>UIView</strong> view, which is going to be the container for the <em>preview layer</em> of the video captured by the device. A <strong>UILabel</strong> exists on top of it, simply prompting to tap on the start button to begin reading a QR code. Right next, another <strong>UILabel</strong> plays the role of the status log while a code is being read, and finally a toolbar lies at the bottom of the view, with one bar button item only which will be used to start and stop the capturing.</p>
+<p>Here is how the demo application is going to work:</p>
+<p>Initially, when the app is launched, the interface shown in the figure above is first displayed. By tapping the start bar button at the toolbar, <em>a video capturing session is initiated</em> in order to scan for QR codes. Once that happens, the start button&#8217;s title changes to <em>Stop</em>, while its functionality changes as well with aim to enable us to stop capturing at any time.</p>
+<p>The status label is going to show three different messages, depending on the scanning state:</p>
+<ol>
+<li>When a code scanning is not yet performed.</li>
+<li>When a code scanning is in progress.</li>
+<li>When a scan has been completed and the contained information has been translated and is ready to be displayed.</li>
+</ol>
+<p>Also, a sound effect (a beep sound) is being played every time a QR code has been successfully read to make our app more vivid and interactive.</p>
+<p>Note that this application cannot be tested on the Simulator, neither to a device without a camera, as everything is based on real-time video capturing. Therefore, you&#8217;ll need to connect your device and run it there if you want to see the application live.</p>
+<h2>Building the Demo App</h2>
+<p>Ready to take off? Let&#8217;s begin by launching the Xcode. In the Welcome screen, select to create a new project.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_4_xcode_welcome.png" alt="Xcode Welcome" class="aligncenter size-full wp-image-2765" /></div>
+<p>In the project creation guide under the <strong>iOS</strong> section, select the <strong>Application</strong> category and then select the <strong>Single View Application</strong> template. Click <strong>Next </strong>to proceed.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_5_new_project_1.png" alt="Select Xcode Project Template" class="aligncenter size-full wp-image-2766" /></div>
+<p>Next, give a name to the project. In the <strong>Product Name</strong> field add the <strong>QRCodeReader</strong> value. Also, in the <strong>Devices</strong> drop down menu select the <strong>Universal</strong> value in order to let your app run in both iPhone and iPad devices. Click <strong>Next </strong>to continue.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_6_new_project_2.png" alt="Set Xcode Project Details" class="aligncenter size-full wp-image-2767" /></div>
+<p>In the last window, select a directory to save the project and click on the <strong>Create </strong>button.</p>
+<p>Xcode creates the project and makes any necessary initial, default configuration is required. Now we are ready to start building.</p>
+<h2>Setting Up the User Interface</h2>
+<p>Our <a href="http://www.appcoda.com/ios-univeral-app-tutorial/">application is universal</a>, so it&#8217;s needed to create the interface for both the iPhone and the iPad. Let&#8217;s begin from the iPhone, so click on the <em>Main_iPhone.storyboard</em> to bring the Interface Builder up. Initially, you should see only an empty view controller, just like the next image:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_7_ib_initial.jpg" alt="Initial Interface for QR Code Demo" class="aligncenter size-full wp-image-2769" /></div>
+<p>Here is a list of all the controls you need to drag and drop in the view of the view controller, along with all properties that need to be set in order to create an interface similar to the wanted one.</p>
+<ul>
+<li><strong>UIView</strong>
+<ul>
+<li>Frame: X=20 Y=40 Width=280 Height=350</li>
+<li>Background Color: Black</li>
+</ul>
+</li>
+<li><strong>UILabel</strong> <em>Add this as a subview to the previous view</em>
+<ul>
+<li>Frame: X=17 Y=164 Width=247 Height=21</li>
+<li>Color: White</li>
+<li>Text: <em>Tap on Start! to read a QR Code</em></li>
+<li>Font: System Bold 15.0</li>
+<li>Text Alignment: Center</li>
+</ul>
+</li>
+<li><strong>UILabel</strong>
+<ul>
+<li>Frame: X=20 Y=448 Width=280 Height=21</li>
+<li>Color: R=0 G=255 B=0</li>
+<li>Text: <em>QR Code Reader is not yet running&#8230;</em></li>
+<li>Font: System 15.0</li>
+</ul>
+</li>
+<li><strong>UIToolbar</strong>
+<ul>
+<li>Frame: X=0 Y=524 Width=320 Height=44</li>
+</ul>
+</li>
+<li><strong>UIBarButtonItem</strong> <em>(already existing on the toolbar)</em>
+<ul>
+<li>Title: Start!</li>
+</ul>
+</li>
+<li><strong>UIBarButtonItem</strong>
+<ul>
+<li>New Flexible Space Bar Button Item on the <em>left</em> side of the start button.</li>
+</ul>
+</li>
+<li><strong>UIBarButtonItem</strong>
+<ul>
+<li>New Flexible Space Bar Button Item on the <em>right</em> side of the start button.</li>
+</ul>
+</li>
+</ul>
+<p>After you&#8217;re done, the interface should look like the next one:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_8_iPhone_interface.jpg" alt="QR Code iPhone Interface" class="aligncenter size-full wp-image-2770" /></div>
+<p>Here is the respective list with all the controls required to setup the interface for the iPad, along with the properties you need to configure.</p>
+<ul>
+<li><strong>UIView</strong>
+<ul>
+<li>Frame: X=44 Y=40 Width=680 Height=840</li>
+<li>Background Color: Black</li>
+</ul>
+</li>
+<li><strong>UILabel</strong> <em>Add this as a subview to the previous view</em>
+<ul>
+<li>Frame: X=20 Y=329 Width=640 Height=41</li>
+<li>Color: White</li>
+<li>Text: <em>Tap on Start! to read a QR Code</em></li>
+<li>Font: System Bold 24.0</li>
+<li>Text Alignment: Center</li>
+</ul>
+</li>
+<li><strong>UILabel</strong>
+<ul>
+<li>Frame: X=20 Y=448 Width=280 Height=21</li>
+<li>Color: R=0 G=255 B=0</li>
+<li>Text: <em>QR Code Reader is not yet running&#8230;</em></li>
+<li>Font: System 17.0</li>
+</ul>
+</li>
+<li><strong>UIToolbar</strong>
+<ul>
+<li>Frame: X=0 Y=980 Width=768 Height=44</li>
+</ul>
+</li>
+<li><strong>UIBarButtonItem</strong> <em>(already existing on the toolbar)</em>
+<ul>
+<li>Title: Start!</li>
+</ul>
+</li>
+<li><strong>UIBarButtonItem</strong>
+<ul>
+<li>New Flexible Space Bar Button Item at the <em>left</em> side of the start button.</li>
+</ul>
+</li>
+<li><strong>UIBarButtonItem</strong>
+<ul>
+<li>New Flexible Space Bar Button Item at the <em>right</em> side of the start button.</li>
+</ul>
+</li>
+</ul>
+<p>Here is how the iPad interface should now look like:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_9_iPad_interface.jpg" alt="QR Code for iPad Interface" class="aligncenter size-full wp-image-2771" /></div>
+<p>So far, so good. For both devices the interface is ready, but we are not finished yet. We need to create IBOutlet methods and connect them to the controls we need to touch in code. Open the <em>ViewController.h</em> file, and add the following IBOutlet property declarations:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIView <span style="color: #002200;">*</span>viewPreview;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>lblStatus;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIBarButtonItem <span style="color: #002200;">*</span>bbitemStart;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>As you see, we need properties for the video container view, the status label and the start bar button item. Besides these properties however, now it&#8217;s the best time to declare an <strong>IBAction method</strong> which we will connect to the start bar button item in order to make it start and stop video capturing. Therefore, right after the last property, add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>startStopReading<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;</div></td></tr></tbody></table></div>
+<p>Let&#8217;s make the connections now. Open the <em>Main_iPhone.storyboard</em> file and <em>Control-Click or Right-Click</em> on the <strong>View Controller</strong> object, inside the <strong>Document Outline</strong> pane. In the black popup window that appears, you can see all of the IBOutlet properties that were previously declared under the <strong>Outlets</strong> section. For each one of them, <em>click on the circle on the right side and drag and drop to the appropriate control</em>. The next image will make this procedure clear:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_10_iboutlet_connect.jpg" alt="Connect IBOutlet" class="aligncenter size-full wp-image-2772" /></div>
+<p>Follow the same steps to connect the <em>startStopReading:</em> IBAction method to the start bar button item. The IBAction method exists under the <strong>Received Actions</strong> section in the black popup window.</p>
+<p>As a reminder, don&#8217;t forget to do the same job in the <em>Main_iPad.storyboard</em> file.</p>
+<h2>QR Code Reading Implementation</h2>
+<p>Up to now we have created the project, we have setup the interface and we have done all necessary configurations on the controls of our application. Time to make a deep dive and write the necessary code that will give life to the most important feature, the QR code reading.</p>
+<p>The best point to start writing code is our IBAction method, the <em>startStopReading:</em>, which is already declared and connected to the start bar button item. However, before we begin implementing it, let&#8217;s remember something; while I was presenting the demo app and the way it&#8217;s going to work, I said that once the video capturing begins, the start button becomes a stop button and vice versa. Programmatically, that means that we need to find a way that lets the app know when to perform the start functionality, and when to perform the stop functionality. Well, what&#8217;s a better way than a flag?</p>
+<p>If you haven&#8217;t done already, open the <em>ViewController.m</em> file. Navigate yourself at the top of it, in the private interface section, and add the following flag:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic<span style="color: #002200;">&#41;</span> <span style="color: #a61390;">BOOL</span> isReading;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>It&#8217;s quite obvious by its name that, when the <em>isReading</em> variable is NO (false), then the app is not scanning for a QR code and the video capture functionality should start when the bar button is tapped. The exact opposite happens when the variable is set to YES (true). I would strongly advice that when declaring member variables, then the next step that should be done is to give them their initial value, as the most probable scenario is that you are going to forget to do so later. So, let&#8217;s go inside the <em>viewDidLoad</em> method to set the initial value for our flag:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; _isReading <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now we are absolutely ready to implement the <em>startStopReading:</em> IBAction method. Write the following code snippet and then we&#8217;ll discuss it a bit:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>startStopReading<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>_isReading<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>self startReading<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_bbitemStart setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Stop&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_lblStatus setText<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Scanning for QR Code...&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self stopReading<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_bbitemStart setTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Start!&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> &nbsp; <br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; _isReading <span style="color: #002200;">=</span> <span style="color: #002200;">!</span>_isReading;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At first, we check if the <em>isReading</em> flag is NO, meaning that currently no QR code scanning is taking place. If that&#8217;s the case, then we call the <em>startReading</em> method, which we are going to implement in a while. If everything goes well when calling this method, then we change the bar button item&#8217;s title to <em>Stop</em> and we set another message on the status label. However, if the app is currently scanning for a QR code and the <em>isReading</em> flag is YES, then we call the <em>stopReading</em> method (yes, we&#8217;ll implement this one later too), and we also set the title of the bar button item to <em>Start!</em>. Finally, no matter what the case is, we set in the <em>isReading</em> flag the exact opposite value of the one that currently has.</p>
+<p>As you just saw, we used two methods that we haven&#8217;t yet implemented. We will begin doing so by the <em>startReading</em>, which as you imagine, is one of the most important methods in this app. First of all, we need to declare it, so go to the private interface section and add the next declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic<span style="color: #002200;">&#41;</span> <span style="color: #a61390;">BOOL</span> isReading;<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>startReading;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Don&#8217;t leave there yet. Before we move to implementation, we need to declare a couple of objects that we&#8217;ll need right next. So, add the new lines shown in the snippet below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic<span style="color: #002200;">&#41;</span> <span style="color: #a61390;">BOOL</span> isReading;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> AVCaptureSession <span style="color: #002200;">*</span>captureSession;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> AVCaptureVideoPreviewLayer <span style="color: #002200;">*</span>videoPreviewLayer;<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>startReading;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>At this point Xcode will probably complain about the <em>AVCaptureSession</em> and the <em>AVCaptureVideoPreviewLayer</em> classes. That&#8217;s because we still haven&#8217;t imported the <a href="http://developer.apple.com/library/ios/#DOCUMENTATION/AVFoundation/Reference/AVFoundationFramework/_index.html">AVFoundation framework</a>. Before we fix this, go into the <em>viewDidLoad</em> method and make the <em>captureSession</em> object <em>nil</em>.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; _isReading <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; _captureSession <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, open the <em>ViewController.h</em> file and at the top of it, import the AVFoundation framework.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;AVFoundation/AVFoundation.h&gt;</span></div></td></tr></tbody></table></div>
+<p>Did you notice something weird here? Xcode didn&#8217;t show any error messages at all after importing this framework, despite we haven&#8217;t linked it to the project like the next frameworks:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_11_frameworks.jpg" alt="AVFoundation Framework" class="aligncenter size-full wp-image-2773" /></div>
+<p>Well, what is really happening here is that we are facing another new cool feature of Xcode 5, and to be more precise a new <em>compiler&#8217;s</em> feature. No need to get into details, but simply putting it, this is called <strong>Auto Linking</strong> and it automatically links any required frameworks we use (most of them) silently and behind the scenes to our project.</p>
+<p>Having said all that, let&#8217;s do one more thing while the <em>ViewController.h</em> file is open. Modify the <em>@interface</em> line like the next one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController &lt;AVCaptureMetadataOutputObjectsDelegate&gt;</div></td></tr></tbody></table></div>
+<p>We do that because we want our class to conform to the <em>AVCaptureMetadataOutputObjectsDelegate</em>. More about it later.</p>
+<p>Let&#8217;s go back now and let&#8217;s begin implementing the <em>startReading</em> method. To do that, open the <em>ViewController.m</em> file. I believe at this point that it would be useful to say that for everyone that has ever implemented video support to an app, then the following procedure will seem familiar until some point. For all those however who haven&#8217;t used the AVFoundation framework and video support before this project, then I strongly advice to visit Apple documentation and do some reading about it.</p>
+<p>Add the next code snippet:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>startReading <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error;<br />
+<br />
+&nbsp; &nbsp; AVCaptureDevice <span style="color: #002200;">*</span>captureDevice <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>AVCaptureDevice defaultDeviceWithMediaType<span style="color: #002200;">:</span>AVMediaTypeVideo<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">YES</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>What we just did was to take an instance of the <em>AVCaptureDevice</em> class by specifying the <em>AVMediaTypeVideo</em> option as the media type. In human words, we access our device, telling at the same time that we&#8217;ll capture video. The <em>NSError</em> object is going to be used right next.</p>
+<p>Now add the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; AVCaptureDeviceInput <span style="color: #002200;">*</span>input <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>AVCaptureDeviceInput deviceInputWithDevice<span style="color: #002200;">:</span>captureDevice error<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>input<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Here we get an instance of the <em>AVCaptureDeviceInput</em> class in order to specify an input device. In our case the input device is the camera, and that&#8217;s obvious as in the <em>deviceInputWithDevice:error:</em> method we used the <em>captureDevice</em> that was instantiated just a bit earlier with the <em>AVMediaTypeVideo</em> media type. If for any reason the input device is not possible to be instantiated, then we simply log the error message and we end our job here by returning NO.</p>
+<p>Previously we declared a <em>AVCaptureSession</em> object and now it&#8217;s time to use it. So, let&#8217;s initialize it and let&#8217;s assign our input device to it.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; _captureSession <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>AVCaptureSession alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_captureSession addInput<span style="color: #002200;">:</span>input<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>A capture session such as the <em>captureSession</em> object needs both an input and an output device in order to properly work. Instead of any usual kind of an output object that should be normally used now, we are going to use a <em>AVCaptureMetadataOutput</em> object. This class in combination with the <em>AVCaptureMetadataOutputObjectsDelegate</em> protocol will manage to intercept any metadata found in the input device (meaning data in a QR code captured by our camera) and translate it to a human readable format. Don&#8217;t worry if something sounds weird or if you don&#8217;t totally understand right now. Everything will become clear in a while. For now, add the next lines to the method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; AVCaptureMetadataOutput <span style="color: #002200;">*</span>captureMetadataOutput <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>AVCaptureMetadataOutput alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_captureSession addOutput<span style="color: #002200;">:</span>captureMetadataOutput<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Proceed by adding the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; dispatch_queue_t dispatchQueue;<br />
+&nbsp; &nbsp; dispatchQueue <span style="color: #002200;">=</span> dispatch_queue_create<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;myQueue&quot;</span>, <span style="color: #a61390;">NULL</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>captureMetadataOutput setMetadataObjectsDelegate<span style="color: #002200;">:</span>self queue<span style="color: #002200;">:</span>dispatchQueue<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>captureMetadataOutput setMetadataObjectTypes<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObject<span style="color: #002200;">:</span>AVMetadataObjectTypeQRCode<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Here&#8217;s the deal: First of all, we need to set <em>self</em> (our class) as the delegate for the <em>captureMetadataOutput</em> object. That&#8217;s a reason also for adopting the <em>AVCaptureMetadataOutputObjectsDelegate</em> protocol. This is achieved by using the <em>setMetadataObjectsDelegate:queue</em> method, which except for the delegate object, it also needs to be provided with a dispatch queue on which the delegate&#8217;s method will be executed. According to the official documentation, this queue must be a serial dispatch queue, and it should not execute any other task other than the one that&#8217;s assigned with. That&#8217;s why we create a new <em>dispatch_queue_t</em> variable named <em>myQueue</em>, and that&#8217;s the one being provided as a parameter to the method. In other and simpler words, we create a dispatch queue to be used totally by our task.</p>
+<p>The <em>setMetadataObjectTypes</em> method is also quite important, as this is the point where we tell the app what kind of metadata we are interested in. The <em>AVMetadataObjectTypeQRCode</em> clearly indicates our purpose.</p>
+<p>Now that we have set and configured a <em>AVCaptureMetadataOutput</em> object, we need to show to user what the camera of the device sees. This can be done using a <em>AVCaptureVideoPreviewLayer</em>, which actually is a <em>CALayer</em>, and it will be added as a sublayer into the <em>viewPreview</em> view&#8217;s layer. Here is how:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; _videoPreviewLayer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>AVCaptureVideoPreviewLayer alloc<span style="color: #002200;">&#93;</span> initWithSession<span style="color: #002200;">:</span>_captureSession<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_videoPreviewLayer setVideoGravity<span style="color: #002200;">:</span>AVLayerVideoGravityResizeAspectFill<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_videoPreviewLayer setFrame<span style="color: #002200;">:</span>_viewPreview.layer.bounds<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_viewPreview.layer addSublayer<span style="color: #002200;">:</span>_videoPreviewLayer<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Finally, we just have to let the session run by using the following command:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>_captureSession startRunning<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Here is the <em>startReading</em> method fully implemented:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>startReading <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; AVCaptureDevice <span style="color: #002200;">*</span>captureDevice <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>AVCaptureDevice defaultDeviceWithMediaType<span style="color: #002200;">:</span>AVMediaTypeVideo<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; AVCaptureDeviceInput <span style="color: #002200;">*</span>input <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>AVCaptureDeviceInput deviceInputWithDevice<span style="color: #002200;">:</span>captureDevice error<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>input<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; _captureSession <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>AVCaptureSession alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_captureSession addInput<span style="color: #002200;">:</span>input<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; AVCaptureMetadataOutput <span style="color: #002200;">*</span>captureMetadataOutput <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>AVCaptureMetadataOutput alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_captureSession addOutput<span style="color: #002200;">:</span>captureMetadataOutput<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; dispatch_queue_t dispatchQueue;<br />
+&nbsp; &nbsp; dispatchQueue <span style="color: #002200;">=</span> dispatch_queue_create<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;myQueue&quot;</span>, <span style="color: #a61390;">NULL</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>captureMetadataOutput setMetadataObjectsDelegate<span style="color: #002200;">:</span>self queue<span style="color: #002200;">:</span>dispatchQueue<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>captureMetadataOutput setMetadataObjectTypes<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObject<span style="color: #002200;">:</span>AVMetadataObjectTypeQRCode<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; _videoPreviewLayer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>AVCaptureVideoPreviewLayer alloc<span style="color: #002200;">&#93;</span> initWithSession<span style="color: #002200;">:</span>_captureSession<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_videoPreviewLayer setVideoGravity<span style="color: #002200;">:</span>AVLayerVideoGravityResizeAspectFill<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_videoPreviewLayer setFrame<span style="color: #002200;">:</span>_viewPreview.layer.bounds<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_viewPreview.layer addSublayer<span style="color: #002200;">:</span>_videoPreviewLayer<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_captureSession startRunning<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">YES</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you go and test the app on your device right now, the video capturing will begin when you tap on the start button. Don&#8217;t expect to stop of course, as we haven&#8217;t implemented that yet. Also, don&#8217;t expect to read any QR code, as we haven&#8217;t implemented a required delegate method.</p>
+<p>This delegate method, the only one that the <em>AVCaptureMetadataOutputObjectsDelegate</em> provides, is the <em>captureOutput:didOutputMetadataObjects:fromConnection:</em>. This is the second most important part of our demo application, as in here the intercepted metadata captured by the device is recognized and translated by the iOS to a human readable format. Let&#8217;s begin implementing it, and we&#8217;ll add any further required code on the way.</p>
+<p>The second parameter of this method is a <em>NSArray</em> object, which contains all the metadata objects been read. Our first job is to make sure that this array is not nil and of course, if it contains even one object, so we are able then to proceed.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>captureOutput<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>AVCaptureOutput <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>captureOutput didOutputMetadataObjects<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>metadataObjects fromConnection<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>AVCaptureConnection <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>connection<span style="color: #002200;">&#123;</span> &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>metadataObjects <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&amp;&amp;</span> <span style="color: #002200;">&#91;</span>metadataObjects count<span style="color: #002200;">&#93;</span> &gt; <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Good. In this demo app, a metadata for us is the data contained into a QR code. When one metadata object gets captured we stop reading, so we are always interested in the first object of the <em>metadataObjects</em> array. A metadata object is represented by the <em>AVMetadataMachineReadableCodeObject</em> class and once we get it, we must check if its type is the desired one, like the following code extract:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; &nbsp; &nbsp; AVMetadataMachineReadableCodeObject <span style="color: #002200;">*</span>metadataObj <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>metadataObjects objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>metadataObj type<span style="color: #002200;">&#93;</span> isEqualToString<span style="color: #002200;">:</span>AVMetadataObjectTypeQRCode<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>When the condition is true, the app has just read a valid QR code, and in here we are going to process it. What we want to do, is to show the QR code data in the status label, then stop reading and of course, change the name of the bar button item once again. Before I show all these, just remember that our code is currently running on a secondary thread, so everything must be performed on the main thread for taking place immediately. Here is how:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_lblStatus performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>setText<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>metadataObj stringValue<span style="color: #002200;">&#93;</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>stopReading<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_bbitemStart performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>setTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Start!&quot;</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; _isReading <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;</div></td></tr></tbody></table></div>
+<p>Do you see the <em>stringValue</em> property of the <em>metadataObj</em> object? That&#8217;s the one that contains the QR code&#8217;s data in human readable format and it&#8217;s pretty important to us.</p>
+<p>Here is the delegate method in once piece:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>captureOutput<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>AVCaptureOutput <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>captureOutput didOutputMetadataObjects<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>metadataObjects fromConnection<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>AVCaptureConnection <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>connection<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>metadataObjects <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&amp;&amp;</span> <span style="color: #002200;">&#91;</span>metadataObjects count<span style="color: #002200;">&#93;</span> &gt; <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; AVMetadataMachineReadableCodeObject <span style="color: #002200;">*</span>metadataObj <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>metadataObjects objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>metadataObj type<span style="color: #002200;">&#93;</span> isEqualToString<span style="color: #002200;">:</span>AVMetadataObjectTypeQRCode<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_lblStatus performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>setText<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>metadataObj stringValue<span style="color: #002200;">&#93;</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>stopReading<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_bbitemStart performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>setTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Start!&quot;</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _isReading <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Finally, at this point the video capturing and the QR code recognition functionality implementation have been completed! We managed to reach our goal, as our app is now capable of reading and recognizing a QR code. However, is not yet completed, so let&#8217;s go ahead to do so.</p>
+<h2>Stopping the QR Code Reader</h2>
+<p>While implementing all the previous features, we called a couple of times the <em>stopReading</em> method. This one, as its name suggests, is actually used to stop a capture session from running and, in contrary of the <em>startReading</em>, is pretty easy. Before we go to implement it, let&#8217;s declare it at the private interface section:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+...<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>stopReading;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Straight ahead to the implementation:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>stopReading<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_captureSession stopRunning<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; _captureSession <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_videoPreviewLayer removeFromSuperlayer<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Three tasks are performed in this method: First of all, the session stops running and then it becomes nil. Finally the view preview layer is being removed from the <em>viewPreview</em> view&#8217;s layer. Let me remind you that this method is used in two places. The first one is inside the <em>startStopReading:</em> IBAction method. The second place is the capture metadata output delegate method, where when a QR code has been read, it&#8217;s being called to stop capturing.</p>
+<h2>Playing a Sound Effect</h2>
+<p>In the App Overview section of this tutorial and during the app presentation, I mentioned that a sound effect will be played back when a valid QR code has been successfully read. In this section we are going to build this functionality, by taking advantage of the AVFoundation framework that it has already been imported into the project.</p>
+<p>First of all, the <em>beep.mp3</em> file needs to be added to the project. So, now it&#8217;s the best time to <a href="https://dl.dropboxusercontent.com/u/2857188/beep.mp3.zip">download it</a> and add it to your project.</p>
+<p>There are two approaches to play a sound using the AVFoundation framework. Either to have it pre-loaded and just play it when it&#8217;s required, or load it just right at the moment that the sound should be played back. In our case, we&#8217;ll follow the first way, so we&#8217;ll begin by preparing our sound effect for playback. Also, we&#8217;ll use a <em>AVAudioPlayer</em> object for our purpose.</p>
+<p>Once again, go at the private interface section to add a <em>AVAudioPlayer</em> property and new method declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+...<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> AVAudioPlayer <span style="color: #002200;">*</span>audioPlayer;<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>loadBeepSound;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s focus now on developing this method. The audio file resides at the application bundle, so that&#8217;s where we&#8217;ll get it from. Right next is given the entire method. Pay special attention to the fact that the <em>audioPlayer</em> object accepts a <em>NSURL</em> object during its initialization, so we must handle the path to the audio file appropriately. The code is self-explanatory enough:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>loadBeepSound<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>beepFilePath <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSBundle_Class/"><span style="color: #400080;">NSBundle</span></a> mainBundle<span style="color: #002200;">&#93;</span> pathForResource<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;beep&quot;</span> ofType<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;mp3&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>beepURL <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> URLWithString<span style="color: #002200;">:</span>beepFilePath<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; _audioPlayer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>AVAudioPlayer alloc<span style="color: #002200;">&#93;</span> initWithContentsOfURL<span style="color: #002200;">:</span>beepURL error<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Could not play beep file.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_audioPlayer prepareToPlay<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The code that actually loads the sound in memory is the <em>[_audioPlayer prepareToPlay];</em> one and the whole method is built mostly for this line.</p>
+<p>Now that the sound effect file has been loaded into memory, we need to play it. Where should this be done? Inside the capture metadata output delegate method of course, right after the point that a QR code has been successfully read. Right below is presented the delegate method one more time, but now contains the sound effect playback feature:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>captureOutput<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>AVCaptureOutput <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>captureOutput didOutputMetadataObjects<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>metadataObjects fromConnection<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>AVCaptureConnection <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>connection<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>metadataObjects <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&amp;&amp;</span> <span style="color: #002200;">&#91;</span>metadataObjects count<span style="color: #002200;">&#93;</span> &gt; <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; AVMetadataMachineReadableCodeObject <span style="color: #002200;">*</span>metadataObj <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>metadataObjects objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>metadataObj type<span style="color: #002200;">&#93;</span> isEqualToString<span style="color: #002200;">:</span>AVMetadataObjectTypeQRCode<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_lblStatus performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>setText<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>metadataObj stringValue<span style="color: #002200;">&#93;</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>stopReading<span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_bbitemStart performSelectorOnMainThread<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>setTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span> withObject<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Start!&quot;</span> waitUntilDone<span style="color: #002200;">:</span><span style="color: #a61390;">NO</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; _isReading <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>_audioPlayer<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_audioPlayer play<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Note that we make sure that the audio player object has been initialized. If it&#8217;s okay, then we playback simply by calling the <em>play</em> method of the audio player object.</p>
+<p>There is one last thing that remains to be done, and that is to call the <em>loadBeepSound</em> method. If you notice, that&#8217;s something that has not yet been performed. The best place to do that is inside the <em>viewDidLoad</em> method, just as the next code snippet:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; _captureSession <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; _isReading <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+&nbsp; &nbsp;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self loadBeepSound<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With this addition, the app is now capable of playing a sound effect every time it recognizes a QR code.</p>
+<h2>Compile and Test the Final App</h2>
+<p>After having done all this job, it&#8217;s time to enjoy the fruits of our efforts. If you haven&#8217;t done so yet, connect your device on your Mac and run the application. Find various QR codes and test it. Even more, search on Google for <a href="http://goqr.me/">QR code creators</a> and create your own ones. Or simply use the below one. If your app scans it properly, you should see the message &#8220;It&#8217;s great! Your app works!&#8221;.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/qrcode.jpg" alt="qrcode" class="aligncenter size-full wp-image-2788" /></div>
+<p>Here are the sample screenshots showing a demo of the app running on my device:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_12_final1.jpg" alt="QR Code Demo App 1" class="aligncenter size-full wp-image-2774" /></div>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_13_final2.jpg" alt="QR Code Demo App 2" class="aligncenter size-full wp-image-2775" /></div>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/12/t1_14_final3.jpg" alt="QR Code Demo App 2" class="aligncenter size-full wp-image-2776" /></div>
+<h2>Summary</h2>
+<p>Just the idea of creating an application which incorporates QR code reading features initially might sounds scary and really hard to be built. Through this tutorial, I hope that it was made totally clear that such an app nowadays can be pretty simple, thanks to iOS 7. This demo project binds various AVFoundation features together, such as video capture, sound playback and of course, barcode reading. For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/QRCodeReader.zip">download the source code of the Xcode project from here</a>.</p>
+<p>By taking this tutorial as a starting point, do some brainstorming and find useful and real applications regarding this topic to build. QR code reading is a cool feature, and I&#8217;d like to believe that through this content you get all the knowledge you need to use it in your own applications! Happy QR code testing!</p>
+<p><em><strong>Author bio:</strong> Gabriel Theodoropoulos has been a software developer for almost two decades. Experienced in the most known programming languages, I have developed numerous applications for various target platforms. Since the middle of 2010, I&#8217;ve been working almost exclusively on iOS. Having built applications and libraries, I keep doing so up to date. By writing tutorials I&#8217;m in position to share knowledge with other developers.</em></p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uipageviewcontroller-tutorial-intro/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/06/UIPageViewController-Tutorial-Screen-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Use UIPageViewController to Build Tutorial Screens</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-iad-introduction/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/06/iad-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Using iAd to Display Banner Ad in Your App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/facebook-pop-framework-intro/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/12/pop-animations-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Simple Animations with Facebook's Pop Framework</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/custom-view-controller-transitions-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/03/custom-view-transition-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to Custom View Controller Transitions and Animations</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/qr-code-ios-programming-tutorial/"
+    dc:identifier="http://www.appcoda.com/qr-code-ios-programming-tutorial/"
+    dc:title="How To Scan QR Code Using AVFoundation Framework"
+    trackback:ping="http://www.appcoda.com/qr-code-ios-programming-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/avfoundation/" rel="tag">AVFoundation</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/ios-sdk/" rel="tag">iOS SDK</a>, <a href="http://www.appcoda.com/tag/qr-code/" rel="tag">QR Code</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="post pingback">
+        <p>Pingback: <a href='http://applesolutionsexpert.com/how-to-scan-and-read-qr-code-using-ios-avfoundation-framework' rel='external nofollow' class='url'>How To Scan and Read QR Code Using iOS AVFoundation Framework - Apple Solutions Expert</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2907">
+        <div id="dsq-comment-header-2907" class="dsq-comment-header">
+            <cite id="dsq-cite-2907">
+                <span id="dsq-author-user-2907">Bruno Maia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2907" class="dsq-comment-body">
+            <div id="dsq-comment-message-2907" class="dsq-comment-message"><p>Keep up guys, great tutorial! Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2931">
+        <div id="dsq-comment-header-2931" class="dsq-comment-header">
+            <cite id="dsq-cite-2931">
+                <span id="dsq-author-user-2931">xuyanming</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2931" class="dsq-comment-body">
+            <div id="dsq-comment-message-2931" class="dsq-comment-message"><p>When it is running in iPhone4 iOS7.0.4,then can&#8217;t show the &#8216;Start!&#8217; button</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2932">
+        <div id="dsq-comment-header-2932" class="dsq-comment-header">
+            <cite id="dsq-cite-2932">
+                <span id="dsq-author-user-2932">Gabriel Thedoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2932" class="dsq-comment-body">
+            <div id="dsq-comment-message-2932" class="dsq-comment-message"><p>The sample app of the tutorial was made for a 4&#8243; device (iPhone 5 etc). iPhone 4 has a 3.5&#8243; screen and that&#8217;s why you don&#8217;t see the Start button. What you have to do is to go to Interface Builder, then select all subviews on the iPhone interface and lastly add all missing constraints. This way you&#8217;ll be able to run it on your device too.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2982">
+        <div id="dsq-comment-header-2982" class="dsq-comment-header">
+            <cite id="dsq-cite-2982">
+                <span id="dsq-author-user-2982">Linus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2982" class="dsq-comment-body">
+            <div id="dsq-comment-message-2982" class="dsq-comment-message"><p>Thank you!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3009">
+        <div id="dsq-comment-header-3009" class="dsq-comment-header">
+            <cite id="dsq-cite-3009">
+                <span id="dsq-author-user-3009">Lua Hai</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3009" class="dsq-comment-body">
+            <div id="dsq-comment-message-3009" class="dsq-comment-message"><p>Please help me how to scan QR code from a image code of Photo Album into iOS device by using AVFoundation Framework. Thanks guys.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-100157">
+        <div id="dsq-comment-header-100157" class="dsq-comment-header">
+            <cite id="dsq-cite-100157">
+                <span id="dsq-author-user-100157">MarieDM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100157" class="dsq-comment-body">
+            <div id="dsq-comment-message-100157" class="dsq-comment-message"><p>Did you manage to read a QR code from an image?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3020">
+        <div id="dsq-comment-header-3020" class="dsq-comment-header">
+            <cite id="dsq-cite-3020">
+                <span id="dsq-author-user-3020">DesignersX</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3020" class="dsq-comment-body">
+            <div id="dsq-comment-message-3020" class="dsq-comment-message"><p>Thanks a lot for sharing this Gabriel. It works very good when I build a 1 page app like you suggested. But it hangs up the phone when I tried to use it in one of my apps. I am trying to build a simple app with two view controller. In first view controller, I have product list which user can buy any product with discount option. If user want any discount then they need special coupon with qrCode. When user hit &#8220;get discount&#8221; button then app will open second view controller and it scan qrcode(made as you syggested) and redirect to first view controller with discount code. My app crashed after 6th or 7th use regularly. My app work fine upto 6 qrCode scanning but when user comes for 7th time for scanning then qrcode scanner crashes the whole app. Very weird problem.</p>
+<p>Would be great if you can help me with this issue also.</p>
+<p>Thanks again!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3043">
+        <div id="dsq-comment-header-3043" class="dsq-comment-header">
+            <cite id="dsq-cite-3043">
+                <span id="dsq-author-user-3043">AnthonyMarchenko</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3043" class="dsq-comment-body">
+            <div id="dsq-comment-message-3043" class="dsq-comment-message"><p>share the code, dude <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+We will try to help</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3045">
+        <div id="dsq-comment-header-3045" class="dsq-comment-header">
+            <cite id="dsq-cite-3045">
+http://www.designersx.com/                <span id="dsq-author-user-3045">DesignersX</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3045" class="dsq-comment-body">
+            <div id="dsq-comment-message-3045" class="dsq-comment-message"><p>Thanks Dude!<br />
+Managed it myself, Just had to initialize the camera properly when loading the scanner page and close the camera when going off the scanner page.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-4076">
+        <div id="dsq-comment-header-4076" class="dsq-comment-header">
+            <cite id="dsq-cite-4076">
+                <span id="dsq-author-user-4076">Ruba</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4076" class="dsq-comment-body">
+            <div id="dsq-comment-message-4076" class="dsq-comment-message"><p>How do you do that? I&#8217;m having the same problem</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-4171">
+        <div id="dsq-comment-header-4171" class="dsq-comment-header">
+            <cite id="dsq-cite-4171">
+                <span id="dsq-author-user-4171">rajinder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4171" class="dsq-comment-body">
+            <div id="dsq-comment-message-4171" class="dsq-comment-message"><p>hi Ruba,</p>
+<p> Do one thing make nil all object of qr code scanner  after scanning  qr-code or you living the scan view.<br />
+Object List which you need to mark nil:</p>
+<p>1. AVCaptureDevice* device;<br />
+2. AVCaptureDeviceInput* input;<br />
+3. AVCaptureMetadataOutput* output;<br />
+4. AVCaptureSession* session;<br />
+5. AVCaptureVideoPreviewLayer* preview;</p>
+<p>you can use following function to nil all object:<br />
+-(void)clrQr{<br />
+    [_preview removeFromSuperlayer];<br />
+    _preview=nil;<br />
+    [_session stopRunning];<br />
+    _input=nil;<br />
+    _device=nil;<br />
+    _output=nil;<br />
+    _session=nil;<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3080">
+        <div id="dsq-comment-header-3080" class="dsq-comment-header">
+            <cite id="dsq-cite-3080">
+                <span id="dsq-author-user-3080">Karthik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3080" class="dsq-comment-body">
+            <div id="dsq-comment-message-3080" class="dsq-comment-message"><p>Great tutorial guys. But I am unable to run the demo app on iOS 6.0, please help me out.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3081">
+        <div id="dsq-comment-header-3081" class="dsq-comment-header">
+            <cite id="dsq-cite-3081">
+http://www.simonblog.com                <span id="dsq-author-user-3081">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3081" class="dsq-comment-body">
+            <div id="dsq-comment-message-3081" class="dsq-comment-message"><p>You should use iOS 7.0 to test the demo app. QR code scanning is a new feature of AVFoundation framework in iOS 7.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3112">
+        <div id="dsq-comment-header-3112" class="dsq-comment-header">
+            <cite id="dsq-cite-3112">
+                <span id="dsq-author-user-3112">LAOMUSIC ARTS</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3112" class="dsq-comment-body">
+            <div id="dsq-comment-message-3112" class="dsq-comment-message"><p>Thanks Gabriel !<br />
+I want to pass the info achieved by the scan into a list so the clients can keep scanning/shopping and adding to this list. This list will be attached to an email afterwards.<br />
+ShalI I use CoreData for this task ?</p>
+<p>Thanks for any help !<br />
+LAO</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3233">
+        <div id="dsq-comment-header-3233" class="dsq-comment-header">
+            <cite id="dsq-cite-3233">
+                <span id="dsq-author-user-3233">Gabriel Thedoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3233" class="dsq-comment-body">
+            <div id="dsq-comment-message-3233" class="dsq-comment-message"><p>Hi there,</p>
+<p>Please excuse my late answer.</p>
+<p>Using CoreData or not for storing data after a scanning, it&#8217;s totally up to your app&#8217;s requirements and the storing mechanism you want to use. You could use CoreData, a SQLite database, XML, plain files, or anything else. You choose. I personally like to create and use SQLite databases and write queries to manage data (just because I&#8217;m much more familiarized with that).</p>
+<p>As you&#8217;re planning to create a shopping list, then the best option you have is either to use CoreData, or a database. It&#8217;s up to you!</p>
+<p>Thanks for reading!</p>
+<p>Gabriel</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3148">
+        <div id="dsq-comment-header-3148" class="dsq-comment-header">
+            <cite id="dsq-cite-3148">
+                <span id="dsq-author-user-3148">Nic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3148" class="dsq-comment-body">
+            <div id="dsq-comment-message-3148" class="dsq-comment-message"><p>What a nice tutorial.  Thank you for giving me a glimpse of AVFoundation. I would love more tutorials deep into the core of AVFoundation</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3149">
+        <div id="dsq-comment-header-3149" class="dsq-comment-header">
+            <cite id="dsq-cite-3149">
+                <span id="dsq-author-user-3149">Nic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3149" class="dsq-comment-body">
+            <div id="dsq-comment-message-3149" class="dsq-comment-message"><p>Thanks for your tutorial again. But I have a question. I want to take a full-screen photo ( full-screen previewLayer ) like snapchat. Does AVFoundation gives me what I want? Because I know ImagePicker won&#8217;t allow me to so on iPhone 5</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3487">
+        <div id="dsq-comment-header-3487" class="dsq-comment-header">
+            <cite id="dsq-cite-3487">
+                <span id="dsq-author-user-3487">Roger</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3487" class="dsq-comment-body">
+            <div id="dsq-comment-message-3487" class="dsq-comment-message"><p>@gabrielthedoropoulos:disqus Is there any way of creating something like this but instead of an QR code , the app will take a picture or with the camera on will read numbers or text and then display it in a label or compare the numbers to a database ? </p>
+<p>Thanks in advance.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3507">
+        <div id="dsq-comment-header-3507" class="dsq-comment-header">
+            <cite id="dsq-cite-3507">
+                <span id="dsq-author-user-3507">Gabriel Thedoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3507" class="dsq-comment-body">
+            <div id="dsq-comment-message-3507" class="dsq-comment-message"><p>Hi,<br />
+Forgive my late answer.</p>
+<p>As far as I understand what you need is an OCR SDK to convert any letters and numbers taken as an image to text. Then you can handle them in any way you may need.</p>
+<p>You&#8217;d better make a search on Google and you&#8217;ll surely find something that will help you out.</p>
+<p>Gabriel</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3558">
+        <div id="dsq-comment-header-3558" class="dsq-comment-header">
+            <cite id="dsq-cite-3558">
+                <span id="dsq-author-user-3558">Roger</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3558" class="dsq-comment-body">
+            <div id="dsq-comment-message-3558" class="dsq-comment-message"><p>Thank you @gabrielthedoropoulos:disqus .</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3524">
+        <div id="dsq-comment-header-3524" class="dsq-comment-header">
+            <cite id="dsq-cite-3524">
+                <span id="dsq-author-user-3524">Raween</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3524" class="dsq-comment-body">
+            <div id="dsq-comment-message-3524" class="dsq-comment-message"><p>Thank you very much!!! Works great on iPad retina.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3566">
+        <div id="dsq-comment-header-3566" class="dsq-comment-header">
+            <cite id="dsq-cite-3566">
+                <span id="dsq-author-user-3566">Shageevan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3566" class="dsq-comment-body">
+            <div id="dsq-comment-message-3566" class="dsq-comment-message"><p>Thank you for this awesome tutorial. It was a much needed component for one of my apps. Works like a charm!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3614">
+        <div id="dsq-comment-header-3614" class="dsq-comment-header">
+            <cite id="dsq-cite-3614">
+                <span id="dsq-author-user-3614">Ricardo Lousada</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3614" class="dsq-comment-body">
+            <div id="dsq-comment-message-3614" class="dsq-comment-message"><p>Hi great tutorial! Thanks for sharing. I&#8217;m trying to change the layout to landscape but it seems that the orientation property is no longer available. Since i&#8217;m new to iOS programming can someone help me on this? I can i do it?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3622">
+        <div id="dsq-comment-header-3622" class="dsq-comment-header">
+            <cite id="dsq-cite-3622">
+                <span id="dsq-author-user-3622">Ricardo Lousada</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3622" class="dsq-comment-body">
+            <div id="dsq-comment-message-3622" class="dsq-comment-message"><p>I got it&#8230;If any one else needs it, it&#8217;s like this:</p>
+<p>  [_videoPreviewLayer.connection setVideoOrientation:AVCaptureVideoOrientationLandscapeRight];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3801">
+        <div id="dsq-comment-header-3801" class="dsq-comment-header">
+            <cite id="dsq-cite-3801">
+                <span id="dsq-author-user-3801">Isuru Nanayakkara</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3801" class="dsq-comment-body">
+            <div id="dsq-comment-message-3801" class="dsq-comment-message"><p>Hi Gabriel, thanks a lot for the great tutorial. Works like a charm. By the way, any reason why you&#8217;re using ivars instead of properties?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4016">
+        <div id="dsq-comment-header-4016" class="dsq-comment-header">
+            <cite id="dsq-cite-4016">
+http://www.gtiapps.com/                <span id="dsq-author-user-4016">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4016" class="dsq-comment-body">
+            <div id="dsq-comment-message-4016" class="dsq-comment-message"><p>I appreciate it!</p>
+<p>There&#8217;s no special reason for not using properties, it&#8217;s just a matter of habit which I&#8217;m going to leave behind me and start using only properties.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3809">
+        <div id="dsq-comment-header-3809" class="dsq-comment-header">
+            <cite id="dsq-cite-3809">
+                <span id="dsq-author-user-3809">Ruba</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3809" class="dsq-comment-body">
+            <div id="dsq-comment-message-3809" class="dsq-comment-message"><p>Gabriel Theodoropoulos </p>
+<p>hello Gabriel<br />
+thank you for great explaining, can we use it to scan Grocery barcode?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4015">
+        <div id="dsq-comment-header-4015" class="dsq-comment-header">
+            <cite id="dsq-cite-4015">
+http://www.gtiapps.com/                <span id="dsq-author-user-4015">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4015" class="dsq-comment-body">
+            <div id="dsq-comment-message-4015" class="dsq-comment-message"><p>Yes, of course, feel free to use the code the way you want!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3832">
+        <div id="dsq-comment-header-3832" class="dsq-comment-header">
+            <cite id="dsq-cite-3832">
+                <span id="dsq-author-user-3832">Sanjivani Pant</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3832" class="dsq-comment-body">
+            <div id="dsq-comment-message-3832" class="dsq-comment-message"><p>Hi, great tutorial indeed. I implemented your code in my app. I am very new in iOS programming. After implementing your code, I am not trying to figure out how can I start video as soon as app scan video QR code. Please guide me on this.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4098">
+        <div id="dsq-comment-header-4098" class="dsq-comment-header">
+            <cite id="dsq-cite-4098">
+                <span id="dsq-author-user-4098">Ruba</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4098" class="dsq-comment-body">
+            <div id="dsq-comment-message-4098" class="dsq-comment-message"><p>Hello again,, if i wanna use more that one AVMetadataObjectType how can i declare it ? just a comma between the types ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-8349">
+        <div id="dsq-comment-header-8349" class="dsq-comment-header">
+            <cite id="dsq-cite-8349">
+                <span id="dsq-author-user-8349">Shava1190</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8349" class="dsq-comment-body">
+            <div id="dsq-comment-message-8349" class="dsq-comment-message"><p>[captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObjects:AVMetadataObjectTypeQRCode,  AVMetadataObjectTypePDF417Code,  AVMetadataObjectTypeUPCECode,  AVMetadataObjectTypeCode39Code,  AVMetadataObjectTypeCode39Mod43Code,  AVMetadataObjectTypeEAN13Code,  AVMetadataObjectTypeEAN8Code,  AVMetadataObjectTypeCode93Code,  AVMetadataObjectTypeCode128Code,  AVMetadataObjectTypeAztecCode,  nil]];</p>
+<p>-(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{</p>
+<p>    NSArray *barCodeTypes = @[AVMetadataObjectTypeUPCECode,<br />
+                              AVMetadataObjectTypeCode39Code,<br />
+                              AVMetadataObjectTypeCode39Mod43Code,<br />
+                              AVMetadataObjectTypeEAN13Code,<br />
+                              AVMetadataObjectTypeEAN8Code,<br />
+                              AVMetadataObjectTypeCode93Code,<br />
+                              AVMetadataObjectTypeCode128Code,<br />
+                              AVMetadataObjectTypePDF417Code,<br />
+                              AVMetadataObjectTypeQRCode,<br />
+                              AVMetadataObjectTypeAztecCode];</p>
+<p>    // Check if the metadataObjects array is not nil and it contains at least one object.<br />
+    if (metadataObjects != nil &amp;&amp; [metadataObjects count] &gt; 0) {<br />
+        // Get the metadata object.<br />
+        int i = 0;<br />
+        for (AVMetadataObject *metadata in metadataObjects) {<br />
+            AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:i];<br />
+            for (NSString *type in barCodeTypes) {<br />
+                if ([metadata.type isEqualToString:type])<br />
+                {<br />
+                    [_lblStatus performSelectorOnMainThread:@selector(setText:) withObject:[metadataObj stringValue] waitUntilDone:NO];</p>
+<p>                    [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];<br />
+                    [_bbitemStart performSelectorOnMainThread:@selector(setTitle:) withObject:@&#8221;Start!&#8221; waitUntilDone:NO];</p>
+<p>                    _isReading = NO;</p>
+<p>                    // If the audio player is not nil, then play the sound effect.<br />
+                    if (_audioPlayer) {<br />
+                        [_audioPlayer play];<br />
+                    }<br />
+                    break;<br />
+                }<br />
+            }<br />
+            i+=1;<br />
+        }<br />
+    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4103">
+        <div id="dsq-comment-header-4103" class="dsq-comment-header">
+            <cite id="dsq-cite-4103">
+                <span id="dsq-author-user-4103">Hind</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4103" class="dsq-comment-body">
+            <div id="dsq-comment-message-4103" class="dsq-comment-message"><p>THANK U, helpful tutorial ..<br />
+whenever the barcode has been read i want the app go to another view controller! I tried to put the navigation before/ after   performSelectorOnMainThread<br />
+In capture output function<br />
+But there is no action at al, do you know why? / how can i fix it?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4112">
+        <div id="dsq-comment-header-4112" class="dsq-comment-header">
+            <cite id="dsq-cite-4112">
+                <span id="dsq-author-user-4112">georgepliu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4112" class="dsq-comment-body">
+            <div id="dsq-comment-message-4112" class="dsq-comment-message"><p>Hi Gabriel &#8211; This is a great tutorial &#8211; very clearly written.  I downloaded your app and tried to run it on my iPhone 4.  The delegate method capture… does not seem to work.  Am I missing/forgetting something?  Thanks in advance.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10675">
+        <div id="dsq-comment-header-10675" class="dsq-comment-header">
+            <cite id="dsq-cite-10675">
+                <span id="dsq-author-user-10675">Robert</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10675" class="dsq-comment-body">
+            <div id="dsq-comment-message-10675" class="dsq-comment-message"><p>Great tutorial has taught me loads.  I&#8217;m just stuck with one issue.  on my iPad it&#8217;s reading the qrcode twice!  it was only obvious when I added a popup which detected if http when open Safari, if not then display the popup alert.  On all devices except my iPad it works correctly, but on the ipad (ipad 3 I think, old style dock connector) the alert box loads twice. (fine on iPhone 4 and iPhone 3)<br />
+I&#8217;ve tried changing the stopReading to waitUntilDone YES, and several other values but still hitting the same issue, any ideas.?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-77279">
+        <div id="dsq-comment-header-77279" class="dsq-comment-header">
+            <cite id="dsq-cite-77279">
+                <span id="dsq-author-user-77279">sudhakar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-77279" class="dsq-comment-body">
+            <div id="dsq-comment-message-77279" class="dsq-comment-message"><p>me too same problem</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-99700">
+        <div id="dsq-comment-header-99700" class="dsq-comment-header">
+            <cite id="dsq-cite-99700">
+                <span id="dsq-author-user-99700">vice</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99700" class="dsq-comment-body">
+            <div id="dsq-comment-message-99700" class="dsq-comment-message"><p>same problem on ipad3 (lightning connector)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://appgong.com/2378/' rel='external nofollow' class='url'>How To Scan and Read QR Code Using iOS AVFoundation Framework - appgong</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-30124">
+        <div id="dsq-comment-header-30124" class="dsq-comment-header">
+            <cite id="dsq-cite-30124">
+                <span id="dsq-author-user-30124">Jim Chen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30124" class="dsq-comment-body">
+            <div id="dsq-comment-message-30124" class="dsq-comment-message"><p>if i want to save the qr code into my app, like add it into a new page under history, what do i add to the code?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-71617">
+        <div id="dsq-comment-header-71617" class="dsq-comment-header">
+            <cite id="dsq-cite-71617">
+                <span id="dsq-author-user-71617">johns</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-71617" class="dsq-comment-body">
+            <div id="dsq-comment-message-71617" class="dsq-comment-message"><p>Hi, Jim, I am also finding the solution for this problem. Did you find any option? I need to convert this QR code into an image. Is there any way ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30212">
+        <div id="dsq-comment-header-30212" class="dsq-comment-header">
+            <cite id="dsq-cite-30212">
+                <span id="dsq-author-user-30212">Bahadir Katipoglu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30212" class="dsq-comment-body">
+            <div id="dsq-comment-message-30212" class="dsq-comment-message"><p>Amazing. Thank you!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.zescience.com/qr-scanning-for-ios-6-95648' rel='external nofollow' class='url'>QR Scanning for iOS 6</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-42414">
+        <div id="dsq-comment-header-42414" class="dsq-comment-header">
+            <cite id="dsq-cite-42414">
+                <span id="dsq-author-user-42414">Luis Romero</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-42414" class="dsq-comment-body">
+            <div id="dsq-comment-message-42414" class="dsq-comment-message"><p>Hi Gabriel, I guess this is not news at this point but I&#8217;ll say it anyway&#8230;.GREAT Tutorial!. Thanks for sharing your knowledge, dude!<br />
+One question though: How and where the delegate is set so the code knows what method and when to call to captureOutput:didOutputMetadataObjects:fromConnection? I couldn&#8217;t extract this from the tutorial and is driving me crazy :S</p>
+<p>I see that the ViewController inherits from UIViewController  but I don&#8217;t understand where the delegation is set in code.</p>
+<p>Thanks for any help!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-66970">
+        <div id="dsq-comment-header-66970" class="dsq-comment-header">
+            <cite id="dsq-cite-66970">
+                <span id="dsq-author-user-66970">the_exclusive</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-66970" class="dsq-comment-body">
+            <div id="dsq-comment-message-66970" class="dsq-comment-message"><p>hi all. thanx for excellent tutorial. I have a question.i want to go to an another view controller with push (navigation contoller) or presentview controller after code recognize the QRCode..<br />
+in AVCaptureMetadataOutputObjectsDelegate method i take metadata and push or present another viewcontroller. But it takes very long time to go my new view contoller. i can not hadle this. What is your opinion?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-72370">
+        <div id="dsq-comment-header-72370" class="dsq-comment-header">
+            <cite id="dsq-cite-72370">
+                <span id="dsq-author-user-72370">Carsten</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72370" class="dsq-comment-body">
+            <div id="dsq-comment-message-72370" class="dsq-comment-message"><p>Hi, I have the same problem!!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-72382">
+        <div id="dsq-comment-header-72382" class="dsq-comment-header">
+            <cite id="dsq-cite-72382">
+                <span id="dsq-author-user-72382">Carsten</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72382" class="dsq-comment-body">
+            <div id="dsq-comment-message-72382" class="dsq-comment-message"><p>AND, if you change the orientation of the device (by rotating), the ViewController updates immediately, without any delay.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-99699">
+        <div id="dsq-comment-header-99699" class="dsq-comment-header">
+            <cite id="dsq-cite-99699">
+                <span id="dsq-author-user-99699">vice</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99699" class="dsq-comment-body">
+            <div id="dsq-comment-message-99699" class="dsq-comment-message"><p>same problem here when calling an unwindSegue in -(void)CaptureOutput&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-76939">
+        <div id="dsq-comment-header-76939" class="dsq-comment-header">
+            <cite id="dsq-cite-76939">
+                <span id="dsq-author-user-76939">sudhakar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-76939" class="dsq-comment-body">
+            <div id="dsq-comment-message-76939" class="dsq-comment-message"><p>iam geting two alert view why?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-76946">
+        <div id="dsq-comment-header-76946" class="dsq-comment-header">
+            <cite id="dsq-cite-76946">
+                <span id="dsq-author-user-76946">Nithya Meenan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-76946" class="dsq-comment-body">
+            <div id="dsq-comment-message-76946" class="dsq-comment-message"><p>my requirement is show the result in alert view after scaning completed but some times is iam  getiing 2alert views ,tell how manage it</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-77011">
+        <div id="dsq-comment-header-77011" class="dsq-comment-header">
+            <cite id="dsq-cite-77011">
+                <span id="dsq-author-user-77011">DarksteelPenguin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-77011" class="dsq-comment-body">
+            <div id="dsq-comment-message-77011" class="dsq-comment-message"><p>Hi ! I followed your tutorial (it&#8217;s very well writen) but  the delegate method captureOutput never gets called. I put a QR code in front of the camera, it shows up on screen, but it is never captured, do you have any idea why ?</p>
+<p>Also, autofocus doesn&#8217;t seems to work with the IPad, do you know a way to force it ?</p>
+<p>Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-82386">
+        <div id="dsq-comment-header-82386" class="dsq-comment-header">
+            <cite id="dsq-cite-82386">
+                <span id="dsq-author-user-82386">Tom S</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-82386" class="dsq-comment-body">
+            <div id="dsq-comment-message-82386" class="dsq-comment-message"><p>Hey thanks again for this great tutorial!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-96931">
+        <div id="dsq-comment-header-96931" class="dsq-comment-header">
+            <cite id="dsq-cite-96931">
+                <span id="dsq-author-user-96931">Julia Tu</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-96931" class="dsq-comment-body">
+            <div id="dsq-comment-message-96931" class="dsq-comment-message"><p>Thank you so much for your excellent tutorial.  I have no issues with it, looking forward to more posts!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.easypodcast.it/puntate/tech-mind/tm-82/' rel='external nofollow' class='url'>Tech Mind #82: Thunderstrike | EasyPodcast</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://fatal-errors.com/ios-framework-concept-qr-code-scanning/375797' rel='external nofollow' class='url'>iOS Framework Concept: QR Code Scanning | Solutions for enthusiast and professional programmers</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://dluat.com/ios-framework-concept-qr-code-scanning/' rel='external nofollow' class='url'>iOS Framework Concept: QR Code Scanning | DL-UAT</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99698">
+        <div id="dsq-comment-header-99698" class="dsq-comment-header">
+            <cite id="dsq-cite-99698">
+                <span id="dsq-author-user-99698">vice</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99698" class="dsq-comment-body">
+            <div id="dsq-comment-message-99698" class="dsq-comment-message"><p>Is -(void)captureOutput  executed multible times?</p>
+<p>If I do NSLog(metadataObj.stringValue); I get 3 Outputs in the Console. </p>
+<p>Any idea? Would be really important to me. </p>
+<p>I changed the code a little bit and call [self startreading] in the method (void)viewDidLoad.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://rss.kcygo.com/?p=22866' rel='external nofollow' class='url'>用Swift开发二维码扫描器教程 | 网站采集</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100041">
+        <div id="dsq-comment-header-100041" class="dsq-comment-header">
+            <cite id="dsq-cite-100041">
+                <span id="dsq-author-user-100041">Sumit Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100041" class="dsq-comment-body">
+            <div id="dsq-comment-message-100041" class="dsq-comment-message"><p>I used the same source to create QR code reader. But its unable to scan few QR codes. I am attaching image.<br />
+If I print this image in grayscale mode, its now readable. But its not readable as a coloured print or directly from laptop screen.<br />
+Please help.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-101231">
+        <div id="dsq-comment-header-101231" class="dsq-comment-header">
+            <cite id="dsq-cite-101231">
+                <span id="dsq-author-user-101231">Gaurav Mehta</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101231" class="dsq-comment-body">
+            <div id="dsq-comment-message-101231" class="dsq-comment-message"><p>How can download QR Code Image ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/qr-code-ios-programming-tutorial/';
+var disqus_identifier = '2780 http://www.appcoda.com/?p=2780';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "How To Scan QR Code Using AVFoundation Framework";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=2780';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="2780"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-ios-programming-tutorial%2F&#038;t=How%20To%20Scan%20QR%20Code%20Using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2780" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>73</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=How%20To%20Scan%20QR%20Code%20Using%20AVFoundation%20Framework&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-ios-programming-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2780" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>21</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-ios-programming-tutorial%2F&#038;t=How%20To%20Scan%20QR%20Code%20Using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2780" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>12</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-ios-programming-tutorial%2F&#038;title=How%20To%20Scan%20QR%20Code%20Using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2780" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>4</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-ios-programming-tutorial%2F&#038;t=How%20To%20Scan%20QR%20Code%20Using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2780" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=How%20To%20Scan%20QR%20Code%20Using%20AVFoundation%20Framework&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-ios-programming-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2780" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-ios-programming-tutorial%2F&#038;t=How%20To%20Scan%20QR%20Code%20Using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2780" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-ios-programming-tutorial%2F&#038;title=How%20To%20Scan%20QR%20Code%20Using%20AVFoundation%20Framework" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2780" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/qr-code-ios-programming-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:21:41 by W3 Total Cache -->

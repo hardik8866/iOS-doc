@@ -1,0 +1,1149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Introduction to Objective-C Blocks</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This programming tutorial gives you an introduction of Objective-C blocks that was introduced in iOS 4.0 SDK. Blocks is a feature similar to function pointer in C language."/>
+<link rel="canonical" href="http://www.appcoda.com/objective-c-blocks-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This programming tutorial gives you an introduction of Objective-C blocks that was introduced in iOS 4.0 SDK. Blocks is a feature similar to function pointer in C language."/>
+<meta name="twitter:title" content="Introduction to Objective-C Blocks"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/01/block-featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Introduction to Objective-C Blocks Comments Feed" href="http://www.appcoda.com/objective-c-blocks-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=2905' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-2905 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-2905 post type-post status-publish format-standard hentry category-beginner category-course category-tutorials tag-blocks tag-ios-programming tag-ios-sdk tag-object-oriented-programming tag-objective-c tag-xcode entry"><h1 class="entry-title">Introduction to Objective-C Blocks</h1> 
+<div class="post-info"><span class="date published time" title="2014-01-29T20:20:40+00:00">January 29, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/objective-c-blocks-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="2905 http://www.appcoda.com/?p=2905">23 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>In programming, what differentiates a good developer from a great developer is the way each one takes advantage of the programming tools he or she offered by the used language. Objective-C, the official language for developing applications for iPhone, iPad and Mac OS, is a multi-featured one, and as a relative to C, very powerful. New developers have a lot to explore when starting working with it, while advanced programmers have always something new to learn, as there are numerous supported programming aspects. One of them, is the capability to write code using <strong>Blocks</strong>.</p>
+<p>Blocks do not consist of a new programming discovery in Objective-C. They exist in other programming languages too (such as Javascript) with other names, such as <em>Closures</em>. In iOS, they first-appeared in version 4.0, and since then they&#8217;ve known great acceptance and usage. In subsequent iOS versions, Apple re-wrote or updated many framework methods so they adopt blocks, and it seems that blocks are going to be partly the future of the way code is written. But what are they all about really?</p>
+<p>Well, a block is a <em>self-contained, autonomous code fragment</em>, existing always into the scope of another programming structure, as for example the body of a method. The code on the block can &#8220;interact&#8221; with the world out of it, but what takes place in the block is not visible to the scope out of it. Also, blocks can modify the values of variables being out of its body using a special way (we&#8217;ll see more later). Blocks have two great features:</p>
+<ol>
+<li>They can be executed in a later time, and not when the code of the scope they have been implemented is being executed.</li>
+<li>Their usage leads eventually to a much cleaner and tidier code writing, as they can be used instead of delegate methods, written just in one place and not spread to many files.</li>
+</ol>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/block-featured.jpg" alt="Introduction to Blocks" class="aligncenter size-full wp-image-2928" /></div>
+<p>Focusing even more on the second feature, blocks offer a nice solution for creating callbacks instead of delegates, as they are declared and implemented directly to the point of the code where they are invoked. Using blocks, there is no need to adopt protocols, or implementing delegate methods that lead to much more code in a class. The best thing though, is that the callback procedure can directly access and use any variables existing locally in the scope where the block has been defined, so the need of passing data like we do in callback methods is eliminated. However, blocks cannot totally replace delegates as they cannot be used for every purpose. The best practice is to make combination of both, and that can be achieved both by following some simple rules and using the experience obtained in time.<br />
+<span id="more-2905"></span><br />
+Blocks are <em>objects</em>, so they can be stored to NSArray or NSDictionary data structures, as well as to be returned from methods, even to be assigned to variables.</p>
+<p>Two facts are sure for every developer, even if someone has no idea about blocks. First off, it&#8217;s certain that every one has used blocks, even without knowing it. That&#8217;s because Apple has adopted blocks especially as completion handlers to many important, commonly used methods. Secondarily, thankfully or not, you don&#8217;t need to have deep knowledge on block programming in order to use them, just to understand how they work.</p>
+<p>Blocks have just one weird characteristic, and that&#8217;s the way they are written. If you are new to all these, don&#8217;t worry, as after a couple of days of using and writing blocks, you will get used to it like everything else in Objective-C.</p>
+<p>In this tutorial I&#8217;m aiming at two goals: To clarify all these things I just presented using code, and, above all to show you how blocks can be used in practice, by demonstrating practical examples, so they can make your programming life easier. If you don&#8217;t do any block programming yet, I wish after having finished this tutorial to start doing so.</p>
+<p>So, keep reading in order to discover some cool and interesting stuff!</p>
+<h2>App Overview</h2>
+<p>I could say that the demo application we&#8217;ll create for the purposes of this tutorial is composed by multiple parts that are independent on each other. Actually, we could implement a command-line application, but as I am going to present some UI-related content, we&#8217;ll make a really simple application. First of all, we are going to create some code that will display messages only on the debugger, without build any special UI for it. That&#8217;s because we&#8217;ll focus on making our debut in writing blocks, and that part will consist of multiple, small examples, for which we care about only for the returned results. However, we&#8217;ll do some interface building as well, as we are going to perform some view-related tasks and we want our application to provide UI interaction. The most important is that each part of our app will focus on another way of using blocks, so useful techniques to be demonstrated in practice.</p>
+<h2>Creating the Demo App</h2>
+<p>Before we make any discussion and see any single line of code, it&#8217;s necessary to have a project ready to be waiting for us. Therefore, let&#8217;s create one. Launch Xcode, and select to create a new project on the <strong>Welcome</strong> window:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_1_xcode_welcome-511x300.jpg" alt="Blocks - Xcode Welcome Dialog" class="aligncenter size-medium wp-image-2907" /></div>
+<p>In the first step of the guide, select the <strong>Single View Application</strong> in the <strong>Application</strong> category, under the <strong>iOS</strong> section.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_2_template1.jpg" alt="Blocks - Select Xcode Template" class="aligncenter size-full wp-image-2908" /></div>
+<p>Click Next to proceed and set a name to the project. I named it <strong>BlockDemo</strong>, but you&#8217;re free to name it however you like. Also, make sure that in the <strong>Devices</strong> drop down menu, the <strong>iPhone</strong> value is selected.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_3_template2.jpg" alt="Blocks - Creating Xcode Project" class="aligncenter size-full wp-image-2910" /></div>
+<p>Click again on the Next button and select a destination directory for your project. Once you do that, click on the Create button and we are ready.</p>
+<h2>Basic Block-ing</h2>
+<p>Before we dive in blocks, I should tell that you can write all code presented in this section inside the <em>viewDidLoad</em> method on the <em>ViewController.m</em> file, in case you want to try it out on your own. So, let&#8217;s start.</p>
+<p>A block declaration follows the next syntax pattern:</p>
+<p><strong>ReturnType (^blockName)(<em>Parameters</em>)</strong></p>
+<p>This is quite similar to a C function declaration, with one great exception: The caret (^) symbol, which indicates that the declared object is a block. Let&#8217;s see everything one by one:</p>
+<ul>
+<li><strong>ReturnType</strong>: Any data type Objective-C supports, or <em>void</em> if the block returns nothing.</li>
+<li><strong>^blockName</strong>: Always remember that the block name is preceded by the ^ symbol. The block name can be any string you like, just like you name any other variable or method. Remember that both the ^ and the block name are enclosed in parentheses ().</li>
+<li><strong>Parameters</strong>: The list of parameters you want to pass on the block, just like you do when declaring methods. However, keep in mind an important notice: When you pass no parameters to block, then the <em>void</em> keyword should be always set. The arguments list must also be enclosed in parentheses.</li>
+</ul>
+<p>And that&#8217;s all about declaring blocks. Here are some examples:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">int</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>firstBlock<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>param1, <span style="color: #a61390;">int</span> param2<span style="color: #002200;">&#41;</span>;<br />
+<br />
+<span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>showName<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>myName<span style="color: #002200;">&#41;</span>;<br />
+<br />
+<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>whatDayIsIt<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+<span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>allVoid<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>composeName<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>firstName, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>lastName<span style="color: #002200;">&#41;</span>;</div></td></tr></tbody></table></div>
+<p>The use of the ^ symbol and all those parentheses may seem confusing at the beginning, but don&#8217;t worry. You just have to get used to it and do never forget the ^ symbol.</p>
+<p>A special characteristic that the block declaration has, is that the parameter names <em>can be omitted</em>, and just keep the parameter types. Actually, adding parameter names to the declaration only helps developers to remember them, but it offers nothing to the compiler. So, all the above declarations could be re-written without the parameter names this time:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">int</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>firstBlock<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>, <span style="color: #a61390;">int</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+<span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>showName<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>whatDayIsIt<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+<span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>allVoid<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>composeName<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>;</div></td></tr></tbody></table></div>
+<p>Using or not parameter names is totally up to you. It&#8217;s not wrong to use them, nor to omit them as well. Usually, advanced developers familiarized with blocks do not write parameter names, just their types, but for beginners I think that helps a lot to have the parameter names written.</p>
+<p>Let&#8217;s focus now on the block definition. Here is the pattern been followed:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span>Parameters<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+<br />
+... block body ...<br />
+<br />
+<span style="color: #a61390;">return</span> ReturnValue <span style="color: #002200;">&#40;</span>or nothing <span style="color: #a61390;">if</span> the block <span style="color: #a61390;">return</span> type is <span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span>;</div></td></tr></tbody></table></div>
+<p>As you see, no block name exists here.  In block definition, <em>parameter names are mandatory</em>, unlike the block declaration where they are optional. Especially note that after the block body closing, the semicolon ; is added, as the whole block is considered as a variable. Don&#8217;t worry if you ever forget it; Compiler is there to remind it to you.</p>
+<p>Here is a really simple example:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> a, <span style="color: #a61390;">int</span> b<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">int</span> result <span style="color: #002200;">=</span> a <span style="color: #002200;">*</span> b;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> result;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;</div></td></tr></tbody></table></div>
+<p>Of course, you are never going to use a block simply like this. The most possible cases is that the block definition result will be assigned to a variable, or that you&#8217;ll define the block using it as a completion handler, upon a method call (later on this).</p>
+<p>Let&#8217;s see now a couple of examples on how you can assign block results to a block variable:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">int</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>howMany<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span>, <span style="color: #a61390;">int</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> a, <span style="color: #a61390;">int</span> b<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> a <span style="color: #002200;">+</span> b;<br />
+<span style="color: #002200;">&#125;</span>;</div></td></tr></tbody></table></div>
+<p>In this example, the parameter names have been omitted in the declaration, but they mandatorily exist on the definition. Once again, I underline the usage of the ^ symbol, and the ; at the closing of the block body.</p>
+<p>One more:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>justAMessage<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>message<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp;NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, message<span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span>;</div></td></tr></tbody></table></div>
+<p>As you see, the return type of the block is void, so there is no <em>return</em> command.</p>
+<p>Let me clarify that it&#8217;s not necessary the declaration and the definition to take place at the same time. For example:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Declare a block variable.</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>xyz<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Some other code...</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Define the block.</span><br />
+&nbsp; &nbsp; xyz <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;What's up, Doc?&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;</div></td></tr></tbody></table></div>
+<p>Even more, a block can be declared as a class member variable, just like any other member variables. For example, in the private section of the interface you can write this&#8230;</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>blockAsAMemberVar<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>&#8230; and then inside the <em>viewDidLoad</em> add this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; _blockAsAMemberVar <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;This block is declared as a member variable!&quot;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;</div></td></tr></tbody></table></div>
+<p>Not that hard, right? Just have in mind to always make sure that you write the parameters at block declaration in the same order and using the same type to the block definition.</p>
+<p>Let&#8217;s make a synopsis at this point. Up to now, we saw how we declare and how we define a block, and a couple of rules that apply in each case. However, what we have not seen yet, is how we call blocks, as just simply declaring and defining them has no meaning at all.</p>
+<p>A block variable is called just like a C function, using its name and providing any required arguments. Here is an example that clears it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #a61390;">int</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>howMany<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span>, <span style="color: #a61390;">int</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> a, <span style="color: #a61390;">int</span> b<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> a <span style="color: #002200;">+</span> b;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%d&quot;</span>, howmany<span style="color: #002200;">&#40;</span><span style="color: #2400d9;">5</span>, <span style="color: #2400d9;">10</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Output: 15</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s see one more example:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp;<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>today<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; today <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> date<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, today<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Outputs the today's date.</span></div></td></tr></tbody></table></div>
+<p>I hope this one won&#8217;t confuse you:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #a61390;">float</span> results <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">float</span> value1, <span style="color: #a61390;">float</span> value2, <span style="color: #a61390;">float</span> value3<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> value1 <span style="color: #002200;">*</span> value2 <span style="color: #002200;">*</span> value3;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #002200;">&#40;</span><span style="color: #2400d9;">1.2</span>, <span style="color: #2400d9;">3.4</span>, <span style="color: #2400d9;">5.6</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%f&quot;</span>, results<span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Output: 22.848001</span></div></td></tr></tbody></table></div>
+<p>This is a more direct approach, as using the same command we define the block, we pass the parameter values and we assign the results to a variable.</p>
+<p>One last example, using a variable existing out of the block definition:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #a61390;">int</span> factor <span style="color: #002200;">=</span> <span style="color: #2400d9;">5</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>newResult<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> factor <span style="color: #002200;">*</span> <span style="color: #2400d9;">10</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%d&quot;</span>, newResult<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Output: 50</span></div></td></tr></tbody></table></div>
+<p>At this point you are considered to have taken the basic understanding and have set the ground for writing and using blocks. It&#8217;s time to move a little bit further and see some more advanced things, that surely you&#8217;ll need along your programming way.</p>
+<h2>The __block Storage Type</h2>
+<p>The code existing in a block can access a variable that belongs to the scope of the method that the block is defined in, but by default this access is read-only. That means that the code of the block cannot change a variable&#8217;s value from the &#8220;outer world&#8221;, a fact that&#8217;s useful for protecting us by doing any unwanted modifications, however the ability to assign new values in such variables is many times necessary.</p>
+<p>Before we see how this can be overcomed and because I&#8217;d like to keep things simple and tidy, let&#8217;s go to create a new private method that we will use for demonstrating this functionality. So, first of all, let&#8217;s do the easy steps, therefore move to the private section of the interface and add the next method declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>testBlockStorageType;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Next, inside the <em>viewDidLoad</em> method, invoke it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self testBlockStorageType<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We can now focus on the implementation. For starters, implement it by adding the code shown in the next fragment:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>testBlockStorageType<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> someValue <span style="color: #002200;">=</span> <span style="color: #2400d9;">10</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>myOperation<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">=</span> <span style="color: #002200;">^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; someValue <span style="color: #002200;">+=</span> <span style="color: #2400d9;">5</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> someValue <span style="color: #002200;">+</span> <span style="color: #2400d9;">10</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%d&quot;</span>, myOperation<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In this snippet, we have the <em>someValue</em> variable that belongs to the method, and inside the <em>myOperation</em> block we try to change its value. You&#8217;ll notice that Xcode throws an error, highlighting the next line&#8230;</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">someValue <span style="color: #002200;">+=</span> <span style="color: #2400d9;">5</span>;</div></td></tr></tbody></table></div>
+<p>&#8230; inside the block and showing the message: &#8220;<em>Variable is not assignable</em>&#8220;, along with some extra info. Not even Xcode allows us to proceed until we manage this situation.</p>
+<p>Thankfully, Objective-C provides a special <em>storage type modifier</em>, named <strong>__block</strong>, which when is used in a variable declaration, <em>it makes this variable mutable so blocks can have write access to it</em>. In our example, our problem can be solved really easy, simply by making this line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">int</span> someValue <span style="color: #002200;">=</span> <span style="color: #2400d9;">10</span>;</div></td></tr></tbody></table></div>
+<p>like this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">__block <span style="color: #a61390;">int</span> someValue <span style="color: #002200;">=</span> <span style="color: #2400d9;">10</span>;</div></td></tr></tbody></table></div>
+<p>The Xcode error gets disappeared and if you test it, you&#8217;ll see on the debugger the expected result (which is 25).</p>
+<p>Through this really simple example, the use of <em>__block</em> specifier becomes as much clear as it can get. As a final note, when you use it, don&#8217;t forget when to type two underscore (_) symbols before the <em>block</em> keyword.</p>
+<h2>Blocks As Completion Handlers</h2>
+<p>Many developers when they think of blocks, they actually (and instantly) think of <strong>completion handlers</strong> and they have a good reason for that, as blocks are used as completion handlers extensively by many framework methods. It&#8217;s granted that all iOS developers, even rookies, have seen and probably worked with completion handlers. But, before we go any further, what a completion handler is?</p>
+<p>A <em>completion handler</em> is the way (technique) for implementing <strong>callback</strong> functionality using blocks. In the introduction of this tutorial I mentioned that blocks can be used in place of delegate methods that work as callbacks, and that&#8217;s the way this can be done; through completion handlers.</p>
+<p>A completion handler is nothing more than a simple block declaration passed as a parameter to a method that needs to make a callback at a later time. When this time comes, the block is simply called. Besides that, the block definition takes place upon the method invocation, so any actions needed to be taken after a callback has been made can be locally implemented.</p>
+<p>One important notice before moving forward is that you should never forget that <em>the completion handler should always be the last parameter in a method</em>. A method can have as many arguments as you want, but always have the completion handler as the last argument in the parameters list.</p>
+<p>Here is the declaration pattern of a method which contains a completion handler to make callbacks:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>returnType<span style="color: #002200;">&#41;</span>methodNameWithParams<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>parameterType<span style="color: #002200;">&#41;</span>parameterName ...&lt;more params&gt;... andCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span>&lt;any block params&gt;<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>completionHandler;</div></td></tr></tbody></table></div>
+<p>On its implementation:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>returnType<span style="color: #002200;">&#41;</span>methodNameWithParams<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>parameterType<span style="color: #002200;">&#41;</span>parameterName ...&lt;more params&gt;... andCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span>&lt;any block params&gt;<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>completionHandler<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// When the callback should happen:</span><br />
+&nbsp; &nbsp; completionHandler<span style="color: #002200;">&#40;</span>&lt;any required parameters&gt;<span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The completion handler block is always defined when the method is invoked:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>self methodNameWithParams<span style="color: #002200;">:</span>parameter1 ...&lt;more params&gt;... andCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span>&lt;any block params&gt;<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// The completion handler code is added here after the method has finished execution and has made a callback.</span><br />
+<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>A couple of typical examples of using completion handlers from framework methods are:</p>
+<p>1. When showing a modal view controller, if you want to handle something after the view controller has been presented:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>viewController animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;View Controller was presented...&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Other code related to view controller presentation...</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>2. When performing UIView animations:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>UIView animateWithDuration<span style="color: #002200;">:</span><span style="color: #2400d9;">0.5</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;animations<span style="color: #002200;">:^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #11740a; font-style: italic;">// Animation-related code here...</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#91;</span>self.view setAlpha<span style="color: #002200;">:</span><span style="color: #2400d9;">0.5</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;completion<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span> finished<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #11740a; font-style: italic;">// Any completion handler related code here...</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Animation is over.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Let&#8217;s see a quite simple example on how we can create a method with a completion handler, how we call it and how to deal with the completion handler. To keep it simple, we will implement a method which adds two integers, and instead of returning the result to the caller, it will send it back using the completion handler. Of course, in real life you&#8217;ll never create such a simple method using a completion handler, but I&#8217;m confident that will help everyone to get the whole idea. So, let&#8217;s get started.</p>
+<p>On the <em>ViewController.m</em> file, go to the private section of the interface and make the following method declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>addNumber<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span><span style="color: #002200;">&#41;</span>number1 withNumber<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span><span style="color: #002200;">&#41;</span>number2 andCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> result<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>completionHandler;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>As you see, we declare a method with three parameters. The first two are the numbers we want to add, and the last one is the completion handler. Note that you can set any name you want to the completion handler parameter. As you see, the block declaration on the completion handler contains just one parameter, the result we want to send back to the caller of the method. In a real case, you may add as many parameters as you wish, but in our case that&#8217;s perfect. Let&#8217;s keep going with its implementation, which is going to be really easy:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>addNumber<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span><span style="color: #002200;">&#41;</span>number1 withNumber<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span><span style="color: #002200;">&#41;</span>number2 andCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> result<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>completionHandler<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">int</span> result <span style="color: #002200;">=</span> number1 <span style="color: #002200;">+</span> number2;<br />
+&nbsp; &nbsp; completionHandler<span style="color: #002200;">&#40;</span>result<span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Anything hard? We just add the two numbers, and we call the completion handler, passing the expected parameter, the result of the addition.</p>
+<p>Let&#8217;s invoke it now in the <em>viewDidLoad</em> method as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self addNumber<span style="color: #002200;">:</span><span style="color: #2400d9;">5</span> withNumber<span style="color: #002200;">:</span><span style="color: #2400d9;">7</span> andCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> result<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// We just log the result, no need to do anything else.</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;The result is %d&quot;</span>, result<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>When invoking the method, we pass the values 5 and 7 as parameters, and we define the completion handler block here. It&#8217;s obvious that is much more helpful to handle any callback actions here, than creating protocols, delegate methods, and so on, scattered all over the place. Anyway, as this just an example, there is no need to do any special handling, therefore we just log the result of the addition.</p>
+<p>The last three pieces of code summarize the way you can deal with completion handlers of your own. If you are new to all this, don&#8217;t worry. It&#8217;s truly just a matter of habit writing code in such a way. Xcode makes things even easier to all of us, by suggesting what to type in the editor just when you start writing the method invocation, as follows:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_4_xcode_suggestion.jpg" alt="Xcode Suggestion" class="aligncenter size-full wp-image-2918" /></div>
+<p>After having entered the numeric values and having moved to the completion handler argument, just by pressing the Return key on the keyboard Xcode creates the block&#8217;s body as you see in the next figure:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_5_xcode_suggestion2.jpg" alt="Xcode Suggestion 2" class="aligncenter size-full wp-image-2919" /></div>
+<p>You just have to handle the callback, and of course, don&#8217;t forget the semicolon at the end.</p>
+<p>Now that completion handlers have been illustrated, and after having seen the very simple example above, it&#8217;s time to do something more advanced and really useful that can be used in real applications as a tool.</p>
+<h2>Completion Handlers: A Practical Example</h2>
+<p>Let me start by explaining what our goal is, and then we&#8217;ll proceed to implementation. So, what we are going to do here, is to create a custom class for making a <em>UIActionSheet</em> object to be used with a completion handler, without any delegate methods at all. If you ever have worked with action sheets, then you know that in order to be used, you have to make your class conform to <em>UIActionSheetDelegate</em> protocol, and then implement at least one delegate method, which usually is the <em>actionSheet:clickedButtonAtIndex:</em>, so you know what&#8217;s the tapped button by the user. The normal and usual approach means that you have to write code in various places, but wouldn&#8217;t be great if you could handle the user response to the options you present through the action sheet in the place you invoke it, and just have it all together? That&#8217;s exactly what we&#8217;ll do!</p>
+<p>After having the custom class ready, you can take it as a reusable piece of code for your projects. Trust me, simply using a completion handler to manage the user selection on a action sheet is much cooler and easy to use than one can imagine. So, let&#8217;s get started.</p>
+<p>First of all, let&#8217;s create a new class file, and the fastest way to do so, it to press the &amp;#8984-N key combination on the keyboard, or use the menu <strong>File > New > File&#8230;</strong>.</p>
+<p>In the guide that appears, select the <strong>Objective-C class</strong> option, in the <strong>Cocoa Touch</strong> category, under the <strong>iOS</strong> section:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_6_new_class1.jpg" alt="New Class in Xcode" class="aligncenter size-full wp-image-2920" /></div>
+<p>Click Next to move to the next step. In the <strong>Subclass of</strong> field, make sure to set the <strong>NSObject</strong> value. In the <strong>Class</strong> field, type <strong>CustomActionSheet</strong>, as it&#8217;s shown in the next figure:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_7_new_class2.jpg" alt="New Class in Xcode" class="aligncenter size-full wp-image-2921" /></div>
+<p>Click once again on the Next button, and in the last window that appears click on the Create button to get finished. You should now see on the Project Navigator these two new files:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_8_files_added.jpg" alt="New class added in the project" class="aligncenter size-full wp-image-2922" /></div>
+<p>In our custom class we will make all the usual required action sheet handling. That means that we&#8217;ll make it conform to the <em>UIActionSheet</em> protocol, we&#8217;ll implement the <em>actionSheet:clickedButtonAtIndex:</em> delegate method, and anything else that maybe is needed, but the most important thing is that we&#8217;ll do all this just once. After that, we won&#8217;t bother with those tasks again, as we will simply use the completion handler to manage any callback made by an action sheet object. Don&#8217;t mind if all that look confusing to you. By the end of this section, you will have perfectly understood what&#8217;s that all about, and you&#8217;ll have a reusable tool on your hands.</p>
+<p>So, open the <em>CustomActionSheet.h</em> and adopt the <em>UIActionSheet</em> protocol, as it&#8217;s shown right next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> CustomActionSheet <span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a></div></td></tr></tbody></table></div>
+<p>Next, declare the following custom <em>init</em> method, so our class can be initialized using the same parameters that an action sheet object gets upon initialization:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> CustomActionSheet <span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a> <br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>initWithTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>title delegate<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>delegate cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>cancelButtonTitle destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>destructiveButtonTitle otherButtonTitles<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>otherButtonTitles, ...;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>It might look a little bit strange, but it&#8217;s the same <em>init</em> method to the action sheet&#8217;s. Before we go, let&#8217;s declare one important method, the one that will enable us to show the action sheet on a view:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> CustomActionSheet <span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a> <br />
+...<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>showInView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>view withCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>buttonTitle, NSInteger buttonIndex<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>handler;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Normally, when invoking the <em>showInView:</em> method, the action sheet appears to the view we set as its parameter. In our case, we declare this method using the same name in order to make it look familiar, but the new and great addition is the completion handler at the end. As you see, we specify two parameters in the block: A <em>NSString</em> and a <em>NSInteger</em> parameter, that represent the title and the index of the tapped button respectively. Using this exact method we won&#8217;t have again to write any delegate method when we need an action sheet in our project, as we now have the completion handler. Great, isn&#8217;t it?</p>
+<p>Let&#8217;s go now to the <em>CustomActionSheet.m</em> file. Head to the private section of the class (if it&#8217;s not there, just add it as shown below), and add the next two object declarations:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> CustomActionSheet<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> UIActionSheet <span style="color: #002200;">*</span>actionSheet;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <span style="color: #a61390;">void</span><span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span>completionHandler<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>, NSInteger<span style="color: #002200;">&#41;</span>;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>The first one is an action sheet object that will be used throughout our class. The second one will keep the completion handler that will be provided to the previous method as a parameter, as we will need to call it after the method execution has been finished. Notice two things: That I specify a name for the block, and that the parameters are of the same type and in the same order as those in the method&#8217;s completion handler. Also, you can observe that this block has been declared like any other property. Don&#8217;t forget that, as I already said in the introduction, a block is an object after all.</p>
+<p>Let&#8217;s focus now on the initialization. What we have to do is to initialize our <em>actionSheet</em> object that we declared right before. In the following code fragment there is some code that might look strange to you, and it&#8217;s possible that many of you see it for first time. Nonetheless, take a look at it and then we will discuss it.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>initWithTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>title delegate<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>delegate cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>cancelButtonTitle destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>destructiveButtonTitle otherButtonTitles<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>otherButtonTitles, ... &nbsp;<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; self <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>super init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>self<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; _actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span>title<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span>destructiveButtonTitle<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">va_list</span> arguments;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.opengroup.org/onlinepubs/009695399/functions/va_start.html"><span style="color: #a61390;">va_start</span></a><span style="color: #002200;">&#40;</span>arguments, otherButtonTitles<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>currentButtonTitle <span style="color: #002200;">=</span> otherButtonTitles;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">while</span> <span style="color: #002200;">&#40;</span>currentButtonTitle <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_actionSheet addButtonWithTitle<span style="color: #002200;">:</span>currentButtonTitle<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; currentButtonTitle <span style="color: #002200;">=</span> <a href="http://www.opengroup.org/onlinepubs/009695399/functions/va_arg.html"><span style="color: #a61390;">va_arg</span></a><span style="color: #002200;">&#40;</span>arguments, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.opengroup.org/onlinepubs/009695399/functions/va_end.html"><span style="color: #a61390;">va_end</span></a><span style="color: #002200;">&#40;</span>arguments<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_actionSheet addButtonWithTitle<span style="color: #002200;">:</span>cancelButtonTitle<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_actionSheet setCancelButtonIndex<span style="color: #002200;">:</span>_actionSheet.numberOfButtons <span style="color: #002200;">-</span> <span style="color: #2400d9;">1</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> self;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Well, first things first. Initially, using this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">_actionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span>title<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span>destructiveButtonTitle<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>The action sheet object is initialized, but notice that we do not provide it with the cancel button and the other button titles objects; instead we pass nil values. This is done on purpose, as the <em>otherButtonTitles</em> parameter object passed in the <em>init</em> method is actually a list of values, and it&#8217;s needed to be specially treated. Also, the cancel button should be the last button added, so we make it nil as well.</p>
+<p>Moving ahead, this is something probably seen for the very first time by many of you:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">va_list</span> arguments;<br />
+<a href="http://www.opengroup.org/onlinepubs/009695399/functions/va_start.html"><span style="color: #a61390;">va_start</span></a><span style="color: #002200;">&#40;</span>arguments, otherButtonTitles<span style="color: #002200;">&#41;</span>;<br />
+<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>currentButtonTitle <span style="color: #002200;">=</span> otherButtonTitles;<br />
+<span style="color: #a61390;">while</span> <span style="color: #002200;">&#40;</span>currentButtonTitle <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_actionSheet addButtonWithTitle<span style="color: #002200;">:</span>currentButtonTitle<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; currentButtonTitle <span style="color: #002200;">=</span> <a href="http://www.opengroup.org/onlinepubs/009695399/functions/va_arg.html"><span style="color: #a61390;">va_arg</span></a><span style="color: #002200;">&#40;</span>arguments, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<a href="http://www.opengroup.org/onlinepubs/009695399/functions/va_end.html"><span style="color: #a61390;">va_end</span></a><span style="color: #002200;">&#40;</span>arguments<span style="color: #002200;">&#41;</span>;</div></td></tr></tbody></table></div>
+<p>All button titles are given in the <em>init</em> method in the form of a nil-terminated string, which is actually a list of strings, and that means that the number of values existing in it may vary. Our job is to get all string values one by one, until we find the nil value, and that exactly happens here. Going into some more details, here is in short what those <em>va_XXX</em> pointers and functions are for:</p>
+<ul>
+<li><em>va_list</em>: It&#8217;s actually a pointer to a list that contains a variable number of objects (usually called <em>arguments</em>).</li>
+<li><em>va_start</em>: It initializes the <em>va_list</em> pointer, making it point to the first argument of the list.</li>
+<li><em>va_arg</em>: It gets the next object of the list (to make it more clear, the next button title in our case). The second argument is always the type of the argument, because this function needs to know how many bytes should extract.</li>
+<li><em>va_end</em>: It just releases any allocated memory required for accessing the list and extracting all arguments.</li>
+</ul>
+<p>Note that these are functions of C, not Objective-C&#8217;s. Anyway, the important is that we can add all button titles one by one, using this command:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>_actionSheet addButtonWithTitle<span style="color: #002200;">:</span>currentButtonTitle<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>After all buttons have been added, we should not forget about the cancel button. Therefore, with these couple of lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>_actionSheet addButtonWithTitle<span style="color: #002200;">:</span>cancelButtonTitle<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#91;</span>_actionSheet setCancelButtonIndex<span style="color: #002200;">:</span>_actionSheet.numberOfButtons <span style="color: #002200;">-</span> <span style="color: #2400d9;">1</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>we manage to add it to the action sheet as well. The second line is quite important, as with it we tell action sheet which the cancel button is, and that&#8217;s how it manages to display it separately from all other buttons.</p>
+<p>I must admit that what we&#8217;ve done here it might not be the most straighforward thing, but it surely consists of a lesson for many of you, and besides that, that&#8217;s the only way to have access to all button titles. You may wonder what would happen if we had simply provided the <em>otherButtonTitles</em> parameter to the action sheet initialization method. Well, you may try it out by yourself and see the results, but for those who just want to listen to the answer, the action sheet would simply show only the first button title, ignoring the rest, and considering the <em>otherButtonTitles</em> as a single object, not a list of arguments.</p>
+<p>So, hoping that you&#8217;ve got the meaning of all the above, let&#8217;s implement the <em>showInView:withCompletionHandler:</em> method. I don&#8217;t have much to say, because it&#8217;s an easy one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>showInView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>view withCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>, <span style="color: #a61390;">int</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>handler<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; _completionHandler <span style="color: #002200;">=</span> handler;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_actionSheet showInView<span style="color: #002200;">:</span>view<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The only noteworthy thing here is that in our class member variable <em>completionHandler</em> we assign the <em>handler</em> block object passed as a parameter to the method. That way, we keep a reference to it even after the method has exited. The second command is the well-known one that lets the action sheet appear to the specific view.</p>
+<p>If we would test the custom class now, we would have been able to make an action sheet appear on-screen. However, no interaction would take place, as no delegate methods have still been implemented. So, let&#8217;s add the next one, and we are ready:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>actionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIActionSheet <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>actionSheet clickedButtonAtIndex<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>buttonIndex<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>buttonTitle <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>_actionSheet buttonTitleAtIndex<span style="color: #002200;">:</span>buttonIndex<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; _completionHandler<span style="color: #002200;">&#40;</span>buttonTitle, buttonIndex<span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Two actions are performed here: At first, the tapped button&#8217;s title is assigned to a <em>NSString</em> variable, and then is happening what we care about, the completion handler is called. See that upon calling we specify the two parameters that they are expected and in the proper order. First the string button title value, then the integer button index value. The second command actually triggers the callback, and it&#8217;s our duty to properly manage the returned data in our block definition (in a while).</p>
+<p>And with that, our custom class is ready! Now we can display an action sheet and handle the user interaction simply by using a block as the completion handler, just right in the place where the action sheet appearance will be invoked. But before we do so, let&#8217;s add a <em>UIButton</em> to our view that will trigger this action.</p>
+<p>First off, go to the <em>ViewController.h</em> and declare the following IBAction method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Now, click on the <em>Main.storyboard</em> file, and from the <strong>Objects Library</strong> add a <strong>UIButton</strong> to the canvas. Set the following values to the respective properties:</p>
+<ul>
+<li><strong>Frame:</strong> X=95, Y=80, Width=131, Height=30</li>
+<li><strong>Title:</strong> <em>Show Action Sheet</em></li>
+</ul>
+<p>Next, connect the IBAction we previously declared to the button object and you are ready. I won&#8217;t get into details on how to make such a connection, as I&#8217;m pretty sure that if you read about blocks, then you already know some basic stuff, such as connecting IBOutlet properties and IBAction methods.</p>
+<p>Anyway, here is how your (very simple) interface should look like:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_9_interface.jpg" alt="Blocks Demo - Interface" class="aligncenter size-full wp-image-2923" /></div>
+<p>Two steps have been left before we go to implement the IBAction method. Open the <em>ViewController.m</em> file, and <em>import</em> the custom class we created at the top of the file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;CustomActionSheet.h&quot;</span></div></td></tr></tbody></table></div>
+<p>Next, in the private section of the class, declare a <em>CustomActionSheet</em> object:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> CustomActionSheet <span style="color: #002200;">*</span>customActionSheet;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>In the <em>showActionSheet:</em> IBAction method, we&#8217;ll start by initializing the <em>CustomActionSheet</em> object. The parameters we&#8217;ll set are shown right next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; _customActionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CustomActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;AppCoda&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cancel&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Option 1&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Option 2&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Option 3&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, it&#8217;s just like we initialize a normal action sheet object. I kept the best part for the end. Just admire the magic of the blocks and the completion handlers by making the method complete:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>showActionSheet<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; CustomActionSheet <span style="color: #002200;">*</span>customActionSheet <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CustomActionSheet alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;AppCoda&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;delegate<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cancel&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;destructiveButtonTitle<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Option 1&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Option 2&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Option 3&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_customActionSheet showInView<span style="color: #002200;">:</span>self.view withCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>buttonTitle, NSInteger buttonIndex<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;You tapped the button in index: %d&quot;</span>, buttonIndex<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Your selection is: %@&quot;</span>, buttonTitle<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Upon invoking the <em>showInView:withCompletionHandler:</em> method, we also define the block, and without writing even one line of code anywhere else, we can locally manage the callback made by our custom class! Just for the records, as this is an example, we don&#8217;t need to manage the button title and index in any special way, therefore just log the respective values of the selected button. Of course, if you&#8217;re planning to use the <em>CustomActionSheet</em> class in your projects, you will probably need to add more action sheet delegate methods, but you now have the big picture and I am confident that you&#8217;ll manage to do any custom additions you want.</p>
+<p>Let me also note one more thing. We use the <em>customActionSheet</em> object as a class member variable, instead of simply declaring it locally, because we need to keep a <em>strong reference</em> to the custom action sheet object so the block code to run, even after the IBAction method execution has been finished.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_11_actionsheet.jpg" alt="Blocks Demo - Actionsheet" class="aligncenter size-full wp-image-2924" /></div>
+<p>The custom class we made, is a real-world case where blocks can be put in action. I hope everything presented in this section to be useful and consist of a tool to all of you. If you feel so, try to make the same using the <em>UIAlertView</em> instead of an action sheet. Consider it as your homework!</p>
+<h2>Blocks And Multithreading</h2>
+<p>Besides all the above, blocks are also useful when you implement multithreading applications. The important once again is that the code written for execution in secondary threads resides in one place, so it&#8217;s easy to have great control over your implementation.</p>
+<p>The most common method used for performing multithreaded tasks in combination with blocks, is the Grand Central Dispatch, or else known as the GCD. What you have to do so you can define a block using GCD, is to create a new queue and implement the block body. The following example illustrates how this can be done pretty easily. Note that for the sake of the simplicity of the example, the code written inside the block has no point at all, it&#8217;s just for demonstration. If you have implemented the demo application following every step until here, then you can continue by adding the next fragment to the <em>viewDidLoad</em> method.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Preparing to run code in secondary thread...&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; dispatch_queue_t myQueue <span style="color: #002200;">=</span> dispatch_queue_create<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;My Queue&quot;</span>, <span style="color: #a61390;">NULL</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; dispatch_async<span style="color: #002200;">&#40;</span>myQueue, <span style="color: #002200;">^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Running code in secondary thread...&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">int</span> value <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">for</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> i<span style="color: #002200;">=</span><span style="color: #2400d9;">0</span>; i&lt;<span style="color: #2400d9;">100</span>; i<span style="color: #002200;">++</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">for</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> j<span style="color: #002200;">=</span><span style="color: #2400d9;">0</span>; j&lt;<span style="color: #2400d9;">100</span>; j<span style="color: #002200;">++</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">for</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">int</span> n<span style="color: #002200;">=</span><span style="color: #2400d9;">0</span>; n&lt;<span style="color: #2400d9;">100</span>; n<span style="color: #002200;">++</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; value <span style="color: #002200;">+=</span> j;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;From secondary thread: value = %d&quot;</span>, value<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;This is main thread again...&quot;</span><span style="color: #002200;">&#41;</span>;</div></td></tr></tbody></table></div>
+<p>As you see, we first create a new queue and then, inside the <em>dispatch_async</em> function we define our block. In there you can write any code required for your application. Here is what you should expect to see on the debugger:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/01/t5_10_multithreading.jpg" alt="Xcode multithreading" class="aligncenter size-full wp-image-2925" /></div>
+<h2>Compile And Run The App</h2>
+<p>At this point, and if you haven&#8217;t done so already, go to give a try to the application. As I said in the app overview section of the tutorial, this demo is composed from many different parts, and most of them just show messages on the debugger. There is no great interaction, and from visual aspect, the app might seem really poor. However, what you can find behind all these is some really useful stuff. Note that after having tested the app, the most important thing is you go and create some blocks of your own. When you manage to properly implement blocks, then you&#8217;re on a really good way.</p>
+<h2>Summary</h2>
+<p>It&#8217;s commonly accepted that blocks are going to be the future in the way we write programs, and up to a point they are already here. Many frameworks have been changed and many methods have been rewritten, so they use blocks. If you are not familiar with all this kind of stuff, then you should better start learning about blocks and working with them, because the time will come that you&#8217;ll be forced to do so. Blocks can be very powerful, and extremely assistive. As it has already been proved, they help us keep our code tidy in a great level, and they offer easier control over it. However, blocks cannot replace everything. For some certain tasks, implementing delegate methods or other kind of programming techniques will remain intact. Nonetheless, it&#8217;s clear that we can all use blocks even more in our code from now on, and take advantage of the Objective-C in a greater level. So, after having said all that, I wish you find your way on the blocks world, and you manage to do great programming using them!</p>
+<p>For your reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/BlockDemo.zip">download the BlockDemo project from here</a>.</p>
+<p>What do you think about the tutorial? Leave me comment and share your thought.</p>
+<p><em>Author bio: Gabriel Theodoropoulos has been a software developer for almost two decades. Experienced in the most known programming languages, I have developed numerous applications for various target platforms. Since the middle of 2010, I’ve been working almost exclusively on iOS. Having built applications and libraries, I keep doing so up to date. By writing tutorials I’m in position to share knowledge with other developers.</em></p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/storyboards-ios-tutorial-pass-data-between-view-controller-with-segue/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/06/Receipe-App-With-Detail-Controller-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Storyboards Segue Tutorial: Pass Data Between View Controllers</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/qr-code-ios-programming-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/12/QRCode-Featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Scan QR Code Using AVFoundation Framework</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios7-background-fetch-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/background-app-refresh-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working With Background Fetch in iOS 7</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/swipeable-uitableviewcell-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/05/swipeable-cell-150x150.gif) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Create Swipeable Table View Cell to Display More Options</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/objective-c-blocks-tutorial/"
+    dc:identifier="http://www.appcoda.com/objective-c-blocks-tutorial/"
+    dc:title="Introduction to Objective-C Blocks"
+    trackback:ping="http://www.appcoda.com/objective-c-blocks-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/beginner/" rel="category tag">Beginner</a>, <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/blocks/" rel="tag">blocks</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/ios-sdk/" rel="tag">iOS SDK</a>, <a href="http://www.appcoda.com/tag/object-oriented-programming/" rel="tag">Object Oriented Programming</a>, <a href="http://www.appcoda.com/tag/objective-c/" rel="tag">Objective C</a>, <a href="http://www.appcoda.com/tag/xcode/" rel="tag">Xcode</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-3381">
+        <div id="dsq-comment-header-3381" class="dsq-comment-header">
+            <cite id="dsq-cite-3381">
+                <span id="dsq-author-user-3381">Mohammad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3381" class="dsq-comment-body">
+            <div id="dsq-comment-message-3381" class="dsq-comment-message"><p>That was great thanks a lot </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3386">
+        <div id="dsq-comment-header-3386" class="dsq-comment-header">
+            <cite id="dsq-cite-3386">
+                <span id="dsq-author-user-3386">Oskar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3386" class="dsq-comment-body">
+            <div id="dsq-comment-message-3386" class="dsq-comment-message"><p>After either pressing one of the buttons with titles or the cancel button the CustomActionSheet disappears, but when I press the button to show the CustomActionSheet again the app crashes. What can be the cause of that?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3387">
+        <div id="dsq-comment-header-3387" class="dsq-comment-header">
+            <cite id="dsq-cite-3387">
+                <span id="dsq-author-user-3387">Oskar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3387" class="dsq-comment-body">
+            <div id="dsq-comment-message-3387" class="dsq-comment-message"><p>First I had this in my _customActionSheet:<br />
+otherButtonTitles:@&#8221;Option 1&#8243;, @&#8221;Option 2&#8243;, @&#8221;Option 3&#8243;</p>
+<p>when I changed to this:<br />
+otherButtonTitles:@&#8221;Option 1&#8243;, @&#8221;Option 2&#8243;, @&#8221;Option 3&#8243;, nil</p>
+<p>The crash seems to be gone!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3389">
+        <div id="dsq-comment-header-3389" class="dsq-comment-header">
+            <cite id="dsq-cite-3389">
+                <span id="dsq-author-user-3389">Gabriel Thedoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3389" class="dsq-comment-body">
+            <div id="dsq-comment-message-3389" class="dsq-comment-message"><p>Hey Oskar,<br />
+The otherButtonTitles parameter in an action sheet must always be a nil-terminated string. If you don&#8217;t add the nil terminator, then you&#8217;ll definitely see unexpected and weird behavior. So, what you did above was the correct move.</p>
+<p>Anyway, I wish the custom-made class for the action sheet be useful to you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3391">
+        <div id="dsq-comment-header-3391" class="dsq-comment-header">
+            <cite id="dsq-cite-3391">
+                <span id="dsq-author-user-3391">Li Fang</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3391" class="dsq-comment-body">
+            <div id="dsq-comment-message-3391" class="dsq-comment-message"><p>This is the most useful article I read so far, I started learning Object-C by using your website. It has been a meaningful 6 months! Thank you so much! It&#8217;s the best place to start people get use to Objective-C!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3410">
+        <div id="dsq-comment-header-3410" class="dsq-comment-header">
+            <cite id="dsq-cite-3410">
+                <span id="dsq-author-user-3410">Juan Gabriel Gomila</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3410" class="dsq-comment-body">
+            <div id="dsq-comment-message-3410" class="dsq-comment-message"><p>Thanks for this fantastic tutorial! I&#8217;ve been developing for iOS for some months and although I&#8217;ve been using blocks and __block statements in lots of completion handlers calls, I didn&#8217;t understand them in depth. Now thanks to you I finally understand all this concepts. Good job =D</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3415">
+        <div id="dsq-comment-header-3415" class="dsq-comment-header">
+            <cite id="dsq-cite-3415">
+                <span id="dsq-author-user-3415">reden87</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3415" class="dsq-comment-body">
+            <div id="dsq-comment-message-3415" class="dsq-comment-message"><p>It&#8217;s a great post but there&#8217;s a little bug in there. You guys forgot the  in here: &#8220;@interface CustomActionSheet : NSObject&#8221; (the source code is fine though)</p>
+<p>also the delegate parameter is useless here: &#8220;-(id)initWithTitle:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle destructiveButtonTitle:(NSString *)destructiveButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, &#8230;;&#8221; because you don&#8217;t use it!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3418">
+        <div id="dsq-comment-header-3418" class="dsq-comment-header">
+            <cite id="dsq-cite-3418">
+                <span id="dsq-author-user-3418">Gabriel Thedoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3418" class="dsq-comment-body">
+            <div id="dsq-comment-message-3418" class="dsq-comment-message"><p>Hi,</p>
+<p>Thanks for  observation. Indeed, it seems that I forgot to add it while I was writing the tutorial.</p>
+<p>Regarding the delegate parameter of the init method, you are right about when saying we don&#8217;t use it. However, I put it there just for one reason: To make the init method look as familiar and similar as possible to the action sheet&#8217;s init method.</p>
+<p>Thanks for pointing out those two. Hope you enjoyed the tutorial!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3436">
+        <div id="dsq-comment-header-3436" class="dsq-comment-header">
+            <cite id="dsq-cite-3436">
+                <span id="dsq-author-user-3436">reden87</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3436" class="dsq-comment-body">
+            <div id="dsq-comment-message-3436" class="dsq-comment-message"><p>I enjoyed it for sure, it&#8217;s a really great post! (:</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3466">
+        <div id="dsq-comment-header-3466" class="dsq-comment-header">
+            <cite id="dsq-cite-3466">
+                <span id="dsq-author-user-3466">Justin CartoonSmart</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3466" class="dsq-comment-body">
+            <div id="dsq-comment-message-3466" class="dsq-comment-message"><p>Great post! Thanks for writing it. The __block tripped me up when I first ran into that issue.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3554">
+        <div id="dsq-comment-header-3554" class="dsq-comment-header">
+            <cite id="dsq-cite-3554">
+                <span id="dsq-author-user-3554">Felix Fan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3554" class="dsq-comment-body">
+            <div id="dsq-comment-message-3554" class="dsq-comment-message"><p>That&#8217;s very hard. I don&#8217;t even know what&#8217;s callback</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://hardikjain2020.wordpress.com/2014/03/27/ios-7-with-xcode-5-training/' rel='external nofollow' class='url'>Ios 7 with xcode 5 training | Iphone Tutorial Point</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5538">
+        <div id="dsq-comment-header-5538" class="dsq-comment-header">
+            <cite id="dsq-cite-5538">
+                <span id="dsq-author-user-5538">Narendar Singh Saini</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5538" class="dsq-comment-body">
+            <div id="dsq-comment-message-5538" class="dsq-comment-message"><p>I written the code for first basic completion handler code for adding two number.</p>
+<p>It is working perfectly with one warning.</p>
+<p>What I additionally done is that, I created a button and when user press this button I was trying to show sum of these two integers in button&#8217;s title in completion handler code like this:</p>
+<p>[self addNumber:1 withNumber:2 andCompletionHandler:^(int result) {</p>
+<p> self.button.titleLable.text = [NSString stringWithFormat:@&#8221;Sum is %d&#8221;, result];</p>
+<p>}];</p>
+<p>I am getting this warning:</p>
+<p>&#8220;Capturing &#8216;self&#8217; strongly in this block is likely to lead to a retain cycle&#8221;</p>
+<p>My button declaration as a property is:</p>
+<p>@propery (weak, nonatomic) IBOutlet UIButton button;</p>
+<p>What&#8217;s wrong, please check.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-56531">
+        <div id="dsq-comment-header-56531" class="dsq-comment-header">
+            <cite id="dsq-cite-56531">
+http://www.greetings4u.net/                <span id="dsq-author-user-56531">Special Comment</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-56531" class="dsq-comment-body">
+            <div id="dsq-comment-message-56531" class="dsq-comment-message"><p>You cannot simply use &#8216;self&#8217; inside the block as it creates a retain cycle.</p>
+<p>The workaround is to create a __unsafe_unretained before using it in the block.</p>
+<p>LIke this.</p>
+<p>__unsafe_unretained typeof(self) weakSelf = self;</p>
+<p>[self addNumber:1 withNumber:2 andCompletionHandler:^(int result) {</p>
+<p>weakSelf.button.titleLable.text = [NSString stringWithFormat:@&#8221;Sum is %d&#8221;, result];</p>
+<p>}];</p>
+<p>Hope this helps <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-18460">
+        <div id="dsq-comment-header-18460" class="dsq-comment-header">
+            <cite id="dsq-cite-18460">
+                <span id="dsq-author-user-18460">Rajesh Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18460" class="dsq-comment-body">
+            <div id="dsq-comment-message-18460" class="dsq-comment-message"><p>Great tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-62091">
+        <div id="dsq-comment-header-62091" class="dsq-comment-header">
+            <cite id="dsq-cite-62091">
+                <span id="dsq-author-user-62091">cstrombe</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-62091" class="dsq-comment-body">
+            <div id="dsq-comment-message-62091" class="dsq-comment-message"><p>Thanks for writing this.  Have been scratching my head trying to find a cleaner way to handle some networking type callback/delegate situations in my app that have resulted in some ugly code&#8230;this has clarified things greatly and has resulted in much simpler code.  Many thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-90773">
+        <div id="dsq-comment-header-90773" class="dsq-comment-header">
+            <cite id="dsq-cite-90773">
+                <span id="dsq-author-user-90773">vikash soni</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-90773" class="dsq-comment-body">
+            <div id="dsq-comment-message-90773" class="dsq-comment-message"><p>-(void)showInView:(UIView *)view withCompletionHandler:(void (^)(NSString *, int))handler{</p>
+<p>    _completionHandler = handler;<br />
+    [_actionSheet showInView:view];</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-100933">
+        <div id="dsq-comment-header-100933" class="dsq-comment-header">
+            <cite id="dsq-cite-100933">
+                <span id="dsq-author-user-100933">Matthijs van der Linden</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100933" class="dsq-comment-body">
+            <div id="dsq-comment-message-100933" class="dsq-comment-message"><p>Change it to: </p>
+<p>-(void)showInView:(UIView *)view withCompletionHandler:(void (^)(NSString *, NSInteger))handler{</p>
+<p>    _completionHandler = handler;</p>
+<p>      [_actionSheet showInView:view];</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-90774">
+        <div id="dsq-comment-header-90774" class="dsq-comment-header">
+            <cite id="dsq-cite-90774">
+                <span id="dsq-author-user-90774">vikash soni</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-90774" class="dsq-comment-body">
+            <div id="dsq-comment-message-90774" class="dsq-comment-message"><p>-(void)showInView:(UIView *)view withCompletionHandler:(void (^)(NSString *, int))handler{</p>
+<p>    _completionHandler = handler;<br />
+    [_actionSheet showInView:view];<br />
+}</p>
+<p>Gives one warning and one error.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://scottbrenner.com/introduction-to-objective-c-blocks/' rel='external nofollow' class='url'>Introduction to Objective-C Blocks | Scott Brenner</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://xidazheng.com/2015/02/14/a-curriculum-of-guides-about-blocks-in-objective-c/' rel='external nofollow' class='url'>A Curriculum of Guides about Blocks in Objective-C | Xida Zheng</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://godmod.eu/getting-to-know-blocks-in-objective-c/' rel='external nofollow' class='url'>Getting To Know &quot;Blocks&quot; in Objective-C - GodMod.Eu</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100985">
+        <div id="dsq-comment-header-100985" class="dsq-comment-header">
+            <cite id="dsq-cite-100985">
+                <span id="dsq-author-user-100985">Kishan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100985" class="dsq-comment-body">
+            <div id="dsq-comment-message-100985" class="dsq-comment-message"><p>great tutorial thanks a lot</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/objective-c-blocks-tutorial/';
+var disqus_identifier = '2905 http://www.appcoda.com/?p=2905';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Introduction to Objective-C Blocks";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=2905';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="2905"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fobjective-c-blocks-tutorial%2F&#038;t=Introduction%20to%20Objective-C%20Blocks" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2905" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>125</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Introduction%20to%20Objective-C%20Blocks&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fobjective-c-blocks-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2905" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>36</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fobjective-c-blocks-tutorial%2F&#038;t=Introduction%20to%20Objective-C%20Blocks" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2905" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>17</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fobjective-c-blocks-tutorial%2F&#038;title=Introduction%20to%20Objective-C%20Blocks" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2905" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>19</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fobjective-c-blocks-tutorial%2F&#038;t=Introduction%20to%20Objective-C%20Blocks" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2905" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Introduction%20to%20Objective-C%20Blocks&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fobjective-c-blocks-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2905" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fobjective-c-blocks-tutorial%2F&#038;t=Introduction%20to%20Objective-C%20Blocks" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2905" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fobjective-c-blocks-tutorial%2F&#038;title=Introduction%20to%20Objective-C%20Blocks" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2905" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/objective-c-blocks-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="42212e2d312702703a6c322c25">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":2905,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:26:38 by W3 Total Cache -->

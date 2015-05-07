@@ -1,0 +1,1231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Working with Background Fetch in iOS 7 | Programming Tutorial</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="The tutorial introduces the background fetch feature that comes with iOS 7 SDK. We&#039;ll create a demo app to show you how to work with background fetch."/>
+<link rel="canonical" href="http://www.appcoda.com/ios7-background-fetch-programming/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="The tutorial introduces the background fetch feature that comes with iOS 7 SDK. We&#039;ll create a demo app to show you how to work with background fetch."/>
+<meta name="twitter:title" content="Working with Background Fetch in iOS 7 | Programming Tutorial"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/03/background-app-refresh.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Working With Background Fetch in iOS 7 Comments Feed" href="http://www.appcoda.com/ios7-background-fetch-programming/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=3123' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-3123 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-3123 post type-post status-publish format-standard hentry category-course category-intermediate category-tutorials tag-background-fetch tag-ios-7 tag-ios-programming tag-xcode-5 entry"><h1 class="entry-title">Working With Background Fetch in iOS 7</h1> 
+<div class="post-info"><span class="date published time" title="2014-03-09T16:02:55+00:00">March 9, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios7-background-fetch-programming/#comments"><span class="dsq-postid" data-dsqidentifier="3123 http://www.appcoda.com/?p=3123">31 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Among the millions of applications existing on the App Store, there is a great number of them that deals with data fetched from the web. Even more, today that carriers provide constant Internet access through 3G and 4G networks at low cost, these apps seem to grow even more. News, weather and social applications are just some of them. Prior to iOS 7, there was a great disadvantage that was characterizing any app of that kind, and that was the awaiting time that users were facing until their apps got updated with new data taken from online servers every time they were launched. Developers didn&#8217;t have enough tools on their hands to counterattack that, or work around it, so they had to figure out tricky ways to download just the minimum possible amount of data and return control back to the user as soon as possible.</p>
+<p>However, with the <a href="https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html">iOS 7 SDK</a> coming things drastically changed thanks to the <strong>Background Fetch</strong> API, which is part of the new multitasking features that the latest version of iOS supports. When the Background Fetch feature is enabled to an app, <em>the system wakes the app up in the background from time to time and lets it go online to fetch new data with goal to refresh its content</em>. That way, the app is always up to date, and users don&#8217;t have to wait any more when they launch it. In other words, it is the tool that all developers have been expecting for a long time in order to have both their apps updated and the users happy. In this tutorial we are going to see how this new cool feature can be embedded into an application, but first let&#8217;s have a short look at some important details in order to fully get the meaning of this great API.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/background-app-refresh.jpg" alt="background-app-refresh" class="aligncenter size-full wp-image-3144" /></div>
+<p>Enabling and using the Background Fetch API in an application, is a really easy, three-step process that contains the following:</p>
+<ol>
+<li>To enable it in the Multitasking Capabilities of the app.</li>
+<li>To set the time interval in which the system should fetch new data in the <em>application:didFinishLaunchingWithOptions:</em> delegate method.</li>
+<li>To implement a new delegate method in the <em>AppDelegate</em> class that will handle the result of the fetching process.</li>
+</ol>
+<p>Let me do a clarification at this point, regarding the usage of the Background Fetch. It is not intended to work only with online data, but it can be used to perform tasks internally into an app too. However, that&#8217;s a rare case, as the most common usage involves data fetching from the web.<br />
+<span id="more-3123"></span><br />
+Continuing to this introduction, we are going to see all the above three steps in detail later on during our sample application implementation. For now, I would like to stay a little longer to the second step, and make some comments about it. Well, when talking about <em>fetching interval</em> we mean how often the system should wake an app and allow it to get new data. There are two options for setting this value: To either use predefined interval values by the system, or set your own custom time interval (<em>NSTimeInterval</em> values). However there is something that you should seriously take under account; The more often the Background Fetch is set to work to an app, the more resources will be used. iOS protects itself and the device by applying limitations to the apps that try to use the API very often, so be cautious when setting custom time intervals. Using the predefined values provided by the iOS it might be the best option. Unfortunately, Background Fetch is also a &#8220;nice&#8221; tool to cause a battery drain very quickly.</p>
+<p>A very important and cool feature of the Background Fetch is its ability to <em>learn</em> the times that should allow an app to be launched to the background and get updated. Let&#8217;s suppose for example that a user uses a news app every morning about 8:30 am (read some news along with some hot coffee). After a few times of usage, the system learns that it&#8217;s quite possible that the next time the app will run will be around the same time, so it takes care to let it go live and get updated before the usual launch time (it could be around 8:00 am). That way, when the user opens the app the new and refreshed content is there awaiting for him, and not the opposite! This feature is called <em>usage prediction</em>. Note though that this happens when you let the system decide about the fetching interval.</p>
+<p>When working with Background Fetch, there is a limitation that you should be aware about. The background execution time given to an application is not infinite. iOS provides a 30 seconds time frame in order the app to be woken up, fetch new data, update its interface and then go back to sleep again. It is your duty to make sure that any performed tasks will manage to get finished within these 30 seconds, otherwise the system will suddenly stop them. If more time is required though, then the <em>Background Transfer Service</em> API can be used, but we are not going to see that here. We&#8217;ll discuss about it in a future tutorial. So, keep that always in mind and develop wisely, otherwise unexpected results may appear to your apps.</p>
+<p>Before reaching the end of this introduction, there are a couple more facts I would like to mention. First of all, Background Fetch can work even when the app is running and being in the foreground. In that case, it will just cause content update. Secondarily, the Background Fetch API should be used for <em>non-critical</em> updates, as it&#8217;s possible the system not to launch the app on the background, even if it&#8217;s expected so.</p>
+<p>So, after having said all that, it&#8217;s time to continue and see some action. Keep reading to find out what we are going to work with in this tutorial and what our next steps will be, in order to make the best use of the Background Fetch API!</p>
+<h2>App Overview</h2>
+<p>The best scenario that will let us try the Background Fetch API out is to implement a part of a <em>news</em> app, and that&#8217;s exactly we are going to do here. Our sample application is going to be very simple, implemented to demonstrate the API in the best possible way. Let&#8217;s see everything from the beginning though.</p>
+<p>In our app we are going to fetch <em>news titles along with their publish dates and links</em> from a feed of the <a href="http://www.reuters.com/tools/rss" target="_blank">Reuters</a> website. We won&#8217;t bother collecting more data for two reasons: We don&#8217;t want to exceed the 30 seconds time frame (something that&#8217;s possible to happen over a slow 3G network), and it&#8217;s the best case so as to keep things as simple as possible. So, we&#8217;ll select a specific feed, we&#8217;ll parse it and we&#8217;ll list the extracted data in a <em>table view</em> in our app. The hypothetic user of the app will have the option to manually refresh the content, using a <em>refresh control</em>. Once everything is ready and fully-functional, we&#8217;ll implement the Background Fetch API, and then we&#8217;ll test it trying to fetch new content while our app is on the background. There is a special way to do that on Simulator, and we&#8217;ll see how exactly this can be done as well.</p>
+<p>Regarding the structure of the app, we are going to be based on a <em>Single View Application</em> template, and as I previously said, we are going to add a table view controller with a refresh control that will allow us to manually force a content update. The downloaded data will be stored internally into a <em>NSArray</em>, and each object of the array is going to be a <em>NSDictionary</em> that will contain the news title and the publish date, as well as a link to the full online article. After a successful update, the array&#8217;s contents will be permanently written to a file into the Documents Directory, so when using the Background Fetch and comparing to the existing content to know if there is any new data or not. Besides all that, we will add a <em>toolbar</em> with one <em>bar button item</em> that will allow us to delete the data file in case we would like to start over.</p>
+<p>Respecting the terms of use of Reuters regarding the RSS feeds, when tapping on a news title we&#8217;ll make the Safari app open and load the respective full article. For that reason, the link matching to each title is going to be used.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_1_app_sample.jpg" alt="Background Fetch Sample App" class="aligncenter size-full wp-image-3129" /></div>
+<h2>A Starter App</h2>
+<p>It is an imperative need to make clear that the downloaded data will be in XML format, and we need a XML parser so as to extract the desired piece of information. For your convenience and in order to stay focused on the Background Fetch API, you can download a <a href="https://dl.dropboxusercontent.com/u/2857188/BackgroundFetchStarterProject.zip">starter version of the app</a>, where you&#8217;ll find a class named <em>XMLParser</em> already made and customized to the XML data of the Reuters feed. We are going to use this one just as a tool. The rest of the app is empty, ready to be built step by step.</p>
+<p>So, grab it and get ready to start.</p>
+<p>Before we go any further, here is a sample of the downloaded XML data:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_2_xml_sample.jpg" alt="Background Fetch Sample XML" class="aligncenter size-full wp-image-3130" /></div>
+<h2>Setup the Interface</h2>
+<p>Let&#8217;s get started by configuring the interface of our starter app (which I guess you have already downloaded) using the Interface Builder. Click on the <em>Main.storyboard</em> file and wait until the canvas appear on-screen. Next, open the <strong>Utilities</strong> pane and from the <strong>Objects Library</strong> drag and drop a <em>Table View</em> and a <em>Toolbar</em> to the canvas. Set their properties as follows:</p>
+<ul>
+<li><strong>UITableView</strong>
+<ul>
+<li><em>Frame</em>: X=0, Y=20, Width=320, Height=504</li>
+</ul>
+</li>
+<li><strong>Toolbar</strong>
+<ul>
+<li><em>Frame</em>: X=0, Y=524, Width=320, Height=44</li>
+<li><em>Bar Button Identifier</em>: Trash</li>
+</ul>
+</li>
+</ul>
+<p>Once you finish doing all the above drag a <strong>UITableViewCell</strong> object on the table view. Select it and set its style to <strong>Subtitle</strong>, under the <strong>Table View Cell</strong> section in the <strong>Attributes Inspector</strong>. Right below, in the <strong>Identifier</strong> field set the <strong>idCellNewsTitle</strong> value.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_3_cell_setup.jpg" alt="Background Fetch Cell Setup" class="aligncenter size-full wp-image-3131" /></div>
+<p>Finally, click on the <strong>Title</strong> label on the cell, and then in the Attributes Inspector set its font to <strong>System Bold</strong> with size <strong>15.0</strong>. Also, set the value <strong>3</strong> in the <strong>Lines</strong> field. Your scene should now look like the next one:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_4_ib_scene.jpg" alt="Background Fetch Interface Setup" class="aligncenter size-full wp-image-3132" /></div>
+<p>Now that we have finished adding any necessary controls to our app, it&#8217;s time to create an IBOutlet property that we&#8217;ll connect to the table view, and an IBAction method that we&#8217;ll connect to the Trash bar button item.</p>
+<p>Click on the <em>ViewController.h</em> file and add the next contents:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UITableView <span style="color: #002200;">*</span>tblNews;<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>removeDataFile<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Before we return to Interface Builder and once the <em>ViewController.h</em> file is open, let&#8217;s make our class conform to the <em>UITableViewDelegate</em> and <em>UITableViewDatasource</em> protocols. Modify the <em>@interface</em> header line as shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController &lt;UITableViewDelegate, UITableViewDataSource&gt;</div></td></tr></tbody></table></div>
+<p>Great! Now head back to the <em>Main.storyboard</em> file, and <em>Ctrl-Click or Right-Click</em> on the <strong>View Controller</strong> object, in the <strong>Document Outline</strong> pane. In the black window that popups, <em>click on the circle being at the right of the <em>tblNews</em> IBOutlet property, and drag and drop to the table view on the canvas</em>. The IBOutlet connection has been made! Follow the same steps to connect the IBAction method to the Trash bar button item and you are ready.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_5_iboutlet_connect.jpg" alt="Background Fetch Connecting Outlet" class="aligncenter size-full wp-image-3133" /></div>
+<h2>The Refresh Control and Some Code-Level Setup</h2>
+<p>As you just saw, the interface setup was pretty easy, and we had to create and connect just one     IBOutlet property and one IBAction method. Now, it&#8217;s time to focus our attention in code, and for starters we must do two things: To create the refresh control that will enable us to refresh our data simply by pulling down the table view, and to declare and initialize some other objects that we&#8217;ll need along our way.</p>
+<p>Open the <em>ViewController.m</em> file and go to the private section of the class. In there, declare the next properties:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> UIRefreshControl <span style="color: #002200;">*</span>refreshControl;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>arrNewsData;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>dataFilePath;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Let me provide a short description about each one.</p>
+<ul>
+<li><em>refreshControl</em>: Not much to say, it&#8217;s the refresh control that will appear on top of the table view upon a refresh.</li>
+<li><em>arrNewsData</em>: This array will contain the actual data that will be displayed on the table view. As we are going to see later as well, each object on this array is going to be a <em>NSDictionary</em> containing three values: The news title, the publish date and the link of each one.</li>
+<li><em>dataFilePath</em>: This string value will keep the path to the file where we will permanently store the downloaded data.</li>
+</ul>
+<p>Let&#8217;s head now to the <em>viewDidLoad</em> method, and let&#8217;s do some initializations. In the code fragment that follows, we are going to perform the next tasks:</p>
+<ol>
+<li>We&#8217;ll make <em>self</em> the delegate and datasource of the table view.</li>
+<li>We will specify the path to the permanent file and store it to the <em>dataFilePath</em> property.</li>
+<li>Last but important, we will initialize the refresh control.</li>
+</ol>
+<p>So, let&#8217;s see all that in code, and then we make any further discussion:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// 1. Make self the delegate and datasource of the table view.</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.tblNews setDelegate<span style="color: #002200;">:</span>self<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.tblNews setDataSource<span style="color: #002200;">:</span>self<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// 2. Specify the data storage file path.</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>paths <span style="color: #002200;">=</span> NSSearchPathForDirectoriesInDomains<span style="color: #002200;">&#40;</span>NSDocumentDirectory, NSUserDomainMask, <span style="color: #a61390;">YES</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>docDirectory <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>paths objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.dataFilePath <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>docDirectory stringByAppendingPathComponent<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;newsdata&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// 3. Initialize the refresh control.</span><br />
+&nbsp; &nbsp; self.refreshControl <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIRefreshControl alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.refreshControl addTarget<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>refreshData<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; forControlEvents<span style="color: #002200;">:</span>UIControlEventValueChanged<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.tblNews addSubview<span style="color: #002200;">:</span>self.refreshControl<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>I think that this code is simple enough, and easy to be understood by anyone. Just two comments though regarding the refresh control: The <em>refreshData</em> method in the selector is a private method that we are going to implement in a while, and it&#8217;s the one that will be invoked upon every refresh. Secondarily, using the <em>[self.tblNews addSubview:self.refreshControl];</em> line we add the refresh button as a subview to the table view. Note that without it nothing is going to happen if you try to refresh your data.</p>
+<div class="note">
+Note: Our class is a subclass of the <em>ViewController</em> class, and the table view has been added as a subview to the main view of it. In that case (which is our case), the refresh control must be added manually as a subview to it, just like we did here. However, if you have a view controller that is a subclass of the <em>UITableViewController</em> class, then the refresh control already exists as a property of it, and you just have to initialize it without to manually add it to the table view.
+</div>
+<p>As a final touch, go right below the <em>#import</em> command and add the next line where we define the source feed of our data:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#define NewsFeed @&quot;http://feeds.reuters.com/reuters/technologyNews&quot;</span></div></td></tr></tbody></table></div>
+<h2>Refreshing the Data</h2>
+<p>Now that our &#8220;base&#8221; has been established, let&#8217;s implement the way that we&#8217;ll use to update our data. By telling &#8220;update&#8221;, I don&#8217;t just mean to get any new data that may exist for download, but to get the initial data as well when the app is completely empty. Previously, we set in the selector the <em>refreshData</em> method, which has not been defined yet, and Xcode should throw an error for this reason.</p>
+<p>So, head to the private section of the class, and declare the method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>refreshData;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Before we go any further, and because we are going to use the <em>XMLParser</em> custom class I provided with the starter app, we must import the appropriate header at the top of our file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;XMLParser.h&quot;</span></div></td></tr></tbody></table></div>
+<p>Nice. Now we are ready to proceed with the implementation. For starters, begin with the next code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>refreshData<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; XMLParser <span style="color: #002200;">*</span>xmlParser <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>XMLParser alloc<span style="color: #002200;">&#93;</span> initWithXMLURLString<span style="color: #002200;">:</span>NewsFeed<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>xmlParser startParsingWithCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span> success, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>dataArray, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The first thing been done here is the initialization of a <em>XMLParser</em> object, where we provide the <em>NewsFeed</em> parameter so it knows where to fetch data from. Next, we invoke the <em>startParsingWithCompletionHandler:</em> method, which will trigger the data parsing and upon finish, the completion handler will be called so we manage the downloaded data in the block. A short comment about the completion handler block parameters:</p>
+<ul>
+<li><em>success</em>: This flag indicates whether the data parsing has been successfully completed or not.</li>
+<li><em>dataArray</em>: An array that contains the parsed data.</li>
+<li><em>error</em>: A pointer to the error, if any occurs.</li>
+</ul>
+<p>The important now is how we are going to manage the parsed data. Well, four tasks must take place:</p>
+<ol>
+<li>To keep the parsed data in the <em>arrNewsData</em> array we declared earlier.</li>
+<li>To reload the table view so it shows the downloaded data.</li>
+<li>To permanently save the data.</li>
+<li>To stop the refresh control from animating.</li>
+</ol>
+<p>At this point I&#8217;m going to tell you in advance that the first three tasks are going to be performed when we&#8217;ll implement the Background Fetch too. So, it would be a great idea to create another private method and perform them in there, instead of writing them twice (after all, I really hate writing the same stuff again and again &#8211; it&#8217;s a really bad practice).</p>
+<p>Go and declare the next method in the private class section:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+...<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>performNewFetchedDataActionsWithDataArray<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>dataArray;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Next, implement it with the above three tasks in it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>performNewFetchedDataActionsWithDataArray<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>dataArray<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// 1. Initialize the arrNewsData array with the parsed data array.</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>self.arrNewsData <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.arrNewsData <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; self.arrNewsData <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> alloc<span style="color: #002200;">&#93;</span> initWithArray<span style="color: #002200;">:</span>dataArray<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// 2. Reload the table view.</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.tblNews reloadData<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// 3. Save the data permanently to file.</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>self.arrNewsData writeToFile<span style="color: #002200;">:</span>self.dataFilePath atomically<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Couldn't save data.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, there is nothing especially hard here. Everything is done just like it was described, so let&#8217;s go back to the <em>refreshData</em> method, in the completion handler block and simply let&#8217;s invoke this method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>refreshData<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; XMLParser <span style="color: #002200;">*</span>xmlParser <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>XMLParser alloc<span style="color: #002200;">&#93;</span> initWithXMLURLString<span style="color: #002200;">:</span>NewsFeed<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>xmlParser startParsingWithCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span> success, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>dataArray, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>success<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self performNewFetchedDataActionsWithDataArray<span style="color: #002200;">:</span>dataArray<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.refreshControl endRefreshing<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Firstly, we check the <em>success</em> flag value. If it&#8217;s TRUE, or in other words our data has been successfully downloaded and parsed, we invoke the <em>performNewFetchedDataActionsWithDataArray:</em> method, and we stop refreshing by simply calling the <em>endRefreshing</em> method of the refresh control. In case that an error occured during the parsing stage, we just log its description.</p>
+<p>With that, the data updating/refreshing capability of the app is ready, so we can keep on implementing the rest of the features.</p>
+<h2>Displaying Data</h2>
+<p>Now that we can update our data using the refresh control, it&#8217;s time to display it in the table view. For that reason, we need to implement the minimum required table view delegate and datasource methods. Begin by adding the next code in your project, and then I&#8217;ll make some comments on it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>numberOfSectionsInTableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">1</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView numberOfRowsInSection<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>section<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> self.arrNewsData.count;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>UITableViewCell <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView cellForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; UITableViewCell <span style="color: #002200;">*</span>cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>tableView dequeueReusableCellWithIdentifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;idCellNewsTitle&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>cell <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UITableViewCell alloc<span style="color: #002200;">&#93;</span> initWithStyle<span style="color: #002200;">:</span>UITableViewCellStyleSubtitle reuseIdentifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;idCellNewsTitle&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>dict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self.arrNewsData objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; cell.textLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;title&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; cell.detailTextLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;pubDate&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span>CGFloat<span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView heightForRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">80.0</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView didSelectRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>dict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self.arrNewsData objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>newsLink <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;link&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIApplication sharedApplication<span style="color: #002200;">&#93;</span> openURL<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> URLWithString<span style="color: #002200;">:</span>newsLink<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>There are two noteworthy parts here. The first one is this segment:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>dict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self.arrNewsData objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+cell.textLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;title&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+cell.detailTextLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;pubDate&quot;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>I have already mentioned a couple of times that each object in the <em>arrNewsData</em> array is a <em>NSDictionary</em> object, which contains three values, the title and publish date of the news, and a link to each one, with the &#8220;title&#8221;, &#8220;pubDate&#8221; and &#8220;link&#8221; as their respective keys. In the code above, we get this dictionary, we assign the title object to the cell&#8217;s text label, and the publish date to the detail text label.</p>
+<p>The second one is the <em>tableView:didSelectRowAtIndexPath:</em> method. In there we get the link matching to the selected news title, and using the <em>openURL:</em> method of the  <em>sharedApplication</em> property, we launch Safari to the specified link.</p>
+<p>At this point we are able to test the app for the first time. If you do so, just pulldown the table view and you&#8217;ll see the refresh control working and new data being displayed on the table view.</p>
+<h2>Data Loading</h2>
+<p>In our previous implementation you saw that every time the data gets refreshed, it also gets saved permanently to a file. Having that in mind, it would be great if our app would launch by having the saved data displayed on the table view, instead of presenting it empty on start. Loading the data from the file is pretty easy; all you have to do is go to the <em>viewDidLoad</em> method, at the end of it, and add the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a> defaultManager<span style="color: #002200;">&#93;</span> fileExistsAtPath<span style="color: #002200;">:</span>self.dataFilePath<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.arrNewsData <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> alloc<span style="color: #002200;">&#93;</span> initWithContentsOfFile<span style="color: #002200;">:</span>self.dataFilePath<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.tblNews reloadData<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At first, we check if the file exists or not in the documents directory. If that&#8217;s the case, then we initialize the <em>arrNewsData</em> array with the file&#8217;s contents, and then reload the table view data.</p>
+<p>The next time you&#8217;ll run the app, if this file exists you will find the table view with data populated on it. Cool right?</p>
+<h2>The Background Fetch</h2>
+<p>Now that our app is capable of getting new data and displaying it on the table view, it&#8217;s time to enable and use the Background Fetch feature. As I described in the introduction of this tutorial, this is a three-step process, and here we are going to see each one in details.</p>
+<p>Let&#8217;s get started by enabling the appropriate capability on Xcode, so click on the project target on the top side of the <strong>Project Navigator</strong>.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_6_project_target.jpg" alt="Background Fetch Project Target" class="aligncenter size-full wp-image-3134" /></div>
+<p>Next, on the main area of the Xcode, click on the <strong>Capabilities</strong> tab, and then <em>turn on the switch</em> matching to the <strong>Background Modes</strong> capability. From the various options that appear, click to enable the <strong>Background Fetch</strong> option, and Xcode will automatically add the appropriate value to your project&#8217;s info .plist file.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_7_bgfetch_enable.jpg" alt="Background Fetch Project Enable" class="aligncenter size-full wp-image-3135" /></div>
+<p>Great! The first step has been completed.</p>
+<p>Now open the <em>AppDelegate.m</em> file, and go to the <em>application:didFinishLaunchingWithOptions:</em> delegate method. In this one, we must add a single line, in which we define how often we want the Background Fetch to be working on our app. In our case, we will use the <em>UIApplicationBackgroundFetchIntervalMinimum</em> predefined value, allowing the system to decide it, using the minimum allowed interval. Here you are:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>application<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIApplication <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>application didFinishLaunchingWithOptions<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>launchOptions<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>application setMinimumBackgroundFetchInterval<span style="color: #002200;">:</span>UIApplicationBackgroundFetchIntervalMinimum<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">YES</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the third and last step we must define a new delegate method, in which we&#8217;ll handle the actions taken by the Background Fetch. Actually, in this method, we must implement all the logic required in order for our app to properly fetch data, manage it and update the UI. The contents of this method totally depend on the nature of each application, so there is no any general rule about what you should do in other cases.</p>
+<p>Let&#8217;s see the delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>application<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIApplication <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>application performFetchWithCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span>UIBackgroundFetchResult<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>completionHandler<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// We will add content here soon.</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>When the system runs the app on the background in order to use the Background Fetch and get new data, the <em>application:performFetchWithCompletionHandler:</em> delegate method is called  to perform all the specified tasks you set in here. The last step must always be the completion handler call, where one of the following arguments should be provided:</p>
+<ul>
+<li><em>UIBackgroundFetchResultNoData</em>: Indicates that no new data was found.</li>
+<li><em>UIBackgroundFetchResultNewData</em>: Indicates that new data was found.</li>
+<li><em>UIBackgroundFetchResultFailed</em>: Indicates that it failed to fetch new data.</li>
+</ul>
+<p>Let&#8217;s focus on our case now. What we want to happen when the Background Fetch works in our app, is to let the <em>XMLParser</em> class to download and parse the data from the news feed and update the table view with it, if any found. In other words, we want to perform almost the same tasks as we did while refreshing the data. Also, depending on whether any new data is found or not, and if any error occurs along the whole procedure, we will call the completion handler of the delegate method with the appropriate parameter.</p>
+<p>The best place to do all that is in the <em>ViewController</em> class, so we can directly access all of our objects and controls. So, for the time being let&#8217;s leave the app delegate and let&#8217;s work on that. Open the <em>ViewController.h</em> file to declare a public method that will be called later on by the <em>application:performFetchWithCompletionHandler:</em> delegate method. Here it is:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController &lt;UITableViewDelegate, UITableViewDataSource&gt;<br />
+...<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>fetchNewDataWithCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span>UIBackgroundFetchResult<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>completionHandler;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s go to the <em>ViewController.m</em> file to implement it. Before we do so, let me describe the logic: Using the <em>XMLParser</em> class, we will download and parse the news data. We&#8217;ll check if the latest news matches to the existing latest news saved on our file (I hope you now see the purpose of the permanent saving), and depending on the comparison result we will call the completion handler specifying the appropriate parameter (one of the three presented above). In case new data is found, we will invoke the <em>performNewFetchedDataActionsWithDataArray:</em> private method to perform all the needed new data related actions. Here is the method implemented:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>fetchNewDataWithCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span>UIBackgroundFetchResult<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>completionHandler<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; XMLParser <span style="color: #002200;">*</span>xmlParser <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>XMLParser alloc<span style="color: #002200;">&#93;</span> initWithXMLURLString<span style="color: #002200;">:</span>NewsFeed<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>xmlParser startParsingWithCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span> success, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>dataArray, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>success<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>latestDataDict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dataArray objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>latestTitle <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>latestDataDict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;title&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>existingDataDict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self.arrNewsData objectAtIndex<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>existingTitle <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>existingDataDict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;title&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>latestTitle isEqualToString<span style="color: #002200;">:</span>existingTitle<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; completionHandler<span style="color: #002200;">&#40;</span>UIBackgroundFetchResultNoData<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;No new data found.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self performNewFetchedDataActionsWithDataArray<span style="color: #002200;">:</span>dataArray<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; completionHandler<span style="color: #002200;">&#40;</span>UIBackgroundFetchResultNewData<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;New data was fetched.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; completionHandler<span style="color: #002200;">&#40;</span>UIBackgroundFetchResultFailed<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Failed to fetch new data.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>; &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>One could say that this method is the heart of the Background Fetch in our application. Notice how we make use of the completion handler, depending always on the result of the fetching.</p>
+<p>So, now that the method that will handle everything when the Background Fetch will work is ready, let&#8217;s go back to the <em>application:performFetchWithCompletionHandler:</em> to implement it, but first, after you have the <em>AppDelegate.m</em> file opened, go at the top of it and make the next import:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;ViewController.h&quot;</span></div></td></tr></tbody></table></div>
+<p>Inside the delegate method, using the <em>rootViewController</em> property of the <em>window</em> object we will get access to the <em>ViewController</em> class, and then we will call the public method we previously implemented.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>application<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIApplication <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>application performFetchWithCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span>UIBackgroundFetchResult<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>completionHandler<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ViewController <span style="color: #002200;">*</span>viewController <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>ViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>self.window.rootViewController;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>viewController fetchNewDataWithCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span>UIBackgroundFetchResult result<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; completionHandler<span style="color: #002200;">&#40;</span>result<span style="color: #002200;">&#41;</span>; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, in the completion handler block of the <em>fetchNewDataWithCompletionHandler:</em> method we just call the completion handler of the delegate method providing the <em>result</em> parameter. The actual work takes place in our public method.</p>
+<p>That&#8217;s it! We just implemented the Background Fetch feature in our app, so we have to try it out.</p>
+<h2>Testing the Background Fetch</h2>
+<p>A little preparation is required prior to the Background Fetch test. Begin by clicking in your project <strong>schemes</strong>, and then by selecting the <strong>Manage Schemes&#8230;</strong> option.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_8_manage_schemes.jpg" alt="Background Fetch Project Manage Scheme" class="aligncenter size-full wp-image-3136" /></div>
+<p>In the window that appears, make sure that the <strong>BackgroundFetchDemo</strong> scheme is selected, and then go to the small <em>gear</em> icon lying at the bottom-left side of the window. From the menu that appears, select the <strong>Duplicate</strong> option.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_9_duplicate.jpg" alt="Background Fetch Project Manage Scheme" class="aligncenter size-full wp-image-3137" /></div>
+<p>A new window comes up, where you should perform the following steps:</p>
+<ol>
+<li>Set the <strong>BackgroundFetchDemo_Test</strong> as the name of the scheme (or any other name you like).</li>
+<li>At the left pane, make sure that the <strong>Run</strong> options is selected.</li>
+<li>In the main window area, select the <strong>Options</strong> tab.</li>
+<li>Select the <strong>Launch due to a background fetch event</strong> checkbox.</li>
+</ol>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_10_setup_scheme.jpg" alt="Background Fetch Project Setup Scheme" class="aligncenter size-full wp-image-3138" /></div>
+<p>Click on the OK, and then again OK to close all windows.</p>
+<p>On the Xcode toolbar, select the new scheme and then run the application. You&#8217;ll notice that the app won&#8217;t show on the Simulator, however on the debugger you&#8217;ll see a message regarding the result of the background fetch. If new data is found, then just click on the app&#8217;s icon on the Simulator, and&#8230; voila! The new data is there, displayed on the table view! Imagine that happening in a real app of yours, which your users would find it updated upon launch. Amazing!</p>
+<p>To run the application in normal mode again, just select the <strong>BackgroundFetchDemo</strong> scheme (the default one), and you are ready. Note that you can test the Background Fetch while the app is running too. To do so, there is no need to change scheme or something like that. Simply, while you have the app running on Simulator, return to Xcode, and select the <strong>Debug > Simulate Background Fetch</strong> option.</p>
+<h2>Tracking the Time</h2>
+<p>In the introduction of the tutorial, I mentioned that the system provides only 30 seconds until all operations initiated by a background fetch to get finished. If the required time needed by an app is greater than that, then other kind of solutions should be figured out. Anyway, it would be really interesting to see how much time our app demands until it gets updated using the Background Fetch feature, so let&#8217;s make a few additions to our code with goal to give us a time report when a fetching has ended.</p>
+<p>Go to the <em>AppDelegate.m</em> file, and in the <em>application:performFetchWithCompletionHandler:</em> delegate method. What we&#8217;ll do here is pretty simple: We will keep the date/time that the background fetch begins and ends, and we&#8217;ll calculate the elapsed time between those two when it ends. The calculated result will be logged to the debugger.</p>
+<p>Below you are given the delegate method once again, this time filled in with the extra code needed to do what I just described:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>application<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIApplication <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>application performFetchWithCompletionHandler<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">^</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#40;</span>UIBackgroundFetchResult<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span>completionHandler<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> <span style="color: #002200;">*</span>fetchStart <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> date<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; ViewController <span style="color: #002200;">*</span>viewController <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>ViewController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>self.window.rootViewController;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>viewController fetchNewDataWithCompletionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span>UIBackgroundFetchResult result<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; completionHandler<span style="color: #002200;">&#40;</span>result<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> <span style="color: #002200;">*</span>fetchEnd <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a> date<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSTimeInterval timeElapsed <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>fetchEnd timeIntervalSinceDate<span style="color: #002200;">:</span>fetchStart<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Background Fetch Duration: %f seconds&quot;</span>, timeElapsed<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The additions that have been made here are obvious. Select the appropriate scheme and run the app to test the background fetch. This time, you&#8217;ll see the duration of the whole process. As you&#8217;ll see on your debugger, there is no danger for our app to exceed the 30 seconds time frame.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_11_debugger_duration.jpg" alt="Background Fetch Project Debugger Duration" class="aligncenter size-full wp-image-3139" /></div>
+<h2>Data Deletion</h2>
+<p>If you remember, during the interface setup we added a toolbar along with a bar button item to the view, and we connected it to an IBAction method. This method is supposed to be used for deleting the app&#8217;s data, meaning the data file on the documents directory, but up to now we haven&#8217;t implemented it. Having the Background Fetch ready and nothing else actually remaining to be done, let&#8217;s work on the <em>removeDataFile:</em> IBAction method.</p>
+<p>The steps that we&#8217;ll perform in it are very simple. We&#8217;ll just check if the file exists or not, and if exists we&#8217;ll just remove it. Then, we&#8217;ll make the data array nil and we&#8217;ll finally reload the table view data.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>removeDataFile<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a> defaultManager<span style="color: #002200;">&#93;</span> fileExistsAtPath<span style="color: #002200;">:</span>self.dataFilePath<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a> defaultManager<span style="color: #002200;">&#93;</span> removeItemAtPath<span style="color: #002200;">:</span>self.dataFilePath error<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.arrNewsData <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.tblNews reloadData<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That&#8217;s all. Nothing particularly difficult.</p>
+<h2>Compile and Run the App</h2>
+<p>If you are the kind of guy who likes to get finished with the implementation first and then run, then this is your time. If you haven&#8217;t tried the app out yet, run it using both of the schemes and see how it behaves. Try out every feature of it, but most importantly, try to get an understanding of the Background Fetch.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/03/t7_12_refreshing_data.jpg" alt="Background Fetch Project Refreshing Data" class="aligncenter size-full wp-image-3140" /></div>
+<h2>Summary</h2>
+<p>The Background Fetch API is in my opinion one of the most cool and useful additions that have been made to iOS. Using either only this, or in combination with other APIs, you can now create applications that will totally change the experience users used to have. Having happy users is always your final goal when building an app, and the Background Fetch API is one of the factors that will lead to that. If you already have apps that use data from the web, update them so they make use of this API. If you are planning to create such an app, then this is your one-way path. Generally, iOS 7 brings a lot of new great goodies, so you just have to take advantage of them and produce extraordinary applications!</p>
+<p>For your reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/BackgroundFetchFinalProject.zip">download the complete Xcode project from here</a>. As always, leave me comment and share your thought about the tutorial.</p>
+<p>Note: The featured image is created using <a href="https://placeit.net">PlaceIt</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/how-to-add-splash-screen-in-your-ios-app/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/05/Sample-iOS-Splash-Screen-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Add Splash Screen in Your iOS App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/how-to-get-current-location-iphone-user/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/09/MyLocation-Xcode-Project1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Get the User Location in iPhone App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uiactionsheet-uipopovercontroller-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/05/uiactionsheet-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to UIActionSheet and UIPopoverController</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/introduction-auto-layout/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/07/auto-layout-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to Auto Layout</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios7-background-fetch-programming/"
+    dc:identifier="http://www.appcoda.com/ios7-background-fetch-programming/"
+    dc:title="Working With Background Fetch in iOS 7"
+    trackback:ping="http://www.appcoda.com/ios7-background-fetch-programming/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/background-fetch/" rel="tag">background fetch</a>, <a href="http://www.appcoda.com/tag/ios-7/" rel="tag">iOS 7</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/xcode-5/" rel="tag">Xcode 5</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="post pingback">
+        <p>Pingback: <a href='http://www.scoop.it/t/ios-and-cocoa-goodies/p/4017326571/2014/03/10/working-with-background-fetch-in-ios-7-programming-tutorial' rel='external nofollow' class='url'>Working with Background Fetch in iOS 7 | Progra...</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3775">
+        <div id="dsq-comment-header-3775" class="dsq-comment-header">
+            <cite id="dsq-cite-3775">
+                <span id="dsq-author-user-3775">AsimNet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3775" class="dsq-comment-body">
+            <div id="dsq-comment-message-3775" class="dsq-comment-message"><p>great </p>
+<p>thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3779">
+        <div id="dsq-comment-header-3779" class="dsq-comment-header">
+            <cite id="dsq-cite-3779">
+                <span id="dsq-author-user-3779">Rezo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3779" class="dsq-comment-body">
+            <div id="dsq-comment-message-3779" class="dsq-comment-message"><p>Very very nice tutorial! Thank you very much!</p>
+<p>Two issues.</p>
+<p>1. Just as a note. iOS Refresh control has ability to show text string below animated activity indicator and it would be nice to have last updated date there &#8211; to decide whether you need to refresh content or not. But! As far as I&#8217;ve seen this in my application sometimes this control is not properly rendered and animated indicator is placed over the top area of the text message. Commercial applications would not relay on this control while the bug is not fixed.</p>
+<p>2. The main problem (and pain!) with data downloading could be the Internet connection. I would prefer to have XML parser working in a separate thread using HTTP request rather than passing XML URL directly to the parser. In this case app main thread will not be blocked if something goes wrong and there could more possibilities to check the errors. It could be very useful if you plan to &#8220;slightly&#8221; modify this tutorial to have a separate thread for downloading and parsing.</p>
+<p>Thank you very mach again!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3790">
+        <div id="dsq-comment-header-3790" class="dsq-comment-header">
+            <cite id="dsq-cite-3790">
+                <span id="dsq-author-user-3790">Ashish pisey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3790" class="dsq-comment-body">
+            <div id="dsq-comment-message-3790" class="dsq-comment-message"><p>great tutorial, but what about JSON?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3798">
+        <div id="dsq-comment-header-3798" class="dsq-comment-header">
+            <cite id="dsq-cite-3798">
+http://www.simonblog.com                <span id="dsq-author-user-3798">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3798" class="dsq-comment-body">
+            <div id="dsq-comment-message-3798" class="dsq-comment-message"><p>Are you talking about a JSON tutorial? You can find it here:</p>
+<p><a href="http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/" rel="nofollow">http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3826">
+        <div id="dsq-comment-header-3826" class="dsq-comment-header">
+            <cite id="dsq-cite-3826">
+                <span id="dsq-author-user-3826">Ashish pisey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3826" class="dsq-comment-body">
+            <div id="dsq-comment-message-3826" class="dsq-comment-message"><p>No i mean &#8220;working with background fetch with JSON response&#8221;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-3829">
+        <div id="dsq-comment-header-3829" class="dsq-comment-header">
+            <cite id="dsq-cite-3829">
+                <span id="dsq-author-user-3829">outime</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3829" class="dsq-comment-body">
+            <div id="dsq-comment-message-3829" class="dsq-comment-message"><p>In theory should be the same, you just need to parse the JSON instead of the XML</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-3858">
+        <div id="dsq-comment-header-3858" class="dsq-comment-header">
+            <cite id="dsq-cite-3858">
+http://www.gtiapps.com/                <span id="dsq-author-user-3858">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3858" class="dsq-comment-body">
+            <div id="dsq-comment-message-3858" class="dsq-comment-message"><p>Hey, thanks. Data in JSON format can be used of course with the background fetch. In this tutorial I&#8217;m talking about XML though, because the RSS feeds are in this format.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3811">
+        <div id="dsq-comment-header-3811" class="dsq-comment-header">
+            <cite id="dsq-cite-3811">
+                <span id="dsq-author-user-3811">Zane Kleinberg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3811" class="dsq-comment-body">
+            <div id="dsq-comment-message-3811" class="dsq-comment-message"><p>Hay, does any one know how I can make a search bar search the table view of posts?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://vishaldharmawat.wordpress.com/2014/03/13/working-with-background-fetch-in-ios-7-programming-tutorial/' rel='external nofollow' class='url'>Working with Background Fetch in iOS 7 | Programming Tutorial |  VishalDharmawat - iPhone and iPad Development</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3830">
+        <div id="dsq-comment-header-3830" class="dsq-comment-header">
+            <cite id="dsq-cite-3830">
+                <span id="dsq-author-user-3830">outime</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3830" class="dsq-comment-body">
+            <div id="dsq-comment-message-3830" class="dsq-comment-message"><p>Off-Topic question:</p>
+<p>How can I convert  date to more sanitized one. The following code that I&#8217;m using just return null output.</p>
+<p>&#8211; (NSString *) date:(NSString *)lafecha;<br />
+{</p>
+<p>    NSString *dateStr = lafecha;<br />
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];<br />
+    [dateFormat setDateFormat:@&#8221;EE, d LLLL yyyy HH:mm:ss Z&#8221;];<br />
+    NSDate *date = [dateFormat dateFromString:dateStr];</p>
+<p>    NSTimeInterval comparacion = [date timeIntervalSinceNow];</p>
+<p>    NSMutableString *returnDate;</p>
+<p>    //positiveValue<br />
+    int comparacionInHours = abs(comparacion / 3600);</p>
+<p>    //returning the correct date<br />
+    if (comparacionInHours  1) &amp;&amp; (comparacionInHours  24) {<br />
+        NSLog(@&#8221;%@&#8221;, date);<br />
+        return returnDate;<br />
+    }<br />
+    else {<br />
+        return returnDate;</p>
+<p>    }<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.musclecoder.com/working-with-background-fetch-in-ios-7-programming-tutorial/' rel='external nofollow' class='url'>Working with Background Fetch in iOS 7 | Programming Tutorial | MUSCLE CODER</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3862">
+        <div id="dsq-comment-header-3862" class="dsq-comment-header">
+            <cite id="dsq-cite-3862">
+                <span id="dsq-author-user-3862">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3862" class="dsq-comment-body">
+            <div id="dsq-comment-message-3862" class="dsq-comment-message"><p>In my case background fetch runs for 10 secs if no data is available. But if there is new data, it takes 50-70 secs and background fetch doesn&#8217;t get suspended. Why is that?</p>
+<p>What I need to do if it exceeds 30 sec timeframe? How do I handle completion handler in that case?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3937">
+        <div id="dsq-comment-header-3937" class="dsq-comment-header">
+            <cite id="dsq-cite-3937">
+http://www.gtiapps.com/                <span id="dsq-author-user-3937">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3937" class="dsq-comment-body">
+            <div id="dsq-comment-message-3937" class="dsq-comment-message"><p>Hi,<br />
+Please forgive my late answer. Well, the 50-70 secs that the background fetch lasts could be a Simulator &#8220;problem&#8221; that allows to exceed the 30 secs limit. If you need more than 30 secs, then you should schedule a download using the <em>Background Transfer Service</em> within that timeframe, and let the system do the job for you, no matter how much time is needed.</p>
+<p>Stay put, as in a few days a new tutorial regarding the Background Transfer Service is going to be published.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3939">
+        <div id="dsq-comment-header-3939" class="dsq-comment-header">
+            <cite id="dsq-cite-3939">
+                <span id="dsq-author-user-3939">Mohammed Shawqi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3939" class="dsq-comment-body">
+            <div id="dsq-comment-message-3939" class="dsq-comment-message"><p>My view controller (MyViewController.h) is not the root view controller, therefore in the app delegate i changed it to:</p>
+<p> MyViewController *viewController = [[MyViewController alloc]init];</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-13397">
+        <div id="dsq-comment-header-13397" class="dsq-comment-header">
+            <cite id="dsq-cite-13397">
+                <span id="dsq-author-user-13397">Suf</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13397" class="dsq-comment-body">
+            <div id="dsq-comment-message-13397" class="dsq-comment-message"><p>This doesn&#8217;t work for me. When I did a background refresh the log keeps saying that there is new data when there isn&#8217;t any.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-17075">
+        <div id="dsq-comment-header-17075" class="dsq-comment-header">
+            <cite id="dsq-cite-17075">
+                <span id="dsq-author-user-17075">Quân Chùa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17075" class="dsq-comment-body">
+            <div id="dsq-comment-message-17075" class="dsq-comment-message"><p>what should i do if i have a navigation controller in my storyborad file and this navigation points directly to MyTableViewController ? Please help me</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-17078">
+        <div id="dsq-comment-header-17078" class="dsq-comment-header">
+            <cite id="dsq-cite-17078">
+                <span id="dsq-author-user-17078">Mohammed Shawqi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17078" class="dsq-comment-body">
+            <div id="dsq-comment-message-17078" class="dsq-comment-message"><p>Try to initialize the MyTableViewController. Just replace MyViewController in my previous comment with your view controller name. Make sure that your view controller is named in the storyboard. </p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4004">
+        <div id="dsq-comment-header-4004" class="dsq-comment-header">
+            <cite id="dsq-cite-4004">
+                <span id="dsq-author-user-4004">Michael Meinberg</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4004" class="dsq-comment-body">
+            <div id="dsq-comment-message-4004" class="dsq-comment-message"><p>Thanks for the tutorial!  You mentioned that background fetch&#8217;s should not be used for critical updates.  What should be used for critical updates if your program is running in the background?   I have an alert app and it is critical that the user gets the alerts in a timely manor, within seconds of them being issued.   I have tried push notifications, and they work mostly, but sometimes Apple&#8217;s push servers can take minutes to deliver the notice, and that is unacceptable.    The alerts are very small, and 99% of the time that background fetch would retrieve no data at all (an all clear) so I figured regular background fetches would be perfect.   Any thoughts on that?  Or is there a better way?   Thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4020">
+        <div id="dsq-comment-header-4020" class="dsq-comment-header">
+            <cite id="dsq-cite-4020">
+http://www.gtiapps.com/                <span id="dsq-author-user-4020">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4020" class="dsq-comment-body">
+            <div id="dsq-comment-message-4020" class="dsq-comment-message"><p>Hi there! I hope it&#8217;s not too late to answer.</p>
+<p>The reason that the background fetch should not be used for critical updates is just because the operating system may not allow it to work as many times as you want, if you make fetches very often. It doesn&#8217;t play any role at all if it gets data indeed or not, it&#8217;s all about if it will be fired or not. If your app requirements do not demand quite often fetches, then of course you can use it, especially if you found out that this is the best tool for you.</p>
+<p>Have you considered using remote notifications? If you want, take a look <a href="http://code.tutsplus.com/tutorials/ios-7-sdk-mutlitasking-enhancements--mobile-20295" rel="nofollow">here</a>, where I discuss in short about them.</p>
+<p>Also, if there&#8217;s a remarkable amount of data that needs to be downloaded, then you must use background fetch along with the background transfer service (stay put, a tutorial regarding it is coming soon).</p>
+<p>Regardless of all the above and as a final word, I would tell you to keep on going with background fetch, and see how the system will behave. If you see in action that your updates take place normally and you don&#8217;t miss any, you&#8217;re just fine. Think only of another solution if that won&#8217;t work for you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4131">
+        <div id="dsq-comment-header-4131" class="dsq-comment-header">
+            <cite id="dsq-cite-4131">
+                <span id="dsq-author-user-4131">Neil M</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4131" class="dsq-comment-body">
+            <div id="dsq-comment-message-4131" class="dsq-comment-message"><p>An interesting article. Thanks. May I pick up on your point &#8220;Let me do a clarification at this point, regarding the usage of the Background Fetch. It is not intended to work only with online data, but it can be used to perform tasks internally into an app too. However, that’s a rare case, as the most common usage involves data fetching from the web.&#8221;. I have ben unable to find anything from Apple that states this is for anything but online data, and was for that reason I hadn&#8217;t used it so far.<br />
+I am keen to use this for periodical updates to an app, processing locally gathered data, to ensure that it is up to date as the user re-opens the app, but also to allow for local notifications to the user as any of this local data that is processed meets certain thresholds. I realise the timings are not guaranteed, and I am not overly concerned by this, but having the ability for the app to briefly refresh circa every 3 to 6 hours, with what would amount to a few seconds of processing would be fantastic.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://appgong.com/working-with-background-fetch-in-ios-7-programming-tutorial-801/' rel='external nofollow' class='url'>Working with Background Fetch in iOS 7 | Programming Tutorial - appgong</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-10892">
+        <div id="dsq-comment-header-10892" class="dsq-comment-header">
+            <cite id="dsq-cite-10892">
+                <span id="dsq-author-user-10892">Bhargavi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10892" class="dsq-comment-body">
+            <div id="dsq-comment-message-10892" class="dsq-comment-message"><p>Nice tutorial!<br />
+I have a few queries though.</p>
+<p>I have an application where I want to download data using the Background Fetch and then insert/update my local database.</p>
+<p>So my doubts are as follows:</p>
+<p>1. Is it possible that applicationWillEnterForeground and performFetchWithCompletionHandler occur simultaneously ? ( If yes, I might end-up having a SQL deadlock )</p>
+<p>2. I want performFetchWithCompletionHandler to be called only once a week. Can I just set the NSTimeInterval to 604800 s ? ( There was a huge battery drain when i set the interval to UIApplicationBackgroundFetchIntervalMinimum )</p>
+<p>Would be grateful if you clarify my doubts.</p>
+<p>Thank you very much once again!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-13396">
+        <div id="dsq-comment-header-13396" class="dsq-comment-header">
+            <cite id="dsq-cite-13396">
+                <span id="dsq-author-user-13396">Suf</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-13396" class="dsq-comment-body">
+            <div id="dsq-comment-message-13396" class="dsq-comment-message"><p>How do I implement this when the TableViewController is not the rootView?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-14875">
+        <div id="dsq-comment-header-14875" class="dsq-comment-header">
+            <cite id="dsq-cite-14875">
+                <span id="dsq-author-user-14875">Thomas Achim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14875" class="dsq-comment-body">
+            <div id="dsq-comment-message-14875" class="dsq-comment-message"><p>Thanks for the great tutorial!</p>
+<p>I have one question.<br />
+I want to implement a timeout that actually stops the background fetch from reading the xml file if the timeout occures.<br />
+So if the user swipes down the tableview to refresh the data, the timer should start, if the background fetch could not read any data after e.g. 20 seconds I want to stop the background fetch and pop out an error message &#8220;please try again later&#8221; or something.<br />
+What would be the best place to implement this timeout function?</p>
+<p>Thanks in advanced for your support!!<br />
+Regards</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-17079">
+        <div id="dsq-comment-header-17079" class="dsq-comment-header">
+            <cite id="dsq-cite-17079">
+                <span id="dsq-author-user-17079">Quân Chùa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17079" class="dsq-comment-body">
+            <div id="dsq-comment-message-17079" class="dsq-comment-message"><p>what could i do if i wanted the background fetch data every 10 minutes or something similiar like in the 8:00 AM ?.In the AppDelegate</p>
+<p>  // set background fetch time</p>
+<p>    NSTimeInterval interval = 25; // insane but for testing purpose</p>
+<p>    [application setMinimumBackgroundFetchInterval:interval];</p>
+<p>but it didnt work ?.Please help me.I am new to IOS</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-32295">
+        <div id="dsq-comment-header-32295" class="dsq-comment-header">
+            <cite id="dsq-cite-32295">
+http://bosslee.co/                <span id="dsq-author-user-32295">Bryan Lee</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-32295" class="dsq-comment-body">
+            <div id="dsq-comment-message-32295" class="dsq-comment-message"><p>Hi, thanks for the great tutorial.</p>
+<p>I have a question on Data Loading.</p>
+<p>I&#8217;m using the same tutorial but I&#8217;m pulling a big chuck of data<br />
+How can I ensure that all data are in before the table starts reloading.</p>
+<p>Thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-35132">
+        <div id="dsq-comment-header-35132" class="dsq-comment-header">
+            <cite id="dsq-cite-35132">
+                <span id="dsq-author-user-35132">Matt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-35132" class="dsq-comment-body">
+            <div id="dsq-comment-message-35132" class="dsq-comment-message"><p>thanks for the great tutorial!</p>
+<p>a question regarding the 30s limit. though dev tries to finish his job in the app delegate callback as fast, given the nature of background fetch (often network requests involved) there&#8217;s no way to guarantee it will be done in 30s. what exactly will happen when execution is halfway in the callback?</p>
+<p>say to process the data I may have to allocate resources (let&#8217;s say we use non-ARC), how do i ensure they are recycled?</p>
+<p>thanks in advance!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-46235">
+        <div id="dsq-comment-header-46235" class="dsq-comment-header">
+            <cite id="dsq-cite-46235">
+                <span id="dsq-author-user-46235">Pradeep Jayaraman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-46235" class="dsq-comment-body">
+            <div id="dsq-comment-message-46235" class="dsq-comment-message"><p>So, I have implemented background fetch in my app with performFetchWithCompletionHandler and setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum.</p>
+<p>Requirement: In the handler, I am fetching remote data (1-2 second roundtrip) and comparing with existing data to see if there are changes. If changes exist, I display a local notification to the user.</p>
+<p>Testing: I have modified the requirement to display local notifciation even if there is no change in data. ( So that I know background fetch works).</p>
+<p>Issue: Background fetch does not work  when NOTconnected to xcode and app running in debug or release mode.</p>
+<p>Observations:</p>
+<p>In Xcode, app debug mode using simulator, when I do &#8220;simulate background fetch&#8221; multiple times, the handler is called and local notifications are fired as expected. I stop running the app.</p>
+<p>In Xcode, app debug mode and the iphone device connected to xcode, when I do &#8220;simulate background fetch&#8221; multiple times, the handler is called and local notifications are fired as expected. I stop running the app.</p>
+<p>In Xcode, app release mode (with new scheme) using iphone device, when I run the app in xcode, the handler is called and local notifications are fired as expected first time. I stop running the app.</p>
+<p>I also tried creating a ad-hoc DEBUG and RELEASE schemes and installing it on my device via itunes, so that I dont have to run the app via xcode. This doesnt seem to make any difference either. The notification didn&#8217;t even fire once.</p>
+<p>I do understand that background fetch is started based on app usage. I keep opening and closing the app and manually  refreshing the data within the app to show activity. But I haven&#8217;t seen any local notification firing at all.</p>
+<p>For testing background fetch on my device without connecting xcode on debug or release modes, what should I do?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-50639">
+        <div id="dsq-comment-header-50639" class="dsq-comment-header">
+            <cite id="dsq-cite-50639">
+                <span id="dsq-author-user-50639">jizani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-50639" class="dsq-comment-body">
+            <div id="dsq-comment-message-50639" class="dsq-comment-message"><p>very nice tutorial Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-97135">
+        <div id="dsq-comment-header-97135" class="dsq-comment-header">
+            <cite id="dsq-cite-97135">
+                <span id="dsq-author-user-97135">Ankit Deshwal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97135" class="dsq-comment-body">
+            <div id="dsq-comment-message-97135" class="dsq-comment-message"><p>nice tutorial it work fine on my simulator but i have one ques if user remove the application from background so the background fetch will work or not.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios7-background-fetch-programming/';
+var disqus_identifier = '3123 http://www.appcoda.com/?p=3123';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Working With Background Fetch in iOS 7";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=3123';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="3123"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios7-background-fetch-programming%2F&#038;t=Working%20With%20Background%20Fetch%20in%20iOS%207" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3123" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>57</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Working%20With%20Background%20Fetch%20in%20iOS%207&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-background-fetch-programming%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3123" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>36</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios7-background-fetch-programming%2F&#038;t=Working%20With%20Background%20Fetch%20in%20iOS%207" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3123" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>11</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-background-fetch-programming%2F&#038;title=Working%20With%20Background%20Fetch%20in%20iOS%207" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3123" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>5</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios7-background-fetch-programming%2F&#038;t=Working%20With%20Background%20Fetch%20in%20iOS%207" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3123" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Working%20With%20Background%20Fetch%20in%20iOS%207&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-background-fetch-programming%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3123" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios7-background-fetch-programming%2F&#038;t=Working%20With%20Background%20Fetch%20in%20iOS%207" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3123" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-background-fetch-programming%2F&#038;title=Working%20With%20Background%20Fetch%20in%20iOS%207" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3123" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios7-background-fetch-programming\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="0c6f60637f694c3e74227c626b">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":3123,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:21:56 by W3 Total Cache -->

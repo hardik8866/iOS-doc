@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: A Look at the WebKit Framework in iOS 8 – Part 2</title>
+	<atom:link href="http://www.appcoda.com/webkit-framework-tutorial/feed/" rel="self" type="application/rss+xml" />
+	<link>http://www.appcoda.com/webkit-framework-tutorial/</link>
+	<description>Your iOS Programming Community</description>
+	<lastBuildDate>Thu, 07 May 2015 01:57:00 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>By: Michael Leveton</title>
+		<link>http://www.appcoda.com/webkit-framework-tutorial/#comment-99927</link>
+		<dc:creator><![CDATA[Michael Leveton]]></dc:creator>
+		<pubDate>Tue, 03 Mar 2015 01:50:00 +0000</pubDate>
+		<guid isPermaLink="false">http://www.appcoda.com/?p=4655#comment-99927</guid>
+		<description><![CDATA[I translated this to Objective-C here: https://github.com/Leveton/MELCoda]]></description>
+		<content:encoded><![CDATA[<p>I translated this to Objective-C here: <a href="https://github.com/Leveton/MELCoda" rel="nofollow">https://github.com/Leveton/MELCoda</a></p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Joyce Echessa</title>
+		<link>http://www.appcoda.com/webkit-framework-tutorial/#comment-98139</link>
+		<dc:creator><![CDATA[Joyce Echessa]]></dc:creator>
+		<pubDate>Sun, 18 Jan 2015 01:13:00 +0000</pubDate>
+		<guid isPermaLink="false">http://www.appcoda.com/?p=4655#comment-98139</guid>
+		<description><![CDATA[I&#039;ve fixed the code blocks that contained html entity codes. Thanks.]]></description>
+		<content:encoded><![CDATA[<p>I&#8217;ve fixed the code blocks that contained html entity codes. Thanks.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Joyce Echessa</title>
+		<link>http://www.appcoda.com/webkit-framework-tutorial/#comment-98138</link>
+		<dc:creator><![CDATA[Joyce Echessa]]></dc:creator>
+		<pubDate>Sun, 18 Jan 2015 01:10:00 +0000</pubDate>
+		<guid isPermaLink="false">http://www.appcoda.com/?p=4655#comment-98138</guid>
+		<description><![CDATA[Some characters in the code blocks were getting changed to html entity codes. I&#039;ve fixed this. Thanks for letting me know.]]></description>
+		<content:encoded><![CDATA[<p>Some characters in the code blocks were getting changed to html entity codes. I&#8217;ve fixed this. Thanks for letting me know.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: JFM</title>
+		<link>http://www.appcoda.com/webkit-framework-tutorial/#comment-98095</link>
+		<dc:creator><![CDATA[JFM]]></dc:creator>
+		<pubDate>Sat, 17 Jan 2015 11:07:00 +0000</pubDate>
+		<guid isPermaLink="false">http://www.appcoda.com/?p=4655#comment-98095</guid>
+		<description><![CDATA[Thanks Joyce for a great tutorial!
+
+There are a couple of things that needs to be updated in the text above to make it work.
+
+As Chris Kong pointed out there is a typo, but there is also a typo in the row right before that row. The -&gt; has been turned into a HTML Ampersand Character Code, so those two rows should instead be:
+
+    func webView(webView: WKWebView!, decidePolicyForNavigationAction navigationAction: WKNavigationAction!, decisionHandler: ((WKNavigationActionPolicy) -&gt; Void)!) {
+
+        if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&quot;www.appcoda.com&quot;)) {
+
+To make the book section disappear as described in the text, the second row in hideSections.js needs to changed from:
+
+styleTag.textContent = &#039;div#sidebar, .after-post.widget-area {display:none;}&#039;;
+
+to:
+
+styleTag.textContent = &#039;div#sidebar, .footer-widgets {display:none;}&#039;;
+
+The first JavaScript code in the section Extracting Data From the Web Page, needs to be changed to the following, as several characters have turned into HTML Ampersand Char Codes:
+
+var postsWrapper = document.querySelector(&#039;#content&#039;)
+var posts = postsWrapper.querySelectorAll(&#039;.post.type-post.status-publish&#039;)
+
+for (var i = 0; i &lt; posts.length; i++) {
+   var post = posts[i];
+   var postTitle = post.querySelector(&#039;h2.entry-title a&#039;).textContent;
+   var postURL = post.querySelector(&#039;h2.entry-title a&#039;).getAttribute(&#039;href&#039;);
+   console.log(&quot;Title: &quot;, postTitle, &quot; URL: &quot;, postURL);
+}
+
+The same goes for the getPosts.js where the rows containing HTML Ampersands Char Codes need to be replaced as follows:
+
+    for (var i = 0; i &lt; posts.length; i++) {
+   var post = posts[i];
+   var postTitle = post.querySelector(&#039;h2.entry-title a&#039;).textContent;
+   var postURL = post.querySelector(&#039;h2.entry-title a&#039;).getAttribute(&#039;href&#039;);
+   pos.push({&#039;postTitle&#039; : postTitle, &#039;postURL&#039; : postURL});
+    }
+
+The curly bracket is missing on the row:
+
+class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {
+
+It might be worth mentioning that when updating the class declaration to conform to the WKScriptMessageHandler protocol, an error will occur that the ViewController does not conform to the protocol, but that we will fix that in a bit by adding the required userContentController method.
+
+The init in the Post class needs to be changed from:
+
+    init(dictionary: Dictionary) {
+
+to:
+
+    init(dictionary: Dictionary) {
+
+The userContentController method needs to be updated from:
+
+            if let postsList = message.body as? [Dictionary] {
+
+to:
+
+            if let postsList = message.body as? [Dictionary] {
+
+It might be worth mentioning that it is the id for the Table View Cell that should be updated when talking about the prototype cell.
+
+Some rows in the PostsTableViewController class has to be updated as several characters have turned into HTML Ampersand Char Codes as follows:
+
+Change:
+
+    override func numberOfSectionsInTableView(tableView: UITableView?) -&gt; Int {
+
+to:
+
+    override func numberOfSectionsInTableView(tableView: UITableView?) -&gt; Int {
+
+Change:
+
+    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -&gt; Int {
+
+to:
+
+    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -&gt; Int {
+
+Change:
+
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {
+
+to:
+
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {
+
+
+
+Otherwise it should work ;)]]></description>
+		<content:encoded><![CDATA[<p>Thanks Joyce for a great tutorial!</p>
+<p>There are a couple of things that needs to be updated in the text above to make it work.</p>
+<p>As Chris Kong pointed out there is a typo, but there is also a typo in the row right before that row. The -&gt; has been turned into a HTML Ampersand Character Code, so those two rows should instead be:</p>
+<p>    func webView(webView: WKWebView!, decidePolicyForNavigationAction navigationAction: WKNavigationAction!, decisionHandler: ((WKNavigationActionPolicy) -&gt; Void)!) {</p>
+<p>        if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&#8220;www.appcoda.com&#8221;)) {</p>
+<p>To make the book section disappear as described in the text, the second row in hideSections.js needs to changed from:</p>
+<p>styleTag.textContent = &#8216;div#sidebar, .after-post.widget-area {display:none;}';</p>
+<p>to:</p>
+<p>styleTag.textContent = &#8216;div#sidebar, .footer-widgets {display:none;}';</p>
+<p>The first JavaScript code in the section Extracting Data From the Web Page, needs to be changed to the following, as several characters have turned into HTML Ampersand Char Codes:</p>
+<p>var postsWrapper = document.querySelector(&#8216;#content&#8217;)<br />
+var posts = postsWrapper.querySelectorAll(&#8216;.post.type-post.status-publish&#8217;)</p>
+<p>for (var i = 0; i &lt; posts.length; i++) {<br />
+   var post = posts[i];<br />
+   var postTitle = post.querySelector(&#039;h2.entry-title a&#039;).textContent;<br />
+   var postURL = post.querySelector(&#039;h2.entry-title a&#039;).getAttribute(&#039;href&#039;);<br />
+   console.log(&quot;Title: &quot;, postTitle, &quot; URL: &quot;, postURL);<br />
+}</p>
+<p>The same goes for the getPosts.js where the rows containing HTML Ampersands Char Codes need to be replaced as follows:</p>
+<p>    for (var i = 0; i &lt; posts.length; i++) {<br />
+   var post = posts[i];<br />
+   var postTitle = post.querySelector(&#039;h2.entry-title a&#039;).textContent;<br />
+   var postURL = post.querySelector(&#039;h2.entry-title a&#039;).getAttribute(&#039;href&#039;);<br />
+   pos.push({&#039;postTitle&#039; : postTitle, &#039;postURL&#039; : postURL});<br />
+    }</p>
+<p>The curly bracket is missing on the row:</p>
+<p>class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHandler {</p>
+<p>It might be worth mentioning that when updating the class declaration to conform to the WKScriptMessageHandler protocol, an error will occur that the ViewController does not conform to the protocol, but that we will fix that in a bit by adding the required userContentController method.</p>
+<p>The init in the Post class needs to be changed from:</p>
+<p>    init(dictionary: Dictionary) {</p>
+<p>to:</p>
+<p>    init(dictionary: Dictionary) {</p>
+<p>The userContentController method needs to be updated from:</p>
+<p>            if let postsList = message.body as? [Dictionary] {</p>
+<p>to:</p>
+<p>            if let postsList = message.body as? [Dictionary] {</p>
+<p>It might be worth mentioning that it is the id for the Table View Cell that should be updated when talking about the prototype cell.</p>
+<p>Some rows in the PostsTableViewController class has to be updated as several characters have turned into HTML Ampersand Char Codes as follows:</p>
+<p>Change:</p>
+<p>    override func numberOfSectionsInTableView(tableView: UITableView?) -&gt; Int {</p>
+<p>to:</p>
+<p>    override func numberOfSectionsInTableView(tableView: UITableView?) -&gt; Int {</p>
+<p>Change:</p>
+<p>    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -&gt; Int {</p>
+<p>to:</p>
+<p>    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -&gt; Int {</p>
+<p>Change:</p>
+<p>    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {</p>
+<p>to:</p>
+<p>    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {</p>
+<p>Otherwise it should work 😉</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Chris Kong</title>
+		<link>http://www.appcoda.com/webkit-framework-tutorial/#comment-97907</link>
+		<dc:creator><![CDATA[Chris Kong]]></dc:creator>
+		<pubDate>Fri, 16 Jan 2015 08:19:00 +0000</pubDate>
+		<guid isPermaLink="false">http://www.appcoda.com/?p=4655#comment-97907</guid>
+		<description><![CDATA[Typo on this line of code: 
+
+
+if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&quot;www.appcoda.com&quot;)) {
+
+I checked the final file attached. It should be:
+
+if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&quot;www.appcoda.com&quot;)) {]]></description>
+		<content:encoded><![CDATA[<p>Typo on this line of code: </p>
+<p>if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&#8220;www.appcoda.com&#8221;)) {</p>
+<p>I checked the final file attached. It should be:</p>
+<p>if (navigationAction.navigationType == WKNavigationType.LinkActivated &amp;&amp; !navigationAction.request.URL.host!.lowercaseString.hasPrefix(&#8220;www.appcoda.com&#8221;)) {</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-07 20:48:41 by W3 Total Cache -->

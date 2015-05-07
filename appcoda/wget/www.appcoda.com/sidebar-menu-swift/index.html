@@ -1,0 +1,1262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Creating a Sidebar Menu in iOS Apps Using Swift</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="In this tutorial, we will build a slide out sidebar menu using SWRevealViewController in Swift. You will learn how to use Objective-C classes in Swift project."/>
+<link rel="canonical" href="http://www.appcoda.com/sidebar-menu-swift/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In this tutorial, we will build a slide out sidebar menu using SWRevealViewController in Swift. You will learn how to use Objective-C classes in Swift project."/>
+<meta name="twitter:title" content="Creating a Sidebar Menu in iOS Apps Using Swift"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-0-smaller-1024x632.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Creating a Sidebar Menu Using SWRevealViewController in Swift Comments Feed" href="http://www.appcoda.com/sidebar-menu-swift/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=4856' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-4856 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-4856 post type-post status-publish format-standard hentry category-course category-intermediate category-swift-2 category-tutorials tag-ios-programming tag-sidebar-2 tag-swift tag-swrevealviewcontroller tag-xcode-6 entry"><h1 class="entry-title">Creating a Sidebar Menu Using SWRevealViewController in Swift</h1> 
+<div class="post-info"><span class="date published time" title="2015-02-26T00:32:52+00:00">February 26, 2015</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/sidebar-menu-swift/#comments"><span class="dsq-postid" data-dsqidentifier="4856 http://www.appcoda.com/?p=4856">56 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>As promised, here is the Swift version of the <a href="http://www.appcoda.com/ios-programming-sidebar-navigation-menu/">slide out sidebar menu tutorial</a>. Again we will make use of an open source library called SWRevealViewController to build the sidebar menu. Though the library was written in Objective-C, you can easily integrate it into any Swift project. You will see how easy you can access and interact with Objective-C classes using Swift.</p>
+<p>Okay, let&#8217;s get started.</p>
+<p>In this tutorial, I will show you how create a slide-out navigation menu similar to the one you find in the Gmail app. If you&#8217;re unfamiliar with slide out navigation menu, take a look at the figure on the right. <a href="http://kenyarmosh.com/ios-pattern-slide-out-navigation/">Ken Yarmost</a> gave a good explanation and defined it as follows:</p>
+<blockquote><p>&#8220;Slide-out navigation consists of a panel that slides out from underneath the left or the right of the main content area, revealing a vertically independent scroll view that serves as the primary navigation for the application.&#8221;</p></blockquote>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-0-smaller-1024x632.jpg" alt="Slideout sidebar menu demo in swift" class="aligncenter size-large wp-image-4871" /></div>
+<p>From what I know, the slide-out sidebar menu was first introduced by Facebook. Since then it quickly becomes a standard way to implement navigation menu. Nowadays, you can easily find this design pattern in most of the popular content-related apps such as <a href="http://www.google.com/inbox/">Inbox</a>, <a href="https://itunes.apple.com/us/app/digg/id362872995?mt=8">Digg</a>, <a href="https://www.linkedin.com/mobile?trk=hb_ft_mobile">LinkedIn</a>, etc.<br />
+The slide-out design pattern lets you build a navigation menu in your apps but without wasting the screen real estate. Normally, the navigation menu is hidden behind the front view. The menu can then be triggered by tapping a list button in the navigation bar. Once the menu is expanded and becomes visible, users can close it by using the list button or simply swiping left on the content area.</p>
+<p>You can build the sidebar menu from the ground up. But with so many free pre-built solutions on GitHub, we&#8217;re not going to build it from scratch. Instead, we&#8217;ll make use of a library called <a href="https://github.com/John-Lluch/SWRevealViewController">SWRevealViewController</a>. Developed by John Lluch, this excellent library provides a quick and easy way to put up a slide-out navigation menu in your apps. Best of all, the library is available for free.<br />
+The library was written in Objective-C. But it is very straightforward to integrate it in your Swift project. You will learn how it can be done in a minute.</p>
+<p><span id="more-4856"></span></p>
+<h2>A Glance at the Demo App</h2>
+<p>As usual, we&#8217;ll build a demo app to show you how to apply the SWRevealViewController. The app is very simple but not fully functional. The primary purpose of the app is to walk you through the implementation of slide-out navigation menu. The navigation menu will work like this:</p>
+<ul>
+<li>User triggers the menu by tapping the list button at the top-left of navigation bar.</li>
+<li>User can also bring up the menu by swiping right on the main content area.</li>
+<li>Once the menu appears, user can close it by tapping the list button again.</li>
+<li>User can also close the menu by dragging left on the content area.</li>
+</ul>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-2-799x1024.png" alt="Slide out sidebar app" class="aligncenter size-large wp-image-4870" /></div>
+<h2>Creating the Xcode Project</h2>
+<p>The focus of this chapter is on the sidebar implementation. So to save your time from setting up the project, you can <a href="https://www.dropbox.com/s/6n09lrr15ibcsl4/SidebarMenuStart.zip?dl=0">download the Xcode project template</a> to start with.<br />
+The project already comes with a pre-built storyboard with all the required view controllers. If you&#8217;ve downloaded the template, open the storyboard to take a look. To use SWRevealViewController for building a sidebar menu, you create a container view controller, which is actually an empty view controller, to hold both the menu view controller and a set of content view controllers. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-3-1024x691.png" alt="Slide out sidebar storyboard" class="aligncenter size-large wp-image-4859" /></div>
+<p>I have already created the menu view controller for you. It is just a static table view with three menu items. There are three content view controllers for displaying news, map and photos. For demo purpose, the content view controllers only shows static data. And I just created three controllers. If you need  to have a few more controllers, simply insert them into the storyboard. All icons and images are included in the project template (credit: thanks for the free icon from <a href="http://www.pixeden.com/media-icons/flat-design-icons-set-vol1">Pixeden</a>).</p>
+<h2>Using the SWRevealViewController Library</h2>
+<p>As mentioned, we&#8217;ll use the free SWRevealViewController library to implement the slide-out menu. So, first <a href="https://github.com/John-Lluch/SWRevealViewController/archive/master.zip">download the library from GitHub</a> and extract the zipped file. After you extract the file, you should find the SWRevealViewController folder. In that folder, there are two files : SWRevealViewController.h and SWRevealViewController.m. If you do not have any Objective-C background, you may wonder why the file extension is not .swift. As mentioned before, the SWRevealViewController was written in Objective-C. The file extension differs from that of Swift&#8217;s source file. Anyway, we will add both files to the project. In the project navigator, right-click SidebarMenu folder and select &#8220;New Group&#8221;. Name the group &#8220;SWRevealViewController&#8221;. Drag both files to the SWRevealViewController group. As soon as you confirm to add the files, Xcode prompts you to configure an Objective-C bridging header. By creating the header file, you&#8217;ll be able to access the Objective-C code from Swift. So click Yes to proceed. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-4-1024x380.png" alt="Import Objective-C to Swift Project" class="aligncenter size-large wp-image-4860" /></div>
+<p>Xcode then generates a header file named SidebarMenu-Bridging-Header.h, along with the SWRevealViewController files. Open the SidebarMenu-Bridging-Header.h and insert the following line:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">#import &quot;SWRevealViewController.h&quot;</div></td></tr></tbody></table></div>
+<h2>Associate the Front View and Rear View Controller</h2>
+<p>SWRevealViewController library provides a built-in support for Storyboard. When implementing a sidebar menu using, all you need to do is associate the SWRevealViewController with a front and a rear view controller using segues. The front view controller is the main controller for displaying content. In our storyboard, it&#8217;s the navigation controller which associates with a view controller for presenting news. The rear view controller is the controller that shows the navigation menu. Here it is the Sidebar View Controller.</p>
+<p>Go to the storyboard. First, select the empty view controller (i.e. container view controller) and change its class to SWRevealViewController.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-5-1024x251.png" alt="SWRevealViewController Class" class="aligncenter size-large wp-image-4862" /></div>
+<p>Next, control-drag from SWRevealViewController to the Menu view controller. After releasing the button, you will see a context menu for segue selection. In this case, select &#8220;reveal view controller set segue&#8221;. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-6-1024x272.png" alt="Sidebar Connect Segue" class="aligncenter size-large wp-image-4863" /></div>
+<p>This defines a custom segue &#8220;SWRevealViewControllerSetSegue&#8221;. Select the segue and change its identifier to &#8220;sw_rear&#8221; under the Identity inspector. By setting the identifier, you tell SWRevealViewController that the menu view controller is the rear view controller. In this case, the sidebar menu will be hidden behind a content view controller. </p>
+<p>Next, repeat the same procedures to connect SWRevealViewController with the navigation controller of the news view controller. Again, select &#8220;reveal view controller set segue&#8221; when prompted.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-7-1024x703.png" alt="Sidebar Storyboard Segue" class="aligncenter size-large wp-image-4864" /></div>
+<p>Set the identifier of the segue to “sw_front”. This tells the SWRevealViewController that the navigation controller is the front view controller.</p>
+<p>Before moving on, you can now compile the app and have a quick test. Your app should display the news view. You couldn&#8217;t unhide the sidebar menu when tapping the menu button (or what so called hamburger button) as we haven&#8217;t implemented the action method yet.</p>
+<p>If your app works properly, let&#8217;s continue with the implementation. Open NewsTableViewController.swift, which is the controller class of News Controller. In the viewDidLoad method, insert the following lines of code:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">if self.revealViewController() != nil {<br />
+&nbsp; &nbsp; menuButton.target = self.revealViewController()<br />
+&nbsp; &nbsp; menuButton.action = &quot;revealToggle:&quot;<br />
+&nbsp; &nbsp; self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())<br />
+}</div></td></tr></tbody></table></div>
+<p>The SWRevealViewController provides a method called revealViewController() to get the parent SWRevealViewController from any child controller. It also provides the revealToggle: method to handle the expansion and contraction of the sidebar menu. As you know, Cocoa uses the target-action mechanism for communication between a control and another object. We set the target of the menu button to the reveal view controller and action to the revealToggle: method. So when the menu button is tapped, it will call the <em>revealToggle:</em> method to display the sidebar menu. </p>
+<div class="note">
+Using Objective-C from Swift: The action property of the menu button accepts an Objective-C selector. An Objective-C selector is a type that refers to the name of an Objective-C method. In Swift, you just need to specify the method name as a string literal to construct a selector.
+</div>
+<p>Lastly, we add a gesture recognizer. Not only you can use the menu button to bring out the sidebar menu, the user can swipe the content area to activate the sidebar as well.<br />
+Cool! Let&#8217;s compile and run the app in the simulator. Tap the menu button and the sidebar menu should appear. You can hide the sidebar menu by tapping the menu button again. You can also open the menu by using gesture. Try to swipe right on the content area and see what you get. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-8-iphoneonly-512x1024.png" alt="Sidebar Demo - iPhone" class="aligncenter size-large wp-image-4865" /></div>
+<h2>Handling Menu Item Selection</h2>
+<p>You’ve already built a visually appealing sidebar menu. There is still one thing left. For now, we haven&#8217;t defined any segues for the menu items. When you select any of the menu item, it will not transit to the corresponding view.</p>
+<p>Okay, go back to storyboard. First, select the map cell. Press and hold the control key and click on the map cell. Drag to the navigation controller of the map view controller and select the &#8220;reveal view controller push controller&#8221; segue under Selection Segue. Repeat the procedure for the News and Photos items, but connect then with the navigation controllers of the news view controller and photos view controller respectively.</p>
+<p>The custom SWRevealViewControllerSeguePushController segue automatically handles the switching of the controllers.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-9-1024x593.png" alt="Sidebar Menu Segue" class="aligncenter size-large wp-image-4867" /></div>
+<p>Again insert the following lines of code in the viewDidLoad method of MapViewController.swift and PhotoViewController.swift to toggle the sidebar menu:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">if self.revealViewController() != nil {<br />
+&nbsp; &nbsp; menuButton.target = self.revealViewController()<br />
+&nbsp; &nbsp; menuButton.action = &quot;revealToggle:&quot;<br />
+&nbsp; &nbsp; self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())<br />
+}</div></td></tr></tbody></table></div>
+<p>That&#8217;s it! Hit the Run button and test out the app. </p>
+<h2>Customizing the Menu</h2>
+<p>The SWRevealViewController class provides a number of options for configuring the sidebar menu. Say, if you want to change the width of the menu, you can update the value of rearViewRevealWidth property. Try to insert the following line of code in the viewDidLoad method of NewsTableViewController:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">self.revealViewController().rearViewRevealWidth = 62</div></td></tr></tbody></table></div>
+<p>If you run the app, you&#8217;ll have a sidebar menu like the one on your left. You can look into the SWRevealViewController.h file to explore the customizable options.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/02/sidebar-10-iphoneonly-514x1024.jpg" alt="Sidebar Menu Demo" class="aligncenter size-large wp-image-4868" /></div>
+<h2>Summary</h2>
+<p>In this tutorial, I walked you through the SWRevealViewController library and showed you how to create a slide-out navigation menu in Swift. This is one of the many approaches to create a sidebar menu. If you like, you can try to build the navigation menu from scratch using custom view animation or explore other open source libraries such as <a href="https://github.com/evnaz/ENSwiftSideMenu">ENSwiftSideMenu</a>.</p>
+<p>For your reference, you can download the final project <a href="https://www.dropbox.com/s/ax0zhk655j204zu/SidebarMenu.zip?dl=0">here</a>. What do you think about the tutorial? Leave me comment and share your thoughts.</p>
+<p><em>If you enjoy reading this tutorial, you will probably like our Intermediate Swift book, which covers more than 25 development recipes. The book is now available in the starter/complete package of the Swift bundle. You can <a href="http://www.appcoda.com/swift/">check it out here</a>.</em></p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/why-launching-appcoda/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/03/appcoda-launch1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Why Launching AppCoda?</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-101-drop-a-pin-on-map-with-mapkit-api/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/10/MyLocationMap-Project-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Intro to MapKit API and Add an Annotation on Map</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/facebook-pop-framework-intro/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/12/pop-animations-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Simple Animations with Facebook's Pop Framework</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ibdesignable-ibinspectable-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/03/Rainbow-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Your Own Custom Controls Using IBDesignable in Xcode 6</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/sidebar-menu-swift/"
+    dc:identifier="http://www.appcoda.com/sidebar-menu-swift/"
+    dc:title="Creating a Sidebar Menu Using SWRevealViewController in Swift"
+    trackback:ping="http://www.appcoda.com/sidebar-menu-swift/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/sidebar-2/" rel="tag">sidebar</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a>, <a href="http://www.appcoda.com/tag/swrevealviewcontroller/" rel="tag">swrevealviewcontroller</a>, <a href="http://www.appcoda.com/tag/xcode-6/" rel="tag">Xcode 6</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-99832">
+        <div id="dsq-comment-header-99832" class="dsq-comment-header">
+            <cite id="dsq-cite-99832">
+                <span id="dsq-author-user-99832">Michael</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99832" class="dsq-comment-body">
+            <div id="dsq-comment-message-99832" class="dsq-comment-message"><p>You said in the letter: &#8220;Some said the slide-out sidebar menu is an old-fashioned way for navigation.&#8221;, so what is new way for navigation?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-99986">
+        <div id="dsq-comment-header-99986" class="dsq-comment-header">
+            <cite id="dsq-cite-99986">
+http://www.appcoda.com/                <span id="dsq-author-user-99986">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99986" class="dsq-comment-body">
+            <div id="dsq-comment-message-99986" class="dsq-comment-message"><p>You may check out some modern ways of navigation here:</p>
+<p><a href="http://beta.pttrns.com/?scid=5" rel="nofollow">http://beta.pttrns.com/?scid=5</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99833">
+        <div id="dsq-comment-header-99833" class="dsq-comment-header">
+            <cite id="dsq-cite-99833">
+http://createmyfreeapp.beep.com/                <span id="dsq-author-user-99833">Converse As</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99833" class="dsq-comment-body">
+            <div id="dsq-comment-message-99833" class="dsq-comment-message"><p>If you want to create a app then its not a tricky now you can get your desire apps free and can create app. without of any coding so visit now and enjoy: createmyfreeapp.com</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99837">
+        <div id="dsq-comment-header-99837" class="dsq-comment-header">
+            <cite id="dsq-cite-99837">
+                <span id="dsq-author-user-99837">Carlos Martin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99837" class="dsq-comment-body">
+            <div id="dsq-comment-message-99837" class="dsq-comment-message"><p>Hey, great tutorial! I would like to know how to round the corners of a UIImageView in a table of my project, which is very similar to the News view. I have tried to use solutions like this (<a href="http://stackoverflow.com/questions/10167266/how-to-set-cornerradius-for-only-top-left-and-top-right-corner-of-a-uiview" rel="nofollow">http://stackoverflow.com/questions/10167266/how-to-set-cornerradius-for-only-top-left-and-top-right-corner-of-a-uiview</a>), but the size of the image is lost and damaged storyboard design. I would greatly appreciate the help, because I&#8217;m new to size classes &#8230; thanks in advance</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-99840">
+        <div id="dsq-comment-header-99840" class="dsq-comment-header">
+            <cite id="dsq-cite-99840">
+                <span id="dsq-author-user-99840">thefredelement</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99840" class="dsq-comment-body">
+            <div id="dsq-comment-message-99840" class="dsq-comment-message"><p>set clipstobounds = true and then set a corner radius.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-99841">
+        <div id="dsq-comment-header-99841" class="dsq-comment-header">
+            <cite id="dsq-cite-99841">
+                <span id="dsq-author-user-99841">Carlos Martin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99841" class="dsq-comment-body">
+            <div id="dsq-comment-message-99841" class="dsq-comment-message"><p>that works for all corners, but I am trying to round just top-left and top-right as described in the link. Any suggestion?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99850">
+        <div id="dsq-comment-header-99850" class="dsq-comment-header">
+            <cite id="dsq-cite-99850">
+                <span id="dsq-author-user-99850">LAOMUSIC ARTS</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99850" class="dsq-comment-body">
+            <div id="dsq-comment-message-99850" class="dsq-comment-message"><p>Houston, we have a problem !:<br />
+&#8220;control-drag from SWRevealViewController to the Menu view controller.<br />
+After releasing the button, you will see a context menu for segue<br />
+selection. In this case, select “reveal view controller set segue”. &#8221;<br />
+Instead  I have “reveal view controller set controller” or  “reveal view controller push controller”.<br />
+Only one segue is possible then.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-99870">
+        <div id="dsq-comment-header-99870" class="dsq-comment-header">
+            <cite id="dsq-cite-99870">
+                <span id="dsq-author-user-99870">Arian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99870" class="dsq-comment-body">
+            <div id="dsq-comment-message-99870" class="dsq-comment-message"><p>I&#8217;ve this problem too, &#8220;reveal view controller set controller&#8221; doesn&#8217;t work! and &#8220;reveal view controller set segue&#8221; isn&#8217;t there.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-99981">
+        <div id="dsq-comment-header-99981" class="dsq-comment-header">
+            <cite id="dsq-cite-99981">
+http://www.techmuzz.com                <span id="dsq-author-user-99981">Swapna Lekshmanan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99981" class="dsq-comment-body">
+            <div id="dsq-comment-message-99981" class="dsq-comment-message"><p>I had the same problem too. Make sure you drag from the yellow square at the top of Reveal View Controller. Also note that, when you drag from the Reveal View Controller, its outline shd be &#8220;blue&#8221; in color ensuring tht it has been selected. I spent hours figuring that out.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-99997">
+        <div id="dsq-comment-header-99997" class="dsq-comment-header">
+            <cite id="dsq-cite-99997">
+                <span id="dsq-author-user-99997">Thedc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99997" class="dsq-comment-body">
+            <div id="dsq-comment-message-99997" class="dsq-comment-message"><p>Could you tell me how you actually fix it? I keep getting set controller instead of set segue. Moreover, I got an warning which says &#8220;targetTransform&#8221; not implemented in SWRevealViewController.m</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-4" id="dsq-comment-100035">
+        <div id="dsq-comment-header-100035" class="dsq-comment-header">
+            <cite id="dsq-cite-100035">
+                <span id="dsq-author-user-100035">Arian</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100035" class="dsq-comment-body">
+            <div id="dsq-comment-message-100035" class="dsq-comment-message"><p>I did just like what you said, but still I don&#8217;t have &#8220;reveal view controller set segue&#8221;. I&#8217;ll be glad if you explain more! thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99864">
+        <div id="dsq-comment-header-99864" class="dsq-comment-header">
+            <cite id="dsq-cite-99864">
+                <span id="dsq-author-user-99864">Marc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99864" class="dsq-comment-body">
+            <div id="dsq-comment-message-99864" class="dsq-comment-message"><p>Awesome tutorial! I checked out other tutorials on this subject and this is by far the most helpful and straight forward. Thanks a lot and keep up the excellent work!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-100133">
+        <div id="dsq-comment-header-100133" class="dsq-comment-header">
+            <cite id="dsq-cite-100133">
+http://www.appcoda.com/                <span id="dsq-author-user-100133">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100133" class="dsq-comment-body">
+            <div id="dsq-comment-message-100133" class="dsq-comment-message"><p>Thank you Marc!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99925">
+        <div id="dsq-comment-header-99925" class="dsq-comment-header">
+            <cite id="dsq-cite-99925">
+http://www.antonio081014.com/                <span id="dsq-author-user-99925">antonio081014</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99925" class="dsq-comment-body">
+            <div id="dsq-comment-message-99925" class="dsq-comment-message"><p>???</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-99985">
+        <div id="dsq-comment-header-99985" class="dsq-comment-header">
+            <cite id="dsq-cite-99985">
+http://www.appcoda.com/                <span id="dsq-author-user-99985">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99985" class="dsq-comment-body">
+            <div id="dsq-comment-message-99985" class="dsq-comment-message"><p>The site was down a couple days ago. That was why you got the message.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99935">
+        <div id="dsq-comment-header-99935" class="dsq-comment-header">
+            <cite id="dsq-cite-99935">
+                <span id="dsq-author-user-99935">Marcelo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99935" class="dsq-comment-body">
+            <div id="dsq-comment-message-99935" class="dsq-comment-message"><p>Hey there. Thank you for the amazing tutorial!<br />
+I have just a question. I&#8217;ve done this in my file original, and for some reason (mainly because I&#8217;m new in Swift I assume) the label of the cell in my Menu View Controller is not showing properly. It shows the table view up to the top, and when I click in the &#8220;News&#8221; tab, the label shows in the cell above like &#8220;Ne&#8230;&#8221;. The Menu button and the gesture recognizer is working properly.. Only the label of the cell.. What do you think it can be? Thank you once again! Cheers</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99961">
+        <div id="dsq-comment-header-99961" class="dsq-comment-header">
+            <cite id="dsq-cite-99961">
+                <span id="dsq-author-user-99961">rezwansiddiqui</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99961" class="dsq-comment-body">
+            <div id="dsq-comment-message-99961" class="dsq-comment-message"><p>Great</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99962">
+        <div id="dsq-comment-header-99962" class="dsq-comment-header">
+            <cite id="dsq-cite-99962">
+                <span id="dsq-author-user-99962">Rezwan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99962" class="dsq-comment-body">
+            <div id="dsq-comment-message-99962" class="dsq-comment-message"><p>To know the Best Way to Manage iPad Hard Drive Please visit: <a href="http://www.bestiosapps.org/2015/02/best-way-to-manage-ipad-hard-drive-filemaster.html" rel="nofollow">http://www.bestiosapps.org/2015/02/best-way-to-manage-ipad-hard-drive-filemaster.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99971">
+        <div id="dsq-comment-header-99971" class="dsq-comment-header">
+            <cite id="dsq-cite-99971">
+                <span id="dsq-author-user-99971">Flip</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99971" class="dsq-comment-body">
+            <div id="dsq-comment-message-99971" class="dsq-comment-message"><p>Hi! Nice tutorial &#8230; But i have a question.<br />
+It is possible to interact with the frontcontroller while menu is open. Is it possible to deactivate this and how can i implement a gesturerecognizer for swiping and for tapping to go back to the frontviewcontroller?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-100244">
+        <div id="dsq-comment-header-100244" class="dsq-comment-header">
+            <cite id="dsq-cite-100244">
+                <span id="dsq-author-user-100244">Flip</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100244" class="dsq-comment-body">
+            <div id="dsq-comment-message-100244" class="dsq-comment-message"><p>Has anyone an idea to solve my requirements?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-99982">
+        <div id="dsq-comment-header-99982" class="dsq-comment-header">
+            <cite id="dsq-cite-99982">
+http://www.techmuzz.com                <span id="dsq-author-user-99982">Swapna Lekshmanan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99982" class="dsq-comment-body">
+            <div id="dsq-comment-message-99982" class="dsq-comment-message"><p>Hi, I am trying to make a blog reader app, and I want different categories of the blog to open in the same NewsTableViewController. And I want these categories to be listed in the navigation menu. pls throw some light on how can i accomplish that coz i dont want to create a new View Controller for each category</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-100006">
+        <div id="dsq-comment-header-100006" class="dsq-comment-header">
+            <cite id="dsq-cite-100006">
+                <span id="dsq-author-user-100006">nagarjuna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100006" class="dsq-comment-body">
+            <div id="dsq-comment-message-100006" class="dsq-comment-message"><p>i download the project ,when i trying to run the project it is just show the apperiance screen ,then i didnt see any output there ,i am using xcode6.1 in i phone6 similater thanks for help in advance</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100016">
+        <div id="dsq-comment-header-100016" class="dsq-comment-header">
+            <cite id="dsq-cite-100016">
+                <span id="dsq-author-user-100016">Karol</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100016" class="dsq-comment-body">
+            <div id="dsq-comment-message-100016" class="dsq-comment-message"><p>When I change the label from &#8220;News&#8221; to something longer like &#8220;Football&#8221; the label gets clipped and it only displays &#8220;Foo&#8230;&#8221;. Any ideas?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-100084">
+        <div id="dsq-comment-header-100084" class="dsq-comment-header">
+            <cite id="dsq-cite-100084">
+                <span id="dsq-author-user-100084">imon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100084" class="dsq-comment-body">
+            <div id="dsq-comment-message-100084" class="dsq-comment-message"><p>Did you find the solution? I run to the same issue.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-100087">
+        <div id="dsq-comment-header-100087" class="dsq-comment-header">
+            <cite id="dsq-cite-100087">
+                <span id="dsq-author-user-100087">Karol</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100087" class="dsq-comment-body">
+            <div id="dsq-comment-message-100087" class="dsq-comment-message"><p>Still stuck&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-100132">
+        <div id="dsq-comment-header-100132" class="dsq-comment-header">
+            <cite id="dsq-cite-100132">
+http://www.appcoda.com/                <span id="dsq-author-user-100132">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100132" class="dsq-comment-body">
+            <div id="dsq-comment-message-100132" class="dsq-comment-message"><p>I just tried to change the News label to Football. It works. Could you download the final project and try again?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100095">
+        <div id="dsq-comment-header-100095" class="dsq-comment-header">
+            <cite id="dsq-cite-100095">
+                <span id="dsq-author-user-100095">bharned3</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100095" class="dsq-comment-body">
+            <div id="dsq-comment-message-100095" class="dsq-comment-message"><p>Its working but get the waring Method &#8216;target Transformation&#8217; in protocol UIviewControllerCOntextTransitioning&#8217; not implemented</p>
+<p>Anyone know how to fix this</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-100118">
+        <div id="dsq-comment-header-100118" class="dsq-comment-header">
+            <cite id="dsq-cite-100118">
+                <span id="dsq-author-user-100118">bharned3</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100118" class="dsq-comment-body">
+            <div id="dsq-comment-message-100118" class="dsq-comment-message"><p>I had to add this:</p>
+<p>&#8211; (CGAffineTransform)targetTransform  {</p>
+<p>    return self.targetTransform;</p>
+<p>}</p>
+<p>under </p>
+<p>@implementation SWContextTransitionObject</p>
+<p>{</p>
+<p>    __weak SWRevealViewController *_revealVC;</p>
+<p>    UIView *_view;</p>
+<p>    UIViewController *_toVC;</p>
+<p>    UIViewController *_fromVC;</p>
+<p>    void (^_completion)(void);</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-100809">
+        <div id="dsq-comment-header-100809" class="dsq-comment-header">
+            <cite id="dsq-cite-100809">
+                <span id="dsq-author-user-100809">Imran Ar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100809" class="dsq-comment-body">
+            <div id="dsq-comment-message-100809" class="dsq-comment-message"><p>It is not working for me it throws an error.</p>
+<p>I did like this:</p>
+<p>@implementation SWContextTransitionObject</p>
+<p>{</p>
+<p>__weak SWRevealViewController *_revealVC;</p>
+<p>UIView *_view;</p>
+<p>UIViewController *_toVC;</p>
+<p>UIViewController *_fromVC;</p>
+<p>void (^_completion)(void);</p>
+<p>&#8211; (CGAffineTransform)targetTransform {//Throws error here</p>
+<p>return self.targetTransform;</p>
+<p>}</p>
+<p>}</p>
+<p>Error is:<br />
+&#8220;Expected member name or &#8216;;&#8217;  after declaration specifiers&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100102">
+        <div id="dsq-comment-header-100102" class="dsq-comment-header">
+            <cite id="dsq-cite-100102">
+                <span id="dsq-author-user-100102">rezwansiddiqui</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100102" class="dsq-comment-body">
+            <div id="dsq-comment-message-100102" class="dsq-comment-message"><p>Dear iPhone and iPad Lovers, I have created a site for you. please visit: <a href="http://www.bestiosapps.org" rel="nofollow">http://www.bestiosapps.org</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100284">
+        <div id="dsq-comment-header-100284" class="dsq-comment-header">
+            <cite id="dsq-cite-100284">
+                <span id="dsq-author-user-100284">Matt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100284" class="dsq-comment-body">
+            <div id="dsq-comment-message-100284" class="dsq-comment-message"><p>First off: great tutorial! It really helped me, but I have the problem others are having: when you contpol&#8217;drag from the Reveal View Controller to the Menu Controller, the reveal view controller set segue doesn&#8217;t show up. Instead I have reveal view controller set controller and reveal view controller push controller. Any help is appreciated!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100514">
+        <div id="dsq-comment-header-100514" class="dsq-comment-header">
+            <cite id="dsq-cite-100514">
+                <span id="dsq-author-user-100514">Seymour</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100514" class="dsq-comment-body">
+            <div id="dsq-comment-message-100514" class="dsq-comment-message"><p>Strange&#8230; No restoration state?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100611">
+        <div id="dsq-comment-header-100611" class="dsq-comment-header">
+            <cite id="dsq-cite-100611">
+                <span id="dsq-author-user-100611">Markel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100611" class="dsq-comment-body">
+            <div id="dsq-comment-message-100611" class="dsq-comment-message"><p>Hi, Thanks for the tutorial i have just imported the SWRevealViewController.h, .m and SidebarMenu-Bridging-Header.h into my project and also i have added the file path in Objective-C Bridging Header. In my HomeViewController i have implemented the code, but am getting the error &#8220;HomeViewController does not have a member named revealViewController&#8221;. Help me out to fix this issue</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-100869">
+        <div id="dsq-comment-header-100869" class="dsq-comment-header">
+            <cite id="dsq-cite-100869">
+                <span id="dsq-author-user-100869">Fatih K.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100869" class="dsq-comment-body">
+            <div id="dsq-comment-message-100869" class="dsq-comment-message"><p>I&#8217;m getting the same error. Can you help? @simonng:disqus</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-101009">
+        <div id="dsq-comment-header-101009" class="dsq-comment-header">
+            <cite id="dsq-cite-101009">
+                <span id="dsq-author-user-101009">Seth</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101009" class="dsq-comment-body">
+            <div id="dsq-comment-message-101009" class="dsq-comment-message"><p>I ran into the same problem. For me the error was that the generated Bridging-Header.h file was empty when created. It should have the default name YourProject-Bridging-Header.h and include the line:</p>
+<p>#import &#8220;SWRevealViewController.h&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-100872">
+        <div id="dsq-comment-header-100872" class="dsq-comment-header">
+            <cite id="dsq-cite-100872">
+                <span id="dsq-author-user-100872">Fatih K.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100872" class="dsq-comment-body">
+            <div id="dsq-comment-message-100872" class="dsq-comment-message"><p>Oh, I found the reason finally.. I realized I also have another bridging-header file. So, when I inserted the importing code there, it worked..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100655">
+        <div id="dsq-comment-header-100655" class="dsq-comment-header">
+            <cite id="dsq-cite-100655">
+                <span id="dsq-author-user-100655">D. Li</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100655" class="dsq-comment-body">
+            <div id="dsq-comment-message-100655" class="dsq-comment-message"><p>Helpful tutorial but to make it even better for newbies &#8212; please add instructions on how to manually create the bridging file and add it to the Build Settings. The bridging file was Not created automatically as described in the tutorial. Thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-100727">
+        <div id="dsq-comment-header-100727" class="dsq-comment-header">
+            <cite id="dsq-cite-100727">
+                <span id="dsq-author-user-100727">Alok Nair</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100727" class="dsq-comment-body">
+            <div id="dsq-comment-message-100727" class="dsq-comment-message"><p>Hi Simon Ng,</p>
+<p>How to make menu visible on right side?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100793">
+        <div id="dsq-comment-header-100793" class="dsq-comment-header">
+            <cite id="dsq-cite-100793">
+                <span id="dsq-author-user-100793">Erfan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100793" class="dsq-comment-body">
+            <div id="dsq-comment-message-100793" class="dsq-comment-message"><p>Hey, I did every thing just like what you said but when I click on menu button nothing happens! would you please explain why ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-100808">
+        <div id="dsq-comment-header-100808" class="dsq-comment-header">
+            <cite id="dsq-cite-100808">
+                <span id="dsq-author-user-100808">Imran Ar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100808" class="dsq-comment-body">
+            <div id="dsq-comment-message-100808" class="dsq-comment-message"><p>How do I programmatically do SWRevealViewControllerSeguePushController.<br />
+I have a dynamic menu items (UITableView) when I select a an item from UITableVIew. I want to programmatically do a push controller.. Please let me know how do I achieve it?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-100837">
+        <div id="dsq-comment-header-100837" class="dsq-comment-header">
+            <cite id="dsq-cite-100837">
+                <span id="dsq-author-user-100837">Imran Ar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100837" class="dsq-comment-body">
+            <div id="dsq-comment-message-100837" class="dsq-comment-message"><p>How do I programmatically toggle from MenuViewController to front controller.</p>
+<p>I tried self.revealVIewController().revealToggle(self)</p>
+<p>It is not working..please let me know</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-101031">
+        <div id="dsq-comment-header-101031" class="dsq-comment-header">
+            <cite id="dsq-cite-101031">
+                <span id="dsq-author-user-101031">Bhadresh Sonani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101031" class="dsq-comment-body">
+            <div id="dsq-comment-message-101031" class="dsq-comment-message"><p>Hey i am putting logout item in this menu.when i am logout and then login at that time it&#8217;s give error like  &#8216;*** -[__NSArrayM insertObject:atIndex:]: object cannot be nil</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-101125">
+        <div id="dsq-comment-header-101125" class="dsq-comment-header">
+            <cite id="dsq-cite-101125">
+                <span id="dsq-author-user-101125">Mr_Bologna</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101125" class="dsq-comment-body">
+            <div id="dsq-comment-message-101125" class="dsq-comment-message"><p>Hi all! first off, great tutorial for beginners.</p>
+<p>I Understood the code mechanics behind the SlideOutMenu, but I&#8217;m struggling to find a way to make a new ControllerView from scratch with the EXACT same menu toggle button (that hamburger menu icon), from the tutorial isn&#8217;t implied that it is automatic or if it should me made by hand. I even tried to read the code to find references to the bar button item and how to &#8220;copy/duplicate&#8221; it on a new Controller View, but no avail.</p>
+<p>I&#8217;m a total beginner on Swift, learning by good tutorials like this one. Would any of you kindly explain how could I make a new custom ControllerView which is in turn linked to a new menu item? (e.g. Contacts under Photos). All I want is to expand the menu and adding new tabs to view with the same toggle button structure.</p>
+<p>Many thanks in advance!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-101144">
+        <div id="dsq-comment-header-101144" class="dsq-comment-header">
+            <cite id="dsq-cite-101144">
+                <span id="dsq-author-user-101144">Zac Wolff</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101144" class="dsq-comment-body">
+            <div id="dsq-comment-message-101144" class="dsq-comment-message"><p>Hey man, thanks for all the work you put in to keep this site running. I have really benefited from your articles from Objective C and now Swift.</p>
+<p>Unfortunately I am unable to get the slide menu to show and with no errors if I create a project from scratch and follow your instructions. I however get it to work when I continue from the template you provided.</p>
+<p>I have no error messages and can&#8217;t seem to locate where the problem is. Please assist me with any help you can offer. Thank you.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-101157">
+        <div id="dsq-comment-header-101157" class="dsq-comment-header">
+            <cite id="dsq-cite-101157">
+                <span id="dsq-author-user-101157">Zac Wolff</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101157" class="dsq-comment-body">
+            <div id="dsq-comment-message-101157" class="dsq-comment-message"><p>Hey thank you. I finally got it to work. Salute!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-101306">
+        <div id="dsq-comment-header-101306" class="dsq-comment-header">
+            <cite id="dsq-cite-101306">
+                <span id="dsq-author-user-101306">Ken Dolan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101306" class="dsq-comment-body">
+            <div id="dsq-comment-message-101306" class="dsq-comment-message"><p>Zac, I&#8217;m having the same problem and I don&#8217;t see a comment helping you fix it. What did you do?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-101307">
+        <div id="dsq-comment-header-101307" class="dsq-comment-header">
+            <cite id="dsq-cite-101307">
+                <span id="dsq-author-user-101307">Zac Wolff</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101307" class="dsq-comment-body">
+            <div id="dsq-comment-message-101307" class="dsq-comment-message"><p>Hi @disqus_MzUtsNDoYF:disqus, I was unable to tell what exactly the problem was. Might be swift version or something else. I combined the tutorial here with another I found on YouTube: <a href="http://goo.gl/Gs11KA" rel="nofollow">http://goo.gl/Gs11KA</a></p>
+<p>With a little tweaks in in this tutorial from AppCoda plus the approach from the video in that link you can make it look and behave just like you find here. </p>
+<p>NB:<br />
+Some of the things missing in the linked YouTube tutorial is a navigation bar icon, view controllers that are not embedded in a navigation controller and also not pushing to the front view controller when cell is selected from the menu. </p>
+<p>You can solve all of that by applying some of the things Simon taught in this article.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101149">
+        <div id="dsq-comment-header-101149" class="dsq-comment-header">
+            <cite id="dsq-cite-101149">
+                <span id="dsq-author-user-101149">simkus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101149" class="dsq-comment-body">
+            <div id="dsq-comment-message-101149" class="dsq-comment-message"><p>Hey,</p>
+<p>In my case the SWRevealViewController is not the initial viewController, I face a problem, when user clicks a button it segues to SWRevealViewController, but it also adds its own NavigationBar (i use &#8220;Embed In&#8221;), How do I remove that original Navigation bar, so the NewsViewController NavigationBar is visible again?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-101150">
+        <div id="dsq-comment-header-101150" class="dsq-comment-header">
+            <cite id="dsq-cite-101150">
+                <span id="dsq-author-user-101150">Paulius</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101150" class="dsq-comment-body">
+            <div id="dsq-comment-message-101150" class="dsq-comment-message"><p>Hey,</p>
+<p>How Do I dismiss rear (Menu Controller) if the user clicks anywhere on the front (News/Map/Photo Controller) ?<br />
+Now it only dismisses it after user clicks again on hamburger menu.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101156">
+        <div id="dsq-comment-header-101156" class="dsq-comment-header">
+            <cite id="dsq-cite-101156">
+                <span id="dsq-author-user-101156">Raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101156" class="dsq-comment-body">
+            <div id="dsq-comment-message-101156" class="dsq-comment-message"><p>You can also try this tutorial on TalkersCode.com Simple and best <a href="http://talkerscode.com/webtricks/slide-in-and-slide-out-navigation-menu-using-jquery-css.php" rel="nofollow">http://talkerscode.com/webtricks/slide-in-and-slide-out-navigation-menu-using-jquery-css.php</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-101292">
+        <div id="dsq-comment-header-101292" class="dsq-comment-header">
+            <cite id="dsq-cite-101292">
+                <span id="dsq-author-user-101292">Serdar Aylanc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101292" class="dsq-comment-body">
+            <div id="dsq-comment-message-101292" class="dsq-comment-message"><p>Hello, great tutorial. I tried to create &#8220;Menu View Controller&#8221; myself in StoryBoard. But i couldn&#8217;t find a way to add a Section. Without adding a section, my labels inside cell were not displayed when I run the project. Any help? &#8230; Thanks..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.finixone.com/2015/04/26/creating-a-sidebar-menu-using-swrevealviewcontroller-in-swift/' rel='external nofollow' class='url'>Creating a Sidebar Menu Using SWRevealViewController in Swift | Finix ONE</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101390">
+        <div id="dsq-comment-header-101390" class="dsq-comment-header">
+            <cite id="dsq-cite-101390">
+                <span id="dsq-author-user-101390">timbojill</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101390" class="dsq-comment-body">
+            <div id="dsq-comment-message-101390" class="dsq-comment-message"><p>I need a little help. I downloaded the final project. I already have an app on the app store that I want to incorporate the side bar menu in. I have 7 views total. How do I modify the three views News, Maps, and photos. Add my own stuff and then connect a few more views. I deleted everything in the news view added my own stuff but when I went to run it it gave me an error. It should be that hard. kindly email me at <a href="/cdn-cgi/l/email-protection#fc8895919e9396959090bc9b919d9590d29f9391"><span class="__cf_email__" data-cfemail="196d70747b7673707575597e74787075377a7674">[email&#160;protected]</span><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></a> with some advise.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-101411">
+        <div id="dsq-comment-header-101411" class="dsq-comment-header">
+            <cite id="dsq-cite-101411">
+                <span id="dsq-author-user-101411">Niranjan Ravichandran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101411" class="dsq-comment-body">
+            <div id="dsq-comment-message-101411" class="dsq-comment-message"><p>Hey thanks for this great tutorial! I have a small problem in my slide menu. Everything works fine but for one thing. When i slide the menu and select a menu and it navigates to the correct view controller but the selected menu item remains selected in the table view controller. I have to unselect it and then select it again to navigate to the respective view controller. I don&#8217;t know where i&#8217;m going wrong. Please can you help me with this..?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101421">
+        <div id="dsq-comment-header-101421" class="dsq-comment-header">
+            <cite id="dsq-cite-101421">
+                <span id="dsq-author-user-101421">Alex</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101421" class="dsq-comment-body">
+            <div id="dsq-comment-message-101421" class="dsq-comment-message"><p>Hey! Just wanted to know how to go about having the menu on the right hand side of the screen rather than the left? Thanks in advance!! Alex.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-101422">
+        <div id="dsq-comment-header-101422" class="dsq-comment-header">
+            <cite id="dsq-cite-101422">
+                <span id="dsq-author-user-101422">Alex</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101422" class="dsq-comment-body">
+            <div id="dsq-comment-message-101422" class="dsq-comment-message"><p>Never mind i found a previous solution here: <a href="https://github.com/John-Lluch/SWRevealViewController/issues/185" rel="nofollow">https://github.com/John-Lluch/SWRevealViewController/issues/185</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/sidebar-menu-swift/';
+var disqus_identifier = '4856 http://www.appcoda.com/?p=4856';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Creating a Sidebar Menu Using SWRevealViewController in Swift";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=4856';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/qr-code-generator-tutorial/">Building a QR Code Generator with Core Image Filters</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="4856"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fsidebar-menu-swift%2F&#038;t=Creating%20a%20Sidebar%20Menu%20Using%20SWRevealViewController%20in%20Swift" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4856" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>108</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Creating%20a%20Sidebar%20Menu%20Using%20SWRevealViewController%20in%20Swift&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fsidebar-menu-swift%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4856" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>46</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fsidebar-menu-swift%2F&#038;t=Creating%20a%20Sidebar%20Menu%20Using%20SWRevealViewController%20in%20Swift" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4856" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>5</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fsidebar-menu-swift%2F&#038;title=Creating%20a%20Sidebar%20Menu%20Using%20SWRevealViewController%20in%20Swift" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4856" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>1</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fsidebar-menu-swift%2F&#038;t=Creating%20a%20Sidebar%20Menu%20Using%20SWRevealViewController%20in%20Swift" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4856" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Creating%20a%20Sidebar%20Menu%20Using%20SWRevealViewController%20in%20Swift&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fsidebar-menu-swift%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4856" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fsidebar-menu-swift%2F&#038;t=Creating%20a%20Sidebar%20Menu%20Using%20SWRevealViewController%20in%20Swift" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4856" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fsidebar-menu-swift%2F&#038;title=Creating%20a%20Sidebar%20Menu%20Using%20SWRevealViewController%20in%20Swift" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4856" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/sidebar-menu-swift\/","stats_nonce":"27f72d7d6e","share_counts":"c60b502e2b","follow_counts":"4fd4f218a0","total_counts":"7a2cbc80a9","media_single":"848a2abace","media_total":"2779daa846","generate_all_window_nonce":"94e43fd45b","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="81e2edeef2e4c1b3f9aff1efe6">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":4856,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-06 10:46:36 by W3 Total Cache -->

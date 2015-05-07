@@ -1,0 +1,802 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Using iAd to Display Banner Ad in Your App</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This tutorial shows you how to integrate iAd in your iOS app and display a simple ad banner. iAd is one of the ways to monetize your app."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-iad-introduction/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This tutorial shows you how to integrate iAd in your iOS app and display a simple ad banner. iAd is one of the ways to monetize your app."/>
+<meta name="twitter:title" content="Using iAd to Display Banner Ad in Your App"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/06/iad-featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Using iAd to Display Banner Ad in Your App Comments Feed" href="http://www.appcoda.com/ios-iad-introduction/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=3727' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-3727 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-3727 post type-post status-publish format-standard hentry category-beginner category-course tag-iad tag-ios-programming tag-xcode-5 entry"><h1 class="entry-title">Using iAd to Display Banner Ad in Your App</h1> 
+<div class="post-info"><span class="date published time" title="2014-06-17T01:18:09+00:00">June 17, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-iad-introduction/#comments"><span class="dsq-postid" data-dsqidentifier="3727 http://www.appcoda.com/?p=3727">12 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>So, you are about to start developing the next super app, you have everything planned and designed, but there&#8217;s still one last thing you haven&#8217;t made your mind up about; how to make some earnings out of it! Well, there are two options apart from offering it completely free: Either to make it a paid app where your potentials users should pay to download it, or make it a free app, add some advertisements, and earn a revenue from the ads.</p>
+<p>Today&#8217;s trends show that it&#8217;s more possible for users to download free apps, instead of paid ones. They will pay for an app if it really worths it, or if it&#8217;s super famous and have received good rating. So, having that in mind, you decide to make your app a free one, and integrate advertisements in it. To do so, you have various services to pick from in order to display ads, and one of them is the iAd Network provided by Apple. Undoubtably, you have already concluded even from the tutorial&#8217;s title that the today&#8217;s topic is about how to use iAd advertisements, but before we see all in action let&#8217;s see some introductory stuff.</p>
+<p>Deciding about the kind of your application (paid or free) before starting the actual implementation is really important, as it affects your work directly. For paid apps, there&#8217;s no need to do anything particular, however for free apps it&#8217;s necessary to define where the ads will appear, and setup your interface accordingly. Speaking of position, ads should be placed either to the top or the bottom of your view controller. If your app does not contain a tab bar, then ads should be placed at the bottom of the screen, otherwise at the top. Note that if you display ads anywhere else in the view, then the Human Interface Guidelines are breached and Apple will reject it with no second thought.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/iad-featured.jpg" alt="iad-featured" class="aligncenter size-full wp-image-3743" /><br />
+<span id="more-3727"></span></div>
+<p>Besides all the above regarding the positioning of the ads, there are a couple more rules you should have in mind. Firstly, don&#8217;t expect ads to be always available. Various network or server-side problems may cause troubles in ad serving, and it&#8217;s your duty to take care so no ugly empty space appears when no ads are there for you. It&#8217;s considered as a good idea to show another meaningful view when no ads exist. Actually, it&#8217;s totally up to your app design whether you should display another view instead of the ad banner or not, and what kind of view this should be.</p>
+<p>Also, ad banners should not be obscured by other view controllers all the time. You have to make sure that they will appear in the most viewable view controller, the one that users will spend the most of their time when working with the app, and maximize that way the possibility for your ads to get tapped and earn some money.</p>
+<p>Regarding the revenue, both Apple and developers benefit when users tap on advertisements. Actually, the developer&#8217;s cut is equal to the 70% percent of the revenue, while the rest 30% is held by Apple as a commission for offering you the iAd Network services. The same split applies to paid apps too.</p>
+<p>It&#8217;s quite common for sole developers and companies to follow another approach, to create two versions of the same app. The first version, the paid, is the full-featured one. The second version is free, but it doesn&#8217;t contain all the features that the paid version ships. That free version, also called Lite version, can have advertisements and beyond the revenue you may earn from them, you can also count on extra revenue if users like the app and buy the paid version. Remember that you should never add advertisements in paid apps. Even if Apple allows that to happen, and I seriously doubt about that, you&#8217;ll receive the worst critics and ratings, as users don&#8217;t pay to see ads.</p>
+<p>In the next sections of the tutorial we&#8217;ll implement as always a sample app, and through this you&#8217;ll learn how to integrate ads provided by Apple into your projects. If you are new to this, you&#8217;ll find out that using ads is a super-easy process. So, keep reading and discover how all this new great stuff works!</p>
+<h2>App Overview</h2>
+<p>As always, our tutorial will be based on the creation of a sample app. In the one we will start developing right next, we will see how to integrate iAd advertisements and display ad banners within a few steps. More specifically, we&#8217;ll do the following:</p>
+<ul>
+<li>We will add an ad banner at the bottom side of the view. This will be the container in which the ads will be displayed if available. If there are no available ads, then we&#8217;ll hide it until we have something to show.</li>
+<li>Generally speaking, a modal full-screen view shows up when tapping on an advertisement, covering everything else behind it. In such cases, any critical or important tasks regarding especially visual updates must be paused or stopped, and get restarted after the ad has been closed. To demonstrate how this can be managed, we&#8217;ll use a timer to count the seconds that the user is viewing the default view controller&#8217;s view, and a label to display a message containing the timer&#8217;s value. When an ad gets tapped, we&#8217;ll stop counting, and we&#8217;ll restart doing so when it&#8217;s closed again.</li>
+</ul>
+<p>Also, in this tutorial we are going to use an extra framework, the <strong>iAd Framework</strong>. Without it, it&#8217;s not possible to display and handle iAd advertisements.</p>
+<p>The next figure illustrates how the app of this tutorial will look like:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_11_final_sample.jpg" alt="iAd Demo" class="aligncenter size-full wp-image-3741" /></div>
+<h2>Project Creation</h2>
+<p>Let&#8217;s begin by creating a new project for the sample app. Launch Xcode and in the Welcome window select the respective option, as shown in the next figure:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_1_xcode_welcome.jpg" alt="iAd Welcome Dialog" class="aligncenter size-full wp-image-3731" /></div>
+<p>In the guide that appears, select the <strong>Single View Application</strong> template, in the <strong>Application</strong> category under the <strong>iOS</strong> section:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_2_template1.jpg" alt="Xcode Project Template" class="aligncenter size-full wp-image-3732" /></div>
+<p>Click Next, and in the <strong>Product Name</strong> field set the <strong>iAdDemo</strong> as the project&#8217;s name. Also, make sure that the <strong>iPhone</strong> option is the selected one in the <strong>Devices</strong> menu. Leave the rest as it is, and proceed:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_3_template2.jpg" alt="iAd Project Option" class="aligncenter size-full wp-image-3733" /></div>
+<p>In the last step of the guide select a directory to save the project and click Create.</p>
+<h2>Interface Configuration</h2>
+<p>Now that we have an empty project on our hands, let&#8217;s begin working on the interface of the app. Click on the <em>Main.storyboard</em> file to let Interface Builder appear. Below you are given all the subviews along with their attributes that you should add, so the final outcome of our work in this section is similar to the app figure illustrated previously. Note that you could skip some of the subviews that will be described next if you just want to focus just on the ad banner.</p>
+<h3><strong>UILabel</strong></h3>
+<ol>
+<li><strong>Frame</strong>: X=20, Y=60, Width=280, Height=40</li>
+<li><strong>Text</strong>: <em>iAd Integration</em></li>
+<li><strong>Font</strong>: Avenir Black, 24.0pt</li>
+<li><strong>Text Alignment</strong>: Center</li>
+</ol>
+<h3><strong>UILabel</strong></h3>
+<ol>
+<li><strong>Frame</strong>: X=20, Y=108, Width=280, Height=21</li>
+<li><strong>Text</strong>: <em>by Appcoda</em></li>
+<li><strong>Font</strong>: Avenir Medium Oblique, 17.0pt</li>
+<li><strong>Text Alignment</strong>: Center</li>
+<li><strong>Text Color</strong>: Red=255, Green=128, Blue=0</li>
+</ol>
+<h3><strong>UILabel</strong></h3>
+<ol>
+<li><strong>Frame</strong>: X=20, Y=360, Width=280, Height=40</li>
+<li><strong>Text</strong>: None</li>
+<li><strong>Font</strong>: Noteworthy Light, 15.0pt</li>
+<li><strong>Text Alignment</strong>: Center</li>
+<li><strong>Text Color</strong>: Light Gray</li>
+</ol>
+<h3><strong>UILabel</strong></h3>
+<ol>
+<li><strong>Frame</strong>: X=0, Y=518, Width=320, Height=50</li>
+<li><strong>Text</strong>: <em>Ad banner will appear here</em></li>
+<li><strong>Font</strong>: Avenir Medium, 14.0pt</li>
+<li><strong>Text Alignment</strong>: Center</li>
+<li><strong>Text Color</strong>: White</li>
+<li><strong>Background Color</strong>: Red=255, Green=128, Blue=0</li>
+</ol>
+<h3><strong>ADBannerView</strong></h3>
+<ol>
+<li><strong>Frame</strong>: X=0, Y=518, Width=320, Height=50</li>
+</ol>
+<p>After adding all the above subviews and setting their attributes as shown, your interface should look like this:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_4_ib_sample.jpg" alt="iad interface builder sample" class="aligncenter size-full wp-image-3734" /></div>
+<p>It&#8217;s necessary to create and connect two IBOutlet properties now. The first one regards the ad banner view, while the second one will be connected to the label that contains no text. In this label we&#8217;ll display later the time counter value. Open the <em>ViewController.h</em> file, and the next two lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController &lt;ADBannerViewDelegate&gt;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet ADBannerView <span style="color: #002200;">*</span>adBanner;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>lblTimerMessage;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>At this point Xcode will issue an error and some warnings. That&#8217;s because we haven&#8217;t added the iAd framework yet, and we haven&#8217;t included the appropriate library on our file. Let&#8217;s fix everything and let&#8217;s start by adding the framework. On the Project Navigator, click on the <strong>iAdDemo</strong> project, and then in the <strong>General</strong> tab.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_5_general_tab.jpg" alt="iAd General Tab" class="aligncenter size-full wp-image-3735" /></div>
+<p>Next, at the bottom side of the screen, under the <strong>Linked Frameworks and Libraries</strong> section, click on the plus icon to add the new framework. In the new window that appears, start typing the text: &#8220;iAd Framework&#8221; and Xcode will immediately suggest it. Select it and then click on the Add button:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_7_add_framework.jpg" alt="iAd Add Framework" class="aligncenter size-full wp-image-3737" /></div>
+<p>Now head back to the <em>ViewController.h</em> file, and import the next library:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;iAd/iAd.h&gt;</span></div></td></tr></tbody></table></div>
+<p>With that, Xcode stops displaying any error and warnings. Finally, our class must adopt the ad banner view protocol, so we can access all the necessary delegate methods. Modify the interface header line as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController &lt;ADBannerViewDelegate&gt;</div></td></tr></tbody></table></div>
+<p>As a last step, the two IBOutlet properties must be connected to the appropriate subviews. Open the <em>Main.storyboard</em> file, and connect the <em>adBanner</em> property to the ad banner view, and the <em>lblTimerMessage</em> label to the textless label view.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_8_ib_connect.jpg" alt="Interface Builder Connect" class="aligncenter size-full wp-image-3738" /></div>
+<h2>iAd Integration</h2>
+<p>By adding the ad banner view to the interface and by also adding the iAd framework into the project, advertisements are already able to be delivered to the app. However, no handling is possible yet, therefore our goal here is to take all that actions that will make the ad banner management feasible.</p>
+<p>The iAd framework provides several delegate methods for managing ads. These allow us to know when an ad is about to be shown or it has already been shown, when a failure occurs and no more ads can be served, and finally when the user taps on an ad to view it on full-screen mode or the modal ad view gets dismissed. Besides all that, you should always have in mind that ads are not delivered right away. Therefore, until the first ad is ready to be shown, the ad banner must not be visible. It should also become hidden when the iAd Network stops serving ads for some reason.</p>
+<p>Diving into code now, initially we must perform two things: To make our class the delegate of the ad banner view, and secondarily to hide it. Open the <em>ViewController.m</em> file, and go to the <em>viewDidLoad</em> method to add the next couple of lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Do any additional setup after loading the view, typically from a nib.</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Make self the delegate of the ad banner.</span><br />
+&nbsp; &nbsp; self.adBanner.delegate <span style="color: #002200;">=</span> self;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initially hide the ad banner.</span><br />
+&nbsp; &nbsp; self.adBanner.alpha <span style="color: #002200;">=</span> <span style="color: #2400d9;">0.0</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, we hide the ad banner view simply by setting its <em>alpha</em> value to 0. Later on, when a delegate method will inform us that an ad is ready to be shown, we&#8217;ll set that value to 1 again, and to make it more attractive we&#8217;ll do so using an animation. Changing the alpha value though is not the only way to hide or show the ad banner. There are many other ways to do that, as for example to change the value of the <em>hidden</em> banner&#8217;s property, or initially place the ad banner view out of the visible screen area. What method you&#8217;ll finally choose is totally up to you, and to what best suits to your application. For simplicity reasons, I just chose to use the alpha value.</p>
+<p>The <em>ADBannerViewDelegate</em> protocol provides five delegate methods in total. Using them, we can manage the ads and ultimately the behavior of our app. Let&#8217;s see them one by one, and let&#8217;s discuss shortly what each one is about. Note that in the body of every delegate method I&#8217;ve intentionally added a <em>NSLog</em> command, so when we run the app later to know which method exactly has been called.</p>
+<p>The first method is this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>bannerViewWillLoadAd<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>ADBannerView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>banner<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ad Banner will load ad.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>It&#8217;s easy from the method&#8217;s name to conclude that this one is called when a new advertisement is about to be loaded. Note that when this method is called the ad is not yet ready to be displayed.</p>
+<p>The second delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>bannerViewDidLoadAd<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>ADBannerView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>banner<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ad Banner did load ad.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This one is called after a new ad has been loaded and is ready to be displayed. Later, in this method we&#8217;ll add the code needed to make the ad banner view visible again, as we&#8217;ll know that there is an ad to show.</p>
+<p>The third delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>bannerViewActionShouldBegin<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>ADBannerView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>banner willLeaveApplication<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>willLeave<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ad Banner action is about to begin.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">YES</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This method is called when the user taps on the banner, and the ad is going to be displayed in a full size modal view. When that happens, any visual or critical tasks that regard user should be paused until that modal view gets dismissed. The interesting with this method is the value it returns. When the returned value is YES, then the ad will be shown in a full-screen view indeed. However, if the returned value is NO, then nothing will happen when users tap on the ad.</p>
+<p>The fourth delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>bannerViewActionDidFinish<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>ADBannerView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>banner<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ad Banner action did finish&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This method is called when the full-screen view with the add gets dismissed. It&#8217;s very useful, as in here any paused or stopped tasks should be put in action again.</p>
+<p>Finally, the fifth delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>bannerView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>ADBannerView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>banner didFailToReceiveAdWithError<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>error<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Unable to show ads. Error: %@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This method is also very useful and important, as it&#8217;s called when no ads are available to be delivered to the app. When it&#8217;s called, it&#8217;s our duty to hide the ad banner view so no blank space is shown to the user when no ads exist.</p>
+<p>As you understand, all these delegate methods make the ad handling a really easy task. Now, as we said before, we must show the ad banner view when an advertisement is ready to be displayed, so modify the <em>bannerViewDidLoadAd:</em> delegate method as shown right next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>bannerViewDidLoadAd<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>ADBannerView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>banner<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ad Banner did load ad.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Show the ad banner.</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>UIView animateWithDuration<span style="color: #002200;">:</span><span style="color: #2400d9;">0.5</span> animations<span style="color: #002200;">:^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.adBanner.alpha <span style="color: #002200;">=</span> <span style="color: #2400d9;">1.0</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>You see that using an animation we set the <em>alpha</em> value of the ad banner view to 1 again. That animation will result in a fade-in effect.</p>
+<p>Lastly, when there are no ads to be displayed we should hide the ad banner view. Go to the <em>bannerView:didFailToReceiveAdWithError:</em> and add the same code as above. This time make the <em>alpha</em> value 0:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>bannerView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>ADBannerView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>banner didFailToReceiveAdWithError<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>error<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Unable to show ads. Error: %@&quot;</span>, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Hide the ad banner.</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>UIView animateWithDuration<span style="color: #002200;">:</span><span style="color: #2400d9;">0.5</span> animations<span style="color: #002200;">:^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.adBanner.alpha <span style="color: #002200;">=</span> <span style="color: #2400d9;">0.0</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The most important work with the ads have been done. In the next section of the tutorial we&#8217;ll see how to use the other delegate methods, but our app is already pretty functional. So, if you want give it a try and wait for the first ad to be shown.</p>
+<h2>Adding the Counter</h2>
+<p>The ad banner now works great, and the most important goal, showing and hiding the banner properly, has been achieved. However, this tutorial wouldn&#8217;t be complete without having discussed about all the important delegate methods, so in this section we are going to make an interesting addition to the project. We are going to use a timer (a <em>NSTimer</em> object) that will count the seconds the user is seeing the View Controller scene, and using the delegate methods provided by iAd framework we&#8217;ll pause counting when an ad is displayed in full-screen mode. After the ad view has been dismissed, the counter will work again.</p>
+<p>Let&#8217;s get started by declaring three properties that we&#8217;ll need for our purpose. The first property is the timer object, the second an integer value that will be used to count the seconds elapsed, and finally the third property is a boolean flag that will indicate whether the counting should be paused or not. In the <em>ViewController.m</em> file, go to the private class section, and add the next properties as shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic, strong<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSTimer_Class/"><span style="color: #400080;">NSTimer</span></a> <span style="color: #002200;">*</span>timer;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic<span style="color: #002200;">&#41;</span> <span style="color: #a61390;">int</span> secondsElapsed;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>nonatomic<span style="color: #002200;">&#41;</span> <span style="color: #a61390;">BOOL</span> pauseTimeCounting;<br />
+<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Now, in the <em>viewDidLoad</em> method let&#8217;s do some initializations:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; &nbsp;...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Start the timer.</span><br />
+&nbsp; &nbsp; self.timer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSTimer_Class/"><span style="color: #400080;">NSTimer</span></a> scheduledTimerWithTimeInterval<span style="color: #002200;">:</span><span style="color: #2400d9;">1.0</span> target<span style="color: #002200;">:</span>self selector<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>showTimerMessage<span style="color: #002200;">&#41;</span> userInfo<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> repeats<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Set the initial value for the elapsed seconds.</span><br />
+&nbsp; &nbsp; self.secondsElapsed <span style="color: #002200;">=</span> <span style="color: #2400d9;">0</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see in the timer object creation, in the selector parameter is given the <em>showTimerMessage</em> method name. This is a private method that does not exist yet, and it will be called by the timer every one second (the interval argument set to 1.0). Of course, we want our timer to work repeatedly, so we set the <em>repeats</em> parameter value to YES.</p>
+<p>Xcode is showing a warning now, because it&#8217;s unable to find a declaration for the above method. Let&#8217;s go to fix it by declaring the method first, and then we&#8217;ll define it. Go back to the private class section, and add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+...<br />
+...<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>showTimerMessage;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>In its definition now, you&#8217;ll see in the following code fragment that the code execution flow depends on the <em>pauseTimeCounting</em> flag. If its value is false, then we&#8217;ll keep counting and updating the text of the <em>lblTimerMessage</em>. Apparently, when its value is true we won&#8217;t count. Notice that before any text update it&#8217;s necessary to increase the <em>secondsElapsed</em> property&#8217;s value by one. The implementation is really simple, so there you go:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>showTimerMessage<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span>self.pauseTimeCounting<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.secondsElapsed<span style="color: #002200;">++</span>;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.lblTimerMessage.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;You've been viewing this view for %d seconds&quot;</span>, self.secondsElapsed<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.lblTimerMessage.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Paused to show ad...&quot;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s get to the point now, and let&#8217;s see how to use two more iAd delegate methods. The first one we&#8217;ll see, is the <em>bannerViewActionShouldBegin:willLeaveApplication:</em> one. As I have already said, this method is called after a user has tapped on an ad, and a full-screen view is about to be shown containing the ad. Of course, it&#8217;s necessary the returned value of that method to be set to YES, otherwise no ad will be displayed. What we want when this method is called is quite simple: To tell our app that the time counting should be paused. To do that, we&#8217;ll simply change the value of the <em>pauseTimeCounting</em> flag. Let&#8217;s see the method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>bannerViewActionShouldBegin<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>ADBannerView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>banner willLeaveApplication<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">BOOL</span><span style="color: #002200;">&#41;</span>willLeave<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ad Banner action is about to begin.&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; self.pauseTimeCounting <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">YES</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Apart from pausing the counting process, we must also allow it to continue when a full-image view with an ad has been closed. For that purpose, we&#8217;ll use the <em>bannerViewActionDidFinish:</em> delegate method. In it, we&#8217;ll simply change once again the flag&#8217;s value. Here it is:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>bannerViewActionDidFinish<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>ADBannerView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>banner<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ad Banner action did finish&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; self.pauseTimeCounting <span style="color: #002200;">=</span> <span style="color: #a61390;">NO</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That was our last touch! Now, when the ad banner gets tapped the counting will be paused, and it will keep going again once the ad has been dismissed.</p>
+<h2>Compile and Run the App</h2>
+<p>At this point, feel free to compile and run the app. You will notice that at the bottom of the screen the ad banner will appear after a while, and the counter&#8217;s value is displayed in the message label. Tap on the ad banner and watch the advertisements in full-screen mode. When you go back to the View Controller scene, you see that the time counting wasn&#8217;t active while you were viewing ads. If suddenly no ads are being served, don&#8217;t worry, that&#8217;s normal. Ad delivery may stop from time to time.</p>
+<p>As an extra exercise, if you want try to display the ad banner at the top of the view.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_9_final_big.jpg" alt="iAd Demo App" class="aligncenter size-full wp-image-3739" /></div>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/06/t14_10_debugger.jpg" alt="Xcode iAd Debugger" class="aligncenter size-full wp-image-3740" /></div>
+<h2>Summary</h2>
+<p>Integrating advertisements into an application is a quite common tactic, and a good way to make some earnings while you give you app for free. To tell the truth, maybe you won&#8217;t make a fortune from ads, but if your app acquire big download numbers then you&#8217;ll probably have a remarkable revenue. As you saw in this tutorial, there are simple rules regarding the ad banners, and the required code is just a matter of a few lines. So, if you&#8217;re still thinking about whether you should add ads on your app and how to do it, this is your chance. Of course, you are recommended and encouraged to go through the official documentation as well. I hope this tutorial becomes helpful to all of you, and as always feel free to share any thoughts or comments with us.</p>
+<p>For your reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/iAdDemo.zip">download the complete Xcode project from here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/qr-code-ios-programming-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/12/QRCode-Featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Scan QR Code Using AVFoundation Framework</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios7-background-fetch-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/background-app-refresh-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working With Background Fetch in iOS 7</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/handoff/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/11/handoff-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with Handoff in iOS 8</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/cloudkit-introduction-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/04/cloudkit-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with CloudKit in iOS 8</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-iad-introduction/"
+    dc:identifier="http://www.appcoda.com/ios-iad-introduction/"
+    dc:title="Using iAd to Display Banner Ad in Your App"
+    trackback:ping="http://www.appcoda.com/ios-iad-introduction/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/beginner/" rel="category tag">Beginner</a>, <a href="http://www.appcoda.com/course/" rel="category tag">Course</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/iad/" rel="tag">iAd</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/xcode-5/" rel="tag">Xcode 5</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-14851">
+        <div id="dsq-comment-header-14851" class="dsq-comment-header">
+            <cite id="dsq-cite-14851">
+                <span id="dsq-author-user-14851">Carlos_o7</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14851" class="dsq-comment-body">
+            <div id="dsq-comment-message-14851" class="dsq-comment-message"><p>Thanks, really nice tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15231">
+        <div id="dsq-comment-header-15231" class="dsq-comment-header">
+            <cite id="dsq-cite-15231">
+                <span id="dsq-author-user-15231">Vik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15231" class="dsq-comment-body">
+            <div id="dsq-comment-message-15231" class="dsq-comment-message"><p>Informative and quick guide! However, will I have to add this to all my views? My app has 5 different view controllers.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-15251">
+        <div id="dsq-comment-header-15251" class="dsq-comment-header">
+            <cite id="dsq-cite-15251">
+http://assfired.com                <span id="dsq-author-user-15251">Steely</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15251" class="dsq-comment-body">
+            <div id="dsq-comment-message-15251" class="dsq-comment-message"><p>If you don&#8217;t want to go through the trouble of adding it to each view, then you can create a reference in your AppDelegate and then move the ad to a location that suits you.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-68342">
+        <div id="dsq-comment-header-68342" class="dsq-comment-header">
+            <cite id="dsq-cite-68342">
+                <span id="dsq-author-user-68342">UK</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-68342" class="dsq-comment-body">
+            <div id="dsq-comment-message-68342" class="dsq-comment-message"><p>Hey , how to do that&#8230;.how to add reference in AppDelegate for different views&#8230;.i have 3 views in my app, based on table view.<br />
+Apology if my question is too silly&#8230;.i am trying to write my first iOS app.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15528">
+        <div id="dsq-comment-header-15528" class="dsq-comment-header">
+            <cite id="dsq-cite-15528">
+http://twitter.com/ShanghaiTimes                <span id="dsq-author-user-15528">ShanghaiTimes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15528" class="dsq-comment-body">
+            <div id="dsq-comment-message-15528" class="dsq-comment-message"><p>Interesting. Great tutorial, but under iOS8-preview 2, it runs, but there is no tab bar for the advert in the 4s simulator? Runs fine under 7.1</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-15768">
+        <div id="dsq-comment-header-15768" class="dsq-comment-header">
+            <cite id="dsq-cite-15768">
+                <span id="dsq-author-user-15768">David DelMonte</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15768" class="dsq-comment-body">
+            <div id="dsq-comment-message-15768" class="dsq-comment-message"><p>Great tutorial, thanks.. Do you have suggestions on how to make the in app purchase work so that the banner controller is bypassed? Thanks again.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-16977">
+        <div id="dsq-comment-header-16977" class="dsq-comment-header">
+            <cite id="dsq-cite-16977">
+                <span id="dsq-author-user-16977">Quân Chùa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16977" class="dsq-comment-body">
+            <div id="dsq-comment-message-16977" class="dsq-comment-message"><p>it didnt show anything.it said &#8220;Error: The operation couldn’t be completed. Ad inventory unavailable&#8221;.How can i have a ad inventory ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-23370">
+        <div id="dsq-comment-header-23370" class="dsq-comment-header">
+            <cite id="dsq-cite-23370">
+                <span id="dsq-author-user-23370">annie chen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23370" class="dsq-comment-body">
+            <div id="dsq-comment-message-23370" class="dsq-comment-message"><p>same as mine</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-24516">
+        <div id="dsq-comment-header-24516" class="dsq-comment-header">
+            <cite id="dsq-cite-24516">
+                <span id="dsq-author-user-24516">Mark</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24516" class="dsq-comment-body">
+            <div id="dsq-comment-message-24516" class="dsq-comment-message"><p>Anyone have advice on how to stagger ad displays I&#8217;m thinking about a simple counter &#8211; every 25 clicks of a particular button will display a banner ad.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-68352">
+        <div id="dsq-comment-header-68352" class="dsq-comment-header">
+            <cite id="dsq-cite-68352">
+                <span id="dsq-author-user-68352">HFVertex</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-68352" class="dsq-comment-body">
+            <div id="dsq-comment-message-68352" class="dsq-comment-message"><p>Thank you for for helpful tutorial !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100275">
+        <div id="dsq-comment-header-100275" class="dsq-comment-header">
+            <cite id="dsq-cite-100275">
+                <span id="dsq-author-user-100275">Pruthvi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100275" class="dsq-comment-body">
+            <div id="dsq-comment-message-100275" class="dsq-comment-message"><p>Thank you for great tutorial!!! I have a question, Why we need timer?<br />
+Is it really necessary to implement that?<br />
+I didn&#8217;t understand why we need to implement that and what is the use of it..<br />
+Please let me know</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100453">
+        <div id="dsq-comment-header-100453" class="dsq-comment-header">
+            <cite id="dsq-cite-100453">
+                <span id="dsq-author-user-100453">Nguyen Thien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100453" class="dsq-comment-body">
+            <div id="dsq-comment-message-100453" class="dsq-comment-message"><p>I want to add iad above tab bar like in this picture attach below, please help me how. thank you very much</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-iad-introduction/';
+var disqus_identifier = '3727 http://www.appcoda.com/?p=3727';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Using iAd to Display Banner Ad in Your App";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=3727';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="3727"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-iad-introduction%2F&#038;t=Using%20iAd%20to%20Display%20Banner%20Ad%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3727" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>60</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Using%20iAd%20to%20Display%20Banner%20Ad%20in%20Your%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-iad-introduction%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3727" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>13</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-iad-introduction%2F&#038;t=Using%20iAd%20to%20Display%20Banner%20Ad%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3727" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>8</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-iad-introduction%2F&#038;title=Using%20iAd%20to%20Display%20Banner%20Ad%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3727" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>4</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-iad-introduction%2F&#038;t=Using%20iAd%20to%20Display%20Banner%20Ad%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3727" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Using%20iAd%20to%20Display%20Banner%20Ad%20in%20Your%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-iad-introduction%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3727" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-iad-introduction%2F&#038;t=Using%20iAd%20to%20Display%20Banner%20Ad%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3727" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-iad-introduction%2F&#038;title=Using%20iAd%20to%20Display%20Banner%20Ad%20in%20Your%20App" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3727" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-iad-introduction\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="b6d5dad9c5d3f684ce98c6d8d1">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":3727,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:25:45 by W3 Total Cache -->

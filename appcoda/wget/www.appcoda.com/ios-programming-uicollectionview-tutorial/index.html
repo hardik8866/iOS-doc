@@ -1,0 +1,1398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming Tutorial: Create Grid Layout Using UICollectionView</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="The iOS 6 SDK introduces a new class named UICollectionView. In this tutorial, we will show you how to use UICollectionView to develop a grid-based photo app."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-uicollectionview-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="The iOS 6 SDK introduces a new class named UICollectionView. In this tutorial, we will show you how to use UICollectionView to develop a grid-based photo app."/>
+<meta name="twitter:title" content="iOS Programming Tutorial: Create Grid Layout Using UICollectionView"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/01/Grid-based-Photo-App.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Create Grid Layout Using UICollectionView in iOS 6 Comments Feed" href="http://www.appcoda.com/ios-programming-uicollectionview-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1187' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1187 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1187 post type-post status-publish format-standard hentry category-course category-tutorials tag-ios-6 tag-ios-programming tag-ios-sdk tag-ios-tutorial tag-uicollectionview entry"><h1 class="entry-title">Create Grid Layout Using UICollectionView in iOS 6</h1> 
+<div class="post-info"><span class="date published time" title="2013-01-12T10:47:51+00:00">January 12, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-uicollectionview-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="1187 http://www.appcoda.com/?p=1187">72 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Do you still remember the <a href="http://www.appcoda.com/improve-detail-view-controller-storyboard-segue/">Recipe app</a> that we have worked on several months ago? At that time, we showed you how to display a list of recipes using UITableView. Wouldn&#8217;t be great if it can display the recipe in a nice grid view?</p>
+<p>The iOS 6 SDK introduces a new class called <a href="http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UICollectionView_class/Reference/Reference.html">UICollectionView</a> that allows developers to create grid-like layout out of the box. </p>
+<p>If you have no idea about grid-like layout, just take a look at the built-in Photos app. The app presents your photos in grid format. In the pre-iOS 6 world, you have to write lots of code or make use of other libraries in order to build a similar layout. The UICollectionView, in my opinion, is the most spectacular API in iOS 6. Not only it simplifies the way to arrange visual elements in grid layout, it even lets developers customize the layout (e.g. circular, cover flow style layout) without changing the data. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/Grid-based-Photo-App.jpg" alt="Grid based Photo App" class="aligncenter size-full wp-image-1227" /></div>
+<p>In this tutorial, we will build a simple app to display a collection of recipe photos in grid layout. Here are what you&#8217;re going to learn:</p>
+<ol>
+<li>Introduction to UICollectionView</li>
+<li>How to Use UICollectionView to build a simple Grid-based layout</li>
+<li>Customizing the Collection Cell Background</li>
+</ol>
+<p><span id="more-1187"></span></p>
+<h2>UICollectionView Basics</h2>
+<p>The UICollectionView operates in a similar way to UITableView. While UITableView manages a collection of data items and displays them on screen in a single-column layout, the UICollectionView class offers developers flexibility to present items using customizable layouts. By default, the SDK comes with a UICollectionViewFlowLayout class that organizes items into a grid with optional header and footer views for each section. </p>
+<blockquote><p>The UICollectionView class manages an ordered collection of data items and presents them using customizable layouts. Collection views provide the same general function as table views except that a collection view is able to support more than just single-column layouts. Collection views support customizable layouts that can be used to implement multi-column grids, tiled layouts, circular layouts, and many more. You can even change the layout of a collection view dynamically if you want.</p></blockquote>
+<p>The UICollectionView is composed of several components:</p>
+<ul>
+<li>Cells &#8211; instances of UICollectionViewCell. Like UITableViewCell, a cell represents a single item in the data collection. The cells are the main elements organized by the associated layout. If a UICollectionViewFlowLayout is used, the cells are arranged in a grid-like format.</li>
+<li>Supplementary views &#8211; Optional. It&#8217;s usually used to implement the header or footer views of sections. (We&#8217;ll cover this in the next tutorial)</li>
+<li>Decoration views &#8211; think of it as another type of supplementary view but for decoration purpose only. The decoration view is unrelated to the data collection. We simply create decoration views to enhance the visual appearance of the collection view. (We&#8217;ll cover this in the next tutorial)</li>
+</ul>
+<h2>Create Simple App with Grid Layout</h2>
+<p>To better understand how UICollectionView work, let&#8217;s get some hand-on experience and build a simple app. Open Xcode and create a new project using the &#8220;Single View application&#8221; template. Name the project as &#8220;RecipePhoto&#8221; with &#8220;Use Storyboard&#8221; and &#8220;Use Automatic Reference Count&#8221; enabled.</p>
+<div class="note"><strong>Note:</strong> Please make sure you use Xcode 4.5 or up to create the project.</div>
+<div id="attachment_1210" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/UICollectionView-New-Xcode-Project-e1358062785392.jpg" alt="UICollectionView - New Xcode Project" class="size-full wp-image-1210" /><p class="wp-caption-text">RecipePhoto &#8211; New Xcode Project</p></div>
+<h3>Designing the Collection View</h3>
+<p>Go to Storyboard and delete the default view controller. Instead, add a Collection View Controller from object library.</p>
+<div id="attachment_1211" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/RecipePhoto-Add-Collection-View-Controller.jpg" alt="RecipePhoto Add Collection View Controller" class="size-full wp-image-1211" /><p class="wp-caption-text">Add a Collection View Controller</p></div>
+<p>In the &#8220;Size Inspector&#8221; of the Collection View, you can change various size-related attributes. Let&#8217;s alter the size of the cell and change it to 100 by 100 pixels.</p>
+<div id="attachment_1212" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/RecipePhoto-Change-Cell-Size-600x141.jpg" alt="RecipePhoto Change Cell Size" class="size-medium wp-image-1212" /><p class="wp-caption-text">Change the size of Collection View Cell</p></div>
+<p>Next, select the Collection View Cell and set the identifier as &#8220;Cell&#8221; in the Attribute Inspector. </p>
+<div id="attachment_1220" style="width: 267px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/RecipePhoto-Cell-Reuse-Identifier.jpg" alt="RecipePhoto Cell Reuse Identifier" class="size-full wp-image-1220" /><p class="wp-caption-text">Cell Reuse Identifier</p></div>
+<p>Then, add an Image View to the cell. Xcode automatically resizes the image view and make it fit into the cell. In the &#8220;Attribute Inspector&#8221;, set the tag value to 100 for later reference.</p>
+<div id="attachment_1213" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/RecipePhoto-Add-Image-View-to-Cell.jpg" alt="RecipePhoto Add Image View to Cell" class="size-full wp-image-1213" /><p class="wp-caption-text">Add Image View to Cell</p></div>
+<h3>Coding the Collection View</h3>
+<p>In Project Navigator, right-click and select &#8220;New File&#8221;. Create a new class that is a subclass of UICollectionViewController and name it as RecipeCollectionViewController.</p>
+<div id="attachment_1214" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/RecipePhoto-Create-RecipeCollectionViewController-e1358068529559.jpg" alt="RecipePhoto Create RecipeCollectionViewController" class="size-full wp-image-1214" /><p class="wp-caption-text">Create RecipeCollectionViewController</p></div>
+<p>Go back to Storyboard and assign it as the custom class of the Collection View Controller.</p>
+<div id="attachment_1216" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/RecipePhoto-Assign-Custom-Class-600x107.jpg" alt="RecipePhoto Assign Custom Class" class="size-medium wp-image-1216" /><p class="wp-caption-text">Assign RecipeCollectionViewController as the custom class</p></div>
+<p>As said, the UICollectionView operates in a very similar way to UITableView. To populate data in UITableView, we have to implement two methods defined in the UITableViewDataSource protocol. Much like the UITableView, the UICollectionViewDataSource protocol defines data source methods for providing the data of the collection view. At least, you have to implement the collectionView:numberOfItemsInSection: and collectionView:cellForItemAtIndexPath: methods. </p>
+<p>Let&#8217;s move on to code the RecipeCollectionViewController class. First, <a href="https://dl.dropbox.com/u/2857188/RecipePhotoImagePack.zip">download this image pack</a>, unzip it and add all the images into the Xcode project. </p>
+<p>In RecipeCollectionViewController.m, declare an array for the image files:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> RecipeCollectionViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>recipePhotos;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>And initialize it in viewDidLoad method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initialize recipe image array</span><br />
+&nbsp; &nbsp; recipeImages <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;angry_birds_cake.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;creme_brelee.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;egg_benedict.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;full_breakfast.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;green_tea.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;ham_and_cheese_panini.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;ham_and_egg_sandwich.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;hamburger.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;instant_noodle_with_egg.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;japanese_noodle_with_pork.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;mushroom_risotto.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;noodle_with_bbq_pork.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;starbucks_coffee.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;thai_shrimp_cake.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;vegetable_curry.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;white_chocolate_donut.jpg&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Next, implement the two mandatory methods of UICollectionViewDataSource protocol:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>collectionView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UICollectionView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>collectionView numberOfItemsInSection<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>NSInteger<span style="color: #002200;">&#41;</span>section <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> recipeImages.count;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>UICollectionViewCell <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>collectionView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UICollectionView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>collectionView cellForItemAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">static</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>identifier <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Cell&quot;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UICollectionViewCell <span style="color: #002200;">*</span>cell <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>collectionView dequeueReusableCellWithReuseIdentifier<span style="color: #002200;">:</span>identifier forIndexPath<span style="color: #002200;">:</span>indexPath<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIImageView <span style="color: #002200;">*</span>recipeImageView <span style="color: #002200;">=</span> <span style="color: #002200;">&#40;</span>UIImageView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span>cell viewWithTag<span style="color: #002200;">:</span><span style="color: #2400d9;">100</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; recipeImageView.image <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>recipeImages objectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The collectionView:numberOfItemsInSection: method returns the number of recipe images. The cellForItemAtIndexPath: method provides the data for the collection view cells. We first define a cell identifier and then request the collectionView to dequeue a reusable cell using that reuse identifier. In iOS 6, you no longer need to create the cell manually. The dequeueReusableCellWithReuseIdentifier: method will automatically create a cell or return you with a cell from re-use queue.  At last, we get the image view by using the tag value and assign it with a recipe image. </p>
+<p>Now compile and run the app. You should have a grid-based photo app.</p>
+<div id="attachment_1219" style="width: 378px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/RecipePhoto-App-First-Version.jpg" alt="RecipePhoto App First Version" class="size-full wp-image-1219" /><p class="wp-caption-text">RecipePhoto App with Grid-based Layout</p></div>
+<h2>Customizing the Collection Cell Background</h2>
+<p>Isn&#8217;t UICollectionView great? With a few lines of code, you can create a grid-based photo app. But what if you want to add a picture frame to the photos? Like other UI elements, the design of the collection view cell lets developers customize the background easily. The UICollectionViewCell is actually comprised of three different views including background, selected background and content view. It&#8217;s best to illustrate the cell views using a picture:<br />
+<img src="http://www.appcoda.com/wp-content/uploads/2013/01/UICollectionViewCell-View-Components.png" alt="UICollectionViewCell View Components" class="alignright size-full wp-image-1231" /></p>
+<ul>
+<li>Background View &#8211; background view of the cell</li>
+<li>Selected Background View &#8211; the background view when the cell is selected. When user selects the cell, this selected background view will be layered above the background view.</li>
+<li>Content View &#8211; obviously, it&#8217;s the cell content.</li>
+</ul>
+<p>We have already used the content view to display the recipe photo. We&#8217;ll make use of the background view to show the picture frame. In the image pack you downloaded earlier, it includes a file named &#8220;pic_frame.png&#8221;, which is the picture frame. The size of the frame is 100 by 100 pixel. In order to frame the recipe photo, we&#8217;ll first resize the image view of cell and re-arrange its position.</p>
+<p>Go to Storyboard and select the image view. Set X to 5 and Y to 8. The width and height should be changed to 90 and 72 pixels respectively.</p>
+<div id="attachment_1222" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/RecipePhoto-Resize-Image-View-e1358086490624.jpg" alt="RecipePhoto Resize Image View" class="size-full wp-image-1222" /><p class="wp-caption-text">Resize image view to fit into the photo frame</p></div>
+<p>In the cellForItemAtIndexPath: method of RecipeCollectionViewController.m, add the following line of code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; cell.backgroundView <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIImageView alloc<span style="color: #002200;">&#93;</span> initWithImage<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>UIImage imageNamed<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;photo-frame.png&quot;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>We first load the photo frame image and set it as the cell background. Now compile and run the app again. Your app should look like this:</p>
+<div id="attachment_1223" style="width: 378px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/01/RecipePhoto-App-with-Photo-Frame.jpg" alt="RecipePhoto App with Photo Frame" class="size-full wp-image-1223" /><p class="wp-caption-text">RecipePhoto App with Photo Frame</p></div>
+<h2>What&#8217;s Coming Next</h2>
+<p>Cool, right? That&#8217;s why I said the UICollectionView is a great addition in iOS 6 SDK. In this tutorial, we just explore the basics of the class and using the default grid-based layout (i.e. UICollectionViewFlowLayout). By developing custom layout, you can organize the collection of data in coverflow style or even more stylish format.</p>
+<p>In later tutorials, we&#8217;ll further talk about the decoration view, supplementary view and show you how to create your own layout. If you&#8217;ve followed our <a href="http://www.appcoda.com/improve-detail-view-controller-storyboard-segue/">Recipe App tutorial</a>, try to modify the app and convert it to use UICollectionView.</p>
+<p>For your complete reference, you can download the full source code <a href="https://dl.dropbox.com/u/2857188/RecipePhoto_UICollectionView.zip">here</a>. As always, leave us comment and share your thought about the tutorial.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-camera-iphone-app/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Build a Simple Camera App Using UIImagePickerController</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/objective-c-blocks-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/01/block-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to Objective-C Blocks</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/git-source-control-in-xcode/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/04/git-source-code-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Understanding Git Source Control in Xcode</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/view-animation-in-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/02/view-animations-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Simple View Animations in Swift</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-uicollectionview-tutorial/"
+    dc:identifier="http://www.appcoda.com/ios-programming-uicollectionview-tutorial/"
+    dc:title="Create Grid Layout Using UICollectionView in iOS 6"
+    trackback:ping="http://www.appcoda.com/ios-programming-uicollectionview-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-6/" rel="tag">iOS 6</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/ios-sdk/" rel="tag">iOS SDK</a>, <a href="http://www.appcoda.com/tag/ios-tutorial/" rel="tag">iOS Tutorial</a>, <a href="http://www.appcoda.com/tag/uicollectionview/" rel="tag">UICollectionView</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-1095">
+        <div id="dsq-comment-header-1095" class="dsq-comment-header">
+            <cite id="dsq-cite-1095">
+                <span id="dsq-author-user-1095">Việt Coding</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1095" class="dsq-comment-body">
+            <div id="dsq-comment-message-1095" class="dsq-comment-message"><p>Nice tutorial ! But it&#8217;s if run on iOS &lt; 6.0 ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1096">
+        <div id="dsq-comment-header-1096" class="dsq-comment-header">
+            <cite id="dsq-cite-1096">
+http://www.simonblog.com                <span id="dsq-author-user-1096">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1096" class="dsq-comment-body">
+            <div id="dsq-comment-message-1096" class="dsq-comment-message"><p>No, UICollectionView is available on iOS 6 only. If you want to create a similar layout, you may check out this open source library:<br />
+<a href="https://github.com/steipete/PSTCollectionView" rel="nofollow">https://github.com/steipete/PSTCollectionView</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1097">
+        <div id="dsq-comment-header-1097" class="dsq-comment-header">
+            <cite id="dsq-cite-1097">
+                <span id="dsq-author-user-1097">Osvaldo Cipriano</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1097" class="dsq-comment-body">
+            <div id="dsq-comment-message-1097" class="dsq-comment-message"><p>How can we make the photo to display in a new window and also pass them with the finger to the next one. Also with double click to make zoom.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1098">
+        <div id="dsq-comment-header-1098" class="dsq-comment-header">
+            <cite id="dsq-cite-1098">
+                <span id="dsq-author-user-1098">napolux</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1098" class="dsq-comment-body">
+            <div id="dsq-comment-message-1098" class="dsq-comment-message"><p>Copyright suggestion: polaroid owns the copyright for the bordered picture with more &#8220;white&#8221; at bottom. Avoid using this in your app, it could be rejected. <a href="http://www.pcworld.com/article/197976/App_Store.html" rel="nofollow">http://www.pcworld.com/article/197976/App_Store.html</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1107">
+        <div id="dsq-comment-header-1107" class="dsq-comment-header">
+            <cite id="dsq-cite-1107">
+                <span id="dsq-author-user-1107">_Mac</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1107" class="dsq-comment-body">
+            <div id="dsq-comment-message-1107" class="dsq-comment-message"><p>Good point! But I belive it&#8217;s enough to just make the white background color a bit gray (or any other color than white), right?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1100">
+        <div id="dsq-comment-header-1100" class="dsq-comment-header">
+            <cite id="dsq-cite-1100">
+                <span id="dsq-author-user-1100">Toby</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1100" class="dsq-comment-body">
+            <div id="dsq-comment-message-1100" class="dsq-comment-message"><p>another fantastic tutorial, this is my favorite ios resource, great, easy to understand tutorials!<br />
+keep making these tuts!!!! thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1102">
+        <div id="dsq-comment-header-1102" class="dsq-comment-header">
+            <cite id="dsq-cite-1102">
+                <span id="dsq-author-user-1102">Joe G</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1102" class="dsq-comment-body">
+            <div id="dsq-comment-message-1102" class="dsq-comment-message"><p>I would like to be a me to click on the collection cell and have a full size view of the image. How would I go about it?  Love your tutorials!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1106">
+        <div id="dsq-comment-header-1106" class="dsq-comment-header">
+            <cite id="dsq-cite-1106">
+                <span id="dsq-author-user-1106">_Mac</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1106" class="dsq-comment-body">
+            <div id="dsq-comment-message-1106" class="dsq-comment-message"><p>+1</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-1206">
+        <div id="dsq-comment-header-1206" class="dsq-comment-header">
+            <cite id="dsq-cite-1206">
+                <span id="dsq-author-user-1206">Wouter</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1206" class="dsq-comment-body">
+            <div id="dsq-comment-message-1206" class="dsq-comment-message"><p>I just managed to do this, piecing together what we learned in previous tutorials! Allow me to write you a mini tutorial for it, since I am trying to impress Simon so he will do next tutorials on using web services  as I asked in another comment <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Anyway, the steps:</p>
+<p>&#8211; first you need to make sure to embed your collection view in a &#8216;navigation controller&#8217; by clicking it and then in the menu choose Editor &gt; embed in &gt; navigation controller. This enables you to use segues.</p>
+<p>&#8211; then add a new View Controller on your storyboard. CTRL-drag from the collectionview cell to that new view controller and select &#8216;push&#8217; as segue. Click the segue thingie and give it the identifier &#8216;displayDetail&#8217;.</p>
+<p>&#8211; in your file navigator, rightclick and do &#8216;new file&#8230;&#8217;, Chose Objective C class, name it RecipeDetailView Controller and make it a subclass of UIViewController. Go Back to the storyboard, and of that latest view, change the class from the default &#8216;UIViewController&#8217; to your &#8216;RecipeDetailViewController&#8217; (creating this sub class because we will want to add an image property to it!).</p>
+<p>&#8211; In storyboard, drag an image view on your detail view. Switch to &#8216;assistant editor&#8217; mode in the top right, and control-drag that imageview to RecipeDetailViewController.h, so it will create the new IBOutlet UIImageview property thingie. Give it a name like &#8216;imageview&#8217;, and make sure there is an @synthesize imageview; in the RecipeDetailViewController.m.</p>
+<p>&#8211; to assure that we will be able to set the image from that imageview from another class (we will set it in the segue like Simon did in a previous tutorial): also add @property (nonatomic, strong) bigimage; to your RecipeDetailViewController.h, and the corresponding @synthesize bigimage; in the RecipeDetailViewController.m</p>
+<p>&#8211; now you can configure that necessary prepareForSegue method in RecipeCollectionViewController.m. Make sure there is an #import &#8220;RecipeDetailViewController.h&#8221; at the top, and then add a function like this, completely analogous to the &#8216;passing data between views with a segue&#8217; tutorial:</p>
+<p>&#8211; (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {<br />
+    if ([segue.identifier isEqualToString:@&#8221;displayDetail&#8221;]) {<br />
+        NSLog(@&#8221;Was here&#8221;);<br />
+        NSIndexPath *indexPath = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];<br />
+        DetailViewController *destViewController = segue.destinationViewController;<br />
+        NSString *imagename = [recipeImages objectAtIndex:indexPath.row];<br />
+        NSLog(@&#8221;Image named: %@ at row %d&#8221;, imagename, indexPath.row);<br />
+        destViewController.bigimage = [UIImage imageNamed:imagename];<br />
+    }}</p>
+<p>&#8211; The &#8216;bigimage&#8217; property of your detailview will now be filled with the correct image that you selected. The last thing to do is to actually show it in that imageview UI object: in RecipeDetailViewController.m, add the following line to the viewDidLoad function:</p>
+<p>imageview.image = bigimage;</p>
+<p>&#8230;</p>
+<p>Tataaah, that should do it! If you run your app now and tap one of his images, it should now go to a &#8216;detail view&#8217; showing a large version of the image.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-1264">
+        <div id="dsq-comment-header-1264" class="dsq-comment-header">
+            <cite id="dsq-cite-1264">
+                <span id="dsq-author-user-1264">Rodrigo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1264" class="dsq-comment-body">
+            <div id="dsq-comment-message-1264" class="dsq-comment-message"><p>Hi! Thanks for your mini-tutorial.<br />
+I think you made ​​a mistake: &#8220;also add @property (nonatomic, strong) bigimage;&#8221;</p>
+<p>@property (nonatomic, strong) UIImage *bigimage;</p>
+<p>Thanks again <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-1602">
+        <div id="dsq-comment-header-1602" class="dsq-comment-header">
+            <cite id="dsq-cite-1602">
+                <span id="dsq-author-user-1602">LighthouseRich</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1602" class="dsq-comment-body">
+            <div id="dsq-comment-message-1602" class="dsq-comment-message"><p>Wouter,  Thanks for that extra tutorial.  I found it very helpful as Simon&#8217;s kept crashing for no apparent reason where as your&#8217;s seems to do the trick without being overcomplicated.</p>
+<p>For other newbies, I picked up slight typo in your code:</p>
+<p>Within the segue section the line of code</p>
+<p>DetailViewController *destViewController = segue.destinationViewController;</p>
+<p>should read:</p>
+<p>RecipeDetailViewController *destViewController = segue.destinationViewController;</p>
+<p>Thanks again,<br />
+Lighthouse Rich.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1105">
+        <div id="dsq-comment-header-1105" class="dsq-comment-header">
+            <cite id="dsq-cite-1105">
+                <span id="dsq-author-user-1105">_Mac</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1105" class="dsq-comment-body">
+            <div id="dsq-comment-message-1105" class="dsq-comment-message"><p>Nice introduction to UICollectionView Simon &#8211; thank&#8217;s, just what I needed. Clean, simple tutorial with just the basics. That I then can mess around with. Really looking forward to the &#8220;customization&#8221; tutorials on this <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Q: Do you know if it&#8217;s possible to use UIColletionrow to make items scroll horizontially / section? Would make a very nice UI for apps w different categories and subitems.</p>
+<p>BTW: Found a little typo in your tutorial&#8230;<br />
+In the interface you create the iVar &#8220;NSArray *recipePHOTOS;&#8221; but in the viewDidLoad you initialize &#8220;recipeIMAGES = [NSArray arrayWithObjects:@&#8221;angry_birds_cake.jpg&#8221;&#8230;&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1120">
+        <div id="dsq-comment-header-1120" class="dsq-comment-header">
+            <cite id="dsq-cite-1120">
+                <span id="dsq-author-user-1120">C.H</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1120" class="dsq-comment-body">
+            <div id="dsq-comment-message-1120" class="dsq-comment-message"><p>When I use tabBarController as project, It will crash.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1133">
+        <div id="dsq-comment-header-1133" class="dsq-comment-header">
+            <cite id="dsq-cite-1133">
+                <span id="dsq-author-user-1133">Hugh Jeremy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1133" class="dsq-comment-body">
+            <div id="dsq-comment-message-1133" class="dsq-comment-message"><p>It would be great if you could post a tutorial on giving it a detail view for this collection view. I had a go myself but couldn&#8217;t get it to work. Thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1135">
+        <div id="dsq-comment-header-1135" class="dsq-comment-header">
+            <cite id="dsq-cite-1135">
+http://www.simonblog.com                <span id="dsq-author-user-1135">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1135" class="dsq-comment-body">
+            <div id="dsq-comment-message-1135" class="dsq-comment-message"><p>Yes, we&#8217;ll talk about it later. Stay tuned.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-1207">
+        <div id="dsq-comment-header-1207" class="dsq-comment-header">
+            <cite id="dsq-cite-1207">
+                <span id="dsq-author-user-1207">Wouter</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1207" class="dsq-comment-body">
+            <div id="dsq-comment-message-1207" class="dsq-comment-message"><p>FYI for those here looking for the same: I wrote in another comment a bit below a fairly detailed explanation of how to do just this, using only the stuff that we already learned here!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1305">
+        <div id="dsq-comment-header-1305" class="dsq-comment-header">
+            <cite id="dsq-cite-1305">
+                <span id="dsq-author-user-1305">LittlePeculiar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1305" class="dsq-comment-body">
+            <div id="dsq-comment-message-1305" class="dsq-comment-message"><p>Great starter for me. thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1313">
+        <div id="dsq-comment-header-1313" class="dsq-comment-header">
+            <cite id="dsq-cite-1313">
+http://www.facebook.com/pattyla.patty.7                <span id="dsq-author-user-1313">Pattyla Patty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1313" class="dsq-comment-body">
+            <div id="dsq-comment-message-1313" class="dsq-comment-message"><p>Hey, how to create  (tab bar+collection)&#8211;&gt;navigation&#8211;&gt;tableView&#8211;&gt; viewController by storyboard or code only?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1315">
+        <div id="dsq-comment-header-1315" class="dsq-comment-header">
+            <cite id="dsq-cite-1315">
+http://www.simonblog.com                <span id="dsq-author-user-1315">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1315" class="dsq-comment-body">
+            <div id="dsq-comment-message-1315" class="dsq-comment-message"><p>Both will work. But for beginner, it&#8217;s easier to use Storyboard to embed a view controller into a navigation controller / tab bar controller. First, select the view controller you want to embed in Storyboard. From the Xcode menu, select Editor -&gt; Embed in -&gt; Navigation Controller / Tab Bar Controller.</p>
+<p>We have written a Tab Bar tutorial some time ago. You can refer to the following link for details:</p>
+<p><a href="http://www.appcoda.com/storyboard-tutorial-create-tab-bar-controller-and-web-view/" rel="nofollow">http://www.appcoda.com/storyboard-tutorial-create-tab-bar-controller-and-web-view/</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-1330">
+        <div id="dsq-comment-header-1330" class="dsq-comment-header">
+            <cite id="dsq-cite-1330">
+http://www.facebook.com/pattyla.patty.7                <span id="dsq-author-user-1330">Pattyla Patty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1330" class="dsq-comment-body">
+            <div id="dsq-comment-message-1330" class="dsq-comment-message"><p>Tks!  no problem for the courses(TabBar+Nav+Table) &amp;(Collection+ViewController/WebView),  but my idea app is like yours style <a href="https://itunes.apple.com/us/app/tips-tricks-handbook-for-iphone/id463462029?mt=8" rel="nofollow">https://itunes.apple.com/us/app/tips-tricks-handbook-for-iphone/id463462029?mt=8</a>  &#8230;.select a collectionCell&#8211;&gt;show a table list &#8211;&gt;ViewController(ImageView/webView&#8230;)  How to write a segue for UICollectionViewCell + UITableViewController</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1335">
+        <div id="dsq-comment-header-1335" class="dsq-comment-header">
+            <cite id="dsq-cite-1335">
+                <span id="dsq-author-user-1335">Mcgvr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1335" class="dsq-comment-body">
+            <div id="dsq-comment-message-1335" class="dsq-comment-message"><p>What do you write in the RecipeCollectionViewController.h ?? I cant seem to connect the code with the Storyboard, PLEASE HELP 😀</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1701">
+        <div id="dsq-comment-header-1701" class="dsq-comment-header">
+            <cite id="dsq-cite-1701">
+http://joshuadance.com/                <span id="dsq-author-user-1701">Joshua Dance</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1701" class="dsq-comment-body">
+            <div id="dsq-comment-message-1701" class="dsq-comment-message"><p>You don&#8217;t put anything in the .h file. The important step is to tell the storyboard which class it is.  Simon tells you how to do this in the Coding the CollectionView section of the tutorial. If you can&#8217;t get it look up how to assign a custom class to the storyboard.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1339">
+        <div id="dsq-comment-header-1339" class="dsq-comment-header">
+            <cite id="dsq-cite-1339">
+http://profiles.google.com/pinhojoao                <span id="dsq-author-user-1339">João Pinho</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1339" class="dsq-comment-body">
+            <div id="dsq-comment-message-1339" class="dsq-comment-message"><p>Great tutorial!<br />
+How can i make the cell stay always in the center of the collection view?</p>
+<p>Thanks!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://rushabhspaceo.wordpress.com/2013/04/02/uicollectionview-in-iphone/' rel='external nofollow' class='url'>uicollectionview in iphone | rushabhspaceo</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://jaydeepkamani1.wordpress.com/2013/04/04/uicollectionview-in-iphone/' rel='external nofollow' class='url'>uicollectionview in iphone | jaydeepkamani1</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1424">
+        <div id="dsq-comment-header-1424" class="dsq-comment-header">
+            <cite id="dsq-cite-1424">
+                <span id="dsq-author-user-1424">maxn00b</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1424" class="dsq-comment-body">
+            <div id="dsq-comment-message-1424" class="dsq-comment-message"><p>Hi all, im a complete beginner and i tried to to complete this tutorial but when i run the project it stops at main.m:</p>
+<p> return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));</p>
+<p>I don&#8217;t get the grid layout and the app crashes in the simulator.</p>
+<p>im using Xcode 4.6.1, What am i doing wrong?</p>
+<p>Thanks in advance.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1700">
+        <div id="dsq-comment-header-1700" class="dsq-comment-header">
+            <cite id="dsq-cite-1700">
+http://joshuadance.com/                <span id="dsq-author-user-1700">Joshua Dance</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1700" class="dsq-comment-body">
+            <div id="dsq-comment-message-1700" class="dsq-comment-message"><p>We would need more info to find your problem. I would try downloading the source code and then compare your project to the working one side by side. You can then see what you did wrong.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1488">
+        <div id="dsq-comment-header-1488" class="dsq-comment-header">
+            <cite id="dsq-cite-1488">
+http://www.facebook.com/govind.narayan.56                <span id="dsq-author-user-1488">Govind Narayan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1488" class="dsq-comment-body">
+            <div id="dsq-comment-message-1488" class="dsq-comment-message"><p>Hi,nice tutorial.i need a help.i am creating a sound based app.when person click on grid element a corresponding sound to be played.can you tell me how to get it done?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://rhezjovovich.wordpress.com/2013/05/01/uicollectionview-basics/' rel='external nofollow' class='url'>UICollectionView Basics | rhezjovovich</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://longwharf.wordpress.com/2013/05/18/uicollectionview-tutorial/' rel='external nofollow' class='url'>UICollectionView tutorial | Long Wharf</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1649">
+        <div id="dsq-comment-header-1649" class="dsq-comment-header">
+            <cite id="dsq-cite-1649">
+                <span id="dsq-author-user-1649">art</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1649" class="dsq-comment-body">
+            <div id="dsq-comment-message-1649" class="dsq-comment-message"><p>I get &#8220;Unknown receiver &#8216;collectionView&#8217;. Did you mean &#8216;UICollectionView&#8217;?&#8221; error at the line that contains &#8220;UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];&#8221;</p>
+<p>Anybody have any idea on this error?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3056">
+        <div id="dsq-comment-header-3056" class="dsq-comment-header">
+            <cite id="dsq-cite-3056">
+                <span id="dsq-author-user-3056">Bruno Paulino</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3056" class="dsq-comment-body">
+            <div id="dsq-comment-message-3056" class="dsq-comment-message"><p>in the method declaration do you have like that?<br />
+&#8211; (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath</p>
+<p>because the collectionView variable was passad in the method argument, and you need a reference to use. maybe the method declaration are diferent in your code.</p>
+<p>when I use default DataSources and Delegates, I copy the method declaration in the apple reference.</p>
+<p>look this link:<br />
+<a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewDataSource_protocol/Reference/Reference.html#//apple_ref/occ/intfm/UICollectionViewDataSource/collectionView:cellForItemAtIndexPath" rel="nofollow">https://developer.apple.com/library/ios/documentation/uikit/reference/UICollectionViewDataSource_protocol/Reference/Reference.html#//apple_ref/occ/intfm/UICollectionViewDataSource/collectionView:cellForItemAtIndexPath</a>:</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1663">
+        <div id="dsq-comment-header-1663" class="dsq-comment-header">
+            <cite id="dsq-cite-1663">
+                <span id="dsq-author-user-1663">npersson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1663" class="dsq-comment-body">
+            <div id="dsq-comment-message-1663" class="dsq-comment-message"><p>If you want IOS 5 support this totorial still works with the PSTCollectionView</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1823">
+        <div id="dsq-comment-header-1823" class="dsq-comment-header">
+            <cite id="dsq-cite-1823">
+                <span id="dsq-author-user-1823">Juan González</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1823" class="dsq-comment-body">
+            <div id="dsq-comment-message-1823" class="dsq-comment-message"><p>Hi, this is a great initiation tutorial for UICollectionView. I have a few questions though.  First, why don&#8217;t you set the protocols and delegates at the @interface section of the .m file? Also, when I implemented the same example on my app whenever I try to scroll the app crashes with no more output that &#8220;(lldb)&#8221; and a EXEC_BAD_ACCESS on Thread 1.</p>
+<p>Any idea of what could be happening? I&#8217;ve checked many times item by item on your code and my implementation and it&#8217;s exactly the same.</p>
+<p>Thanks again for such a great example!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1928">
+        <div id="dsq-comment-header-1928" class="dsq-comment-header">
+            <cite id="dsq-cite-1928">
+                <span id="dsq-author-user-1928">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1928" class="dsq-comment-body">
+            <div id="dsq-comment-message-1928" class="dsq-comment-message"><p>nice Tutorial..!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2072">
+        <div id="dsq-comment-header-2072" class="dsq-comment-header">
+            <cite id="dsq-cite-2072">
+                <span id="dsq-author-user-2072">k0e3</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2072" class="dsq-comment-body">
+            <div id="dsq-comment-message-2072" class="dsq-comment-message"><p>Why is it that in UITableView we had to add the protocols UITableViewDelegate and UITableViewDataSource, but here we don&#8217;t?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2296">
+        <div id="dsq-comment-header-2296" class="dsq-comment-header">
+            <cite id="dsq-cite-2296">
+                <span id="dsq-author-user-2296">Anonymous</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2296" class="dsq-comment-body">
+            <div id="dsq-comment-message-2296" class="dsq-comment-message"><p>The tutorial with the UITableView used a ViewController but here it starts off as a CollectionViewController instead of a ViewController with a CollectionView on it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-4047">
+        <div id="dsq-comment-header-4047" class="dsq-comment-header">
+            <cite id="dsq-cite-4047">
+                <span id="dsq-author-user-4047">DoctorCobweb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4047" class="dsq-comment-body">
+            <div id="dsq-comment-message-4047" class="dsq-comment-message"><p>also, since we are subclassing UICollectionViewController it implicitly implies that the controller adheres to the UIControllerViewDataSource protocol (even though you dont see the typical  thing in the .h file)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2083">
+        <div id="dsq-comment-header-2083" class="dsq-comment-header">
+            <cite id="dsq-cite-2083">
+                <span id="dsq-author-user-2083">Abilash</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2083" class="dsq-comment-body">
+            <div id="dsq-comment-message-2083" class="dsq-comment-message"><p>I used your code. In the UICollectionview, is there any way to limit the number<br />
+ of rows in section to 1 row per section. I kept multiple images under<br />
+one section. but these images are equally divided and kept under section<br />
+ in some &#8216;n&#8217; rows. My requirement is to keep all the images under one<br />
+row and let the user scroll horizontally. Is it possible to limit the<br />
+number of rows per section?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2424">
+        <div id="dsq-comment-header-2424" class="dsq-comment-header">
+            <cite id="dsq-cite-2424">
+                <span id="dsq-author-user-2424">abdullatif</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2424" class="dsq-comment-body">
+            <div id="dsq-comment-message-2424" class="dsq-comment-message"><p>nice Tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2441">
+        <div id="dsq-comment-header-2441" class="dsq-comment-header">
+            <cite id="dsq-cite-2441">
+                <span id="dsq-author-user-2441">Artem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2441" class="dsq-comment-body">
+            <div id="dsq-comment-message-2441" class="dsq-comment-message"><p>Hello,</p>
+<p>Thank you for this introduction tutorial. It looks very interesting for me (I am totally new to iOS development). I am trying to follow these instructions and was stuck on the following line</p>
+<p>recipeImageView.image = [UIImage imageNamed:[recipeImages objectAtIndex:indexPath.row]];</p>
+<p>I got the following exception</p>
+<p>-[UICollectionViewCell setImage:]: unrecognized selector sent to instance 0x1d0210a0</p>
+<p>Probably I missed something but can not see what is wrong.</p>
+<p>Could you please advise what should I check (I fixed recipePhotos/recipeImages typo)</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2576">
+        <div id="dsq-comment-header-2576" class="dsq-comment-header">
+            <cite id="dsq-cite-2576">
+                <span id="dsq-author-user-2576">John Kealy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2576" class="dsq-comment-body">
+            <div id="dsq-comment-message-2576" class="dsq-comment-message"><p>I have the same issue. Did you manage to fix this on your end?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-2637">
+        <div id="dsq-comment-header-2637" class="dsq-comment-header">
+            <cite id="dsq-cite-2637">
+                <span id="dsq-author-user-2637">raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2637" class="dsq-comment-body">
+            <div id="dsq-comment-message-2637" class="dsq-comment-message"><p>I had this same problem and for the life of me couldn&#8217;t figure it out at first. Finally, I realized that I had used the &#8216;100&#8217; tag for BOTH the CollectionViewCell and the UIImageView. Only the UIImageView should be tagged 100</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3457">
+        <div id="dsq-comment-header-3457" class="dsq-comment-header">
+            <cite id="dsq-cite-3457">
+                <span id="dsq-author-user-3457">Hok Shun Poon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3457" class="dsq-comment-body">
+            <div id="dsq-comment-message-3457" class="dsq-comment-message"><p>The tutorial sets 100 for both the CollectionViewCell and the UIImageView. I unset the one on the CollectionViewCell, but now nothing shows up.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-3461">
+        <div id="dsq-comment-header-3461" class="dsq-comment-header">
+            <cite id="dsq-cite-3461">
+                <span id="dsq-author-user-3461">raj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3461" class="dsq-comment-body">
+            <div id="dsq-comment-message-3461" class="dsq-comment-message"><p>I used something else for CollectionViewCell. Can&#8217;t remember at the moment, but probably something like 101.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://copyquery.com/viewwithtag-causing-problems-with-uicollectionview/' rel='external nofollow' class='url'>ViewWithTag causing problems with UICollectionView CopyQuery | Question &amp; Answer Tool for your Technical Queries</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2646">
+        <div id="dsq-comment-header-2646" class="dsq-comment-header">
+            <cite id="dsq-cite-2646">
+                <span id="dsq-author-user-2646">Elro</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2646" class="dsq-comment-body">
+            <div id="dsq-comment-message-2646" class="dsq-comment-message"><p>Hello, I have a problem with code when I add this line:     recipeImageView.image = [UIImage imageNamed:[recipeImages objectAtIndex:indexPath.row]];the bug is &#8220;property image is not found on object of type Array, are we declaring it?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4046">
+        <div id="dsq-comment-header-4046" class="dsq-comment-header">
+            <cite id="dsq-cite-4046">
+                <span id="dsq-author-user-4046">DoctorCobweb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4046" class="dsq-comment-body">
+            <div id="dsq-comment-message-4046" class="dsq-comment-message"><p>there is an error in this tutorial code show here: </p>
+<p>1.the declared name of the photos array is NSArray *recipePhotos<br />
+but<br />
+2. the rest of the tutorial refers to NSArray *recipeImages</p>
+<p>so just rename recipePhotos to be recipeImages and it hopefully should work.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2787">
+        <div id="dsq-comment-header-2787" class="dsq-comment-header">
+            <cite id="dsq-cite-2787">
+                <span id="dsq-author-user-2787">gaztesk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2787" class="dsq-comment-body">
+            <div id="dsq-comment-message-2787" class="dsq-comment-message"><p>Thanks !!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3025">
+        <div id="dsq-comment-header-3025" class="dsq-comment-header">
+            <cite id="dsq-cite-3025">
+                <span id="dsq-author-user-3025">sankar ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3025" class="dsq-comment-body">
+            <div id="dsq-comment-message-3025" class="dsq-comment-message"><p>Nice Tutorial !!!!! But in here I am Unable to set the Frame Setting of the Cell that you Set here X=0,Y=20&amp; length and width I can&#8217;t set the value Please help me in this!!!!!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3604">
+        <div id="dsq-comment-header-3604" class="dsq-comment-header">
+            <cite id="dsq-cite-3604">
+                <span id="dsq-author-user-3604">abhi ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3604" class="dsq-comment-body">
+            <div id="dsq-comment-message-3604" class="dsq-comment-message"><p>I am struggling how to use CollectionViewFlowLayout&#8230; I need to add Labels dynamically using collection view&#8230; I have posted an image below&#8230; I want exactly the same layout&#8230; Please help me out&#8230; I would be very grateful to you&#8230;. Thanks in advance&#8230;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3625">
+        <div id="dsq-comment-header-3625" class="dsq-comment-header">
+            <cite id="dsq-cite-3625">
+                <span id="dsq-author-user-3625">sankar ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3625" class="dsq-comment-body">
+            <div id="dsq-comment-message-3625" class="dsq-comment-message"><p>I hope You had follow the Tutorial for UICollectioView Layout UI so to integrate the Grid View With Label and Some other UI elements you have to use UIView in the collection View Cells , Adding those give UI-elements with UICollectionView is Simple .here I given the ScreenShot that to delete the Default viewController in the Storyboard and get the UICollectionView Controller That it!!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-4048">
+        <div id="dsq-comment-header-4048" class="dsq-comment-header">
+            <cite id="dsq-cite-4048">
+                <span id="dsq-author-user-4048">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4048" class="dsq-comment-body">
+            <div id="dsq-comment-message-4048" class="dsq-comment-message"><p>great. thanks for the tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3294">
+        <div id="dsq-comment-header-3294" class="dsq-comment-header">
+            <cite id="dsq-cite-3294">
+                <span id="dsq-author-user-3294">cybergenie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3294" class="dsq-comment-body">
+            <div id="dsq-comment-message-3294" class="dsq-comment-message"><p>When I run this app, it complies without errors but shows blank screen on the simulator. Can anyone suggest what would be the problem.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4044">
+        <div id="dsq-comment-header-4044" class="dsq-comment-header">
+            <cite id="dsq-cite-4044">
+                <span id="dsq-author-user-4044">DoctorCobweb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4044" class="dsq-comment-body">
+            <div id="dsq-comment-message-4044" class="dsq-comment-message"><p>it probably means that you have not set the UICollectionViewController to use the custom RecipeCollectionViewController class you wrote. </p>
+<p>in the storyboard, click on the UICollectionViewController, then on the right hand side panel click Identity Inspector. then in the Custom Class field select the RecipeCollectionViewController option.</p>
+<p>hope that works.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-31168">
+        <div id="dsq-comment-header-31168" class="dsq-comment-header">
+            <cite id="dsq-cite-31168">
+                <span id="dsq-author-user-31168">jagveer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31168" class="dsq-comment-body">
+            <div id="dsq-comment-message-31168" class="dsq-comment-message"><p>there is no option to add RecipeCollectionViewController  as custom class.. even i added class with name of RecipeCollectionViewController .. can u tell me whats wrong with it???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3605">
+        <div id="dsq-comment-header-3605" class="dsq-comment-header">
+            <cite id="dsq-cite-3605">
+                <span id="dsq-author-user-3605">abhi ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3605" class="dsq-comment-body">
+            <div id="dsq-comment-message-3605" class="dsq-comment-message"><p>I am struggling how to use CollectionViewFlowLayout&#8230; I need to add Labels dynamically using collection view&#8230; I have posted an image below&#8230;I am adding labels dynamically by using a text field and depending on the width of the string the cell size should be increasing&#8230;.I am unable to make size of cell&#8230;.  I want exactly the same layout as shown in below image &#8230; Please help me out&#8230; I would be very grateful to you&#8230;. Thanks in advance&#8230;.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3607">
+        <div id="dsq-comment-header-3607" class="dsq-comment-header">
+            <cite id="dsq-cite-3607">
+                <span id="dsq-author-user-3607">abhi ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3607" class="dsq-comment-body">
+            <div id="dsq-comment-message-3607" class="dsq-comment-message"><p>Please anybody help me out</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3701">
+        <div id="dsq-comment-header-3701" class="dsq-comment-header">
+            <cite id="dsq-cite-3701">
+                <span id="dsq-author-user-3701">Peter</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3701" class="dsq-comment-body">
+            <div id="dsq-comment-message-3701" class="dsq-comment-message"><p>Thank You.. I always get proper solution from this site. Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3794">
+        <div id="dsq-comment-header-3794" class="dsq-comment-header">
+            <cite id="dsq-cite-3794">
+                <span id="dsq-author-user-3794">Yuva Bharathi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3794" class="dsq-comment-body">
+            <div id="dsq-comment-message-3794" class="dsq-comment-message"><p>its a cool tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://hardikjain2020.wordpress.com/2014/03/27/ios-7-with-xcode-5-training/' rel='external nofollow' class='url'>Ios 7 with xcode 5 training | Iphone Tutorial Point</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4049">
+        <div id="dsq-comment-header-4049" class="dsq-comment-header">
+            <cite id="dsq-cite-4049">
+                <span id="dsq-author-user-4049">DoctorCobweb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4049" class="dsq-comment-body">
+            <div id="dsq-comment-message-4049" class="dsq-comment-message"><p>great. thanks for the tutorial!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5205">
+        <div id="dsq-comment-header-5205" class="dsq-comment-header">
+            <cite id="dsq-cite-5205">
+                <span id="dsq-author-user-5205">AJ</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5205" class="dsq-comment-body">
+            <div id="dsq-comment-message-5205" class="dsq-comment-message"><p>That was really helpful and easy to understand, thnx</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://blog.libero.it/norbertoflorinee/12766302.html' rel='external nofollow' class='url'>Baby maglia. Facili lavori a maglia per bambini da 0 a 2 anni pdf</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://kamanijaydeep.wordpress.com/2014/07/12/collection-view/' rel='external nofollow' class='url'>Collection View | kamanijaydeep</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-22094">
+        <div id="dsq-comment-header-22094" class="dsq-comment-header">
+            <cite id="dsq-cite-22094">
+                <span id="dsq-author-user-22094">BorisYurkevich</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22094" class="dsq-comment-body">
+            <div id="dsq-comment-message-22094" class="dsq-comment-message"><p>Thanks, for the article. Dropbox link to ZIP archive is broken</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-22136">
+        <div id="dsq-comment-header-22136" class="dsq-comment-header">
+            <cite id="dsq-cite-22136">
+http://www.appcoda.com/                <span id="dsq-author-user-22136">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22136" class="dsq-comment-body">
+            <div id="dsq-comment-message-22136" class="dsq-comment-message"><p>Just tried the dropbox link again. It works. Would you please try again?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-24392">
+        <div id="dsq-comment-header-24392" class="dsq-comment-header">
+            <cite id="dsq-cite-24392">
+                <span id="dsq-author-user-24392">Francisco Paredes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24392" class="dsq-comment-body">
+            <div id="dsq-comment-message-24392" class="dsq-comment-message"><p>Hello, this is a great tutorual! I am creating my own app which has a collectionview, within it I have collection cells containing images. When I run the simulator everything runs smoothly and my collectionview has a nice image gallery.<br />
+When I try to archive the project and ad-hoc test it on my phone everything works perfectly but the collectionview. All my collection cell images seem to disappear and are replaced with grey blocks. Any suggestions or ideas??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://zozaya.vidhut.biz/2014/09/12/ios-collection-view/' rel='external nofollow' class='url'>IOS Collection View - Zozaya</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://blog.maxpalma.com/tech/apple/xcode/ios-mashup-best-links-tutorials/' rel='external nofollow' class='url'>iOS Mashup of the Best Links and Tutorials - Max &quot;Maximus&quot; Palma Blog</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.developerfeed.com/learn-ios-hands-on-tutorial-series' rel='external nofollow' class='url'>Learning iOS Development: A Hands-on Tutorial Series | DeveloperFeed</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4045">
+        <div id="dsq-comment-header-4045" class="dsq-comment-header">
+            <cite id="dsq-cite-4045">
+                <span id="dsq-author-user-4045">DoctorCobweb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4045" class="dsq-comment-body">
+            <div id="dsq-comment-message-4045" class="dsq-comment-message"><p>that&#8217;s cray cray.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-uicollectionview-tutorial/';
+var disqus_identifier = '1187 http://www.appcoda.com/?p=1187';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Create Grid Layout Using UICollectionView in iOS 6";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1187';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1187"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-uicollectionview-tutorial%2F&#038;t=Create%20Grid%20Layout%20Using%20UICollectionView%20in%20iOS%206" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1187" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>62</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Create%20Grid%20Layout%20Using%20UICollectionView%20in%20iOS%206&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-uicollectionview-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1187" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>19</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-uicollectionview-tutorial%2F&#038;t=Create%20Grid%20Layout%20Using%20UICollectionView%20in%20iOS%206" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1187" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>14</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-uicollectionview-tutorial%2F&#038;title=Create%20Grid%20Layout%20Using%20UICollectionView%20in%20iOS%206" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1187" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>0</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-uicollectionview-tutorial%2F&#038;t=Create%20Grid%20Layout%20Using%20UICollectionView%20in%20iOS%206" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1187" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Create%20Grid%20Layout%20Using%20UICollectionView%20in%20iOS%206&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-uicollectionview-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1187" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-uicollectionview-tutorial%2F&#038;t=Create%20Grid%20Layout%20Using%20UICollectionView%20in%20iOS%206" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1187" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-uicollectionview-tutorial%2F&#038;title=Create%20Grid%20Layout%20Using%20UICollectionView%20in%20iOS%206" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1187" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-uicollectionview-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:22:04 by W3 Total Cache -->

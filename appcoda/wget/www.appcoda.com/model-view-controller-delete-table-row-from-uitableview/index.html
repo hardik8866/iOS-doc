@@ -1,0 +1,1395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Delete a Row from UITableView and Model-View-Controller | iOS Programming</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="As said in the previous post, I have another question to answer before moving onto Storyboard tutorial. How can I delete a row from UITableView? This is another common question people raised when building the Simple Table App. Again, it&#8217;s easier than you thought. But before jumping into the coding part, I have to introduce [&hellip;]"/>
+<meta name="twitter:title" content="Delete a Row from UITableView and Model-View-Controller | iOS Programming"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2012/06/Delete-Row-Featured-Image.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Delete a Row from UITableView and Model-View-Controller Comments Feed" href="http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=426' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-426 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-426 post type-post status-publish format-standard has-post-thumbnail hentry category-course category-tutorials tag-app-development tag-ios-programming tag-ios-sdk tag-ios-tutorial tag-uitableview entry"><h1 class="entry-title">Delete a Row from UITableView and Model-View-Controller</h1> 
+<div class="post-info"><span class="date published time" title="2012-06-03T21:33:15+00:00">June 3, 2012</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/#comments"><span class="dsq-postid" data-dsqidentifier="426 http://www.appcoda.com/?p=426">73 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>As said in the <a href="http://www.appcoda.com/how-to-add-splash-screen-in-your-ios-app/">previous post</a>, I have another question to answer before moving onto Storyboard tutorial. </p>
+<p><em>How can I delete a row from UITableView?</em></p>
+<p>This is another common question people raised when building the Simple Table App. Again, it&#8217;s easier than you thought. But before jumping into the coding part, I have to introduce you the Model-View-Controller model, which is one of the most quoted design patterns for user interface programming.</p>
+<p>You can&#8217;t escape from learning Model-View-Controller (MVC for short) if you&#8217;re serious about iOS programming. Not limited to iOS programming, MVC is commonly used and quoted in other programming languages such as Java. If you come from other programming backgrounds, MVC shouldn&#8217;t be new to you. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/06/Delete-Row-Featured-Image.jpg" alt="Delete Row Featured Image" title="Delete Row Featured Image" class="aligncenter size-full wp-image-441" /></div>
+<p><span id="more-426"></span></p>
+<h3>Understanding Model-View-Controller</h3>
+<blockquote><p>At the heart of MVC, and the idea that was the most influential to later frameworks, is what I call Separated Presentation. The idea behind Separated Presentation is to make a clear division between domain objects that model our perception of the real world, and presentation objects that are the GUI elements we see on the screen. Domain objects should be completely self contained and work without reference to the presentation, they should also be able to support multiple presentations, possibly simultaneously. This approach was also an important part of the Unix culture, and continues today allowing many applications to be manipulated through both a graphical and command-line interface.</p>
+<p><a href="http://www.martinfowler.com/eaaDev/uiArchs.html#ModelViewController">By Martin Fowler</a>
+</p></blockquote>
+<p>No matter what computer language you learn, one important concept that makes you become a better programmer is <em>Separation of Concerns</em> (SoC). The concept is pretty simple. Concerns are the different aspects of software functionality. The concept encourages developers to break a big feature or program into several areas of concern that each area has its own responsibility. The delegate pattern that is commonly found in iOS programming we explained in the <a href="http://www.appcoda.com/ios-programming-tutorial-create-a-simple-table-view-app/">earlier tutorial</a> is one of the example of SoC.</p>
+<p>Here, model-view-controller is another example of SoC. The core idea behind MVC is to clearly separate user interface into three areas (or groups of objects) that each area is responsible for a particular functionality. As the name suggests, MVC breaks an user interface into three parts:</p>
+<p><strong>Model</strong> &#8211; model is responsible for holding the data or any operations on the data. The model can be as simple as an array object that stores all the table data. Add, edit and delete are examples of the operations. In reality, the operations are usually known as business rules. </p>
+<p><strong>View</strong> &#8211; view manages the visual display of information. For example, UITableView shows information in a table view format.</p>
+<p><strong>Controller</strong> &#8211; controller is the bridge between model and view. It translates the user interaction from the view (e.g. tap) into appropriate action to be performed in the model. For example, user taps a delete button in the view and controller, in turn, triggers a delete operation in the model. After that, it also requests the view to refresh itself to reflect the update of the data model.</p>
+<p>To better help you understand MVC, let&#8217;s use <a href="http://www.appcoda.com/ios-programming-tutorial-create-a-simple-table-view-app/">our Simple Table app</a> as an example. The app displays a list of recipes in the table view. If you turn the concept into visual representation, here is how the table data is displayed:</p>
+<div id="attachment_431" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/06/MVC-Model-for-Simple-Table.jpg" alt="MVC Model for Simple Table" title="MVC Model for Simple Table" class="size-full wp-image-431" /><p class="wp-caption-text">MVC Model Illustrated Using Simple Table as Example</p></div>
+<p>The recipe information that are stored in separate array objects is the <strong>Model</strong>. Each table row maps to an element of the recipe arrays. The UITableView object is the <strong>View</strong> that is the interface to be seen by the user. It&#8217;s responsible for all the visuals (e.g. color of the table rows, font size and type). The TableViewController acts as the bridge between the TableView and Recipe data model. When display table data, UITableView actually asks the <strong>Controller</strong> for the data to display, that in turn, picks the data from the model.</p>
+<h3>How To Delete a Row from UITableView</h3>
+<p>I hope you have a better understanding about Model-View-Controller. Now let&#8217;s move onto the coding part and see how we can delete a row from UITableView. To make thing simple, I&#8217;ll use the plain version of Simple Table app as an example.</p>
+<p>If you thoroughly understand the MVC model, you probably have some ideas how to implement row deletion. There are three main things we need to do:</p>
+<p>1. Write code to switch to edit mode for row deletion<br />
+2. Delete the corresponding table data from the model<br />
+3. Reload the table view in order to reflect the change of table data</p>
+<h4>1. Write code to switch to edit mode for row deletion</h4>
+<p>In iOS app, user normally swipes across a row to initiate the delete button. Recalled that we have adopted the <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UITableViewDataSource_Protocol/Reference/Reference.html">UITableViewDataSource protocol</a>, if you refer to the API doc, there is a method named <em>tableView:commitEditingStyle:forRowAtIndexPath</em>. When user swipes across a row, the table view will check to see if the method has been implemented. If the method is found, the table view will automatically show the &#8220;Delete&#8221; button.</p>
+<p>Simply add the following code to your table view app and run your app:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView commitEditingStyle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableViewCellEditingStyle<span style="color: #002200;">&#41;</span>editingStyle forRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Even the method is empty and doesn&#8217;t perform anything, you&#8217;ll see the &#8220;Delete&#8221; button when you swipe across a row.</p>
+<div id="attachment_436" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/06/Swipe-to-Delete-Table-Row.jpg" alt="Swipe to Delete Table Row" title="Swipe to Delete Table Row" class="size-full wp-image-436" /><p class="wp-caption-text">Swipe to Delete a Table Row</p></div>
+<h4>2. Delete the corresponding table data from the model</h4>
+<p>The next thing is to add code to the method and remove the actual table data. Like other table view methods, it passes the indexPath as parameter that tells you the row number for the deletion. So you can make use of this information and remove the corresponding element from the data array.</p>
+<p>In the original code of Simple Table App, we use NSArray to store the table data (which is the model). The problem of NSArray is it&#8217;s non-editable. That is, you can&#8217;t add/remove its content once the array is initialized. Alternatively, we&#8217;ll change the NSArray to NSMutableArray, which adds insertion and deletion operations:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@implementation</span> SimpleTableViewController<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> <span style="color: #002200;">*</span>tableData;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initialize table data</span><br />
+&nbsp; &nbsp; tableData <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Egg Benedict&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Mushroom Risotto&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Full Breakfast&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Hamburger&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ham and Egg Sandwich&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Creme Brelee&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;White Chocolate Donut&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Starbucks Coffee&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Vegetable Curry&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Instant Noodle with Egg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Noodle with BBQ Pork&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Japanese Noodle with Pork&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Green Tea&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Thai Shrimp Cake&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Angry Birds Cake&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ham and Cheese Panini&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the tableView:commitEditingStyle method, add the following code to remove the actual data from the array. Your method should look like this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView commitEditingStyle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableViewCellEditingStyle<span style="color: #002200;">&#41;</span>editingStyle forRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Remove the row from data model</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>tableData removeObjectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The NSMutableArray provides a number of operations for you to manipulate the content of an array. Here we utilize the &#8220;removeObjectAtIndex&#8221; method to remove a particular item from the array. You can try to run the app and delete a row. Oops! The app doesn&#8217;t work as expected.</p>
+<p>It&#8217;s not a bug. The app does delete the item from the array. The reason why the deleted item still appears  is the view hasn&#8217;t been refreshed to reflect the update of the data model.</p>
+<h4>3. Reload the table view</h4>
+<p>Therefore, once the underlying data is removed, we need to invoke &#8220;reloadData&#8221; method to request the table View to refresh. Here is the updated code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>tableView<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableView <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tableView commitEditingStyle<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITableViewCellEditingStyle<span style="color: #002200;">&#41;</span>editingStyle forRowAtIndexPath<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>indexPath<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Remove the row from data model</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>tableData removeObjectAtIndex<span style="color: #002200;">:</span>indexPath.row<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Request table view to reload</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>tableView reloadData<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h3>Test Your App and Delete a Row</h3>
+<p>Try to run your app again and swipe to delete a row. You should be able to delete it.</p>
+<div id="attachment_439" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/06/Simple-Table-App-Row-Deletion.jpg" alt="Simple Table App - Row Deletion" title="Simple Table App - Row Deletion" class="size-full wp-image-439" /><p class="wp-caption-text">Delete a Table Row in Simple Table App</p></div>
+<p>As always, leave me comment to share your experience about the tutorial.</p>
+<p><strong>Update:</strong> You can now <a href="https://dl.dropboxusercontent.com/u/2857188/SimplestTableDelete.zip">download the source code of the Xcode project</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/video-recording-playback-ios-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/video-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Create a Simple App for Video Recording and Playback</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/intro-ios-multipeer-connectivity-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/02/multipeer-connectivity-file-sharing-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Understanding Multipeer Connectivity Framework in iOS 7 - Part 2</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uialertcontroller-swift-closures-enum/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to UIAlertController, Swift Closures and Enumeration</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/facebook-pop-framework-intro/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/12/pop-animations-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Simple Animations with Facebook's Pop Framework</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/"
+    dc:identifier="http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/"
+    dc:title="Delete a Row from UITableView and Model-View-Controller"
+    trackback:ping="http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/app-development/" rel="tag">app development</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/ios-sdk/" rel="tag">iOS SDK</a>, <a href="http://www.appcoda.com/tag/ios-tutorial/" rel="tag">iOS Tutorial</a>, <a href="http://www.appcoda.com/tag/uitableview/" rel="tag">UITableView</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-471">
+        <div id="dsq-comment-header-471" class="dsq-comment-header">
+            <cite id="dsq-cite-471">
+                <span id="dsq-author-user-471">June</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-471" class="dsq-comment-body">
+            <div id="dsq-comment-message-471" class="dsq-comment-message"><p>Not really understand this 1&#8230;<br />
+where shud i add those codes in?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-admin bypostauthor odd alt depth-2" id="dsq-comment-473">
+        <div id="dsq-comment-header-473" class="dsq-comment-header">
+            <cite id="dsq-cite-473">
+http://www.appcoda.com                <span id="dsq-author-user-473">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-473" class="dsq-comment-body">
+            <div id="dsq-comment-message-473" class="dsq-comment-message"><p>This is a follow-up for the Simple Table app. So you can add the code in SimpleTableViewController.m.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-531">
+        <div id="dsq-comment-header-531" class="dsq-comment-header">
+            <cite id="dsq-cite-531">
+                <span id="dsq-author-user-531">Anuj Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-531" class="dsq-comment-body">
+            <div id="dsq-comment-message-531" class="dsq-comment-message"><p>it is not working for my code&#8230;.. <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-532">
+        <div id="dsq-comment-header-532" class="dsq-comment-header">
+            <cite id="dsq-cite-532">
+http://www.simonblog.com                <span id="dsq-author-user-532">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-532" class="dsq-comment-body">
+            <div id="dsq-comment-message-532" class="dsq-comment-message"><p>Could you show me the error?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-5" id="dsq-comment-539">
+        <div id="dsq-comment-header-539" class="dsq-comment-header">
+            <cite id="dsq-cite-539">
+                <span id="dsq-author-user-539">Anuj Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-539" class="dsq-comment-body">
+            <div id="dsq-comment-message-539" class="dsq-comment-message"><p>There is no error message, but it is not displaying the delete button. It is working same as it was working after the previous tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-579">
+        <div id="dsq-comment-header-579" class="dsq-comment-header">
+            <cite id="dsq-cite-579">
+                <span id="dsq-author-user-579">champcar2000</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-579" class="dsq-comment-body">
+            <div id="dsq-comment-message-579" class="dsq-comment-message"><p>In the simulator, to get the Delete button to show, click the mouse &#8211; hold &#8211; then swipe to the left.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-5" id="dsq-comment-596">
+        <div id="dsq-comment-header-596" class="dsq-comment-header">
+            <cite id="dsq-cite-596">
+                <span id="dsq-author-user-596">Anuj Jain</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-596" class="dsq-comment-body">
+            <div id="dsq-comment-message-596" class="dsq-comment-message"><p>it works&#8230;..thanx&#8230;. <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-5" id="dsq-comment-2278">
+        <div id="dsq-comment-header-2278" class="dsq-comment-header">
+            <cite id="dsq-cite-2278">
+                <span id="dsq-author-user-2278">Vivek Pansara</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2278" class="dsq-comment-body">
+            <div id="dsq-comment-message-2278" class="dsq-comment-message"><p>still not getting delete button&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-521">
+        <div id="dsq-comment-header-521" class="dsq-comment-header">
+            <cite id="dsq-cite-521">
+                <span id="dsq-author-user-521">Xavier Alfeiran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-521" class="dsq-comment-body">
+            <div id="dsq-comment-message-521" class="dsq-comment-message"><p>Great tutorials so much easy to learn with your guides.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-550">
+        <div id="dsq-comment-header-550" class="dsq-comment-header">
+            <cite id="dsq-cite-550">
+                <span id="dsq-author-user-550">Ivan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-550" class="dsq-comment-body">
+            <div id="dsq-comment-message-550" class="dsq-comment-message"><p>It gives me an error when I use the objectForKey function of NSDictionary to load the data. Is there some other way to do it?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-578">
+        <div id="dsq-comment-header-578" class="dsq-comment-header">
+            <cite id="dsq-cite-578">
+                <span id="dsq-author-user-578">champcar2000</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-578" class="dsq-comment-body">
+            <div id="dsq-comment-message-578" class="dsq-comment-message"><p>..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-580">
+        <div id="dsq-comment-header-580" class="dsq-comment-header">
+            <cite id="dsq-cite-580">
+                <span id="dsq-author-user-580">champcar2000</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-580" class="dsq-comment-body">
+            <div id="dsq-comment-message-580" class="dsq-comment-message"><p>When I run the simulator and tap the Delete button on a row, it crashes the program.  </p>
+<p>It appears that this is because I&#8217;ve done lessons 1-7 so my app has already been changed to use a property list, but this lesson still expects the app to be using a hard-coded array for the data.  Is this the case??</p>
+<p>Thanks in advance.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-590">
+        <div id="dsq-comment-header-590" class="dsq-comment-header">
+            <cite id="dsq-cite-590">
+                <span id="dsq-author-user-590">Sunny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-590" class="dsq-comment-body">
+            <div id="dsq-comment-message-590" class="dsq-comment-message"><p>For the delete button, is the text is fixed ?<br />
+or can I change the word of the button from &#8220;Delete&#8221; to something else?<br />
+because I want to make a button for user to redirect to another page<br />
+means that if they tap on the table cell, the application will bring them to detail page<br />
+but when they tap on the button, they will be redirected to another page.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-616">
+        <div id="dsq-comment-header-616" class="dsq-comment-header">
+            <cite id="dsq-cite-616">
+http://www.facebook.com/matthew.kwan.716                <span id="dsq-author-user-616">Matthew Kwan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-616" class="dsq-comment-body">
+            <div id="dsq-comment-message-616" class="dsq-comment-message"><p>If you have implemented the Property List in tutorial 6, then coming here to remove the row from the array, you will get an error.  To fix the error you just have to change NSDictionary to NSMutableDictionary.  </p>
+<p>By the way all your tutorials are awesome, very informative and easy to follow.  Good job buddy!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-771">
+        <div id="dsq-comment-header-771" class="dsq-comment-header">
+            <cite id="dsq-cite-771">
+http://twitter.com/rsdimitrov                <span id="dsq-author-user-771">Rumen Dimitrov</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-771" class="dsq-comment-body">
+            <div id="dsq-comment-message-771" class="dsq-comment-message"><p>Thank you for pointing this out!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-1023">
+        <div id="dsq-comment-header-1023" class="dsq-comment-header">
+            <cite id="dsq-cite-1023">
+http://bosslee.co/                <span id="dsq-author-user-1023">Bryan Lee</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1023" class="dsq-comment-body">
+            <div id="dsq-comment-message-1023" class="dsq-comment-message"><p>Thanks you so much 😀</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-2645">
+        <div id="dsq-comment-header-2645" class="dsq-comment-header">
+            <cite id="dsq-cite-2645">
+                <span id="dsq-author-user-2645">abraham</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2645" class="dsq-comment-body">
+            <div id="dsq-comment-message-2645" class="dsq-comment-message"><p>thank you bro <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-3289">
+        <div id="dsq-comment-header-3289" class="dsq-comment-header">
+            <cite id="dsq-cite-3289">
+                <span id="dsq-author-user-3289">Akshay Gangurde</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3289" class="dsq-comment-body">
+            <div id="dsq-comment-message-3289" class="dsq-comment-message"><p>thanks for property list&#8217;s specification,,, <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-31872">
+        <div id="dsq-comment-header-31872" class="dsq-comment-header">
+            <cite id="dsq-cite-31872">
+                <span id="dsq-author-user-31872">Vishwas Shashidhar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-31872" class="dsq-comment-body">
+            <div id="dsq-comment-message-31872" class="dsq-comment-message"><p>Thank you mate <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> that helped&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-47526">
+        <div id="dsq-comment-header-47526" class="dsq-comment-header">
+            <cite id="dsq-cite-47526">
+                <span id="dsq-author-user-47526">chelsea blues</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-47526" class="dsq-comment-body">
+            <div id="dsq-comment-message-47526" class="dsq-comment-message"><p>Thanx a lot mate ..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-52312">
+        <div id="dsq-comment-header-52312" class="dsq-comment-header">
+            <cite id="dsq-cite-52312">
+                <span id="dsq-author-user-52312">Jhlx</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-52312" class="dsq-comment-body">
+            <div id="dsq-comment-message-52312" class="dsq-comment-message"><p>thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-58364">
+        <div id="dsq-comment-header-58364" class="dsq-comment-header">
+            <cite id="dsq-cite-58364">
+                <span id="dsq-author-user-58364">le van pha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-58364" class="dsq-comment-body">
+            <div id="dsq-comment-message-58364" class="dsq-comment-message"><p>interesting^^</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.entlib.net/?p=1872' rel='external nofollow' class='url'>第九部分：从UITableView中删除一行和Model-View-Controller | EntLib.net 技术分享平台</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-746">
+        <div id="dsq-comment-header-746" class="dsq-comment-header">
+            <cite id="dsq-cite-746">
+                <span id="dsq-author-user-746">Thomas Moore</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-746" class="dsq-comment-body">
+            <div id="dsq-comment-message-746" class="dsq-comment-message"><p>That was pretty easy! Loving the tutorials. Great work Simon!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-812">
+        <div id="dsq-comment-header-812" class="dsq-comment-header">
+            <cite id="dsq-cite-812">
+                <span id="dsq-author-user-812">abbiya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-812" class="dsq-comment-body">
+            <div id="dsq-comment-message-812" class="dsq-comment-message"><p>you should write more dude.. great work. thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-885">
+        <div id="dsq-comment-header-885" class="dsq-comment-header">
+            <cite id="dsq-cite-885">
+                <span id="dsq-author-user-885">Pramodh Bettadapura</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-885" class="dsq-comment-body">
+            <div id="dsq-comment-message-885" class="dsq-comment-message"><p>Hi Simon, after creating custom cell i made the above changes with edit button, but on click of edit button the cell resizes but not the text entered can you please help!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-943">
+        <div id="dsq-comment-header-943" class="dsq-comment-header">
+            <cite id="dsq-cite-943">
+                <span id="dsq-author-user-943">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-943" class="dsq-comment-body">
+            <div id="dsq-comment-message-943" class="dsq-comment-message"><p>You might consider rewriting this tutorial to use the `deleteRowsAtIndexPaths:withRowAnimation:` method instead of reloadData.</p>
+<p><a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UITableView_Class/Reference/Reference.html" rel="nofollow">http://developer.apple.com/library/ios/#documentation/uikit/reference/UITableView_Class/Reference/Reference.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-944">
+        <div id="dsq-comment-header-944" class="dsq-comment-header">
+            <cite id="dsq-cite-944">
+http://stevenluscherdesign.com                <span id="dsq-author-user-944">steveluscher</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-944" class="dsq-comment-body">
+            <div id="dsq-comment-message-944" class="dsq-comment-message"><p>You might consider rewriting this tutorial using the deleteRowsAtIndexPaths:withRowAnimation: method instead of reloadData.</p>
+<p><a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UITableView_Class/Reference/Reference.html" rel="nofollow">http://developer.apple.com/library/ios/#documentation/uikit/reference/UITableView_Class/Reference/Reference.html</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1552">
+        <div id="dsq-comment-header-1552" class="dsq-comment-header">
+            <cite id="dsq-cite-1552">
+http://www.facebook.com/sergtk                <span id="dsq-author-user-1552">Sergiy Tkachuk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1552" class="dsq-comment-body">
+            <div id="dsq-comment-message-1552" class="dsq-comment-message"><p>Thank for reference. It looks much better with animation. I have found good example how to use deleteRowsAtIndexPaths:withRowAnimation: at <a href="http://stackoverflow.com/q/4276804/13441" rel="nofollow">http://stackoverflow.com/q/4276804/13441</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-983">
+        <div id="dsq-comment-header-983" class="dsq-comment-header">
+            <cite id="dsq-cite-983">
+http://binceipt.com/                <span id="dsq-author-user-983">Mark Thien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-983" class="dsq-comment-body">
+            <div id="dsq-comment-message-983" class="dsq-comment-message"><p>I changed to NSMutableArray and still getting error:</p>
+<p> Terminating app due to uncaught exception &#8216;NSInternalInconsistencyException&#8217;, reason: &#8216;-[__NSCFArray removeObjectAtIndex:]: mutating method sent to immutable object&#8217;</p>
+<p>I am using property list file:</p>
+<p>NSString *path = [[NSBundle mainBundle] pathForResource:@&#8221;recipies&#8221; ofType:@&#8221;plist&#8221;];</p>
+<p>recipies = [dict objectForKey:@&#8221;recipyName&#8221;];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.cyberhades.com/2012/12/24/curso-de-programacion-ios-para-principiantes/' rel='external nofollow' class='url'>Curso de programación iOS para principiantes | CyberHades</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1066">
+        <div id="dsq-comment-header-1066" class="dsq-comment-header">
+            <cite id="dsq-cite-1066">
+                <span id="dsq-author-user-1066">Klaus Brunckhorst</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1066" class="dsq-comment-body">
+            <div id="dsq-comment-message-1066" class="dsq-comment-message"><p>Great tutorial. Thanx!</p>
+<p>In order to work with the example from the previous chapter I used &#8216;mutableCopy&#8217; to fill the Arrays from the plist:</p>
+<p>[..]</p>
+<p>@implementation HalloWorldViewController<br />
+{<br />
+NSMutableArray *tableData;<br />
+    NSMutableArray *thumbnails;<br />
+    NSMutableArray *prepTime;<br />
+}</p>
+<p>&#8211; (void)viewDidLoad<br />
+{<br />
+    [super viewDidLoad];</p>
+<p>    // Find out the path of recipes.plist<br />
+    NSString *path = [[NSBundle mainBundle] pathForResource:@&#8221;recipes&#8221; ofType:@&#8221;plist&#8221;]; </p>
+<p>    // Load the file content and read the data into arrays<br />
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];<br />
+    tableData = [[dict objectForKey:@&#8221;RecipeName&#8221;] mutableCopy];<br />
+    thumbnails = [[dict objectForKey:@&#8221;Thumbnail&#8221;] mutableCopy];<br />
+    prepTime = [[dict objectForKey:@&#8221;PrepTime&#8221;] mutableCopy];<br />
+}</p>
+<p>[..]</p>
+<p>&#8211; (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath<br />
+{<br />
+    // Remove the row from data model<br />
+    [tableData removeObjectAtIndex:indexPath.row];<br />
+    [thumbnails removeObjectAtIndex:indexPath.row];<br />
+    [prepTime removeObjectAtIndex:indexPath.row];</p>
+<p>    // Request table view to reload<br />
+    [tableView reloadData];<br />
+}</p>
+<p>[..]</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1249">
+        <div id="dsq-comment-header-1249" class="dsq-comment-header">
+            <cite id="dsq-cite-1249">
+http://twitter.com/indratulku                <span id="dsq-author-user-1249">indra tulku</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1249" class="dsq-comment-body">
+            <div id="dsq-comment-message-1249" class="dsq-comment-message"><p>very helpful, thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-3530">
+        <div id="dsq-comment-header-3530" class="dsq-comment-header">
+            <cite id="dsq-cite-3530">
+                <span id="dsq-author-user-3530">paul</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3530" class="dsq-comment-body">
+            <div id="dsq-comment-message-3530" class="dsq-comment-message"><p>Thanks Klaus!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-44636">
+        <div id="dsq-comment-header-44636" class="dsq-comment-header">
+            <cite id="dsq-cite-44636">
+                <span id="dsq-author-user-44636">Phil</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-44636" class="dsq-comment-body">
+            <div id="dsq-comment-message-44636" class="dsq-comment-message"><p>I&#8217;m new to Obj-C and iOS programming, I&#8217;m sorry if these are silly questions.<br />
+When we define tableData, why we have to call method mutableCopy? I checked reference of instance method objectForKey, its return type is &#8220;id&#8221;.<br />
+1) Is the &#8220;id&#8221; type not mutable?<br />
+2) Does it mean we have to concern if mutable type is needed for every single object?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-52311">
+        <div id="dsq-comment-header-52311" class="dsq-comment-header">
+            <cite id="dsq-cite-52311">
+                <span id="dsq-author-user-52311">Jhlx</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-52311" class="dsq-comment-body">
+            <div id="dsq-comment-message-52311" class="dsq-comment-message"><p>Thank you!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-100448">
+        <div id="dsq-comment-header-100448" class="dsq-comment-header">
+            <cite id="dsq-cite-100448">
+                <span id="dsq-author-user-100448">vishal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100448" class="dsq-comment-body">
+            <div id="dsq-comment-message-100448" class="dsq-comment-message"><p>why mutablecopy?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1211">
+        <div id="dsq-comment-header-1211" class="dsq-comment-header">
+            <cite id="dsq-cite-1211">
+                <span id="dsq-author-user-1211">Nidhi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1211" class="dsq-comment-body">
+            <div id="dsq-comment-message-1211" class="dsq-comment-message"><p>super awesome <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1338">
+        <div id="dsq-comment-header-1338" class="dsq-comment-header">
+            <cite id="dsq-cite-1338">
+                <span id="dsq-author-user-1338">Khalid Mehmood Awan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1338" class="dsq-comment-body">
+            <div id="dsq-comment-message-1338" class="dsq-comment-message"><p>&#8220;Here, model-view-controller is another example of SoC. The core idea behind MVC is to clearly separate user interface into three areas (or groups of objects) that each area is responsible for a particular functionality. As the name suggests, MVC breaks an user interface into three parts:&#8221;</p>
+<p>here you are saying &#8220;user interface&#8221; , why not say &#8220;application instead of &#8220;user interface&#8221; ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1353">
+        <div id="dsq-comment-header-1353" class="dsq-comment-header">
+            <cite id="dsq-cite-1353">
+                <span id="dsq-author-user-1353">Khalid Mehmood Awan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1353" class="dsq-comment-body">
+            <div id="dsq-comment-message-1353" class="dsq-comment-message"><p>Hi Simon, I am using macbook pro with a normal USB mouse. I find it very difficult to swipe for the purpose to delete a table row. Sometimes it works while most of the time it does not.</p>
+<p>is there any way to do it easily ?        </p>
+<p>khalidmehmoodawan at gmail</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1354">
+        <div id="dsq-comment-header-1354" class="dsq-comment-header">
+            <cite id="dsq-cite-1354">
+                <span id="dsq-author-user-1354">Khalid Mehmood Awan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1354" class="dsq-comment-body">
+            <div id="dsq-comment-message-1354" class="dsq-comment-message"><p>Excellent tutorials <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1408">
+        <div id="dsq-comment-header-1408" class="dsq-comment-header">
+            <cite id="dsq-cite-1408">
+http://twitter.com/manobray                <span id="dsq-author-user-1408">Lucas Ramos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1408" class="dsq-comment-body">
+            <div id="dsq-comment-message-1408" class="dsq-comment-message"><p>Hey, everybody! Thanks Matthew for the update.<br />
+Now, if you&#8217;re following the tutorial, beyond changing the dictionary to Mutable Dictionary,<br />
+You have to add:<br />
+ NSMutableArray *thumbnails;<br />
+    NSMutableArray *prepTime;[thumbnails removeObjectAtIndex:indexPath.row];</p>
+<p>And<br />
+    [prepTime removeObjectAtIndex:indexPath.row];<br />
+[thumbnails removeObjectAtIndex:indexPath.row];</p>
+<p>In order to it work.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1464">
+        <div id="dsq-comment-header-1464" class="dsq-comment-header">
+            <cite id="dsq-cite-1464">
+http://twitter.com/liu044100                <span id="dsq-author-user-1464">刘雨辰</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1464" class="dsq-comment-body">
+            <div id="dsq-comment-message-1464" class="dsq-comment-message"><p>I can delete a row using the tutorial&#8217;s code, but it has no animation or aesthetic, how to fix it, thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1512">
+        <div id="dsq-comment-header-1512" class="dsq-comment-header">
+            <cite id="dsq-cite-1512">
+                <span id="dsq-author-user-1512">shailesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1512" class="dsq-comment-body">
+            <div id="dsq-comment-message-1512" class="dsq-comment-message"><p>Superb tutorial <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1570">
+        <div id="dsq-comment-header-1570" class="dsq-comment-header">
+            <cite id="dsq-cite-1570">
+                <span id="dsq-author-user-1570">aamir khan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1570" class="dsq-comment-body">
+            <div id="dsq-comment-message-1570" class="dsq-comment-message"><p>it is deleted my tables cells data helpfull tutorials great work</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1855">
+        <div id="dsq-comment-header-1855" class="dsq-comment-header">
+            <cite id="dsq-cite-1855">
+                <span id="dsq-author-user-1855">Learner</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1855" class="dsq-comment-body">
+            <div id="dsq-comment-message-1855" class="dsq-comment-message"><p>didn&#8217;t any delete button shows, please post the full .m file code pls pls pls</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1859">
+        <div id="dsq-comment-header-1859" class="dsq-comment-header">
+            <cite id="dsq-cite-1859">
+                <span id="dsq-author-user-1859">learner</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1859" class="dsq-comment-body">
+            <div id="dsq-comment-message-1859" class="dsq-comment-message"><p>It cant delete last row</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2348">
+        <div id="dsq-comment-header-2348" class="dsq-comment-header">
+            <cite id="dsq-cite-2348">
+                <span id="dsq-author-user-2348">priyank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2348" class="dsq-comment-body">
+            <div id="dsq-comment-message-2348" class="dsq-comment-message"><p>Hi,first of all thanks for this &#8220;Great tutorial&#8221;.I&#8217;m new in ios development&#8230;can u plz explain how to install sqlite and insert and retrive data from sqlite.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2411">
+        <div id="dsq-comment-header-2411" class="dsq-comment-header">
+            <cite id="dsq-cite-2411">
+                <span id="dsq-author-user-2411">kaushik kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2411" class="dsq-comment-body">
+            <div id="dsq-comment-message-2411" class="dsq-comment-message"><p>i did the same to delete the cell but its showing an exception as&#8230;&#8230;&#8217;-[__NSCFArray removeObjectAtIndex:]: mutating method sent to immutable object&#8217;&#8230;but i am using nsmutable array</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2648">
+        <div id="dsq-comment-header-2648" class="dsq-comment-header">
+            <cite id="dsq-cite-2648">
+                <span id="dsq-author-user-2648">Ankit</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2648" class="dsq-comment-body">
+            <div id="dsq-comment-message-2648" class="dsq-comment-message"><p>I write the code of delete button. But delete button is not showing.Plz help me.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3690">
+        <div id="dsq-comment-header-3690" class="dsq-comment-header">
+            <cite id="dsq-cite-3690">
+                <span id="dsq-author-user-3690">wahiba</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3690" class="dsq-comment-body">
+            <div id="dsq-comment-message-3690" class="dsq-comment-message"><p>In the simulator, to get the Delete button to show, click the mouse &#8211; hold &#8211; then swipe to the left.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2864">
+        <div id="dsq-comment-header-2864" class="dsq-comment-header">
+            <cite id="dsq-cite-2864">
+                <span id="dsq-author-user-2864">Ben</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2864" class="dsq-comment-body">
+            <div id="dsq-comment-message-2864" class="dsq-comment-message"><p>Great tutorials. Just a simple side note… Being French and a cook in my spare time, I really have to point this out : One does not say crême brelée but Crême Brûlée (which literraly means : burnt cream)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2870">
+        <div id="dsq-comment-header-2870" class="dsq-comment-header">
+            <cite id="dsq-cite-2870">
+                <span id="dsq-author-user-2870">abDullah</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2870" class="dsq-comment-body">
+            <div id="dsq-comment-message-2870" class="dsq-comment-message"><p>Excellent tutorials &#8230;&#8230; keep it coming 😉</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3441">
+        <div id="dsq-comment-header-3441" class="dsq-comment-header">
+            <cite id="dsq-cite-3441">
+                <span id="dsq-author-user-3441">Chilly</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3441" class="dsq-comment-body">
+            <div id="dsq-comment-message-3441" class="dsq-comment-message"><p>Great tutorial. For me the only thing missing is rearranging the cell assignments after a row is delete</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3596">
+        <div id="dsq-comment-header-3596" class="dsq-comment-header">
+            <cite id="dsq-cite-3596">
+                <span id="dsq-author-user-3596">Abdurrahman Mubeen Ali</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3596" class="dsq-comment-body">
+            <div id="dsq-comment-message-3596" class="dsq-comment-message"><p>Nice &amp; easy tutorial. How can I get the DELETE button on the left of the text?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://boltstudios.edisonchargers.com/sitreps/14manaresigm045/week-3-reflection/' rel='external nofollow' class='url'>Week 3 Reflection | Gorio</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://boltstudios.edisonchargers.com/sitreps/17martinmj301/week-7-reflection/' rel='external nofollow' class='url'>Week 7 Reflection | m&amp;m</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-4722">
+        <div id="dsq-comment-header-4722" class="dsq-comment-header">
+            <cite id="dsq-cite-4722">
+                <span id="dsq-author-user-4722">Sharad Goyal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4722" class="dsq-comment-body">
+            <div id="dsq-comment-message-4722" class="dsq-comment-message"><p>i did it but it is not showing &#8220;delete&#8221; button please help me in this program</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-5053">
+        <div id="dsq-comment-header-5053" class="dsq-comment-header">
+            <cite id="dsq-cite-5053">
+                <span id="dsq-author-user-5053">Patel Kaushik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5053" class="dsq-comment-body">
+            <div id="dsq-comment-message-5053" class="dsq-comment-message"><p>i make table view apps by custom cell ,i implement delete row from table but can&#8217;t delete </p>
+<p>please give me help for delete table data which is created by custom cell &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://boltstudios.edisonchargers.com/sitreps/17martinmj301/project-proposal/' rel='external nofollow' class='url'>Project Proposal | m&amp;m</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-9391">
+        <div id="dsq-comment-header-9391" class="dsq-comment-header">
+            <cite id="dsq-cite-9391">
+                <span id="dsq-author-user-9391">sergtk</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-9391" class="dsq-comment-body">
+            <div id="dsq-comment-message-9391" class="dsq-comment-message"><p>How to update existing data when model is changed? It is easy to create Mapping Model in Xcode, specify mapping between properties. But is not clear what to do next with it and how to use it. Are there any tutorial on this subject here? Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-15975">
+        <div id="dsq-comment-header-15975" class="dsq-comment-header">
+            <cite id="dsq-cite-15975">
+                <span id="dsq-author-user-15975">Developer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15975" class="dsq-comment-body">
+            <div id="dsq-comment-message-15975" class="dsq-comment-message"><p>How do I save what has been deleted? Example: User deletes an item and then closes the app. When the user reopens the app the item is fully deleted and does not just reappear. Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29547">
+        <div id="dsq-comment-header-29547" class="dsq-comment-header">
+            <cite id="dsq-cite-29547">
+                <span id="dsq-author-user-29547">Rubin Zubin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29547" class="dsq-comment-body">
+            <div id="dsq-comment-message-29547" class="dsq-comment-message"><p>Suppose if i want to add items or row to this then ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://sns.51yycn.net/space.php?uid=55740&#038;do=blog&#038;id=109586' rel='external nofollow' class='url'>strengthen muscles</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-34725">
+        <div id="dsq-comment-header-34725" class="dsq-comment-header">
+            <cite id="dsq-cite-34725">
+                <span id="dsq-author-user-34725">Kenmux De</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-34725" class="dsq-comment-body">
+            <div id="dsq-comment-message-34725" class="dsq-comment-message"><p>the source code is ok? why cant i see the delete button, neither with my ipad nor the iphone simulator?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-42595">
+        <div id="dsq-comment-header-42595" class="dsq-comment-header">
+            <cite id="dsq-cite-42595">
+                <span id="dsq-author-user-42595">Rithik Dharma</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-42595" class="dsq-comment-body">
+            <div id="dsq-comment-message-42595" class="dsq-comment-message"><p>that one was really  good&#8230;!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-51183">
+        <div id="dsq-comment-header-51183" class="dsq-comment-header">
+            <cite id="dsq-cite-51183">
+                <span id="dsq-author-user-51183">Kritbovorn Taweeyossak</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51183" class="dsq-comment-body">
+            <div id="dsq-comment-message-51183" class="dsq-comment-message"><p>why when I run app again , the data still have full</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-58366">
+        <div id="dsq-comment-header-58366" class="dsq-comment-header">
+            <cite id="dsq-cite-58366">
+                <span id="dsq-author-user-58366">le van pha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-58366" class="dsq-comment-body">
+            <div id="dsq-comment-message-58366" class="dsq-comment-message"><p>how to remove check mark when selected row again? thank!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-58403">
+        <div id="dsq-comment-header-58403" class="dsq-comment-header">
+            <cite id="dsq-cite-58403">
+                <span id="dsq-author-user-58403">Toqeer Ahmad</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-58403" class="dsq-comment-body">
+            <div id="dsq-comment-message-58403" class="dsq-comment-message"><p>Thank You Sir! <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+It helps me a lot ..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-72729">
+        <div id="dsq-comment-header-72729" class="dsq-comment-header">
+            <cite id="dsq-cite-72729">
+                <span id="dsq-author-user-72729">Charles</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72729" class="dsq-comment-body">
+            <div id="dsq-comment-message-72729" class="dsq-comment-message"><p>I followed this steps but in the end after I press end the whole app freezes for a second and then restarts completely, to the point I got to open it again, with no changes whatsoever. Why is that happening?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-72743">
+        <div id="dsq-comment-header-72743" class="dsq-comment-header">
+            <cite id="dsq-cite-72743">
+                <span id="dsq-author-user-72743">Charles</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72743" class="dsq-comment-body">
+            <div id="dsq-comment-message-72743" class="dsq-comment-message"><p>NVM, after founding my mistake Ill go commit suicide in a corner.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-97491">
+        <div id="dsq-comment-header-97491" class="dsq-comment-header">
+            <cite id="dsq-cite-97491">
+                <span id="dsq-author-user-97491">Nij</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97491" class="dsq-comment-body">
+            <div id="dsq-comment-message-97491" class="dsq-comment-message"><p>in commitEditingStyle method, is it necessary to write following lines?</p>
+<p>[tableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic] ;</p>
+<p>and yeah very easy to understand ur tutorials thanks to u,, m new to iOS developing.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99806">
+        <div id="dsq-comment-header-99806" class="dsq-comment-header">
+            <cite id="dsq-cite-99806">
+                <span id="dsq-author-user-99806">sheikh306</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99806" class="dsq-comment-body">
+            <div id="dsq-comment-message-99806" class="dsq-comment-message"><p>great to learn here (Y) keep going on</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/model-view-controller-delete-table-row-from-uitableview/';
+var disqus_identifier = '426 http://www.appcoda.com/?p=426';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Delete a Row from UITableView and Model-View-Controller";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=426';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/qr-code-generator-tutorial/">Building a QR Code Generator with Core Image Filters</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="426"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fmodel-view-controller-delete-table-row-from-uitableview%2F&#038;t=Delete%20a%20Row%20from%20UITableView%20and%20Model-View-Controller" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="426" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>13</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Delete%20a%20Row%20from%20UITableView%20and%20Model-View-Controller&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fmodel-view-controller-delete-table-row-from-uitableview%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="426" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>5</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fmodel-view-controller-delete-table-row-from-uitableview%2F&#038;t=Delete%20a%20Row%20from%20UITableView%20and%20Model-View-Controller" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="426" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>8</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fmodel-view-controller-delete-table-row-from-uitableview%2F&#038;title=Delete%20a%20Row%20from%20UITableView%20and%20Model-View-Controller" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="426" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>0</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fmodel-view-controller-delete-table-row-from-uitableview%2F&#038;t=Delete%20a%20Row%20from%20UITableView%20and%20Model-View-Controller" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="426" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Delete%20a%20Row%20from%20UITableView%20and%20Model-View-Controller&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fmodel-view-controller-delete-table-row-from-uitableview%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="426" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fmodel-view-controller-delete-table-row-from-uitableview%2F&#038;t=Delete%20a%20Row%20from%20UITableView%20and%20Model-View-Controller" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="426" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fmodel-view-controller-delete-table-row-from-uitableview%2F&#038;title=Delete%20a%20Row%20from%20UITableView%20and%20Model-View-Controller" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="426" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/model-view-controller-delete-table-row-from-uitableview\/","stats_nonce":"1298c11ed8","share_counts":"3da1fd031d","follow_counts":"42e232761c","total_counts":"d89bd4eb20","media_single":"bed05ad3b0","media_total":"06eb8545f3","generate_all_window_nonce":"fdcc356783","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-06 23:30:11 by W3 Total Cache -->

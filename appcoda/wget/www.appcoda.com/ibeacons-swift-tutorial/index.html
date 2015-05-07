@@ -1,0 +1,876 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Developing iBeacons Apps with Swift | An Introduction</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="iOS SDK allows to develop applications capable of monitoring for iBeacons, and then perform various actions, depending always on specific requirements."/>
+<link rel="canonical" href="http://www.appcoda.com/ibeacons-swift-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="iOS SDK allows to develop applications capable of monitoring for iBeacons, and then perform various actions, depending always on specific requirements."/>
+<meta name="twitter:title" content="Developing iBeacons Apps with Swift | An Introduction"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2015/03/ibeacons-featured-photo.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Developing iBeacons Apps with Swift Comments Feed" href="http://www.appcoda.com/ibeacons-swift-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=5179' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-5179 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-5179 post type-post status-publish format-standard hentry category-course category-intermediate category-swift-2 tag-ibeacons tag-ios-8 tag-ios-programming tag-swift entry"><h1 class="entry-title">Developing iBeacons Apps with Swift</h1> 
+<div class="post-info"><span class="date published time" title="2015-03-20T15:47:51+00:00">March 20, 2015</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ibeacons-swift-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="5179 http://www.appcoda.com/?p=5179">1 Comment</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Since the introduction of iBeacons with iOS 7 by Apple, a lot of things have been said and written about. iBeacon technology consist of a revolutionary way to keep track of the position of a device indoors and use location services, similarly to the GPS outdoors, and it&#8217;s based on the signal transmitted through Bluetooth (Bluetooth Low Energy specifically, or BLE) by beacon devices. iOS devices can do that also, as long as they run a proper application.</p>
+<p>However, the most important thing is that iOS SDK allows to develop applications capable of monitoring for iBeacons, and then perform various actions, depending always on specific requirements. The use of iBeacons can be applied in a wide range of cases, especially for marketing purposes. For example, using iBeacons in retail stores targeted advertisements can be displayed on the customers&#8217; devices once the device enters a beacon&#8217;s region, or keep track of the traffic in such stores. Actually, the example that I just described is already being used, and it can be evolved even further.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/03/ibeacons-featured-photo.jpg" alt="ibeacons-featured-photo" class="aligncenter size-full wp-image-5198" /></div>
+<p>From the developer&#8217;s point of view, an iBeacon area can be monitored and handled almost like a location, therefore the meaning of <em>regions</em> exist in this case too. The only difference is that such a region is actually called <em>beacon region</em>. If you&#8217;ve ever worked in the past with location services, then you already know that the <em>Core Location</em> framework provides API to work with regions. With this, an app can be aware of whether and when a device enters or leaves a beacon region, how to identify and manage any found beacons and a lot more. Additionally, it&#8217;s possible for an app to track changes in the bluetooth state, so it can automatically stop monitoring for beacons and save resources when the bluetooth for some reason doesn&#8217;t operate.</p>
+<p><span id="more-5179"></span></p>
+<p>Every iBeacon has an <em>identity</em> which is parted by three values:</p>
+<ul>
+<li><strong>ProximityUUID</strong>: This is a 128-bit value, known as <em>Universally Unique Identifier</em> or <em>UUID</em> (for simplicity in this text I&#8217;ll stick to the UUID term). We&#8217;ll discuss some details about this later, among them how a UUID is created. For now, it&#8217;s necessary just to say that this value is the one that distinguishes an iBeacon from another.</li>
+<li><strong>Major</strong>: Each iBeacon has two values used to distinguish it from others having the same UUID. The first one of them, also known as the <em>most significant</em> value, is this one, and almost always it specifies a sub-region inside a region of beacons that have the same UUID. For example, think of the scenario where somebody would like to use iBeacons in his house and have one in the living room, one in the kitchen, and one in the bedroom. In that case, all iBeacons should have the same UUID so they belong to the same region (let&#8217;s say house region), and different major values so each sub-region of the house to be properly represented by each iBeacon. In rare cases and under certain, app-specific conditions only, the major value could mean something other than a sub-region.</li>
+<li><strong>Minor</strong>: This is the second value I mentioned above, and it&#8217;s also called <em>least significant value</em>. It&#8217;s used to divide a sub-region specified by the major value even further, and always in accordance to the requirements of the app that gets developed. In the hypothetical scenario I presented right before, the minor value can specify the sub-area of a room, for example a region next to a window or to the closet.</li>
+</ul>
+<p>Besides the above, an iBeacon, or more accurately a beacon object (described by the <em>CLBeacon</em> class), has also the properties presented right next. Those are really handy when it&#8217;s necessary to deal with the distance of a found beacon from the device:</p>
+<ul>
+<li><strong>Proximity</strong>: This property describes the distance between the device and a found iBeacon. Actually, it&#8217;s a structure (struct), and it uses the <em>far</em>, <em>near</em>, and <em>immediate</em> values to describe the distance.</li>
+<li><strong>Accuracy</strong>: When two or more beacons exist in the same distance from the device, or in other words they have the same proximity value, then the accuracy will determine the closest one. Its value represents the distance in meters.</li>
+<li><strong>RSSI</strong> (or Received Signal Strength): As its name suggests, it is the strength of the bluetooth signal. It&#8217;s measured in decibels, and this is a read-write property. However, setting the rssi value is not as simple as assigning a new value to it. You&#8217;ll see later how this is achieved. For example, the rssi can be used to increase the signal strength of a beacon and reduce the strength of another one, in case extra calibration is needed or specific beacons should be easier to be found than others.</li>
+</ul>
+<p>From the last three properties we&#8217;ll use just the proximity in this tutorial. However, it&#8217;s not hard to use the other two as well.</p>
+<p>As a last word, all the information I just gave you consist of a standard knowledge that you should possess before you proceed in the next parts of the tutorial. If you feel so, please go ahead and search for more info in the Apple&#8217;s official documentation.</p>
+<p>With all the above have been told, let&#8217;s &#8220;enter to the beacons&#8217; regions&#8221; straight away. There are really interesting things awaiting for us!</p>
+<h2>An Overview of the Demo Applications</h2>
+<p>Let me start by saying that the title of this part has not a typographic error, and you are reading it correctly. In this tutorial we are not going to implement just one application, but two! Yes, two. As you will discover by the end of this tutorial, even though they&#8217;ll not be complicated enough, they are going to be just as good as needed so you get the grasp and learn how to work with iBeacons.</p>
+<p>For both applications I provide you a starter project, which you can <a href="https://www.dropbox.com/s/ylvc3vyuwlbxd0e/ibeacons_starter.zip?dl=0">download here</a>. In those projects a minimum implementation has already been done. Both the apps are <em>universal</em>, so you can run them in any device you have or desire (iPhone or iPad). Obviously, you need to download and open them in Xcode if you&#8217;re about to follow step by step.</p>
+<p>Let me go now to some details regarding each app. The first one is named <strong>BeaconPop</strong>, and is going to be acting as an iBeacon; it will broadcast a signal using bluetooth so it is detectable and discoverable by other devices. Right next you can see a how the BeaconPop app looks like:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/03/ibeacons-pop2.jpg" alt="ibeacons-pop2" class="aligncenter size-full wp-image-5193" /></div>
+<p>As you witness, besides the various informative labels being here and there, there are three important subviews: Two <em>textfields</em> for setting the major and minor values of the devices, and a <em>button</em> that will be used to start and stop the beacon advertisement functionality. The UUID value will be set in code, as it&#8217;s a value that is not supposed to be changed once it has been set.</p>
+<p>Besides those three subviews, there&#8217;s one interesting <em>label</em> shown in the above image, the one at the bottom of the screen. In it, the bluetooth state is going to be displayed as long as the app runs. As you&#8217;ll see in more details later on, knowing the state of the bluetooth at any time is crucial for the behavior of the app. Not only new actions should be taken when the bluetooth state changes, but also valuable resources can be wasted if the bluetooth is, for example, off and the device keeps broadcasting. Anyway, we&#8217;ll see that in just a while.</p>
+<p>There are two things that you should note regarding this app (they are irrelevant to each other): First, don&#8217;t expect the app to be working when being in the background. An iOS device can act as an iBeacon only when it runs in the foreground. Don&#8217;t forget about this fact. Second, you can dismiss the keyboard that&#8217;s being displayed when editing the textfields simply by swiping towards bottom. This behavior is already implemented in the starter project.</p>
+<p>Now, let me say a few words about the second app. This is called <strong>BeaconSpot</strong> and it will do the exact opposite thing than the first one: It will monitor for beacons. Here&#8217;s a screenshot of it:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/03/ibeacons-pop.jpg" alt="ibeacons-pop" class="aligncenter size-full wp-image-5191" /></div>
+<p>This app actually will do nothing more than simply providing us with the details (major, minor, distance) of an iBeacon that has been discovered, once it has entered in such a region. As you can see in the image, there&#8217;s one button only and it will be used to start and stop the monitoring process.</p>
+<p>Now, let me give you a couple of facts regarding both apps:</p>
+<ul>
+<li>During the implementation process we are going to use the Core Location framework. In the BeaconPop app this usage will be limited, but in the BeaconSpot clearly is going to be more extended.</li>
+<li>Both applications are going to use the same UUID value.</li>
+<li>Make sure to turn the bluetooth on in all devices that you&#8217;re going to run the apps. For the broadcasting app, feel free to &#8220;play&#8221; around with the bluetooth, so you can see how it reacts in the bluetooth state changes.</li>
+<li>Upon the first run of each app, you&#8217;ll be asked for permissions by both apps. Apparently, you should allow them to use location services. Remember that you can change these kind of settings at any time in the Settings app.</li>
+</ul>
+<p>Finally, as I mentioned earlier about the BeaconPop app, the BeaconSpot must be running too in the foreground to operate. As I always say, just before we begin make sure to go through both the starter projects, and view the existing code and the storyboard in the Interface Builder. It&#8217;s important you feel familiar with both projects during implementation.</p>
+<h2>Generating a UUID String</h2>
+<p>So, let&#8217;s dive right in the work we have to do today, but before we write any code at all, it&#8217;s necessary to perform a prerequisite step. That is to create a <strong>UUID</strong> string that we&#8217;ll use later on in both of our projects. The UUID word is an abbreviation of the <em>Universally Unique Identifiers</em> term, and you can find more about it <a href="http://en.wikipedia.org/wiki/Universally_unique_identifier">here</a>. In short, a UUID is a 128-bit value that is used to uniquely identify an item, and it and looks like this:</p>
+<p><em>AD5C5B73-5D1B-4458-AAA7-E31BE2077007</em></p>
+<p>Regarding iOS, Apple provides the <strong>NSUUID</strong> class for handling UUID values. It&#8217;s a really simple class, and you can see its details <a href="https://developer.apple.com/library/mac/documentation/Foundation/Reference/NSUUID_Class/">here</a>. We&#8217;re going to create instances of this class in both of our projects, but we won&#8217;t do anything special with them. We&#8217;ll just use where they&#8217;re needed during implementation.</p>
+<p>Having done this small intro about the UUID values, let&#8217;s move forward to create one, and for this purpose we&#8217;ll use the <strong>Terminal</strong> Mac app. So, either open the Launchpad > Other > Terminal, or simply type &#8220;Terminal&#8221; in the Spotlight, so the terminal window appears. Once you have it right in front of you, type only the following command and hit Return:</p>
+<p><strong>uuidgen</strong></p>
+<p>Instantly, a new UUID value will be created and displayed in the Terminal window, right as shown below:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/03/t31_3_new_uuid.png" alt="t31_3_new_uuid" class="aligncenter size-full wp-image-5186" /></div>
+<p>If you don&#8217;t want to create your own UUID value right now, you can just use the one I generated in the previous image. Here it is as text, so you can copy-paste it later:</p>
+<p><strong>F34A1A1F-500F-48FB-AFAA-9584D641D7B1</strong></p>
+<p>If you create your own UUID value, then for the time being don&#8217;t close the Terminal app. You&#8217;ll need to copy the UUID in the next part. In any case however, you can generate a new one whenever you need it.</p>
+<h2>Broadcasting with BeaconPop</h2>
+<p>Now that we&#8217;ve generated the UUID value, we can proceed to the implementation of the two apps. We&#8217;re going to start by the broadcasting application for two reasons: First, it&#8217;s easier to be implemented. Second, it is more reasonable to build it first, as it would be really nice to have it already working as an iBeacon we&#8217;ll finish with the implementation of the second application.</p>
+<p>So, we&#8217;ll make our hands dirty starting by the <em>BeaconPop</em> app. If you haven&#8217;t still downloaded the starter project, now it&#8217;s the best time to do it so you can come along. Before we write the first line of code, it&#8217;s necessary to explain a few things about how an iOS device works as a beacon. Among the data that a beacon transmits is the UUID, the major and minor values, and the RSSI value that expresses the strength of the signal. In order for a receiver application to &#8220;read&#8221; these values and then perform any needed actions based on them, it must be possible to acknowledge that there is actually an iBeacon somewhere around. And this can be done only by the broadcasting app, as it is its job to make known to other application that works as an iBeacon. So, the question that arises now, is how is this achieved?</p>
+<p>Well, that&#8217;s easy indeed, as all it has to do the broadcasting application is to initialize and advertise a special <em>Core Location</em> region, named <strong>Beacon Region</strong>. Programmatically, such a region is represented by the <strong>CLBeaconRegion</strong> class, and an instance of it is created using the detailed values (UUID, major and minor values, etc) that the iBeacon must promote. As you we will seen pretty soon, creating a beacon region in code is amazingly easy, and if you have ever worked with Core Location services and classes, this one will seem much simpler.</p>
+<p>What I just said is the first fact that you should be aware of before we do some coding. The other thing that you should also know, is that we have to check and react to any Bluetooth state changes. As you already know, in order for a device to work as a beacon (iOS device, or a real beacon device), it must transmit data using bluetooth signal. In iOS, there&#8217;s not guarantee that the BT will be always working, as the user can disable it at any given time. Besides that, BT might not be supported to all devices, or more generally, the BT might enter to a state other than the expected one (powered on state) without the user being aware of that. Of course, the broadcasting app&#8217;s behavior should be changed in accordance to the bluetooth state, and it&#8217;s our duty to do that. So, as you understand, further than creating a beacon region and broadcasting data, we also have to keep track of such BT state changes, and of course, perform the appropriate actions.</p>
+<p>Having said all the above, it&#8217;s time to pass from theory into action. To keep things simple, we&#8217;ll see all the aforementioned stuff in separate steps.</p>
+<h3>Enabling and Disabling Broadcasting</h3>
+<p>First of all, make sure that you open the <strong>BeaconPop</strong> application in Xcode. For starters, open the <em>ViewController.swift</em> file and declare the following variables at the top of the class, right under the IBOutlet properties:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">let uuid <span style="color: #002200;">=</span> NSUUID<span style="color: #002200;">&#40;</span>UUIDString<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;F34A1A1F-500F-48FB-AFAA-9584D641D7B1&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+var beaconRegion<span style="color: #002200;">:</span> CLBeaconRegion<span style="color: #002200;">!</span><br />
+<br />
+var bluetoothPeripheralManager<span style="color: #002200;">:</span> CBPeripheralManager<span style="color: #002200;">!</span><br />
+<br />
+var isBroadcasting <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+<br />
+var dataDictionary <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>The <em>uuid</em> constant is an object of the <em>NSUUID</em> class. I talked about it in the last part. As you see, we initialize it at the same time we declare it. The generated UUID value is passed as an argument to the init method, and by writing that line only, we&#8217;re finished with it.</p>
+<p>Next, we declare a <em>CLBeaconRegion</em> property. This property is the beacon region I said about earlier, and as you understand, it&#8217;s really important to this project.</p>
+<p>Equally important is the next property named <em>bluetoothPeripheralManager</em>, which is an object of the <em>CBPeripheralManager</em> class. Through this object, we&#8217;ll be able later to monitor the bluetooth state changes and act appropriately. I provide no more details right now, as we&#8217;ll see how it&#8217;s used in just a while.</p>
+<p>The last two variables are going to play a purely assistive role. As you assume, the <em>isBroadcasting</em> flag will indicate whether the device is broadcasting or not, and as initially this is not happening, its value is set to <em>false</em>. The <em>dataDictionary</em> is a <em>NSDictionary</em> object that we will need when the broadcasting will be starting.</p>
+<p>At this point, let me underline two facts: First of all, it&#8217;s important for you to notice that the following two frameworks have been imported to the beginning of the file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">import CoreLocation<br />
+import CoreBluetooth</div></td></tr></tbody></table></div>
+<p>Without them, it won&#8217;t be possible for the device to operate as an iBeacon. The <em>CoreLocation</em> framework is needed to define the beacon region and work with it, while the <em>CoreBluetooth</em> framework is necessary for accessing the bluetooth component of the device.</p>
+<p>The second thing that I want to highlight, is that for the time being we won&#8217;t initialize the <em>bluetoothPeripheralManager</em> object, but we&#8217;ll use it in our code normally, as if it were initialized. We&#8217;ll focus on that property in the next part of this section.</p>
+<p>Our next step is to enable broadcasting. We want this to happen when the Start button is tapped on the app&#8217;s interface, therefore we are going to work in the <em>switchBroadcastingState(_:)</em> IBAction method. We&#8217;ll enable broadcasting under two certain conditions: The <em>isBroadcasting</em> flag must be false, meaning that currently no broadcasting is taking place, and of course, we must make sure that the bluetooth is powered on (enabled). Here&#8217;s what I just said translated into code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func switchBroadcastingState<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>isBroadcasting <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> bluetoothPeripheralManager.state <span style="color: #002200;">==</span> CBPeripheralManagerState.PoweredOn <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, if both of the above conditions are true, we have to do the following:</p>
+<ol>
+<li>To initialize the beacon region.</li>
+<li>To start advertising the region.</li>
+<li>To update the interface as necessary, by changing the button&#8217;s title, by indicating that the device is broadcasting, and by disabling both the textfields, so the user is unable to change the major and minor values during broadcasting.</li>
+<li>To indicate in code that the device is broadcasting.</li>
+</ol>
+<p>Let&#8217;s see the first step in code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func switchBroadcastingState<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>isBroadcasting <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> bluetoothPeripheralManager.state <span style="color: #002200;">==</span> CBPeripheralManagerState.PoweredOn <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let major<span style="color: #002200;">:</span> CLBeaconMajorValue <span style="color: #002200;">=</span> UInt16<span style="color: #002200;">&#40;</span>txtMajor.text.toInt<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let minor<span style="color: #002200;">:</span> CLBeaconMinorValue <span style="color: #002200;">=</span> UInt16<span style="color: #002200;">&#40;</span>txtMinor.text.toInt<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; beaconRegion <span style="color: #002200;">=</span> CLBeaconRegion<span style="color: #002200;">&#40;</span>proximityUUID<span style="color: #002200;">:</span> uuid, major<span style="color: #002200;">:</span> major, minor<span style="color: #002200;">:</span> minor, identifier<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;com.appcoda.beacondemo&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At first, we convert the major and minor values that have been already set in the textfields to numbers. The <em>CLBeaconMajorValue</em> and <em>CLBeaconMinorValue</em> types are nothing else than UInt16 numbers (16-bit unsigned int), and you can find this out from the conversion that takes place in the first two lines. Once we acquire them, we proceed to the initialization of the beacon region. If you start typing the above initializer, you&#8217;ll see that the class provides more than one initializers, however the above is the proper one that must be used. As you witness, actually four values must be provided as arguments:</p>
+<ol>
+<li>The UUID value we generated in the previous part. Here&#8217;s where it&#8217;s needed in this app.</li>
+<li>The major value.</li>
+<li>The minor value.</li>
+<li>A unique string identifier that is set for the specific beacon region. The same value we&#8217;re about to use in the receiver app too.</li>
+</ol>
+<p>Next, we must advertise the above region, so when a receiver app is nearby to be able to identify the beacon. This is achieved with the next two lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func switchBroadcastingState<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>isBroadcasting <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> bluetoothPeripheralManager.state <span style="color: #002200;">==</span> CBPeripheralManagerState.PoweredOn <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; dataDictionary <span style="color: #002200;">=</span> beaconRegion.peripheralDataWithMeasuredPower<span style="color: #002200;">&#40;</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bluetoothPeripheralManager.startAdvertising<span style="color: #002200;">&#40;</span>dataDictionary<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Some explanation now. When using a device as an iBeacon, it&#8217;s possible to transmit some extra data besides the values we specified in the beacon region initializer, and this is achieved by using a dictionary object. In this example we don&#8217;t do something like that, but no matter what, this dictionary must be initialized using the RSSI value of the device (the signal strength). This value can be set using the <em>peripheralDataWithMeasuredPower(:)</em> method, and you can either set a specific value as an argument (remember that value represents the decibels), or leave it nil so the app uses the default RSSI value of the device. Regarding the advertising now, it is initiated by using the <em>startAdvertising(:)</em> method of the <em>bluetoothPeripheralManager</em> object, and it takes just one argument: The dictionary with the data to transmit. That&#8217;s the reason we first create the data dictionary, and then we start advertising.</p>
+<p>Now, let&#8217;s update our interface as needed:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func switchBroadcastingState<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>isBroadcasting <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> bluetoothPeripheralManager.state <span style="color: #002200;">==</span> CBPeripheralManagerState.PoweredOn <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; btnAction.setTitle<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Stop&quot;</span>, forState<span style="color: #002200;">:</span> UIControlState.Normal<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; lblStatus.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Broadcasting...&quot;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; txtMajor.enabled <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; txtMinor.enabled <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Lastly, let&#8217;s indicate that the device is broadcasting:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func switchBroadcastingState<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>isBroadcasting <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> bluetoothPeripheralManager.state <span style="color: #002200;">==</span> CBPeripheralManagerState.PoweredOn <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; isBroadcasting <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That&#8217;s it. Now, when tapping on the Start button the app is capable to be working as an iBeacon. However, we&#8217;re not over yet, as we must take the exact opposite path and stop the broadcasting by tapping once again in the button, this time titled &#8220;Stop&#8221;. In the first <em>if</em>statement above we will add an <em>else</em> case, and in there we will perform the next tasks:</p>
+<ol>
+<li>We&#8217;ll stop the beacon advertising.</li>
+<li>We&#8217;ll update the interface.</li>
+<li>We&#8217;ll indicate that the device is no longer broadcasting.</li>
+</ol>
+<p>Here are all the above in one snippet:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func switchBroadcastingState<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>isBroadcasting <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; bluetoothPeripheralManager.stopAdvertising<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; btnAction.setTitle<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Start&quot;</span>, forState<span style="color: #002200;">:</span> UIControlState.Normal<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; lblStatus.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Stopped&quot;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; txtMajor.enabled <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; txtMinor.enabled <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; isBroadcasting <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The first part in creating the broadcasting app is now ready, so let&#8217;s go to the next one.</p>
+<h3>Tracking Bluetooth State Changes</h3>
+<p>In the above IBAction method we used the <em>bluetoothPeripheralManager</em> property to get the state of the bluetooth, but if you remember up to that point we hadn&#8217;t initialize it. We said that this will take place at a later time, and this time is right now. Begin by going to the <em>viewDidLoad</em> method. There you&#8217;ll find some code already existing, but regardless that, all you have to do is to add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; bluetoothPeripheralManager <span style="color: #002200;">=</span> CBPeripheralManager<span style="color: #002200;">&#40;</span>delegate<span style="color: #002200;">:</span> self, queue<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span>, options<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The important in the above initialization is to set our class as the delegate of the <em>bluetoothPeripheralManager</em> object. But, as you understand that by doing that, it&#8217;s necessary to adopt the <em>CBPeripheralManagerDelegate</em> protocol:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class ViewController<span style="color: #002200;">:</span> UIViewController, CBPeripheralManagerDelegate</div></td></tr></tbody></table></div>
+<p>Okay, now there is one delegate method that we have to implement. This method provides us with all the possible BT states, and it&#8217;s our work to handle each one separately. Obviously, the reaction of the app upon a BT state change is not common for all applications; everything depends on the app nature, requirements, and so on.</p>
+<p>Let me become now more specific and say that among all the states that we are about to see, we are actually interested in just two of them in this sample application: The powered on and off states of the BT. We already used the first case in the previous implementation, where we allowed the app to broadcast if only the BT is powered on. If at some point the state goes to off, we must make sure that the app won&#8217;t keep trying to broadcast, so we must disable that functionality once the state gets changed. For the rest BT states you&#8217;ll see next, we are not going to do anything particular; instead, we&#8217;ll just prepare a custom message describing each state, and then we&#8217;ll display it in the <em>lblBTStatus</em> label.</p>
+<p>So, with all the above said, here&#8217;s the second important part of our application:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func peripheralManagerDidUpdateState<span style="color: #002200;">&#40;</span>peripheral<span style="color: #002200;">:</span> CBPeripheralManager<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var statusMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;&quot;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">switch</span> peripheral.state <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> CBPeripheralManagerState.PoweredOn<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; statusMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Bluetooth Status: Turned On&quot;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> CBPeripheralManagerState.PoweredOff<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> isBroadcasting <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; switchBroadcastingState<span style="color: #002200;">&#40;</span>self<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; statusMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Bluetooth Status: Turned Off&quot;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> CBPeripheralManagerState.Resetting<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; statusMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Bluetooth Status: Resetting&quot;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> CBPeripheralManagerState.Unauthorized<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; statusMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Bluetooth Status: Not Authorized&quot;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> CBPeripheralManagerState.Unsupported<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; statusMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Bluetooth Status: Not Supported&quot;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">default</span><span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; statusMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Bluetooth Status: Unknown&quot;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; lblBTStatus.text <span style="color: #002200;">=</span> statusMessage<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Notice that in case the BT is turned off, we check if the device is currently broadcasting or not. If it is, then we call the IBAction method so all the proper tasks to be performed and the broadcasting to be stopped. Once again, depending on the requirements of the app you&#8217;re developing, you might need to handle each state in a different manner; now you&#8217;ve been shown the way, so it&#8217;s up to you to apply any missing logic.</p>
+<h3>Final Touches</h3>
+<p>So, our broadcasting app is now almost ready, and it works, but it&#8217;s not perfect. There are some final touches missing yet, which if attached to it, they&#8217;ll make it even better, and even though it&#8217;s a demo app, I consider the extra behavior that we&#8217;ll add here quite important.</p>
+<p>If you recall, during the beacon region initialization, we used the textfields&#8217; values as the major and minor values for the beacon. Now, what is it going to happen if any of these two values is missing? And how should the app act in such a case? Well, there are various possible solutions to that, and the proper one definitely depends on the nature of the app. Here we can easily workaround this problem if we simply do not allow the app to start broadcasting if any of those two values is missing. Maybe we could even display a message to the user saying that both values are required (but we won&#8217;t do it).</p>
+<p>In addition to the above, it would be a nice idea to prevent the broadcasting when the keyboard is visible, and the user is still editing either the major or the minor value.</p>
+<p>So, with the those two thoughts in mind, you&#8217;re given once again the IBAction method containing the new additions at the beginning of it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func switchBroadcastingState<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> txtMajor.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> || txtMinor.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> txtMajor.isFirstResponder<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> || txtMinor.isFirstResponder<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>isBroadcasting <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> bluetoothPeripheralManager.state <span style="color: #002200;">==</span> CBPeripheralManagerState.PoweredOn <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let major<span style="color: #002200;">:</span> CLBeaconMajorValue <span style="color: #002200;">=</span> UInt16<span style="color: #002200;">&#40;</span>txtMajor.text.toInt<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let minor<span style="color: #002200;">:</span> CLBeaconMinorValue <span style="color: #002200;">=</span> UInt16<span style="color: #002200;">&#40;</span>txtMinor.text.toInt<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; beaconRegion <span style="color: #002200;">=</span> CLBeaconRegion<span style="color: #002200;">&#40;</span>proximityUUID<span style="color: #002200;">:</span> uuid, major<span style="color: #002200;">:</span> major, minor<span style="color: #002200;">:</span> minor, identifier<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;com.appcoda.beacondemo&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; dataDictionary <span style="color: #002200;">=</span> beaconRegion.peripheralDataWithMeasuredPower<span style="color: #002200;">&#40;</span><span style="color: #002200;">-</span><span style="color: #2400d9;">58</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bluetoothPeripheralManager.startAdvertising<span style="color: #002200;">&#40;</span>dataDictionary<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; btnAction.setTitle<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Stop&quot;</span>, forState<span style="color: #002200;">:</span> UIControlState.Normal<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; lblStatus.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Broadcasting...&quot;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; txtMajor.enabled <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; txtMinor.enabled <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; isBroadcasting <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; bluetoothPeripheralManager.stopAdvertising<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; btnAction.setTitle<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Start&quot;</span>, forState<span style="color: #002200;">:</span> UIControlState.Normal<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; lblStatus.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Stopped&quot;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; txtMajor.enabled <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; txtMinor.enabled <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; isBroadcasting <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At this point the BeaconPop app is ready, and fully functional. You can run it if you desire, but without its counterpart which is the next app, you won&#8217;t be able to see any results. So, take a breath here, and when you&#8217;re ready, let&#8217;s keep going!</p>
+<h2>Finding Beacons With BeaconSpot</h2>
+<p>In the second app that we have to implement in this tutorial, we&#8217;ll do the exact opposite thing than before; we will track all the nearby devices that advertise themselves as iBeacons. Now that we have finished working in the BeaconPop project feel free to close it, and then make sure to open the <strong>BeaconSpot</strong> starter project in Xcode. Our work here is quite specific. What we&#8217;ll do is to <em>monitor</em> for beacon regions using location services and the <em>Core Location</em> API, and once such a region is found, we&#8217;ll <em>range</em> all beacons in it. If there are more than one beacons in region, then we&#8217;ll fetch the closest one, and then we&#8217;ll display its details on the screen.</p>
+<p>Likewise the previous app, we are going to use a button to start and stop the region monitoring, and eventually all the rest functionalities. Note however that this is not a rule, it&#8217;s just how I chose to develop this specific app. It&#8217;s quite possible that this approach won&#8217;t fit in your needs, and you might want to start monitoring for regions once the app gets launched. As I always love to say, I show you the way, but you&#8217;re the one that you&#8217;ll customize everything according to the requirements of your under development app. Contrary to the BeaconPop app, here we&#8217;ll work more with the <em>CoreLocation</em> framework. Specifically, further than using a beacon region object, we&#8217;ll also use a <em>location manager</em>, and several delegate methods that are provided by the <em>CLLocationManagerDelegate</em> protocol. There&#8217;s no need to go into more details now, as everything will become clear as we move along.</p>
+<p>Before we start coding, let me explain shortly the &#8220;plan&#8221; that we&#8217;re going to follow. As I already mentioned, we are going to use the button to start monitoring for beacon regions. Once the app detects such a region, and when it actually detects that is <em>inside</em> such a region, it will start ranging the nearby beacons. All the found beacons within range are provided to us in an array through a really useful delegate method. In that array, the closest beacon is positioned in the first index, while the farthest one to the last one. Practically, that means that by simply &#8220;extracting&#8221; the first beacon from the array, we have in our hands the closest beacon. How are we going to use it? Well, I leave this for later. We&#8217;ll discuss about it when we&#8217;ll get there. Lastly, when the app exits from a beacon region, it will stop the ranging process (it will start again when it enters a region). It would be a total waste of resources to keep ranging while the device isn&#8217;t inside the range of a beacon. By tapping once again the button, the app will instantly stop monitoring and ranging, no matter whether is inside a beacon region or not.</p>
+<p>That&#8217;s all you need know before we start programming. Let me note that in this app I&#8217;m not going to bother about the bluetooth state of the device, whether it&#8217;s working or not, or generally to track its state changes. I intentionally skipped it, as this demo application should end at some point. Additionally, you&#8217;ve already been given with the necessary code on how to do so, therefore you know how to be programmatically informed about bluetooth state changes if you need to.</p>
+<p>Let&#8217;s get started. As we did in the previous app, we&#8217;ll begin here too by declaring all the variables that we&#8217;ll need throughout the implementation. Make sure that you&#8217;ve opened the <em>ViewController.swift</em> file, and you&#8217;re in the beginning of the class. Here they are:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var beaconRegion<span style="color: #002200;">:</span> CLBeaconRegion<span style="color: #002200;">!</span><br />
+<br />
+var locationManager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span><br />
+<br />
+var isSearchingForBeacons <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+<br />
+var lastFoundBeacon<span style="color: #002200;">:</span> CLBeacon<span style="color: #002200;">!</span> <span style="color: #002200;">=</span> CLBeacon<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+var lastProximity<span style="color: #002200;">:</span> CLProximity<span style="color: #002200;">!</span> <span style="color: #002200;">=</span> CLProximity.Unknown</div></td></tr></tbody></table></div>
+<p>The <em>beaconRegion</em> property will be used to specify the kind of region that the app should monitor for, and as you&#8217;ll see next, we&#8217;ll provide it with the UUID value we generated earlier. This object will be used later in conjunction with the <em>locationManager</em> object, right when the app should start monitoring for regions. The <em>isSearchingForBeacons</em> flag will let us know whether the app is searching or not (monitoring or not) for beacons, and depending on its value we&#8217;ll perform the proper actions. Finally, in the <em>lastFoundBeacon</em> and <em>lastProximity</em> properties we&#8217;ll store (as their names suggest) the closest beacon that was last found, and its most recent proximity value respectively. Both of these properties will assist us to avoid unnecessary UI updates when the beacon or its proximity haven&#8217;t changed since the last ranging.</p>
+<p>Now, it&#8217;s time to do some initialization, so go to the <em>viewDidLoad</em> method and add the following content:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; locationManager <span style="color: #002200;">=</span> CLLocationManager<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; locationManager.delegate <span style="color: #002200;">=</span> self<br />
+<br />
+&nbsp; &nbsp; let uuid <span style="color: #002200;">=</span> NSUUID<span style="color: #002200;">&#40;</span>UUIDString<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;F34A1A1F-500F-48FB-AFAA-9584D641D7B1&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; beaconRegion <span style="color: #002200;">=</span> CLBeaconRegion<span style="color: #002200;">&#40;</span>proximityUUID<span style="color: #002200;">:</span> uuid, identifier<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;com.appcoda.beacondemo&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; beaconRegion.notifyOnEntry <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; beaconRegion.notifyOnExit <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At first, we initialize the location manager property, and we set our class as its delegate. That&#8217;s necessary, as we&#8217;re going to use several of the delegate methods it provides.</p>
+<p>Then, we initialize the beacon region using the UUID and the identifier values only. Note that this is a different initializer than the one we used in the broadcasting app. There, we had to provide it with the major and minor values as well. Here, this is not needed. Also, keep in mind that both the broadcasting app and this one should use the same UUID value. If you change it to any of the apps, then there&#8217;s no case the iBeacon to be spotted by this app, even if the devices are &#8220;sitting&#8221; next to each other.</p>
+<p>Lastly, by using the <em>notifyOnEntry</em> and <em>notifyOnExit</em> properties of the beacon region object, we make sure that the app will become aware when it enters or leaves a beacon region area. This is useful, as it will determine whether the beacon ranging should be started or should be stopped.</p>
+<p>At this point, Xcode is displaying an error. That&#8217;s because the <em>CLLocationManagerDelegate</em> protocol is not adopted yet by our class, so let&#8217;s fix it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class ViewController<span style="color: #002200;">:</span> UIViewController, CLLocationManagerDelegate</div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s handle the case where the user taps on the &#8220;Start Spotting&#8221; button, and the region monitoring should begin. As you may already now, when using Core Location services it&#8217;s necessary to request for users&#8217; permission for monitoring for region changes and getting location updates, and that&#8217;s something that we are about to do here too. In iOS 8, a new, important step was added to that step, which if omitted the app is not going to work. That is to include a new item in the .plist file regarding the description that will be displayed to the user regarding the permissions to track location changes. More specifically, in the .plist file of the app create a new item with the following key:</p>
+<p><strong>NSLocationAlwaysUsageDescription</strong></p>
+<p>The value matching to that key is a string, and it&#8217;s a complementary description to the default one that the system will display to the user. In that case, just any description you want, or use this: &#8220;Need permission to spot iBeacons.&#8221;</p>
+<p>Generally speaking now, the above key is used in cases where the app needs to use location services all the time, even when it runs on the background. In case you want your app to use location services only when it&#8217;s in the foreground, then use the <em>NSLocationWhenInUseUsageDescription</em> key instead. However, it&#8217;s not just those two keys in the .plist file that define the location services usage type. It&#8217;s also important to specify that in code, exactly as we&#8217;ll do right next.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/03/t31_4_plist_usage.png" alt="t31_4_plist_usage" class="aligncenter size-full wp-image-5187" /></div>
+<p>Back in the <em>switchSpotting(_:)</em> IBAction method now, here&#8217;s what we&#8217;re going to perform so the app starts to monitor for beacons:</p>
+<ol>
+<li>Request for authorization, as described above.</li>
+<li>Start monitoring for beacon regions.</li>
+<li>Start updating the location of the device.</li>
+<li>Update the interface.</li>
+</ol>
+<p>In code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func switchSpotting<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>isSearchingForBeacons <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; locationManager.requestAlwaysAuthorization<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; locationManager.startMonitoringForRegion<span style="color: #002200;">&#40;</span>beaconRegion<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; locationManager.startUpdatingLocation<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; btnSwitchSpotting.setTitle<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Stop Spotting&quot;</span>, forState<span style="color: #002200;">:</span> UIControlState.Normal<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; lblBeaconReport.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Spotting beacons...&quot;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; isSearchingForBeacons <span style="color: #002200;">=</span> <span style="color: #002200;">!</span>isSearchingForBeacons<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Note that initially we check if the device is searching for beacons or not. Also, don&#8217;t overlook the last line in the above method. With it, we change the flag&#8217;s value, so the next time that the user will tap on the button the monitoring will stop (we&#8217;ll do that later).</p>
+<p>The <em>requestAlwaysAuthorization()</em> method of the location manager in combination with the key we added in the .plist file, is going to make sure that the user will be asked for the proper permissions before the app starts using any location services. If either this command or the .plist entry is missing, the app won&#8217;t work.</p>
+<p>Once we make the app start monitoring for beacon regions (regions that we specified in the initialization of the <em>beaconRegion</em> object) it&#8217;s necessary right next to use a couple of delegate methods and ask the system to check if the device is already in a region of interest or not. Note that if we don&#8217;t perform the following tasks, the app won&#8217;t really know if the device is inside a beacon region or not when it starts running, even if it really is. Even more, it won&#8217;t be aware of that until it exits the region and re-enters again.</p>
+<p>So, at first we need to <em>request the state of the region</em> as shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func locationManager<span style="color: #002200;">&#40;</span>manager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span>, didStartMonitoringForRegion region<span style="color: #002200;">:</span> CLRegion<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; locationManager.requestStateForRegion<span style="color: #002200;">&#40;</span>region<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This delegate method is called immediately right after the device has started monitoring for regions. The answer to the above request is given to the delegate method that is shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func locationManager<span style="color: #002200;">&#40;</span>manager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span>, didDetermineState state<span style="color: #002200;">:</span> CLRegionState, forRegion region<span style="color: #002200;">:</span> CLRegion<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> state <span style="color: #002200;">==</span> CLRegionState.Inside <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; locationManager.startRangingBeaconsInRegion<span style="color: #002200;">&#40;</span>beaconRegion<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; locationManager.stopRangingBeaconsInRegion<span style="color: #002200;">&#40;</span>beaconRegion<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The above delegate method contains the <em>state</em> parameter, which is actually a <em>CLRegionState</em> struct and it &#8220;tells&#8221; us whether the device is inside the desired region or not. In our case, if it is then we must start ranging the nearby beacons, and that&#8217;s what exactly we do. Note that the above method doesn&#8217;t get called only when we request for the region state; it&#8217;s called every time the device enters or leaves a region, therefore is necessary to have an <em>else</em> case. In it, we only have to stop ranging beacons.</p>
+<p>For your information, here&#8217;s the declaration of the <em>CLRegionState</em> struct:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">enum</span> CLRegionState <span style="color: #002200;">:</span> Int <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> Unknown<br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> Inside<br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> Outside<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As I said right before, the last delegate method is also called when the device crosses the boundary of a region, either it enters on it or exits. In any of those cases, what we only have to do is to update our interface, as the beacon ranging has already been handled. Here are the two respective delegate methods that are used to do that exactly:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func locationManager<span style="color: #002200;">&#40;</span>manager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span>, didEnterRegion region<span style="color: #002200;">:</span> CLRegion<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; lblBeaconReport.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Beacon in range&quot;</span><br />
+&nbsp; &nbsp; lblBeaconDetails.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func locationManager<span style="color: #002200;">&#40;</span>manager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span>, didExitRegion region<span style="color: #002200;">:</span> CLRegion<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; lblBeaconReport.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;No beacons in range&quot;</span><br />
+&nbsp; &nbsp; lblBeaconDetails.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s focus on the beacon ranging. When this process is taking place the following delegate method is being called:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func locationManager<span style="color: #002200;">&#40;</span>manager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span>, didRangeBeacons beacons<span style="color: #002200;">:</span> <span style="color: #002200;">&#91;</span>AnyObject<span style="color: #002200;">&#93;</span><span style="color: #002200;">!</span>, inRegion region<span style="color: #002200;">:</span> CLBeaconRegion<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>beacons</em> array contains the all the beacons found, and as I said to the beginning of this part, the object in the first position of the array represents the closest beacon. Our goal here is to get the details of it (major and minor values, distance), and display them to the user. But, as this method is called almost every second, it&#8217;s totally unnecessary to keep updating the interface while the closest beacon remains the same. So, what we&#8217;ll do to avoid this is simple: We&#8217;ll store the closest beacon to the <em>lastFoundBeacon</em> property, and its distance from the device (or in other words the <em>proximity</em>) to the <em>lastProximity</em> property. Then, we&#8217;ll compare both the last found beacon and the proximity to the new ones, and if any of them has changed we&#8217;ll update the interface. Otherwise, we won&#8217;t.</p>
+<p>As you&#8217;ll see in the next code snippet, the details of the found beacon are presented as a formatted string to the <em>lblBeaconDetails</em> label. By default, this label is hidden and becomes visible only when there&#8217;s actual beacon data to display. However, if no beacons are found or any other problems exists (for example, a nil value), the label becomes hidden again. In the code that follows, notice all the checks that take place until we actually display the beacon data to the user:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func locationManager<span style="color: #002200;">&#40;</span>manager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span>, didRangeBeacons beacons<span style="color: #002200;">:</span> <span style="color: #002200;">&#91;</span>AnyObject<span style="color: #002200;">&#93;</span><span style="color: #002200;">!</span>, inRegion region<span style="color: #002200;">:</span> CLBeaconRegion<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var shouldHideBeaconDetails <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let foundBeacons <span style="color: #002200;">=</span> beacons <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> foundBeacons.count &gt; <span style="color: #2400d9;">0</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> let closestBeacon <span style="color: #002200;">=</span> foundBeacons<span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span> as? CLBeacon <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> closestBeacon <span style="color: #002200;">!=</span> lastFoundBeacon || lastProximity <span style="color: #002200;">!=</span> closestBeacon.proximity &nbsp;<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; lastFoundBeacon <span style="color: #002200;">=</span> closestBeacon<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; lastProximity <span style="color: #002200;">=</span> closestBeacon.proximity<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var proximityMessage<span style="color: #002200;">:</span> String<span style="color: #002200;">!</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">switch</span> lastFoundBeacon.proximity <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> CLProximity.Immediate<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; proximityMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Very close&quot;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> CLProximity.Near<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; proximityMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Near&quot;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">case</span> CLProximity.Far<span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; proximityMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Far&quot;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">default</span><span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; proximityMessage <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Where's the beacon?&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; shouldHideBeaconDetails <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; lblBeaconDetails.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Beacon Details:<span style="color: #2400d9;">\n</span>Major = &quot;</span> <span style="color: #002200;">+</span> String<span style="color: #002200;">&#40;</span>closestBeacon.major.intValue<span style="color: #002200;">&#41;</span> <span style="color: #002200;">+</span> <span style="color: #bf1d1a;">&quot;<span style="color: #2400d9;">\n</span>Minor = &quot;</span> <span style="color: #002200;">+</span> String<span style="color: #002200;">&#40;</span>closestBeacon.minor.intValue<span style="color: #002200;">&#41;</span> <span style="color: #002200;">+</span> <span style="color: #bf1d1a;">&quot;<span style="color: #2400d9;">\n</span>Distance: &quot;</span> <span style="color: #002200;">+</span> proximityMessage<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; lblBeaconDetails.hidden <span style="color: #002200;">=</span> shouldHideBeaconDetails<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Besides all those I mentioned before, also note how the proximity of the beacon is handled. In the above implementation you can see all the possible values of the <em>CLProximity</em> struct. Depending on the proximity value, we specify the message that will be displayed. Of course, the above approach is just for demo reasons, and in a real app you should probably take some actions based on each proximity value.</p>
+<p>The above method is the last important thing regarding the beacon monitoring we have to do in this application. Additionally, we should never forget that is possible errors to occur, so let&#8217;s implement a few delegate methods where we&#8217;ll just output the error message. You&#8217;ll understand what each method is for by its name:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func locationManager<span style="color: #002200;">&#40;</span>manager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span>, didFailWithError error<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func locationManager<span style="color: #002200;">&#40;</span>manager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span>, monitoringDidFailForRegion region<span style="color: #002200;">:</span> CLRegion<span style="color: #002200;">!</span>, withError error<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func locationManager<span style="color: #002200;">&#40;</span>manager<span style="color: #002200;">:</span> CLLocationManager<span style="color: #002200;">!</span>, rangingBeaconsDidFailForRegion region<span style="color: #002200;">:</span> CLBeaconRegion<span style="color: #002200;">!</span>, withError error<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s make the app capable of stopping spotting beacons when the button gets tapped once again. Back in the one and only IBAction method, we&#8217;ll add an <em>else</em> case as shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func switchSpotting<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>isSearchingForBeacons <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; locationManager.stopMonitoringForRegion<span style="color: #002200;">&#40;</span>beaconRegion<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; locationManager.stopRangingBeaconsInRegion<span style="color: #002200;">&#40;</span>beaconRegion<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; locationManager.stopUpdatingLocation<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; btnSwitchSpotting.setTitle<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Start Spotting&quot;</span>, forState<span style="color: #002200;">:</span> UIControlState.Normal<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; lblBeaconReport.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Not running&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; lblBeaconDetails.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; isSearchingForBeacons <span style="color: #002200;">=</span> <span style="color: #002200;">!</span>isSearchingForBeacons<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you can see, we stop everything, even the beacon ranging in case is being performed. Also, we update the interface accordingly.</p>
+<p>With the above addition, the BeaconSpot app is ready too!</p>
+<h2>Running the Apps</h2>
+<p>Now that both of the demo applications of the tutorial have been implemented, you can go ahead and test them. It&#8217;s important to keep in mind that you should run them in real devices, no matter if they&#8217;re iPhones or iPads. The ideal case for testing is to use at least three devices that run iOS 8 (8.1 or above specifically), where the two of them would act as iBeacons, and the third one would search for them. However, make sure that the broadcasting devices won&#8217;t have the same major and minor values, as it will be impossible for the BeaconSpot app to identify them as two different beacons.</p>
+<p>If you don&#8217;t have three iOS devices, there are a couple of two other options you can use so you test the apps (or at least the BeaconSpot):</p>
+<ol>
+<li>Use real beacons. There are various companies out there making and selling beacon devices that use Bluetooth Low Energy technology (BLE), and if you&#8217;re interested in them in real, you should buy some. Maybe it isn&#8217;t worth doing so just for testing the demo app, but if you think that you could use them in the future too, then go ahead and grab some. Usually more than one beacons are sold together in a package. Before using a real beacon some extra work is required so you &#8220;program&#8221; them properly and assign the desired UUID, major, minor, etc, values, but the way you should do that totally depends on the manufacturer&#8217;s guides of the beacons you&#8217;ll get. As you guess, I&#8217;m not going to propose any manufacturer at all, there are a few out there, so the final decision it&#8217;s yours.</li>
+<li>Allow your Mac to act as a beacon device. To do that, two conditions must be met: First of all, you must make sure that your computer&#8217;s bluetooth is version 4.0, otherwise it&#8217;s not going to work. If you have an older version than that, you could optionally buy a proper bluetooth USB dongle (BLE 4.0) that&#8217;s really cheap, and upgrade that way the bluetooth of your Mac.The second condition is to find in the Internet (and probably in the GitHub) a Mac application that will let you specify all the broadcasting details and then transmit through the bluetooth. I don&#8217;t think that you&#8217;ll find any application to do that on the Mac App Store, so you might need to search a bit. Even though it is said that in Yosemite it&#8217;s not doable something like that, trust me, it is, as I&#8217;ve already tested it. Right next you can see a screenshot of such a Mac app running in my computer:</li>
+</ol>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/03/t31_5_beacon_mac_app.png" alt="t31_5_beacon_mac_app" class="aligncenter size-full wp-image-5188" /></div>
+<p>Anyway, I&#8217;m pretty sure that you&#8217;ll figure out a way to test the apps. To keep things interesting, make sure that the devices acting as beacons are in some distance, so you have the opportunity to enter and exit to their regions. During testing, note how the proximity gets changed as you move closer to or farther from a beacon.</p>
+<p>Here is a screenshot demonstrating both the BeaconPop and BeaconSpot apps running:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/03/ibeacons-demo.jpg" alt="ibeacons-demo" class="aligncenter size-full wp-image-5196" /></div>
+<h2>Summary</h2>
+<p>From my experience I would say that working with beacons in real application is a bit more complicated than what I&#8217;ve showed you here, because the code must be adapted and fit to the under-development application logic, but everything is manageable and according to what you&#8217;ve already learnt. Probably you will rarely or never need to build an iBeacon app, except for demonstrative or testing purposes, but it&#8217;s almost certain that you&#8217;ll have to create a beacon receiver at some point (if, of course, you&#8217;ll be dealing with beacons). What you&#8217;ve seen here can help you create the backbone of a beacon-related app; all you have to do next is to customize it by applying the required logic. Needless to say that you&#8217;ll have to dig up more on all the aspects talked about today if you&#8217;re going to work with beacons, but don&#8217;t worry; nothing is eventually so hard to do. In any case, I think that dealing with iBeacons is a really funny and interesting work, and definitely you will agree that beacons can unveil a whole new world of possibilities. With that, I leave you to keep experimenting and remember that now you&#8217;ve been shown the way, go ahead and develop some really interesting and useful iBeacon apps. There are hundreds of different kind of uses, so go and take advantage of them!</p>
+<p>For your reference, you can <a href="https://www.dropbox.com/s/3ejybg5bpfjkgyt/ibeacons_final.zip?dl=0">download the complete project here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/storyboards-ios-tutorial-pass-data-between-view-controller-with-segue/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/06/Receipe-App-With-Detail-Controller-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Storyboards Segue Tutorial: Pass Data Between View Controllers</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/08/json-intro-tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Fetch and Parse JSON Using iOS SDK</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/touch-id-api-ios8/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/09/touch-id-api-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with Touch ID API in iOS 8 SDK</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios8-share-extension-swift/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/04/share-extension-1024-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building a Simple Share Extension in iOS 8 App</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ibeacons-swift-tutorial/"
+    dc:identifier="http://www.appcoda.com/ibeacons-swift-tutorial/"
+    dc:title="Developing iBeacons Apps with Swift"
+    trackback:ping="http://www.appcoda.com/ibeacons-swift-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ibeacons/" rel="tag">iBeacons</a>, <a href="http://www.appcoda.com/tag/ios-8/" rel="tag">iOS 8</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-100523">
+        <div id="dsq-comment-header-100523" class="dsq-comment-header">
+            <cite id="dsq-cite-100523">
+                <span id="dsq-author-user-100523">Coder</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100523" class="dsq-comment-body">
+            <div id="dsq-comment-message-100523" class="dsq-comment-message"><p>Thank you for the article. One question. How does a beacon send actual data, like a message, to the receiving app? Does it use the Bluetooth read and write methods?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ibeacons-swift-tutorial/';
+var disqus_identifier = '5179 http://www.appcoda.com/?p=5179';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Developing iBeacons Apps with Swift";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=5179';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="5179"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fibeacons-swift-tutorial%2F&#038;t=Developing%20iBeacons%20Apps%20with%20Swift" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="5179" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>51</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Developing%20iBeacons%20Apps%20with%20Swift&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fibeacons-swift-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="5179" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>48</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fibeacons-swift-tutorial%2F&#038;t=Developing%20iBeacons%20Apps%20with%20Swift" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="5179" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>3</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fibeacons-swift-tutorial%2F&#038;title=Developing%20iBeacons%20Apps%20with%20Swift" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="5179" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>4</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fibeacons-swift-tutorial%2F&#038;t=Developing%20iBeacons%20Apps%20with%20Swift" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="5179" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Developing%20iBeacons%20Apps%20with%20Swift&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fibeacons-swift-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="5179" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fibeacons-swift-tutorial%2F&#038;t=Developing%20iBeacons%20Apps%20with%20Swift" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="5179" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fibeacons-swift-tutorial%2F&#038;title=Developing%20iBeacons%20Apps%20with%20Swift" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="5179" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ibeacons-swift-tutorial\/","stats_nonce":"6d3db12c0a","share_counts":"c7703582a2","follow_counts":"34a21cd35d","total_counts":"99651600e5","media_single":"25335360aa","media_total":"51eb496c81","generate_all_window_nonce":"255ac6c77a","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="7a191615091f3a4802540a141d">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":5179,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-05 02:24:29 by W3 Total Cache -->

@@ -1,0 +1,1520 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>How To Fetch and Parse JSON Data | iOS Programming Tutorial</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="The tutorial shows you how to fetch and parse JSON data using iOS SDK. We&#039;ll build a simple iPhone app using Meetup API for demo purpose."/>
+<link rel="canonical" href="http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="The tutorial shows you how to fetch and parse JSON data using iOS SDK. We&#039;ll build a simple iPhone app using Meetup API for demo purpose."/>
+<meta name="twitter:title" content="How To Fetch and Parse JSON Data | iOS Programming Tutorial"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/08/json-intro-tutorial.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; How To Fetch and Parse JSON Using iOS SDK Comments Feed" href="http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=2306' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-2306 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-2306 post type-post status-publish format-standard hentry category-course category-tutorials tag-core-location tag-ios-programming tag-ios-sdk tag-json tag-meetup-api tag-nsjsonserialization entry"><h1 class="entry-title">How To Fetch and Parse JSON Using iOS SDK</h1> 
+<div class="post-info"><span class="date published time" title="2013-08-31T20:13:23+00:00">August 31, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/ziadtamim/" rel="author">Ziad Tamim</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="2306 http://www.appcoda.com/?p=2306">56 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><em>Editor&#8217;s Note: This week, Ziad Tamim will show you how to fetch and parse JSON. In this tutorial, we will be focusing on adding JSON support to your iOS apps by demonstrating how to create a simple app using Meetup API. The tutorial may be a bit complicated than other tutorials we covered before. You&#8217;re expected to have basic knowledge of JSON and design patterns.</em></p>
+<p>Enter the JSON programming tutorial.</p>
+<p>First, what&#8217;s JSON? JSON (short for JavaScript Object Notation) is a text-based, lightweight and easy way for storing and exchanging data. It&#8217;s commonly used for representing structural data and data interchange in client-server applications, serving as an alternative to XML. A lot of the services we use everyday have JSON-based APIs. Most of the iOS apps including Twitter, Facebook and Flick send data to their backend web services in JSON format. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/json-intro-tutorial.jpg" alt="json intro tutorial" class="aligncenter size-full wp-image-2454" /><br />
+<span id="more-2306"></span><br />
+As an example, a JSON representation of a Movie object may look like this</p>
+<pre>
+{
+    "title": "The Amazing Spider-man",
+    "release_date": "03/07/2012",
+    "director": "Marc Webb",
+    "cast": [
+        {
+            "name": "Andrew Garfield",
+            "character": "Peter Parker"
+        },
+        {
+            "name": "Emma Stone",
+            "character": "Gwen Stacy"
+        },
+        {
+            "name": "Rhys Ifans",
+            "character": "Dr. Curt Connors"
+        }
+    ]
+}
+</pre>
+<p>As you can see, the JSON data is human-readable and easier to parse than XML. If you still have no idea about JSON, check out <a href="http://www.json.org/">JSON Guide</a> to learn more about it.</p>
+<p>Since the release of iOS 5, the iOS SDK makes it easy to fetch and parse JSON data. In this tutorial, we&#8217;ll demonstrate how to use the built-in API to query a JSON-based API from <a href="http://www.meetup.com/meetup_api/">Meetup</a> and deal with the returned data appropriately.</p>
+<h2>Take a Look at Our App</h2>
+<p>Before we move onto the code, let&#8217;s take a look at what we&#8217;ll build. </p>
+<p>In this tutorial, we&#8217;ll create a simple app called BrowseMeetup that consumes Meetup&#8217;s public API. If you haven&#8217;t heard of Meetup, it is the world&#8217;s largest network of local groups. You&#8217;re free to use Meetup to organize a local group or find one of the thousands already meeting up face-to-face. Like other social networks, it provides open API for accessing its data from your own apps. </p>
+<p>The BrowseMeetup app will consume <a href="http://www.meetup.com/meetup_api/">the web service of Meetup</a> to look up for groups nearby. The app will get the current location and then automatically load the nearby Meetup groups.</p>
+<p><img src="http://www.appcoda.com/wp-content/uploads/2013/08/Screen-Shot-2013-08-24-at-11.32.09-PM-e1377937354961.png" alt="BrowseMeetup Demo App" class="aligncenter size-full wp-image-2331" /></div>
+<p class="note">Note: This app utilizes Core Location framework. If you don&#8217;t have any idea about it, check out our tutorial about <a href="http://www.appcoda.com/how-to-get-current-location-iphone-user/">How To Get the User Location in iPhone App</a>.</p>
+<h2>Getting Started</h2>
+<p>It&#8217;s time to set up the project to manage the BrowseMeetup application. Launch Xcode and create a new project based on the Master-Detail Application iOS app template. In the project options, you&#8217;ll need to check the Storyboard and Automatic Reference Counting boxes. This app will provide only iPhone Views, so choose iPhone for the device family and save the project. Delete the DetailsViewController and in the storyboard, design the user interface similar to the one below:</p>
+<div id="attachment_2336" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/Screen-Shot-2013-08-25-at-1.24.08-AM-e1377871383429.png" alt="BrowseMeetup Storyboard" class="size-full wp-image-2336" /><p class="wp-caption-text">Storyboards of BrowseMeetup App</p></div>
+<p>The focus of this tutorial is on JSON fetching and parsing. So to save your time from setting up the project, you can <a href="https://dl.dropboxusercontent.com/u/2857188/BrowseMeetupTemplate.zip">download this project template</a> to start with. The template already pre-built the user interface and implemented the Core Location for you.</p>
+<p class="note">Tip: If you have no idea about table view and wonder how the navigation bar works, check out <a href="http://www.appcoda.com/ios-programming-course/" target="_blank">our tutorials in the free iOS course</a>.</p>
+<h2>Working with Meetup APIs</h2>
+<p>Before you can use Meetup APIs, first create a new account on Meetup. Start by creating a new account by going to <a href="http://www.meetup.com/meetup_api/docs/">APIs Doc</a> and clicking on the button &#8220;Request to join this Meetup group&#8221;, then fill the necessary information and hit &#8220;Sign Up&#8221;, then go step by step until its done.</p>
+<div class="figure"><img class="aligncenter size-full wp-image-2376" alt="Screen Shot 2013-08-26 at 10.06.27 PM" src="http://www.appcoda.com/wp-content/uploads/2013/08/Screen-Shot-2013-08-26-at-10.06.27-PM.png" /></div>
+<p>We&#8217;ll use <a href="http://www.meetup.com/meetup_api/docs/2/groups/">one of the Meetup APIs</a> (i.e. https://api.meetup.com/2/groups) for fetching the Meetup groups held at a certain location. The call allows developers to specify the location by using latitude and longitude. You can test the call by using the <a href="http://www.meetup.com/meetup_api/console/?path=/2/groups">API console</a>.</p>
+<p>Here is a sample JSON response for this request (https://api.meetup.com/2/groups?&#038;sign=true&#038;lat=51.509980&#038;lon=-0.133700&#038;page=1):</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br />43<br />44<br />45<br />46<br />47<br />48<br />49<br />50<br />51<br />52<br />53<br />54<br />55<br />56<br />57<br />58<br />59<br />60<br />61<br />62<br />63<br />64<br />65<br />66<br />67<br />68<br />69<br />70<br />71<br />72<br />73<br />74<br />75<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">{<br />
+&quot;results&quot;: [<br />
+{<br />
+&quot;lon&quot;: -0.10000000149011612,<br />
+&quot;visibility&quot;: &quot;public&quot;,<br />
+&quot;organizer&quot;: {<br />
+&quot;name&quot;: &quot;William Brown&quot;,<br />
+&quot;member_id&quot;: 3817216<br />
+},<br />
+&quot;link&quot;: &quot;http://www.meetup.com/french-32/&quot;,<br />
+&quot;state&quot;: &quot;17&quot;,<br />
+&quot;join_mode&quot;: &quot;approval&quot;,<br />
+&quot;who&quot;: &quot;LFM members&quot;,<br />
+&quot;country&quot;: &quot;GB&quot;,<br />
+&quot;city&quot;: &quot;London&quot;,<br />
+&quot;id&quot;: 63974,<br />
+&quot;category&quot;: {<br />
+&quot;id&quot;: 16,<br />
+&quot;name&quot;: &quot;language/ethnic identity&quot;,<br />
+&quot;shortname&quot;: &quot;language&quot;<br />
+},<br />
+&quot;topics&quot;: [<br />
+{<br />
+&quot;id&quot;: 185,<br />
+&quot;urlkey&quot;: &quot;french&quot;,<br />
+&quot;name&quot;: &quot;French Language&quot;<br />
+},<br />
+{<br />
+&quot;id&quot;: 264,<br />
+&quot;urlkey&quot;: &quot;friends&quot;,<br />
+&quot;name&quot;: &quot;Friends&quot;<br />
+},<br />
+{<br />
+&quot;id&quot;: 3304,<br />
+&quot;urlkey&quot;: &quot;expatfrench&quot;,<br />
+&quot;name&quot;: &quot;Expat French&quot;<br />
+}<br />
+],<br />
+&quot;timezone&quot;: &quot;Europe/London&quot;,<br />
+&quot;group_photo&quot;: {<br />
+&quot;photo_link&quot;: &quot;http://photos3.meetupstatic.com/photos/event/7/4/a/b/600_929867.jpeg&quot;,<br />
+&quot;highres_link&quot;: &quot;http://photos3.meetupstatic.com/photos/event/7/4/a/b/highres_929867.jpeg&quot;,<br />
+&quot;thumb_link&quot;: &quot;http://photos3.meetupstatic.com/photos/event/7/4/a/b/thumb_929867.jpeg&quot;,<br />
+&quot;photo_id&quot;: 929867<br />
+},<br />
+&quot;created&quot;: 1034097734000,<br />
+&quot;description&quot;: &quot;&lt;p&gt;The London French Meetup is the biggest group of French speakers of all ages and nationalities in London. We hold regular events to meet up, talk in French and share interests in French culture whilst having a good time.&lt;/p&gt;<br />
+&lt;p&gt;We have two main events per month where we have the whole of the upstairs of a pub.&lt;/p&gt;<br />
+&lt;p&gt;In addition, we organise other regular events such as outings to: restaurants, trendy bars, french films, live music, sports related activities, outdoor events and more...&lt;/p&gt;<br />
+&lt;p&gt;The organising team is made of volunteers from different nationalities and ages. Our members are made up of: 1/3 French nationals, 1/3 British nationals and 1/3 other nationalities and francophone countries. If you have any ideas or suggestions for events or would like to help please let us know.&lt;/p&gt;<br />
+&lt;p&gt;A bientôt.&lt;/p&gt;<br />
+&lt;p&gt;LFM Team.&lt;/p&gt;&quot;,<br />
+&quot;name&quot;: &quot;London French Meetup&quot;,<br />
+&quot;rating&quot;: 4.37,<br />
+&quot;urlname&quot;: &quot;french-32&quot;,<br />
+&quot;lat&quot;: 51.52000045776367,<br />
+&quot;members&quot;: 4889<br />
+}<br />
+],<br />
+&quot;meta&quot;: {<br />
+&quot;lon&quot;: -0.1337,<br />
+&quot;count&quot;: 1,<br />
+&quot;signed_url&quot;: &quot;http://api.meetup.com/2/groups?radius=25.0&amp;order=id&amp;desc=false&amp;offset=0&amp;format=json&amp;lat=51.50998&amp;page=1&amp;fields=&amp;lon=-0.1337&amp;sig_id=109020062&amp;sig=4532ed8f987f940748ebfba0f483a26f756dcba3&quot;,<br />
+&quot;link&quot;: &quot;http://www.meetup.com/2/groups&quot;,<br />
+&quot;next&quot;: &quot;http://www.meetup.com/2/groups?radius=25.0&amp;order=id&amp;format=json&amp;lat=51.50998&amp;page=1&amp;desc=false&amp;offset=1&amp;fields=&amp;sign=true&amp;lon=-0.1337&quot;,<br />
+&quot;total_count&quot;: 4501,<br />
+&quot;url&quot;: &quot;http://www.meetup.com/2/groups?radius=25.0&amp;order=id&amp;format=json&amp;lat=51.50998&amp;page=1&amp;desc=false&amp;offset=0&amp;fields=&amp;sign=true&amp;lon=-0.1337&quot;,<br />
+&quot;id&quot;: &quot;&quot;,<br />
+&quot;title&quot;: &quot;Meetup Groups v2&quot;,<br />
+&quot;updated&quot;: 1377876449000,<br />
+&quot;description&quot;: &quot;&quot;&quot;&quot;,<br />
+&quot;method&quot;: &quot;Groups&quot;,<br />
+&quot;lat&quot;: 51.50998<br />
+}<br />
+}</div></td></tr></tbody></table></div>
+<h2>Application Design and How It Works</h2>
+<p>As mentioned, Meetup API provides a <a href="http://www.meetup.com/meetup_api/docs/2/groups/">method</a> for requesting groups in a certain location. The response data will be sent in JSON format. We&#8217;ll need an object that can retrieve the data and construct our domain object from the encoded data. Below is an overview of the application design showing how the classes are structured and how they work together to get the meetup groups:</p>
+<div id="attachment_2348" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/Screen-Shot-2013-08-16-at-10.01.27-PM-e1377877588261.png" alt="BrowseMeetup - Design Overview" class="size-full wp-image-2348" /><p class="wp-caption-text">BrowseMeetup &#8211; Design Overview</p></div>
+<p>It may be a bit complicated for some of you. But let me give you a brief walkthrough. We create a MeetupManager, in which it will request for Meetup groups for a particular location. Here the MeetupManager acts as a facade. If you haven&#8217;t heard of the Facade design pattern, you can think of it as a coordinator of other classes. The Facade tries to provide a simplified interface for the view controller and shields it from the underlying implementation.</p>
+<p>The MeetupCommunicator class is used for communicating with the Meetup API. Once Meetup responds with the JSON-formatted response, we&#8217;ll pass it to GroupBuilder that constructs the Group object. </p>
+<p>The MasterViewController uses <a href="http://www.appcoda.com/how-to-get-current-location-iphone-user/">Core Location</a> to figure out the current location and informs the MeetupManager to get the Meetup groups for that location. The MeetupManager coordinates with other classes to retrieve the groups. Once the groups are retrieved, it communicates with the MasterViewController via the delegate and pass the groups found. The MasterViewController then presents the groups in the table view.</p>
+<h2>Creating JSON Data Model</h2>
+<p>We are going to start by implementing the model layer. The Group class represents the group information in the BrowseMeetup app and is used to store the group information returned by Meetup. Here is a sample JSON response of a Group object:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br />43<br />44<br />45<br />46<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">{<br />
+&nbsp; &nbsp; &nbsp;lon: -71.12999725341797,<br />
+&nbsp; &nbsp; &nbsp;visibility: &quot;public&quot;,<br />
+&nbsp; &nbsp; &nbsp;organizer: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name: &quot;Emma&quot;,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; member_id: 2161382<br />
+&nbsp; &nbsp; &nbsp;},<br />
+&nbsp; &nbsp; &nbsp;link: &quot;http://www.meetup.com/bloggers/&quot;,<br />
+&nbsp; &nbsp; &nbsp;state: &quot;MA&quot;,<br />
+&nbsp; &nbsp; &nbsp;join_mode: &quot;closed&quot;,<br />
+&nbsp; &nbsp; &nbsp;who: &quot;Bloggers&quot;,<br />
+&nbsp; &nbsp; &nbsp;country: &quot;US&quot;,<br />
+&nbsp; &nbsp; &nbsp;city: &quot;Cambridge&quot;,<br />
+&nbsp; &nbsp; &nbsp;id: 21458,<br />
+&nbsp; &nbsp; category: {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; id: 34,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; name: &quot;tech&quot;,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; shortname: &quot;tech&quot;<br />
+&nbsp; &nbsp; &nbsp;},<br />
+&nbsp; &nbsp; &nbsp;topics: [<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;id: 198,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;urlkey: &quot;blog&quot;,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;name: &quot;Blog&quot;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;id: 772,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;urlkey: &quot;writers&quot;,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;name: &quot;Writers&quot;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />
+&nbsp; &nbsp; &nbsp;],<br />
+&nbsp; &nbsp; &nbsp;timezone: &quot;US/Eastern&quot;,<br />
+&nbsp; &nbsp; &nbsp;group_photo: {<br />
+&nbsp; &nbsp; &nbsp;photo_link: &quot;http://photos3.meetupstatic.com/photos/event/6/4/9/5/600_25749.jpeg&quot;,<br />
+&nbsp; &nbsp; &nbsp;highres_link: &quot;http://photos3.meetupstatic.com/photos/event/6/4/9/5/highres_25749.jpeg&quot;,<br />
+&nbsp; &nbsp; &nbsp;thumb_link: &quot;http://photos3.meetupstatic.com/photos/event/6/4/9/5/thumb_25749.jpeg&quot;,<br />
+&nbsp; &nbsp; &nbsp;photo_id: 25749<br />
+&nbsp; &nbsp; &nbsp;},<br />
+&nbsp; &nbsp; &nbsp;created: 1034097731000,<br />
+&nbsp; &nbsp; &nbsp;description: &quot;This is a group for people that are interested in blogging and meeting others who are interested in blogging. Topics discussed range from blog content to blog software. All interest levels are welcome.&quot;,<br />
+&nbsp; &nbsp; &nbsp;name: &quot;The Greater Boston Area Weblogger Meetup Group&quot;,<br />
+&nbsp; &nbsp; &nbsp;rating: 3.33,<br />
+&nbsp; &nbsp; &nbsp;urlname: &quot;bloggers&quot;,<br />
+&nbsp; &nbsp; &nbsp;lat: 42.38999938964844,<br />
+&nbsp; &nbsp; &nbsp;members: 119<br />
+}</div></td></tr></tbody></table></div>
+<p>The above JSON response represents a single Meetup Group. We&#8217;ll not use all the group data returned. But simply use the &#8220;name&#8221;, &#8220;description&#8221;, &#8220;who&#8221;, &#8220;country&#8221; and &#8220;city&#8221; fields. These fields are just good enough for presenting in the table view of our app. Now create a new file using the Objective-C class template. Name it Group, make it a subclass of NSObject and add the following code in the header file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> Group <span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>name;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>description;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>who;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>country;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>city;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>These properties are the information that we will use in our app to achieve the final result depicted earlier.</p>
+<h2>Fetching JSON Data Using Meetup API</h2>
+<p>First create a new file using Objective-C protocol template and name it as MeetupCommunicatorDelegate. Fill it with the below code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@protocol</span> MeetupCommunicatorDelegate <br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>receivedGroupsJSON<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>objectNotation;<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>fetchingGroupsFailedWithError<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>error;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>The MeetupCommunicator class is responsible for the communication with the Meetup APIs and fetching the JSON data. It relies on the delegate of MeetupCommunicatorDelegate to handle the parsing of JSON data. The communicator has no idea how the JSON data is handled. Its focus is only on creating connection to the Meetup APIs and fetching the raw JSON result.</p>
+<p>With the delegate created, create another class file and name it as MeetupCommunicator. Open the header file and put in the below code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;CoreLocation/CoreLocation.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@protocol</span> MeetupCommunicatorDelegate;<br />
+<br />
+<span style="color: #a61390;">@interface</span> MeetupCommunicator <span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a><br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> id&lt;MeetupCommunicatorDelegate&gt; delegate;<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>searchGroupsAtCoordinate<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationCoordinate2D<span style="color: #002200;">&#41;</span>coordinate;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>We are creating a property to keep track of the communicator delegate, then defining a method for searching Meetup groups in a certain location. Next, open the MeetupCommunicator.m and place the code below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;MeetupCommunicator.h&quot;</span><br />
+<span style="color: #6e371a;">#import &quot;MeetupCommunicatorDelegate.h&quot;</span><br />
+<br />
+<span style="color: #6e371a;">#define API_KEY @&quot;1f5718c16a7fb3a5452f45193232&quot;</span><br />
+<span style="color: #6e371a;">#define PAGE_COUNT 20</span><br />
+<br />
+<span style="color: #a61390;">@implementation</span> MeetupCommunicator<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>searchGroupsAtCoordinate<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationCoordinate2D<span style="color: #002200;">&#41;</span>coordinate<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>urlAsString <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;https://api.meetup.com/2/groups?lat=%f&amp;lon=%f&amp;page=%d&amp;key=%@&quot;</span>, coordinate.latitude, coordinate.longitude, PAGE_COUNT, API_KEY<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> <span style="color: #002200;">*</span>url <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a> alloc<span style="color: #002200;">&#93;</span> initWithString<span style="color: #002200;">:</span>urlAsString<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, urlAsString<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/"><span style="color: #400080;">NSURLConnection</span></a> sendAsynchronousRequest<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURLRequest_Class/"><span style="color: #400080;">NSURLRequest</span></a> alloc<span style="color: #002200;">&#93;</span> initWithURL<span style="color: #002200;">:</span>url<span style="color: #002200;">&#93;</span> queue<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOperationQueue_Class/"><span style="color: #400080;">NSOperationQueue</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span> completionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURLResponse_Class/"><span style="color: #400080;">NSURLResponse</span></a> <span style="color: #002200;">*</span>response, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a> <span style="color: #002200;">*</span>data, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.delegate fetchingGroupsFailedWithError<span style="color: #002200;">:</span>error<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.delegate receivedGroupsJSON<span style="color: #002200;">:</span>data<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>The Meetup API needs a key to work. If you&#8217;re registered an account, you need to get one by going to <a href="http://www.meetup.com/meetup_api/key/">API Key</a> page. Simply click on the lock icon beside the textfield to reveal the key. Copy the text inside it and replace the value of the macro API_KEY with your own API key. </p>
+<p>As mentioned in the earlier section, we use the following Meetup API for searching group in a specific location. The API accepts the location in the form of latitude and longitude. Here is a sample Meetup URL to connect:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">https://api.meetup.com/2/groups?lat=51.509980&amp;lon=-0.133700&amp;page=20&amp;key=1f5718c16a7fb3a5452f45193232</div></td></tr></tbody></table></div>
+<p>In the implementation of the method, we first construct the Meetup API URL with the specified latitude, longitude, the number of groups and the API key. In order not to blocking the UI, we load the data for a URL request asynchronously by using the &#8220;sendAsynchronousRequest:&#8221; method of <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLConnection_Class/Reference/Reference.html">NSURLConnection</a>. Finally, when the JSON data is retrieved, it passes the data to the delegate for further processing.</p>
+<h2>Parsing JSON Data and Building Group Objects</h2>
+<p>When MeetupManager receives the data in JSON format, we use the class method of GroupBuilder to convert the data into Group objects. Create a new file with Objective-C class template and name it as GroupBuilder. Open the header file and paste the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;Foundation/Foundation.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> GroupBuilder <span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a><br />
+<br />
+<span style="color: #002200;">+</span> <span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>groupsFromJSON<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>objectNotation error<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">**</span><span style="color: #002200;">&#41;</span>error;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Next, open &#8220;GroupBuilder.m&#8221; and implement the method with the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;GroupBuilder.h&quot;</span><br />
+<span style="color: #6e371a;">#import &quot;Group.h&quot;</span><br />
+<br />
+<span style="color: #a61390;">@implementation</span> GroupBuilder<br />
+<span style="color: #002200;">+</span> <span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>groupsFromJSON<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>objectNotation error<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">**</span><span style="color: #002200;">&#41;</span>error<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>localError <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>parsedObject <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>NSJSONSerialization JSONObjectWithData<span style="color: #002200;">:</span>objectNotation options<span style="color: #002200;">:</span><span style="color: #2400d9;">0</span> error<span style="color: #002200;">:&amp;</span>localError<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>localError <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">*</span>error <span style="color: #002200;">=</span> localError;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> <span style="color: #002200;">*</span>groups <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>results <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>parsedObject valueForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;results&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Count %d&quot;</span>, results.count<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">for</span> <span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>groupDic <span style="color: #a61390;">in</span> results<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; Group <span style="color: #002200;">*</span>group <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>Group alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">for</span> <span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>key <span style="color: #a61390;">in</span> groupDic<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>group respondsToSelector<span style="color: #002200;">:</span>NSSelectorFromString<span style="color: #002200;">&#40;</span>key<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>group setValue<span style="color: #002200;">:</span><span style="color: #002200;">&#91;</span>groupDic valueForKey<span style="color: #002200;">:</span>key<span style="color: #002200;">&#93;</span> forKey<span style="color: #002200;">:</span>key<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>groups addObject<span style="color: #002200;">:</span>group<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> groups;<br />
+<span style="color: #002200;">&#125;</span><br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>The &#8220;groupsFromJSON:&#8221; method is designed to convert raw JSON data into an array of Group objects. Since the release of iOS 5, the iOS SDK comes with a class called <em>NSJSONSerialization</em> for parsing JSON data. Developers can use the class to convert JSON to Foundation objects or convert Foundation objects back to JSON.</p>
+<p>When reading JSON data using NSJSONSerialization, all the keyed lists are automatically turned into NSDictionary objects. For array, it&#8217;s converted into NSArray instances. Any strings encountered along with the names of named items in keyed lists are converted into NSString, while purely numeric strings are converted into NSNumber objects. Lastly, any values of null are represented using NSNull.</p>
+<p>Referring the sample response we showed you in earlier section, the Meetup API returns a JSON response with two main parts &#8211; results and meta. We&#8217;ll just need the &#8220;results&#8221; part. The code is very straightforward. We loop through the results and look into each NSDictionary inside it. We then create a Group object and fill it with the necessary information, then adding it to the mutable array.</p>
+<h2>Putting the Pieces Together with MeetupManager</h2>
+<p>Now you should know how to work with JSON, parse the data and convert it into objects. Next, we&#8217;ll implement the MeetupManager which serves as a coordinator of the underlying classes.</p>
+<p>First, create a new file with the Objective-C protocol template and name it as MeetupManagerDelegate. Add the code below in the MeetupManagerDelegate.h:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@protocol</span> MeetupManagerDelegate<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>didReceiveGroups<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>groups;<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>fetchingGroupsFailedWithError<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>error;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>This delegate declares two methods and will be called by MeetupManager when the groups become available. The first method is called when the list of groups retrieved from Meetup is parsed, while the second method is invoked when an error occurred. The MeetupManagerDelegate will be implemented by MasterViewController that we&#8217;ll discuss in later section.</p>
+<p>Next, create a new file with the Objective-C class template and name it MeetupManager. Then open the header file and add the code below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;Foundation/Foundation.h&gt;</span><br />
+<span style="color: #6e371a;">#import &lt;CoreLocation/CoreLocation.h&gt;</span><br />
+<br />
+<span style="color: #6e371a;">#import &quot;MeetupManagerDelegate.h&quot;</span><br />
+<span style="color: #6e371a;">#import &quot;MeetupCommunicatorDelegate.h&quot;</span><br />
+<br />
+<span style="color: #a61390;">@class</span> MeetupCommunicator;<br />
+<br />
+<span style="color: #a61390;">@interface</span> MeetupManager <span style="color: #002200;">:</span> NSObject&lt;MeetupCommunicatorDelegate&gt;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> MeetupCommunicator <span style="color: #002200;">*</span>communicator;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> id&lt;MeetupManagerDelegate&gt; delegate;<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>fetchGroupsAtCoordinate<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationCoordinate2D<span style="color: #002200;">&#41;</span>coordinate;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>As said, the MeetupManager acts as a façade. The app&#8217;s controller can work with the model object (i.e. Group) created without knowing any details about the network connection, JSON fetching/parsing or how the group objects are created. What the controller just needs to know is to use the &#8220;fetchGroupsAtCoordinate:&#8221; method for fetching Meetup groups.</p>
+<p>We set up a property to keep an instance of our communicator which we will cover later and the other to keep track of the MeetupManagerDelegate. The &#8220;fetchGroupsAtCoordinate:&#8221; method will be used by the controller to fetch groups. </p>
+<p>Next, open MeetupManager.m and place this code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;GroupBuilder.h&quot;</span><br />
+<span style="color: #6e371a;">#import &quot;MeetupCommunicator.h&quot;</span><br />
+<br />
+<span style="color: #a61390;">@implementation</span> MeetupManager<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>fetchGroupsAtCoordinate<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationCoordinate2D<span style="color: #002200;">&#41;</span>coordinate<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.communicator searchGroupsAtCoordinate<span style="color: #002200;">:</span>coordinate<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #6e371a;">#pragma mark - MeetupCommunicatorDelegate</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>receivedGroupsJSON<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>objectNotation<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span>;<br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>groups <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>GroupBuilder groupsFromJSON<span style="color: #002200;">:</span>objectNotation error<span style="color: #002200;">:&amp;</span>error<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.delegate fetchingGroupsFailedWithError<span style="color: #002200;">:</span>error<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.delegate didReceiveGroups<span style="color: #002200;">:</span>groups<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>fetchingGroupsFailedWithError<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>error<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.delegate fetchingGroupsFailedWithError<span style="color: #002200;">:</span>error<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Here we implement the method <em>fetchGroupsAtCoordinate:coordinate</em> to fetch the groups in a certain area using the <em>searchGroupsAtCoordinate:coordinate</em> method of the communicator. We also implement the methods of MeetupCommunicatorDelegate for handling the JSON-formatted results as retrieved by the communicator.</p>
+<p>The code inside the first method of the protocol <em>receivedGroupsJSON:objectNotation</em> uses the class method of GroupBuilder to convert the JSON result into Group objects and then informs its delegate with the Group objects. If there is any problem while processing the request, we invoke the other method (i.e. fetchingGroupsFailedWithError:) of the delegate to notify the controller that a problem is occurred.</p>
+<h2>Displaying the List of Groups</h2>
+<p>The first thing to do is hooking all these classes together so the MeetupManager can work. Open the MasterViewController.m, import the required header files, update the interface and declare the MeetupManager instance as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &quot;Group.h&quot;</span><br />
+<span style="color: #6e371a;">#import &quot;MeetupManager.h&quot;</span><br />
+<span style="color: #6e371a;">#import &quot;MeetupCommunicator.h&quot;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> MasterViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> &lt;MeetupManagerDelegate&gt; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>_groups;<br />
+&nbsp; &nbsp; MeetupManager <span style="color: #002200;">*</span>_manager;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Later we&#8217;ll implement the methods as defined in MeetupManagerDelegate. But first let us instantiate the MeetupManager in the method of <em>viewDidLoad</em>:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; _manager <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>MeetupManager alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; _manager.communicator <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>MeetupCommunicator alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; _manager.communicator.delegate <span style="color: #002200;">=</span> _manager;<br />
+&nbsp; &nbsp; _manager.delegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotificationCenter_Class/"><span style="color: #400080;">NSNotificationCenter</span></a> defaultCenter<span style="color: #002200;">&#93;</span> addObserver<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;selector<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>startFetchingGroups<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;name<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;kCLAuthorizationStatusAuthorized&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;object<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We are instantiating a new manager, then fill its communicator property with an new instance, and finally making the current view controller to keep track of any changes. The observer here captures the response of the user when the alert shows up to enable location services to call the method <em>startFetchingGroups:</em> to start fetching groups from server.</p>
+<p>Next, open the &#8220;MasterViewController.m&#8221; and put the below to start fetching:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>startFetchingGroups<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSNotification_Class/"><span style="color: #400080;">NSNotification</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>notification<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>_manager fetchGroupsAtCoordinate<span style="color: #002200;">:</span>self.locationManager.location.coordinate<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As the view controller should conform to the MeetupManagerDelegate protocol. Implement the methods as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>didReceiveGroups<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>groups<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; _groups <span style="color: #002200;">=</span> groups;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.tableView reloadData<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>fetchingGroupsFailedWithError<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>error<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Error %@; %@&quot;</span>, error, <span style="color: #002200;">&#91;</span>error localizedDescription<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The &#8220;didReceiveGroups:&#8221; method will be called when the Meetup groups is grabbed from the Meetup server with an array instance returned. Here we simply reload the table view to display the new data. </p>
+<p>Lastly, set up the methods of the table view by pasting the code below:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section<br />
+{<br />
+&nbsp; &nbsp; return _groups.count;<br />
+}<br />
+<br />
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath<br />
+{<br />
+&nbsp; &nbsp; DetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@&quot;Cell&quot; forIndexPath:indexPath];<br />
+<br />
+&nbsp; &nbsp; Group *group = _groups[indexPath.row];<br />
+&nbsp; &nbsp; [cell.nameLabel setText:group.name];<br />
+&nbsp; &nbsp; [cell.whoLabel setText:group.who];<br />
+&nbsp; &nbsp; [cell.locationLabel setText:[NSString stringWithFormat:@&quot;%@, %@&quot;, group.city, group.country]];<br />
+&nbsp; &nbsp; [cell.descriptionLabel setText:group.description];<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; return cell;<br />
+}</div></td></tr></tbody></table></div>
+<p>The above code is very straightforward. We retrieve the groups from the array and fill the table cell with the group information.</p>
+<h2>Compile and Run</h2>
+<p>Now it&#8217;s time to test the app. Compile and run it in the Simulator (or a real iOS device if you&#8217;ve registered the iOS developer program). Setup the location of the Simulator to London, UK. You should get the Meetup groups similar to the below screenshot:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/08/BrowseMeetup-London.jpg" alt="BrowseMeetup London" class="aligncenter size-full wp-image-2448" /></div>
+<div class="note">
+Tip: If you have no idea about testing location in iPhone Simulator, check out the <a href="http://www.appcoda.com/how-to-get-current-location-iphone-user/">Core Location tutorial</a>.
+</div>
+<h2>Summary</h2>
+<p>We have covered in this tutorial many aspects of programming by adopting the right design pattern to work with JSON data. You should now have a hands-on experience on fetching and parsing JSON data.</p>
+<p>The tutorial may be a bit difficult if you&#8217;re new to design pattern. However, this shouldn&#8217;t scare you away from using JSON in your app. The iOS SDK makes it so easy for your apps to work with JSON. In summary, you simply create a URL connection, fetch the JSON data and parse it by using the built-in NSJSONSerialization class.</p>
+<p>You can find various free APIs (such as <a href="http://build.kiva.org/api">Kiva</a> and <a href="http://docs.themoviedb.apiary.io/">TMDb</a>) on the Internet. As an exercise, try to pick another API and develop another app for it. Say, you can develop a simple app and display a list of the most recent fundraising loans using Kiva API.</p>
+<p>For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/BrowseMeetup.zip">download the full source code of the Xcode project here</a>.</p>
+<p>As always, please leave us comment and share your thought about the tutorial. </p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/webkit-framework-intro/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/01/webkit-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">A Look at the WebKit Framework - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/chat-app-swift-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/01/mpc-swift-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Building a Chat App in Swift Using Multipeer Connectivity Framework</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/documenting-source-code-in-xcode/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/02/xcode-macbook-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Documenting Your Objective-C and Swift Code in Xcode with HeaderDoc and Doxygen</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ibdesignable-ibinspectable-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/03/Rainbow-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating Your Own Custom Controls Using IBDesignable in Xcode 6</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/"
+    dc:identifier="http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/"
+    dc:title="How To Fetch and Parse JSON Using iOS SDK"
+    trackback:ping="http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/core-location/" rel="tag">Core Location</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/ios-sdk/" rel="tag">iOS SDK</a>, <a href="http://www.appcoda.com/tag/json/" rel="tag">JSON</a>, <a href="http://www.appcoda.com/tag/meetup-api/" rel="tag">MeetUp API</a>, <a href="http://www.appcoda.com/tag/nsjsonserialization/" rel="tag">NSJSONSerialization</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://0.gravatar.com/avatar/c56f27251dfe38184c7606d447e2c69b?s=70&#038;d=mm&#038;r=g' srcset='http://0.gravatar.com/avatar/c56f27251dfe38184c7606d447e2c69b?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Ziad Tamim</strong><br /><p>Ziad is a senior iOS Developer, Mobile Strategy Advisor and Consultant for startups. He has been writing iOS apps and games since the infancy of the App Store and built over 80 apps for clients. Right now, he runs a mobile development studio called TAMIN LAB. You can contact him via <a href="https://www.linkedin.com/in/ziadtamim">LinkedIn</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="post pingback">
+        <p>Pingback: <a href='http://mydit.wordpress.com/2013/08/31/json-%eb%8d%b0%ec%9d%b4%ed%84%b0-parsing/' rel='external nofollow' class='url'>JSON 데이터 Parsing | Prof. Kim&#039;s Lecture Notes</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2334">
+        <div id="dsq-comment-header-2334" class="dsq-comment-header">
+            <cite id="dsq-cite-2334">
+                <span id="dsq-author-user-2334">Osvaldo Cipriano</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2334" class="dsq-comment-body">
+            <div id="dsq-comment-message-2334" class="dsq-comment-message"><p>Nice tutorial, again <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2335">
+        <div id="dsq-comment-header-2335" class="dsq-comment-header">
+            <cite id="dsq-cite-2335">
+                <span id="dsq-author-user-2335">vikram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2335" class="dsq-comment-body">
+            <div id="dsq-comment-message-2335" class="dsq-comment-message"><p>Nice tutorial with very good example&#8230;Thanx allot</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2349">
+        <div id="dsq-comment-header-2349" class="dsq-comment-header">
+            <cite id="dsq-cite-2349">
+                <span id="dsq-author-user-2349">Steve</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2349" class="dsq-comment-body">
+            <div id="dsq-comment-message-2349" class="dsq-comment-message"><p>Nice tutorial!<br />
+It works well, but rendering tableView takes so long.<br />
+Is there any way to make rendering table view faster?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2362">
+        <div id="dsq-comment-header-2362" class="dsq-comment-header">
+            <cite id="dsq-cite-2362">
+                <span id="dsq-author-user-2362">Ziad Tamim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2362" class="dsq-comment-body">
+            <div id="dsq-comment-message-2362" class="dsq-comment-message"><p>You can add a spinner to table view while data is loading, this way the user knows some work is going on.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-15983">
+        <div id="dsq-comment-header-15983" class="dsq-comment-header">
+            <cite id="dsq-cite-15983">
+                <span id="dsq-author-user-15983">Coração Tricolor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15983" class="dsq-comment-body">
+            <div id="dsq-comment-message-15983" class="dsq-comment-message"><p>Something is wrong with the code it shouldn&#8217;t take so long</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2351">
+        <div id="dsq-comment-header-2351" class="dsq-comment-header">
+            <cite id="dsq-cite-2351">
+                <span id="dsq-author-user-2351">Paulo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2351" class="dsq-comment-body">
+            <div id="dsq-comment-message-2351" class="dsq-comment-message"><p>Nice tutorial! Tks a Lot 😉</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2356">
+        <div id="dsq-comment-header-2356" class="dsq-comment-header">
+            <cite id="dsq-cite-2356">
+                <span id="dsq-author-user-2356">LittlePeculiar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2356" class="dsq-comment-body">
+            <div id="dsq-comment-message-2356" class="dsq-comment-message"><p>Very nice tutorial. I love to come here and learn new stuff and more importantly, your clear and efficient design patterns.<br />
+Thanks.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.musclecoder.com/how-to-fetch-and-parse-json-data-ios-programming-tutorial/' rel='external nofollow' class='url'>How To Fetch and Parse JSON Data | iOS Programming Tutorial | MUSCLE CODER</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2385">
+        <div id="dsq-comment-header-2385" class="dsq-comment-header">
+            <cite id="dsq-cite-2385">
+                <span id="dsq-author-user-2385">frenzen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2385" class="dsq-comment-body">
+            <div id="dsq-comment-message-2385" class="dsq-comment-message"><p>ive been looking on every single site for so long for a good json tutorial and i refresh and see this awesome stuff</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2421">
+        <div id="dsq-comment-header-2421" class="dsq-comment-header">
+            <cite id="dsq-cite-2421">
+                <span id="dsq-author-user-2421">Thiodor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2421" class="dsq-comment-body">
+            <div id="dsq-comment-message-2421" class="dsq-comment-message"><p>One thing: the data is loaded but it is not displayed on the table view until you scroll it. Any ideas how to fix it or on which part of the code you must put [tableview reloadData].<br />
+Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2550">
+        <div id="dsq-comment-header-2550" class="dsq-comment-header">
+            <cite id="dsq-cite-2550">
+                <span id="dsq-author-user-2550">Juan Carlos Orrego</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2550" class="dsq-comment-body">
+            <div id="dsq-comment-message-2550" class="dsq-comment-message"><p>This worked for me:</p>
+<p>    dispatch_async(dispatch_get_main_queue(), ^{<br />
+   [self.tableView reloadData];<br />
+    });</p>
+<p>Based on the example, this should go in didReceiveGroups method of the master controller.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-2979">
+        <div id="dsq-comment-header-2979" class="dsq-comment-header">
+            <cite id="dsq-cite-2979">
+                <span id="dsq-author-user-2979">Daan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2979" class="dsq-comment-body">
+            <div id="dsq-comment-message-2979" class="dsq-comment-message"><p>Exactly what I needed ! Table redraw seemed to take forever&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2446">
+        <div id="dsq-comment-header-2446" class="dsq-comment-header">
+            <cite id="dsq-cite-2446">
+                <span id="dsq-author-user-2446">ДЕНИС</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2446" class="dsq-comment-body">
+            <div id="dsq-comment-message-2446" class="dsq-comment-message"><p>РАСИЯ ДЛЯ РУСКИХ!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3283">
+        <div id="dsq-comment-header-3283" class="dsq-comment-header">
+            <cite id="dsq-cite-3283">
+                <span id="dsq-author-user-3283">Name</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3283" class="dsq-comment-body">
+            <div id="dsq-comment-message-3283" class="dsq-comment-message"><p>москва для москвичей!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2450">
+        <div id="dsq-comment-header-2450" class="dsq-comment-header">
+            <cite id="dsq-cite-2450">
+                <span id="dsq-author-user-2450">Ly4S</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2450" class="dsq-comment-body">
+            <div id="dsq-comment-message-2450" class="dsq-comment-message"><p>Thanks a lot for a great tutorial! I actually didn&#8217;t follow verbatim&#8230;I just needed to get the concept of how to interact with JSON APIs, so I could apply it to my own app, and this tutorial was a massive help. Can&#8217;t thank you enough for how easy you made the process for me. Keep up the great work you are doing!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2524">
+        <div id="dsq-comment-header-2524" class="dsq-comment-header">
+            <cite id="dsq-cite-2524">
+                <span id="dsq-author-user-2524">Jordan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2524" class="dsq-comment-body">
+            <div id="dsq-comment-message-2524" class="dsq-comment-message"><p>Obviously an app like this won&#8217;t work without the internet. Is there an easy way to display to the user that &#8220;hey, you need a network connection to run this app&#8221;? Thanks for a great tutorial!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2687">
+        <div id="dsq-comment-header-2687" class="dsq-comment-header">
+            <cite id="dsq-cite-2687">
+                <span id="dsq-author-user-2687">Arthur_Camara</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2687" class="dsq-comment-body">
+            <div id="dsq-comment-message-2687" class="dsq-comment-message"><p>Thanks very, very much! Everything I found regarding iOS and JSON was related to old, non-native libraries. This is the best one I could find using native code!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2692">
+        <div id="dsq-comment-header-2692" class="dsq-comment-header">
+            <cite id="dsq-cite-2692">
+                <span id="dsq-author-user-2692">Chuck Kelly</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2692" class="dsq-comment-body">
+            <div id="dsq-comment-message-2692" class="dsq-comment-message"><p>ridiculously overly complicated for the objective of the tutorial&#8230;..can you ppl not just create a simple json parsing tutorial thats uses afnetworking and a tableview like everyone on the damn internet wants or is there some damn conspiracy on the internet amongst developers making actually relevant and practical tuts to protect their salary&#8217;s?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2742">
+        <div id="dsq-comment-header-2742" class="dsq-comment-header">
+            <cite id="dsq-cite-2742">
+                <span id="dsq-author-user-2742">Aaron Wolverton</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2742" class="dsq-comment-body">
+            <div id="dsq-comment-message-2742" class="dsq-comment-message"><p>Haha, this is mean, but I would have to agree.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-3331">
+        <div id="dsq-comment-header-3331" class="dsq-comment-header">
+            <cite id="dsq-cite-3331">
+                <span id="dsq-author-user-3331">cerberusss</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3331" class="dsq-comment-body">
+            <div id="dsq-comment-message-3331" class="dsq-comment-message"><p>I found the described class hierarchy very useful to structure my app.</p>
+<p>Maybe it was overly complicated for you personally?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-3817">
+        <div id="dsq-comment-header-3817" class="dsq-comment-header">
+            <cite id="dsq-cite-3817">
+                <span id="dsq-author-user-3817">TooEasy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3817" class="dsq-comment-body">
+            <div id="dsq-comment-message-3817" class="dsq-comment-message"><p>Ridiculously complicated is an understatement</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2731">
+        <div id="dsq-comment-header-2731" class="dsq-comment-header">
+            <cite id="dsq-cite-2731">
+                <span id="dsq-author-user-2731">shane film</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2731" class="dsq-comment-body">
+            <div id="dsq-comment-message-2731" class="dsq-comment-message"><p>Please provide code to modify the groupsFromJSon method within the GroupBuilder class access other data that like photo_link, or short name.  Can you explain how to parse this data that is more deeply nested within the results dictionary?  It appears that a great deal of the keyValues are part of NSArrays with data that isn&#8217;t accessible at the top level of results.  This is is a phenomenal tutorial.  Keep up the great work.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2739">
+        <div id="dsq-comment-header-2739" class="dsq-comment-header">
+            <cite id="dsq-cite-2739">
+                <span id="dsq-author-user-2739">shane film</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2739" class="dsq-comment-body">
+            <div id="dsq-comment-message-2739" class="dsq-comment-message"><p>Actually, I solved this by adding an NSArray to the Group.h file and then referenced it in the tableView of MasterViewController.m using valueForKey.  Example:  [group.category valueForKey:@&#8221;shortname&#8221;]). This returns the shortname of the category that is an NSArray that was added to the Group object.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2743">
+        <div id="dsq-comment-header-2743" class="dsq-comment-header">
+            <cite id="dsq-cite-2743">
+                <span id="dsq-author-user-2743">Aaron Wolverton</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2743" class="dsq-comment-body">
+            <div id="dsq-comment-message-2743" class="dsq-comment-message"><p>Is this tutorial supposed to display the detail/2nd view when you click on a meetup? It starts out with a master/detail application template, but my project doesn&#8217;t present a detail page when you click on a meetup/table cell from the root view.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2783">
+        <div id="dsq-comment-header-2783" class="dsq-comment-header">
+            <cite id="dsq-cite-2783">
+                <span id="dsq-author-user-2783">NissiVM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2783" class="dsq-comment-body">
+            <div id="dsq-comment-message-2783" class="dsq-comment-message"><p>How the methods declared in MeetupCommunicatorDelegate can be called in the MeetupManager class if this class is not declared as the delegate of the class MeetupCommunicator?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3789">
+        <div id="dsq-comment-header-3789" class="dsq-comment-header">
+            <cite id="dsq-cite-3789">
+                <span id="dsq-author-user-3789">TooEasy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3789" class="dsq-comment-body">
+            <div id="dsq-comment-message-3789" class="dsq-comment-message"><p>It is in the .h file</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2788">
+        <div id="dsq-comment-header-2788" class="dsq-comment-header">
+            <cite id="dsq-cite-2788">
+                <span id="dsq-author-user-2788">NissiVM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2788" class="dsq-comment-body">
+            <div id="dsq-comment-message-2788" class="dsq-comment-message"><p>Thank you very much for this tutorial, I&#8217;ve learned a lot from it! =]</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3011">
+        <div id="dsq-comment-header-3011" class="dsq-comment-header">
+            <cite id="dsq-cite-3011">
+                <span id="dsq-author-user-3011">lyao</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3011" class="dsq-comment-body">
+            <div id="dsq-comment-message-3011" class="dsq-comment-message"><p>Really need another try to read this tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3121">
+        <div id="dsq-comment-header-3121" class="dsq-comment-header">
+            <cite id="dsq-cite-3121">
+                <span id="dsq-author-user-3121">Gordon Chan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3121" class="dsq-comment-body">
+            <div id="dsq-comment-message-3121" class="dsq-comment-message"><p>Well I like this tutorial very much. I don&#8217;t think it is ridiculously overly complicated, instead, I am very much value on the concept of Communicator / Manager / Delegate. As it is a way to have good design of application.</p>
+<p>I am not good at application design and I start learning something like this, using Manager class to manage and work with custom built delegate. I look forward to see if you can provide another extend of this tutorial to show: when there is not only a single view controller, and different type of API call is performed in different view controller, do we still use single Manager class? or call the same Manager in different View controller?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3188">
+        <div id="dsq-comment-header-3188" class="dsq-comment-header">
+            <cite id="dsq-cite-3188">
+                <span id="dsq-author-user-3188">Marc</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3188" class="dsq-comment-body">
+            <div id="dsq-comment-message-3188" class="dsq-comment-message"><p>Thanks, Great Tuts. I like the clarity of delivery on Delegation and MVC</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3224">
+        <div id="dsq-comment-header-3224" class="dsq-comment-header">
+            <cite id="dsq-cite-3224">
+                <span id="dsq-author-user-3224">Maciek of Ozz</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3224" class="dsq-comment-body">
+            <div id="dsq-comment-message-3224" class="dsq-comment-message"><p>Unnecessary overcomplicated, but useful <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3414">
+        <div id="dsq-comment-header-3414" class="dsq-comment-header">
+            <cite id="dsq-cite-3414">
+                <span id="dsq-author-user-3414">ttotto</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3414" class="dsq-comment-body">
+            <div id="dsq-comment-message-3414" class="dsq-comment-message"><p>If there are many viewcontrollers to communicate Meetup, all of them should have meetup manager variables? Moreover all of them should be delegate of meetup manager?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3585">
+        <div id="dsq-comment-header-3585" class="dsq-comment-header">
+            <cite id="dsq-cite-3585">
+                <span id="dsq-author-user-3585">yassine</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3585" class="dsq-comment-body">
+            <div id="dsq-comment-message-3585" class="dsq-comment-message"><p>Hi,</p>
+<p>thanks for this tutorial, I have a question, can I work with this tutorial under Xcode 5 and iOS 7 ?!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3692">
+        <div id="dsq-comment-header-3692" class="dsq-comment-header">
+            <cite id="dsq-cite-3692">
+                <span id="dsq-author-user-3692">SomeGuy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3692" class="dsq-comment-body">
+            <div id="dsq-comment-message-3692" class="dsq-comment-message"><p>Yes, this works with Xcode 5 and iOS 7. I have followed the tutorial successfully.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3791">
+        <div id="dsq-comment-header-3791" class="dsq-comment-header">
+            <cite id="dsq-cite-3791">
+                <span id="dsq-author-user-3791">TooEasy</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3791" class="dsq-comment-body">
+            <div id="dsq-comment-message-3791" class="dsq-comment-message"><p>What&#8217;s with the parameter type (NSData*)? I see it gets passed around but what is it exactly? The object &#8220;objectNotation&#8221; is an NSData type, where does the &#8220;objectNotation&#8221; parameter get set?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3816">
+        <div id="dsq-comment-header-3816" class="dsq-comment-header">
+            <cite id="dsq-cite-3816">
+                <span id="dsq-author-user-3816">clau</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3816" class="dsq-comment-body">
+            <div id="dsq-comment-message-3816" class="dsq-comment-message"><p>Hi! i have been tryin to get this to work all day but the selector on the NSNotificationCenter<br />
+is not being called <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3945">
+        <div id="dsq-comment-header-3945" class="dsq-comment-header">
+            <cite id="dsq-cite-3945">
+                <span id="dsq-author-user-3945">Brian Fritch</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3945" class="dsq-comment-body">
+            <div id="dsq-comment-message-3945" class="dsq-comment-message"><p>Like Chuck Kelly I thought AT FIRST that this approach was overly complicated.  After I tried a simpler tutorial that didn&#8217;t work, I came back, adapted my app to this approach and it worked Perfectly!!  </p>
+<p>Most of the tutorials only give part of the information you really need, or are so simple, it&#8217;s hard to expand the concept into a practical implementation.   This is one of the few sets of tutorials that are actually well written and provide useful, real-world-like examples.  Thank you!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3985">
+        <div id="dsq-comment-header-3985" class="dsq-comment-header">
+            <cite id="dsq-cite-3985">
+                <span id="dsq-author-user-3985">Calin</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3985" class="dsq-comment-body">
+            <div id="dsq-comment-message-3985" class="dsq-comment-message"><p>I might have missed it, but aren&#8217;t you supposed to tell MeetupCommunicator, that MeetupManager implements MeetupCommunicatorDelegate?</p>
+<p>I mean, how does [self.delegate receivedGroupsJSON:data]; in MeetupCommunicator know to call (void)receivedGroupsJSON:(NSData *)objectNotation in Meetupmanager?</p>
+<p>There should be something like self.communicator.delegate = self; somewhere in MeetupManager implementation, right?</p>
+<p>Thanks for the tutorial <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-4132">
+        <div id="dsq-comment-header-4132" class="dsq-comment-header">
+            <cite id="dsq-cite-4132">
+                <span id="dsq-author-user-4132">Vishwa Iyer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4132" class="dsq-comment-body">
+            <div id="dsq-comment-message-4132" class="dsq-comment-message"><p>This was a very great tutorial, and I learned a lot from it. I just have one question though, is it possible to parse multiple apis using the same code above. If so, how is it possible?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://gpeoplehome.com/?document_srl=33030' rel='external nofollow' class='url'>gpeoplehome.com</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-16812">
+        <div id="dsq-comment-header-16812" class="dsq-comment-header">
+            <cite id="dsq-cite-16812">
+                <span id="dsq-author-user-16812">surya appkey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-16812" class="dsq-comment-body">
+            <div id="dsq-comment-message-16812" class="dsq-comment-message"><p>I tried adding 1 page view controller between navigation controler and table view. but after that the list does not display data from a web service. can anyone help me?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-26233">
+        <div id="dsq-comment-header-26233" class="dsq-comment-header">
+            <cite id="dsq-cite-26233">
+                <span id="dsq-author-user-26233">byakuya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-26233" class="dsq-comment-body">
+            <div id="dsq-comment-message-26233" class="dsq-comment-message"><p>Hi guys,</p>
+<p>I have been following many of your tutorials and I am totally fond of your work. Thanx a lot for what you are doing, it helps me a lot. I would like to perform this tutorial but for me the meetup API doesn&#8217;t work. Even if I am connected to meetup, when I try your request with my browser I have the following response from the server : {&#8220;details&#8221;:&#8221;API requests must be key-signed, oauth-signed, or accompanied by a key: <a href="http://www.meetup.com/meetup_api/docs/#authentication" rel="nofollow">http://www.meetup.com/meetup_api/docs/#authentication</a>&#8220;,&#8221;problem&#8221;:&#8221;You are not authorized to make that request&#8221;,&#8221;code&#8221;:&#8221;not_authorized&#8221;} </p>
+<p>Can you help me please? Your tutorial is nearly exactly what I need to do for my own app, so it would help me a lot to perform the entire tutorial.</p>
+<p>Regards</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://microbecol.hpcf.upr.edu/?p=107' rel='external nofollow' class='url'>cause low testosterone</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://peekaboo-apps.ru/json-ios/' rel='external nofollow' class='url'>Работа с JSON (iOs) &laquo; PeekabooApps</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-53867">
+        <div id="dsq-comment-header-53867" class="dsq-comment-header">
+            <cite id="dsq-cite-53867">
+                <span id="dsq-author-user-53867">Alexandre Carmo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-53867" class="dsq-comment-body">
+            <div id="dsq-comment-message-53867" class="dsq-comment-message"><p>Hello.<br />
+Good tutorial.<br />
+I have a problem using iOS 8, when I use iOS 7.1, this tutorial execute ok, I used emulator iOS 7.1 and device (iPhone 5s) using iOS 7.1, but when I use iOS 8 (emulator or device), dont display anything. There is not error message, and the json don&#8217;t return lines. What&#8217;s changed in iOS 8? Maybe localization ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-54161">
+        <div id="dsq-comment-header-54161" class="dsq-comment-header">
+            <cite id="dsq-cite-54161">
+                <span id="dsq-author-user-54161">Alexandre Carmo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-54161" class="dsq-comment-body">
+            <div id="dsq-comment-message-54161" class="dsq-comment-message"><p>Hello.<br />
+Good tutorial.<br />
+I have a problem using iOS 8, when I use iOS 7.1, this tutorial execute ok, I used emulator iOS 7.1 and device (iPhone 5s) using iOS 7.1, but when I use iOS 8 (emulator or device), dont display anything. There is not error message, and the json don&#8217;t return lines. What&#8217;s changed in iOS 8? Maybe localization ?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-60670">
+        <div id="dsq-comment-header-60670" class="dsq-comment-header">
+            <cite id="dsq-cite-60670">
+                <span id="dsq-author-user-60670">eddyrakov</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-60670" class="dsq-comment-body">
+            <div id="dsq-comment-message-60670" class="dsq-comment-message"><p>I&#8217;ve run into the same problem. <a href="http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working" rel="nofollow">http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working</a>. And also I had to remove &#8216;description&#8217; key to run this example.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-98494">
+        <div id="dsq-comment-header-98494" class="dsq-comment-header">
+            <cite id="dsq-cite-98494">
+                <span id="dsq-author-user-98494">tmr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-98494" class="dsq-comment-body">
+            <div id="dsq-comment-message-98494" class="dsq-comment-message"><p>eddyrakov advice worked for me.  (1) fix for ios8 get location issue at <a href="http://nevan.net/2014/09/core-location-manager-changes-in-ios-8/" rel="nofollow">http://nevan.net/2014/09/core-location-manager-changes-in-ios-8/</a> and (2) removed ‘description’ key.  removing it from group did not work, so i ignored it the long way with code -&gt; if ([key isEqualToString:@&#8221;description&#8221;]) {</p>
+<p>                // do nothing</p>
+<p>            } else {</p>
+<p>                if ([group respondsToSelector:NSSelectorFromString(key)]) {</p>
+<p>                    [group setValue:[groupDic valueForKey:key] forKey:key];</p>
+<p>                }</p>
+<p>            }</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-78298">
+        <div id="dsq-comment-header-78298" class="dsq-comment-header">
+            <cite id="dsq-cite-78298">
+                <span id="dsq-author-user-78298">Eric</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-78298" class="dsq-comment-body">
+            <div id="dsq-comment-message-78298" class="dsq-comment-message"><p>Great tutorial. I got it working for everything except the description property. Xcode says auto synthesis won&#8217;t work for read/write so makes it read only. This causes crashes when I try adding the JSON data for description. Any suggestions?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.nibodha.com/blog/?p=239' rel='external nofollow' class='url'>How To Fetch and Parse JSON Data of Meetup.com? | Nibodha | Technologies Pvt Ltd</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://blog.maxpalma.com/tech/apple/xcode/ios-mashup-best-links-tutorials/' rel='external nofollow' class='url'>iOS Mashup of the Best Links and Tutorials - Max &quot;Maximus&quot; Palma Blog</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-97384">
+        <div id="dsq-comment-header-97384" class="dsq-comment-header">
+            <cite id="dsq-cite-97384">
+                <span id="dsq-author-user-97384">James</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97384" class="dsq-comment-body">
+            <div id="dsq-comment-message-97384" class="dsq-comment-message"><p>Excellent tutorial. How would you use this design pattern with multiple API calls from different ViewControllers? Thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-99751">
+        <div id="dsq-comment-header-99751" class="dsq-comment-header">
+            <cite id="dsq-cite-99751">
+                <span id="dsq-author-user-99751">Random Act Of Code</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99751" class="dsq-comment-body">
+            <div id="dsq-comment-message-99751" class="dsq-comment-message"><p>For those trying to run this, there are two fixes that need to be applied after downloading the project:</p>
+<p>Group.m<br />
+@implementation should look like this:<br />
+@implementation Group<br />
+@synthesize description=_description;</p>
+<p>@end</p>
+<p>The reason: &#8216;description&#8217; is a property of NSObject.  Not fully synthesizing it results in an exception.</p>
+<p>AppDelegate.m<br />
+Replace -(void)locationManager:&#8230; with this:<br />
+&#8211; (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status<br />
+{<br />
+    if (status == kCLAuthorizationStatusAuthorized) {<br />
+    NSLog(@&#8221;a location services request has been made&#8221;);<br />
+        [[NSNotificationCenter defaultCenter] postNotificationName:@&#8221;kCLAuthorizationStatusAuthorized&#8221; object:self];<br />
+    }else{<br />
+        NSLog(@&#8221;Unauthorized attempt to use location services.&#8221;);<br />
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@&#8221;Access to Location Services Denied&#8221;<br />
+                                           message:@&#8221;To re-enable, please go to Settings and turn on Location Service for this app.&#8221;<br />
+                                          delegate:nil<br />
+                                 cancelButtonTitle:@&#8221;OK&#8221;<br />
+                                 otherButtonTitles:nil];<br />
+        [alert show];<br />
+    }</p>
+<p>}</p>
+<p>This provides a hint to the user as to why they&#8217;re staring at a blank screen.  If you&#8217;re running this on the simulator, go Home, then Settings, then Privacy, Location, BrowserMeetup and select &#8216;Always.&#8217;  Check that Location Services is also enabled.</p>
+<p>You&#8217;ll have to enable Location Services access each time you build.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://mail.iaeth.ch/how-to-fetch-and-parse-json-data-ios-programming-tutorial.html' rel='external nofollow' class='url'>How To Fetch and Parse JSON Data | iOS Programming Tutorial | ALL Internet</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101308">
+        <div id="dsq-comment-header-101308" class="dsq-comment-header">
+            <cite id="dsq-cite-101308">
+                <span id="dsq-author-user-101308">Nick Enchev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101308" class="dsq-comment-body">
+            <div id="dsq-comment-message-101308" class="dsq-comment-message"><p>Couldn&#8217;t you just show us how to serialize/deserialize JSON? Why create an entire app with a bunch of other important concepts that are completely unrelated to your post?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/';
+var disqus_identifier = '2306 http://www.appcoda.com/?p=2306';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "How To Fetch and Parse JSON Using iOS SDK";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=2306';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="2306"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Ffetch-parse-json-ios-programming-tutorial%2F&#038;t=How%20To%20Fetch%20and%20Parse%20JSON%20Using%20iOS%20SDK" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2306" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>107</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=How%20To%20Fetch%20and%20Parse%20JSON%20Using%20iOS%20SDK&#038;url=http%3A%2F%2Fwww.appcoda.com%2Ffetch-parse-json-ios-programming-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2306" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>23</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Ffetch-parse-json-ios-programming-tutorial%2F&#038;t=How%20To%20Fetch%20and%20Parse%20JSON%20Using%20iOS%20SDK" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2306" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>17</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Ffetch-parse-json-ios-programming-tutorial%2F&#038;title=How%20To%20Fetch%20and%20Parse%20JSON%20Using%20iOS%20SDK" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2306" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>36</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Ffetch-parse-json-ios-programming-tutorial%2F&#038;t=How%20To%20Fetch%20and%20Parse%20JSON%20Using%20iOS%20SDK" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2306" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=How%20To%20Fetch%20and%20Parse%20JSON%20Using%20iOS%20SDK&#038;url=http%3A%2F%2Fwww.appcoda.com%2Ffetch-parse-json-ios-programming-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2306" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Ffetch-parse-json-ios-programming-tutorial%2F&#038;t=How%20To%20Fetch%20and%20Parse%20JSON%20Using%20iOS%20SDK" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2306" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Ffetch-parse-json-ios-programming-tutorial%2F&#038;title=How%20To%20Fetch%20and%20Parse%20JSON%20Using%20iOS%20SDK" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2306" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/fetch-parse-json-ios-programming-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="73101f1c001633410b5d031d14">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":2306,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:30:01 by W3 Total Cache -->

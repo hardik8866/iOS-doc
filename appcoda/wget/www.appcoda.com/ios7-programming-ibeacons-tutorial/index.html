@@ -1,0 +1,1579 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming Tutorial: How To Use iBeacons in iOS 7</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This programming tutorial will show you how to develop iOS apps using iBeacons that lets your app gather location contextual information indoors where it can’t use GPS."/>
+<link rel="canonical" href="http://www.appcoda.com/ios7-programming-ibeacons-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This programming tutorial will show you how to develop iOS apps using iBeacons that lets your app gather location contextual information indoors where it can’t use GPS."/>
+<meta name="twitter:title" content="iOS Programming Tutorial: How To Use iBeacons in iOS 7"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-01.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; How To Use iBeacons in iOS 7 to Enhance Your Apps Comments Feed" href="http://www.appcoda.com/ios7-programming-ibeacons-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=2721' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-2721 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-2721 post type-post status-publish format-standard hentry category-course category-intermediate category-tutorials tag-clbeacon tag-clbeaconregion tag-core-location tag-ibeacons tag-ios-programming entry"><h1 class="entry-title">How To Use iBeacons in iOS 7 to Enhance Your Apps</h1> 
+<div class="post-info"><span class="date published time" title="2013-12-03T22:30:08+00:00">December 3, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios7-programming-ibeacons-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="2721 http://www.appcoda.com/?p=2721">65 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p><em>Editor&#8217;s note: This week, we work with Chris Ching from <a href="http://codewithchris.com">Code With Chris</a> to give you an introduction to iBeacons in iOS 7. Not only you&#8217;ll learn what iBeacon is, Chris will show you how to use iBeacons in your apps.</em></p>
+<p>Surely you&#8217;ve heard of the nifty new feature in iOS 7 that lets your app gather location contextual information indoors where it can&#8217;t use GPS? If you haven&#8217;t, not to fear because we&#8217;re going to show you what it is and how you can use it in this article!</p>
+<p>Beacon works over Bluetooth Low Energy (BLE) technology in your iPhone and as the name implies, it&#8217;s incredibly battery efficient. Going hand in hand with being low energy, it also has a short range of approximately 150 feet.</p>
+<h2>Real World Applications</h2>
+<p>The impact of having location sensitive information while indoors is already turning into real world applications. For example, Macy&#8217;s already has a pilot program underway where it has planted several beacons in different departments around the store. When a user passes by one of these departments and the companion app on their phone picks up the broadcast, it&#8217;ll open the app and display contextual information like promos, featured products and deals. Take a look at this short video to see iBeacons in action!</p>
+<p><center><iframe width="700" height="394" src="http://www.youtube.com/embed/3QFrZjvp2E0?feature=oembed" frameborder="0" allowfullscreen></iframe></center><br />
+<span id="more-2721"></span></p>
+<h2>Our Demo</h2>
+<p>Similar to the Macy&#8217;s pilot program app, the sample app we&#8217;re building here today will demonstrate how to detect and handle a broadcast from a beacon. However, in order to have a beacon to handle, we have to first create another app to act as the beacon which will do nothing except broadcast a signal. By the end of the article, we&#8217;ll have two apps representing both sides of the communication.</p>
+<div class="note">Note: In order to try the demo out, you will need two actual iOS 7 devices supporting BLE. These are iPhone 4S and up, iPad mini and iPad 3 and up. You will also need to be enrolled in the Apple iOS Developer Program ($99 a year) in order to deploy the apps onto the devices.</div>
+<h2>Setup: The Broadcasting App</h2>
+<p>What exactly does the beacon broadcast? Well it&#8217;s a UUID that looks something like this:<br />
+C293726B-63BF-420A-9D79-92C71F67536A</p>
+<p>The beacon will continually broadcast this UUID and the receiver app will detect beacons with this same UUID.</p>
+<p>Let&#8217;s get started by creating a new Single View Application in Xcode.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-01.jpg" alt="ibeacons demo - create Xcode project" class="aligncenter size-full wp-image-2724" /></div>
+<p>Click next and give the project a name and you can put &#8220;AppCoda&#8221; as the company and &#8220;com.appcoda&#8221; as the bundle identifier:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-02.jpg" alt="ibeacon - create project" class="aligncenter size-full wp-image-2725" /></div>
+<p>Next let&#8217;s add the images for the button that will start the broadcasting.<br />
+Go to your image asset library (images.xcassets) and in the asset listing, right click and select &#8220;New Image Set&#8221;.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-03.jpg" alt="ibeacons - Add Image Asset" class="aligncenter size-full wp-image-2726" /></div>
+<p>Then rename the image set to &#8220;BroadcastButton&#8221;. When you select this image set, you&#8217;ll see that there are spots for you to add a 2x image and a 1x image.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-04.jpg" alt="ibeacons - image asset" class="aligncenter size-full wp-image-2727" /></div>
+<p>Save these two button images onto your file system and then drag &#8220;<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="de9cacb1bfbabdbfadaa9caab09eeca6f0aeb0b9">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>&#8221; into the 2x spot and &#8220;BroadcastBtn.png&#8221; into the 1x spot.</p>
+<p><center><img src="http://www.appcoda.com/wp-content/uploads/2013/11/broadcastBtn.png" alt="broadcastBtn" /><img src="http://www.appcoda.com/wp-content/uploads/2013/11/broadcastBtn@2x.png" alt="broadcastBtn@2x" /></center></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-05.jpg" alt="ibeacons adding image asset" class="aligncenter size-full wp-image-2730" /></div>
+<p>In Main.storyboard, we&#8217;re going to add a UIButton element so drag one onto your view from the Objects pane in the lower right hand corner.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-06.jpg" alt="ibeacon - adding button" class="aligncenter size-full wp-image-2731" /></div>
+<p>Select the button in the storyboard and go into the attributes inspector to get rid of the title and change the image to the image set that we added.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-07.jpg" alt="iBeacons - Changing title" class="aligncenter size-full wp-image-2732" /></div>
+<p>Position your button in the middle of the view and your view should look like this</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-08.jpg" alt="iBeacons - Broadcast Button" class="aligncenter size-full wp-image-2733" /></div>
+<p>Now let&#8217;s add a UILabel element to the view so that we know when the app is broadcasting. Drag a UILabel element from the Objects pane onto your view.</p>
+<p>Then go into the attributes and size inspector and change it to center alignment and width 200. Center it in your view and you should get something like this</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-09.jpg" alt="iBeacons - Adding Label" class="aligncenter size-full wp-image-2734" /></div>
+<p>Next, we&#8217;ll expose the UILabel to our ViewController object by hooking it up to an IBOutlet property. Let&#8217;s open up Assistant Editor (you can do so with the assistant editor button in the upper right corner of the Xcode interface).</p>
+<p>Make sure that you&#8217;re looking at ViewController.h in the right pane and then hold &#8220;control&#8221; and click and drag a line from the UILabel to a space between the &#8220;@interface&#8221; and &#8220;@end&#8221; lines in the .h file.</p>
+<p>When you release your mouse, you&#8217;ll see a pop up dialog. Give the property a name of &#8220;statusLabel&#8221;.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-10.jpg" alt="iBeacons - Adding statusLabel Property" class="aligncenter size-full wp-image-2735" /></div>
+<p>Your ViewController.h file will look like this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController<br />
+&nbsp;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>statusLabel;<br />
+&nbsp;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Now let&#8217;s connect the broadcast button to a IBAction method handler. Stay in Assistant Editor but change the right pane to ViewController.m. Hold &#8220;control&#8221; and click and drag a line from the UIButton to a space between the &#8220;@implementation&#8221; and &#8220;@end&#8221; lines in the .m file. In the pop up dialog, give the method the name &#8220;buttonClicked&#8221;</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-11.jpg" alt="iBeacons - Adding  buttonClick method" class="aligncenter size-full wp-image-2736" /></div>
+<p>Your ViewController.m file will have this method at the end now:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>buttonClicked<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Adding Required Frameworks</h2>
+<p>Before we can actually broadcast anything over Bluetooth, we need to add the appropriate frameworks to our project.</p>
+<p>Go to your project settings and scroll to the bottom. Click the &#8220;+&#8221; button under &#8220;Linked Frameworks and Libraries&#8221; to add CoreBluetooth.framework and CoreLocation.framework.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-12.jpg" alt="iBeacons - Adding Framework" class="aligncenter size-full wp-image-2738" /></div>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-13.jpg" alt="iBeacons - Adding framework" class="aligncenter size-full wp-image-2739" /></div>
+<h2>Creating a UUID</h2>
+<p>Open up Launchpad on your Mac (or just go to the Applications folder) and open the Terminal app. In Launchpad, it may be in a folder called &#8220;Other&#8221; and the icon looks like this:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/terminal-icon.jpg" alt="terminal-icon" class="aligncenter size-full wp-image-2740" /></div>
+<p>Once opened, you&#8217;ll have a window where you can type in &#8220;uuidgen&#8221; and it will output a UUID for you to use! Copy the generated UUID because we&#8217;re going to be broadcasting that!</p>
+<h2>Beacon Broadcasting</h2>
+<p>In ViewController.h let&#8217;s import the frameworks which we added earlier.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;CoreLocation/CoreLocation.h&gt;</span><br />
+<span style="color: #6e371a;">#import &lt;CoreBluetooth/CoreBluetooth.h&gt;</span></div></td></tr></tbody></table></div>
+<p>Next, let&#8217;s add 3 more properties that we&#8217;ll be using to broadcast. So in total, you&#8217;ll have 4 properties in your ViewController.h file.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>statusLabel;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> CLBeaconRegion <span style="color: #002200;">*</span>myBeaconRegion;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>myBeaconData;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> CBPeripheralManager <span style="color: #002200;">*</span>peripheralManager;</div></td></tr></tbody></table></div>
+<p>One more thing we have to do here is have the ViewController class conform to the &#8220;CBPeripheralManagerDelegate&#8221; protocol and we do that by adding this to the class declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController&lt;CBPeripheralManagerDelegate&gt;</div></td></tr></tbody></table></div>
+<p>Ok, now we&#8217;re done in the .h file, let&#8217;s go into the .m file.</p>
+<p>In the viewDidLoad method, add the following code (substitute the UUID for the one you generated).</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Do any additional setup after loading the view, typically from a nib.</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Create a NSUUID object</span><br />
+&nbsp; &nbsp; NSUUID <span style="color: #002200;">*</span>uuid <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>NSUUID alloc<span style="color: #002200;">&#93;</span> initWithUUIDString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;A77A1B68-49A7-4DBF-914C-760D07FBB87B&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initialize the Beacon Region</span><br />
+&nbsp; &nbsp; self.myBeaconRegion <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CLBeaconRegion alloc<span style="color: #002200;">&#93;</span> initWithProximityUUID<span style="color: #002200;">:</span>uuid<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; major<span style="color: #002200;">:</span><span style="color: #2400d9;">1</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; minor<span style="color: #002200;">:</span><span style="color: #2400d9;">1</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;identifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;com.appcoda.testregion&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the code above, we&#8217;re creating a new NSUUID object by passing in the UUID that we want to broadcast.</p>
+<p>Then we&#8217;re setting up a <a href="https://developer.apple.com/LIBRARY/IOS/documentation/CoreLocation/Reference/CLBeaconRegion_class/Reference/Reference.html">CLBeaconRegion</a> and initializing it with that UUID, a major and minor number and an identifier.</p>
+<p>The major and minor numbers are for you to identify your beacons if you have a whole bunch of them inside your location. In the Macy&#8217;s example above, each department may have a specific major number which identifies a group of beacons and inside that department, each beacon may have a specific minor number. So with both the major and minor, you&#8217;ll be able to identify exactly which beacon has been picked up.</p>
+<p>Finally, the identifier is a unique id for that region.</p>
+<p>In the buttonClicked method that we set up earlier, let&#8217;s add this code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>buttonClicked<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Get the beacon data to advertise</span><br />
+&nbsp; &nbsp; self.myBeaconData <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>self.myBeaconRegion peripheralDataWithMeasuredPower<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Start the peripheral manager</span><br />
+&nbsp; &nbsp; self.peripheralManager <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CBPeripheralManager alloc<span style="color: #002200;">&#93;</span> initWithDelegate<span style="color: #002200;">:</span>self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;queue<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;options<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the code above, we&#8217;re calling the method &#8220;peripheralDataWithMeasuredPower:&#8221; method of the beacon region which will give us the beacon data that we will later use to broadcast.</p>
+<p>The second line starts the peripheral manager and will start to monitor updates to the status of Bluetooth.</p>
+<p>Now we have to handle the status update method to detect when Bluetooth is on and off. So add this delegate method which is required because our ViewController class conforms to the &#8220;CBPeripheralManagerDelegate&#8221; protocol.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>peripheralManagerDidUpdateState<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CBPeripheralManager<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>peripheral<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>peripheral.state <span style="color: #002200;">==</span> CBPeripheralManagerStatePoweredOn<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Bluetooth is on</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Update our status label</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.statusLabel.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Broadcasting...&quot;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Start broadcasting</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.peripheralManager startAdvertising<span style="color: #002200;">:</span>self.myBeaconData<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>peripheral.state <span style="color: #002200;">==</span> CBPeripheralManagerStatePoweredOff<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Update our status label</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.statusLabel.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Stopped&quot;</span>;<br />
+&nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Bluetooth isn't on. Stop broadcasting</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.peripheralManager stopAdvertising<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>peripheral.state <span style="color: #002200;">==</span> CBPeripheralManagerStateUnsupported<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.statusLabel.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Unsupported&quot;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The method above gets triggered whenever there is a change in the Bluetooth peripheral status. So in the method, we check what the current status is. If it&#8217;s on, we&#8217;ll update our label and call the &#8220;startAdvertising&#8221; method and pass it our beacon data to broadcast. Conversely, if the status is off, then we&#8217;ll stop advertising.</p>
+<p>Now when you deploy the app to your device, turn on bluetooth and tap the button, it&#8217;ll be broadcasting your UUID! Let&#8217;s create the receiver app to detect and handle the broadcast!</p>
+<p>Note: You won&#8217;t be able to broadcast via the simulator because it can&#8217;t use bluetooth. You&#8217;ll need to be enrolled in the Apple Developer program in order to be able to put this app on an actual device which supports BLE (iPhone 4S and up, iPad mini and iPad 3 and up)</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-14.jpg" alt="iBeacons Demo" class="aligncenter size-full wp-image-2741" /></div>
+<h2>Detecting Beacon Proximity</h2>
+<p>Let&#8217;s set up another Single View Application and this time, call it &#8220;BeaconReceiver&#8221;.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/receiver-01.jpg" alt="iBeacons - Receiver Project" class="aligncenter size-full wp-image-2742" /></div>
+<p>Go into the Main.storyboard and let&#8217;s keep it simple and add a single UILabel to the view that we&#8217;ll use to update the status when a beacon is detected. Drag a UILabel element from the Objects pane onto your view. Then click the UILabel and go into the attributes inspector to change the alignment to Center Align and change the width to 200.</p>
+<p>You&#8217;ll end up with this:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/receiver-02.jpg" alt="iBeacons - Adding Label in Receiver View" class="aligncenter size-full wp-image-2743" /></div>
+<h2>Adding the CoreLocation Framework</h2>
+<p>The core location framework has been updated to support beacon detection and we need to add it to our project. Go to your project properties and click the &#8220;+&#8221; icon under &#8220;Linked Libraries and Frameworks&#8221;. Add CoreLocation.framework</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/receiver-03.jpg" alt="iBeacons - Adding Location Framework" class="aligncenter size-full wp-image-2744" /></div>
+<p>Now just like we did before, let&#8217;s expose the UILabel as an IBOutlet property. Open up Assistant Editor and make sure ViewController.h is on the right hand pane. Then hold down &#8220;control&#8221; and click the UILabel and drag a line over to the right pane in between &#8220;@interface&#8221; and &#8220;@end&#8221;. When you let go, a pop up dialog will show up and you can name the property &#8220;statusLabel&#8221;.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/receiver-04.jpg" alt="iBeacons - Receiver" class="aligncenter size-full wp-image-2745" /></div>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController<br />
+&nbsp;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>statusLabel;<br />
+&nbsp;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Finally, go into ViewController.h and import the framework at the top and modify the class declaration to conform to the CLLocationManagerDelegate protocol because the protocol contains a delegate method that will let us know of newly detected beacons.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;UIKit/UIKit.h&gt;</span><br />
+<span style="color: #6e371a;">#import &lt;CoreLocation/CoreLocation.h&gt;</span><br />
+&nbsp;<br />
+<span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController&lt;CLLocationManagerDelegate&gt;<br />
+&nbsp;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>statusLabel;<br />
+&nbsp;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<h2>Detecting Beacons</h2>
+<p>We need to add two properties. One to keep track of the beacon region we&#8217;re trying to detect and the other to hold the location manager which will give us updates on beacons found so add this code to ViewController.h:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> ViewController <span style="color: #002200;">:</span> UIViewController&lt;CLLocationManagerDelegate&gt;<br />
+&nbsp;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> CLBeaconRegion <span style="color: #002200;">*</span>myBeaconRegion;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> CLLocationManager <span style="color: #002200;">*</span>locationManager;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>statusLabel;<br />
+&nbsp;<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Now go into ViewController.m and in the &#8220;viewDidLoad&#8221; method, we&#8217;re going to initialize our locationManager and set ourselves as the delegate for it. We&#8217;re also going to start monitoring for the desired beacon so have that UUID handy!</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Do any additional setup after loading the view, typically from a nib.</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initialize location manager and set ourselves as the delegate</span><br />
+&nbsp; &nbsp; self.locationManager <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CLLocationManager alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.locationManager.delegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Create a NSUUID with the same UUID as the broadcasting beacon</span><br />
+&nbsp; &nbsp; NSUUID <span style="color: #002200;">*</span>uuid <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>NSUUID alloc<span style="color: #002200;">&#93;</span> initWithUUIDString<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;A77A1B68-49A7-4DBF-914C-760D07FBB87B&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Setup a new region with that UUID and same identifier as the broadcasting beacon</span><br />
+&nbsp; &nbsp; self.myBeaconRegion <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CLBeaconRegion alloc<span style="color: #002200;">&#93;</span> initWithProximityUUID<span style="color: #002200;">:</span>uuid<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;identifier<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;com.appcoda.testregion&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Tell location manager to start monitoring for the beacon region</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.locationManager startMonitoringForRegion<span style="color: #002200;">:</span>self.myBeaconRegion<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Ok a lot is going on in the code above so let&#8217;s take it line by line.</p>
+<p>In Line 7 and 8, we&#8217;re initializing locationManager to a new instance of CLLocationManager and then setting ourselves as its delegate so we can be notified of updates.</p>
+<p>In line 11, we&#8217;re setting up a NSUUID object with the same UUID as the one that&#8217;s being broadcasted by the app we created earlier.</p>
+<p>In line 14, we&#8217;re setting up the beacon region by passing in the UUID we want to look for as well as the region identifier of the region that&#8217;s being broadcasted.</p>
+<p>And finally in line 18, we&#8217;re passing the region into the location manager to monitor for us.</p>
+<p>Next we&#8217;re going to need to implement some delegate methods that will be called when the region is detected.</p>
+<p>First add these methods to your ViewController.m:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>locationManager<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationManager<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>manager didEnterRegion<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLRegion<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>region <br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.locationManager startRangingBeaconsInRegion<span style="color: #002200;">:</span>self.beaconRegion<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+&nbsp;<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>locationManager<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationManager<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>manager didExitRegion<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLRegion<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>region <br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.locationManager stopRangingBeaconsInRegion<span style="color: #002200;">:</span>self.beaconRegion<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.beaconFoundLabel.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;No&quot;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The code above implements two methods that get triggered when the device enters a region or leaves a region. When a region is entered, we tell locationManager to start looking for beacons in the region.</p>
+<p>Now implement this method below</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>locationManager<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationManager<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>manager<br />
+&nbsp; &nbsp; &nbsp; &nbsp;didRangeBeacons<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a><span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>beacons<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; inRegion<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLBeaconRegion<span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>region<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Beacon found!</span><br />
+&nbsp; &nbsp; self.statusLabel.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Beacon found!&quot;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; CLBeacon <span style="color: #002200;">*</span>foundBeacon <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>beacons firstObject<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// You can retrieve the beacon data from its properties</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">//NSString *uuid = foundBeacon.proximityUUID.UUIDString;</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">//NSString *major = [NSString stringWithFormat:@&quot;%@&quot;, foundBeacon.major];</span><br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">//NSString *minor = [NSString stringWithFormat:@&quot;%@&quot;, foundBeacon.minor];</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This method will get fired when one or more beacons are detected. In the code above you can see how we could get the UUID, major and minor data from the beacon. Furthermore, although we don&#8217;t implement it above, you can loop through the beacons array and determine which one is the closest by checking the proximity property of the beacon.</p>
+<h2>Running The Demo</h2>
+<p>If you&#8217;ve got two devices and you&#8217;ve paid to enrol in the Apple iOS Developer program, you can test the communication out. Launch the beacon app and tap the &#8220;Broadcast&#8221; button and wait for the &#8220;Broadcasting…&#8221; message to appear.</p>
+<p>Launch the receiver app and carry it far away from the broadcasting beacon and then walk towards it to simulate entering the region.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/11/beacon-receiver.jpg" alt="iBeacons Receiver" class="aligncenter size-full wp-image-2746" /></div>
+<h2>Summary</h2>
+<p>If you don&#8217;t have multiple devices, you can still build some cool applications by buying BLE beacons and placing them around your house. <a href="http://estimote.com/">Estimote</a> makes such beacons and you get three for $99.</p>
+<p>So I hope you can see how powerful and applicable iBeacons are and I hope this demo has sparked your imagination for some real world possibilities too! For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/iBeacon_Projects.zip">download the Xcode project of the demo app from here</a>.</p>
+<p>I&#8217;d love to hear your thoughts in the comments below and if you learned something new, please use the social buttons to share this with your friends and colleagues!</p>
+<p><em>This post is contributed by Chris Ching from <a href="http://codewithchris.com">Code With Chris</a>. Chris has taught iOS programming to many beginners through his site and YouTube channel and has recently launched a video course: <a href="http://codewithchris.com/how-to-create-an-app-course/">How To Create An App</a>.</em></p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/how-to-handle-row-selection-in-uitableview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/05/simpletableapp_row_select-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Handle Row Selection in UITableView</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/use-storyboards-to-build-navigation-controller-and-table-view/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/06/Photos-App-Navigation-Controller-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Use Storyboards to Build Navigation Controller and Table View</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-create-email-attachment/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/07/Email-Attachment-Featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Create Email with Attachment</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/fetch-parse-json-ios-programming-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/08/json-intro-tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Fetch and Parse JSON Using iOS SDK</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios7-programming-ibeacons-tutorial/"
+    dc:identifier="http://www.appcoda.com/ios7-programming-ibeacons-tutorial/"
+    dc:title="How To Use iBeacons in iOS 7 to Enhance Your Apps"
+    trackback:ping="http://www.appcoda.com/ios7-programming-ibeacons-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/clbeacon/" rel="tag">CLBeacon</a>, <a href="http://www.appcoda.com/tag/clbeaconregion/" rel="tag">CLBeaconRegion</a>, <a href="http://www.appcoda.com/tag/core-location/" rel="tag">Core Location</a>, <a href="http://www.appcoda.com/tag/ibeacons/" rel="tag">iBeacons</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-2865">
+        <div id="dsq-comment-header-2865" class="dsq-comment-header">
+            <cite id="dsq-cite-2865">
+                <span id="dsq-author-user-2865">dariux</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2865" class="dsq-comment-body">
+            <div id="dsq-comment-message-2865" class="dsq-comment-message"><p>I just say, &#8220;Esta super chingon el tutorial&#8221; in other words congratulations for this great tut!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2866">
+        <div id="dsq-comment-header-2866" class="dsq-comment-header">
+            <cite id="dsq-cite-2866">
+http://codewithchris.com/                <span id="dsq-author-user-2866">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2866" class="dsq-comment-body">
+            <div id="dsq-comment-message-2866" class="dsq-comment-message"><p>Thanks Dariux! Appreciate it and thanks for reading! <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2867">
+        <div id="dsq-comment-header-2867" class="dsq-comment-header">
+            <cite id="dsq-cite-2867">
+                <span id="dsq-author-user-2867">PghTV</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2867" class="dsq-comment-body">
+            <div id="dsq-comment-message-2867" class="dsq-comment-message"><p>Thanks, Chris &#8211; good stuff. I ordered the Estimote a week ago and was just about ready to start playing around with iBeacon code. Very timely! I&#8217;m hoping to use the relative range reporting to do some GPS-like navigation indoors.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2871">
+        <div id="dsq-comment-header-2871" class="dsq-comment-header">
+            <cite id="dsq-cite-2871">
+                <span id="dsq-author-user-2871">Hugh Mbaezue</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2871" class="dsq-comment-body">
+            <div id="dsq-comment-message-2871" class="dsq-comment-message"><p>Wow Perfect timing Chris. I just landed a project that has to do with iBeacons. Working with Estimote to be exact! Thank you so much for this tutorial, just what I needed&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2886">
+        <div id="dsq-comment-header-2886" class="dsq-comment-header">
+            <cite id="dsq-cite-2886">
+                <span id="dsq-author-user-2886">Ly4S</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2886" class="dsq-comment-body">
+            <div id="dsq-comment-message-2886" class="dsq-comment-message"><p>iBeacons was one of the things I got really excited about during WWDC. I&#8217;ve done some experimenting on my own but this is an excellent tutorial and really solidified my learning. Now my enthusiasm has been reinvigorated, thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2917">
+        <div id="dsq-comment-header-2917" class="dsq-comment-header">
+            <cite id="dsq-cite-2917">
+                <span id="dsq-author-user-2917">Carl</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2917" class="dsq-comment-body">
+            <div id="dsq-comment-message-2917" class="dsq-comment-message"><p>Hello Chris! Thanks a lot for your tutorial, it helped me a lot with my project!</p>
+<p>There&#8217;s a small problem: my app (the receiver) is not always firing up the method &#8220;didRangeBeacons&#8221; when a beacon is found. It sometimes does but rarely.</p>
+<p>Thanks in advance!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2923">
+        <div id="dsq-comment-header-2923" class="dsq-comment-header">
+            <cite id="dsq-cite-2923">
+                <span id="dsq-author-user-2923">Joel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2923" class="dsq-comment-body">
+            <div id="dsq-comment-message-2923" class="dsq-comment-message"><p>Good tutorial, found some typos:<br />
+&#8211; (void)locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region<br />
+{<br />
+    [self.locationManager startRangingBeaconsInRegion:self.beaconRegion];<br />
+}</p>
+<p>-(void)locationManager:(CLLocationManager*)manager didExitRegion:(CLRegion*)region<br />
+{<br />
+    [self.locationManager stopRangingBeaconsInRegion:self.beaconRegion];<br />
+    self.beaconFoundLabel.text = @&#8221;No&#8221;;<br />
+}</p>
+<p>Should be:</p>
+<p>&#8211; (void)locationManager:(CLLocationManager*)manager didEnterRegion:(CLRegion*)region</p>
+<p>{</p>
+<p>    [self.locationManager startRangingBeaconsInRegion:self.myBeaconRegion];</p>
+<p>}</p>
+<p>-(void)locationManager:(CLLocationManager*)manager didExitRegion:(CLRegion*)region</p>
+<p>{</p>
+<p>    [self.locationManager stopRangingBeaconsInRegion:self.myBeaconRegion];</p>
+<p>    self.statusLabel.text = @&#8221;No&#8221;;</p>
+<p>}</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3379">
+        <div id="dsq-comment-header-3379" class="dsq-comment-header">
+            <cite id="dsq-cite-3379">
+http://codewithchris.com/                <span id="dsq-author-user-3379">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3379" class="dsq-comment-body">
+            <div id="dsq-comment-message-3379" class="dsq-comment-message"><p>Good eye, thanks for letting me know Joel!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2988">
+        <div id="dsq-comment-header-2988" class="dsq-comment-header">
+            <cite id="dsq-cite-2988">
+                <span id="dsq-author-user-2988">Jack</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2988" class="dsq-comment-body">
+            <div id="dsq-comment-message-2988" class="dsq-comment-message"><p>Cheers for the tutorial, very helpful!! just wondering if it is possible to combine a receiver and an iBeacon into one app?<br />
+Thanks!<br />
+Jack</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3378">
+        <div id="dsq-comment-header-3378" class="dsq-comment-header">
+            <cite id="dsq-cite-3378">
+http://codewithchris.com/                <span id="dsq-author-user-3378">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3378" class="dsq-comment-body">
+            <div id="dsq-comment-message-3378" class="dsq-comment-message"><p>Hey Jack, it&#8217;s possible to put it into the same app and let the user select whether it should be a receiver or a broadcaster on launch!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3090">
+        <div id="dsq-comment-header-3090" class="dsq-comment-header">
+            <cite id="dsq-cite-3090">
+                <span id="dsq-author-user-3090">Adrienne</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3090" class="dsq-comment-body">
+            <div id="dsq-comment-message-3090" class="dsq-comment-message"><p>Two things &#8211; </p>
+<p>First: You should call [self.locationManager requestStateForRegion:self.beaconRegion] after calling [self.locationManager startMonitoringForRegion:self.beaconRegion]. This seems to force it to check if it&#8217;s already IN the region. </p>
+<p>Second: You MUST have &#8220;Background App Refresh&#8221; enabled for region monitoring to work! I tried this example and it just wouldn&#8217;t work for me. I checked the value of [CLLocationManager isMonitoringAvailableForClass:[self.beaconRegion class]] and of [CLLocationManager authorizationStatus] and both were fine, so I was stumped for a while. Finally I found the &#8220;Region Monitoring&#8221; section of Apple&#8217;s &#8220;Location and Maps Programming Guide&#8221; and discovered that this error can occur if &#8220;Background App Refresh&#8221; is disabled on the device. Once I enabled it, it worked fine. </p>
+<p>Here&#8217;s my code for checking each of these values:</p>
+<p>NSArray *locationServicesAuthStatuses = @[@&#8221;Not determined&#8221;,@&#8221;Restricted&#8221;,@&#8221;Denied&#8221;,@&#8221;Authorized&#8221;];<br />
+NSArray *backgroundRefreshAuthStatuses = @[@&#8221;Restricted&#8221;,@&#8221;Denied&#8221;,@&#8221;Available&#8221;];</p>
+<p>BOOL monitoringAvailable = [CLLocationManager isMonitoringAvailableForClass:[self.beaconRegion class]];<br />
+NSLog(@&#8221;Monitoring available: %@&#8221;, [NSNumber numberWithBool:monitoringAvailable]);</p>
+<p>int lsAuth = (int)[CLLocationManager authorizationStatus];<br />
+NSLog(@&#8221;Location services authorization status: %@&#8221;, [locationServicesAuthStatuses objectAtIndex:lsAuth]);</p>
+<p>int brAuth = (int)[[UIApplication sharedApplication] backgroundRefreshStatus];<br />
+NSLog(@&#8221;Background refresh authorization status: %@&#8221;, [backgroundRefreshAuthStatuses objectAtIndex:brAuth]);</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3377">
+        <div id="dsq-comment-header-3377" class="dsq-comment-header">
+            <cite id="dsq-cite-3377">
+http://codewithchris.com/                <span id="dsq-author-user-3377">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3377" class="dsq-comment-body">
+            <div id="dsq-comment-message-3377" class="dsq-comment-message"><p>Thanks Adrienne for taking the time to comment and help everyone out!<br />
+I&#8217;ll get into contact w/ Simon to see if i can amend the article.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-14727">
+        <div id="dsq-comment-header-14727" class="dsq-comment-header">
+            <cite id="dsq-cite-14727">
+                <span id="dsq-author-user-14727">Thampuran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14727" class="dsq-comment-body">
+            <div id="dsq-comment-message-14727" class="dsq-comment-message"><p>Thanks Chris for the clear tutorial. And thank you Adrienne <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /><br />
+I am attaching an image for those who are searching for how to set background-app refresh in iOS devices (because while reading I was not aware of this, and this may be useful for someone else too )  😉</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-14728">
+        <div id="dsq-comment-header-14728" class="dsq-comment-header">
+            <cite id="dsq-cite-14728">
+                <span id="dsq-author-user-14728">Thampuran</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14728" class="dsq-comment-body">
+            <div id="dsq-comment-message-14728" class="dsq-comment-message"><p><a href="http://support.apple.com/kb/ht4211" rel="nofollow">http://support.apple.com/kb/ht4211</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3098">
+        <div id="dsq-comment-header-3098" class="dsq-comment-header">
+            <cite id="dsq-cite-3098">
+                <span id="dsq-author-user-3098">Jay  Santos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3098" class="dsq-comment-body">
+            <div id="dsq-comment-message-3098" class="dsq-comment-message"><p>This line of code is missing which is included in the sample app that can be downloaded:</p>
+<p>// Check if beacon monitoring is available for this device</p>
+<p>    if (![CLLocationManager isMonitoringAvailableForClass:[CLBeaconRegion class]]) {</p>
+<p>        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@&#8221;Monitoring not available&#8221; message:nil delegate:nil cancelButtonTitle:@&#8221;Ok&#8221; otherButtonTitles: nil]; [alert show]; return;</p>
+<p>    }</p>
+<p>That line of code should be after this line of code:</p>
+<p>[self.locationManager startMonitoringForRegion:self.myBeaconRegion];</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3376">
+        <div id="dsq-comment-header-3376" class="dsq-comment-header">
+            <cite id="dsq-cite-3376">
+http://codewithchris.com/                <span id="dsq-author-user-3376">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3376" class="dsq-comment-body">
+            <div id="dsq-comment-message-3376" class="dsq-comment-message"><p>Hey Jay, thanks for pointing it out! Not sure if the sample code was modified already but I found that line above the IF statement in the sample code and I can&#8217;t remember if i added that 😛</p>
+<p>It&#8217;d probably be best put in a ELSE clause while we&#8217;re at it.</p>
+<p>Thanks for reading and taking the time to comment!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3191">
+        <div id="dsq-comment-header-3191" class="dsq-comment-header">
+            <cite id="dsq-cite-3191">
+                <span id="dsq-author-user-3191">Brian McGuire</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3191" class="dsq-comment-body">
+            <div id="dsq-comment-message-3191" class="dsq-comment-message"><p>Nice tutorial.  However I am running into some challenges.  I was able to write, compile and push the individual apps to two different iOS Dev iPhones (4s &amp; 5s).  I am able to start both apps successfully.  I am able to click &#8220;Broadcast&#8221; and start the broadcasting process, however I am not getting any responses on the receiver app.  I checked to make sure I had the same UUID&#8217;s thinking it was that.  Any ideas?  Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-3305">
+        <div id="dsq-comment-header-3305" class="dsq-comment-header">
+            <cite id="dsq-cite-3305">
+                <span id="dsq-author-user-3305">Marvi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3305" class="dsq-comment-body">
+            <div id="dsq-comment-message-3305" class="dsq-comment-message"><p>I&#8217;m running into the same issue. Glad to receive some help</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-3375">
+        <div id="dsq-comment-header-3375" class="dsq-comment-header">
+            <cite id="dsq-cite-3375">
+http://codewithchris.com/                <span id="dsq-author-user-3375">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3375" class="dsq-comment-body">
+            <div id="dsq-comment-message-3375" class="dsq-comment-message"><p>Hello Marvi, unfortunately with the implementation I did in the article, if you start the receiver when it&#8217;s already in the beacon range, it&#8217;s not going to fire. Just checking that you&#8217;re walking far away from the beacon and then walking back into range to get it to fire?</p>
+<p>Also Adrienne, a commenter below, mentioned that you need to have &#8220;Background App Refresh&#8221; enabled on the device for it to work. </p>
+<p>Give that a try!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3193">
+        <div id="dsq-comment-header-3193" class="dsq-comment-header">
+            <cite id="dsq-cite-3193">
+                <span id="dsq-author-user-3193">Nagesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3193" class="dsq-comment-body">
+            <div id="dsq-comment-message-3193" class="dsq-comment-message"><p>Very good tutorial. I have downloaded the your app and ran it on my iPhone 4 its saying &#8220;Unsupported&#8221; please help</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3194">
+        <div id="dsq-comment-header-3194" class="dsq-comment-header">
+            <cite id="dsq-cite-3194">
+                <span id="dsq-author-user-3194">Nagesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3194" class="dsq-comment-body">
+            <div id="dsq-comment-message-3194" class="dsq-comment-message"><p>The Beacon app  is not listed in Bluetooth sharing, how can I add it.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3210">
+        <div id="dsq-comment-header-3210" class="dsq-comment-header">
+            <cite id="dsq-cite-3210">
+                <span id="dsq-author-user-3210">awebb</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3210" class="dsq-comment-body">
+            <div id="dsq-comment-message-3210" class="dsq-comment-message"><p>Unfortunately the iPhone 4 does not support BLE</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-97591">
+        <div id="dsq-comment-header-97591" class="dsq-comment-header">
+            <cite id="dsq-cite-97591">
+http://raptor.hk                <span id="dsq-author-user-97591">Raptor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97591" class="dsq-comment-body">
+            <div id="dsq-comment-message-97591" class="dsq-comment-message"><p>Bluetooth on iPhone 4 does not support Bluetooth LE, which is required for iBeacon.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3211">
+        <div id="dsq-comment-header-3211" class="dsq-comment-header">
+            <cite id="dsq-cite-3211">
+http://www.subprint.com                <span id="dsq-author-user-3211">joemccann</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3211" class="dsq-comment-body">
+            <div id="dsq-comment-message-3211" class="dsq-comment-message"><p>Excellent tutorial.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3374">
+        <div id="dsq-comment-header-3374" class="dsq-comment-header">
+            <cite id="dsq-cite-3374">
+http://codewithchris.com/                <span id="dsq-author-user-3374">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3374" class="dsq-comment-body">
+            <div id="dsq-comment-message-3374" class="dsq-comment-message"><p>Thanks for reading joe!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3273">
+        <div id="dsq-comment-header-3273" class="dsq-comment-header">
+            <cite id="dsq-cite-3273">
+                <span id="dsq-author-user-3273">Steven</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3273" class="dsq-comment-body">
+            <div id="dsq-comment-message-3273" class="dsq-comment-message"><p>Hey how do you make the BroadcastButton Image ?<br />
+With PS ?<br />
+Can you send me the Project pls :).<br />
+Thank You !</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-3356">
+        <div id="dsq-comment-header-3356" class="dsq-comment-header">
+            <cite id="dsq-cite-3356">
+                <span id="dsq-author-user-3356">Tom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3356" class="dsq-comment-body">
+            <div id="dsq-comment-message-3356" class="dsq-comment-message"><p>Yes this i want to know,too!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3373">
+        <div id="dsq-comment-header-3373" class="dsq-comment-header">
+            <cite id="dsq-cite-3373">
+http://codewithchris.com/                <span id="dsq-author-user-3373">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3373" class="dsq-comment-body">
+            <div id="dsq-comment-message-3373" class="dsq-comment-message"><p>Hey Tom, you can download the Xcode project in the link under the &#8220;Summary&#8221; section.. button image was made in PS!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-3372">
+        <div id="dsq-comment-header-3372" class="dsq-comment-header">
+            <cite id="dsq-cite-3372">
+http://codewithchris.com/                <span id="dsq-author-user-3372">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3372" class="dsq-comment-body">
+            <div id="dsq-comment-message-3372" class="dsq-comment-message"><p>Hey Steven! You can download the project in the link under the &#8220;Summary&#8221; section. Yup was made in PS <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-3382">
+        <div id="dsq-comment-header-3382" class="dsq-comment-header">
+            <cite id="dsq-cite-3382">
+                <span id="dsq-author-user-3382">Steven</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3382" class="dsq-comment-body">
+            <div id="dsq-comment-message-3382" class="dsq-comment-message"><p>Tank you for the Answer!<br />
+I mean with Project ,the PS Project 😀 for the Buttons.<br />
+They are really cool <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> ..so can you send me maybe the &#8220;PS&#8221; Project please :).<br />
+Thank you !</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-4" id="dsq-comment-3383">
+        <div id="dsq-comment-header-3383" class="dsq-comment-header">
+            <cite id="dsq-cite-3383">
+http://codewithchris.com/                <span id="dsq-author-user-3383">Chris Ching</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3383" class="dsq-comment-body">
+            <div id="dsq-comment-message-3383" class="dsq-comment-message"><p>no problem! <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Can you get in contact with me through the contact link on my site? Then i can email it as an attachment for you. Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-5" id="dsq-comment-3384">
+        <div id="dsq-comment-header-3384" class="dsq-comment-header">
+            <cite id="dsq-cite-3384">
+                <span id="dsq-author-user-3384">Steven</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3384" class="dsq-comment-body">
+            <div id="dsq-comment-message-3384" class="dsq-comment-message"><p>Done <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Subject PS ButtonImage</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3484">
+        <div id="dsq-comment-header-3484" class="dsq-comment-header">
+            <cite id="dsq-cite-3484">
+                <span id="dsq-author-user-3484">Gunnar Forsgren</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3484" class="dsq-comment-body">
+            <div id="dsq-comment-message-3484" class="dsq-comment-message"><p>Thanks, one of my first ventures into iOS coding and this was a good intro to discovering some<br />
+less intuitive xcode steps in development.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3492">
+        <div id="dsq-comment-header-3492" class="dsq-comment-header">
+            <cite id="dsq-cite-3492">
+                <span id="dsq-author-user-3492">Gunnar Forsgren</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3492" class="dsq-comment-body">
+            <div id="dsq-comment-message-3492" class="dsq-comment-message"><p>Worth mentioning the beacon emitted by this example transmit app is also detected by Android BLE scanning apps. In that scenario the iBeacon app outlined here demonstrates the potential of how quickly a BLE device can detected after it begins broadcasting its beacon.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3498">
+        <div id="dsq-comment-header-3498" class="dsq-comment-header">
+            <cite id="dsq-cite-3498">
+                <span id="dsq-author-user-3498">Chris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3498" class="dsq-comment-body">
+            <div id="dsq-comment-message-3498" class="dsq-comment-message"><p>Hi Chris, Great piece of work! </p>
+<p>I have a couple of questions, I have purchased a beacon, I have the UUID and wish to only use the second part of your code (the receiver app) to try and link it to a real beacon, I am a bit stuck with the Minor and Major bit of the code. </p>
+<p>Looking at the receiver code, this bit:</p>
+<p>        // Setup a new region with that UUID and same identifier as the broadcasting beacon</p>
+<p>        self.myBeaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid</p>
+<p>                               identifier:@&#8221;com.appcoda.testregion&#8221;];</p>
+<p>Which refers to:</p>
+<p>// Initialize the Beacon Region</p>
+<p>    self.myBeaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid</p>
+<p>                                                                  major:1</p>
+<p>                                                                  minor:1</p>
+<p>                                                             identifier:@&#8221;com.appcoda.testregion&#8221;];</p>
+<p>In the first app, Obviously I only have the UUID, I don&#8217;t have the identifier, so what would I change in the code on the receiver app to just look for the UUID of the beacon I have rather than the beacon app which I haven&#8217;t made? &#8230;if that makes sense?</p>
+<p>Thanks,<br />
+Chris</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-4337">
+        <div id="dsq-comment-header-4337" class="dsq-comment-header">
+            <cite id="dsq-cite-4337">
+                <span id="dsq-author-user-4337">Ed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4337" class="dsq-comment-body">
+            <div id="dsq-comment-message-4337" class="dsq-comment-message"><p>Hey Chris,<br />
+I am in the same boat you were with this question. Did you ever figure it out?<br />
+Thanks,<br />
+Ed</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-10683">
+        <div id="dsq-comment-header-10683" class="dsq-comment-header">
+            <cite id="dsq-cite-10683">
+                <span id="dsq-author-user-10683">Kevin Doherty</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10683" class="dsq-comment-body">
+            <div id="dsq-comment-message-10683" class="dsq-comment-message"><p>I am in the same boat as well? Did either of you happen to figure it out?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3501">
+        <div id="dsq-comment-header-3501" class="dsq-comment-header">
+            <cite id="dsq-cite-3501">
+                <span id="dsq-author-user-3501">liangj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3501" class="dsq-comment-body">
+            <div id="dsq-comment-message-3501" class="dsq-comment-message"><p>Is There &#8220;How to use ibeacons in iSO7 with triangulation&#8221; example for an app?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3503">
+        <div id="dsq-comment-header-3503" class="dsq-comment-header">
+            <cite id="dsq-cite-3503">
+                <span id="dsq-author-user-3503">James</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3503" class="dsq-comment-body">
+            <div id="dsq-comment-message-3503" class="dsq-comment-message"><p>My receiver doesn&#8217;t seem to my beacon even if I go far out of range (30-40 m) and come back. &#8220;Background App Refresh&#8221;is enabled on my device. I tried the suggestion Adriene below made, adding  [self.locationManager requestStateForRegion:self.myBeaconRegion].</p>
+<p>Any more suggestions?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3505">
+        <div id="dsq-comment-header-3505" class="dsq-comment-header">
+            <cite id="dsq-cite-3505">
+                <span id="dsq-author-user-3505">文武 吴</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3505" class="dsq-comment-body">
+            <div id="dsq-comment-message-3505" class="dsq-comment-message"><p>HI-<br />
+I want to obtain the accurately distance between the iBeacon and the divece.</p>
+<p>Can someone help me ?<br />
+thanks a lot!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3527">
+        <div id="dsq-comment-header-3527" class="dsq-comment-header">
+            <cite id="dsq-cite-3527">
+                <span id="dsq-author-user-3527">Mustafa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3527" class="dsq-comment-body">
+            <div id="dsq-comment-message-3527" class="dsq-comment-message"><p>First of all, thanks Chris,<br />
+My question is can uuid program as dynamic?<br />
+if it possible that uuid can be changed according to time dinamicly  (for example per 30 minutes in predefined uuid range)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3729">
+        <div id="dsq-comment-header-3729" class="dsq-comment-header">
+            <cite id="dsq-cite-3729">
+                <span id="dsq-author-user-3729">frafri</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3729" class="dsq-comment-body">
+            <div id="dsq-comment-message-3729" class="dsq-comment-message"><p>This tutorial rocks!Thank you so much !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3812">
+        <div id="dsq-comment-header-3812" class="dsq-comment-header">
+            <cite id="dsq-cite-3812">
+                <span id="dsq-author-user-3812">Lucifer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3812" class="dsq-comment-body">
+            <div id="dsq-comment-message-3812" class="dsq-comment-message"><p>I have a question, why does not it alert or notify when the app is not running in the background or hard closed. Or how? please let me know. Thanks.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-14986">
+        <div id="dsq-comment-header-14986" class="dsq-comment-header">
+            <cite id="dsq-cite-14986">
+                <span id="dsq-author-user-14986">vanessa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-14986" class="dsq-comment-body">
+            <div id="dsq-comment-message-14986" class="dsq-comment-message"><p>Hi Sone of Lucifer:<br />
+Did anyone get back to you on how the app can work in the background?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3969">
+        <div id="dsq-comment-header-3969" class="dsq-comment-header">
+            <cite id="dsq-cite-3969">
+                <span id="dsq-author-user-3969">Seb Hareng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3969" class="dsq-comment-body">
+            <div id="dsq-comment-message-3969" class="dsq-comment-message"><p>Great tutorial! Thanks Chris for creating it.<br />
+I wanted to mention an issue I found a fix for. In some cases the startMonitoringForRegion didn&#8217;t trigger for me. It got fixed after I added the following code:<br />
+Added this line in viewDidLoad:<br />
+self.myBeaconRegion.notifyEntryStateOnDisplay = YES; </p>
+<p> Added this method:</p>
+<p>&#8211; (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {    if (state == CLRegionStateInside){        NSLog(@&#8221;is in target region&#8221;);        [self.locationManager startRangingBeaconsInRegion:self.myBeaconRegion];     }else{        NSLog(@&#8221;is out of target region&#8221;);    }</p>
+<p>} </p>
+<p>Hope it helps someone</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-6793">
+        <div id="dsq-comment-header-6793" class="dsq-comment-header">
+            <cite id="dsq-cite-6793">
+                <span id="dsq-author-user-6793">Lasse</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-6793" class="dsq-comment-body">
+            <div id="dsq-comment-message-6793" class="dsq-comment-message"><p>I had a problem with my reciever not recieving anything. Turns out there is a bluetooth stack issue you can run into. After a restart of my phone the beacon was detected straight away.<br />
+Thank you Chris for taking you time to share this, it was a welcomed speedy intro into iBeacons.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7786">
+        <div id="dsq-comment-header-7786" class="dsq-comment-header">
+            <cite id="dsq-cite-7786">
+                <span id="dsq-author-user-7786">Rohith Kumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7786" class="dsq-comment-body">
+            <div id="dsq-comment-message-7786" class="dsq-comment-message"><p>Hy Nice Tutorial !!! </p>
+<p>IS it possible to scan multiple regions within the same shop or building?? Please do help me out on same !!Thanks in Advance</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://appgong.com/1240/' rel='external nofollow' class='url'>iOS Programming Tutorial: How To Use iBeacons in iOS 7 - appgong</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-12119">
+        <div id="dsq-comment-header-12119" class="dsq-comment-header">
+            <cite id="dsq-cite-12119">
+                <span id="dsq-author-user-12119">onmir</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-12119" class="dsq-comment-body">
+            <div id="dsq-comment-message-12119" class="dsq-comment-message"><p>instead of displaying a local notification is it possible to get data from webserver, let&#8217;s say more information about the beacon, while the app is in background?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-23974">
+        <div id="dsq-comment-header-23974" class="dsq-comment-header">
+            <cite id="dsq-cite-23974">
+                <span id="dsq-author-user-23974">Nick</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23974" class="dsq-comment-body">
+            <div id="dsq-comment-message-23974" class="dsq-comment-message"><p>Great tutorial! If anyone wants to add the ability to only alert when the beacon is within a certain proximity (far, near, immediate), here&#8217;s how to do it: <a href="http://ibeaconmodules.us/blogs/news/14279747-tutorial-getting-started-with-ibeacon-app-development" rel="nofollow">http://ibeaconmodules.us/blogs/news/14279747-tutorial-getting-started-with-ibeacon-app-development</a></p>
+<p>Hope this helps!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-24320">
+        <div id="dsq-comment-header-24320" class="dsq-comment-header">
+            <cite id="dsq-cite-24320">
+                <span id="dsq-author-user-24320">Hardik</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-24320" class="dsq-comment-body">
+            <div id="dsq-comment-message-24320" class="dsq-comment-message"><p>Hi Can this works even when the app is not in background i mean app is completely closed.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-28927">
+        <div id="dsq-comment-header-28927" class="dsq-comment-header">
+            <cite id="dsq-cite-28927">
+                <span id="dsq-author-user-28927">mr.cool</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-28927" class="dsq-comment-body">
+            <div id="dsq-comment-message-28927" class="dsq-comment-message"><p>Is it possible to share the data between two iPhone devices through the sample which you developed ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29049">
+        <div id="dsq-comment-header-29049" class="dsq-comment-header">
+            <cite id="dsq-cite-29049">
+                <span id="dsq-author-user-29049">Minsara</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29049" class="dsq-comment-body">
+            <div id="dsq-comment-message-29049" class="dsq-comment-message"><p>Thanks alot for the great tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-47838">
+        <div id="dsq-comment-header-47838" class="dsq-comment-header">
+            <cite id="dsq-cite-47838">
+                <span id="dsq-author-user-47838">Diego</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-47838" class="dsq-comment-body">
+            <div id="dsq-comment-message-47838" class="dsq-comment-message"><p>Hi, the tutorial is great, but I&#8217;m afraid it&#8217;s not working for me. I have a beacon which is being located by another app ( Locate iBeacons by Radius Networks ) which is not detected by this app.</p>
+<p>Also I checked the permissions and I get this:</p>
+<p>2014-09-08 15:54:37.285 BeaconReceiver[212:5424] Monitoring available: 0<br />
+2014-09-08 15:54:37.288 BeaconReceiver[212:5424] Location services authorization status: Not determined<br />
+2014-09-08 15:54:37.296 BeaconReceiver[212:5424] Background refresh authorization status: Available</p>
+<p>So, I think this stuff may be the problem. Any clue?</p>
+<p>Thanks!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-47846">
+        <div id="dsq-comment-header-47846" class="dsq-comment-header">
+            <cite id="dsq-cite-47846">
+                <span id="dsq-author-user-47846">Diego</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-47846" class="dsq-comment-body">
+            <div id="dsq-comment-message-47846" class="dsq-comment-message"><p>Well, I&#8217;ll answer myself. The issue is related to iOS8 new location permissions. It&#8217;s not all clear to me now, but it seems all this is needed:</p>
+<p>1. Edit Info.plist file and add these two keys ( changing the description of course &#8230; or not <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" />   ):</p>
+<p>NSLocationWhenInUseUsageDescription<br />
+The spirit of stack overflow is coders helping coders<br />
+NSLocationAlwaysUsageDescription<br />
+I have learned more on stack overflow than anything else</p>
+<p>2. In viewdidload:</p>
+<p>    [self.locationManager requestWhenInUseAuthorization];<br />
+    [self.locationManager requestAlwaysAuthorization];</p>
+<p>More info in this thread:</p>
+<p><a href="http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working" rel="nofollow">http://stackoverflow.com/questions/24062509/ios-8-location-services-not-working</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-53127">
+        <div id="dsq-comment-header-53127" class="dsq-comment-header">
+            <cite id="dsq-cite-53127">
+                <span id="dsq-author-user-53127">Bruno</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-53127" class="dsq-comment-body">
+            <div id="dsq-comment-message-53127" class="dsq-comment-message"><p>Hey Chris! Great work!<br />
+I just have a question for you, will the app keep monitoring beacons on the background. What do I have to do if I want my app to send a push notification when it detects a beacon, even if the app is not running.<br />
+THanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-53415">
+        <div id="dsq-comment-header-53415" class="dsq-comment-header">
+            <cite id="dsq-cite-53415">
+                <span id="dsq-author-user-53415">Reddy Basha</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-53415" class="dsq-comment-body">
+            <div id="dsq-comment-message-53415" class="dsq-comment-message"><p>iBeacon not detecting in iOS 8 it was working fine in iOS7. May i know what is the issue</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-67819">
+        <div id="dsq-comment-header-67819" class="dsq-comment-header">
+            <cite id="dsq-cite-67819">
+                <span id="dsq-author-user-67819">David Winegar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-67819" class="dsq-comment-body">
+            <div id="dsq-comment-message-67819" class="dsq-comment-message"><p>For those of you interested in making iBeacon apps but want to do it the easy way, or don&#8217;t have any programming skills, I have created a course on Udemy.com that helps you learn how to make a real iBeacon app that you can submit to the app store with no coding.  I show you how to set up iBeacons and how to trigger actions in the app.  If you can click &#8211; you can make an iBeacon mobile app with my course. <a href="https://www.udemy.com/ibeacons" rel="nofollow">https://www.udemy.com/ibeacons</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-79247">
+        <div id="dsq-comment-header-79247" class="dsq-comment-header">
+            <cite id="dsq-cite-79247">
+                <span id="dsq-author-user-79247">Fabio Carbone</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-79247" class="dsq-comment-body">
+            <div id="dsq-comment-message-79247" class="dsq-comment-message"><p>With this implementation, as the author say, if you start the receiver when it&#8217;s already in the beacon range, it&#8217;s not going to fire. If you want find an ibeacon you need to walk far away from its region, and then walk back into range.</p>
+<p>How can I modify this code to find a beacon that it is in range when I lunch the app?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-85660">
+        <div id="dsq-comment-header-85660" class="dsq-comment-header">
+            <cite id="dsq-cite-85660">
+                <span id="dsq-author-user-85660">feizal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-85660" class="dsq-comment-body">
+            <div id="dsq-comment-message-85660" class="dsq-comment-message"><p>is it posibble to name or tag the receiver, and then make the broadcaster app knows the receiver name?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://mobilemedia.today/mobile-marketing/' rel='external nofollow' class='url'>Beacons- Praxisbeispiele verzweifelt gesucht - mobilemedia.today</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-96626">
+        <div id="dsq-comment-header-96626" class="dsq-comment-header">
+            <cite id="dsq-cite-96626">
+                <span id="dsq-author-user-96626">Jack</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-96626" class="dsq-comment-body">
+            <div id="dsq-comment-message-96626" class="dsq-comment-message"><p>I am not understand how to perform this task.</p>
+<p>Can anyone help me?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-97592">
+        <div id="dsq-comment-header-97592" class="dsq-comment-header">
+            <cite id="dsq-cite-97592">
+http://raptor.hk                <span id="dsq-author-user-97592">Raptor</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-97592" class="dsq-comment-body">
+            <div id="dsq-comment-message-97592" class="dsq-comment-message"><p>Great tutorial, but doesn&#8217;t work on iOS 8.</p>
+<p>    didChangeAuthorizationStatus: Authorized When In Use<br />
+    monitoringDidFailForRegion with region : The operation couldn’t be completed. (kCLErrorDomain error 4.)</p>
+<p>which is an Access Denied error.<br />
+More details in this related Stack Overflow question:<br />
+<a href="http://stackoverflow.com/questions/27897475/ibeacon-settings-of-clbeaconregion-identifier" rel="nofollow">http://stackoverflow.com/questions/27897475/ibeacon-settings-of-clbeaconregion-identifier</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100562">
+        <div id="dsq-comment-header-100562" class="dsq-comment-header">
+            <cite id="dsq-cite-100562">
+                <span id="dsq-author-user-100562">Shashank Mishra</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100562" class="dsq-comment-body">
+            <div id="dsq-comment-message-100562" class="dsq-comment-message"><p>Thanks for tutorials I have some problem Please let me to solve<br />
+i am using ble peripheral tag after scanning i found identifier and name .<br />
+when i click on any cell the desire peripheral are connected ..<br />
+and button in peripheral tag will detect and didUpdateValueForCharacteristic method are called on button click.<br />
+but when we are moving to another screen the button will not detect and peripheral will disconnect ..<br />
+I want when the peripheral are connect one time they always to be connected until app are not suspended ..</p>
+<p>thanks in advance &#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100827">
+        <div id="dsq-comment-header-100827" class="dsq-comment-header">
+            <cite id="dsq-cite-100827">
+                <span id="dsq-author-user-100827">Jeffery Leo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100827" class="dsq-comment-body">
+            <div id="dsq-comment-message-100827" class="dsq-comment-message"><p>Got this tutorial for iOS 8?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios7-programming-ibeacons-tutorial/';
+var disqus_identifier = '2721 http://www.appcoda.com/?p=2721';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "How To Use iBeacons in iOS 7 to Enhance Your Apps";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=2721';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="2721"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios7-programming-ibeacons-tutorial%2F&#038;t=How%20To%20Use%20iBeacons%20in%20iOS%207%20to%20Enhance%20Your%20Apps" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="facebook" data-post_id="2721" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=How%20To%20Use%20iBeacons%20in%20iOS%207%20to%20Enhance%20Your%20Apps&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-programming-ibeacons-tutorial%2F&#038;via=appcodamobile" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="twitter" data-post_id="2721" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios7-programming-ibeacons-tutorial%2F&#038;t=How%20To%20Use%20iBeacons%20in%20iOS%207%20to%20Enhance%20Your%20Apps" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="googleplus" data-post_id="2721" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-programming-ibeacons-tutorial%2F&#038;title=How%20To%20Use%20iBeacons%20in%20iOS%207%20to%20Enhance%20Your%20Apps" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="linkedin" data-post_id="2721" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios7-programming-ibeacons-tutorial%2F&#038;t=How%20To%20Use%20iBeacons%20in%20iOS%207%20to%20Enhance%20Your%20Apps" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="2721" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=How%20To%20Use%20iBeacons%20in%20iOS%207%20to%20Enhance%20Your%20Apps&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-programming-ibeacons-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="2721" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios7-programming-ibeacons-tutorial%2F&#038;t=How%20To%20Use%20iBeacons%20in%20iOS%207%20to%20Enhance%20Your%20Apps" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="2721" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios7-programming-ibeacons-tutorial%2F&#038;title=How%20To%20Use%20iBeacons%20in%20iOS%207%20to%20Enhance%20Your%20Apps" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="2721" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios7-programming-ibeacons-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="80e3eceff3e5c0b2f8aef0eee7">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":2721,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:21:27 by W3 Total Cache -->

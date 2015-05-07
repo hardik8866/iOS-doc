@@ -1,0 +1,1077 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Working with CloudKit in iOS 8: An Introduction</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This Swift programming tutorial gives you an introduction to CloudKit in iOS 8. You&#039;ll learn how to save and retrieve data from Apple&#039;s Cloud platform."/>
+<link rel="canonical" href="http://www.appcoda.com/cloudkit-introduction-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This Swift programming tutorial gives you an introduction to CloudKit in iOS 8. You&#039;ll learn how to save and retrieve data from Apple&#039;s Cloud platform."/>
+<meta name="twitter:title" content="Working with CloudKit in iOS 8: An Introduction"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2015/04/cloudkit-featured-1024x674.png"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Working with CloudKit in iOS 8 Comments Feed" href="http://www.appcoda.com/cloudkit-introduction-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=5400' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-5400 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-5400 post type-post status-publish format-standard hentry category-course category-intermediate category-swift-2 category-tutorials tag-cloudkit tag-ios-programming tag-parse-cloud tag-swift tag-swift-programming entry"><h1 class="entry-title">Working with CloudKit in iOS 8</h1> 
+<div class="post-info"><span class="date published time" title="2015-04-22T21:45:13+00:00">April 22, 2015</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/cloudkit-introduction-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="5400 http://www.appcoda.com/?p=5400">5 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>One of the greatest tasks that developers have to perform, is to find and implement a proper way to store the application data. Undoubtably, there&#8217;s no application in any platform that doesn&#8217;t need to save some kind of data at some point. Depending on the nature of the application usually, the amount of data that should be saved varies, and most times everything is stored locally, to the same device running the application. This is not the only option though. With all the <em>cloud</em> services being available today, an app can also store data on the cloud, and either totally avoid to keep data locally, or handle it both locally and remotely.</p>
+<p>There are various web services providing cloud services, which are usually free up to a specific space. Among them of course is Apple, and the cloud service it provides is the well-known <strong>iCloud</strong>. Developers have access to iCloud, and they can use it as a storage mechanism. There are various ways to store and fetch data from iCloud, but in this tutorial we&#8217;ll focus on a specific one: The <strong>CloudKit</strong> framework.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/cloudkit-featured-1024x674.png" alt="cloudkit-featured" class="aligncenter size-large wp-image-5420" /></div>
+<p>CloudKit is the best tool you have in your hands when you deal with <em>structured data</em> (meaning not just files and documents) and want to save it on the web. The way CloudKit works, could be easily compared to the way of any database, as the data handling is taking place using databases, records, etc. Actually, a CloudKit record is what we all know in iOS as a dictionary, enriched of course with extra data that CloudKit needs and handles. As you&#8217;ll see through the next parts of this tutorial, working with that framework is fun and not especially difficult.</p>
+<p>My intention is not to enter in many theoretical details, as we have a lot to see next. For your reference, you can find useful documentation from Apple <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/iCloudDesignGuide/DesigningforCloudKit/DesigningforCloudKit.html#//apple_ref/doc/uid/TP40012094-CH9-SW1">here</a> and <a href="https://developer.apple.com/library/ios/documentation/DataManagement/Conceptual/CloudKitQuickStart/Introduction/Introduction.html#//apple_ref/doc/uid/TP40014987">here</a>. However, there are some specific things I have to mention, because you need to know about them before we proceed. So, let&#8217;s go through them.</p>
+<p><span id="more-5400"></span></p>
+<p>The first and most important thing you need to know, is that CloudKit organizes and handles the data of an application using <strong>containers</strong>. A container is the &#8220;space&#8221; given to an app, or in other words the part of the iCloud that is given to the app. When enabling the CloudKit feature in Xcode, a default container is created, however it can be ignored and a custom one (or many) to be created manually. Each container has two <strong>databases</strong>; a <em>private</em> and a <em>public</em>. Any data written to the private database, can be accessed by the user that owns it only. On the contrary, data existing in the public database, can be visible to all users of the same app.</p>
+<p>All what I described right above is <em>almost</em> what we&#8217;d call a database management system and a database in other cases. Based on the same logic, a database <em>table</em> in CloudKit is called <em>record type</em>, while the table rows are called just <em>records</em>. There&#8217;s a variety of data types that can be stored to iCloud using the CloudKit framework, but they&#8217;re not unlimited. Here&#8217;s what is supported:</p>
+<ul>
+<li>NSData (single bytes)</li>
+<li>NSDate (date and time)</li>
+<li>NSNumber (both Int and Double)</li>
+<li>NSString (or String in Swift)</li>
+<li>NSArray (list)</li>
+<li>CKReference (used to create relationships between objects)</li>
+<li>CLLocation (location)</li>
+<li>CKAsset (file)</li>
+</ul>
+<p>(The data types beginning with the CK prefix are part of the CloudKit framework)</p>
+<p>You&#8217;ll see in the upcoming parts how you can deal with the above data types. To be honest, we&#8217;ll work only with String, Dates and Assets (which are a special case). We won&#8217;t mess with the CKReference and CLLocation ones (also special types); the remaining ones are used in the same way as strings and dates.</p>
+<p>Before I reach the end of this introduction, let me give you a few facts that you should be aware of. </p>
+<ol>
+<li>A user that&#8217;s not signed in to his iCloud account can fetch records from a public database, however he can&#8217;t write any until he enters his credentials to the device. When talking about the private database, being logged in is a prerequisite.</li>
+<li>Make sure to upgrade to <em>iCloud Drive</em> either using an iOS 8 device, or from Yosemite, if you haven&#8217;t done so already. Note however that you&#8217;ll lose compatibility between the iCloud and any previous iOS or Mac OS versions.</li>
+<li>A container cannot be deleted once it&#8217;s created in iCloud. Record types can, but not the containers.</li>
+<li>There&#8217;s a web platform named <em>CloudKit Dashboard</em> where you can find the data of all your apps that use the CloudKit framework, and in a following part of this tutorial I&#8217;ll make a quick presentation of it. In the dashboard there are two environments; the development and the production. Make sure that you won&#8217;t switch to the second during this demo, and most importantly, that you won&#8217;t <em>deploy</em> the container schema to the production environment (there&#8217;s a special button for that).</li>
+</ol>
+<p>Once again, I advice you to read the official documentation for more theoretical stuff, or at least use it as your reference in your future apps. Whatever I described in the previous paragraphs is a really short version of what you should already know before you keep reading. Without losing any more time, let&#8217;s keep going as we have a lot of new things to meet.</p>
+<h2>Demo App Overview</h2>
+<p>So, it&#8217;s time to leave all the theory behind us, and start talking about more practical things. As usually, in this tutorial you can get <a href="https://www.dropbox.com/s/jp1ouk52lw58c8p/CloudDemoStarter.zip?dl=0">a starter project</a> as well to work with. So, once you download it, keep reading to see what we are going to deal with.</p>
+<p>In this demo we&#8217;ll create a really simple note taking application. It will be parted by two view controllers: A master and a detail view controller (the app is navigation based). In the first one, which is called <em>ListNotesViewController</em>, we&#8217;ll list in a tableview all the notes that have been created by this app, and they&#8217;ve been stored to the iCloud using the CloudKit. In other words, we&#8217;ll <em>fetch</em> all of our records from iCloud and show them in the tableview. In the second view controller, named <em>EditNoteViewController</em>, we&#8217;ll create a new note or we&#8217;ll edit an existing one.</p>
+<p>Regarding a note now, we&#8217;re going have the following data:</p>
+<ul>
+<li>Title</li>
+<li>Text</li>
+<li>Last edited date</li>
+<li>An image</li>
+</ul>
+<p>As you see in the next screenshot, the <em>EditNoteViewController</em> view controller is separated in two large areas: In the upper area there&#8217;s a textfield for the title, and a textview for the text. To the bottom area, there&#8217;s a button which when&#8217;s tapped, it presents an <em>image picker view controller</em> so we can select a photo from the library. When that happens, that button becomes hidden, and the image view containing the selected photo along with a new button (which is used to remove the photo from the image view) are shown.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_1_edit_note.png" alt="t34_1_edit_note" class="aligncenter size-full wp-image-5404" /></div>
+<p>Besides that, we are not going to have a Back button in the navigation bar so we pop to the first view controller. Instead, we&#8217;ll use a custom button to do that, and there&#8217;s a reason for that. I won&#8217;t mention it now, you&#8217;ll see it later. Lastly, when tapping on the Save button, our note will be stored to the iCloud, along with the selected photo. If no photo has been picked, a default &#8220;no-image&#8221; image will be uploaded instead.</p>
+<p>In the <em>ListNotesViewController</em> view controller, nothing extraordinary is going to take place, at least other than what you expect. That means that when tapping on a record (a note) we&#8217;ll be navigated to the next view controller for editing, and furthermore we&#8217;ll be able to delete a note. Here&#8217;s a sample:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_2_list_notes.png" alt="t34_2_list_notes" class="aligncenter size-full wp-image-5405" /></div>
+<p>Before we start working, let me tell you that in this demo application we are going to download all note records each time the app starts. Of course, this is not something you should do in a real one. under real conditions you should find a way to store locally your data, and to fetch only any new data existing in the iCloud. However, doing that in this tutorial would be pointless; my goal is to show you how to deal with CloudKit, and not how to create local structures or other solutions for keeping data locally as well. So, I just leave this to you.</p>
+<p>Lastly, I must tell you in advance that you should not forget to enable the iCloud capability even in the final project that you can download at the end of the tutorial (read about enabling iCloud right next).</p>
+<h2>Getting Ready For The CloudKit</h2>
+<p>Before you use the CloudKit for first time, there are some tasks you have to mandatorily do. They&#8217;re not many, and actually Xcode takes the lift of the boring work from you. What you need, is to get an <em>entitlements</em> file so the app can access your iCloud and write records using the CloudKit. Let&#8217;s see everything in the proper order.</p>
+<p>First of all, select the project in the Project Navigator, and then open the General tab. In the Identity section, you must set a real Apple ID to the <strong>Team</strong> dropdown menu (your developer&#8217;s Apple ID), and not to leave the None option.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_3_team.png" alt="t34_3_team" class="aligncenter size-full wp-image-5406" /></div>
+<p>If you have no other options further than the default one (None), then open the <strong>Xcode > Preferences&#8230;</strong> menu, and go to the <strong>Accounts</strong> tab. There, click to the small plus button at the bottom-left side to add your Apple ID, and once you enter your credentials you can go back to the General tab and select it.</p>
+<p>The second step is to go to the Capabilities tab and <em>turn on</em> the <strong>iCloud</strong> capability. Once you do so, make sure to select the following services:</p>
+<ol>
+<li>Key-value storage</li>
+<li>CloudKit</li>
+</ol>
+<p>In the containers section, just leave the default selection as it is. If there are no problems, you should see four checkmarks in the Steps section right below, which means that everything went okay. Furthermore, you&#8217;ll see a new file in the Project Navigator named <em>CloudKit.entitlements</em> (it&#8217;s what you ultimately want).</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/cloudkit-settings-1024x507.png" alt="cloudkit-settings" class="aligncenter size-large wp-image-5417" /></div>
+<p>In case that Xcode is unable for some reason to perform all the needed actions in the background, it will display a <em>Fix Issues</em> button. Use it so Xcode can resolve any issues. If you still have problems, then you might need to modify the <em>Bundle Identifier</em> value, and change the <strong>com.appcoda.CloudDemo</strong> to <strong>com.YOURID.CloudDemo</strong> (replace the YOURID part).</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_5_bundle_identifier.png" alt="t34_5_bundle_identifier" class="aligncenter size-full wp-image-5408" /></div>
+<p>Normally, you should not have any issues, so once you get finished with all the above you can proceed to the next step. Note that Xcode automatically adds the CloudKit.framework to the project. In the two view controllers that we&#8217;ll need that framework, I have already added the needed <em>import</em> command, so you don&#8217;t have to do that:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">import CloudKit</div></td></tr></tbody></table></div>
+<p>However, in your projects, don&#8217;t forget the above line, otherwise you won&#8217;t be able to access the framework&#8217;s classes.</p>
+<h2>Importing Photos</h2>
+<p>Now that everything regarding the CloudKit has been set up, it&#8217;s time to start writing some code. The first thing we&#8217;re about to do, is to make our demo application capable of importing photos from the Photo Library of the device. If you&#8217;ve ever worked with such kind of stuff in the past, then you already know that we&#8217;re going to use the <em>UIImagePickerController</em> class to access the photo library, and make it possible to select a photo. If not, then you&#8217;ll witness how easy it is to do that in the lines that follow next.</p>
+<p>The <em>UIImagePickerController</em> is actually a pre-made view controller existing in the iOS SDK. What it does is really simple: It brings up a new view controller that accesses the photo library of the device, and provides delegate methods so we&#8217;re able to handle the picked media (saying &#8220;media&#8221; is intentional, as you can access more than photos with it), or the case that the user simply dismisses that view controller. Having said so, the first thing we need here is to adopt two required protocols so the <em>UIImagePickerController</em> works properly: The <em>UIImagePickerControllerDelegate</em> and the <em>UINavigationControllerDelegate</em>. It&#8217;s simple to adopt them; all you have to do is to open the <em>EditNoteViewController.swift</em> file, and modify the class heading line as shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class EditNoteViewController<span style="color: #002200;">:</span> UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate</div></td></tr></tbody></table></div>
+<p>Now, we can write the necessary code to display that image picker view controller. By taking a quick look to the project, you can find all the IBAction methods we&#8217;re going to need already being there, but without any implementation at all. We&#8217;ll do that as we move forward here. For now, let&#8217;s visit the <em>pickPhoto(_:)</em> method, where we&#8217;ll write the first real code in this project. The way we initialize and call the image picker view controller is more or less always the same, but it depends on the kind of media (photos, videos) and a couple more other factors that we actually don&#8217;t really care about right now. Let&#8217;s see the first part of the implementation:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func pickPhoto<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> UIImagePickerController.isSourceTypeAvailable<span style="color: #002200;">&#40;</span>UIImagePickerControllerSourceType.SavedPhotosAlbum<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let imagePicker <span style="color: #002200;">=</span> UIImagePickerController<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; imagePicker.delegate <span style="color: #002200;">=</span> self<br />
+&nbsp; &nbsp; &nbsp; &nbsp; imagePicker.sourceType <span style="color: #002200;">=</span> UIImagePickerControllerSourceType.PhotoLibrary<br />
+&nbsp; &nbsp; &nbsp; &nbsp; imagePicker.allowsEditing <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>First of all, it&#8217;s important to check that the device can access the photo library, otherwise we&#8217;ll face serious problems when it will running. So, inside the above <em>if</em> statement body, first we initialize an image picker object and then we set this class as its delegate. Next, we specify the source of the media; we could have set for example the camera of the device as the source type. At the end, we prohibit editing the picked image, however that&#8217;s up to you to change it if you want.</p>
+<p>There&#8217;s one remaining task in the above method, and that is to present the <em>imagePicker</em> to the screen. Note that because this demo app is supposed to run only in iPhone devices and it&#8217;s not universal, we just present the image picker view controller modally. In case you want to do that in iPad devices also, then you have to present it as a popover. Look <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIImagePickerController_Class/">here</a> (in the introduction part) for more information about that.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func pickPhoto<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> UIImagePickerController.isSourceTypeAvailable<span style="color: #002200;">&#40;</span>UIImagePickerControllerSourceType.SavedPhotosAlbum<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; presentViewController<span style="color: #002200;">&#40;</span>imagePicker, animated<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span>, completion<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The above method is now ready, and that means that every time you tap on the &#8220;Select Photo&#8221; green button the image picker controller will be displayed on the screen. You can test that even right now, however don&#8217;t expect anything to be working at this point.</p>
+<p>The next step is to implement two delegate methods, so we know when the user taps on the Cancel button of the image picker controller, or when he picks a photo, and of course, to take the proper actions. Let&#8217;s begin with the easy one, the case where the Cancel button is tapped:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func imagePickerControllerDidCancel<span style="color: #002200;">&#40;</span>picker<span style="color: #002200;">:</span> UIImagePickerController<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; dismissViewControllerAnimated<span style="color: #002200;">&#40;</span><span style="color: #a61390;">true</span>, completion<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, we do nothing more than simply dismissing the image picker view controller.</p>
+<p>In the next method we are going to perform four distinct tasks:</p>
+<ol>
+<li>To set the picked photo as the image of the image view.</li>
+<li>To store temporarily the picked image to the documents directory (there&#8217;s a reason to do that, you&#8217;ll see later).</li>
+<li>To show the image view and the image remove button, and at the same time to hide the select Image button.</li>
+<li>To dismiss the image picker view controller.</li>
+</ol>
+<p>Let&#8217;s see all the above in code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func imagePickerController<span style="color: #002200;">&#40;</span>picker<span style="color: #002200;">:</span> UIImagePickerController, didFinishPickingMediaWithInfo info<span style="color: #002200;">:</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a> <span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; imageView.image <span style="color: #002200;">=</span> info<span style="color: #002200;">&#91;</span>UIImagePickerControllerOriginalImage<span style="color: #002200;">&#93;</span> as? UIImage<br />
+&nbsp; &nbsp; imageView.contentMode <span style="color: #002200;">=</span> UIViewContentMode.ScaleAspectFit<br />
+<br />
+&nbsp; &nbsp; saveImageLocally<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; imageView.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; btnRemoveImage.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; btnSelectPhoto.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<br />
+&nbsp; &nbsp; dismissViewControllerAnimated<span style="color: #002200;">&#40;</span><span style="color: #a61390;">true</span>, completion<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s do some discussion about what happens above. As you witness, we use the <em>info</em> parameter dictionary with the <em>UIImagePickerControllerOriginalImage</em> key to access the photo that the user has picked. As we don&#8217;t allow editing, we ask for the original image. If editing was allowed, we could have asked for the edited image instead. Anyway, once we set the image to the image view, we specify the <em>content mode</em> value, so the image fits in the image view.</p>
+<p>The <em>saveImageLocally()</em> that comes next, is obviously a custom method that we&#8217;ll implement in a while. If we wouldn&#8217;t deal with the CloudKit, storing the image to the documents directory would be totally pointless. However, and according to what you&#8217;ll see to the next part, we&#8217;ll need to create a <em>file URL</em> (a special <em>NSURL</em> object) that points to that file and provide it to the CloudKit, so it can find the image and upload it to the iCloud.</p>
+<p>Finally, we properly hide and show the necessary subviews and we dismiss the view controller. If you take a look in the <em>viewDidLoad</em> method, the initial state of the above subviews has already been set there.</p>
+<p>Let&#8217;s implement now the <em>saveImageLocally()</em>. Before doing that however, let&#8217;s go to the top of the class (right below the IBOutlet property declarations), and let&#8217;s declare the next property:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var imageURL<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a><span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>This is the <em>NSURL</em> object I mentioned right above, and we&#8217;re going to specify it to the next method. But before doing so, let&#8217;s declare two more properties. You&#8217;ll understand what they&#8217;re for once you see them:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">let documentsDirectoryPath <span style="color: #002200;">=</span> NSSearchPathForDirectoriesInDomains<span style="color: #002200;">&#40;</span>.DocumentDirectory, .UserDomainMask, <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span> as<span style="color: #002200;">!</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a><br />
+<br />
+let tempImageName <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;temp_image.jpg&quot;</span></div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s see the new custom method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func saveImageLocally<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let imageData<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSData_Class/"><span style="color: #400080;">NSData</span></a> <span style="color: #002200;">=</span> UIImageJPEGRepresentation<span style="color: #002200;">&#40;</span>imageView.image, <span style="color: #2400d9;">0.8</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; let path <span style="color: #002200;">=</span> documentsDirectoryPath.stringByAppendingPathComponent<span style="color: #002200;">&#40;</span>tempImageName<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; imageURL <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSURL_Class/"><span style="color: #400080;">NSURL</span></a><span style="color: #002200;">&#40;</span>fileURLWithPath<span style="color: #002200;">:</span> path<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; imageData.writeToURL<span style="color: #002200;">&#40;</span>imageURL, atomically<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Initially, we convert the image to a <em>NSData</em> object simply by using the <em>UIImageJPEGRepresentation(&#8230;)</em> method. Then, we compose the path to the documents directory, and once that&#8217;s ready, we <em>convert</em> it to a <em>file URL</em> object. Of course, we store that to the <em>imageURL</em> property we declared previously. At the end, we write the data object to the specified path, and we&#8217;re good to go.</p>
+<p>As I have already said, we need to store the picked image temporarily, and that means that at some point we have to delete it from the documents directory (it won&#8217;t be deleted on its own). The best place to do that, is in the <em>dismiss(_:)</em> IBAction method, which we&#8217;ll use to pop the current view controller. All we have to do there right before the popping occurs, is to check if the <em>imageURL</em> property is nil or not, and in case it has a valid value, to delete the file pointed by it. Simple enough, so let&#8217;s see it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func dismiss<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let url <span style="color: #002200;">=</span> imageURL <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let fileManager <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> fileManager.fileExistsAtPath<span style="color: #002200;">&#40;</span>url.absoluteString<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fileManager.removeItemAtURL<span style="color: #002200;">&#40;</span>url, error<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; navigationController?.popViewControllerAnimated<span style="color: #002200;">&#40;</span><span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Lastly, there&#8217;s one last task related to our work in this part. We must make the remove image button capable of unsetting the image view&#8217;s image. Here we go:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func unsetImage<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; imageView.image <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span><br />
+<br />
+&nbsp; &nbsp; imageView.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; btnRemoveImage.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; btnSelectPhoto.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+<br />
+&nbsp; &nbsp; imageURL <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you notice, further than setting the nil value to the image view&#8217;s image, we also hide the image view and the remove image button, and we show once again the select image one. At the end of course, it&#8217;s necessary to make nil the <em>imageURL</em> property as well.</p>
+<p>The first part of our demo application is ready. Right next you can see how it works, and of course, go ahead and test it by yourself too.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_6_select_photo.gif" alt="t34_6_select_photo" class="aligncenter size-full wp-image-5409" /></div>
+<h2>Creating A New CloudKit Record</h2>
+<p>Let&#8217;s go now to the first important task regarding the CloudKit. In this part, we&#8217;ll make our application capable of storing data to iCloud, and more specifically to the default container that Xcode created for us. I have already presented the data types that can be stored there in the introduction, but obviously we&#8217;re not going to use all of them. Actually, by saving a note in this demo application we&#8217;ll make use of the following types:</p>
+<ul>
+<li><strong>String</strong>: The note title and note text will be stored as string values.</li>
+<li><strong>NSDate</strong>: We&#8217;ll store the last time the note was edited as a NSDate object. To be honest, we don&#8217;t really need to do that because the CloudKit keeps track of the creation and the last edited date and time by default. However, we will simply overlook that fact, so we can see how a date is actually handled.</li>
+<li><strong>Asset</strong>: The image of the image view will be stored as an asset to the iCloud. The truth is that the image will be uploaded by the CloudKit to the iCloud drive, but at the same time there will be an entry regarding it in every single record.</li>
+</ul>
+<p>All the rest data types are easy to be used, and they&#8217;re similar to the String data type. There&#8217;s only one exception to that, and it concerns the <em>CLLocation</em> type. In that case, special handling is required, but we won&#8217;t deal with something like that here. In case your app needs to save <em>CLLocation</em> data, I prompt you to the official documentation where you can find pretty nice guidance.</p>
+<p>There&#8217;s also one more fact I&#8217;d like to highlight before we proceed. If the user won&#8217;t pick an image to save along with the rest note data, then we&#8217;ll use a default image that already exists in your app bundle (<em>no_image.png</em>). That way, we make sure that there will be an image to upload in any possible case.</p>
+<p>A record in the CloudKit is represented by the <em>CKRecord</em> class. It&#8217;s our duty to create such an object, to set all the values we want to like working with a <em>dictionary</em> and then to provide it to the CloudKit so it can be stored to a database. Being a bit more detailed now, four things are required to be done so a record is possible to be saved:</p>
+<ol>
+<li>To create a unique identifier that will be used as the key for the record. More precisely, not only we need to create such a key, but we must find a way so these keys are unique.</li>
+<li>To create a <em>CKRecord</em> object and &#8220;feed&#8221; it with all the values that should be stored.</li>
+<li>To specify the container and the database that the data should be stored to.</li>
+<li>To perform the actual saving.</li>
+</ol>
+<p>Let&#8217;s get started. Initially, go to the <em>saveNote(:_)</em> IBAction method, and add the following content. We must be sure that we&#8217;ll always have some data to send:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> txtNoteTitle.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> || textView.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In a real application of course, it would be nice to display a message to the user asking from him to enter the missing data, or handle the above situation in a more proper way. For now, the above approach is more than perfect.</p>
+<p>A nice way to ensure that every new record identifier we generate is going to be unique, is to use the current <em>timestamp</em>, which by default is unique. This timestamp is given to us using the <em>timeIntervalSinceReferenceDate()</em> method of the <em>NSDate</em> class, and it&#8217;s in the form of <em>abc.def</em> (where abc and def are real digits and more than three of course). Keeping the dot (.) in the identifier is not important, as only the integer part of the number is good for our cause. So what we&#8217;ll do is simple:</p>
+<ol>
+<li>We&#8217;ll get the current timestamp as a String value.</li>
+<li>We&#8217;ll split it to the integer and decimal parts.</li>
+<li>We&#8217;ll use the integer part as the identifier of the new record.</li>
+</ol>
+<p>In code now:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+<br />
+&nbsp; &nbsp; let timestampAsString <span style="color: #002200;">=</span> String<span style="color: #002200;">&#40;</span>format<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;%f&quot;</span>, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a>.timeIntervalSinceReferenceDate<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; let timestampParts <span style="color: #002200;">=</span> timestampAsString.componentsSeparatedByString<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;.&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; let noteID <span style="color: #002200;">=</span> CKRecordID<span style="color: #002200;">&#40;</span>recordName<span style="color: #002200;">:</span> timestampParts<span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you can see, we created a new <em>CKRecordID</em> object named <em>noteID</em>. This is the key of the new record, and we&#8217;ll use it right next. In the following part, we create a new <em>CKRecord</em> object, and we set to it all the data we want to be saved, except for the image. We&#8217;ll see that in a while.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; let noteRecord <span style="color: #002200;">=</span> CKRecord<span style="color: #002200;">&#40;</span>recordType<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;Notes&quot;</span>, recordID<span style="color: #002200;">:</span> noteID<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; noteRecord.setObject<span style="color: #002200;">&#40;</span>txtNoteTitle.text, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;noteTitle&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; noteRecord.setObject<span style="color: #002200;">&#40;</span>textView.text, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;noteText&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; noteRecord.setObject<span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;noteEditedDate&quot;</span><span style="color: #002200;">&#41;</span> &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Two things happen above: At first, we create the <em>CKRecord</em> object I said about, where we make use of the <em>noteID</em> object we created right before that. Next, we set all the values that should be saved in a familiar and easy way.</p>
+<p>Let&#8217;s handle now the image saving. As I have already mentioned, in case the user has picked an actual image we can proceed as planned. However, if no image has been picked, we&#8217;ll provide the default one existing in the app bundle. Note in the next snippet that first we create a <em>CKAsset</em> object (required for assets like images), and then we provide it to the <em>noteRecord</em> object.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let url <span style="color: #002200;">=</span> imageURL <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let imageAsset <span style="color: #002200;">=</span> CKAsset<span style="color: #002200;">&#40;</span>fileURL<span style="color: #002200;">:</span> url<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; noteRecord.setObject<span style="color: #002200;">&#40;</span>imageAsset, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;noteImage&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let fileURL <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSBundle_Class/"><span style="color: #400080;">NSBundle</span></a>.mainBundle<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.URLForResource<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;no_image&quot;</span>, withExtension<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;png&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let imageAsset <span style="color: #002200;">=</span> CKAsset<span style="color: #002200;">&#40;</span>fileURL<span style="color: #002200;">:</span> fileURL<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; noteRecord.setObject<span style="color: #002200;">&#40;</span>imageAsset, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;noteImage&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> &nbsp; &nbsp;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the next step, we must specify the container that is used by the app (in this case is the default container), and then the desired database. According to what I said to the introduction, there are two kinds of databases: A public and a private. In this demo, we&#8217;ll use the private one. Here&#8217;s how we can achieve what I just said:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; let container <span style="color: #002200;">=</span> CKContainer.defaultContainer<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; let privateDatabase <span style="color: #002200;">=</span> container.privateCloudDatabase<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, we can save the record to the CloudKit:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; privateDatabase.saveRecord<span style="color: #002200;">&#40;</span>noteRecord, completionHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span>record, error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That&#8217;s it. By doing all the above actions, the app can now store data to the iCloud using the CloudKit. Note that the first time a record is saved, a <em>record type</em> is also created automatically (let&#8217;s say, the <em>table</em> in the database). It&#8217;s important to remember that if you need to change the record data and to add or remove &#8220;fields&#8221;, you&#8217;ll have to delete first the record type in the CloudKit Dashboard platform. We&#8217;ll see a few things about the Dashboard in the following part.</p>
+<p>At this point I should inform you in advance that we&#8217;re going to pay a visit to the above method for a second time a bit later, as we&#8217;ll need to update an existing record. But for now, we are almost done.</p>
+<p>I purposely say &#8220;almost&#8221;, because there&#8217;s a situation we should consider, and that is to prevent the user from interacting with the note while the data is saved and sent to the CloudKit. In a real-world application, you should probably allow the user to keep working with the app while that task is in progress, however here we won&#8217;t do that. We&#8217;ll display an activity indicator and prevent access to the subviews until everything is over.</p>
+<p>In the <em>EditNoteViewController</em> scene in the Interface Builder, you can find a UIView object with an activity indicator as its subview. That view has been already connected to an IBOutlet property, and it&#8217;s named <em>viewWait</em> (for obvious reasons). Right now, this view (along with the indicator) is hidden, so we&#8217;ll make it visible, we&#8217;ll bring it in front, and that way we&#8217;ll prohibit any interaction with the note. But that&#8217;s the half way, as it can&#8217;t &#8220;cover&#8221; the navigation bar. The navigation bar is always at the top of any subview, so, further than simply showing the <em>viewWait</em> view, at the same time we&#8217;ll hide the bar. Then, when everything is over, we&#8217;ll go in the completion handler that exists in the above method, and we&#8217;ll bring everything back to normal.</p>
+<p>So, initially go to the beginning of the <em>saveNote(_:)</em> method. There, and right before the creation of the record identifier, add the next code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> txtNoteTitle.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> || textView.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; viewWait.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; view.bringSubviewToFront<span style="color: #002200;">&#40;</span>viewWait<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; navigationController?.setNavigationBarHidden<span style="color: #002200;">&#40;</span><span style="color: #a61390;">true</span>, animated<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, upon finishing we want to revert the changes we just made, so inside the completion handler add the following lines. Note that the changes regard visual updates, so they have to take place in the main thread:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; privateDatabase.saveRecord<span style="color: #002200;">&#40;</span>noteRecord, completionHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span>record, error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOperationQueue_Class/"><span style="color: #400080;">NSOperationQueue</span></a>.mainQueue<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.addOperationWithBlock<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.viewWait.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.navigationController?.setNavigationBarHidden<span style="color: #002200;">&#40;</span><span style="color: #a61390;">false</span>, animated<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That&#8217;s all we had to do here. Notice that by saving the note the view controller is not dismissed. You need to use the Close button to do that.</p>
+<p>Now you can go and test everything we did here. You can run the app either in the Simulator, or in a real device. However, make sure to be connected to your iCloud account, and for real devices especially, make sure to upgrade to iCloud Drive (if you haven&#8217;t done so already). You can find directions about getting connected or creating an iCloud account <a href="https://developer.apple.com/library/ios/documentation/DataManagement/Conceptual/CloudKitQuickStart/CreatingaSchemabySavingRecords/CreatingaSchemabySavingRecords.html#//apple_ref/doc/uid/TP40014987-CH3-SW12">here</a>.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_7_save_record.gif" alt="t34_7_save_record" class="aligncenter size-full wp-image-5410" /></div>
+<h2>Previewing Data in the CloudKit Dashboard</h2>
+<p>All the records we create using the CloudKit framework can be previewed and edited in a special platform named <em>CloudKit Dashboard</em>. To access it, you just have to visit <a href="https://icloud.developer.apple.com/dashboard/">this</a> and enter your credentials.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_8_cloudkit_dashboard.png" alt="t34_8_cloudkit_dashboard" class="aligncenter size-full wp-image-5411" /></div>
+<p>In the top-right corner you can see the container of the app we&#8217;re currently developing. In case you have other containers too, then you can select the proper one. Further than that, let&#8217;s see what are the most common tasks you can do here. Probably, you won&#8217;t be wanting to do any task on the dashboard, except for previewing the records. You can however prepare the record type (or record types) for your app manually here, instead of letting it be created automatically when the first record is about to be added. In case you do that (which in most cases is pointless), make sure that the attributes you specify match to those you set in code when creating records.</p>
+<p>Regarding our demo app now, by clicking to the <strong>Record Types</strong> option at the left menu, you get a list of all the existing record types in the app. By default there&#8217;s the <em>Users</em> record type, and of course our own record type, named <em>Notes</em>. You can see that in the following screenshot. As you notice, in the right side of the window there&#8217;s a list of all the attributes. You can delete the record type if you click to the Trash button, or add a new one with the Plus button.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_9_notes_record_type.png" alt="t34_9_notes_record_type" class="aligncenter size-full wp-image-5412" /></div>
+<p>The records for the <em>Notes</em> record type can be found to the <strong>Default Zone</strong> option, in the <em>Private Data</em> category. Remember that we write our records to the private database, that&#8217;s why this is the place you can find them. They&#8217;re listed in the middle panel, and if you click on any record you can see the contained data to the right side. You can remove or add records using the buttons at the top area, but generally this is a bad idea, unless you have a specific goal.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_10_records-1024x500.png" alt="t34_10_records" class="aligncenter size-large wp-image-5413" /></div>
+<p>Notice that at the bottom-left area the current environment is shown. During the app making period, make sure that the <em>Development</em> is the selected value there. At some point however you&#8217;ll need to switch to the production mode, and deploy your container schema for that environment. In that case, use the <strong>Deployment</strong> option in the menu, where you&#8217;ll find a button titled <em>Deploy To Production&#8230;</em>.</p>
+<p>Also, under the same option you can find the <em>Reset Development Environment&#8230;</em>, which deletes all of your data in the development mode.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_11_deployment.png" alt="Cloudkit deployment" class="aligncenter size-full wp-image-5414" /></div>
+<p>Navigate yourself around in the dashboard, and see what options you&#8217;re given with. Once you get finished, you can continue to the next part.</p>
+<h2>Fetching Data</h2>
+<p>When working with the CloudKit, the logic that must be followed has many similarities to the logic required when working with databases. That means that saving and updating records is usually somehow more difficult to do, while fetching them consists of the &#8220;easy&#8221; part of the job. So far we&#8217;ve managed to save new records to the CloudKit, but we&#8217;ve done no updates yet. We&#8217;ll do that later. In this part, we&#8217;ll focus on that &#8220;easy&#8221; part, as we&#8217;re going to fetch any stored records to the private database of the default container of the app in the iCloud and display them to the user.</p>
+<p>So, as you guess, for the time being we&#8217;re leaving our work in the <em>EditNoteViewController.swift</em> file, and we&#8217;re moving to the <em>ListNotesViewController.swift</em>. In this class, you can find the tableview methods we&#8217;re going to need already being there without however being implemented. We have to do that now, along with the logic to retrieve the stored data.</p>
+<p>Let&#8217;s get started, but first things first. As always when working with tableviews, we need an array to be the datasource, so, of course, we&#8217;ll create one. However, it&#8217;s really important to set the proper data type of its contents, because that will make a huge difference to our upcoming work. The best choice is to let that array accept <em>CKRecord</em> objects, and let me tell you why:</p>
+<ol>
+<li>The records we&#8217;ll fetch from the iCloud are <em>CKRecord</em> objects, so we can append them straight away to that array.</li>
+<li>We can access all the properties of a <em>CKRecord</em> object directly, especially when we&#8217;ll need to display each note details to the tableview.</li>
+<li>Selecting (by tapping) and passing a <em>CKRecord</em> object to the <em>EditNoteViewController</em> class really makes things easy.</li>
+<li>Getting a <em>CKRecord</em> object back from the <em>EditNoteViewController</em> class allows to instantly display its details with no further processing.</li>
+</ol>
+<p>So, based on all the above, we can go to the top of the <em>ListNotesViewController.swift</em> class and declare the following property:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var arrNotes<span style="color: #002200;">:</span> Array&lt;CKRecord&gt; <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#93;</span></div></td></tr></tbody></table></div>
+<p>Our next step is to create a custom method, where we&#8217;ll write all the code required to get the data we want from the CloudKit. But, what data do we want?</p>
+<p>Well, the answer always depends on the nature of the app you&#8217;re implementing. You can ask for just one record, for a set of records matching to some criteria, or simply ask for all records existing in a specific record type in the iCloud. In this demo app we won&#8217;t bother with the first two cases; I prefer we keep moving in more general lines, otherwise we might risk to lose the goal of the tutorial. However, I ensure you that all you need to know for these cases can be found in the Apple documentation mostly <a href="https://developer.apple.com/library/ios/documentation/DataManagement/Conceptual/CloudKitQuickStart/FetchingRecords/FetchingRecords.html#//apple_ref/doc/uid/TP40014987-CH4-SW2">here</a> and <a href="https://developer.apple.com/library/ios/documentation/DataManagement/Conceptual/CloudKitQuickStart/FetchingRecords/FetchingRecords.html#//apple_ref/doc/uid/TP40014987-CH4-SW4">here</a>.</p>
+<p>If you visit the second link, you&#8217;ll see that <em>predicates</em> (<em>NSPredicate</em>) are needed to specify criteria and limit the records that you&#8217;ll fetch. Actually, predicates are still needed even if you&#8217;re about to fetch all records, but they&#8217;re used in a simpler way.</p>
+<p>With all the above being said, it&#8217;s time to focus on our code again. Our goal here is to access the default container and the private database, to create a query (<em>CKQuery</em>) object and then run it so we get the records we want. Let&#8217;s do all these by creating a new method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func fetchNotes<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let container <span style="color: #002200;">=</span> CKContainer.defaultContainer<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; let privateDatabase <span style="color: #002200;">=</span> container.privateCloudDatabase<br />
+&nbsp; &nbsp; let predicate <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSPredicate_Class/"><span style="color: #400080;">NSPredicate</span></a><span style="color: #002200;">&#40;</span>value<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; let query <span style="color: #002200;">=</span> CKQuery<span style="color: #002200;">&#40;</span>recordType<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;Notes&quot;</span>, predicate<span style="color: #002200;">:</span> predicate<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, the <em>CKQuery</em> object accepts two arguments: The first one is the name of the record scheme, the second is the predicate object that was set right above. Next, that query must be run:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func fetchNotes<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; privateDatabase.performQuery<span style="color: #002200;">&#40;</span>query, inZoneWithID<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span>results, error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>results<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">for</span> result <span style="color: #a61390;">in</span> results <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.arrNotes.append<span style="color: #002200;">&#40;</span>result as<span style="color: #002200;">!</span> CKRecord<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOperationQueue_Class/"><span style="color: #400080;">NSOperationQueue</span></a>.mainQueue<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.addOperationWithBlock<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.tblNotes.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.tblNotes.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, a <em>results</em> array is returned in the completion handler above. In case that no error occurs, we first keep all the found records to the <em>arrNotes</em> array (the one we declared earlier), and then we make sure that the received data will be displayed to the tableview by simply reloading it and making it visible. Note that we do that in the main thread. By making the tableview visible, we &#8220;cover&#8221; the activity view indicator that is spinning by default.</p>
+<p>Note that intentionally added the <em>println(results)</em> line, so you can see in the console what the fetched records contain.</p>
+<p>The above method has to be called somewhere, and that will happen in the <em>viewDidLoad</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; fetchNotes<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, all the existing records in the CloudKit will be fetched but they won&#8217;t appear to the tableview. We have to add the missing implementation in the tableview methods. So, let&#8217;s begin by the easy ones:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, numberOfRowsInSection section<span style="color: #002200;">:</span> Int<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Int <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> arrNotes.count<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, heightForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; CGFloat <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">80.0</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>For each record existing in the <em>arrNotes</em> array, we must get and show the note title, the last edited date and the picked image. We won&#8217;d display the note text; it&#8217;s not necessary to exist in the notes listing. As the date and the image need some kind of processing, let&#8217;s see the easy things first:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, cellForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; UITableViewCell <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var cell <span style="color: #002200;">=</span> tableView.dequeueReusableCellWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idCellNote&quot;</span>, forIndexPath<span style="color: #002200;">:</span> indexPath<span style="color: #002200;">&#41;</span> as<span style="color: #002200;">!</span> UITableViewCell<br />
+<br />
+&nbsp; &nbsp; let noteRecord<span style="color: #002200;">:</span> CKRecord <span style="color: #002200;">=</span> arrNotes<span style="color: #002200;">&#91;</span>indexPath.row<span style="color: #002200;">&#93;</span><br />
+<br />
+&nbsp; &nbsp; cell.textLabel?.text <span style="color: #002200;">=</span> noteRecord.valueForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;noteTitle&quot;</span><span style="color: #002200;">&#41;</span> as? String<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>All we do above is to dequeue each cell, and assign each object of the <em>arrNotes</em> array to a local variable. Then, we get the note title and set it as the text of the main cell&#8217;s label.</p>
+<p>Regarding the last edited date, we need to convert it to a String object before we display it. For that cause, we&#8217;ll use a <em>NSDateFormatter</em> object, and we&#8217;ll set a custom format for its display:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, cellForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; UITableViewCell <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; let dateFormatter <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDateFormatter_Class/"><span style="color: #400080;">NSDateFormatter</span></a><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; dateFormatter.dateFormat <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;MMMM dd, yyyy, hh:mm&quot;</span><br />
+&nbsp; &nbsp; cell.detailTextLabel?.text <span style="color: #002200;">=</span> dateFormatter.stringFromDate<span style="color: #002200;">&#40;</span>noteRecord.valueForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;noteEditedDate&quot;</span><span style="color: #002200;">&#41;</span> as<span style="color: #002200;">!</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>If you&#8217;ve ever worked with NSDate objects, then you know that without the <em>NSDateFormatter</em>&#8216;s help we can&#8217;t use a date as a String. Needless to say that you can change the above date format, and customize it on the way you want.</p>
+<p>Before we use the image returned along with the rest data in each record, it&#8217;s important to say that during the fetching process all the assets are stored to the <em>cache</em> directory of the app. That means that all images are downloaded every time we fetch the note records, and they stay there temporarily until the app gets terminated. Now, every image existing in each record, is expressed as a <em>CKAsset</em> object. This object also contains the temporary image path, and we&#8217;ll use it so we load each image and set it to the cell&#8217;s image view. Here we go:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, cellForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; UITableViewCell <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; let imageAsset<span style="color: #002200;">:</span> CKAsset <span style="color: #002200;">=</span> noteRecord.valueForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;noteImage&quot;</span><span style="color: #002200;">&#41;</span> as<span style="color: #002200;">!</span> CKAsset<br />
+&nbsp; &nbsp; cell.imageView?.image <span style="color: #002200;">=</span> UIImage<span style="color: #002200;">&#40;</span>contentsOfFile<span style="color: #002200;">:</span> imageAsset.fileURL.path<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; cell.imageView?.contentMode <span style="color: #002200;">=</span> UIViewContentMode.ScaleAspectFit<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Finally, this part has come to its end. Go once again and try the app. If you haven&#8217;t created any note records yet, then this is your best time to do it. Also, look at the output on the console, and try to locate the temporary images that are downloaded during the records fetching.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/04/t34_12_list_records.png" alt="t34_12_list_records" class="aligncenter size-full wp-image-5415" /></div>
+<h2>Modifying and Updating Records</h2>
+<p>Saving and fetching records are important tasks, but equally important is to be able to change and update a record. In CloudKit, modifying a record isn&#8217;t difficult at all; all we have to do is to change the data to an existing <em>CKRecord</em> object which already has an identifier, and then save it in the way we&#8217;ve already implemented. For our demo application, this means that it would be extremely convenient to pass a <em>CKRecord</em> object from the <em>ListNotesViewController</em> to the <em>EditNoteViewController</em> class once a note is selected in the tableview, and use that object to perform any updates required.</p>
+<p>So, having in mind the general idea, let&#8217;s see the details. Initially, open the <em>EditNoteViewController.swift</em> class, and at the top of it declare the next property:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var editedNoteRecord<span style="color: #002200;">:</span> CKRecord<span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>As you understand, the <em>editedNoteRecord</em> is the <em>CKRecord</em> object that will be assigned with the one that should be edited after it has been selected in the tableview.</p>
+<p>Now, let&#8217;s go back to the <em>ListNotesViewController.swift</em> file, and let&#8217;s declare there at the top of the class another property too:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var selectedNoteIndex<span style="color: #002200;">:</span> Int<span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>In the above property, we&#8217;ll save the index of the row that was tapped, so we can pick the proper <em>CKRecord</em> object from the <em>arrNotes</em> array and pass it to the next view controller.</p>
+<p>Time for a new tableview delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, didSelectRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; selectedNoteIndex <span style="color: #002200;">=</span> indexPath.row<br />
+&nbsp; &nbsp; performSegueWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idSegueEditNote&quot;</span>, sender<span style="color: #002200;">:</span> self<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>By writing the above lines, we make the tableview responding to our tappings on its cells. What we do is really easy; at first we store the index of the tapped row, and then we perform the segue that will make the transition to the <em>EditNoteViewController</em> view controller. Of course, this is not enough so we can edit a note. We need to pass the proper object from the <em>arrNotes</em> array to the <em>EditNoteViewController</em> view controller. Let&#8217;s do that:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func prepareForSegue<span style="color: #002200;">&#40;</span>segue<span style="color: #002200;">:</span> UIStoryboardSegue, sender<span style="color: #002200;">:</span> AnyObject?<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> segue.identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;idSegueEditNote&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let editNoteViewController <span style="color: #002200;">=</span> segue.destinationViewController as<span style="color: #002200;">!</span> EditNoteViewController<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> let index <span style="color: #002200;">=</span> selectedNoteIndex <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; editNoteViewController.editedNoteRecord <span style="color: #002200;">=</span> arrNotes<span style="color: #002200;">&#91;</span>index<span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>An important detail here is that we necessarily have to use the <em>if let</em> statement, as the <em>selectedNoteIndex</em> property is going to contain a valid value only when editing a note; it&#8217;s going to be nil when creating a new one. It&#8217;s the only way to avoid unwanted crash of the app.</p>
+<p>Once again now, let&#8217;s change class, so open the <em>EditNoteViewController.swift</em> file. Our first task here is to get all data from the <em>CKRecord</em> we passed to this view controller right above (the <em>editedNoteRecord</em> object) and set it to the subviews properly. So, in the <em>viewDidLoad</em> method add the following piece of code. Note that we have already seen in previous parts everything that takes place next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let editedNote <span style="color: #002200;">=</span> editedNoteRecord <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; txtNoteTitle.text <span style="color: #002200;">=</span> editedNote.valueForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;noteTitle&quot;</span><span style="color: #002200;">&#41;</span> as<span style="color: #002200;">!</span> String<br />
+&nbsp; &nbsp; &nbsp; &nbsp; textView.text <span style="color: #002200;">=</span> editedNote.valueForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;noteText&quot;</span><span style="color: #002200;">&#41;</span> as<span style="color: #002200;">!</span> String<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let imageAsset<span style="color: #002200;">:</span> CKAsset <span style="color: #002200;">=</span> editedNote.valueForKey<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;noteImage&quot;</span><span style="color: #002200;">&#41;</span> as<span style="color: #002200;">!</span> CKAsset<br />
+&nbsp; &nbsp; &nbsp; &nbsp; imageView.image <span style="color: #002200;">=</span> UIImage<span style="color: #002200;">&#40;</span>contentsOfFile<span style="color: #002200;">:</span> imageAsset.fileURL.path<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; imageView.contentMode <span style="color: #002200;">=</span> UIViewContentMode.ScaleAspectFit<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; imageURL <span style="color: #002200;">=</span> imageAsset.fileURL<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; imageView.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; btnRemoveImage.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; btnSelectPhoto.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you understand, it&#8217;s important to check first if the <em>editedNoteRecord</em> has a valid value, otherwise if the <em>EditNoteViewController</em> is loaded for creating a new note, the app will crash. The <em>editedNoteRecord</em> will be nil.</p>
+<p>There&#8217;s one last thing we have to do, and that is to save to iCloud any changes that might have happened to the note. As we already have a saving method implemented, we don&#8217;t really need to create a new one. We&#8217;ll use the same, but necessarily we&#8217;ll do some modifications. Right now, the <em>saveNote(_:)</em> IBAction method begins as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> txtNoteTitle.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> || textView.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; viewWait.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; view.bringSubviewToFront<span style="color: #002200;">&#40;</span>viewWait<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; navigationController?.setNavigationBarHidden<span style="color: #002200;">&#40;</span><span style="color: #a61390;">true</span>, animated<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; let timestampAsString <span style="color: #002200;">=</span> String<span style="color: #002200;">&#40;</span>format<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;%f&quot;</span>, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a>.timeIntervalSinceReferenceDate<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; let timestampParts <span style="color: #002200;">=</span> timestampAsString.componentsSeparatedByString<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;.&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; let noteID <span style="color: #002200;">=</span> CKRecordID<span style="color: #002200;">&#40;</span>recordName<span style="color: #002200;">:</span> timestampParts<span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; let noteRecord <span style="color: #002200;">=</span> CKRecord<span style="color: #002200;">&#40;</span>recordType<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;Notes&quot;</span>, recordID<span style="color: #002200;">:</span> noteID<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With the last command we create a new <em>CKRecord</em> object. However, when editing a note, we already have such an object on our hands, so obviously creating a new one should not happen. As you may suspect, the solution is simple: We&#8217;ll check if we&#8217;re editing a note, and in this case we&#8217;ll assign the <em>editedNoteRecord</em> to the <em>noteRecord</em> object. We won&#8217;t initialize a new one. After all, from there on, all the further processing on the <em>noteRecord</em> object remains the same, no matter whether we first-save or update a note.</p>
+<p>So, here&#8217;s once again the beginning of the above method. This time, it has been modified so the app knows if it should create a new <em>CKRecord</em> object, or use the existing one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> txtNoteTitle.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> || textView.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; viewWait.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; view.bringSubviewToFront<span style="color: #002200;">&#40;</span>viewWait<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; navigationController?.setNavigationBarHidden<span style="color: #002200;">&#40;</span><span style="color: #a61390;">true</span>, animated<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; var noteRecord<span style="color: #002200;">:</span> CKRecord<span style="color: #002200;">!</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let editedNote <span style="color: #002200;">=</span> editedNoteRecord <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; noteRecord <span style="color: #002200;">=</span> editedNote<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let timestampAsString <span style="color: #002200;">=</span> String<span style="color: #002200;">&#40;</span>format<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;%f&quot;</span>, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a>.timeIntervalSinceReferenceDate<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let timestampParts <span style="color: #002200;">=</span> timestampAsString.componentsSeparatedByString<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;.&quot;</span><span style="color: #002200;">&#41;</span> &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let noteID <span style="color: #002200;">=</span> CKRecordID<span style="color: #002200;">&#40;</span>recordName<span style="color: #002200;">:</span> timestampParts<span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; noteRecord <span style="color: #002200;">=</span> CKRecord<span style="color: #002200;">&#40;</span>recordType<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;Notes&quot;</span>, recordID<span style="color: #002200;">:</span> noteID<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; ...<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Pretty simple solution, and helpful as we still can use the previous implementation.</p>
+<p>Now you can test the app once again and edit an existing note. You&#8217;ll see that any change you perform to it, it&#8217;s also reflected to iCloud once you save the note.</p>
+<h2>Updating The Notes List</h2>
+<p>If you&#8217;ve tested the demo app so far, then you have definitely noticed that when creating a new note or updating an existing one the notes list in the <em>ListNotesViewController</em> view controller is not updating, unless you terminate and re-run the app. In this part we&#8217;ll fix that issue, but let me highlight a fact first. It&#8217;s totally pointless to force the app to re-fetch all the existing records from the CloudKit once a note gets saved, as this would result in two (unwanted) things:</p>
+<ol>
+<li>The note list wouldn&#8217;t be updated in real time. Instead, this would happen once all records have been downloaded.</li>
+<li>It&#8217;s a waste of resources re-fetching all records just because a new one has been added, or an existing one has been edited.</li>
+</ol>
+<p>So, a more proper solution to keep the notes list up-to-date is to pass either the new note record, or the edited one back to the <em>ListNotesViewController</em>, and this can happen once we save it to iCloud. That means that we need to use the delegation pattern, as it&#8217;s the easiest approach to do what we want to do.</p>
+<p>Let&#8217;s fix everything step by step, and the first thing is to go to the <em>EditNoteViewController.swift</em> file an create a new protocol, containing just one delegate method; the one shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">protocol EditNoteViewControllerDelegate <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; func didSaveNote<span style="color: #002200;">&#40;</span>noteRecord<span style="color: #002200;">:</span> CKRecord, wasEditingNote<span style="color: #002200;">:</span> Bool<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, that method accepts two parameters. The <em>noteRecord</em> is the actual <em>CKRecord</em> object we&#8217;ll pass to the <em>ListNotesViewController</em> class. The second one indicates whether the record is new, or an edited one. This is an important information for the app, because if the record is new, it will just append it to the <em>arrNotes</em> array. If it&#8217;s an edited one, then it will replace the proper <em>CKRecord</em> object to the <em>arrNotes</em> array.</p>
+<p>The next step is to declare a delegate property. To the top of the <em>EditNoteViewController</em> class, add the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var delegate<span style="color: #002200;">:</span> EditNoteViewControllerDelegate<span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>Now, two modifications are required to the <em>saveNote(_:)</em> IBAction method. At first, we need to use a <em>flag</em> to indicate whether that method saves a new or an existing note record. We&#8217;ll declare and set the value of that flag in the beginning of the method, where we distinguish whether it&#8217;s a new or not record. Right next, you&#8217;re given the part of interest, where you can see how the <em>isEditingNote</em> flag is used (note the comments):</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; var noteRecord<span style="color: #002200;">:</span> CKRecord<span style="color: #002200;">!</span><br />
+&nbsp; &nbsp; var isEditingNote<span style="color: #002200;">:</span> Bool<span style="color: #002200;">!</span> &nbsp; <span style="color: #11740a; font-style: italic;">// Flag declaration.</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let editedNote <span style="color: #002200;">=</span> editedNoteRecord <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; noteRecord <span style="color: #002200;">=</span> editedNote<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; isEditingNote <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span> <span style="color: #11740a; font-style: italic;">// True because a note record has been edited.</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let timestampAsString <span style="color: #002200;">=</span> String<span style="color: #002200;">&#40;</span>format<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;%f&quot;</span>, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDate_Class/"><span style="color: #400080;">NSDate</span></a>.timeIntervalSinceReferenceDate<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let timestampParts <span style="color: #002200;">=</span> timestampAsString.componentsSeparatedByString<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;.&quot;</span><span style="color: #002200;">&#41;</span> &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let noteID <span style="color: #002200;">=</span> CKRecordID<span style="color: #002200;">&#40;</span>recordName<span style="color: #002200;">:</span> timestampParts<span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; noteRecord <span style="color: #002200;">=</span> CKRecord<span style="color: #002200;">&#40;</span>recordType<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;Notes&quot;</span>, recordID<span style="color: #002200;">:</span> noteID<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; isEditingNote <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span> &nbsp; <span style="color: #11740a; font-style: italic;">// False because it's a new note record.</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; ...<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, we have to call the delegate method we declared previously. The best place to do that is in the completion handler (closure) body, where we&#8217;ll create an <em>else</em> case that indicates that the saving process was successful:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveNote<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; privateDatabase.saveRecord<span style="color: #002200;">&#40;</span>noteRecord, completionHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span>record, error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.delegate.didSaveNote<span style="color: #002200;">&#40;</span>noteRecord, wasEditingNote<span style="color: #002200;">:</span> isEditingNote<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOperationQueue_Class/"><span style="color: #400080;">NSOperationQueue</span></a>.mainQueue<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.addOperationWithBlock<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.viewWait.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.navigationController?.setNavigationBarHidden<span style="color: #002200;">&#40;</span><span style="color: #a61390;">false</span>, animated<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Our work in this class is over. Let&#8217;s head now to the <em>ListNotesViewController.swift</em> file, and initially let&#8217;s adopt the new protocol:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class ListNotesViewController<span style="color: #002200;">:</span> UIViewController, UITableViewDelegate, UITableViewDataSource, EditNoteViewControllerDelegate</div></td></tr></tbody></table></div>
+<p>Then, let&#8217;s make this class the delegate of the other one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func prepareForSegue<span style="color: #002200;">&#40;</span>segue<span style="color: #002200;">:</span> UIStoryboardSegue, sender<span style="color: #002200;">:</span> AnyObject?<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> segue.identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;idSegueEditNote&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let editNoteViewController <span style="color: #002200;">=</span> segue.destinationViewController as EditNoteViewController<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; editNoteViewController.delegate <span style="color: #002200;">=</span> self<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Finally, let&#8217;s implement the delegate method. As you&#8217;ll see, we first check if a new or an existing record was saved. In the first case, we just append it to the <em>arrNotes</em> array. In the second case, we replace the object in the index pointed by the <em>selectedNoteIndex</em>, and then we make that variable nil. At the end, we ensure that the tableview is visible we reload its data:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func didSaveNote<span style="color: #002200;">&#40;</span>noteRecord<span style="color: #002200;">:</span> CKRecord, wasEditingNote<span style="color: #002200;">:</span> Bool<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">!</span>wasEditingNote <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; arrNotes.append<span style="color: #002200;">&#40;</span>noteRecord<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; arrNotes.insert<span style="color: #002200;">&#40;</span>noteRecord, atIndex<span style="color: #002200;">:</span> selectedNoteIndex<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; arrNotes.removeAtIndex<span style="color: #002200;">&#40;</span>selectedNoteIndex <span style="color: #002200;">+</span> <span style="color: #2400d9;">1</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; selectedNoteIndex <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> tblNotes.hidden <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; tblNotes.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; tblNotes.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now every time that a record is created or updated, it will be shown to the tableview straight away once it gets saved.</p>
+<h2>Deleting Records</h2>
+<p>Our demo application would be incomplete if we wouldn&#8217;t add one more feature, the capability to delete existing note records. Doing so consists of the easiest task in this app, as all it takes is to make a call to a new CloudKit method (you&#8217;ll see it next), and provide it with the record identifier that should be deleted.</p>
+<p>In the following tableview delegate method we&#8217;ll implement, at first we get the record ID of the record matching to the tapped row. Then, as usual, we specify the container and the database, and finally we make a call to the <em>deleteRecordWithID(&#8230;)</em> of the CloudKit. If everything works without errors, we remove the respective object from the <em>arrNotes</em> array, and of course, we update the tableview. Simple things, so let&#8217;s see everything at once:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, commitEditingStyle editingStyle<span style="color: #002200;">:</span> UITableViewCellEditingStyle, forRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> editingStyle <span style="color: #002200;">==</span> UITableViewCellEditingStyle.Delete <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let selectedRecordID <span style="color: #002200;">=</span> arrNotes<span style="color: #002200;">&#91;</span>indexPath.row<span style="color: #002200;">&#93;</span>.recordID<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let container <span style="color: #002200;">=</span> CKContainer.defaultContainer<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let privateDatabase <span style="color: #002200;">=</span> container.privateCloudDatabase<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; privateDatabase.deleteRecordWithID<span style="color: #002200;">&#40;</span>selectedRecordID, completionHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span>recordID, error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> error <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>error<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSOperationQueue_Class/"><span style="color: #400080;">NSOperationQueue</span></a>.mainQueue<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.addOperationWithBlock<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#123;</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void <span style="color: #a61390;">in</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.arrNotes.removeAtIndex<span style="color: #002200;">&#40;</span>indexPath.row<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.tblNotes.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Once again, I remind you that any visual updates must always happen to the main thread, therefore we use above the <em>NSOperationQueue</em> class.</p>
+<p>If you test the app now, you can delete a row simply by swiping a cell to the left so the red Delete button to become visible.</p>
+<h2>Summary</h2>
+<p>Now that we&#8217;ve come to the end of the tutorial, you can see that working with CloudKit isn&#8217;t a difficult thing to do. One could say it&#8217;s a way to deal with a different kind of a database. All the information provided in this tutorial is to help you get on the right track, in case you are about to support such a feature in your apps. Storing data to iCloud definitely leads to an advanced user experience, as users are able to find their data to more than one devices. Of course, what I presented in this tutorial doesn&#8217;t consist of the only task you can do with iCloud. However, it&#8217;s a big part that can be used in many cases. It&#8217;s up to you from now on to search for more resources, but in any case I hope you&#8217;ve learned something new here. Closing, I&#8217;d like to say as a last word that iCloud is used for many purposes by Apple, so why not developers do the same thing? Think of that, and start making use of it.</p>
+<p>For reference, you can <a href="https://www.dropbox.com/s/gige1jsnz3eownm/CloudDemo.zip?dl=0">download the Xcode project here</a>.</p>
+<p><em>Credits: <strong>no_image.png</strong> by courtesy of <a href="http://fr.linkedin.com/in/mathieujeannot">Mathieu Jeannot</a></em></p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-tutorial-create-a-simple-table-view-app/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2012/04/UITableView-Sample-App-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming Tutorial: Create a Simple Table View App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-customize-uitableview-storyboard/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/01/Storyboard-Empty-TableViewController-e1357451913959-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Customize UITableView and UITableViewCell Background using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/intro-multipeer-connectivity-framework-ios-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/02/multipeer-connectivity-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Understanding Multipeer Connectivity Framework in iOS 7 - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uialertcontroller-swift-closures-enum/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to UIAlertController, Swift Closures and Enumeration</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/cloudkit-introduction-tutorial/"
+    dc:identifier="http://www.appcoda.com/cloudkit-introduction-tutorial/"
+    dc:title="Working with CloudKit in iOS 8"
+    trackback:ping="http://www.appcoda.com/cloudkit-introduction-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/cloudkit/" rel="tag">cloudkit</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/parse-cloud/" rel="tag">parse cloud</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a>, <a href="http://www.appcoda.com/tag/swift-programming/" rel="tag">swift programming</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-101254">
+        <div id="dsq-comment-header-101254" class="dsq-comment-header">
+            <cite id="dsq-cite-101254">
+http://evict.nl                <span id="dsq-author-user-101254">Edwin Vermeer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101254" class="dsq-comment-body">
+            <div id="dsq-comment-message-101254" class="dsq-comment-message"><p>Working with CloudKit is even easier when you use <a href="https://github.com/evermeer/EVCloudKitDao" rel="nofollow">https://github.com/evermeer/EVCloudKitDao</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-101293">
+        <div id="dsq-comment-header-101293" class="dsq-comment-header">
+            <cite id="dsq-cite-101293">
+                <span id="dsq-author-user-101293">Janek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101293" class="dsq-comment-body">
+            <div id="dsq-comment-message-101293" class="dsq-comment-message"><p>Edwin, telling someone that using YOUR kit is easier than theirs (or their tutorial) is  definitely uncool.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-101294">
+        <div id="dsq-comment-header-101294" class="dsq-comment-header">
+            <cite id="dsq-cite-101294">
+http://webdoctorsolutions.com                <span id="dsq-author-user-101294">Mark Ramrattan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101294" class="dsq-comment-body">
+            <div id="dsq-comment-message-101294" class="dsq-comment-message"><p>Great tutorial Gabriel, thanks for taking the time out to explain the process.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101300">
+        <div id="dsq-comment-header-101300" class="dsq-comment-header">
+            <cite id="dsq-cite-101300">
+                <span id="dsq-author-user-101300">Janek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101300" class="dsq-comment-body">
+            <div id="dsq-comment-message-101300" class="dsq-comment-message"><p>Very nice tutorial. Thanks for the introduction to CloudKit.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-101301">
+        <div id="dsq-comment-header-101301" class="dsq-comment-header">
+            <cite id="dsq-cite-101301">
+                <span id="dsq-author-user-101301">Janek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101301" class="dsq-comment-body">
+            <div id="dsq-comment-message-101301" class="dsq-comment-message"><p>is there any reason why you do not call &#8220;self.dismiss(sender)&#8221; in the saveNote completion handler? From  what I can see, it would save the note and close it all in one step?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/cloudkit-introduction-tutorial/';
+var disqus_identifier = '5400 http://www.appcoda.com/?p=5400';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Working with CloudKit in iOS 8";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=5400';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="5400"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fcloudkit-introduction-tutorial%2F&#038;t=Working%20with%20CloudKit%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="5400" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>35</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Working%20with%20CloudKit%20in%20iOS%208&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcloudkit-introduction-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="5400" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>12</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fcloudkit-introduction-tutorial%2F&#038;t=Working%20with%20CloudKit%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="5400" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>2</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcloudkit-introduction-tutorial%2F&#038;title=Working%20with%20CloudKit%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="5400" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>5</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fcloudkit-introduction-tutorial%2F&#038;t=Working%20with%20CloudKit%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="5400" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Working%20with%20CloudKit%20in%20iOS%208&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcloudkit-introduction-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="5400" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fcloudkit-introduction-tutorial%2F&#038;t=Working%20with%20CloudKit%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="5400" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fcloudkit-introduction-tutorial%2F&#038;title=Working%20with%20CloudKit%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="5400" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/cloudkit-introduction-tutorial\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="02616e6d716742307a2c726c65">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":5400,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:24:25 by W3 Total Cache -->

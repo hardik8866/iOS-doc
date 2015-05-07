@@ -1,0 +1,1078 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Enhance iOS App To Load Data from Property List | iOS Programming</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.appcoda.com/enhance-your-simple-table-app-with-property-list/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Here comes another weekly tutorial for iOS programming. We already built a very simple table app displaying list of recipes. If you look into the app, all our recipes are specified in the source code. I try to keep the thing simple and focus on showing how to create a UITableView. However, it&#8217;s not a [&hellip;]"/>
+<meta name="twitter:title" content="Enhance iOS App To Load Data from Property List | iOS Programming"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2012/05/Sample-Property-List.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Enhance Your Simple Table App With Property List Comments Feed" href="http://www.appcoda.com/enhance-your-simple-table-app-with-property-list/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=377' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-377 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-377 post type-post status-publish format-standard hentry category-course category-tutorials tag-ios-development tag-ios-programming tag-ios-sdk tag-property-list tag-xcode entry"><h1 class="entry-title">Enhance Your Simple Table App With Property List</h1> 
+<div class="post-info"><span class="date published time" title="2012-05-13T21:28:18+00:00">May 13, 2012</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/enhance-your-simple-table-app-with-property-list/#comments"><span class="dsq-postid" data-dsqidentifier="377 http://www.appcoda.com/?p=377">46 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Here comes another weekly tutorial for iOS programming. We already built a very <a href="http://www.appcoda.com/ios-programming-tutorial-create-a-simple-table-view-app/">simple table app</a> displaying list of recipes. If you look into the app, all our recipes are specified in the source code. I try to keep the thing simple and focus on showing how to create a UITableView. However, it&#8217;s not a good practice to &#8220;hard code&#8221; every item in the code. In real app, we used to externalized these static items (i.e. the recipe information) and put them in a file or database or somewhere else. In iOS programming, there is a type of file called Property List. This kind of file is commonly found in Mac OS and iOS, and is used for storing simple structured data (e.g. application setting). In this tutorial, we&#8217;ll make some changes in our simple table app and tweak it to use Property List. </p>
+<p>In brief, here are a couple of stuffs we&#8217;ll cover:</p>
+<ul>
+<li>Convert table data from static array to property list</li>
+<li>How to read property list</li>
+</ul>
+<p><span id="more-377"></span></p>
+<h3>Why Externalize the Table Data?</h3>
+<p>It&#8217;s a good practice to separate static data from the code. But why? What&#8217;s the advantage to put the table data into an external source. Let&#8217;s ask you to add 50 more recipes in our simple table app. Probably, you&#8217;ll go back to your code and put all the new recipes in the initialization:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initialize table data</span><br />
+&nbsp; &nbsp; tableData <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Egg Benedict&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Mushroom Risotto&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Full Breakfast&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Hamburger&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ham and Egg Sandwich&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Creme Brelee&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;White Chocolate Donut&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Starbucks Coffee&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Vegetable Curry&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Instant Noodle with Egg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Noodle with BBQ Pork&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Japanese Noodle with Pork&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Green Tea&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Thai Shrimp Cake&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Angry Birds Cake&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ham and Cheese Panini&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initialize thumbnails</span><br />
+&nbsp; &nbsp; thumbnails <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;egg_benedict.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;mushroom_risotto.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;full_breakfast.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;hamburger.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;ham_and_egg_sandwich.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;creme_brelee.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;white_chocolate_donut.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;starbucks_coffee.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;vegetable_curry.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;instant_noodle_with_egg.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;noodle_with_bbq_pork.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;japanese_noodle_with_pork.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;green_tea.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;thai_shrimp_cake.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;angry_birds_cake.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;ham_and_cheese_panini.jpg&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initialize Preparation Time</span><br />
+&nbsp; &nbsp; prepTime <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;30 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;30 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;20 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;30 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;10 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;1 hour&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;45 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;5 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;30 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;8 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;20 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;20 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;5 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;1.5 hour&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;4 hours&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;10 min&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>There is nothing wrong doing this. But look at the code! It&#8217;s not easy to edit and you have to strictly follow the Objective C syntax. Changing the code may accidentally introduce other errors. That&#8217;s not we want. Apparently, it would be better to separate the data and the programming logic (i.e. the code). Does it look better when the table data is stored like this?</p>
+<div id="attachment_395" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/Sample-Property-List.jpg" alt="Sample Property List" title="Sample Property List" class="size-full wp-image-395" /><p class="wp-caption-text">Sample Property List</p></div>
+<p>In reality, you may not be the one who provides the table data (here, the recipe information). The information may be given by others without iOS programming experience. When we put the data in an external file, it&#8217;s easier to read/edit and more understandable. </p>
+<p>As you progress, you&#8217;ll learn how to put the data in server side (or what-so-called the Cloud). All data in your app are pulled from the server side on demand. It offers one big benefit. For now, any change of the data will require you to build the app and submit it for Apple&#8217;s approval. By separating the data and put them in the Cloud, you can change the data anytime without updating your app. </p>
+<p>We&#8217;re not going to talk about the Cloud for today. Let&#8217;s go back to the basic and see how you can put all the recipes in a Property List. </p>
+<h3>What is Property List</h3>
+<p>Property list offers a convenient way to store simple structural data. It usually appears in XML format. If you&#8217;ve edited some configuration files in Mac or iPhone before, you may come across files with .plist extension. They are examples of the Property List.</p>
+<p>You can&#8217;t use property list to save all types of data. The items of data in a property list are of a limited number of types including &#8220;array&#8221;, &#8220;dictionary&#8221;, &#8220;string&#8221;, etc. For details of the supported types, you can refer to the <a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/PropertyLists/AboutPropertyLists/AboutPropertyLists.html">Property List documentation</a>.</p>
+<p>Property list is commonly used in iOS app for saving application settings. It doesn&#8217;t mean you can&#8217;t use it for other purposes. But it is designed for storing small amount of data.</p>
+<h3>Is it the Best Way to Store Table Data?</h3>
+<p>No, definitely not. We use property list to demonstrate how to store table data in an external file. It&#8217;s just an example. As you gain more experience, you&#8217;ll learn other ways to store the data.  </p>
+<h3>Convert Table Data to Property List</h3>
+<p>That&#8217;s enough for the background. Let&#8217;s get our hands dirty and convert the data into a property list. First, open the Simple Table project in Xcode. Right click on the &#8220;SimpleTable&#8221; folder and select &#8220;New File&#8230;&#8221;. Select &#8220;Other&#8221; under &#8220;iOS&#8221; template, choose &#8220;Property List&#8221; and click &#8220;Next&#8221; to continue.</p>
+<div id="attachment_379" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/Xcode-New-Property-List-File.jpg" alt="Xcode New Property List File" title="Xcode New Property List File" class="size-full wp-image-379" /><p class="wp-caption-text">Create a New Property List File</p></div>
+<p>When prompted, use &#8220;recipes&#8221; as the file name. Once you confirm, Xcode will create the property list file for you. By default, the property list is empty.</p>
+<div id="attachment_381" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/Xcode-Recipe-Plist.jpg" alt="Xcode Recipe Plist" title="Xcode Recipe Plist" class="size-full wp-image-381" /><p class="wp-caption-text">Empty Property List</p></div>
+<p>There are two ways to edit the property list. You can right-click on the editing area and select &#8220;Add Row&#8221; to add a new value. </p>
+<div id="attachment_385" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/Xcode-Property-List-Add-Row.jpg" alt="Xcode Property List Add Row" title="Xcode Property List Add Row" class="size-full wp-image-385" /><p class="wp-caption-text">Add a New Row in Property List Editor</p></div>
+<p>As we&#8217;re going to put the three data arrays in the property list, we&#8217;ll add three rows with &#8220;array&#8221; type. Name them with the keys: RecipeName, Thumbnail and PrepTime. The key serves as an identifier and later you&#8217;ll use it in your code to pick the corresponding array.</p>
+<div id="attachment_384" style="width: 710px" class="wp-caption align center"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/SimpleTableApp-Property-List-Array.jpg" alt="SimpleTableApp Property List Array" title="SimpleTableApp Property List Array" class="size-full wp-image-384" /><p class="wp-caption-text">Define Three Arrays in Property List</p></div>
+<p>To add data in the array, just expand it and click the &#8220;+&#8221; icon to add a new item. Follow the steps in the below illustration if you don&#8217;t know how to do it.</p>
+<div id="attachment_386" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/Add-Property-in-Property-List.jpg" alt="Add Property in Property List" title="Add Property in Property List" class="size-full wp-image-386" /><p class="wp-caption-text">Step by Step Procedures to Add an Item in Array</p></div>
+<p>Repeat the procedures until you add all the values for the array. Your property list should look like this:</p>
+<div id="attachment_388" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/SimpleTableApp-Recipe-Property-List.jpg" alt="SimpleTableApp Recipe Property List" title="SimpleTableApp Recipe Property List" class="size-full wp-image-388" /><p class="wp-caption-text">Recipe Property List</p></div>
+<p>For your convenience, you may download the <a href="http://www.appcoda.com/wp-content/uploads/2012/05/recipes.plist.zip">recipes.plist</a> and add it to your project.</p>
+<p>As mentioned earlier, the property list is usually saved in the format of XML. To view the source of the property list, right click and select &#8220;Open as Source Code&#8221;.</p>
+<div id="attachment_390" style="width: 710px" class="wp-caption align center"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/Open-Property-List-as-Source-Code.jpg" alt="Open Property List as Source Code" title="View the Source Code of Property List" class="size-full wp-image-390" /><p class="wp-caption-text">View the Source Code of Property List</p></div>
+<p>The source code of &#8220;recipes.plist&#8221; file will appear like this:</p>
+<div id="attachment_391" style="width: 710px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/05/Property-List-Source-Code.jpg" alt="Property List Source Code" title="Property List Source Code" class="size-full wp-image-391" /><p class="wp-caption-text">Source Code of Recipes.plist</p></div>
+<h3>Loading Property List in Objective C</h3>
+<p>Next, we&#8217;ll change our code and load the recipe from the property list we just built. It&#8217;s fairly easy to read the content of property list. The iOS SDK already comes with some built-in functions to handle the read/write of the file.</p>
+<p>Replace the following code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #11740a; font-style: italic;">// Initialize table data</span><br />
+&nbsp; &nbsp; tableData <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Egg Benedict&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Mushroom Risotto&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Full Breakfast&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Hamburger&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ham and Egg Sandwich&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Creme Brelee&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;White Chocolate Donut&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Starbucks Coffee&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Vegetable Curry&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Instant Noodle with Egg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Noodle with BBQ Pork&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Japanese Noodle with Pork&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Green Tea&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Thai Shrimp Cake&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Angry Birds Cake&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Ham and Cheese Panini&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initialize thumbnails</span><br />
+&nbsp; &nbsp; thumbnails <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;egg_benedict.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;mushroom_risotto.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;full_breakfast.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;hamburger.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;ham_and_egg_sandwich.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;creme_brelee.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;white_chocolate_donut.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;starbucks_coffee.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;vegetable_curry.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;instant_noodle_with_egg.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;noodle_with_bbq_pork.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;japanese_noodle_with_pork.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;green_tea.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;thai_shrimp_cake.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;angry_birds_cake.jpg&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;ham_and_cheese_panini.jpg&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Initialize Preparation Time</span><br />
+&nbsp; &nbsp; prepTime <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> arrayWithObjects<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;30 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;30 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;20 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;30 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;10 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;1 hour&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;45 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;5 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;30 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;8 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;20 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;20 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;5 min&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;1.5 hour&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;4 hours&quot;</span>, <span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;10 min&quot;</span>, <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>with:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Find out the path of recipes.plist</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> <span style="color: #002200;">*</span>path <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSBundle_Class/"><span style="color: #400080;">NSBundle</span></a> mainBundle<span style="color: #002200;">&#93;</span> pathForResource<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;recipes&quot;</span> ofType<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;plist&quot;</span><span style="color: #002200;">&#93;</span>; &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Load the file content and read the data into arrays</span><br />
+&nbsp; &nbsp; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span>dict <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> alloc<span style="color: #002200;">&#93;</span> initWithContentsOfFile<span style="color: #002200;">:</span>path<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; tableData <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;RecipeName&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; thumbnails <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Thumbnail&quot;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; prepTime <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>dict objectForKey<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;PrepTime&quot;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<div class="note">
+<h4>Behind the Code Change</h4>
+<p><strong>Line #2</strong> &#8211; Before reading the &#8220;recipes.plist&#8221; file, you have to first retrieve the full path of the resource.<br />
+<strong>Line #5</strong> &#8211; You have defined three keys (RecipeName, Thumbnail, PrepTime) in the property list. In the example, each key is associated with a specific array, which is the value. In iOS programming, we use the term <em>dictionary</em> to refer to this key-value pair association. NSDictionary class provides the necessary methods for managing the dictionary. Here, we use the &#8220;initWithContentsOfFile&#8221; method of NSDictionary class to read the key-value pairs in a property list file.<br />
+<strong>Line #6-8</strong> &#8211; These lines of code retrieves the corresponding array with the key we defined earlier.
+</div>
+<p>Once you complete the change, try to run the app again. The app is the same as before. Internally, however, the recipes are loaded from the property list.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/04/SimpleTable-App-with-Custom-Cell-Prep-Time.jpg" alt="SimpleTable App with Custom Cell Prep Time" title="SimpleTable App with Custom Cell Prep Time" class="aligncenter size-full wp-image-344" /></div>
+<h3>What&#8217;s Upcoming Next?</h3>
+<p>Again, I hope you learnt a ton through this tutorial. By now you should have a better idea about property list and how you can make use of it to store small amount of data. Next up, we&#8217;ll take a look at Storyboard and Navigation Controller. </p>
+<p>As always, if you have any problem, leave comment below (or head to <a href="http://www.appcoda.com/forums">our forum</a>) to share with us.</p>
+<p><strong>Update: </strong> You can now <a href="https://dl.dropboxusercontent.com/u/2857188/SimpleTablePropertyList.zip">download the full source code of the Xcode project</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-maze-game-programming-tutorial-collision-detection/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/05/Maze-Game-Part-3-Tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Developing a Simple Maze Game Part 3 - Collision Detection</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-app-backend-parse/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Tutorial-part-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Adding a Cloud Backend for Your iOS App Using Parse - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios7-background-fetch-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/03/background-app-refresh-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working With Background Fetch in iOS 7</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/parse-xml-and-json-web-service/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/json-xml-demo-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Understanding XML and JSON Parsing in iOS Programming</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/enhance-your-simple-table-app-with-property-list/"
+    dc:identifier="http://www.appcoda.com/enhance-your-simple-table-app-with-property-list/"
+    dc:title="Enhance Your Simple Table App With Property List"
+    trackback:ping="http://www.appcoda.com/enhance-your-simple-table-app-with-property-list/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/ios-development/" rel="tag">iOS Development</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/ios-sdk/" rel="tag">iOS SDK</a>, <a href="http://www.appcoda.com/tag/property-list/" rel="tag">Property List</a>, <a href="http://www.appcoda.com/tag/xcode/" rel="tag">Xcode</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-215">
+        <div id="dsq-comment-header-215" class="dsq-comment-header">
+            <cite id="dsq-cite-215">
+                <span id="dsq-author-user-215">Steven</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-215" class="dsq-comment-body">
+            <div id="dsq-comment-message-215" class="dsq-comment-message"><p>Another great insite to tables. How difficult is it to pull data from an XML file stored on another server. As u said earlier you would still need to submit this to the app store if u had a change.</p>
+<p>Any ref on this would be great</p>
+<p>Steve</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-362">
+        <div id="dsq-comment-header-362" class="dsq-comment-header">
+            <cite id="dsq-cite-362">
+                <span id="dsq-author-user-362">agleung</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-362" class="dsq-comment-body">
+            <div id="dsq-comment-message-362" class="dsq-comment-message"><p>Thanks a bunch. I caught up with all your lessons. I feel like I am making progress leaps and bounds.</p>
+<p>FYI a typo in this lesson.</p>
+<p>Select “Other” under “iOS” template, choose “Property List” and click “Next” to continue.<br />
+should read<br />
+Select “Resource” under “iOS” template, choose “Property List” and click “Next” to continue.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment byuser comment-author-admin bypostauthor even depth-2" id="dsq-comment-370">
+        <div id="dsq-comment-header-370" class="dsq-comment-header">
+            <cite id="dsq-cite-370">
+http://www.appcoda.com                <span id="dsq-author-user-370">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-370" class="dsq-comment-body">
+            <div id="dsq-comment-message-370" class="dsq-comment-message"><p>Thanks for spotting the typo!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-522">
+        <div id="dsq-comment-header-522" class="dsq-comment-header">
+            <cite id="dsq-cite-522">
+                <span id="dsq-author-user-522">Sunny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-522" class="dsq-comment-body">
+            <div id="dsq-comment-message-522" class="dsq-comment-message"><p>I have a question,<br />
+can the value inside the property list change due to the action perform by end user??<br />
+for example, if user tab on a cell, then the hit rate will change from 0 to 1 and so on&#8230;<br />
+is it possible?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-527">
+        <div id="dsq-comment-header-527" class="dsq-comment-header">
+            <cite id="dsq-cite-527">
+                <span id="dsq-author-user-527">sunny</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-527" class="dsq-comment-body">
+            <div id="dsq-comment-message-527" class="dsq-comment-message"><p>I have a question here<br />
+can the value inside the property list change due to the action performed by end user?<br />
+for example if user tab on a cell, the hit rate will change from 0 to 1<br />
+is this possible?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-536">
+        <div id="dsq-comment-header-536" class="dsq-comment-header">
+            <cite id="dsq-cite-536">
+http://www.simonblog.com                <span id="dsq-author-user-536">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-536" class="dsq-comment-body">
+            <div id="dsq-comment-message-536" class="dsq-comment-message"><p>Yes, but you need to save it back to the property list file.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.entlib.net/?p=1797' rel='external nofollow' class='url'>第六部分：应用Property List强化你的Simple Table应用程序 | EntLib.net 技术分享平台</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-669">
+        <div id="dsq-comment-header-669" class="dsq-comment-header">
+            <cite id="dsq-cite-669">
+                <span id="dsq-author-user-669">Josh Goodman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-669" class="dsq-comment-body">
+            <div id="dsq-comment-message-669" class="dsq-comment-message"><p>Thanks for the awesome post, is there a way I can have my table data in a spread sheet and then read it in like that. This would be really useful for the app I am making.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-670">
+        <div id="dsq-comment-header-670" class="dsq-comment-header">
+            <cite id="dsq-cite-670">
+http://www.simonblog.com                <span id="dsq-author-user-670">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-670" class="dsq-comment-body">
+            <div id="dsq-comment-message-670" class="dsq-comment-message"><p>Normally, you can store the table data in CSV (or XML) file format and load it in your app.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-680">
+        <div id="dsq-comment-header-680" class="dsq-comment-header">
+            <cite id="dsq-cite-680">
+                <span id="dsq-author-user-680">Josh Goodman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-680" class="dsq-comment-body">
+            <div id="dsq-comment-message-680" class="dsq-comment-message"><p>Thanks, do you know where I could find a code sample of this?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://iptips.org/2012/08/14/improve-the-recipe-app-with-a-better-detail-view-controller/' rel='external nofollow' class='url'>Improve the Recipe App With a Better Detail View Controller | iptips - iphone / ipad / ios / android / mobile / tutorials</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://hatforrent.wordpress.com/2012/08/15/improve-the-recipe-app-with-a-better-detail-view-controller/' rel='external nofollow' class='url'>Improve the Recipe App With a Better Detail View Controller | hatforrent</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://t1u.org/2012/08/15/improve-the-recipe-app-with-a-better-detail-view-controller/' rel='external nofollow' class='url'>Improve the Recipe App With a Better Detail View Controller | t1u</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-710">
+        <div id="dsq-comment-header-710" class="dsq-comment-header">
+            <cite id="dsq-cite-710">
+                <span id="dsq-author-user-710">Shivank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-710" class="dsq-comment-body">
+            <div id="dsq-comment-message-710" class="dsq-comment-message"><p>Heartly thanks to simon sir for great tutorial<br />
+Sir please help me of fetching the data from server side<br />
+its very urgent recently i am working on this so sir plsplsplsplsplsplsplspsl</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-711">
+        <div id="dsq-comment-header-711" class="dsq-comment-header">
+            <cite id="dsq-cite-711">
+                <span id="dsq-author-user-711">Shivank</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-711" class="dsq-comment-body">
+            <div id="dsq-comment-message-711" class="dsq-comment-message"><p>Heartly thanks to simon sir for great tutorial<br />
+Sir please help me of fetching the data from server side<br />
+its very urgent recently i am working on this so sir plsplsplsplsplsplsplspsl</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-789">
+        <div id="dsq-comment-header-789" class="dsq-comment-header">
+            <cite id="dsq-cite-789">
+                <span id="dsq-author-user-789">Toni Hardcastle</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-789" class="dsq-comment-body">
+            <div id="dsq-comment-message-789" class="dsq-comment-message"><p>hi, first i would like to say your courses are great and they have helped me a lot in making an app for my restaurant. i have successfully loaded the RBViewController with a plist in my web service but i have been stuck for days trying to make the detail view load but without any luck. i would appreciate if you could help me with this. thank you.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-950">
+        <div id="dsq-comment-header-950" class="dsq-comment-header">
+            <cite id="dsq-cite-950">
+                <span id="dsq-author-user-950">John</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-950" class="dsq-comment-body">
+            <div id="dsq-comment-message-950" class="dsq-comment-message"><p>fantastic tutorial simon.  what would we need to do to update the data from plist on a server?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-956">
+        <div id="dsq-comment-header-956" class="dsq-comment-header">
+            <cite id="dsq-cite-956">
+http://www.simonblog.com                <span id="dsq-author-user-956">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-956" class="dsq-comment-body">
+            <div id="dsq-comment-message-956" class="dsq-comment-message"><p>You&#8217;ll need to develop a simple server program that accepts request to update the data in plist file. Alternatively, you can check out <a href="http://www.parse.com" rel="nofollow">http://www.parse.com</a> that lets you easily save data in the backend.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-959">
+        <div id="dsq-comment-header-959" class="dsq-comment-header">
+            <cite id="dsq-cite-959">
+http://binceipt.com/                <span id="dsq-author-user-959">Mark Thien</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-959" class="dsq-comment-body">
+            <div id="dsq-comment-message-959" class="dsq-comment-message"><p>this is outstanding ! Thanks a lot for your effort writing this great tutorial. Cheers !</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-964">
+        <div id="dsq-comment-header-964" class="dsq-comment-header">
+            <cite id="dsq-cite-964">
+                <span id="dsq-author-user-964">Nate</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-964" class="dsq-comment-body">
+            <div id="dsq-comment-message-964" class="dsq-comment-message"><p>hey, thanks for the tutorial<br />
+im just wondering how we would use this with the objects that we populated in the object oriented programming tutorial. like do we declare recipe with the Recipe class then do recipe.name = [dict objectForKey: name]; or something like that?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1045">
+        <div id="dsq-comment-header-1045" class="dsq-comment-header">
+            <cite id="dsq-cite-1045">
+                <span id="dsq-author-user-1045">Karthik P</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1045" class="dsq-comment-body">
+            <div id="dsq-comment-message-1045" class="dsq-comment-message"><p>Great set of tutorials to start with&#8230; especially with several pictorial examples&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1347">
+        <div id="dsq-comment-header-1347" class="dsq-comment-header">
+            <cite id="dsq-cite-1347">
+http://twitter.com/_Nosaj                <span id="dsq-author-user-1347">Jason Solomon</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1347" class="dsq-comment-body">
+            <div id="dsq-comment-message-1347" class="dsq-comment-message"><p>source code?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1441">
+        <div id="dsq-comment-header-1441" class="dsq-comment-header">
+            <cite id="dsq-cite-1441">
+                <span id="dsq-author-user-1441">kitti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1441" class="dsq-comment-body">
+            <div id="dsq-comment-message-1441" class="dsq-comment-message"><p>Hi,</p>
+<p>I got message below, when i slide iPhone (emo)</p>
+<p>2013-04-16 22:10:21.256 SimpleTable[1167:f803] -[__NSCFString objectAtIndex:]: unrecognized selector sent to instance 0x6e27390</p>
+<p>2013-04-16 22:10:21.263 SimpleTable[1167:f803] *** Terminating app due to uncaught exception &#8216;NSInvalidArgumentException&#8217;, reason: &#8216;-[__NSCFString objectAtIndex:]: unrecognized selector sent to instance 0x6e27390&#8242;</p>
+<p>*** First throw call stack:</p>
+<p>(0x13ca022 0x155bcd6 0x13cbcbd 0x1330ed0 0x1330cb2 0x2ac4 0xaec54 0xaf3ce 0x9acbd 0xa96f1 0x52d42 0x13cbe42 0x1d82679 0x1d8c579 0x1d114f7 0x1d133f6 0x1dae1ce 0x1dae003 0x139e936 0x139e3d7 0x1301790 0x1300d84 0x1300c9b 0x12b37d8 0x12b388a 0x14626 0x1ff2 0x1f65)</p>
+<p>terminate called throwing an exception(lldb)</p>
+<p>The code stop at</p>
+<p>cell.textLabel.text = [tableData objectAtIndex:indexPath.row];</p>
+<p>please help me.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1446">
+        <div id="dsq-comment-header-1446" class="dsq-comment-header">
+            <cite id="dsq-cite-1446">
+                <span id="dsq-author-user-1446">kitti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1446" class="dsq-comment-body">
+            <div id="dsq-comment-message-1446" class="dsq-comment-message"><p>I try to change several think, i found that data in tableData is loss. I move declaration for tableData and initialize to local (in function), it&#8217;s fine.</p>
+<p>So, what&#8217;s wrong?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1914">
+        <div id="dsq-comment-header-1914" class="dsq-comment-header">
+            <cite id="dsq-cite-1914">
+                <span id="dsq-author-user-1914">Ahmad Durrani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1914" class="dsq-comment-body">
+            <div id="dsq-comment-message-1914" class="dsq-comment-message"><p>thanks for this tutorial </p>
+<p>How we add the value(data) in a row in iOS  plz help me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1923">
+        <div id="dsq-comment-header-1923" class="dsq-comment-header">
+            <cite id="dsq-cite-1923">
+                <span id="dsq-author-user-1923">peter walsby</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1923" class="dsq-comment-body">
+            <div id="dsq-comment-message-1923" class="dsq-comment-message"><p>hey great tutorial, just having trouble adding a row to the property list. When i open a new property list it has the default row with &#8220;root&#8221; as the key. I can&#8217;t seem to change the name of this and whenever i click add row nothing happens, i can add items to that &#8220;root&#8221; row and change it to an array etc but cant do anything else&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2316">
+        <div id="dsq-comment-header-2316" class="dsq-comment-header">
+            <cite id="dsq-cite-2316">
+                <span id="dsq-author-user-2316">Heather</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2316" class="dsq-comment-body">
+            <div id="dsq-comment-message-2316" class="dsq-comment-message"><p>thats because Xcode updated, in the version this tutorial uses you don&#8217;t see the root of the dictionary. I am working in a newer version of Xcode and it&#8217;s the same as yours, the plist automatically shows root. just add three rows beneath root, being the RecipeName, PrepTime, and Thumbnails arrays and keep all the coding the same and it will work. If you do this and look at the source code for the plist, you can see that it generates the same as the example provided in this tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2131">
+        <div id="dsq-comment-header-2131" class="dsq-comment-header">
+            <cite id="dsq-cite-2131">
+                <span id="dsq-author-user-2131">Untitled Entitled</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2131" class="dsq-comment-body">
+            <div id="dsq-comment-message-2131" class="dsq-comment-message"><p>Thank you so much!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2302">
+        <div id="dsq-comment-header-2302" class="dsq-comment-header">
+            <cite id="dsq-cite-2302">
+                <span id="dsq-author-user-2302">Mejdi K.</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2302" class="dsq-comment-body">
+            <div id="dsq-comment-message-2302" class="dsq-comment-message"><p>This series of tutorials about Table views is one of the best on the whole Internet. You definitively made a great job right here Simon!<br />
+Nonetheless, it would have been so nice to go a little bit further with 3 other tutorials:<br />
+Part5 : Load data from database (with sqlite)<br />
+Part6: Integration of the tableview in a nvaigation controller to see some details (stored in DB) about recipes<br />
+Part7: Allowing to add/remove some recipes and refresh dynamically the table view</p>
+<p>I am wondering if I am not going to do so&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2422">
+        <div id="dsq-comment-header-2422" class="dsq-comment-header">
+            <cite id="dsq-cite-2422">
+                <span id="dsq-author-user-2422">mwiggs</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2422" class="dsq-comment-body">
+            <div id="dsq-comment-message-2422" class="dsq-comment-message"><p>When i replace the code to read from the property list, i get an empty basic list.<br />
+As soon as i put the code back to defining the array manually, it works.<br />
+I have downloaded the source files and replaced all of my h, m and xib files, but still no use.</p>
+<p>The source code works when i use it on its own.<br />
+Any ideas ??</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2438">
+        <div id="dsq-comment-header-2438" class="dsq-comment-header">
+            <cite id="dsq-cite-2438">
+                <span id="dsq-author-user-2438">Tauphox</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2438" class="dsq-comment-body">
+            <div id="dsq-comment-message-2438" class="dsq-comment-message"><p>I had the same problem.  I found the problem for my project. When I named the properties list, I capitalized it when I should not have.  To fix it, simply capitalize &#8220;recipes&#8221; in the line:<br />
+NSString *path = [[NSBundle mainBundle] pathForResource:@&#8221;recipes&#8221; ofType:@&#8221;plist&#8221;];<br />
+In SimpleTableViewController.m</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2606">
+        <div id="dsq-comment-header-2606" class="dsq-comment-header">
+            <cite id="dsq-cite-2606">
+                <span id="dsq-author-user-2606">CEMSOFT SOFTWARE</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2606" class="dsq-comment-body">
+            <div id="dsq-comment-message-2606" class="dsq-comment-message"><p>thank you for this tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2733">
+        <div id="dsq-comment-header-2733" class="dsq-comment-header">
+            <cite id="dsq-cite-2733">
+                <span id="dsq-author-user-2733">Insanim8</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2733" class="dsq-comment-body">
+            <div id="dsq-comment-message-2733" class="dsq-comment-message"><p>Looks like it&#8217;s been a year or so since this was written, but since i just stumbled upon this, it&#8217;s new to me. Anyway, thanks for the plist primer. I had actually set up my plist exactly like this for my app. 3 arrays: names, values, and category. Each item within corresponding by Item number. </p>
+<p>My question is this: Setting it up this way has caused me to have a problem adding search functionality. When the user searches, the filtered array looks in the names array and redraws the table based on the text input. Unfortunately, the values and category arrays stay the same, so the corresponding items do not match any longer. So let&#8217;s say item13 in the name array was Lawnmower, the value was 6, and the category was Vehicle. When the user searches for &#8220;Lawn&#8221;, the lawnmower object is the first in the resulting table, but the value and category showing are for item0. I don&#8217;t know how to filter all 3 at the same time with this setup. Any suggestions? Besides not allowing a search. <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Thanks for the help.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3828">
+        <div id="dsq-comment-header-3828" class="dsq-comment-header">
+            <cite id="dsq-cite-3828">
+                <span id="dsq-author-user-3828">Andrea Quintino</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3828" class="dsq-comment-body">
+            <div id="dsq-comment-message-3828" class="dsq-comment-message"><p>I have created the Recipe &#8220;class&#8221;, and the array is only one &#8220;NSArray *recipes&#8221; with an instance for every recipe, like this:</p>
+<p>Recipe *recipe1 = [Recipe new];</p>
+<p>    recipe1.name = @&#8221;Egg Benedict&#8221;;</p>
+<p>    recipe1.prepTime = @&#8221;30 min&#8221;;</p>
+<p>    recipe1.imageFile = @&#8221;egg_benedict.jpg&#8221;;</p>
+<p>    recipe1.ingredients = [NSArray arrayWithObjects:@&#8221;2 fresh English muffins&#8221;, @&#8221;4 eggs&#8221;, @&#8221;4 rashers of back bacon&#8221;, @&#8221;2 egg yolks&#8221;, @&#8221;1 tbsp of lemon juice&#8221;, @&#8221;125 g of butter&#8221;, @&#8221;salt and pepper&#8221;,  nil];</p>
+<p>How can I retrieve the information from the plist file? It&#8217;s a bit different, I suppose</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://boltstudios.edisonchargers.com/sitreps/17martinmj301/week-6-reflection/' rel='external nofollow' class='url'>Week 6 Reflection | m&amp;m</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-4174">
+        <div id="dsq-comment-header-4174" class="dsq-comment-header">
+            <cite id="dsq-cite-4174">
+                <span id="dsq-author-user-4174">Damon Patron</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4174" class="dsq-comment-body">
+            <div id="dsq-comment-message-4174" class="dsq-comment-message"><p>hi i was wondering if it is possible to do this exact tutorial but with videos that would be default to the app so even is there is no internet access they would still have these default videos loaded in their tableView</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-8784">
+        <div id="dsq-comment-header-8784" class="dsq-comment-header">
+            <cite id="dsq-cite-8784">
+                <span id="dsq-author-user-8784">Bhavesh Bansal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-8784" class="dsq-comment-body">
+            <div id="dsq-comment-message-8784" class="dsq-comment-message"><p>I know its been two years for this tutorial but i wanted to know something. I am designing music app in that i am using MPMediaQuery to query songs in user&#8217;s iPod library and i am storing all those songs in NSMutableArrray and then displaying with tableview but after reading this article i am getting confused that should i save all songs in plist and den display or shall i keep using nsmutablearray approach. Plz tell me which would be a better and reliable solution?&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-22588">
+        <div id="dsq-comment-header-22588" class="dsq-comment-header">
+            <cite id="dsq-cite-22588">
+                <span id="dsq-author-user-22588">Anita Agrawal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-22588" class="dsq-comment-body">
+            <div id="dsq-comment-message-22588" class="dsq-comment-message"><p>Thanks for this tutorial.<br />
+Can we add recipes at run time by the user,If user wants to add addition recipes in that?<br />
+In this case how to store newly added recipes to plist programmatically?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-23036">
+        <div id="dsq-comment-header-23036" class="dsq-comment-header">
+            <cite id="dsq-cite-23036">
+http://www.appcoda.com/                <span id="dsq-author-user-23036">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-23036" class="dsq-comment-body">
+            <div id="dsq-comment-message-23036" class="dsq-comment-message"><p>In real app, we seldom use plist to store a large amount of data. In addition to that, plist is more appropriate for storing static data (e.g. configuration file). We use plist in this tutorial for demo purpose. If you want to add/delete recipes dynamically, you may use Core Data or store the data in the cloud. Check out this tutorial for details:</p>
+<p><a href="http://www.appcoda.com/ios-programming-app-backend-parse/" rel="nofollow">http://www.appcoda.com/ios-programming-app-backend-parse/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-30249">
+        <div id="dsq-comment-header-30249" class="dsq-comment-header">
+            <cite id="dsq-cite-30249">
+                <span id="dsq-author-user-30249">leonguyenfs</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-30249" class="dsq-comment-body">
+            <div id="dsq-comment-message-30249" class="dsq-comment-message"><p>please help me</p>
+<p>when i replace the code </p>
+<p>// Find out the path of recipes.plist    NSString *path = [[NSBundle mainBundle] pathForResource:@&#8221;recipes&#8221; ofType:@&#8221;plist&#8221;];    </p>
+<p>    // Load the file content and read the data into arrays<br />
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];<br />
+    tableData = [dict objectForKey:@&#8221;RecipeName&#8221;];<br />
+    thumbnails = [dict objectForKey:@&#8221;Thumbnail&#8221;];<br />
+    prepTime = [dict objectForKey:@&#8221;PrepTime&#8221;];</p>
+<p>after<br />
+i get an empty basic list. i tried replace much but not work @@</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-39846">
+        <div id="dsq-comment-header-39846" class="dsq-comment-header">
+            <cite id="dsq-cite-39846">
+                <span id="dsq-author-user-39846">Kyle May</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-39846" class="dsq-comment-body">
+            <div id="dsq-comment-message-39846" class="dsq-comment-message"><p>This sucks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-40943">
+        <div id="dsq-comment-header-40943" class="dsq-comment-header">
+            <cite id="dsq-cite-40943">
+http://www.bublr.mx/                <span id="dsq-author-user-40943">Cristian González</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-40943" class="dsq-comment-body">
+            <div id="dsq-comment-message-40943" class="dsq-comment-message"><p>I followed the tutorial, but now I can&#8217;t delete a row, when I tried it throws me an exception:</p>
+<p>Terminating app due to uncaught exception &#8216;NSInternalInconsistencyException&#8217;, reason: &#8216;-[__NSCFArray removeObjectAtIndex:]: mutating method sent to immutable object&#8217;</p>
+<p>What did I did wrong? I follow this tutorial and the one in the book, but I won&#8217;t work, haha. <img src="http://www.appcoda.com/wp-includes/images/smilies/frownie.png" alt=":(" class="wp-smiley" style="height: 1em; max-height: 1em;" /> I made all my NSArray -&gt; NSMutableArray.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://agencenova.ch/wordpress/cloud-backend-ios/' rel='external nofollow' class='url'>Cloud backend &#8211; IOS | Android Made Easy</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-68140">
+        <div id="dsq-comment-header-68140" class="dsq-comment-header">
+            <cite id="dsq-cite-68140">
+                <span id="dsq-author-user-68140">ed</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-68140" class="dsq-comment-body">
+            <div id="dsq-comment-message-68140" class="dsq-comment-message"><p>Love this tutorial and would love to see it updated for swift??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-78856">
+        <div id="dsq-comment-header-78856" class="dsq-comment-header">
+            <cite id="dsq-cite-78856">
+                <span id="dsq-author-user-78856">Anil Maharjan</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-78856" class="dsq-comment-body">
+            <div id="dsq-comment-message-78856" class="dsq-comment-message"><p>hello sir, i am trying to add row, but rather than adding row, its adding item within the root, i am not getting option to add recipename, thumbnail and preptime. Please help me to solve this prob as i am totally new in ios.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-101208">
+        <div id="dsq-comment-header-101208" class="dsq-comment-header">
+            <cite id="dsq-cite-101208">
+                <span id="dsq-author-user-101208">Ella</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101208" class="dsq-comment-body">
+            <div id="dsq-comment-message-101208" class="dsq-comment-message"><p>Thanks for this tutorial.Tell me,can you make please this tutorial for swift?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/enhance-your-simple-table-app-with-property-list/';
+var disqus_identifier = '377 http://www.appcoda.com/?p=377';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Enhance Your Simple Table App With Property List";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=377';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="377"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fenhance-your-simple-table-app-with-property-list%2F&#038;t=Enhance%20Your%20Simple%20Table%20App%20With%20Property%20List" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="377" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>26</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Enhance%20Your%20Simple%20Table%20App%20With%20Property%20List&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fenhance-your-simple-table-app-with-property-list%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="377" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>4</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fenhance-your-simple-table-app-with-property-list%2F&#038;t=Enhance%20Your%20Simple%20Table%20App%20With%20Property%20List" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="377" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>9</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fenhance-your-simple-table-app-with-property-list%2F&#038;title=Enhance%20Your%20Simple%20Table%20App%20With%20Property%20List" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="377" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>0</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fenhance-your-simple-table-app-with-property-list%2F&#038;t=Enhance%20Your%20Simple%20Table%20App%20With%20Property%20List" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="377" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Enhance%20Your%20Simple%20Table%20App%20With%20Property%20List&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fenhance-your-simple-table-app-with-property-list%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="377" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fenhance-your-simple-table-app-with-property-list%2F&#038;t=Enhance%20Your%20Simple%20Table%20App%20With%20Property%20List" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="377" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fenhance-your-simple-table-app-with-property-list%2F&#038;title=Enhance%20Your%20Simple%20Table%20App%20With%20Property%20List" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="377" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/enhance-your-simple-table-app-with-property-list\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:28:12 by W3 Total Cache -->

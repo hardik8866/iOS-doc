@@ -1,0 +1,1082 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Working with Handoff in iOS 8 | Swift Programming Tutorial</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Handoff is introduced in iOS 8 and Mac Yosemite. In this Swift programming tutorial, you will learn how to integrate handoff in your iOS 8 apps."/>
+<link rel="canonical" href="http://www.appcoda.com/handoff/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="Handoff is introduced in iOS 8 and Mac Yosemite. In this Swift programming tutorial, you will learn how to integrate handoff in your iOS 8 apps."/>
+<meta name="twitter:title" content="Working with Handoff in iOS 8 | Swift Programming Tutorial"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/11/handoff-featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Working with Handoff in iOS 8 Comments Feed" href="http://www.appcoda.com/handoff/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=4377' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-4377 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-4377 post type-post status-publish format-standard hentry category-course category-intermediate category-swift-2 category-tutorials tag-handoff tag-ios-8 tag-ios-programming tag-swift entry"><h1 class="entry-title">Working with Handoff in iOS 8</h1> 
+<div class="post-info"><span class="date published time" title="2014-11-25T23:23:19+00:00">November 25, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/handoff/#comments"><span class="dsq-postid" data-dsqidentifier="4377 http://www.appcoda.com/?p=4377">7 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>I am going to start this tutorial with the following wonderful scenario: Imagine that you are working with an application in your Mac, and then you decide to continue in your iPad while lying on your couch in your living room. After a while, you&#8217;re leaving home, but you keep working on the same application in your iPhone. Simply put, you keep doing what you do, no matter where you are. Wouldn&#8217;t be something like that really cool? Well, now that&#8217;s feasible! How?</p>
+<p>iOS 8 introduces a brand new capability named <strong>Handoff</strong>. What it does is simple; it allows us to start working with an app on an iOS device, and continue to another one, assuming that all devices run the latest version of the operating system. It is also supported by the new Mac OS named <em>Yosemite</em>.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/handoff-featured.jpg" alt="handoff-featured" class="aligncenter size-full wp-image-4404" /></div>
+<p>The basic idea behind Handoff is that whatever a user does to an app consists of an <em>activity</em>, and such an activity can be associated with a specific user in more than one device. Programmatically, the class representing an activity is called <em>NSUserActivity</em>, and we&#8217;ll work a lot with it. Also, all devices must be physically near so the Handoff can work. Further than that, there are two prerequisites: The first is that a valid iCloud account is needed, and users should be logged in to every device that&#8217;s about to be used. Actually, by using the same iCloud account to all devices if possible for user activities to be continued uninterrupted when switching between them (devices) and to be associated with the same user. The second prerequisite is useful in the case where two or more different apps must be able to hand off and continue the same user activities. In this case the apps must be signed with the same <em>team identifier (Team ID)</em> in Xcode.</p>
+<p><span id="more-4377"></span></p>
+<p>An application can have as many user activities as necessary, so when continuing to another device there&#8217;s no interruption or data loss. For example, to a note taking app, composing the note can be one activity, and previewing a note could be another. There are no specific rules regarding the amount of user activities. Generally an app should support as many activities as the tasks that should be continued are, as long as they distinct rationally.</p>
+<p>There are three interactions that take place when working with Handoff. These are:</p>
+<ol>
+<li>Creating a new user activity that&#8217;s about to be continued to another device.</li>
+<li>Updating an existing user activity with new data when is needed.</li>
+<li>Continuing a user activity to another device.</li>
+</ol>
+<p>We&#8217;ll see all of the above in the sample app of the today&#8217;s tutorial.</p>
+<p>Each user activity is identified by an <em>activity type</em>, which is a string describing the activity. Before doing any implementation regarding Handoff, new entries with the activity types must be added to the .plist file of the app, so it&#8217;s known to the app what activities will be supported. The same activity types are used in code as well when implementing the handoff feature. Apple recommends to use a <em>reverse DNS style</em> for the activity type, such as: <em>com.appcoda.handoff.tutorial.view</em>. We&#8217;ll see later how activity types are used in both the .plist and the code, and we&#8217;ll properly name the ones that we&#8217;re about to support.</p>
+<p>Generally, the data that is transferred from device to device using Handoff must be small in size, so the user can keep working to the continuing app almost instantly. Handoff supports streaming as well, and that&#8217;s the way that should be followed when relatively big amount of data is needed to be transferred. However, in this tutorial we won&#8217;t deal with streams at all, we&#8217;ll just suffice to the basic Handoff functionality so we learn how can be implemented.</p>
+<p>Note that the Handoff can be tested in real devices only, and you&#8217;ll need at least two of them running iOS 8.0 or newer. It doesn&#8217;t matter if they&#8217;re iPhones, iPads, or combination of them.</p>
+<p>All the above consist of the basic knowledge you should have regarding the Handoff technology. I strongly encourage you to take the time and study the <a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Handoff/HandoffFundamentals/HandoffFundamentals.html">official Apple documentation</a>, or watch the session video #219 of the <a href="https://developer.apple.com/videos/wwdc/2014/">WWDC 2014</a>, so you get a deeper understanding on what is coming next.</p>
+<h2>Demo App Overview</h2>
+<p>Handoff is supported by both document-based and non document-based applications. In this tutorial we&#8217;ll stick to the second case in order to see how to implement the Handoff capability directly. The sample app of this tutorial is going to be a simple <em>contacts app</em> with three distinct features:</p>
+<ol>
+<li>Adding a new contact.</li>
+<li>Listing all contacts.</li>
+<li>Viewing a contact details.</li>
+</ol>
+<p>Of course, this is a demo app, therefore our app will support adding only the following basic information:</p>
+<ul>
+<li>First name</li>
+<li>Last name</li>
+<li>Phone number</li>
+<li>E-mail</li>
+</ul>
+<p>Also, we are not going to implement any contact editing functionality. Our goal is not to build a complete contacts app, just an app good enough of being capable to try Handoff. As you may presume, it&#8217;s going to be a navigation-based application. The following images illustrate a sample of it:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/Handoff-demo.png" alt="Handoff-demo" class="aligncenter size-full wp-image-4402" /></div>
+<p>In order to save us some time, I&#8217;ll provide you with a starter project to begin with. More details about it can be found in the next part, but I&#8217;m telling you in advance that it contains the interface designed in the Interface Builder only. We&#8217;ll add all the required code step by step in the upcoming sections.</p>
+<p>Once the basic functionality of the sample app is ready, we&#8217;ll implement the Handoff. We&#8217;ll do the necessary additions to the .plist file regarding the activity types, and then we&#8217;ll create and update the user activities as needed. Lastly, we&#8217;ll support the activity continuation by performing the proper implementation.</p>
+<p>Talking a bit more about the activity types, we are going to have two of them, and respectively we&#8217;ll support two user activities: One for adding and one for viewing a contact&#8217;s info. The activity types will be named <em>com.appcoda.handoffdemo.edit-contact</em> and <em>com.appcoda.handoffdemo.view-contact</em> accordingly. I think that you can guess that the app&#8217;s name is going to be <em>HandoffDemo</em>.</p>
+<p>So, now that you have a taste of what we are really going to deal with it&#8217;s time to keep going. I&#8217;ll provide you with more information and details about the app specifics as we move along.</p>
+<h2>The Starting Point</h2>
+<p>So, as I just said we&#8217;re not going to build a new application from the scratch. Instead, I provide you with a jumpstart project to work with, which you can <a href="https://www.dropbox.com/s/0i4jtvm21a6bfvk/HandoffDemoStart.zip?dl=0">download here</a>.</p>
+<p>Once you get it, open it in Xcode and take a look at the interface. Notice that apart from the normal segues that I added for transitioning from one view controller to another, there are also <em>unwind segues</em>. I purposely created them, because as you&#8217;ll see later we will need to act when the respective view controllers get dismissed.</p>
+<p>Also, in the project there are three view controller classes. In the default <em>ViewController</em> class we&#8217;ll list all the added contacts. In the <em>EditContactViewController</em> class we&#8217;ll implement the feature of adding a new contact, while in the <em>ViewContactViewController</em> class we&#8217;ll display the details of a selected contact.</p>
+<p>In the starter project you&#8217;ll see that Xcode shows two errors, one in the <em>ViewController.swift</em> file, and one in the <em>ViewContactViewController.swift</em> file. Don&#8217;t worry about them. They are issued because the tableview delegate and datasource methods are missing. In the next parts of the tutorial we are going to implement them, so the errors will go away.</p>
+<p>Lastly, the application is going to be <em>Universal</em>, meaning that it will capable of running in both iPhone and iPad devices.</p>
+<p>When you get familiarized with the starter project, just keep going to the next part.</p>
+<h2>An Auxiliary Class</h2>
+<p>We will begin writing some code by creating a very simple class. This class will be used as a structure for storing the details of a contact. It will contain some member variables regarding the contact details and some handy methods for saving and loading the contacts, as well as for converting the single properties into a dictionary and back.</p>
+<p>At first, we must create a new file, so go to the <strong>File > New > File&#8230;</strong> menu of Xcode. In the <strong>Source</strong> category of the <strong>iOS</strong> section select the <strong>Cocoa Touch Class</strong> template and then click Next.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_4_add_class.png" alt="handoff - add new class" class="aligncenter size-full wp-image-4385" /></div>
+<p>In the next window specify the <strong>NSObject</strong> value to the <strong>Subclass of:</strong> field, and name the new class <strong>Contact</strong>:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_5_add_class2.png" alt="handoff - add class" class="aligncenter size-full wp-image-4386" /></div>
+<p>Lastly, click on the Create button to let the new class to be created.</p>
+<p>Next, open that file and add the following, simple content:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class Contact<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a> <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; var firstname<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a>?<br />
+<br />
+&nbsp; &nbsp; var lastname<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a>?<br />
+<br />
+&nbsp; &nbsp; var phoneNumber<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a>?<br />
+<br />
+&nbsp; &nbsp; var email<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a>?<br />
+<br />
+&nbsp; &nbsp; let documentsDirectory<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a>?<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>First of all, we set the <em>NSObject</em> class as the parent of ours, because we&#8217;ll use some methods that this class provides. Also, as you can see, we have four variables for the contact details, and one variable for representing the documents directory of the app. In the next step we define the initializer method (<em>init</em> method), and specify the value of the last variable. Here it is:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override init<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let pathsArray <span style="color: #002200;">=</span> NSSearchPathForDirectoriesInDomains<span style="color: #002200;">&#40;</span>NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; documentsDirectory <span style="color: #002200;">=</span> pathsArray<span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span> as String<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We&#8217;ll need the path to the documents directory, because we&#8217;ll implement two quite useful methods for saving and loading the contact details. But before that, let&#8217;s write two other methods. The first one which is shown to the next segment converts the properties regarding the contact details into a dictionary object, and then it returns it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func getDictionaryFromContactData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Dictionary&lt;String, String&gt; <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var dictionary<span style="color: #002200;">:</span> <span style="color: #002200;">&#91;</span>String<span style="color: #002200;">:</span> String<span style="color: #002200;">&#93;</span> <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">&quot;firstname&quot;</span><span style="color: #002200;">:</span> firstname<span style="color: #002200;">!</span>, <span style="color: #bf1d1a;">&quot;lastname&quot;</span><span style="color: #002200;">:</span> lastname<span style="color: #002200;">!</span>, <span style="color: #bf1d1a;">&quot;phonenumber&quot;</span><span style="color: #002200;">:</span> phoneNumber<span style="color: #002200;">!</span>, <span style="color: #bf1d1a;">&quot;email&quot;</span><span style="color: #002200;">:</span> email<span style="color: #002200;">!</span><span style="color: #002200;">&#93;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> dictionary<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The second method does the exact opposite thing; it &#8220;extracts&#8221; the contact details from a dictionary and set the proper values to the respective properties:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func getContactDataFromDictionary<span style="color: #002200;">&#40;</span>dictionary<span style="color: #002200;">:</span> Dictionary&lt;<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a>, AnyObject&gt;<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; firstname <span style="color: #002200;">=</span> dictionary<span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">&quot;firstname&quot;</span><span style="color: #002200;">&#93;</span> as? String<br />
+&nbsp; &nbsp; lastname <span style="color: #002200;">=</span> dictionary<span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">&quot;lastname&quot;</span><span style="color: #002200;">&#93;</span> as? String<br />
+&nbsp; &nbsp; phoneNumber <span style="color: #002200;">=</span> dictionary<span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">&quot;phonenumber&quot;</span><span style="color: #002200;">&#93;</span> as? String<br />
+&nbsp; &nbsp; email <span style="color: #002200;">=</span> dictionary<span style="color: #002200;">&#91;</span><span style="color: #bf1d1a;">&quot;email&quot;</span><span style="color: #002200;">&#93;</span> as? String<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The above two methods will become useful in both this class, and later during the handoff implementation.</p>
+<p>Now, let&#8217;s implement a method that we&#8217;ll use to save the contacts to a file in the documents directory. Take a look at the implementation first, and then we&#8217;ll talk about it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func saveContact<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let contactsFilePath <span style="color: #002200;">=</span> documentsDirectory?.stringByAppendingPathComponent<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;contacts&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; var allContacts <span style="color: #002200;">=</span> loadContacts<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; allContacts.addObject<span style="color: #002200;">&#40;</span>self<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; var allContactsConverted <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">for</span> var i<span style="color: #002200;">=</span><span style="color: #2400d9;">0</span>; i&lt;allContacts.count; <span style="color: #002200;">++</span>i<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; allContactsConverted.addObject<span style="color: #002200;">&#40;</span>allContacts.objectAtIndex<span style="color: #002200;">&#40;</span>i<span style="color: #002200;">&#41;</span>.getDictionaryFromContactData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; allContactsConverted.writeToFile<span style="color: #002200;">&#40;</span>contactsFilePath<span style="color: #002200;">!</span>, atomically<span style="color: #002200;">:</span> <span style="color: #a61390;">false</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s see what is going on in the above snippet. Initially we set the path to the contacts file. It&#8217;s obvious that the file is named <em>contacts</em>. Next, we load all the existing contacts from that file to a variable, using a method that we will implement right next. As you&#8217;ll find out, the <em>loadContacts</em> method returns either a <em>NSMutableArray</em> array with <em>Contact</em> objects, or an array simply initialized. In any case, we add the new object (<em>self</em>) to that array.</p>
+<p>What we want to do next is just to save the array&#8217;s contents to a file using the <em>writeToFile</em> method of the <em>NSArray</em> class. This method creates a property list file (plist). However, the array&#8217;s contents must be property list compatible objects, such as <em>NSString</em>, <em>NSData</em>, <em>NSDictionary</em> or <em>NSArray</em>. In our case the contents of the <em>allContacts</em> array are objects of type <em>Contact</em>, and that means that the mentioned method for writing the array contents to the file won&#8217;t work. So, the workaround is to convert the contents of the array into something that can be stored into a property list file, and what&#8217;s better than using the first method we implemented in this class and converting all existing objects to dictionaries? That&#8217;s exactly happens in the above loop. Ultimately, once all the <em>Contact</em> objects of the <em>allContacts</em> array get converted and added to the <em>allContactsConverted</em> array, the contents of the last one are written to the specified path.</p>
+<p>Now, we can load the contacts from the file, performing more or less the opposite process:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func loadContacts<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let contactsFilePath <span style="color: #002200;">=</span> documentsDirectory?.stringByAppendingPathComponent<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;contacts&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; var allContacts <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/"><span style="color: #400080;">NSFileManager</span></a>.defaultManager<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.fileExistsAtPath<span style="color: #002200;">&#40;</span>contactsFilePath<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let savedContactsArray <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><span style="color: #002200;">&#40;</span>contentsOfFile<span style="color: #002200;">:</span> contactsFilePath<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">for</span> var i<span style="color: #002200;">=</span><span style="color: #2400d9;">0</span>; i&lt;savedContactsArray?.count; <span style="color: #002200;">++</span>i<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; let tempContact <span style="color: #002200;">=</span> Contact<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; tempContact.getContactDataFromDictionary<span style="color: #002200;">&#40;</span>savedContactsArray?.objectAtIndex<span style="color: #002200;">&#40;</span>i<span style="color: #002200;">&#41;</span> as Dictionary&lt;<a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/"><span style="color: #400080;">NSObject</span></a>, AnyObject&gt;<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; allContacts.addObject<span style="color: #002200;">&#40;</span>tempContact<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> allContacts<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the above implementation, once the path to the contacts file is specified, we initialize a mutable array. If the contacts file exists, then we load its contents to a second, temporary array, and convert each object of it from a dictionary to a <em>Contact</em> object. This is what is finally added to the <em>allContacts</em> array in the loop body. At the end, we return the array that contains the <em>Contact</em> objects.</p>
+<p>Lastly, we will add a class method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class func updateSavedContacts<span style="color: #002200;">&#40;</span>contacts<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let documentsDirectory <span style="color: #002200;">=</span> NSSearchPathForDirectoriesInDomains<span style="color: #002200;">&#40;</span>NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#91;</span><span style="color: #2400d9;">0</span><span style="color: #002200;">&#93;</span> as String<br />
+&nbsp; &nbsp; let contactsFilePath <span style="color: #002200;">=</span> documentsDirectory.stringByAppendingPathComponent<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;contacts&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; var contactsConverted <span style="color: #002200;">=</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">for</span> var i<span style="color: #002200;">=</span><span style="color: #2400d9;">0</span>; i&lt;contacts.count; <span style="color: #002200;">++</span>i<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; contactsConverted.addObject<span style="color: #002200;">&#40;</span>contacts.objectAtIndex<span style="color: #002200;">&#40;</span>i<span style="color: #002200;">&#41;</span>.getDictionaryFromContactData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; contactsConverted.writeToFile<span style="color: #002200;">&#40;</span>contactsFilePath, atomically<span style="color: #002200;">:</span> <span style="color: #a61390;">true</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With this one, we will replace the existing contacts file with a new one containing the contents of the parameter array. The details of its implementation are similar to the previous functions&#8217;. It will be useful when we&#8217;ll delete a contact.</p>
+<p>Our class is ready. We&#8217;ll use it as a tool along our way, as it consists of a convenient way to handle the contact data.</p>
+<h2>Editing Contacts</h2>
+<p>We&#8217;ll continue building our app by implementing the contact editing functionality. For starters, select the <em>EditContactViewController.swift</em> file in the Project Navigator. For now, and besides the default code generated by Xcode, in the starter project they have been added the connected IBOutlet properties and the <em>saveContact</em> IBAction method only. Currently, we have a little work to do in order to make this feature functioning. Two things must be done:</p>
+<ol>
+<li>We must make the Return button of the keyboard responsive, so the keyboard is disappeared when it&#8217;s tapped.</li>
+<li>We must implement the <em>saveContact</em> IBAction method, so the new contact can be properly saved.</li>
+</ol>
+<p>Also, we must create a new protocol, so the parent view controller, the <em>ViewController</em> class, gets notified when a new contact is saved. This is required so the new contact to be added to the contacts list.</p>
+<p>Let&#8217;s begin by making the Return button working. To do that, we must adopt first the <em>UITextFieldDelegate</em> protocol. Go to the class header line, and add it as shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class EditContactViewController<span style="color: #002200;">:</span> UIViewController, UITextFieldDelegate</div></td></tr></tbody></table></div>
+<p>Next, go to the <em>viewDidLoad</em> method and make our class the delegate of all the textfields being in the view controller:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; super.viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; txtFirstName.delegate <span style="color: #002200;">=</span> self<br />
+&nbsp; &nbsp; txtLastName.delegate <span style="color: #002200;">=</span> self<br />
+&nbsp; &nbsp; txtPhoneNumber.delegate <span style="color: #002200;">=</span> self<br />
+&nbsp; &nbsp; txtEmail.delegate <span style="color: #002200;">=</span> self<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Lastly, implement the next textfield delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func textFieldShouldReturn<span style="color: #002200;">&#40;</span>textField<span style="color: #002200;">:</span> UITextField<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; textField.resignFirstResponder<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, the only thing we do is to resign the textfield from first responder. We don&#8217;t actually care which textfield is.</p>
+<p>At this point, I&#8217;m just telling you in advance that we are going to return to the above method later, in order to add a command that is needed for the handoff functionality. But as I said, later&#8230;</p>
+<p>Now, before we save the contact, it&#8217;s seems to be a better idea to implement the custom protocol I was talking about earlier. In it, we are going to declare just one delegate method. By adopting the delegation pattern, we&#8217;ll be able to tell the parent class that a new contact has been saved, and to pass that contact to it as an object as well.</p>
+<p>Walk yourself at the top of the file, right below the <em>import UIKit</em> command and before the class opening. There, just add the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">protocol EditContactViewControllerDelegate<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; func contactWasSaved<span style="color: #002200;">&#40;</span>contact<span style="color: #002200;">:</span> Contact<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Next, go inside the class body, and declare the following delegate variable:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var delegate<span style="color: #002200;">:</span> EditContactViewControllerDelegate?</div></td></tr></tbody></table></div>
+<p>Okay, the protocol is now ready, so let&#8217;s implement the IBAction method. Go to the body of the <em>saveContact</em> method. For first time we are about to use the class we created to the previous section of the tutorial. For starters, we&#8217;ll use an object of this class to store the values from the textfields to it as shown next, and of course, to save the new contact permanently:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveContact<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var editedContact <span style="color: #002200;">=</span> Contact<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; editedContact.firstname <span style="color: #002200;">=</span> txtFirstName.text<br />
+&nbsp; &nbsp; editedContact.lastname <span style="color: #002200;">=</span> txtLastName.text<br />
+&nbsp; &nbsp; editedContact.phoneNumber <span style="color: #002200;">=</span> txtPhoneNumber.text<br />
+&nbsp; &nbsp; editedContact.email <span style="color: #002200;">=</span> txtEmail.text<br />
+<br />
+&nbsp; &nbsp; editedContact.saveContact<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Next, we&#8217;ll call our custom delegate method to inform the parent class that a new contact has been created and saved:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveContact<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; self.delegate?.contactWasSaved<span style="color: #002200;">&#40;</span>editedContact<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Finally, we just need to pop the view controller. If you took a look at the interface of the starter project that you downloaded, and at the segues specifically, then you would have definitely found out that in both the <em>EditContactViewController</em> and the <em>ViewContactViewController</em> scenes I created <em>unwind segues</em> (segues for dismissing the view controllers). That may seem strange to you initially, but I added them for one specific reason only: I want us to have full control over these two view controllers when they are dismissed, because at that moment we&#8217;ll need later to stop the handoff from functioning. We won&#8217;t talk about that now, so let&#8217;s make the view controller to go away when saving a new contact:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func saveContact<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; self.performSegueWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idUnwindSegueEditContact&quot;</span>, sender<span style="color: #002200;">:</span> self<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Our work in this view controller is over, but just for now. When we&#8217;ll focus on the handoff implementation we&#8217;ll come back, as there is a series of tasks we need to perform. Besides that, in the next part we&#8217;ll see how we will use the delegate method we created here.</p>
+<h2>Listing Contacts</h2>
+<p>When our demo app gets launched we want to display a tableview with all the contacts listed in it. For now, we must only load all saved contacts from the disk (from the documents directory), and then simply show them. Don&#8217;t forget however that we must also implement the <em>contactWasSaved</em> delegate method too.</p>
+<p>Let&#8217;s get started. At first, open the <em>ViewController.swift</em> file. Go to the beginning of the class and add the following declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var contactsArray<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSMutableArray_Class/"><span style="color: #400080;">NSMutableArray</span></a><span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>Next, define the following function that will help us to load the contacts:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func loadContacts<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let contact <span style="color: #002200;">=</span> Contact<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; contactsArray <span style="color: #002200;">=</span> contact.loadContacts<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Of course, we should not forget to call it in the <em>viewDidLoad</em> method as shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; super.viewDidLoad<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; loadContacts<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At this point we know that every time the <em>ViewController</em> scene is loaded, the <em>contactsArray</em> will either contain all the contacts (as objects of the <em>Contact</em> class), or it will be simply initialized. Now, let&#8217;s focus a bit on the tableview methods that must be implemented. You may have noticed that I have already adopted the <em>UITableViewDelegate</em> and <em>UITableViewDatasource</em> protocols in the starter project you downloaded, and I&#8217;ve made the <em>ViewController</em> class the delegate and the datasource of the tableview. So, let&#8217;s begin by the easy ones:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func numberOfSectionsInTableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Int <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">1</span><br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, numberOfRowsInSection section<span style="color: #002200;">:</span> Int<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Int <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> contactsArray.count<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, heightForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; CGFloat <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">60.0</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>I&#8217;m pretty sure that is clear to anyone what is happening in the above three methods, therefore I&#8217;m not commenting anything here.</p>
+<p>The only interesting tableview method at this point is the next one, where we dequeue the prototype cell with the identifier <em>idCellContact</em>, and then we &#8220;extract&#8221; each <em>Contact</em> object from the <em>contactsArray</em> array with aim to get the first and last name of each one:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, cellForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; UITableViewCell <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var cell <span style="color: #002200;">=</span> tableView.dequeueReusableCellWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idCellContact&quot;</span><span style="color: #002200;">&#41;</span> as UITableViewCell<br />
+<br />
+&nbsp; &nbsp; let contact <span style="color: #002200;">=</span> contactsArray.objectAtIndex<span style="color: #002200;">&#40;</span>indexPath.row<span style="color: #002200;">&#41;</span> as Contact<br />
+&nbsp; &nbsp; cell.textLabel.text <span style="color: #002200;">=</span> contact.firstname<span style="color: #002200;">!</span> <span style="color: #002200;">+</span> <span style="color: #bf1d1a;">&quot; &quot;</span> <span style="color: #002200;">+</span> contact.lastname<span style="color: #002200;">!</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, we only make the first and last name visible when we list the contacts. The concatenation of the two respective strings above is simple enough, as you can see.</p>
+<p>Speaking of tableview methods, why don&#8217;t we implement one more handy method so we are able to delete an existing contact? Here you are:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, commitEditingStyle editingStyle<span style="color: #002200;">:</span> UITableViewCellEditingStyle, forRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> editingStyle <span style="color: #002200;">==</span> UITableViewCellEditingStyle.Delete <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; deleteContactAtIndex<span style="color: #002200;">&#40;</span>indexPath.row<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>deleteContactAtIndex</em> method is one that we&#8217;ll implement right next. In it, we pass as an argument the index of the contact we want to delete. Let&#8217;s see the new method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func deleteContactAtIndex<span style="color: #002200;">&#40;</span>index<span style="color: #002200;">:</span> Int<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; contactsArray.removeObjectAtIndex<span style="color: #002200;">&#40;</span>index<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; Contact.updateSavedContacts<span style="color: #002200;">&#40;</span>contactsArray<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; tblContacts.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At first we remove the proper <em>Contact</em> object from the array, and then we call the <em>updateSavedContacts</em> class method of the <em>Contact</em> class to save the remaining objects (if exist) back to file. Lastly, we reload the tableview data so it reflects the changes that have been done.</p>
+<p>As I said earlier, we also need to implement the <em>contactWasSaved</em> delegate method. In it, we only want to add the new contact to the contacts array, and then reload the tableview data. Its implementation is fairly simple, so let&#8217;s see it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func contactWasSaved<span style="color: #002200;">&#40;</span>contact<span style="color: #002200;">:</span> Contact<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; contactsArray.addObject<span style="color: #002200;">&#40;</span>contact<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; self.tblContacts.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Alternatively, we could have loaded the contacts from the file once again.</p>
+<p>Now go to the class header line and adopt the <em>EditContactViewControllerDelegate</em> protocol:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">class ViewController<span style="color: #002200;">:</span> UIViewController, UITableViewDelegate, UITableViewDataSource, EditContactViewControllerDelegate</div></td></tr></tbody></table></div>
+<p>The above addition was necessary, but we&#8217;re still not over. The <em>ViewController</em> class must be set as the delegate of the <em>EditContactViewController</em> instance, and something like that is done in the <em>prepareForSegue(segue:sender:)</em> function when working with segues. This function is called every time that the <em>EditContactViewController</em> view controller is about to be appeared, and our goal is to get an instance of that view controller from the segue and set this class as its delegate. Here it is:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func prepareForSegue<span style="color: #002200;">&#40;</span>segue<span style="color: #002200;">:</span> UIStoryboardSegue, sender<span style="color: #002200;">:</span> AnyObject?<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> segue.identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;idSegueEditContact&quot;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; var editContactViewController <span style="color: #002200;">=</span> segue.destinationViewController as EditContactViewController<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; editContactViewController.delegate <span style="color: #002200;">=</span> self<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Our initial implementation in the <em>ViewController.swift</em> class is now over, so we can move to the next part where we&#8217;ll build the contact detail viewing feature.</p>
+<h2>Viewing Contact Details</h2>
+<p>The <em>ViewContactViewController</em> view controller will not be used for anything other than displaying the details of the selected contact. No other functionality will be added, and even for a demo application, I must admit that implementing such a view controller it might be a bit pointless. However, no matter of how useful or not it is, this view controller will give us a great opportunity to try the Handoff feature even more, therefore in this section we&#8217;ll perform the initial implementation, and later or we&#8217;ll add the Handoff support.</p>
+<p>The contact of which the details will be displayed will be passed in the <em>ViewContactViewController</em> view controller as a single object, after it has been selected in the <em>ViewController</em> view controller. In order for this to happen, we must do some preparation and then pass the proper object. So, open the <em>ViewContactViewController.swift</em> file, and at the top of the class add the next declaration:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var contact<span style="color: #002200;">:</span> Contact<span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>This variable will be used throughout the class for displaying (and later for handing off) the contact details.</p>
+<p>In the starter project of the application I already adopted the tableview related protocols, and I made this class the delegate and the datasource of the tableview. That means that we only have to write the minimum required methods in order the tableview to properly show the contact info.</p>
+<p>As you&#8217;ll see in the code segment that follows, there&#8217;s nothing particularly difficult. I&#8217;m giving you at once all four methods so we can save some time:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br />30<br />31<br />32<br />33<br />34<br />35<br />36<br />37<br />38<br />39<br />40<br />41<br />42<br />43<br />44<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func numberOfSectionsInTableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Int <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">1</span><br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, numberOfRowsInSection section<span style="color: #002200;">:</span> Int<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Int <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let validContact <span style="color: #002200;">=</span> contact<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">4</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">0</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, cellForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; UITableViewCell <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; var cell <span style="color: #002200;">=</span> tableView.dequeueReusableCellWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idCellContact&quot;</span><span style="color: #002200;">&#41;</span> as UITableViewCell<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">switch</span> indexPath.row<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> <span style="color: #2400d9;">0</span><span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.textLabel.text <span style="color: #002200;">=</span> contact.firstname<span style="color: #002200;">!</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.detailTextLabel?.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;First name&quot;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> <span style="color: #2400d9;">1</span><span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.textLabel.text <span style="color: #002200;">=</span> contact.lastname<span style="color: #002200;">!</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.detailTextLabel?.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Last name&quot;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">case</span> <span style="color: #2400d9;">2</span><span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.textLabel.text <span style="color: #002200;">=</span> contact.phoneNumber<span style="color: #002200;">!</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.detailTextLabel?.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Phone number&quot;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">default</span><span style="color: #002200;">:</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.textLabel.text <span style="color: #002200;">=</span> contact.email<span style="color: #002200;">!</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; cell.detailTextLabel?.text <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;E-mail&quot;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> cell<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, heightForRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; CGFloat <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #2400d9;">60.0</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Before we return the number of rows that we want the tableview to have, we must be sure that the <em>contact</em> object isn&#8217;t nil. Therefore we use the optional binding to make sure that there are actual values to be displayed in the tableview. Also, by looking at the <em>tableView(tableView:cellForRowAtIndexPath:)</em> method you can assume that in the text label of each cell we set the proper contact detail, but further than that we also set a descriptive value as a subtitle in the detail text label of the cell.</p>
+<p>Now, let&#8217;s return to the <em>ViewController.swift</em> file, and let&#8217;s add the necessary code for passing the selected object to the view contact view controller. First of all, we must keep track of the selected contact, and to be precise, of the contact object&#8217;s index in the <em>contactsArray</em> array. Go to the place where all the variable declarations exist, and add the next as well:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var indexOfContactToView<span style="color: #002200;">:</span> Int<span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>Actually, in the above variable we&#8217;ll store the row index of the tapped cell. However, this can only happen if we implement the <em>tableView(tableView:didSelectRowAtIndexPath:)</em> method of the tableview delegate. The definition of this method will be simple, as we only need to keep track of the tapped cell and then perform the proper segue for transitioning to the <em>ViewContactViewController</em> view controller:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func tableView<span style="color: #002200;">&#40;</span>tableView<span style="color: #002200;">:</span> UITableView, didSelectRowAtIndexPath indexPath<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSIndexPath_Class/"><span style="color: #400080;">NSIndexPath</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; indexOfContactToView <span style="color: #002200;">=</span> indexPath.row<br />
+<br />
+&nbsp; &nbsp; self.performSegueWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idSegueViewContact&quot;</span>, sender<span style="color: #002200;">:</span> self<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Performing the above segue is important, as the <em>prepareForSegue(segue:sender:)</em> method will be called before the real transition gets happen, and this is the best place to pass the selected contact object.</p>
+<p>Go to the <em>prepareForSegue(segue:sender:)</em> method, and append the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func prepareForSegue<span style="color: #002200;">&#40;</span>segue<span style="color: #002200;">:</span> UIStoryboardSegue, sender<span style="color: #002200;">:</span> AnyObject?<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> segue.identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;idSegueViewContact&quot;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; var viewContactViewController <span style="color: #002200;">=</span> segue.destinationViewController as ViewContactViewController<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; viewContactViewController.contact <span style="color: #002200;">=</span> contactsArray.objectAtIndex<span style="color: #002200;">&#40;</span>indexOfContactToView<span style="color: #002200;">&#41;</span> as Contact<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That was the finishing touch in our effort to show a contact&#8217;s details once it&#8217;s been selected. At this point you may run the app and see how it actually works. From now on, we are going to focus on the Handoff capability only.</p>
+<h2>Configuring the Plist File</h2>
+<p>As I said in the introduction of this tutorial, the handoff logic is based on the user activity concept, and the class that&#8217;s responsible for handling user activities programmatically is named <em>NSUserActivity</em>. Additionally, I also mentioned that each activity has one or more <em>activity types</em>; a simple string written in reverse DNS style that uniquely identifies a specific activity among devices and apps.</p>
+<p>The last one is extremely important, as by using the activity types applications can recognize what activities are allowed to be shared and continued to other devices. As a developer, defining the activity types is one of the first things you should consider if you are about to work with Handoff. Always have in mind that an activity type must be <em>unique</em>, so be careful when naming each one.</p>
+<p>In order for an app to know the supported activity types that should be handed off, <em>a list</em> with all of them is required to exist in it, and more specifically in the <em>Info.plist</em> file. In there, a new entry must be added. That entry has special key naming and its type is an <em>array</em>.</p>
+<p>In the Project Navigator, open the <em>Supporting Files</em> group, and then click on the <em>Info.plist</em> file to display its contents.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_6_info_plist.png" alt="handoff - Plist" class="aligncenter size-full wp-image-4387" /></div>
+<p>Next, either go to the <strong>Editor > Add Item</strong> option, or click on the small add button as shown below to add a new entry:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_7_add_plist_item.png" alt="Handoff - Add Plist Item" class="aligncenter size-full wp-image-4388" /></div>
+<p>The name of the new key should be <strong>NSUserActivityTypes</strong>. Make sure that you are not mistyping it, so you&#8217;d better just copy-paste it. The type of it must be an <em>array</em>.</p>
+<p>Once you properly configure the name and type of the new item, add two new items and be sure that they are contained in the above array. Both of them must be <em>String</em> values, as they represent the activity types of the user activities we want to support. We want to add a user activity when editing a contact, and one more when viewing the details of an existing one. So, in the new two items specify the following values respectively:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">com.appcoda.handoffdemo.edit<span style="color: #002200;">-</span>contact<br />
+com.appcoda.handoffdemo.view<span style="color: #002200;">-</span>contact</div></td></tr></tbody></table></div>
+<p>The above string values are in reverse DNS style, and they&#8217;re unique. Usually the format you should adopt is either: <em>com.yourcompany.somethingUnique</em>, or <em>com.yourcompany.appName.somethingUnique</em>. If you want, you can even avoid completely the above format for the activity types, however it&#8217;s the recommended way by Apple.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_8_plist_complete.png" alt="handoff - Plist" class="aligncenter size-full wp-image-4389" /></div>
+<p>Now save the file and you&#8217;ll be fine here. The activity types must always be defined in the plist file in order for the Handoff to properly work. From this point on, we are able to&#8230; hand off!</p>
+<h2>Handing Off When Editing a Contact</h2>
+<p>When starting to implement the Handoff feature to an application, the first thing in code is to always create a new user activity, or in other words, an object of the <em>NSUserActivity</em> class properly configured. Before we begin writing any code though, let me say an important fact first.</p>
+<p>In iOS the handoff functionality is based on the <em>UIKit</em> framework. Since version 8.0, the <em>UIResponder</em> class contains a property named <em>userActivity</em> for encapsulating a user activity defined to a responder (such as a view controller), and a couple of useful methods that we&#8217;re about to use soon. That means two things: At first, you can write: <em>self.userActivity</em>, even though you haven&#8217;t declared such a property with no problem at all, as it&#8217;s inherited by the <em>UIResponder</em> class. At second, don&#8217;t try to declare a property such this one: <em>var userActivity: NSUserActivity?</em>, because the compiler won&#8217;t let you do so. It&#8217;s like you&#8217;re trying to declare the same property twice. The <em>userActivity</em> name isn&#8217;t available.</p>
+<p>Having said all the above, let&#8217;s get started by opening the <em>EditContactViewController.swift</em> file. Initially, we&#8217;ll define a new custom function, which we&#8217;ll use to create a new user activity. Besides the initialization, a title for the activity can also be set, but the most important thing is that a dictionary with the data that should be handed off should also be set. In the method that follows we don&#8217;t specify such a dictionary for a simple reason: We&#8217;re going to call it when the view is loaded, and at that time there&#8217;s no data to send yet. Is it pointless then to create the user activity? No, it&#8217;s not because the activity must initialized in any case.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func createUserActivity<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; userActivity <span style="color: #002200;">=</span> NSUserActivity<span style="color: #002200;">&#40;</span>activityType<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;com.appcoda.handoffdemo.edit-contact&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; userActivity?.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;Edit Contact&quot;</span><br />
+<br />
+&nbsp; &nbsp; userActivity?.becomeCurrent<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you see, we use the proper activity type upon initialization. Make sure that the string in the activity initialization matches to any of the strings you add in the plist file. The last command is also important and is required, as this is the one that actually makes the activity ready to be handed off.</p>
+<p>The above method must be called somewhere, and the obvious option is to do that in the <em>viewDidLoad</em> method. However, we won&#8217;t do it and I&#8217;ll tell you why: As you&#8217;ll see a bit later, the activity that should be continued will be passed to this view controller using a special method that the <em>UIResponder</em> class has, and it will be assigned to the <em>userActivity</em> property of the view controller. That happens before the view controller gets loaded, and here is the problem. If we call the <em>createUserActivity</em> method in the <em>viewDidLoad</em>, then the <em>userActivity</em> property will be re-initialized, and we won&#8217;t have the chance to handle the received activity.</p>
+<p>So, based on the above, we&#8217;ll call the <em>createUserActivity</em> in the <em>viewDidAppear</em> method, just as shown next:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">:</span> Bool<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; super.viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; createUserActivity<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Notice that by simply creating the activity the handoff won&#8217;t work, as there&#8217;s no data to send.</p>
+<p>Now, the question is when our app should send data while we&#8217;re editing a contact. A nice and quite convenient solution for the demo app we build would be to do so every time that the Return button is tapped in the keyboard. If you remember, we have already implemented the respective textfield delegate method (<em>textFieldShouldReturn(textfield:)</em>), so we can use it. But not yet!</p>
+<p>One of the user activity related methods that the <em>UIResponder</em> class contains is the <em>updateUserActivityState:</em>. The role of this method is simple and in accordance to what its name suggests; to update the user activity&#8217;s state, and in our case we&#8217;ll use it to pass the data we want to be handed off to the activity object. This method can be called as many times as necessary, and it&#8217;s our duty to override it and add the proper implementation in it. Let&#8217;s take a look at it, and then there&#8217;s more to discuss:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func updateUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">:</span> NSUserActivity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; let contact <span style="color: #002200;">=</span> Contact<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; contact.firstname <span style="color: #002200;">=</span> txtFirstName.text<br />
+&nbsp; &nbsp; contact.lastname <span style="color: #002200;">=</span> txtLastName.text<br />
+&nbsp; &nbsp; contact.phoneNumber <span style="color: #002200;">=</span> txtPhoneNumber.text<br />
+&nbsp; &nbsp; contact.email <span style="color: #002200;">=</span> txtEmail.text<br />
+<br />
+&nbsp; &nbsp; activity.addUserInfoEntriesFromDictionary<span style="color: #002200;">&#40;</span>contact.getDictionaryFromContactData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; super.updateUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Let me now explain. I said previously that the user activity object accepts a dictionary with the data that we want to handoff (the so-called <em>userInfo</em> dictionary). To do that we use a very handy method called <em>addUserInfoEntriesFromDictionary:</em> that the <em>NSUserActivity</em> class provides us with. Its argument, the <em>getDictionaryFromContactData</em> is a method we implemented in the <em>Contact</em> class. If you recall, its job is to return a <em>Dictionary</em> object created by the properties of a contact object.</p>
+<p><strong>An important notice</strong>: Keep in mind that every time the above method is called, the <em>userInfo</em> dictionary of the activity is empty. So, don&#8217;t try to append data to it, instead provide it always with the data you want to be handed off with the activity.</p>
+<p>So, in short, in the above method we create a new, temporary <em>Contact</em> object, we set the contact details to the respective properties, and we handoff the (existing) data of this contact by converting all the above properties into a dictionary and adding it to the user activity. We should not forget to call the respective <em>updateUserActivityState:</em> of the super class of course, as we override this method here.</p>
+<p>Now, before we go to the <em>Contact</em> class and implement the above method that we used in advanced, we&#8217;d better say to our application where the <em>updateUserActivityState:</em> method should be called. We have already said that this will take place in the <em>textFieldShouldReturn:</em> delegate method of the textfield, so go there and append the next line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func textFieldShouldReturn<span style="color: #002200;">&#40;</span>textField<span style="color: #002200;">:</span> UITextField<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; userActivity?.needsSave <span style="color: #002200;">=</span> <span style="color: #a61390;">true</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>needsSave</em> property of the <em>NSUserActivity</em> class is actually a flag which if is true, then it makes the user activity object to update its state and eventually to handoff any existing data. Of course, instead of the <em>needsSave</em> property, you could just write this in the above method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">updateUserActivityState<span style="color: #002200;">&#40;</span>self.userActivity<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>This command would also work just fine.</p>
+<p>Finally, there&#8217;s one last action that we should perform regarding the user activity. That is to stop it when the view controller is about to pop from the navigation controller, and more specifically when the unwind segue is about to be performed. Go to the <em>prepareForSegue(segue:sender:)</em> method (uncomment it if it&#8217;s commented by default), and then add the next contents to it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func prepareForSegue<span style="color: #002200;">&#40;</span>segue<span style="color: #002200;">:</span> UIStoryboardSegue, sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> segue.identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;idUnwindSegueEditContact&quot;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.userActivity?.invalidate<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>By calling the <em>invalidate</em> method of the user activity object we actually stop the handoff operation for the current view controller.</p>
+<p>So, doing a very quick recap here, we have actually done four things:</p>
+<ol>
+<li>We initialized a user activity.</li>
+<li>We overrode the user activity&#8217;s update method so we can handoff data any time we want to.</li>
+<li>We said the app when to handoff data.</li>
+<li>We stopped the user activity upon the view controller dismissal.</li>
+</ol>
+<p>We&#8217;ll see some of the above once again in the <em>ViewContactViewController</em> class.</p>
+<h2>Handing Off When Viewing a Contant&#8217;s Details</h2>
+<p>In the last part we saw how we can handoff data when editing a contact, and when exactly to do so. Now, we&#8217;ll do almost the same thing, but this time things will be a bit simpler.</p>
+<p>First of all, open the <em>ViewContactViewController.swift</em> file, as we&#8217;re going to support the handoff in this class too. This one, compared to the <em>EditContactViewController</em>, has one great difference: It doesn&#8217;t update any data at all, therefore we don&#8217;t need to update the user activity&#8217;s state. We just need to create a new activity and provide it with the contact data, so it can be handed off right after the view controller has appeared.</p>
+<p>Exactly as we previously did, we&#8217;ll create a new function named <em>createUserActivity</em>. In this, we&#8217;ll initialize the activity using the second activity typed we declared to the plist file, we&#8217;ll set a title, and finally, we&#8217;ll make the new activity the current one. Let&#8217;s see all that in code now:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func createUserActivity<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; userActivity <span style="color: #002200;">=</span> NSUserActivity<span style="color: #002200;">&#40;</span>activityType<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;com.appcoda.handoffdemo.view-contact&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; userActivity?.title <span style="color: #002200;">=</span> <span style="color: #bf1d1a;">&quot;View Contact&quot;</span><br />
+&nbsp; &nbsp; userActivity?.becomeCurrent<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <em>contact</em> object we used above, is the one that&#8217;s being passed from the <em>ViewController</em> class when the segue is performed.</p>
+<p>Now, the <em>createUserActivity</em> method must be called, and we&#8217;ll do that in the <em>viewDidAppear</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">:</span> Bool<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; super.viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; createUserActivity<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Next, we must override the activity&#8217;s update state method, where we should provide the dictionary with the data that must be handed off along with the activity:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func updateUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">:</span> NSUserActivity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; userActivity?.userInfo <span style="color: #002200;">=</span> contact.getDictionaryFromContactData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; super.updateUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>It&#8217;s not necessary to make the <em>needsSave</em> property of the <em>NSUserActivity</em> class <em>true</em>. By default when the activity will be created it will call this method, it will update its state and eventually the handoff will take place.</p>
+<p>Finally, we should not forget that the activity must be stopped before the view controller gets dismissed. So, go to the <em>prepareForSegue(segue:sender:)</em> method, check if the segue that is about to be performed is the unwind one, and add the next few lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func prepareForSegue<span style="color: #002200;">&#40;</span>segue<span style="color: #002200;">:</span> UIStoryboardSegue, sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> segue.identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;idUnwindSegueViewContact&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.userActivity?.invalidate<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now the handoff will work even when viewing a contact&#8217;s details.</p>
+<h2>Continuing a User Activity</h2>
+<p>Up to now we have implemented quite enough handoff related code, but still it can&#8217;t be tested because it remains a one-way process for the time being. What we also have to do is to add the necessary code so the app can continue an activity that is being handed off by another device.</p>
+<p>The continuation of an activity is a two-stage job: First, two application delegate methods regarding the received activity must be implemented, and then some extra work for handling the received data must be done to the view controller of interest.</p>
+<p>We are going to see all the above in details, and for starters open the <em>AppDelegate.swift</em> file. When receiving data to a continuing device, iOS uses two delegate methods to inform the application when <em>an activity is about to be continued but no data is still available</em>, and when <em>an activity has been handed off along with its data</em>.</p>
+<p>In the first case the developer has two options. To either let iOS inform the user about the activity, or to write any necessary code that will prepare the user about the activity that will be continued. Usually, the second option involves the creation of some GUI elements which indicate that a process is on its way, such as displaying an activity indicator (spinner) or something like that. In this demo app we won&#8217;t bother with it, so we&#8217;ll just leave iOS to inform users about the upcoming user activity. Right next you are given with the implementation of that delegate method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, willContinueUserActivityWithType userActivityType<span style="color: #002200;">:</span> String<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>userActivityType<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">false</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>By returning <em>false</em> we pass the control of the user information to iOS. Remember that if you decide to manually handle the user activity that is about to be continued, you must change the return type of the method to <em>true</em>. The <em>println</em> command exists for demo reasons only, so you can see in the output the activity type of the activity that will be continued.</p>
+<p>The interesting part is when an activity arrives and contains data. The delegate method that should be implemented in this case is the <em>application(application:userActivity:restorationHandler:)</em>. The main goal when defining this method is to pass the user activity object to the proper view controller, so the app is able to handle and display the data that receives and continue from the point where the user has left off to the originating device. This might sound a bit tricky to achieve, but the <em>UIResponder</em> class gives us the solution once again, so let&#8217;s talk about that before we implement the method I just mentioned.</p>
+<p>In a previous section I mentioned that the <em>UIResponder</em> class contains a couple of useful methods, and we already used the first one when we updated the state of the user activity in the <em>EditContactViewController</em> and the <em>ViewContactViewController</em> classes. The second one is related to the continuity, and is called <em>restoreUserActivity(activity:)</em>. There is only one important detail that must become understood here: This method must be implemented to every view controller existing to the hierarchy up to the view controller of interest, and to each one must be called the <em>restoreUserActivity:</em> of the next view controller, until the top most one is reached. In the last one the received data will be handled and displayed properly, so the user can continue working.</p>
+<p>The details of the above will become clear as we move along. Initially, in the <em>AppDelegate.swift</em> file add the next method definition:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, continueUserActivity userActivity<span style="color: #002200;">:</span> NSUserActivity, restorationHandler<span style="color: #002200;">:</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#91;</span>AnyObject<span style="color: #002200;">&#93;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Void<span style="color: #002200;">&#41;</span> <span style="color: #002200;">-</span>&gt; Bool <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let win <span style="color: #002200;">=</span> window <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; let navController <span style="color: #002200;">=</span> win.rootViewController as UINavigationController<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let viewController <span style="color: #002200;">=</span> navController.topViewController as ViewController<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; viewController.restoreUserActivityState<span style="color: #002200;">&#40;</span>userActivity<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">return</span> <span style="color: #a61390;">true</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At first, we must be sure that the window of the application has been initialized, so we use the optional binding as shown above. Then, with the first two lines we access the <em>ViewController</em> view controller through the navigation controller. Next, we make a call to the <em>restoreUserActivity:</em> method of that class, so we pass the received activity to it. We&#8217;ll make this class in turn to call the same method in the <em>EditContactViewController</em> or in the <em>ViewContactViewController</em> class, depending on the activity type. By returning <em>true</em> we tell iOS that we&#8217;ve handled the continuing activity.</p>
+<p>Let&#8217;s go now to the <em>ViewController.swift</em> file. As I said, we must pass the continuing user activity to the next, proper view controller. In order to do that, we must keep the received activity from the <em>restoreUserActivity:</em> to a property of the class and then use it in the <em>prepareForSegue(segue:sender:)</em> method. So, at the top of the class declare the following:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var continuedActivity<span style="color: #002200;">:</span> NSUserActivity?</div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s implement the new method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">:</span> NSUserActivity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; continuedActivity <span style="color: #002200;">=</span> activity<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> activity.activityType <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;com.appcoda.handoffdemo.edit-contact&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.performSegueWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idSegueEditContact&quot;</span>, sender<span style="color: #002200;">:</span> self<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.performSegueWithIdentifier<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;idSegueViewContact&quot;</span>, sender<span style="color: #002200;">:</span> self<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; super.restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The received activity is passed here as a parameter. As you see, we store it to the property we previously declared. Then, depending on the activity type we perform the proper segue. Lastly, we make a call to the respective <em>super</em> method because we override it here.</p>
+<p>Now, let&#8217;s go to the <em>prepareForSegue(segue:sender:)</em> method, where we&#8217;ll modify a bit our code as needed. Let&#8217;s start with the segue of the edit contact view controller:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func prepareForSegue<span style="color: #002200;">&#40;</span>segue<span style="color: #002200;">:</span> UIStoryboardSegue, sender<span style="color: #002200;">:</span> AnyObject?<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> segue.identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;idSegueEditContact&quot;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ... &nbsp; &nbsp; &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> let activity <span style="color: #002200;">=</span> continuedActivity <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; editContactViewController.restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; ...<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Here we use the <em>continuedActivity</em> object as the argument of the <em>restoreUserActivity:</em> method of the edit contact view controller (we&#8217;ll implement it next).</p>
+<p>We must also update the code regarding the view contact view controller:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func prepareForSegue<span style="color: #002200;">&#40;</span>segue<span style="color: #002200;">:</span> UIStoryboardSegue, sender<span style="color: #002200;">:</span> AnyObject?<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> segue.identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;idSegueEditContact&quot;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> segue.identifier <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;idSegueViewContact&quot;</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; var viewContactViewController <span style="color: #002200;">=</span> segue.destinationViewController as ViewContactViewController<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> let activity <span style="color: #002200;">=</span> continuedActivity <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; viewContactViewController.restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">else</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; viewContactViewController.contact <span style="color: #002200;">=</span> contactsArray.objectAtIndex<span style="color: #002200;">&#40;</span>indexOfContactToView<span style="color: #002200;">&#41;</span> as Contact<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> &nbsp; &nbsp;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, we can go to the <em>EditContactViewController.swift</em> file. This is the place where we&#8217;ll make use of the received activity, we&#8217;ll get its data and display it to the textfields. The implementation of the restore activity method is simple, as we&#8217;ll only assign the continuing activity object to the <em>userActivity</em> object of the responder.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">:</span> NSUserActivity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; userActivity <span style="color: #002200;">=</span> activity<br />
+<br />
+&nbsp; &nbsp; super.restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As simple as that. But it&#8217;s not enough in order to display the data. In the <em>viewDidAppear</em> method we&#8217;ll check if the <em>userInfo</em> dictionary of the user activity contains data, and if exists, we&#8217;ll use it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">:</span> Bool<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; super.viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let userInfo <span style="color: #002200;">=</span> userActivity?.userInfo <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; var contact <span style="color: #002200;">=</span> Contact<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; contact.getContactDataFromDictionary<span style="color: #002200;">&#40;</span>userInfo<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; txtFirstName.text <span style="color: #002200;">=</span> contact.firstname<br />
+&nbsp; &nbsp; &nbsp; &nbsp; txtLastName.text <span style="color: #002200;">=</span> contact.lastname<br />
+&nbsp; &nbsp; &nbsp; &nbsp; txtPhoneNumber.text <span style="color: #002200;">=</span> contact.phoneNumber<br />
+&nbsp; &nbsp; &nbsp; &nbsp; txtEmail.text <span style="color: #002200;">=</span> contact.email<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; createUserActivity<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In this implementation we declare a temporary <em>Contact</em> object, and through this we use the <em>getContactDataFromDictionary</em> method so as to &#8220;extract&#8221; the data from the <em>userInfo</em> dictionary. Then we assign the proper values to the textfields, and we&#8217;re done. By doing all the above a handed off activity can be now continued to another device successfully. We&#8217;ll see it in action in a while.</p>
+<p>Finally, let&#8217;s make the <em>ViewContactViewController</em> capable of continuing an activity. Open the <em>ViewContactViewController.swift</em> file, and add the restore activity method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">:</span> NSUserActivity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; userActivity <span style="color: #002200;">=</span> activity<br />
+<br />
+&nbsp; &nbsp; super.restoreUserActivityState<span style="color: #002200;">&#40;</span>activity<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>And, similarly to the previous view controller, let&#8217;s implement the <em>viewDidAppear</em> method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">override func viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">:</span> Bool<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; super.viewDidAppear<span style="color: #002200;">&#40;</span>animated<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> let userInfo <span style="color: #002200;">=</span> userActivity?.userInfo <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; contact <span style="color: #002200;">=</span> Contact<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; contact.getContactDataFromDictionary<span style="color: #002200;">&#40;</span>userInfo<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; tblContactInfo.reloadData<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; createUserActivity<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>At this point, our app can continue a handed off activity as expected. The whole process of continuing an activity might look somehow weird at the beginning, however if you look closely at the steps we followed here everything will become pretty clear.</p>
+<h2>Some Finishing Touches</h2>
+<p>Before we run the app and test the application for first time, it&#8217;s necessary to add one more delegate method to the <em>AppDelegate.swift</em> file. Looking back at what we have already done, you&#8217;ll notice that we haven&#8217;t handled any error case at all.</p>
+<p>In the next code snippet you&#8217;ll see the new method you should add to that file. Notice that no actual error handling is taking place, we just display a couple of messages to the output.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, didFailToContinueUserActivityWithType userActivityType<span style="color: #002200;">:</span> String, error<span style="color: #002200;">:</span> <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>error.localizedDescription<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>userActivityType<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Besides that, there&#8217;s one more delegate method that you could optionally implement, and it&#8217;s shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func application<span style="color: #002200;">&#40;</span>application<span style="color: #002200;">:</span> UIApplication, didUpdateUserActivity userActivity<span style="color: #002200;">:</span> NSUserActivity<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>userActivity<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; println<span style="color: #002200;">&#40;</span>userActivity.userInfo<span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This method is called when the state of an activity is updated, and I present it only for informative reasons. For testing only, we display the activity that&#8217;s being updated, and the <em>userInfo</em> dictionary of it.</p>
+<p>Now, all the necessary delegate methods regarding the continuity exist to our app, so we&#8217;re ready to take a taste of it when running.</p>
+<h2>Compile and Run the App</h2>
+<p>As I said to the introduction of this tutorial, the handoff capability can be tested in real devices only. So, build and run the app to two iPhones, two iPads, or any combination of them, and then test it. Add a new contact or view an existing one, and look at the lock screen of the second device for a new icon appearing at the bottom left side of the screen. Use it to let the application continue your activity from where you left off. Alternatively, you can unlock the second device and double-push the Home button. In the app switcher, at the very left side you can see an application instance created by the handed off activity. Tap it and the application will also launch and display the proper view controller with the data that have received.</p>
+<p>The following images illustrate the functionality of the app. In my demo run, the originating device is an iPhone, and the continuing device is an iPad mini.</p>
+<p><em>Adding a new contact on iPhone:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_9_handoff_1.png" alt="handoff - demo 1" class="aligncenter size-full wp-image-4390" /></div>
+<p><em>The app icon appears at the bottom-left side of the lock screen on the iPad:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_10_handoff_2.png" alt="t23_10_handoff_2" class="aligncenter size-full wp-image-4391" /></div>
+<p><em>Sliding up the app icon opens the app to the point that I was left off on the iPhone:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_11_handoff_3.png" alt="t23_11_handoff_3" class="aligncenter size-full wp-image-4392" /></div>
+<p><em>Viewing the contact details on iPhone (the app on the iPad has been terminated):</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_12_handoff_4.png" alt="t23_12_handoff_4" class="aligncenter size-full wp-image-4393" /></div>
+<p><em>By pushing the Home button twice on the iPad, an instance of the application with the handed off activity is appeared at the left side:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_13_handoff_5.png" alt="t23_13_handoff_5" class="aligncenter size-full wp-image-4394" /></div>
+<p><em>The app loads the view contact view controller to display the contact details:</em></p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/11/t23_14_handoff_6.png" alt="t23_14_handoff_6" class="aligncenter size-full wp-image-4395" /></div>
+<h2>Summary</h2>
+<p>In this tutorial we met a brand new capability of iOS 8, and we went through several steps until we manage to build a fully working app utilizing the Handoff feature. If you focus on the handoff&#8217;s specifics only, you&#8217;ll see that implementing it is relatively easy, as long as you stick to the simple rules that govern it. Keep in mind to always be careful when setting up the activity types of your application, so there won&#8217;t be any conflicts. As a last word I must say that even though the Handoff works perfectly to the demo app, we didn&#8217;t make the contacts list of the continuing device (the stored contacts) to get updated with the list of the originating app. It doesn&#8217;t matter however, as our goal was to see how Handoff is implemented. Besides that, this could be the topic of another tutorial regarding Handoff. I hope you find this post useful, and leave any thoughts you may have in the comments area. Have fun!</p>
+<p>For your reference, you can <a href="https://www.dropbox.com/s/oew2t13cv9vy5rh/HandoffDemo.zip?dl=0">download the complete Xcode project here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-game-tutorial-maze-part-1/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/Simple-Maze-Game-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Creating a Simple Maze Game for iPhone - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-import-contact-address-book/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/12/addressbook-featured1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Import Contacts Using Address Book Framework</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uitableview-tutorial-storyboard-xcode5/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/01/simple-table-view-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with UITableView in Xcode 5 Using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-game-kit-framework/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/02/GameCenterFeatured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with Game Center and Game Kit Framework</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/handoff/"
+    dc:identifier="http://www.appcoda.com/handoff/"
+    dc:title="Working with Handoff in iOS 8"
+    trackback:ping="http://www.appcoda.com/handoff/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/handoff/" rel="tag">handoff</a>, <a href="http://www.appcoda.com/tag/ios-8/" rel="tag">iOS 8</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-87390">
+        <div id="dsq-comment-header-87390" class="dsq-comment-header">
+            <cite id="dsq-cite-87390">
+                <span id="dsq-author-user-87390">Clouds</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-87390" class="dsq-comment-body">
+            <div id="dsq-comment-message-87390" class="dsq-comment-message"><p>a bit off topic but why do we have to put the question mark (?) in some lines:</p>
+<p>like this:<br />
+var firstname: NSString? &lt;&#8211;<br />
+or<br />
+firstname = dictionary[&quot;firstname&quot;] as? String &lt;&#8211;<br />
+or<br />
+func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) &lt;&#8211;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-87454">
+        <div id="dsq-comment-header-87454" class="dsq-comment-header">
+            <cite id="dsq-cite-87454">
+                <span id="dsq-author-user-87454">Yogesh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-87454" class="dsq-comment-body">
+            <div id="dsq-comment-message-87454" class="dsq-comment-message"><p>? means optionals(can be null value) in swift, to avoid crash at run-time this is required.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-89209">
+        <div id="dsq-comment-header-89209" class="dsq-comment-header">
+            <cite id="dsq-cite-89209">
+http://www.appcoda.com/                <span id="dsq-author-user-89209">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-89209" class="dsq-comment-body">
+            <div id="dsq-comment-message-89209" class="dsq-comment-message"><p>As Yogesh mentioned, the question mark is for optionals. I suggest you to check out this tutorial to learn more about it:</p>
+<p><a href="http://www.appcoda.com/beginners-guide-optionals-swift/" rel="nofollow">http://www.appcoda.com/beginners-guide-optionals-swift/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://vishaldharmawat.wordpress.com/2014/12/08/working-with-handoff-in-ios-8-swift-programming-tutorial/' rel='external nofollow' class='url'>Working with Handoff in iOS 8 | Swift Programming Tutorial |  VishalDharmawat - iPhone and iPad Development</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://appdevdigest.com/top-ios-development-resources-for-week-ended-december-7th-2014' rel='external nofollow' class='url'>Top iOS Development Resources For Week Ended December 7th, 2014 | AppDevDigest.com &#8211; IOS Mobile App Development, Design and Business News Updates</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://darrarski.pl/2014/12/step-step-guide-handoff-feature-ios-8/' rel='external nofollow' class='url'>Step-By-Step Guide To Handoff Feature In iOS 8 - Dariusz Rybicki</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://darrarski.pl/2014/12/step-step-programming-guide-ios-8-handoff-feature/' rel='external nofollow' class='url'>Step-By-Step Programming Guide To iOS 8 Handoff Feature - Dariusz Rybicki</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/handoff/';
+var disqus_identifier = '4377 http://www.appcoda.com/?p=4377';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Working with Handoff in iOS 8";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=4377';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="4377"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fhandoff%2F&#038;t=Working%20with%20Handoff%20in%20iOS%208" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="facebook" data-post_id="4377" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Working%20with%20Handoff%20in%20iOS%208&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff%2F&#038;via=appcodamobile" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="twitter" data-post_id="4377" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff%2F&#038;t=Working%20with%20Handoff%20in%20iOS%208" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="googleplus" data-post_id="4377" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff%2F&#038;title=Working%20with%20Handoff%20in%20iOS%208" class="et_social_share et_social_display_count" rel="nofollow" data-social_name="linkedin" data-post_id="4377" data-social_type="share"data-min_count="0">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fhandoff%2F&#038;t=Working%20with%20Handoff%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="4377" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Working%20with%20Handoff%20in%20iOS%208&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="4377" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff%2F&#038;t=Working%20with%20Handoff%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="4377" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhandoff%2F&#038;title=Working%20with%20Handoff%20in%20iOS%208" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="4377" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/handoff\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="e2818e8d9187a2d09acc928c85">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":4377,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:34:05 by W3 Total Cache -->

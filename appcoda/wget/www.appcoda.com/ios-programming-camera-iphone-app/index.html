@@ -1,0 +1,1340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>iOS Programming Tutorial: Build a Simple iPhone Camera App</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="In this iOS programming tutorial we are going to learn how to create a simple camera iPhone app for taking photo using UIImagePickerController."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-programming-camera-iphone-app/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="In this iOS programming tutorial we are going to learn how to create a simple camera iPhone app for taking photo using UIImagePickerController."/>
+<meta name="twitter:title" content="iOS Programming Tutorial: Build a Simple iPhone Camera App"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-1.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Build a Simple Camera App Using UIImagePickerController Comments Feed" href="http://www.appcoda.com/ios-programming-camera-iphone-app/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=1650' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-1650 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-1650 post type-post status-publish format-standard hentry category-course category-tutorials tag-camera tag-ios-programming tag-uiimagepickercontroller tag-xcode entry"><h1 class="entry-title">Build a Simple Camera App Using UIImagePickerController</h1> 
+<div class="post-info"><span class="date published time" title="2013-04-22T00:10:02+00:00">April 22, 2013</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/rafaelgarcia/" rel="author">Rafael Garcia</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-programming-camera-iphone-app/#comments"><span class="dsq-postid" data-dsqidentifier="1650 http://www.appcoda.com/?p=1650">67 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Previously, we covered how to use the built-in APIs to read a RSS feed and <a href="http://www.appcoda.com/ios-programming-rss-reader-tutorial/">build a simple RSS Reader app</a>. In this tutorial, we are going to learn how to use the built-in camera of the iPhone (or the iPod or iPad, if they have one) to take a photo. Also, we&#8217;ll see how to access the internal photo library and allow user to pick a photo. The iOS library provides the class <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UIImagePickerController_Class/UIImagePickerController/UIImagePickerController.html" title="Class Reference" target="_blank">UIImagePickerController</a> which is the user interface for managing the user interaction with the camera or with the photo library. As usual, the UIImagePickerController requires the use of a delegate to respond to interactions.</p>
+<p>To help you understand the usage of UIImagePickerController, we&#8217;ll build a simple camera app. The example application is very simple: we will have a main window with a big UIImageView to show the selected photo, and two buttons: one to take a new photo, and the other one to select a photo from the photo library.</p>
+<p><div id="attachment_1653" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-1.jpg" alt="A simple camera app tutorial" class="size-full wp-image-1653" /><p class="wp-caption-text">A simple camera app tutorial</p></div><br />
+<span id="more-1650"></span></p>
+<h2>Creating a Single View Application</h2>
+<p>Open Xcode and create a new Project, choose the template Single View Application as show below:</p>
+<div id="attachment_1655" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-2.jpg" alt="Single View Template" class="size-full wp-image-1655" /><p class="wp-caption-text">Single View Template</p></div>
+<p>In the next screen enter CameraApp as the product name and set com.appcoda in the company identifier field. Select the &#8220;Use Authomatic Reference Counting&#8221; option, but unselect the &#8220;Use Storyboard&#8221; since we are not going to use storyboards for this project. Press next and crate.</p>
+<div id="attachment_1656" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-3.jpg" alt="Project Properties" class="size-full wp-image-1656" /><p class="wp-caption-text">Project Properties</p></div>
+<h2>Designing the User Interface</h2>
+<p>Select the AppViewController.xib file from Xcode&#8217;s Navigator to display the View Controller on the Editor Pane. Select an UIImageView from the library and drag and drop on the top of the UIView. Resize the UIImageView to take the full screen width and more than half of the height. Next, drag and drop an UIButton below the UIImageView, centered, and change its title to &#8220;Take Photo&#8221;. Finally, drag and drop another UIButton below the previous one, again centered, and change its title to &#8220;Select Photo&#8221;. The resulting View Controller should look something like:</p>
+<div id="attachment_1657" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-4.jpg" alt="UIViewController Design" class="size-full wp-image-1657" /><p class="wp-caption-text">UIViewController Design</p></div>
+<p>Select again the UIImageView. In the Inspector select the File tab, and unselect the Use AutoLayout option, because we do not want the UIImageView to be resized to the size of the image created with the camera, since that would leave almost no free space for the buttons.</p>
+<div id="attachment_1661" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-6.jpg" alt="Disable Auto Layout" class="size-full wp-image-1661" /><p class="wp-caption-text">Disable Auto Layout</p></div>
+<p>The next step is to create the connections. In order to do that, change the Editor to the Assistant mode meanwhile the AppViewController.xib file is selected. The AppViewController.h file should be opened. Control and drag from the UIImageView to the AppViewController.h and crate an IBOutlet.</p>
+<div id="attachment_1659" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/simple-camera-app-5.jpg" alt="Application Outlets" class="size-full wp-image-1659" /><p class="wp-caption-text">Application Outlets</p></div>
+<p>In the connection field we have to choose Outlet, as Name use imageView, as Type select UIImageView, and finally, as Storage select Strong. That should create the following IBOutlet code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIImageView <span style="color: #002200;">*</span>imageView;</div></td></tr></tbody></table></div>
+<p>In the same way, control and drag from the &#8220;Take Photo&#8221; button. In this case in the Connection field choose Action, as Name write takePhoto, the type is UIButton, the Event that fires the actions is &#8220;Touch Up Inside&#8221;, and the argument passed to the method is Sender. Do it again for the &#8220;Select Photo&#8221; button, but in this case name the action selectPhoto.</p>
+<p>If you did everything correctly, the APPViewController.h should be something like:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import </span><br />
+<br />
+<span style="color: #a61390;">@interface</span> APPViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>strong, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIImageView <span style="color: #002200;">*</span>imageView;<br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>takePhoto<span style="color: #002200;">:</span> &nbsp;<span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender;<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>selectPhoto<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<h2>Implementing the View Controller</h2>
+<p>As we said before, we need a delegate to deal with the user interaction with the camera or the photo library. In order to do that we have to conform to the UIImagePickerControllerDelegate protocol. Also, since we are going to present the camera (or the photo library) modally, we have to implement the UINavigationControllerDelegate protocol as well. Add both protocols to the AppViewController.h file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> APPViewController <span style="color: #002200;">:</span> UIViewController &lt;UIImagePickerControllerDelegate, UINavigationControllerDelegate&gt;</div></td></tr></tbody></table></div>
+<p>When the user clicks (touch up inside) the &#8220;Take Photo&#8221; button, we have to create an UIImagePickerController and set its delegate to our AppViewController class. Also, we have to specify which kind of image picker we want to show, the camera with UIImagePickerControllerSourceTypeCamera, or a photo library with UIImagePickerControllerSourceTypePhotoLibrary; in this case we select the Camera. Once the picker has been crated, we have to present it modally with the method presentViewController.</p>
+<p>Write the following takePhoto acton method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>takePhoto<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIImagePickerController <span style="color: #002200;">*</span>picker <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIImagePickerController alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; picker.delegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; picker.allowsEditing <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; picker.sourceType <span style="color: #002200;">=</span> UIImagePickerControllerSourceTypeCamera;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>picker animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Finally, we do the same for the selectPhoto action method, but changing the sourceType to UIImagePickerControllerSourceTypePhotoLibrary.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>selectPhoto<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIButton <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIImagePickerController <span style="color: #002200;">*</span>picker <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIImagePickerController alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; picker.delegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; picker.allowsEditing <span style="color: #002200;">=</span> <span style="color: #a61390;">YES</span>;<br />
+&nbsp; &nbsp; picker.sourceType <span style="color: #002200;">=</span> UIImagePickerControllerSourceTypePhotoLibrary;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self presentViewController<span style="color: #002200;">:</span>picker animated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Implementing the Delegate Methods of UIImagePickerController</h2>
+<p>When the user takes a photo with the camera and resizes the image (photo resizing is allowed since we said allowsEditing = YES when we created the image picker) the didFinishPickingMediaWithInfo method is called. As the first argument we have the picker who called the method, something very useful if we have more than one image picker in our application, but that is not our case, and so, we ignore this parameter. The second argument is more interesting. It is a NSDictionary which contains, among other things, the original image and the edited image (accessible through the tag UIImagePickerControllerEditedImage).</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>imagePickerController<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIImagePickerController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>picker didFinishPickingMediaWithInfo<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSDictionary_Class/"><span style="color: #400080;">NSDictionary</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>info <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; UIImage <span style="color: #002200;">*</span>chosenImage <span style="color: #002200;">=</span> info<span style="color: #002200;">&#91;</span>UIImagePickerControllerEditedImage<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.imageView.image <span style="color: #002200;">=</span> chosenImage;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>picker dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>It might happen that the user cancel the operation by touching the &#8220;Cancel&#8221; button of the image picker view. In that case the picker will call the imagePickerControllerDidCancel method. The implementation of this method is very simple, since what we have to do is just remove (dismiss) the picker controller.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>imagePickerControllerDidCancel<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIImagePickerController <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>picker <span style="color: #002200;">&#123;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>picker dismissViewControllerAnimated<span style="color: #002200;">:</span><span style="color: #a61390;">YES</span> completion<span style="color: #002200;">:</span><span style="color: #a61390;">NULL</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Oops&#8230; the App Crashes</h2>
+<p>OK, our application is ready and it can be tested on a physical device. However, if we run the application on the simulator, it will crash. What has gone wrong? Well, the problem is that the simulator has no camera. If we want, we can control explicitly that case and show to the user an error message (that it is much better solution than a crash). And doing so it is a good idea, since it could happen that somebody will run our app in an old iPodTouch or iPad without a camera. The UIImagePickerController has a class method called isSourceTypeAvailable that allows us to check if the device has a built in camera (constant UIImagePickerControllerSourceTypeCamera).</p>
+<p>For example, add the following code to the controller&#8217;s viewDidLoad method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span><span style="color: #002200;">!</span><span style="color: #002200;">&#91;</span>UIImagePickerController isSourceTypeAvailable<span style="color: #002200;">:</span>UIImagePickerControllerSourceTypeCamera<span style="color: #002200;">&#93;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; UIAlertView <span style="color: #002200;">*</span>myAlertView <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span> initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Error&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; message<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Device has no camera&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; delegate<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;OK&quot;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; otherButtonTitles<span style="color: #002200;">:</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#91;</span>myAlertView show<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Test the App Using a Physical Device</h2>
+<p>After changing the code, run the app again in iPhone Simulator. You should see the error message as the simulator doesn&#8217;t support camera. In order to test the app, you must load the app and test it on a physical iPhone (or other iOS devices). If everything is smooth, you should end up with a simple camera app that lets you take photo and access the internal photo library. </p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2013/04/Camera-App-Main-Screen.jpg" alt="Camera App Main Screen" class="aligncenter size-full wp-image-1681" /></div>
+<h2>Download the Full Source Code</h2>
+<p>The UIImagePickerController class offers a great way to access iPhone&#8217;s camera and photo library. The sample camera app is not perfect but it gives you an idea how the UIImagePickerController works. The iOS SDK makes it so simple for developer to access the built-in camera and photo library. </p>
+<p>For your complete reference, you can <a href="https://dl.dropboxusercontent.com/u/2857188/CameraApp.zip">download the Xcode project for the sample app here</a>.</p>
+<p>As always, leave us comment and share your thought about the tutorial.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/video-recording-playback-ios-programming/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/video-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Create a Simple App for Video Recording and Playback</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-maze-game-programming-tutorial-collision-detection/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/05/Maze-Game-Part-3-Tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Developing a Simple Maze Game Part 3 - Collision Detection</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/webkit-framework-intro/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/01/webkit-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">A Look at the WebKit Framework - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/google-maps-api-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2015/04/googlemapios-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">A Swift Tutorial for Google Maps SDK</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-programming-camera-iphone-app/"
+    dc:identifier="http://www.appcoda.com/ios-programming-camera-iphone-app/"
+    dc:title="Build a Simple Camera App Using UIImagePickerController"
+    trackback:ping="http://www.appcoda.com/ios-programming-camera-iphone-app/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/camera/" rel="tag">camera</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/uiimagepickercontroller/" rel="tag">UIImagePickerController</a>, <a href="http://www.appcoda.com/tag/xcode/" rel="tag">Xcode</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="post pingback">
+        <p>Pingback: <a href='http://www.musclecoder.com/ios-programming-tutorial-build-a-simple-iphone-camera-app/' rel='external nofollow' class='url'>iOS Programming Tutorial: Build a Simple iPhone Camera App | MUSCLE CODER</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://ditapps.wordpress.com/2013/05/01/create-a-simple-app-for-video-recording-and-playback/' rel='external nofollow' class='url'>Create a Simple App for Video Recording and Playback &#8211; Prof. Kim&#039;s Daily Life</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1539">
+        <div id="dsq-comment-header-1539" class="dsq-comment-header">
+            <cite id="dsq-cite-1539">
+                <span id="dsq-author-user-1539">Bhaskar Ghosh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1539" class="dsq-comment-body">
+            <div id="dsq-comment-message-1539" class="dsq-comment-message"><p>The problem is that the app crashes if I press the Take Photo button after I get the alert(that there is no camera on the device). How can I disable the Take Photo button if there is no camera on the device?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1654">
+        <div id="dsq-comment-header-1654" class="dsq-comment-header">
+            <cite id="dsq-cite-1654">
+                <span id="dsq-author-user-1654">David</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1654" class="dsq-comment-body">
+            <div id="dsq-comment-message-1654" class="dsq-comment-message"><p>Because the webcam on your macbook is not attached to the iOS Simulator. You will have to place it on a iOS device that is dedicated to development, and to do that you must not only have an Apple developer account, but subscribe to Apple&#8217;s developer program.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-1699">
+        <div id="dsq-comment-header-1699" class="dsq-comment-header">
+            <cite id="dsq-cite-1699">
+http://joshuadance.com/                <span id="dsq-author-user-1699">Joshua Dance</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1699" class="dsq-comment-body">
+            <div id="dsq-comment-message-1699" class="dsq-comment-message"><p>You can disable the Take Photo button if the camera is not available by checking if the camera is usable with this function. </p>
+<p>[UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]</p>
+<p>Just put the button in an if statement that hides it or disables it if that function returns false.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1553">
+        <div id="dsq-comment-header-1553" class="dsq-comment-header">
+            <cite id="dsq-cite-1553">
+                <span id="dsq-author-user-1553">npersson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1553" class="dsq-comment-body">
+            <div id="dsq-comment-message-1553" class="dsq-comment-message"><p>Great tutorial! But how can this site not have a search feature?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1555">
+        <div id="dsq-comment-header-1555" class="dsq-comment-header">
+            <cite id="dsq-cite-1555">
+http://www.simonblog.com                <span id="dsq-author-user-1555">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1555" class="dsq-comment-body">
+            <div id="dsq-comment-message-1555" class="dsq-comment-message"><p>We&#8217;re too busy to work on the tutorials <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Anyway, we&#8217;ll build the search feature. At the mean time, you can find all the tutorials here: <a href="http://www.appcoda.com/ios-programming-course/" rel="nofollow">http://www.appcoda.com/ios-programming-course/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1566">
+        <div id="dsq-comment-header-1566" class="dsq-comment-header">
+            <cite id="dsq-cite-1566">
+                <span id="dsq-author-user-1566">fitra wardhana</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1566" class="dsq-comment-body">
+            <div id="dsq-comment-message-1566" class="dsq-comment-message"><p>hi..can u help me i have an error expected as u can see in the picture..</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1698">
+        <div id="dsq-comment-header-1698" class="dsq-comment-header">
+            <cite id="dsq-cite-1698">
+http://joshuadance.com/                <span id="dsq-author-user-1698">Joshua Dance</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1698" class="dsq-comment-body">
+            <div id="dsq-comment-message-1698" class="dsq-comment-message"><p>Your error is above the AmbilGambar function. That line is fine. Having an error higher up in your code can cause problems lower down.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-1747">
+        <div id="dsq-comment-header-1747" class="dsq-comment-header">
+            <cite id="dsq-cite-1747">
+                <span id="dsq-author-user-1747">itch</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1747" class="dsq-comment-body">
+            <div id="dsq-comment-message-1747" class="dsq-comment-message"><p>I&#8217;m new to Xcode but I think&#8230; you have your AmbilGambar function in the APPViewController,h rather than in the APPViewController.m ??</p>
+<p>Not wanting to tread on anyone&#8217;s toes.. (As I am very much a noob here..) but I had the same error. After cross referencing it with the downloadable source files&#8230; I saw that was my problem.</p>
+<p>Hope that helps.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1574">
+        <div id="dsq-comment-header-1574" class="dsq-comment-header">
+            <cite id="dsq-cite-1574">
+                <span id="dsq-author-user-1574">chris</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1574" class="dsq-comment-body">
+            <div id="dsq-comment-message-1574" class="dsq-comment-message"><p>hi, great tutorial. can i make an button to email the taken or choosen picture? thanx for help!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1655">
+        <div id="dsq-comment-header-1655" class="dsq-comment-header">
+            <cite id="dsq-cite-1655">
+                <span id="dsq-author-user-1655">David</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1655" class="dsq-comment-body">
+            <div id="dsq-comment-message-1655" class="dsq-comment-message"><p>I would suggest this tutorial: <a href="http://mobile.tutsplus.com/tutorials/iphone/mfmailcomposeviewcontroller/" rel="nofollow">http://mobile.tutsplus.com/tutorials/iphone/mfmailcomposeviewcontroller/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1679">
+        <div id="dsq-comment-header-1679" class="dsq-comment-header">
+            <cite id="dsq-cite-1679">
+                <span id="dsq-author-user-1679">zen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1679" class="dsq-comment-body">
+            <div id="dsq-comment-message-1679" class="dsq-comment-message"><p>Hey! =)</p>
+<p>First of all, thanks a lot for these (didactical great) tutorials. it helps me a lot to understand Xcode.</p>
+<p>Unfortunately your Code (according to the tutorial AND using the downloaded project) doesn&#8217;t work on my iPad. It shows only a white screen, nothing more. (No warnings, nothing.) :/ I&#8217;ve also placed NSLogs in all methods: It calls viewDidLoad, but nothing more.</p>
+<p>I use the latest version of Xcode and iOS.</p>
+<p>I know that&#8217;s not much information, but do you have any clue why it is that way?</p>
+<p>Grateful for any help,</p>
+<p>zen</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1680">
+        <div id="dsq-comment-header-1680" class="dsq-comment-header">
+            <cite id="dsq-cite-1680">
+                <span id="dsq-author-user-1680">zen</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1680" class="dsq-comment-body">
+            <div id="dsq-comment-message-1680" class="dsq-comment-message"><p>p.s.</p>
+<p>Or any idea what to check next?</p>
+<p>I&#8217;ve also checkt the downloaded source code and it only calls viewDidLoad and viewDidAppear</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-1697">
+        <div id="dsq-comment-header-1697" class="dsq-comment-header">
+            <cite id="dsq-cite-1697">
+http://joshuadance.com/                <span id="dsq-author-user-1697">Joshua Dance</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1697" class="dsq-comment-body">
+            <div id="dsq-comment-message-1697" class="dsq-comment-message"><p>Hey Zen. The tutorial is for iPhone. You would need to use same idea but build it for iPad. For example a library picker has to be displayed in a popover control on the iPad. Your best bet would be to follow the tutorial step by step but doing everything for the iPad. When you hit problems, look up info on StackOverFlow.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1766">
+        <div id="dsq-comment-header-1766" class="dsq-comment-header">
+            <cite id="dsq-cite-1766">
+                <span id="dsq-author-user-1766">José M. Diaz-Mendez</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1766" class="dsq-comment-body">
+            <div id="dsq-comment-message-1766" class="dsq-comment-message"><p>I&#8217;m just beginning to learn some coding/programming. I saw this web page and thought I&#8217;d give it a shot for some practice. Do you know what I am doing wrong?<br />
+-Jose</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-1780">
+        <div id="dsq-comment-header-1780" class="dsq-comment-header">
+            <cite id="dsq-cite-1780">
+                <span id="dsq-author-user-1780">Adam C. Smith</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1780" class="dsq-comment-body">
+            <div id="dsq-comment-message-1780" class="dsq-comment-message"><p>Looks like you have your implementation and header files switched up</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1825">
+        <div id="dsq-comment-header-1825" class="dsq-comment-header">
+            <cite id="dsq-cite-1825">
+                <span id="dsq-author-user-1825">James</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1825" class="dsq-comment-body">
+            <div id="dsq-comment-message-1825" class="dsq-comment-message"><p>HI, </p>
+<p>I downloaded the xcode project from this site and deployed onto my iPhone 4S.  When I click Take Photo -&gt; OK, it crashes the app with no exceptions thrown.  I even tried adding a Exception Breakpoint and still receive no log.  </p>
+<p>My device isn&#8217;t jailbroken and it&#8217;s running 6.1.3</p>
+<p>What&#8217;s the cause?</p>
+<p>Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1898">
+        <div id="dsq-comment-header-1898" class="dsq-comment-header">
+            <cite id="dsq-cite-1898">
+                <span id="dsq-author-user-1898">Nic</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1898" class="dsq-comment-body">
+            <div id="dsq-comment-message-1898" class="dsq-comment-message"><p>why do we have to create an UIImagePickerController and set its delegate to our AppViewController class??<br />
+picker.delegate = self  &lt;&#8211; what does this do for us ?? It&#039;s a question puzzling me for a long time. Appreciate anyone help on this</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://ningherself.com/blog/2013/07/b-is-for-baking-and-c-is-for-coding-i-mean-uh-cookie/' rel='external nofollow' class='url'>B is for Baking and C is for Coding, I mean uh, Cookie! / She Bakes. She Codes. She Evernotes.</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1938">
+        <div id="dsq-comment-header-1938" class="dsq-comment-header">
+            <cite id="dsq-cite-1938">
+                <span id="dsq-author-user-1938">James Rustles</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1938" class="dsq-comment-body">
+            <div id="dsq-comment-message-1938" class="dsq-comment-message"><p>Just copy-pasted all of the code, and it doesn&#8217;t work properly. When I push this VC to the Navigation Controller, it crashes. I&#8217;m running it on a 4in device.<br />
+I did the next tutorial in this series &#8211; the video recording one &#8211; and it worked fine &gt;.&gt;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2065">
+        <div id="dsq-comment-header-2065" class="dsq-comment-header">
+            <cite id="dsq-cite-2065">
+                <span id="dsq-author-user-2065">Osvaldo Cipriano</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2065" class="dsq-comment-body">
+            <div id="dsq-comment-message-2065" class="dsq-comment-message"><p>How do we make the photo we take to save in camera roll?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2077">
+        <div id="dsq-comment-header-2077" class="dsq-comment-header">
+            <cite id="dsq-cite-2077">
+                <span id="dsq-author-user-2077">Osvaldo Cipriano</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2077" class="dsq-comment-body">
+            <div id="dsq-comment-message-2077" class="dsq-comment-message"><p>Already done it.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-2103">
+        <div id="dsq-comment-header-2103" class="dsq-comment-header">
+            <cite id="dsq-cite-2103">
+http://www.simonblog.com                <span id="dsq-author-user-2103">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2103" class="dsq-comment-body">
+            <div id="dsq-comment-message-2103" class="dsq-comment-message"><p>You can use UIImageWriteToSavedPhotosAlbum function to save the image into camera roll. Check out the official reference here:</p>
+<p><a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UIKitFunctionReference/Reference/reference.html#//apple_ref/doc/uid/TP40006894-CH3-SW29" rel="nofollow">http://developer.apple.com/library/ios/#documentation/uikit/reference/UIKitFunctionReference/Reference/reference.html#//apple_ref/doc/uid/TP40006894-CH3-SW29</a></p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-2297">
+        <div id="dsq-comment-header-2297" class="dsq-comment-header">
+            <cite id="dsq-cite-2297">
+                <span id="dsq-author-user-2297">Osvaldo Cipriano</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2297" class="dsq-comment-body">
+            <div id="dsq-comment-message-2297" class="dsq-comment-message"><p>When we save it how do we make that the photo is saved in a new folder that we assign?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2115">
+        <div id="dsq-comment-header-2115" class="dsq-comment-header">
+            <cite id="dsq-cite-2115">
+                <span id="dsq-author-user-2115">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2115" class="dsq-comment-body">
+            <div id="dsq-comment-message-2115" class="dsq-comment-message"><p>Now the camera is taking photo&#8217;s in a square format. How do I change that so he takings full screen photo&#8217;s? I tried &#8220;CGRectMake (0,0,320,460);&#8221; but that doesn&#8217;t work. Anyone?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2116">
+        <div id="dsq-comment-header-2116" class="dsq-comment-header">
+            <cite id="dsq-cite-2116">
+                <span id="dsq-author-user-2116">Lars Van Bourgognie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2116" class="dsq-comment-body">
+            <div id="dsq-comment-message-2116" class="dsq-comment-message"><p>Hello, I want my app to take full screen photo&#8217;s, now he&#8217;s taking square formatted photo&#8217;s.<br />
+I already tried CGRectMake but doesn&#8217;t work. Anyone?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-4082">
+        <div id="dsq-comment-header-4082" class="dsq-comment-header">
+            <cite id="dsq-cite-4082">
+                <span id="dsq-author-user-4082">Shiya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4082" class="dsq-comment-body">
+            <div id="dsq-comment-message-4082" class="dsq-comment-message"><p>Just change your</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt depth-2" id="dsq-comment-4083">
+        <div id="dsq-comment-header-4083" class="dsq-comment-header">
+            <cite id="dsq-cite-4083">
+                <span id="dsq-author-user-4083">Shiya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4083" class="dsq-comment-body">
+            <div id="dsq-comment-message-4083" class="dsq-comment-message"><p>in the IB button sender, change the following:<br />
+picker.allowsEditing = NO;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-4130">
+        <div id="dsq-comment-header-4130" class="dsq-comment-header">
+            <cite id="dsq-cite-4130">
+                <span id="dsq-author-user-4130">Max Mitchell</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4130" class="dsq-comment-body">
+            <div id="dsq-comment-message-4130" class="dsq-comment-message"><p>replace picker.allowsEditing = YES; &#8212;to&#8212; picker.allowsEditing = NO; &#8212;and replace&#8212; UIImage *chosenImage = info[UIImagePickerControllerEditedImage]; &#8212;to&#8212;  UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2139">
+        <div id="dsq-comment-header-2139" class="dsq-comment-header">
+            <cite id="dsq-cite-2139">
+                <span id="dsq-author-user-2139">ravikumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2139" class="dsq-comment-body">
+            <div id="dsq-comment-message-2139" class="dsq-comment-message"><p>i need barcode reader example please send me</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2217">
+        <div id="dsq-comment-header-2217" class="dsq-comment-header">
+            <cite id="dsq-cite-2217">
+                <span id="dsq-author-user-2217">hopipolla</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2217" class="dsq-comment-body">
+            <div id="dsq-comment-message-2217" class="dsq-comment-message"><p>Excellent tutorial. Very easy and well explained. Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2233">
+        <div id="dsq-comment-header-2233" class="dsq-comment-header">
+            <cite id="dsq-cite-2233">
+                <span id="dsq-author-user-2233">SENTHAMIL THENDRAL S</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2233" class="dsq-comment-body">
+            <div id="dsq-comment-message-2233" class="dsq-comment-message"><p>In most of the programs i have executed in this tutorial i got the run time error in 14 main thread????actually why it is happened and where i had the mistake???</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2288">
+        <div id="dsq-comment-header-2288" class="dsq-comment-header">
+            <cite id="dsq-cite-2288">
+http://www.ottawacitizen.com/                <span id="dsq-author-user-2288">Charles Jaimet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2288" class="dsq-comment-body">
+            <div id="dsq-comment-message-2288" class="dsq-comment-message"><p>That&#8217;s two great iOS tutorials I&#8217;ve read here in a row. Thanks Rafael. Strangely enough, I got the same problem as Senthamil when I went through the article but the problem disappeared when I downloaded the source code and cut and pasted from there.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2352">
+        <div id="dsq-comment-header-2352" class="dsq-comment-header">
+            <cite id="dsq-cite-2352">
+http://www.simonblog.com                <span id="dsq-author-user-2352">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2352" class="dsq-comment-body">
+            <div id="dsq-comment-message-2352" class="dsq-comment-message"><p>Could you share with me the Xcode project that encountered the error? I&#8217;ll try to take a look.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2325">
+        <div id="dsq-comment-header-2325" class="dsq-comment-header">
+            <cite id="dsq-cite-2325">
+                <span id="dsq-author-user-2325">Just trying to help!</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2325" class="dsq-comment-body">
+            <div id="dsq-comment-message-2325" class="dsq-comment-message"><p>Excelent Tutorial, loved it&#8230; But dude, you said &#8220;crate&#8221; a thousand times, it&#8217;s &#8220;create&#8221;. Just a shout about it.<br />
+But still, great job! 😉</p>
+<p>Helped me alot, thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2395">
+        <div id="dsq-comment-header-2395" class="dsq-comment-header">
+            <cite id="dsq-cite-2395">
+                <span id="dsq-author-user-2395">tobeistobex</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2395" class="dsq-comment-body">
+            <div id="dsq-comment-message-2395" class="dsq-comment-message"><p>The tutorial did not work for me, but the sample code did work. I noticed a bit of code in the AppDelegate. Could that be it?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2419">
+        <div id="dsq-comment-header-2419" class="dsq-comment-header">
+            <cite id="dsq-cite-2419">
+                <span id="dsq-author-user-2419">Yotam</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2419" class="dsq-comment-body">
+            <div id="dsq-comment-message-2419" class="dsq-comment-message"><p>Good Job Man!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2461">
+        <div id="dsq-comment-header-2461" class="dsq-comment-header">
+            <cite id="dsq-cite-2461">
+                <span id="dsq-author-user-2461">Sankar Ram</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2461" class="dsq-comment-body">
+            <div id="dsq-comment-message-2461" class="dsq-comment-message"><p>The tutorial did not work for me<br />
+please give me a solution for this!!!</p>
+<p>&#8211; (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {</p>
+<p>    UIImage *chosenImage = info[UIImagePickerControllerEditedImage]; // Array Subscript  is not an integer<br />
+self.imageView.image = chosenImage;<br />
+    [picker dismissViewControllerAnimated:YES completion:NULL];<br />
+}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2543">
+        <div id="dsq-comment-header-2543" class="dsq-comment-header">
+            <cite id="dsq-cite-2543">
+                <span id="dsq-author-user-2543">tooky</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2543" class="dsq-comment-body">
+            <div id="dsq-comment-message-2543" class="dsq-comment-message"><p>Great Tutorial!! Really helped me, But in my app the image is being displayed in a second view. What do I need to add to the code to make that happen..? Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-2553">
+        <div id="dsq-comment-header-2553" class="dsq-comment-header">
+            <cite id="dsq-cite-2553">
+                <span id="dsq-author-user-2553">Gary Stewart</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2553" class="dsq-comment-body">
+            <div id="dsq-comment-message-2553" class="dsq-comment-message"><p>im pretty newish to this kind of coding but have learnt a fair bit and have unfortunately hit a bump in an app im working on.</p>
+<p>I am trying to create a camera application that will allow the user to take a &#8216;before&#8217; image, then take an &#8216;after&#8217; image, I would then like the option for the images to be put together (left and right) and saved as one image.</p>
+<p>So far I have managed to code the app to take a single picture with the code below:</p>
+<p>HEADER:</p>
+<p>#import  </p>
+<p>@interface ViewController : UIViewController </p>
+<p>@property (strong, nonatomic) IBOutlet UIImageView *beforeImage;</p>
+<p>&#8211; (IBAction)cameraBeforeImage:(UIButton *)sender;</p>
+<p>&#8211; (IBAction)libraryBeforeImage:(UIButton *)sender;</p>
+<p>&#8211; (IBAction)deleteBeforeImage:(UIButton *)sender;</p>
+<p>@property (strong, nonatomic) IBOutlet UIImageView *afterImage;</p>
+<p>&#8211; (IBAction)cameraAfterImage:(UIButton *)sender;</p>
+<p>&#8211; (IBAction)libraryAfterImage:(UIButton *)sender;</p>
+<p>&#8211; (IBAction)deleteAfterImage:(UIButton *)sender;</p>
+<p>&#8211; (IBAction)saveImages:(UIButton *)sender;</p>
+<p>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</p>
+<p>IMPLEMENTATION:</p>
+<p>#import &#8220;ViewController.h&#8221;</p>
+<p>@interface ViewController ()</p>
+<p>@end</p>
+<p>@implementation ViewController</p>
+<p>&#8211; (void)viewDidLoad<br />
+ {<br />
+[super viewDidLoad];<br />
+ }</p>
+<p>&#8211; (void)didReceiveMemoryWarning<br />
+{<br />
+[super didReceiveMemoryWarning];<br />
+// Dispose of any resources that can be recreated.<br />
+}</p>
+<p>&#8211; (IBAction)cameraBeforeImage:(UIButton *)sender {</p>
+<p>if (![UIImagePickerController     isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {</p>
+<p>    UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@&#8221;Oops!&#8221;<br />
+                                                          message:@&#8221;This Device Has No  Camera, Please Select An Image From Your Library.&#8221;<br />
+                                                         delegate:nil<br />
+                                                cancelButtonTitle:@&#8221;OK&#8221;<br />
+                                                otherButtonTitles: nil];</p>
+<p>    [myAlertView show];</p>
+<p>}else{</p>
+<p>UIImagePickerController *picker = [[UIImagePickerController alloc] init];<br />
+picker.delegate = self;<br />
+picker.allowsEditing = YES;<br />
+picker.sourceType = UIImagePickerControllerSourceTypeCamera;</p>
+<p>[self presentViewController:picker animated:YES completion:NULL];<br />
+}</p>
+<p>}</p>
+<p>&#8211; (IBAction)libraryBeforeImage:(UIButton *)sender {</p>
+<p>UIImagePickerController *picker = [[UIImagePickerController alloc] init];<br />
+picker.delegate = self;<br />
+picker.allowsEditing = YES;<br />
+picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;</p>
+<p>[self presentViewController:picker animated:YES completion:NULL];<br />
+}</p>
+<p>&#8211; (IBAction)deleteAfterImage:(UIButton *)sender {<br />
+}</p>
+<p>&#8211; (IBAction)saveImages:(UIButton *)sender {<br />
+}</p>
+<p>&#8211; (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {</p>
+<p>UIImage *chosenImage = info[UIImagePickerControllerEditedImage];<br />
+self.beforeImage.image = chosenImage;</p>
+<p>[picker dismissViewControllerAnimated:YES completion:NULL];</p>
+<p>}</p>
+<p>&#8211; (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {<br />
+[picker dismissViewControllerAnimated:YES completion:NULL];</p>
+<p>}</p>
+<p>&#8211; (IBAction)deleteBeforeImage:(UIButton *)sender {<br />
+}<br />
+&#8211; (IBAction)cameraAfterImage:(UIButton *)sender {<br />
+}</p>
+<p>&#8211; (IBAction)libraryAfterImage:(UIButton *)sender {<br />
+}</p>
+<p>&#8211; (IBAction)saveImages:(UIButton *)sender {<br />
+}</p>
+<p>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-</p>
+<p>Here is the list of things I need to add, any help on any of them would be very much appreciated!</p>
+<p>Add the same functionality to the &#8216;After&#8217; buttons as the &#8216;Before&#8217; but to store the image in the &#8216;afterImage&#8217; Image view.</p>
+<p>Add functionality to the &#8216;saveImages&#8217; button to save the two taken images as one image stitched together.</p>
+<p>Thank you all in advance!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-2597">
+        <div id="dsq-comment-header-2597" class="dsq-comment-header">
+            <cite id="dsq-cite-2597">
+                <span id="dsq-author-user-2597">Granit Gjevukaj</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2597" class="dsq-comment-body">
+            <div id="dsq-comment-message-2597" class="dsq-comment-message"><p>Hi, I want to ask if it is possible to take multiple picture with the system camera at once and upload them later as an album for example via available API for social networks such as Facebook?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.copyquery.com/capture-image-of-fullscreen/' rel='external nofollow' class='url'>capture image of fullscreen | CopyQuery</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.blogosfera.co.uk/2013/10/capture-image-of-fullscreen/' rel='external nofollow' class='url'>capture image of fullscreen | BlogoSfera</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3010">
+        <div id="dsq-comment-header-3010" class="dsq-comment-header">
+            <cite id="dsq-cite-3010">
+                <span id="dsq-author-user-3010">linaji</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3010" class="dsq-comment-body">
+            <div id="dsq-comment-message-3010" class="dsq-comment-message"><p>I have a question how to save the image to the photo album?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3065">
+        <div id="dsq-comment-header-3065" class="dsq-comment-header">
+            <cite id="dsq-cite-3065">
+                <span id="dsq-author-user-3065">longi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3065" class="dsq-comment-body">
+            <div id="dsq-comment-message-3065" class="dsq-comment-message"><p>Simple good tutorial! Thumbs up!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://atmarkplant.com/ios-start-camera/' rel='external nofollow' class='url'>iOS Start Camera | Professional Programmer</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-3544">
+        <div id="dsq-comment-header-3544" class="dsq-comment-header">
+            <cite id="dsq-cite-3544">
+                <span id="dsq-author-user-3544">Milan Manwar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3544" class="dsq-comment-body">
+            <div id="dsq-comment-message-3544" class="dsq-comment-message"><p>Thank you..!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-3595">
+        <div id="dsq-comment-header-3595" class="dsq-comment-header">
+            <cite id="dsq-cite-3595">
+                <span id="dsq-author-user-3595">Mihai Popa</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3595" class="dsq-comment-body">
+            <div id="dsq-comment-message-3595" class="dsq-comment-message"><p>Hi there! Thanks for the great tutorial <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>I used the code from this tutorial in the application the I am working at. But there seams to be a leak in the code. So I downloaded the sample project and opened it in Xcode but the same thing happens the sample project as well. </p>
+<p>Click Take Photo, then take the photo, then click Use photo, then leak&#8230; Could this be a problem with the UIImagePickerController component?</p>
+<p>Thanks!<br />
+Mihai</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://hardikjain2020.wordpress.com/2014/03/27/ios-7-with-xcode-5-training/' rel='external nofollow' class='url'>Ios 7 with xcode 5 training | Iphone Tutorial Point</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-5199">
+        <div id="dsq-comment-header-5199" class="dsq-comment-header">
+            <cite id="dsq-cite-5199">
+                <span id="dsq-author-user-5199">Tim Erickson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-5199" class="dsq-comment-body">
+            <div id="dsq-comment-message-5199" class="dsq-comment-message"><p>Super! A question: early on, why use strong storage for the outlet for the view? Isn&#8217;t it stored strong in the nib?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-7075">
+        <div id="dsq-comment-header-7075" class="dsq-comment-header">
+            <cite id="dsq-cite-7075">
+                <span id="dsq-author-user-7075">Tomas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-7075" class="dsq-comment-body">
+            <div id="dsq-comment-message-7075" class="dsq-comment-message"><p>Hi,<br />
+Is it possible to add another image on top of the Camera?<br />
+So when you click &#8220;take a picture&#8221;, it take you to the camera, and the camera shows another picture (let&#8217;s say the Moon) on the camera, and when you take the picture it is also saved with the &#8220;moon&#8221;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-10298">
+        <div id="dsq-comment-header-10298" class="dsq-comment-header">
+            <cite id="dsq-cite-10298">
+                <span id="dsq-author-user-10298">mike</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-10298" class="dsq-comment-body">
+            <div id="dsq-comment-message-10298" class="dsq-comment-message"><p>Hi mine is not saving the photos it takes?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-18728">
+        <div id="dsq-comment-header-18728" class="dsq-comment-header">
+            <cite id="dsq-cite-18728">
+                <span id="dsq-author-user-18728">John</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-18728" class="dsq-comment-body">
+            <div id="dsq-comment-message-18728" class="dsq-comment-message"><p>this is crap!  Why take the time to write a tutorial and post code that doesn&#8217;t come close to doing what it is suppose to do?   This example simply lets you take a photo..Period!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-29794">
+        <div id="dsq-comment-header-29794" class="dsq-comment-header">
+            <cite id="dsq-cite-29794">
+                <span id="dsq-author-user-29794">Naeem</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-29794" class="dsq-comment-body">
+            <div id="dsq-comment-message-29794" class="dsq-comment-message"><p>Write the &#8220;takePhoto&#8221; Method like this..</p>
+<p>&#8211; (IBAction)takePhoto:(UIButton *)sender {</p>
+<p>    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {</p>
+<p>    UIImagePickerController *picker = [[UIImagePickerController alloc]init];</p>
+<p>    picker.delegate = self;</p>
+<p>    picker.allowsEditing = YES;</p>
+<p>    picker.sourceType = UIImagePickerControllerSourceTypeCamera;</p>
+<p>    [self presentViewController:picker animated:YES completion:NULL];</p>
+<p>    } else</p>
+<p>    {</p>
+<p>        UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@&#8221;Error&#8221;</p>
+<p>                                                              message:@&#8221;Device has no camera&#8221;</p>
+<p>                                                             delegate:nil</p>
+<p>                                                    cancelButtonTitle:@&#8221;OK&#8221;</p>
+<p>                                                    otherButtonTitles:nil];</p>
+<p>        [myAlertView show];</p>
+<p>    }</p>
+<p>}</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://zomberg.vidhut.biz/2014/09/11/uploading-a-record-to-reinstate-information-in-mongoose-database-table/' rel='external nofollow' class='url'>Uploading a record to reinstate information in mongoose database table - Zomberg</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-51288">
+        <div id="dsq-comment-header-51288" class="dsq-comment-header">
+            <cite id="dsq-cite-51288">
+                <span id="dsq-author-user-51288">souvickcse</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-51288" class="dsq-comment-body">
+            <div id="dsq-comment-message-51288" class="dsq-comment-message"><p>Hi with controller.allowsEditing=YES; I am not able to select the bottom of the image, is there any way to so this?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://agencenova.ch/wordpress/cloud-backend-ios/' rel='external nofollow' class='url'>Cloud backend &#8211; IOS | Android Made Easy</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.itjhwd.com/%e5%88%9d%e5%ad%a6ios%e5%b8%b8%e7%94%a8%e7%bd%91%e5%9d%80%e9%93%be%e6%8e%a5/' rel='external nofollow' class='url'>初学ios常用网址链接 | IT江湖</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://amityug.org/wordpress/ziesman/2014/12/10/how-to-access-camera-camera-roll-objective-c-closed/' rel='external nofollow' class='url'>How To Access Camera &amp; Camera Roll Objective-C [closed] | Ziesman Answers</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.developerfeed.com/learn-ios-hands-on-tutorial-series' rel='external nofollow' class='url'>Learning iOS Development: A Hands-on Tutorial Series | DeveloperFeed</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://eldoocs.net/iphone-manual-camera-app/' rel='external nofollow' class='url'>Iphone Manual Camera App Manual Gadget, Car And Technology Manual PDF - Eldoocs.Net</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://eldoocs.net/ios-manual-camera-app/' rel='external nofollow' class='url'>Ios Manual Camera App Manual Gadget, Car And Technology Manual PDF - Eldoocs.Net</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://eldoocs.net/iphone-app-manual-camera/' rel='external nofollow' class='url'>Iphone App Manual Camera Manual Gadget, Car And Technology Manual PDF - Eldoocs.Net</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://eldoocs.net/manual-camera-apps-for-iphone/' rel='external nofollow' class='url'>Manual Camera Apps For Iphone Manual Gadget, Car And Technology Manual PDF - Eldoocs.Net</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-101134">
+        <div id="dsq-comment-header-101134" class="dsq-comment-header">
+            <cite id="dsq-cite-101134">
+                <span id="dsq-author-user-101134">Montana Burr</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101134" class="dsq-comment-body">
+            <div id="dsq-comment-message-101134" class="dsq-comment-message"><p>If the camera&#8217;s a big part of the app, just add &#8220;camera&#8221; to your capabilities file.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-101219">
+        <div id="dsq-comment-header-101219" class="dsq-comment-header">
+            <cite id="dsq-cite-101219">
+                <span id="dsq-author-user-101219">enrique</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101219" class="dsq-comment-body">
+            <div id="dsq-comment-message-101219" class="dsq-comment-message"><p>How?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-programming-camera-iphone-app/';
+var disqus_identifier = '1650 http://www.appcoda.com/?p=1650';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Build a Simple Camera App Using UIImagePickerController";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=1650';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="1650"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-camera-iphone-app%2F&#038;t=Build%20a%20Simple%20Camera%20App%20Using%20UIImagePickerController" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1650" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>112</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Build%20a%20Simple%20Camera%20App%20Using%20UIImagePickerController&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-camera-iphone-app%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1650" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>35</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-camera-iphone-app%2F&#038;t=Build%20a%20Simple%20Camera%20App%20Using%20UIImagePickerController" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1650" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>16</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-camera-iphone-app%2F&#038;title=Build%20a%20Simple%20Camera%20App%20Using%20UIImagePickerController" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1650" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>15</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-camera-iphone-app%2F&#038;t=Build%20a%20Simple%20Camera%20App%20Using%20UIImagePickerController" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="1650" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Build%20a%20Simple%20Camera%20App%20Using%20UIImagePickerController&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-camera-iphone-app%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="1650" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-camera-iphone-app%2F&#038;t=Build%20a%20Simple%20Camera%20App%20Using%20UIImagePickerController" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="1650" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-programming-camera-iphone-app%2F&#038;title=Build%20a%20Simple%20Camera%20App%20Using%20UIImagePickerController" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="1650" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-programming-camera-iphone-app\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:25:49 by W3 Total Cache -->

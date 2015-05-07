@@ -1,0 +1,1425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>How To Get the Current User Location in iPhone App | iOS Programming</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="This tutorial shows you how to use Core Location to get the current user&#039;s location in iPhone app. It even demos how to get current address."/>
+<link rel="canonical" href="http://www.appcoda.com/how-to-get-current-location-iphone-user/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="This tutorial shows you how to use Core Location to get the current user&#039;s location in iPhone app. It even demos how to get current address."/>
+<meta name="twitter:title" content="How To Get the Current User Location in iPhone App | iOS Programming"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocation-Xcode-Project1.jpg"/>
+<meta name="twitter:creator" content="@simonng"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; iOS Programming 101: How To Get the User Location in iPhone App Comments Feed" href="http://www.appcoda.com/how-to-get-current-location-iphone-user/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=752' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-752 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-752 post type-post status-publish format-standard hentry category-ios-programming-101 category-tutorials tag-clplacemark tag-core-location tag-gps tag-ios-programming tag-location-services tag-map entry"><h1 class="entry-title">iOS Programming 101: How To Get the User Location in iPhone App</h1> 
+<div class="post-info"><span class="date published time" title="2012-09-09T17:23:57+00:00">September 9, 2012</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/admin/" rel="author">Simon Ng</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/how-to-get-current-location-iphone-user/#comments"><span class="dsq-postid" data-dsqidentifier="752 http://www.appcoda.com/?p=752">65 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>This is the third article of the iOS Programming 101 series. In the previous two articles, we showed you <a href="http://www.appcoda.com/ios-programming-101-how-to-hide-tab-bar-navigation-controller/">how to hide the tab bar</a> and <a href="http://www.appcoda.com/ios-programming-101-send-email-iphone-app//">implement email feature</a> in your app. In this article, we&#8217;ll show you how to add GPS capability in your iPhone app and retrieve the user&#8217;s current location. We&#8217;ll even cover tip to translate the GPS coordinate into street address. It&#8217;s gonna to be fun and pretty easy to implement.</p>
+<p>Location services provide a way to improve your app by enhancing the user experience. If you&#8217;re developing a travel app, you can base on the users&#8217; current location to search for nearby restaurants or hotels. You can also find the location feature in most of the Photo apps that saves where the pictures are taken. The <a href="http://developer.apple.com/library/ios/#documentation/CoreLocation/Reference/CoreLocation_Framework/_index.html">Core Location framework</a> provides the necessary Objective-C interfaces for obtaining information about the user&#8217;s location. With the GPS coordinate obtained, you can make use of the API to decode the actual street or utilize the Map framework to further display the location on Map. </p>
+<p>In this tutorial, we&#8217;ll build a simple app to show you how to use the Core Location framework. Here are the things we&#8217;ll do:</p>
+<ul>
+<li>Build a simple interface to display the GPS coordinate and address</li>
+<li>Learn how to use the Core Location APIs to retrieve the current location</li>
+<li>Utilize the built-in APIs to translate the GPS coordinates into street address</li>
+</ul>
+<p>Okay, let&#8217;s get started.<br />
+<span id="more-752"></span></p>
+<h2>Create the Project and Design the Interface</h2>
+<p>First, create a new Xcode project using the Single View Template. Let’s name the project as &#8220;MyLocationDemo&#8221; and set the project with the following parameters:</p>
+<div id="attachment_758" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocation-Xcode-Project1.jpg" alt="MyLocationDemo Xcode Project" title="MyLocationDemo Xcode Project" class="size-full wp-image-758" /><p class="wp-caption-text">MyLocationDemo Xcode Project</p></div>
+<p>Once you&#8217;ve successfully created your project, go to the Storyboard and design the user interface. In the View, add three labels for latitude, longitude and address. For each label, place another label next to it. Later we&#8217;ll use these labels to display the GPS coordinates and address. Finally, insert a button and name it as &#8220;Get My Location&#8221;. Your user interface should be similar to the one shown below.</p>
+<div id="attachment_759" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocationDemo-User-Interface.jpg" alt="MyLocationDemo User Interface" title="MyLocationDemo User Interface" class="size-full wp-image-759" /><p class="wp-caption-text">MyLocationDemo User Interface</p></div>
+<p>For the &#8220;For Address&#8221; label, change the &#8220;lines&#8221; option from 1 to 4, as we&#8217;ll display address in multi-lines. You may also decrease the font size to 14 points in the Attribute Inspector.</p>
+<div id="attachment_762" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocation-Customize-Address-Label.jpg" alt="MyLocation Customize Address Label" title="MyLocation Customize Address Label" class="size-full wp-image-762" /><p class="wp-caption-text">Customize Address Label</p></div>
+<h2>Establish the Connection Between Variables and UI Elements</h2>
+<p>Next, we&#8217;ll connect the UI elements with our code. In the Storyboard, select the view controller and switch to the Assistant Editor.</p>
+<div id="attachment_677" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/07/Show-Assistant-Editor.jpg" alt="Show Assistant Editor" title="Show Assistant Editor" class="size-full wp-image-677" /><p class="wp-caption-text">Show Assistant Editor and Hide Utility Area</p></div>
+<p>Press and hold the control key, click the &#8220;For Latitude Value&#8221; label and drag it towards the &#8220;MyLocationViewController.h&#8221;. Place the cursor between the @interface and @end keywords, you should see a prompt that allows you to insert an outlet. </p>
+<div id="attachment_764" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocation-Add-Outlet-to-Code.jpg" alt="MyLocation Add Outlet to Code" title="MyLocation Add Outlet to Code" class="size-full wp-image-764" /><p class="wp-caption-text">Establish the Connection Between Variables and UI Elements</p></div>
+<p>Name the outlet as &#8220;latitudeLabel&#8221;.</p>
+<div id="attachment_765" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocation-LatitudeLabel-Outlet.jpg" alt="MyLocation LatitudeLabel Outlet" title="MyLocation LatitudeLabel Outlet" class="size-full wp-image-765" /><p class="wp-caption-text">Create the Instance Variable and Name it as latitudeLabel</p></div>
+<p>Repeat the same procedures and create the outlet for the &#8220;For Longitude Value&#8221; label and &#8220;For Address&#8221; label. Finally, create an action method for the &#8220;Get My Location&#8221; button and name it as &#8220;getCurrentLocation&#8221;. This method will be invoked when it detects a Touch Up Inside event.</p>
+<div id="attachment_767" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocation-GetMyLocation-Button.jpg" alt="MyLocation GetMyLocation Button" title="MyLocation GetMyLocation Button" class="size-full wp-image-767" /><p class="wp-caption-text">Create a method for Get My Location Button</p></div>
+<p>If you follow us correctly, the code of MyLocationViewController.h should look like below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;UIKit/UIKit.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> MyLocationViewController <span style="color: #002200;">:</span> UIViewController<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>latitudeLabel;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>longitudeLabel;<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>addressLabel;<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>getCurrentLocation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<h3>Adding Core Location Framework</h3>
+<p>To retrieve the current user location, as mentioned earlier, we&#8217;ll make use of the CoreLocation framework provided by the iOS SDK. By default, however, the Core Location Framework is not bundled in any Xcode project. We have to add it manually. In the Project Navigator, select the &#8220;MyLocationDemo&#8221; project. In the Content Area, select &#8220;MyLocationDemo&#8221; under Targets and click &#8220;Build Phases&#8221;. Expand &#8220;Link Binary with Libraries&#8221; and click the &#8220;+&#8221; button to add the CoreLocation framework.</p>
+<div id="attachment_770" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocation-Add-New-Framework.jpg" alt="MyLocation Add New Framework" title="MyLocation Add New Framework" class="size-full wp-image-770" /><p class="wp-caption-text">Add a new library to Your Xcode Project</p></div>
+<div id="attachment_771" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocationDemo-Add-CoreLocation.jpg" alt="MyLocationDemo Add CoreLocation" title="MyLocationDemo Add CoreLocation" class="size-full wp-image-771" /><p class="wp-caption-text">Adding CoreLocation Framework to Your Project</p></div>
+<h3>Jump into the Code</h3>
+<p>Let&#8217;s move onto the core part of this tutorial. Core Location framework, that you&#8217;ve just added, allows you to retrieve the user&#8217;s current location in the form of latitude and longitude. It can even give you continuous location update if the user is on the move. </p>
+<p>Like other libraries in the iOS SDK, Core Location makes use of the delegate pattern. To work with the Core Location framework, our view controller should conform to the <a href="http://developer.apple.com/library/ios/#DOCUMENTATION/CoreLocation/Reference/CLLocationManagerDelegate_Protocol/CLLocationManagerDelegate/CLLocationManagerDelegate.html">CLLocationManagerDelegate</a> protocol. This protocol defines methods used to receive location and heading updates from a CLLocationManager object. </p>
+<p>To let the view controller know about the CLLocationManagerDelegate, you first import the corresponding header file. In the &#8220;MyLocationViewController.h&#8221;, add the #import statement and implement the &#8220;CLLocationManagerDelegate&#8221;.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#import &lt;CoreLocation/CoreLocation.h&gt;</span><br />
+<br />
+<span style="color: #a61390;">@interface</span> MyLocationViewController <span style="color: #002200;">:</span> UIViewController &lt;CLLocationManagerDelegate&gt;</div></td></tr></tbody></table></div>
+<p>Now go to the &#8220;MyLocationViewController.m&#8221;. Declare an instance variable and name it as locationManager.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@implementation</span> MyLocationViewController <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; CLLocationManager <span style="color: #002200;">*</span>locationManager;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The <a href="http://developer.apple.com/library/ios/#DOCUMENTATION/CoreLocation/Reference/CLLocationManager_Class/CLLocationManager/CLLocationManager.html#//apple_ref/occ/cl/CLLocationManager">CLLocationManager</a> is the object that provides you the location data. </p>
+<p>Add the following code in the viewDidLoad method to instantiate the CLLocationManager object:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Do any additional setup after loading the view, typically from a nib.</span><br />
+&nbsp; &nbsp; locationManager <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CLLocationManager alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Once you initialize a CLLocationManager object, you can simply call the startUpdatingLocation method to the location service. The service will then continuously send your application a stream of location data. </p>
+<p>Add the following code to the getCurrentLocation method, which is hooked up the to &#8220;Get My Location&#8221; button:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>getCurrentLocation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; locationManager.delegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; locationManager.desiredAccuracy <span style="color: #002200;">=</span> kCLLocationAccuracyBest;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>locationManager startUpdatingLocation<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As discussed earlier, the location data is reported to your app via the location manager&#8217;s associated delegate object. Here, we assign MyLocationViewController as the delegate object. All the location updates will send to the delegate. To capture the location event, we have to implement the delegate methods as defined in the protocol.</p>
+<p>Add the following code to MyLocationViewController.m and place them right below the &#8220;getCurrentLocation&#8221; method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #6e371a;">#pragma mark - CLLocationManagerDelegate</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>locationManager<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationManager <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>manager didFailWithError<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>error<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;didFailWithError: %@&quot;</span>, error<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; UIAlertView <span style="color: #002200;">*</span>errorAlert <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIAlertView alloc<span style="color: #002200;">&#93;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; initWithTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Error&quot;</span> message<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Failed to Get Your Location&quot;</span> delegate<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span> cancelButtonTitle<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;OK&quot;</span> otherButtonTitles<span style="color: #002200;">:</span><span style="color: #a61390;">nil</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>errorAlert show<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>locationManager<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationManager <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>manager didUpdateToLocation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocation <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>newLocation fromLocation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocation <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>oldLocation<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;didUpdateToLocation: %@&quot;</span>, newLocation<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; CLLocation <span style="color: #002200;">*</span>currentLocation <span style="color: #002200;">=</span> newLocation;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>currentLocation <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; longitudeLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%.8f&quot;</span>, currentLocation.coordinate.longitude<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; latitudeLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%.8f&quot;</span>, currentLocation.coordinate.latitude<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<h2>Test Your App with Fake Location</h2>
+<p>Now you can compile the app and test it by using the Simulator. You may wonder how you can use the iPhone Simulator to test location-aware application. How can the Simulator retrieve the current location?</p>
+<p>There is no way for the Simulator to get the current location as your computer doesn&#8217;t have GPS built-in (even you have, Xcode won&#8217;t use it). However, the Simulator allows you to fake it. </p>
+<p>After you launch the app, click the &#8220;Get My Location&#8221; button. For the very first time you run the app, it&#8217;ll prompt the following alert to request for the access of location manager:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocationDemo-Location-Alert.jpg" alt="MyLocationDemo Location Alert" title="MyLocationDemo Location Alert" class="aligncenter size-full wp-image-776" /></div>
+<p>Remember to accept it, otherwise, the app will not be able to access the location service. Oops! The app displays an error even you tap the OK button.</p>
+<div id="attachment_779" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocationDemo-Fail-to-Get-Location.jpg" alt="MyLocationDemo Fail to Get Location" title="MyLocationDemo Fail to Get Location" class="size-full wp-image-779" /><p class="wp-caption-text">Failed to get the current location</p></div>
+<p>Why? By default, the Simulator doesn&#8217;t know its own location. In the menu bar, select &#8220;Debug&#8221; -> &#8220;Location&#8221;. The default location is set to &#8220;None&#8221;. That&#8217;s the reason why you get the &#8220;Fail to Get Your Location&#8221; error. Now change the location setting to &#8220;Apple&#8221; (or &#8220;Apple Stores&#8221;). Your app should now show you the latitude and longitude values.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocationDemo-Apple-Location.jpg" alt="MyLocationDemo Apple Location" title="MyLocationDemo Apple Location" class="aligncenter size-full wp-image-780" /></div>
+<p>Xcode offers another way to simulate location. While running the app, you can change to other locations by using the arrow button in the top bar of the debug area. </p>
+<div id="attachment_781" style="width: 610px" class="wp-caption aligncenter"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/Xcode-Simulate-Location.jpg" alt="Xcode Simulate Location" title="Xcode Simulate Location" class="size-full wp-image-781" /><p class="wp-caption-text">Simulate Other Locations</p></div>
+<h2>Finding the Address</h2>
+<p>The CLGeocoder class provides services for converting between a GPS coordinate and the user-readable address of that coordinate. By specify the latitude and longitude of a given location, you can use CLGeocoder to find a user-readable address. The result (i.e. the address) returned by CLGeocoder is saved in a CLPlacemark object.</p>
+<p>Back to your Xcode project. Add two instance variables: geocoder and placemark.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@implementation</span> MyLocationViewController <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; CLLocationManager <span style="color: #002200;">*</span>locationManager;<br />
+&nbsp; &nbsp; CLGeocoder <span style="color: #002200;">*</span>geocoder;<br />
+&nbsp; &nbsp; CLPlacemark <span style="color: #002200;">*</span>placemark;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Initialize the &#8220;geocoder&#8221; in the &#8220;viewDidLoad&#8221; method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Do any additional setup after loading the view, typically from a nib.</span><br />
+&nbsp; &nbsp; locationManager <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CLLocationManager alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; geocoder <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>CLGeocoder alloc<span style="color: #002200;">&#93;</span> init<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Update the &#8220;didUpdateToLocation&#8221; method to include the code for reverse geocoding:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>locationManager<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationManager <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>manager didUpdateToLocation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocation <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>newLocation fromLocation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocation <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>oldLocation<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;didUpdateToLocation: %@&quot;</span>, newLocation<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; CLLocation <span style="color: #002200;">*</span>currentLocation <span style="color: #002200;">=</span> newLocation;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>currentLocation <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; longitudeLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%.8f&quot;</span>, currentLocation.coordinate.longitude<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; latitudeLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%.8f&quot;</span>, currentLocation.coordinate.latitude<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Reverse Geocoding</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Resolving the Address&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>geocoder reverseGeocodeLocation<span style="color: #002200;">:</span>currentLocation completionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>placemarks, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Found placemarks: %@, error: %@&quot;</span>, placemarks, error<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&amp;&amp;</span> <span style="color: #002200;">&#91;</span>placemarks count<span style="color: #002200;">&#93;</span> &gt; <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; placemark <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>placemarks lastObject<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; addressLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@ %@<span style="color: #2400d9;">\n</span>%@ %@<span style="color: #2400d9;">\n</span>%@<span style="color: #2400d9;">\n</span>%@&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;placemark.subThoroughfare, placemark.thoroughfare,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;placemark.postalCode, placemark.locality,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;placemark.administrativeArea,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;placemark.country<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, error.debugDescription<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #002200;">&#93;</span>;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We use the &#8220;reverseGeocodeLocation&#8221; method to translate the locate data into a human-readable address. The geocoding operations doesn&#8217;t happen on the device. The method instead submits the given data to the geocoding server in the cloud in order to resolve the address. Other than the location data, you have to provide the handler that contains code to execute after the address is resolved. In this case, we&#8217;ll update the address label to display the address on screen. </p>
+<p>The syntax of the completionHandler may be new to you. Instead of using delegate to provide feedback, the CLGeocoder uses &#8220;block&#8221; to deal with the response. By using block, you do not need to write a separate method. Just provide the code inline to execute after the geocoding call completes. </p>
+<p>Upon completion of a geocoding request, the completionHandler will be invoked automatically. The resolved address is saved in CLPlacemark array. Placemark data includes information such as the country, state, city, and street address. So we simply pick the CLPlacemark object from the array and show the address in the address label.</p>
+<p>That&#8217;s it. Run the app again, pick a location (e.g. Apple) and you should get its address:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2012/09/MyLocationDemo-Address-Resolved.jpg" alt="MyLocationDemo Address Resolved" title="MyLocationDemo Address Resolved" class="aligncenter size-full wp-image-785" /></div>
+<h2>Saving Battery Power</h2>
+<p>The app works but it consumes a lot of power. Why? What the app does is to retrieve the current user&#8217;s location. It shouldn&#8217;t consume much power, right?</p>
+<p>Let&#8217;s revisit our code again. Once the user taps the &#8220;Get My Location&#8221; button, we&#8217;ll call up the &#8220;startUpdatingLocation&#8221; method to retrieve the user&#8217;s location.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span>IBAction<span style="color: #002200;">&#41;</span>getCurrentLocation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">id</span><span style="color: #002200;">&#41;</span>sender <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; locationManager.delegate <span style="color: #002200;">=</span> self;<br />
+&nbsp; &nbsp; locationManager.desiredAccuracy <span style="color: #002200;">=</span> kCLLocationAccuracyBest;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>locationManager startUpdatingLocation<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The problem is that the method will report the location data continuously. It just keeps going and gives location update every second, even the location is unchanged. Take a look at the output of the Debug area. You should have something similar to the below:</p>
+<div class="codecolorer-container text geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="text codecolorer" style="white-space:nowrap">2012-09-09 14:32:33.940 MyLocationDemo[13690:c07] didUpdateToLocation: &lt;+37.33240905,-122.03051211&gt; +/- 65.00m (speed -1.00 mps / course -1.00) @ 9/9/12 2:32:33 PM Hong Kong Time<br />
+2012-09-09 14:32:33.941 MyLocationDemo[13690:c07] Resolving the Address<br />
+2012-09-09 14:32:34.793 MyLocationDemo[13690:c07] didUpdateToLocation: &lt;+37.33240818,-122.03049049&gt; +/- 65.00m (speed -1.00 mps / course -1.00) @ 9/9/12 2:32:34 PM Hong Kong Time<br />
+2012-09-09 14:32:34.793 MyLocationDemo[13690:c07] Resolving the Address<br />
+2012-09-09 14:32:34.997 MyLocationDemo[13690:c07] Found placemarks: (<br />
+&nbsp; &nbsp; &quot;Apple Inc., Apple Inc., 2 Infinite Loop, Cupertino, CA &nbsp;95014-2083, United States @ &lt;+37.33270820,-122.03033640&gt; +/- 100.00m, region (identifier &lt;+37.33270823,-122.03021599&gt; radius 58.34) &lt;+37.33270823,-122.03021599&gt; radius 58.34m&quot;<br />
+), error: (null)<br />
+2012-09-09 14:32:35.792 MyLocationDemo[13690:c07] didUpdateToLocation: &lt;+37.33240773,-122.03047951&gt; +/- 65.00m (speed -1.00 mps / course -1.00) @ 9/9/12 2:32:35 PM Hong Kong Time<br />
+2012-09-09 14:32:35.793 MyLocationDemo[13690:c07] Resolving the Address<br />
+2012-09-09 14:32:35.973 MyLocationDemo[13690:c07] Found placemarks: (<br />
+&nbsp; &nbsp; &quot;Apple Inc., Apple Inc., 2 Infinite Loop, Cupertino, CA &nbsp;95014-2083, United States @ &lt;+37.33270820,-122.03033640&gt; +/- 100.00m, region (identifier &lt;+37.33270823,-122.03021599&gt; radius 58.34) &lt;+37.33270823,-122.03021599&gt; radius 58.34m&quot;<br />
+), error: (null)</div></td></tr></tbody></table></div>
+<p>As you can see, the &#8220;didUpdateToLocation&#8221; is invoked multiple times and it just keeps going on and on. </p>
+<p>So how can you tell the location manager to stop from updating the location? You can use the &#8220;stopUpdatingLocation&#8221; method to disable the location update. For our app, we can stop the location update once we retrieve the current location.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;height:300px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br />15<br />16<br />17<br />18<br />19<br />20<br />21<br />22<br />23<br />24<br />25<br />26<br />27<br />28<br />29<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>locationManager<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocationManager <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>manager didUpdateToLocation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocation <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>newLocation fromLocation<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>CLLocation <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>oldLocation<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;didUpdateToLocation: %@&quot;</span>, newLocation<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; CLLocation <span style="color: #002200;">*</span>currentLocation <span style="color: #002200;">=</span> newLocation;<br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>currentLocation <span style="color: #002200;">!=</span> <span style="color: #a61390;">nil</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; longitudeLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%.8f&quot;</span>, currentLocation.coordinate.longitude<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; latitudeLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%.8f&quot;</span>, currentLocation.coordinate.latitude<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Stop Location Manager</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>locationManager stopUpdatingLocation<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Resolving the Address&quot;</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>geocoder reverseGeocodeLocation<span style="color: #002200;">:</span>currentLocation completionHandler<span style="color: #002200;">:^</span><span style="color: #002200;">&#40;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSArray_Class/"><span style="color: #400080;">NSArray</span></a> <span style="color: #002200;">*</span>placemarks, <a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class/"><span style="color: #400080;">NSError</span></a> <span style="color: #002200;">*</span>error<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Found placemarks: %@, error: %@&quot;</span>, placemarks, error<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>error <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&amp;&amp;</span> <span style="color: #002200;">&#91;</span>placemarks count<span style="color: #002200;">&#93;</span> &gt; <span style="color: #2400d9;">0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; placemark <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>placemarks lastObject<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; addressLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@ %@<span style="color: #2400d9;">\n</span>%@ %@<span style="color: #2400d9;">\n</span>%@<span style="color: #2400d9;">\n</span>%@&quot;</span>,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;placemark.subThoroughfare, placemark.thoroughfare,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;placemark.postalCode, placemark.locality,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;placemark.administrativeArea,<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;placemark.country<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; NSLog<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;%@&quot;</span>, error.debugDescription<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span> <span style="color: #002200;">&#93;</span>;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Try to run the app again and check out the output message in the output area. You should notice that the &#8220;didUpdateToLocation&#8221; is called once and stopped.</p>
+<h2>What&#8217;s Coming Next?</h2>
+<p>In this tutorial, we give you a simple demo to show how to use the Core Location framework. The app is very basic. If you&#8217;re going to develop a real app, don&#8217;t forget to handle various error cases such as network error.</p>
+<p>So what&#8217;s next? We&#8217;ll continue to work on the demo app and display the current location in a map.</p>
+<p>As always, leave us comment and share your thought.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-animation-uiimageview/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/03/simple-animation-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Simple Animation Using UIImageView</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-app-backend-parse/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/07/Parse-Tutorial-part-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Adding a Cloud Backend for Your iOS App Using Parse - Part 1</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uitableview-tutorial-storyboard-xcode5/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/01/simple-table-view-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Working with UITableView in Xcode 5 Using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/swipeable-uitableviewcell-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/05/swipeable-cell-150x150.gif) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: How To Create Swipeable Table View Cell to Display More Options</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/how-to-get-current-location-iphone-user/"
+    dc:identifier="http://www.appcoda.com/how-to-get-current-location-iphone-user/"
+    dc:title="iOS Programming 101: How To Get the User Location in iPhone App"
+    trackback:ping="http://www.appcoda.com/how-to-get-current-location-iphone-user/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/ios-programming-101/" rel="category tag">iOS Programming 101</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/clplacemark/" rel="tag">CLPlacemark</a>, <a href="http://www.appcoda.com/tag/core-location/" rel="tag">Core Location</a>, <a href="http://www.appcoda.com/tag/gps/" rel="tag">GPS</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/location-services/" rel="tag">Location Services</a>, <a href="http://www.appcoda.com/tag/map/" rel="tag">Map</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-770">
+        <div id="dsq-comment-header-770" class="dsq-comment-header">
+            <cite id="dsq-cite-770">
+http://twitter.com/geztogether                <span id="dsq-author-user-770">gezt</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-770" class="dsq-comment-body">
+            <div id="dsq-comment-message-770" class="dsq-comment-message"><p>cool tutorial thanks</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-99715">
+        <div id="dsq-comment-header-99715" class="dsq-comment-header">
+            <cite id="dsq-cite-99715">
+                <span id="dsq-author-user-99715">Charles Leclercq</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99715" class="dsq-comment-body">
+            <div id="dsq-comment-message-99715" class="dsq-comment-message"><p>nothing happens when I touch the button!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-99845">
+        <div id="dsq-comment-header-99845" class="dsq-comment-header">
+            <cite id="dsq-cite-99845">
+                <span id="dsq-author-user-99845">Lucas Lima</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99845" class="dsq-comment-body">
+            <div id="dsq-comment-message-99845" class="dsq-comment-message"><p>The same here, nothing happens&#8230;</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-4" id="dsq-comment-100047">
+        <div id="dsq-comment-header-100047" class="dsq-comment-header">
+            <cite id="dsq-cite-100047">
+                <span id="dsq-author-user-100047">d13u</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100047" class="dsq-comment-body">
+            <div id="dsq-comment-message-100047" class="dsq-comment-message"><p>setting-&gt;privacy-&gt;location toggle ON in simulator.you will find your app name just tick mark it.and then run your app</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even depth-3" id="dsq-comment-100341">
+        <div id="dsq-comment-header-100341" class="dsq-comment-header">
+            <cite id="dsq-cite-100341">
+                <span id="dsq-author-user-100341">Abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100341" class="dsq-comment-body">
+            <div id="dsq-comment-message-100341" class="dsq-comment-message"><p>one or two things need to be added to the info.plist and request the authorisation.</p>
+<p>go through the link if you are using latest ios sdk.<br />
+<a href="http://nevan.net/2014/09/core-location-manager-changes-in-ios-8/" rel="nofollow">http://nevan.net/2014/09/core-location-manager-changes-in-ios-8/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-809">
+        <div id="dsq-comment-header-809" class="dsq-comment-header">
+            <cite id="dsq-cite-809">
+http://twitter.com/RodrRojas                <span id="dsq-author-user-809">Rodrigo Rojas</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-809" class="dsq-comment-body">
+            <div id="dsq-comment-message-809" class="dsq-comment-message"><p>Thanks man, great Tutorial.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-818">
+        <div id="dsq-comment-header-818" class="dsq-comment-header">
+            <cite id="dsq-cite-818">
+                <span id="dsq-author-user-818">Ravi Parmar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-818" class="dsq-comment-body">
+            <div id="dsq-comment-message-818" class="dsq-comment-message"><p>Really great tutorial, thanks a lot.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-820">
+        <div id="dsq-comment-header-820" class="dsq-comment-header">
+            <cite id="dsq-cite-820">
+                <span id="dsq-author-user-820">Hamid Saleemi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-820" class="dsq-comment-body">
+            <div id="dsq-comment-message-820" class="dsq-comment-message"><p>Can I get the current time of the desired location from the gps  coordinates ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://iptips.org/2012/10/15/ios-programming-101-intro-to-mapkit-api-and-add-an-annotation-on-map/' rel='external nofollow' class='url'>iOS Programming 101: Intro to MapKit API and Add an Annotation on Map | iptips - iphone / ipad / ios / android / mobile / tutorials</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-831">
+        <div id="dsq-comment-header-831" class="dsq-comment-header">
+            <cite id="dsq-cite-831">
+                <span id="dsq-author-user-831">David</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-831" class="dsq-comment-body">
+            <div id="dsq-comment-message-831" class="dsq-comment-message"><p>So cool! Thanks!!!!!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://iptips.t1u.org/2012/10/15/ios-programming-101-intro-to-mapkit-api-and-add-an-annotation-on-map/' rel='external nofollow' class='url'>iOS Programming 101: Intro to MapKit API and Add an Annotation on Map | iptips - iphone / ipad / ios / android / mobile / tutorials</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-869">
+        <div id="dsq-comment-header-869" class="dsq-comment-header">
+            <cite id="dsq-cite-869">
+                <span id="dsq-author-user-869">erum</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-869" class="dsq-comment-body">
+            <div id="dsq-comment-message-869" class="dsq-comment-message"><p>aka please let me know how can i find distance between two locations as i m using &#8220;old location distancefromlocation newlocation&#8221; as it is running continuously and getting current location updates but pls tell me in  start old location will be 0 but after that may i need to put new location in old location or it will automatically put new location data into old location and most current location will be in new location i dnt have device i dnt know how it works in device pls help me </p>
+<p> and how can i find speed using device w.r.t user movement</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-940">
+        <div id="dsq-comment-header-940" class="dsq-comment-header">
+            <cite id="dsq-cite-940">
+                <span id="dsq-author-user-940">Tom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-940" class="dsq-comment-body">
+            <div id="dsq-comment-message-940" class="dsq-comment-message"><p>This one shows the location and the distance from where you were previously<br />
+<a href="http://www.techotopia.com/index.php/Getting_iPhone_Location_Information_using_the_IOS_Core_Location_Framework" rel="nofollow">http://www.techotopia.com/index.php/Getting_iPhone_Location_Information_using_the_IOS_Core_Location_Framework</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-870">
+        <div id="dsq-comment-header-870" class="dsq-comment-header">
+            <cite id="dsq-cite-870">
+                <span id="dsq-author-user-870">erum</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-870" class="dsq-comment-body">
+            <div id="dsq-comment-message-870" class="dsq-comment-message"><p>aka instead of aka sorry for typing</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-878">
+        <div id="dsq-comment-header-878" class="dsq-comment-header">
+            <cite id="dsq-cite-878">
+                <span id="dsq-author-user-878">Malkit Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-878" class="dsq-comment-body">
+            <div id="dsq-comment-message-878" class="dsq-comment-message"><p>great article, worth reading it&#8230;.thanks&#8230;..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-895">
+        <div id="dsq-comment-header-895" class="dsq-comment-header">
+            <cite id="dsq-cite-895">
+                <span id="dsq-author-user-895">dilo</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-895" class="dsq-comment-body">
+            <div id="dsq-comment-message-895" class="dsq-comment-message"><p>sweet</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-930">
+        <div id="dsq-comment-header-930" class="dsq-comment-header">
+            <cite id="dsq-cite-930">
+http://www.sufalamtech.com/                <span id="dsq-author-user-930">Web Development Company</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-930" class="dsq-comment-body">
+            <div id="dsq-comment-message-930" class="dsq-comment-message"><p>Both the purpose property and the didUpdateToLocation method are deprecated  in iOS6. It will build with didUpdateLocation but you will need to  comment out the purpose assignment statement.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-941">
+        <div id="dsq-comment-header-941" class="dsq-comment-header">
+            <cite id="dsq-cite-941">
+                <span id="dsq-author-user-941">Tom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-941" class="dsq-comment-body">
+            <div id="dsq-comment-message-941" class="dsq-comment-message"><p>Being new to ios coding&#8230;..<br />
+which part is the purpose property?<br />
+Thanks,</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-942">
+        <div id="dsq-comment-header-942" class="dsq-comment-header">
+            <cite id="dsq-cite-942">
+                <span id="dsq-author-user-942">Tom</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-942" class="dsq-comment-body">
+            <div id="dsq-comment-message-942" class="dsq-comment-message"><p>Being new to all of this&#8230;.<br />
+which part is the purpose assignment statement?<br />
+Thanks,</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1114">
+        <div id="dsq-comment-header-1114" class="dsq-comment-header">
+            <cite id="dsq-cite-1114">
+                <span id="dsq-author-user-1114">Asim</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1114" class="dsq-comment-body">
+            <div id="dsq-comment-message-1114" class="dsq-comment-message"><p>hi</p>
+<p>i want this project can you please give me link to download it??</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://phpadvocate.com/blog/2013/01/ios-links-resources-i-use-every-day/' rel='external nofollow' class='url'>iOS Links &#8211; Resources I Collected While Learning iOSThe PHP Coder&#039;s Judy Chop | The PHP Coder&#039;s Judy Chop</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1139">
+        <div id="dsq-comment-header-1139" class="dsq-comment-header">
+            <cite id="dsq-cite-1139">
+                <span id="dsq-author-user-1139">Foolish Foppish Fancyman</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1139" class="dsq-comment-body">
+            <div id="dsq-comment-message-1139" class="dsq-comment-message"><p>Missing a key piece of info. Don&#8217;t forget to add @synthesize longitudeLabel, latitudeLabel, addressLabel; in the viewController.m file.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2249">
+        <div id="dsq-comment-header-2249" class="dsq-comment-header">
+            <cite id="dsq-cite-2249">
+                <span id="dsq-author-user-2249">Matthew</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2249" class="dsq-comment-body">
+            <div id="dsq-comment-message-2249" class="dsq-comment-message"><p>I didn&#8217;t think this was needed anymore since iOS 5 I think.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-3" id="dsq-comment-2368">
+        <div id="dsq-comment-header-2368" class="dsq-comment-header">
+            <cite id="dsq-cite-2368">
+                <span id="dsq-author-user-2368">kushalashok</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2368" class="dsq-comment-body">
+            <div id="dsq-comment-message-2368" class="dsq-comment-message"><p>In that case you have to use the default instance variable i.e. _latitudeLabel<br />
+Otherwise, as mentioned by Fancyman, using @synthesize is necessary.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1173">
+        <div id="dsq-comment-header-1173" class="dsq-comment-header">
+            <cite id="dsq-cite-1173">
+                <span id="dsq-author-user-1173">Oliverreyes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1173" class="dsq-comment-body">
+            <div id="dsq-comment-message-1173" class="dsq-comment-message"><p>where do the synthesize go ?<br />
+where can i find the source code ?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1174">
+        <div id="dsq-comment-header-1174" class="dsq-comment-header">
+            <cite id="dsq-cite-1174">
+                <span id="dsq-author-user-1174">Oliverreyes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1174" class="dsq-comment-body">
+            <div id="dsq-comment-message-1174" class="dsq-comment-message"><p>the thing is when you type and try to recreate the code &#8230; it does not work, making a useless 101 tutorial</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1199">
+        <div id="dsq-comment-header-1199" class="dsq-comment-header">
+            <cite id="dsq-cite-1199">
+http://twitter.com/smarterkey                <span id="dsq-author-user-1199">smarterkey</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1199" class="dsq-comment-body">
+            <div id="dsq-comment-message-1199" class="dsq-comment-message"><p>Great introduction to CoreLocation. I used xcode 4.3.2 and the above tutorial worked fine with NO adjustments.  (re:Oliverreyes)</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1261">
+        <div id="dsq-comment-header-1261" class="dsq-comment-header">
+            <cite id="dsq-cite-1261">
+                <span id="dsq-author-user-1261">Patrick CM</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1261" class="dsq-comment-body">
+            <div id="dsq-comment-message-1261" class="dsq-comment-message"><p>good tutorial. As mentioned. the three @synthesize lines need adding, other than that it worked fine. iphone 4, IOS 6.1.2 mac mini ML OS X 10.8.2 XCode 4.6</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1410">
+        <div id="dsq-comment-header-1410" class="dsq-comment-header">
+            <cite id="dsq-cite-1410">
+                <span id="dsq-author-user-1410">sarvjeet</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1410" class="dsq-comment-body">
+            <div id="dsq-comment-message-1410" class="dsq-comment-message"><p>nice1&#8230;thanks</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1411">
+        <div id="dsq-comment-header-1411" class="dsq-comment-header">
+            <cite id="dsq-cite-1411">
+                <span id="dsq-author-user-1411">Pranav</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1411" class="dsq-comment-body">
+            <div id="dsq-comment-message-1411" class="dsq-comment-message"><p>very useful<br />
+Thanks&#8230;&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1492">
+        <div id="dsq-comment-header-1492" class="dsq-comment-header">
+            <cite id="dsq-cite-1492">
+                <span id="dsq-author-user-1492">Ravikumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1492" class="dsq-comment-body">
+            <div id="dsq-comment-message-1492" class="dsq-comment-message"><p>Thank you so much for providing this tutorial &#8230;&#8230;&#8230;</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1551">
+        <div id="dsq-comment-header-1551" class="dsq-comment-header">
+            <cite id="dsq-cite-1551">
+                <span id="dsq-author-user-1551">npersson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1551" class="dsq-comment-body">
+            <div id="dsq-comment-message-1551" class="dsq-comment-message"><p>Awesome as always! Really like that you are detailed and don&#8217;t leave anything out!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-1561">
+        <div id="dsq-comment-header-1561" class="dsq-comment-header">
+            <cite id="dsq-cite-1561">
+                <span id="dsq-author-user-1561">npersson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1561" class="dsq-comment-body">
+            <div id="dsq-comment-message-1561" class="dsq-comment-message"><p>Having a problem with this, I only get new coordinates EVERY OTHER TIME I click the button, not every time. What&#8217;s up with that? Anyone having the same problem?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-1575">
+        <div id="dsq-comment-header-1575" class="dsq-comment-header">
+            <cite id="dsq-cite-1575">
+                <span id="dsq-author-user-1575">Dalia</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1575" class="dsq-comment-body">
+            <div id="dsq-comment-message-1575" class="dsq-comment-message"><p>You always do very good,great and clear tutorials! Thanks for sharing with us! Keep up the good work!!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-1585">
+        <div id="dsq-comment-header-1585" class="dsq-comment-header">
+            <cite id="dsq-cite-1585">
+http://www.simonblog.com                <span id="dsq-author-user-1585">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1585" class="dsq-comment-body">
+            <div id="dsq-comment-message-1585" class="dsq-comment-message"><p>Thanks for your support. More tutorials are coming. Keep coming back!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1604">
+        <div id="dsq-comment-header-1604" class="dsq-comment-header">
+            <cite id="dsq-cite-1604">
+                <span id="dsq-author-user-1604">Roya</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1604" class="dsq-comment-body">
+            <div id="dsq-comment-message-1604" class="dsq-comment-message"><p>Thank you so much for this tutorial. However, I&#8217;m running into a few issues. Can you please post the source code for this one as you&#8217;re doing for the newer tutorials?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-1826">
+        <div id="dsq-comment-header-1826" class="dsq-comment-header">
+            <cite id="dsq-cite-1826">
+                <span id="dsq-author-user-1826">iosNoobie</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1826" class="dsq-comment-body">
+            <div id="dsq-comment-message-1826" class="dsq-comment-message"><p>This is awesome, thanks! Will this return the name of business nearby or just the address?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-1977">
+        <div id="dsq-comment-header-1977" class="dsq-comment-header">
+            <cite id="dsq-cite-1977">
+                <span id="dsq-author-user-1977">Karel</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-1977" class="dsq-comment-body">
+            <div id="dsq-comment-message-1977" class="dsq-comment-message"><p>I personally was not able to get this project working on xcode 4.6.3! I was able to run the application but when I requested the location, the app halted at these lines:</p>
+<p>longitudeLabel.text = [NSString stringWithFormat:@&#8221;%.8f&#8221;, currentLocation.coordinate.longitude];<br />
+latitudeLabel.text = [NSString stringWithFormat:@&#8221;%.8f&#8221;, currentLocation.coordinate.latitude];</p>
+<p>Any advice would be appreciated!</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-2216">
+        <div id="dsq-comment-header-2216" class="dsq-comment-header">
+            <cite id="dsq-cite-2216">
+                <span id="dsq-author-user-2216">Commander Spock</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2216" class="dsq-comment-body">
+            <div id="dsq-comment-message-2216" class="dsq-comment-message"><p>Just put &#8220;self.&#8221; before both of those lines. Here&#8217;s how they&#8217;ll look.</p>
+<p>self.longitudeLabel.text = [NSString stringWithFormat:@&#8221;%.8f&#8221;, currentLocation.coordinate.longitude];</p>
+<p>        self.latitudeLabel.text = [NSString stringWithFormat:@&#8221;%.8f&#8221;, currentLocation.coordinate.latitude];</p>
+<p>Later on, you&#8217;ll run into a similar problem with a line that starts with &#8220;address.text.&#8221; Again, just add &#8220;self.&#8221; to the front of it to make it start with &#8220;self.address.text.&#8221;</p>
+<p>The &#8220;self&#8221; prefix indicates to the class that the code is referring to an instance variable defined in the class.</p>
+<p>Hope this helped!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even depth-2" id="dsq-comment-4002">
+        <div id="dsq-comment-header-4002" class="dsq-comment-header">
+            <cite id="dsq-cite-4002">
+http://www.showmyroutes.com                <span id="dsq-author-user-4002">showmyroutes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4002" class="dsq-comment-body">
+            <div id="dsq-comment-message-4002" class="dsq-comment-message"><p>use _latitudeLabel.text and _longitudeLable will resolve the problem.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-99239">
+        <div id="dsq-comment-header-99239" class="dsq-comment-header">
+            <cite id="dsq-cite-99239">
+                <span id="dsq-author-user-99239">toqeer</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99239" class="dsq-comment-body">
+            <div id="dsq-comment-message-99239" class="dsq-comment-message"><p>hi i&#8217;ve read this project and apply it but it didn&#8217;t come in delegates of CLLocationManagerDelegates, waiting for your reply</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2298">
+        <div id="dsq-comment-header-2298" class="dsq-comment-header">
+            <cite id="dsq-cite-2298">
+                <span id="dsq-author-user-2298">Ali Afzal</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2298" class="dsq-comment-body">
+            <div id="dsq-comment-message-2298" class="dsq-comment-message"><p>It is the very good example for learning how to use the current location in my app.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2365">
+        <div id="dsq-comment-header-2365" class="dsq-comment-header">
+            <cite id="dsq-cite-2365">
+                <span id="dsq-author-user-2365">Guest</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2365" class="dsq-comment-body">
+            <div id="dsq-comment-message-2365" class="dsq-comment-message"><p>Doesn&#8217;t work in current version of Xcode.</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-2369">
+        <div id="dsq-comment-header-2369" class="dsq-comment-header">
+            <cite id="dsq-cite-2369">
+http://www.simonblog.com                <span id="dsq-author-user-2369">Simon Ng</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2369" class="dsq-comment-body">
+            <div id="dsq-comment-message-2369" class="dsq-comment-message"><p>Which version of Xcode?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-3" id="dsq-comment-2791">
+        <div id="dsq-comment-header-2791" class="dsq-comment-header">
+            <cite id="dsq-cite-2791">
+                <span id="dsq-author-user-2791">azam3d</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2791" class="dsq-comment-body">
+            <div id="dsq-comment-message-2791" class="dsq-comment-message"><p>Xcode 5. I can&#8217;t retrieve the address but latitude and longitude value is fine.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2436">
+        <div id="dsq-comment-header-2436" class="dsq-comment-header">
+            <cite id="dsq-cite-2436">
+                <span id="dsq-author-user-2436">Gilbert</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2436" class="dsq-comment-body">
+            <div id="dsq-comment-message-2436" class="dsq-comment-message"><p>If the tutorial doesn&#8217;t work for you and you are getting all sorts of parse errors (like myself), try and set the deployment target to IOS 5.1 instead of 6.1&#8230;that helped for me (plus the &#8216;self.&#8217; addition to the addressLabel described below).</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-2549">
+        <div id="dsq-comment-header-2549" class="dsq-comment-header">
+            <cite id="dsq-cite-2549">
+                <span id="dsq-author-user-2549">ShanghaiTimes</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2549" class="dsq-comment-body">
+            <div id="dsq-comment-message-2549" class="dsq-comment-message"><p>Brilliant. Thanks. I struggled for days with  the O&#8217;Reilly book &#8220;Geolocation for iOS&#8221; &#8211; written for an XCode4 I think. anyway, I gave up on that. Followed your guide lines, and apart from having to add the underscore &#8220;_&#8221; to _longitudeLabel.text etc, it worked right out of the box. I&#8217;m using XCode5 &amp; iOS7<br />
+You make it so easy. Only thing I can&#8217;t get right yet, is the text in the address label. I can&#8217;t get it to wrap the lines, so that I can read it&#8230;. but hey, I have to have something to do <img src="http://www.appcoda.com/wp-includes/images/smilies/simple-smile.png" alt=":-)" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-2829">
+        <div id="dsq-comment-header-2829" class="dsq-comment-header">
+            <cite id="dsq-cite-2829">
+                <span id="dsq-author-user-2829">muthukumar</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-2829" class="dsq-comment-body">
+            <div id="dsq-comment-message-2829" class="dsq-comment-message"><p>i got postal code and locality null. how to get postal code.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.copyquery.com/new-to-xcode-im-struggiling/' rel='external nofollow' class='url'>New To Xcode &#8211; I&#039;m StruggilingCopyQuery CopyQuery | Question &amp; Answer Tool for your Technical Queries,CopyQuery, ejjuit, query, copyquery, copyquery.com, android doubt, ios question, sql query, sqlite query, nodejsquery, dns query, update q</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3488">
+        <div id="dsq-comment-header-3488" class="dsq-comment-header">
+            <cite id="dsq-cite-3488">
+                <span id="dsq-author-user-3488">rakesh jyoti</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3488" class="dsq-comment-body">
+            <div id="dsq-comment-message-3488" class="dsq-comment-message"><p>u guys are very helpful for a trainee n i am a trainee&#8230;<br />
+so a big big thank u for u guys.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-3496">
+        <div id="dsq-comment-header-3496" class="dsq-comment-header">
+            <cite id="dsq-cite-3496">
+                <span id="dsq-author-user-3496">E. Newton</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3496" class="dsq-comment-body">
+            <div id="dsq-comment-message-3496" class="dsq-comment-message"><p>This was a very valuable tutorial for an Obj C beginner.  You did a great job; content, presentation, format; everything!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-3857">
+        <div id="dsq-comment-header-3857" class="dsq-comment-header">
+            <cite id="dsq-cite-3857">
+                <span id="dsq-author-user-3857">Rasmus</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-3857" class="dsq-comment-body">
+            <div id="dsq-comment-message-3857" class="dsq-comment-message"><p>Very useful, thank you! Sometimes when I run the app I get a (null). Is it possible to make it so (null) never appears? </p>
+<p>Once again, thank you</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://mollysmileye.wordpress.com/2014/03/19/myspiritsoupcollections/' rel='external nofollow' class='url'>mySpiritSoupCollections | HelloHelloYe</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-4096">
+        <div id="dsq-comment-header-4096" class="dsq-comment-header">
+            <cite id="dsq-cite-4096">
+http://www.imobdevtech.com/Contactus/requestForProposal                <span id="dsq-author-user-4096">iPhone APP Development</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-4096" class="dsq-comment-body">
+            <div id="dsq-comment-message-4096" class="dsq-comment-message"><p>Really great tutorial, thanks a lot.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-15135">
+        <div id="dsq-comment-header-15135" class="dsq-comment-header">
+            <cite id="dsq-cite-15135">
+                <span id="dsq-author-user-15135">saccomani</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15135" class="dsq-comment-body">
+            <div id="dsq-comment-message-15135" class="dsq-comment-message"><p>how can i show a pin on user current location?!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-15383">
+        <div id="dsq-comment-header-15383" class="dsq-comment-header">
+            <cite id="dsq-cite-15383">
+                <span id="dsq-author-user-15383">Robin Thomson</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-15383" class="dsq-comment-body">
+            <div id="dsq-comment-message-15383" class="dsq-comment-message"><p>How to handle the deprecation<br />
+<a href="http://www.devfright.com/didupdatelocations-ios-example/" rel="nofollow">http://www.devfright.com/didupdatelocations-ios-example/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-17290">
+        <div id="dsq-comment-header-17290" class="dsq-comment-header">
+            <cite id="dsq-cite-17290">
+                <span id="dsq-author-user-17290">Will</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17290" class="dsq-comment-body">
+            <div id="dsq-comment-message-17290" class="dsq-comment-message"><p>Not working for Xcode 5 at all. Any tips on how it has changed?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-17294">
+        <div id="dsq-comment-header-17294" class="dsq-comment-header">
+            <cite id="dsq-cite-17294">
+                <span id="dsq-author-user-17294">Will</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-17294" class="dsq-comment-body">
+            <div id="dsq-comment-message-17294" class="dsq-comment-message"><p>I dont quite understand the new deprecation technique.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-99716">
+        <div id="dsq-comment-header-99716" class="dsq-comment-header">
+            <cite id="dsq-cite-99716">
+                <span id="dsq-author-user-99716">Charles Leclercq</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99716" class="dsq-comment-body">
+            <div id="dsq-comment-message-99716" class="dsq-comment-message"><p>Hi!<br />
+i&#8217;m using Xcode 6.1.1<br />
+Nothing happens when I press the button, everything seems linked&#8230;Any tips?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-99999">
+        <div id="dsq-comment-header-99999" class="dsq-comment-header">
+            <cite id="dsq-cite-99999">
+                <span id="dsq-author-user-99999">Dane</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99999" class="dsq-comment-body">
+            <div id="dsq-comment-message-99999" class="dsq-comment-message"><p><a href="https://developer.apple.com/library/ios/documentation/CoreLocation/Reference/CLLocationManager_Class/index.html" rel="nofollow">https://developer.apple.com/library/ios/documentation/CoreLocation/Reference/CLLocationManager_Class/index.html</a></p>
+<p>click &#8220;more&#8221; to expand the text just below the file title. I was facing the same problem, and after some digging, realized that it has to do with needing to ask permission to use the location services.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-99998">
+        <div id="dsq-comment-header-99998" class="dsq-comment-header">
+            <cite id="dsq-cite-99998">
+                <span id="dsq-author-user-99998">offi</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-99998" class="dsq-comment-body">
+            <div id="dsq-comment-message-99998" class="dsq-comment-message"><p>Hi this doesn&#8217;t work with IOS 8</p>
+<p>u have to add entries in info.plist etc.</p>
+<p>check this out </p>
+<p><a href="http://datacalculation.blogspot.in/2014/11/how-to-fix-cllocationmanager-location.html" rel="nofollow">http://datacalculation.blogspot.in/2014/11/how-to-fix-cllocationmanager-location.html</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-100216">
+        <div id="dsq-comment-header-100216" class="dsq-comment-header">
+            <cite id="dsq-cite-100216">
+                <span id="dsq-author-user-100216">chanduthedev</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100216" class="dsq-comment-body">
+            <div id="dsq-comment-message-100216" class="dsq-comment-message"><p>Nice article and very simple and usefull. But from iOS8.0 or later, this method seems not working. Need to do below steps for iOS8.0</p>
+<p>&#8211; Need to use didUpdateLocations delegate method instead of didUpdateToLocation<br />
+&#8211; Need to add below two key-value pairs to the info.plist file(This is very very important)<br />
+    NSLocationWhenInUseUsageDescription<br />
+   Your message goes here<br />
+   NSLocationAlwaysUsageDescription<br />
+   Your message goes here</p>
+<p>It won&#8217;t work if you not adding the above kv pairs to the info.plist</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.rmsmobilegame.com/how-to-make-an-ios-app/' rel='external nofollow' class='url'>How To Make An Ios App | RMS</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-even depth-1" id="dsq-comment-100342">
+        <div id="dsq-comment-header-100342" class="dsq-comment-header">
+            <cite id="dsq-cite-100342">
+                <span id="dsq-author-user-100342">Abhishek</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-100342" class="dsq-comment-body">
+            <div id="dsq-comment-message-100342" class="dsq-comment-message"><p>Great tutorial, very well explained and thank you.  It seems in iOS 8 there are few changes in using Core Location like adding key to the info.plist and requesting the authorisation.</p>
+<p>go through the link if you are using latest ios sdk.</p>
+<p><a href="http://nevan.net/2014/09/core-location-manager-changes-in-ios-8/" rel="nofollow">http://nevan.net/2014/09/core-location-manager-changes-in-ios-8/</a></p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-101071">
+        <div id="dsq-comment-header-101071" class="dsq-comment-header">
+            <cite id="dsq-cite-101071">
+                <span id="dsq-author-user-101071">Коля Ли</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101071" class="dsq-comment-body">
+            <div id="dsq-comment-message-101071" class="dsq-comment-message"><p>Source don&#8217;t work<br />
+Xcode 6.3 corelocation code null</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/how-to-get-current-location-iphone-user/';
+var disqus_identifier = '752 http://www.appcoda.com/?p=752';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "iOS Programming 101: How To Get the User Location in iPhone App";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=752';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/qr-code-generator-tutorial/">Building a QR Code Generator with Core Image Filters</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="752"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-get-current-location-iphone-user%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Get%20the%20User%20Location%20in%20iPhone%20App" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="752" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>122</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20How%20To%20Get%20the%20User%20Location%20in%20iPhone%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-get-current-location-iphone-user%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="752" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>20</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-get-current-location-iphone-user%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Get%20the%20User%20Location%20in%20iPhone%20App" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="752" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>14</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-get-current-location-iphone-user%2F&#038;title=iOS%20Programming%20101%3A%20How%20To%20Get%20the%20User%20Location%20in%20iPhone%20App" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="752" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>2</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-get-current-location-iphone-user%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Get%20the%20User%20Location%20in%20iPhone%20App" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="752" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=iOS%20Programming%20101%3A%20How%20To%20Get%20the%20User%20Location%20in%20iPhone%20App&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-get-current-location-iphone-user%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="752" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-get-current-location-iphone-user%2F&#038;t=iOS%20Programming%20101%3A%20How%20To%20Get%20the%20User%20Location%20in%20iPhone%20App" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="752" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fhow-to-get-current-location-iphone-user%2F&#038;title=iOS%20Programming%20101%3A%20How%20To%20Get%20the%20User%20Location%20in%20iPhone%20App" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="752" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/how-to-get-current-location-iphone-user\/","stats_nonce":"1298c11ed8","share_counts":"3da1fd031d","follow_counts":"42e232761c","total_counts":"d89bd4eb20","media_single":"bed05ad3b0","media_total":"06eb8545f3","generate_all_window_nonce":"fdcc356783","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-07 02:26:02 by W3 Total Cache -->

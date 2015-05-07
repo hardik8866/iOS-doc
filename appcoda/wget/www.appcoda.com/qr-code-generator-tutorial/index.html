@@ -1,0 +1,663 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Building a QR Code Generator with Core Image and Swift</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="We&#039;ve built a QR Reader app before. In this Swift tutorial we will show you how to generate QR code in iOS using a filter named CIQRCodeGenerator."/>
+<link rel="canonical" href="http://www.appcoda.com/qr-code-generator-tutorial/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="We&#039;ve built a QR Reader app before. In this Swift tutorial we will show you how to generate QR code in iOS using a filter named CIQRCodeGenerator."/>
+<meta name="twitter:title" content="Building a QR Code Generator with Core Image and Swift"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2015/05/qr-code-featured-1024x682.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Building a QR Code Generator with Core Image Filters Comments Feed" href="http://www.appcoda.com/qr-code-generator-tutorial/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=5483' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-5483 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-5483 post type-post status-publish format-standard hentry category-course category-intermediate category-swift-2 category-tutorials tag-core-image tag-ios-programming tag-qr-code tag-swift entry"><h1 class="entry-title">Building a QR Code Generator with Core Image Filters</h1> 
+<div class="post-info"><span class="date published time" title="2015-05-05T09:39:27+00:00">May 5, 2015</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/qr-code-generator-tutorial/#comments"><span class="dsq-postid" data-dsqidentifier="5483 http://www.appcoda.com/?p=5483">1 Comment</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>One of the first tutorials I contributed here at Appcoda was a guide about how to create a QR code reader in iOS. At that time of course, the code of that <a href="http://www.appcoda.com/qr-code-ios-programming-tutorial/">tutorial</a> was written in Objective-C, as Swift wasn&#8217;t still existing. Later in time, my friend Simon wrote <a href="http://www.appcoda.com/qr-code-reader-swift/">a new one</a>, this time made entirely in Swift for all the fans of this new language. By the time that the first post regarding this topic was published here, QR codes had already started to be used more and more for advertising and marketing reasons, and many developers were dropped in the battle for making their own QR code readers. Today QR codes exist almost everywhere; in magazines and newspapers, in television, in printed in T-shirts, in advertising labels, in websites, etc. The list is long. On the other hand, the QR code reading applications existing in the AppStore are also endless. So, as you understand, QR codes consist of an interesting part for both advertisers and developers (and not only), as it&#8217;s something new and easily manageable.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/05/qr-code-featured-1024x682.jpg" alt="QR Code Generator" class="aligncenter size-large wp-image-5500" /></div>
+<p>With this tutorial I&#8217;m returning back to the discussion about QR Codes after a long time and many tutorials in between since that first QR code-related tutorial, but this time with a completely different goal. My intension is not to talk once again about QR Code readers; after all, we have already such tutorials here (see the links above). This time my goal is to show you how to make a <strong>QR code generator</strong>. And trust me, as you&#8217;ll see, it&#8217;s as easy as making a QR code reader (even easier). But first, let me tell you a few things you should know about.</p>
+<p>Prior to iOS 7, making a QR code generator was a real trouble. Not many resources existed back then, and most developers had to avoid creating their custom code; the easiest thing to do was to pick among 2-3 different existing libraries and fit it to their applications. But thankfully, all that is now history. By introducing iOS 7 time ago, Apple also turned any task related to QR codes (reading and generating) into a piece of cake. For reading QR codes, the AVFoundation framework is now the tool every developer needs. For generating, the only thing coders have to do is to use the <em>Core Image</em> framework, and more specifically the <em>Core Image filters</em>.</p>
+<p><span id="more-5483"></span></p>
+<p>To make it perfectly clear, since iOS 7 a QR code is generated as a <em>CIImage</em> object (<em>CoreImage</em> image) simply by using a special filter named <strong>CIQRCodeGenerator</strong>. All it takes is to provide the data that you want to convert into a QR code image, and iOS will manage and do the heavy work. The returning image can be handled in anyway you want, as long as you don&#8217;t damage it and make the code unreadable.</p>
+<p>In the following few parts of this tutorial you&#8217;ll find out how to create QR codes in a really fast and easy fashion, and you&#8217;ll see some techniques for better results. By finishing this post you&#8217;ll be able to generate QR code in iOS, scalable to any size you want. As you&#8217;re about to see later, after having created a QR code you must handle it a bit so it looks clear to the desired output size. Notice that the way I will propose to do that is not the only one; it&#8217;s just what I prefer, and of course there are other ways to do what you&#8217;ll see next.</p>
+<p>So, after having said all the above, it&#8217;s about time to finally meet some really interesting things.</p>
+<h2>Demo App Overview</h2>
+<p>As you probably suspect, the demo application of this tutorial isn&#8217;t going to be complicated at all. The following screenshot gives you a taste of what we&#8217;re about to do here:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/05/qr-code-generator.png" alt="qr-code-generator" class="aligncenter size-full wp-image-5497" /></div>
+<p>Unlike to many other tutorial apps, this time we&#8217;ll create our demo app from scratch, as it&#8217;s quite easy to do so. Our interface is parted from the following subviews:</p>
+<ul>
+<li>A <em>textfield</em>, where we&#8217;ll type in any text or URL string we want to convert to a QR code.</li>
+<li>A <em>button</em> that will have double role; both to generate and remove a QR code.</li>
+<li>An <em>image view</em> which we&#8217;ll use to display the QR code.</li>
+<li>A <em>slider</em> to scale up and down the final result.</li>
+</ul>
+<p>Remember that the produced QR code is a <em>CoreImage</em> image (CIImage), so we&#8217;ll convert it at some point into a UIImage object. Besides that, we&#8217;ll do some process before we set it to the image view, but I&#8217;m leaving the details for later.</p>
+<p>So, if you feel ready, launch Xcode and let&#8217;s get started with our new app. You&#8217;re two steps away before you create your first QR code.</p>
+<h2>Creating the UI</h2>
+<p>The first step here is to create the actual project, so when you launch Xcode make sure to select the respective option. In the first step of the guide, select the <strong>Single View Application</strong> template. Proceed and set the <strong>QRCodeGen</strong> as the name of the app, and also make sure that the selected language is the Swift. Once you&#8217;ve done so, find a place to your disk to save the project, and you&#8217;re good to go.</p>
+<p>The second step which is the actual content of this part, involves the setup of the user interface (UI). So, in the Project Navigator, click to the <em>Main.storyboard</em> file and let the Interface Builder appear. The next screenshot illustrates how the <em>ViewController</em> scene should look like after having added all the necessary subviews:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/05/t35_2_scene_sample.png" alt="t35_2_scene_sample" class="aligncenter size-full wp-image-5487" /></div>
+<p>Begin by getting a <em>UITextField</em> object from the Object Library and placing it to the default view. Set its frame as follows:</p>
+<ul>
+<li>X = 16</li>
+<li>Y = 28</li>
+<li>Width = 568</li>
+<li>Height = 30 (you can&#8217;t change that)</li>
+</ul>
+<p>No more configuration is needed for the textfield needs right now. We&#8217;ll set its constraints later, along with those of the rest subviews we&#8217;ll add.</p>
+<p>Now, add to the scene a <em>UIButton</em>. Set the next attributes:</p>
+<ul>
+<li>Title = &#8220;Generate&#8221;</li>
+<li>Text color = White</li>
+<li>Background color (Hex) = #F39C12</li>
+</ul>
+<p>Also, set its frame:</p>
+<ul>
+<li>X = 464</li>
+<li>Y = 66</li>
+<li>Width = 120</li>
+<li>Height = 30</li>
+</ul>
+<p>Next, grab a <em>UIImageView</em> object and add it to the view. We&#8217;ll specify only its frame:</p>
+<ul>
+<li>X = 200</li>
+<li>Y = 200</li>
+<li>Width = 200</li>
+<li>Height = 200</li>
+</ul>
+<p>Finally, add a <em>UISlider</em> object. Set the following attributes:</p>
+<ul>
+<li>Minimum value = 0</li>
+<li>Maximum value = 2</li>
+<li>Current value = 1</li>
+<li>Min Track Tint (Hex) = #C0392B</li>
+<li>Thumb Tint (Hex) = #D35400</li>
+<li>Hidden = true (check it)</li>
+</ul>
+<p>Its frame:</p>
+<ul>
+<li>X = 189</li>
+<li>Y = 550</li>
+<li>Width = 223</li>
+<li>Height = 31 (it can&#8217;t be changed)</li>
+</ul>
+<p>Now let&#8217;s specify the constraints. We&#8217;ll specifically set some of them, and we&#8217;ll let Xcode create the missing ones for us. Begin with the image view by selecting it first. Then click to the <em>Pin</em> button at the bottom-right side, and check the <em>Width</em> and <em>Height</em> constraints. We want the image view to always have the same size.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/05/t35_3_pin_button.png" alt="t35_3_pin_button" class="aligncenter size-full wp-image-5488" /></div>
+<p>Next, and by still having the image view selected, click to the <em>Align</em> button and then to the <em>Horizontal Center in container</em> and <em>Vertical Center in Container</em> constraint options.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/05/t35_4_align_button.png" alt="t35_4_align_button" class="aligncenter size-full wp-image-5489" /></div>
+<p>The image view constraints are ready, so now select the slider, and click to the <em>Pin</em> button. Similarly to the image view, in this case set the <em>Width</em> and <em>Height</em> constraints as well. Next, click to the <em>Align</em> button and select only the <em>Horizontal Center in Container</em> option.</p>
+<p>After having done the above, we&#8217;ll allow Xcode to add the missing constraints automatically. First select the <em>ViewController</em> scene object as shown in the next image:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/05/t35_5_scene_sample.png" alt="t35_5_scene_sample" class="aligncenter size-full wp-image-5490" /></div>
+<p>Then click to the <em>Resolve Auto Layout Issues</em> button to the bottom-right side (it&#8217;s next to the Pin button), and then to the <em>Add Missing Constraints</em> option to the bottom half of the menu (in the <em>All Views in View Controller</em> section).</p>
+<p>Lastly, let&#8217;s declare and connect a few IBOutlet properties and IBAction methods. Initially, open the <em>ViewController.swift</em> file and add the next properties:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBOutlet weak var textField<span style="color: #002200;">:</span> UITextField<span style="color: #002200;">!</span><br />
+<br />
+@IBOutlet weak var imgQRCode<span style="color: #002200;">:</span> UIImageView<span style="color: #002200;">!</span><br />
+<br />
+@IBOutlet weak var btnAction<span style="color: #002200;">:</span> UIButton<span style="color: #002200;">!</span><br />
+<br />
+@IBOutlet weak var slider<span style="color: #002200;">:</span> UISlider<span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>By their names and their datatypes you can understand the subviews that each property matches to. So, return to Interface Builder and do the appropriate connections (I&#8217;m sure you know how, therefore I don&#8217;t provide any details).</p>
+<p>We will also need two IBAction methods, so return to the <em>ViewController.swift</em> file and define the following:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func performButtonAction<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span><br />
+<br />
+<br />
+@IBAction func changeImageViewScale<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>One last time now in the Interface Builder, so you connect the above methods to the proper subviews. The first one must be connected to the <em>Touch Up Inside</em> event of the Generate button, while the second one must be connected to the <em>Value Changed</em> of the slider.</p>
+<p>Once you get finished with that, you&#8217;re eventually ready to proceed. Our work in the UI is over, so let&#8217;s see how a QR code is generated.</p>
+<h2>Generating a QR Code</h2>
+<p>According to what we&#8217;ve done so far, you easily guess that we&#8217;re about to use the <em>performButtonAction(_:)</em> IBAction method to generate a new code. Before doing that though, let&#8217;s declare one new variable to the top of the class:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">var qrcodeImage<span style="color: #002200;">:</span> CIImage<span style="color: #002200;">!</span></div></td></tr></tbody></table></div>
+<p>In the above variable we&#8217;ll store the generated QR Code image. Don&#8217;t forget that we&#8217;ll use a Core Image filter to produce it, therefore it&#8217;s going to be a <em>CoreImage</em> image. Later we&#8217;ll convert it to a <em>UIImage</em>, but for now, it&#8217;s just what we need in the next steps.</p>
+<p>Now, let&#8217;s head to the <em>performButtonAction(_:)</em> IBAction method. This one will play double role: It will generate a new QR code, but also it will remove an existing one both visually and in code. We&#8217;ll be able to distinguish each case simply by checking if the <em>qrcodeImage</em> property is nil or not inside that IBAction method&#8217;s body. Furthermore, by tapping the button once, we&#8217;ll just change its title from &#8220;Generate&#8221; to &#8220;Clear&#8221; (and the opposite when it&#8217;s tapped again).</p>
+<p>Let&#8217;s see everything step by step, and let&#8217;s focus for the time being only in the QR code generation. Obviously, no QR code should be created if no text has been entered by the user, and we have to make sure about that. Right next you see a really simple way to avoid this situation, however in a real-world application you&#8217;d better be more <em>user friendly</em>:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func performButtonAction<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> qrcodeImage <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">if</span> textField.text <span style="color: #002200;">==</span> <span style="color: #bf1d1a;">&quot;&quot;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #a61390;">return</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>That way we know that nothing will happen if the textfield remains empty.</p>
+<p>Let&#8217;s see now how a QR code is generated. As I&#8217;ve said in the introduction, all it takes is to create a new <em>CoreImage</em> filter by using the <strong>CIQRCodeGenerator</strong> name, to specify a couple of parameters and then to get the output image, which of course is the QR code image. The two parameters needed to be specified are:</p>
+<ol>
+<li><strong>inputMessage</strong>: It&#8217;s the initial data you want to convert into a QRCode image. Actually, this should always be a <em>NSData</em> object, so make sure every string or other object you use is converted to that datatype.</li>
+<li><strong>inputCorrectionLevel</strong>: It represents how much error correction extra data should be added to the output QR code image. It gets any of the four (string) values: <em>L</em>, <em>M</em>, <em>Q</em>, <em>H</em>, where each value matches to some error resilience (7%, 15%, 25%, 30% respectively). The higher that value, the larger the output QR code image.</li>
+</ol>
+<p>Here&#8217;s everything in code now:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br />14<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func performButtonAction<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> qrcodeImage <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let data <span style="color: #002200;">=</span> textField.text.dataUsingEncoding<span style="color: #002200;">&#40;</span>NSISOLatin1StringEncoding, allowLossyConversion<span style="color: #002200;">:</span> <span style="color: #a61390;">false</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; let filter <span style="color: #002200;">=</span> CIFilter<span style="color: #002200;">&#40;</span>name<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;CIQRCodeGenerator&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; filter.setValue<span style="color: #002200;">&#40;</span>data, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;inputMessage&quot;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; filter.setValue<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Q&quot;</span>, forKey<span style="color: #002200;">:</span> <span style="color: #bf1d1a;">&quot;inputCorrectionLevel&quot;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; qrcodeImage <span style="color: #002200;">=</span> filter.outputImage<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The above five lines are all you need in order to generate a QR code that will contain the data entered in the textfield. Note that Apple recommends to use the <em>NSISOLatin1StringEncoding</em> instead of the <em>NSUTF8StringEncoding</em>, however it works with the second too.</p>
+<p>Now, let&#8217;s test the app and let&#8217;s see what happens. Before you run the application, add the following lines in the IBAction method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func performButtonAction<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> qrcodeImage <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; imgQRCode.image <span style="color: #002200;">=</span> UIImage<span style="color: #002200;">&#40;</span>CIImage<span style="color: #002200;">:</span> qrcodeImage<span style="color: #002200;">&#41;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; textField.resignFirstResponder<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>All we do is to just convert the output <em>CIImage</em> to an <em>UIImage</em> object and then by calling the <em>resignFirstResponder()</em> method of the textfield we make the keyboard go away.</p>
+<p>After having done the above addition, let&#8217;s run the application. You can do that in both the Simulator or in a real device. When the app has launched, go to the textfield and type any text you want, or just a URL string as you see in the next image. Then, hit the Generate button and the QR code image will be produced:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/05/t35_6_generate1.png" alt="QR Code" class="aligncenter size-full wp-image-5491" /></div>
+<p>Congratulations, you just created your first QR code image!</p>
+<p>Depending on the length of the string you&#8217;re converting and the input correction level you&#8217;re using, the generated QRCode&#8217;s density may vary. However, this is not the most important thing here. The really important is that the QR code image size is not equal to the size of the image view. It&#8217;s forced to get that size, because the <em>content mode</em> of the image view has the <em>scale to fill</em> value by default, and because of that it&#8217;s appeared <em>blurry</em>. And not just that; the less the represented data is, the more blurry it becomes. Of course, having such a final result is not something we desire, but fortunately there are ways to fix it. How? Well, please be a bit patient, as that&#8217;s something we&#8217;re going to see in the next part; right now we have to get finished with some remaining tasks here.</p>
+<p>As I&#8217;ve already said, we want the Generate button to have double role. That means it should not only generate the QR code image (as it already does), but also to remove it from both the screen and the <em>qrcodeImage</em> property. So, let&#8217;s add the missing code to our IBAction method, and let&#8217;s make our lives easier by being able to re-create the QR code simply by using that button. Here we go:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br />13<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func performButtonAction<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> qrcodeImage <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; btnAction.setTitle<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Clear&quot;</span>, forState<span style="color: #002200;">:</span> UIControlState.Normal<span style="color: #002200;">&#41;</span> &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; slider.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">else</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; imgQRCode.image <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; qrcodeImage <span style="color: #002200;">=</span> <span style="color: #a61390;">nil</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; btnAction.setTitle<span style="color: #002200;">&#40;</span><span style="color: #bf1d1a;">&quot;Generate&quot;</span>, forState<span style="color: #002200;">:</span> UIControlState.Normal<span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In the first case where a new QR code is generated, we have a new line that changes the button&#8217;s title from &#8220;Generate&#8221; to &#8220;Clear&#8221;, and one more to make the slider visible (it wasn&#8217;t becoming visible so far). In the second case, an already existing QRCode image must be removed, so we take the proper actions. Note that at the end we change again the button&#8217;s title.</p>
+<p>If you run the app once again now you&#8217;ll notice that you are able to create and remove as many QRCode images as you want. So, give that a try, and don&#8217;t worry about the blurry image; we&#8217;re about to fix it in a couple of minutes.</p>
+<h2>Fixing the Blur</h2>
+<p>What we have to succeed here is to turn the produced QR code blurry image to a clear one, and at the same time to perfectly fit it in the image view. However, we must be cautious because we shouldn&#8217;t alter the QR code image and make the code unreadable. The final result must stay untouched. There are a few ways to do that, but in here I&#8217;ll show you a really simple one. Of course, there are more options, like for example using the <em>CoreGraphics</em> library, but I leave that for you to lookup. Personally, I consider the way I&#8217;ll present you the fastest approach.</p>
+<p>So, the basic idea for scaling-up the QR code image without making it blurry, is to change its <strong>transform</strong> property. But, as it&#8217;s infeasible to scale up the image and add it at the same time to the image view, we&#8217;ll just create another <em>CIImage</em> which will be scaled-up and then we&#8217;ll assign it to the image view.</p>
+<p>There&#8217;s one question that arises now. How much should the original QRCode image to be scaled? We know that the QRCode image size depends on the content and the input correction level value, so how can we achieve the best fine-tuning of it? Actually, it&#8217;s not that difficult to figure it out and to answer the above question. The desired scale factor is always equal to the ratio that results if we divide the image view&#8217;s width with the original QRCode image&#8217;s width, or the height respectively. In programming terms, the scale factors for the X and Y axises are:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">let scaleX <span style="color: #002200;">=</span> imgQRCode.frame.size.width <span style="color: #002200;">/</span> qrcodeImage.extent<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.size.width<br />
+let scaleY <span style="color: #002200;">=</span> imgQRCode.frame.size.height <span style="color: #002200;">/</span> qrcodeImage.extent<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.size.height</div></td></tr></tbody></table></div>
+<p>The <em>extend()</em> method returns the frame of the image.</p>
+<p>So, with all the above in mind, let&#8217;s go ahead and let&#8217;s create a custom method, named <em>displayQRCodeImage()</em>. I intentionally want to use a custom method instead of adding the new code to the IBAction method, because it&#8217;s easier to focus on what we&#8217;re doing only.</p>
+<p>In the following implementation we perform three tasks:</p>
+<ol>
+<li>We specify the scale factor for each axis (what I showed to you right before).</li>
+<li>We create a new CIImage as a result of the transformation to the first one (scaled-up image).</li>
+<li>We convert the new image to a UIImage object and we assign it finally to the image view.
+</li>
+</ol>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">func displayQRCodeImage<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp;let scaleX <span style="color: #002200;">=</span> imgQRCode.frame.size.width <span style="color: #002200;">/</span> qrcodeImage.extent<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.size.width<br />
+&nbsp;let scaleY <span style="color: #002200;">=</span> imgQRCode.frame.size.height <span style="color: #002200;">/</span> qrcodeImage.extent<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span>.size.height<br />
+<br />
+&nbsp;let transformedImage <span style="color: #002200;">=</span> qrcodeImage.imageByApplyingTransform<span style="color: #002200;">&#40;</span>CGAffineTransformMakeScale<span style="color: #002200;">&#40;</span>scaleX, scaleY<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+imgQRCode.image <span style="color: #002200;">=</span> UIImage<span style="color: #002200;">&#40;</span>CIImage<span style="color: #002200;">:</span> transformedImage<span style="color: #002200;">&#41;</span><br />
+<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>What serves us the most in the above implementation is the <em>imageByApplyingTransform(_:)</em> method of the <em>CIImage</em> class. It&#8217;s the one that actually creates and returns a new image by applying the transformation we want to an existing one.</p>
+<p>The contents of the method we just implemented (and to be honest, everything could have been written in just one line), is what we need to make our QRCode image clear and avoid the blurry results. Now, we have one last stop to do before we test the app as we must return to the <em>performButtonAction(_:)</em> IBAction method and call this one. Initially, locate the following line and totally delete it from the IBAction method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">imgQRCode.image <span style="color: #002200;">=</span> UIImage<span style="color: #002200;">&#40;</span>CIImage<span style="color: #002200;">:</span> qrcodeImage<span style="color: #002200;">&#41;</span></div></td></tr></tbody></table></div>
+<p>Next, just call the new custom method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func performButtonAction<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> qrcodeImage <span style="color: #002200;">==</span> <span style="color: #a61390;">nil</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; displayQRCodeImage<span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+&nbsp; &nbsp; ...<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>We are ready now to test the application once again. Run it, add some text, and then use the Generate button to create a new QRCode image. As you can see to the next screenshot, this time the output is much more clear, and has nothing to do with the blurry result we had up until now.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/05/qr-code-generator.png" alt="qr-code-generator" class="aligncenter size-full wp-image-5497" /></div>
+<h2>Not Just One Size</h2>
+<p>At this point you have all you need to know about generating a QRCode image. However, I won&#8217;t stop here, because there&#8217;s one last thing I&#8217;d like to demonstrate, and that I&#8217;ve been asked about a few times. What I&#8217;m actually talking about is how you can have various QRCode sizes dynamically, and not just one fixed size, the image view&#8217;s one.</p>
+<p>In the previous part you saw how we managed to scale-up the initial QRCode image so it fits to the image view without get blurred. The basic idea there was to change the transformation of the image and produce a new, scaled-up image, something that eventually did the trick and we avoided the blurring. In this part we&#8217;ll be based on the same idea, but this time we won&#8217;t focus on the QRCode image. Instead, we&#8217;ll change the scaling of the image view, and by doing that, the QRCode will be &#8220;resized&#8221; accordingly.</p>
+<p>We&#8217;ll make our demo application even more interesting by using the slider existing to the bottom side of the view. If you remember, during the UI setup we set the 0 as the minimum value of if, and the 2 as the maximum value. We set the default value to 1, which actually represents the current image view scale factor (by default any view is not scaled up or down, so the transformation scale factor is equal to 1). What we want to do is to scale down the image view by sliding to the left, and scale up when sliding to the right. When reaching the maximum value, the image view will be shown double-sized, meaning that the QRCode will look larger.</p>
+<p>Previously we defined the following IBAction method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func changeImageViewScale<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>This one is called every time the slider value gets changed, and it&#8217;s what we need to scale the image view. As the value of the slider matches to the image view&#8217;s scaling, we can use this value directly for our cause. As you see, it&#8217;s just a matter of one single line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func changeImageViewScale<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; imgQRCode.transform <span style="color: #002200;">=</span> CGAffineTransformMakeScale<span style="color: #002200;">&#40;</span>CGFloat<span style="color: #002200;">&#40;</span>slider.value<span style="color: #002200;">&#41;</span>, CGFloat<span style="color: #002200;">&#40;</span>slider.value<span style="color: #002200;">&#41;</span><span style="color: #002200;">&#41;</span><br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Note that the slider value is a Float number, while the <em>CGAffineTransformMakeScale(&#8230;)</em> function takes CGFloat arguments, therefore the casting is necessary.</p>
+<p>If you run the app now, you can see that once you generate a QR code, then by moving the slider the image view is scaled up and down. This kind of functionality is useful in cases you want to display the QR code in various sizes, avoiding to damage at the same time the data it represents.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2015/05/t35_7_qrcode_scaledup.png" alt="t35_7_qrcode_scaledup" class="aligncenter size-full wp-image-5492" /></div>
+<h2>Final Touches</h2>
+<p>Everything now is working great, but there are a few things that are definitely still bothering us. The first one is the fact that the slider doesn&#8217;t become hidden once you remove the QR code, instead it stays always visible. The second one is that the textfield is editable even you&#8217;ve created a QR code, and that makes the keyboard appear even when you don&#8217;t need it. Furthermore, there&#8217;s no way to hide it instantly, because the button&#8217;s functionality gets changed.</p>
+<p>Fortunately solving both of the above takes just two lines of code which must be written to the <em>performButtonAction(_:)</em> IBAction method. Initially, locate and delete the following line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">slider.hidden <span style="color: #002200;">=</span> <span style="color: #a61390;">false</span></div></td></tr></tbody></table></div>
+<p>Then, right before the above IBAction method reaches its end (after the <em>else</em> case), add the next two lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">@IBAction func performButtonAction<span style="color: #002200;">&#40;</span>sender<span style="color: #002200;">:</span> AnyObject<span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; textField.enabled <span style="color: #002200;">=</span> <span style="color: #002200;">!</span>textField.enabled<br />
+&nbsp; &nbsp; slider.hidden <span style="color: #002200;">=</span> <span style="color: #002200;">!</span>slider.hidden<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With those two lines, the textfield will become either editable or not and the slider will become hidden or visible when the button is tapped. And that small addition, makes our demo app totally perfect. You can try it once again, so you make sure that it works as expected.</p>
+<h2>Summary</h2>
+<p>Now that we&#8217;re at the end of this tutorial, I really hope that this simple application we built step by step here will help you create your own QR codes. As you&#8217;ve experienced through the making of it, no great effort is required, and nothing especially difficult is involved in the whole process. For better results (and actually for having results), make sure that you don&#8217;t provide huge data as the source of the QR code, because if you do so you might get nothing back. Anyway, the next time you&#8217;ll be asked to integrate QR code generation in your apps you&#8217;ll be able to do so, because now you know the way. Stay around, and until next time have fun by generating QRCodes!</p>
+<p>For reference, you can <a href="https://github.com/appcoda/QR-Code-Generator">download the complete project here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-customize-uitableview-storyboard/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/01/Storyboard-Empty-TableViewController-e1357451913959-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming 101: Customize UITableView and UITableViewCell Background using Storyboard</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/objective-c-blocks-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/01/block-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to Objective-C Blocks</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/uialertcontroller-swift-closures-enum/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/08/uialertcontroller-featured-150x150.png) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to UIAlertController, Swift Closures and Enumeration</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/app-extension-programming-today/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/10/app-extension-today-featured-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Introduction to iOS 8 App Extension: Creating a Today Widget</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/qr-code-generator-tutorial/"
+    dc:identifier="http://www.appcoda.com/qr-code-generator-tutorial/"
+    dc:title="Building a QR Code Generator with Core Image Filters"
+    trackback:ping="http://www.appcoda.com/qr-code-generator-tutorial/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/" rel="category tag">Course</a>, <a href="http://www.appcoda.com/course/intermediate/" rel="category tag">Intermediate</a>, <a href="http://www.appcoda.com/swift-2/" rel="category tag">Swift</a>, <a href="http://www.appcoda.com/tutorials/" rel="category tag">Tutorials</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/core-image/" rel="tag">core image</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/qr-code/" rel="tag">QR Code</a>, <a href="http://www.appcoda.com/tag/swift/" rel="tag">swift</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-101420">
+        <div id="dsq-comment-header-101420" class="dsq-comment-header">
+            <cite id="dsq-cite-101420">
+                <span id="dsq-author-user-101420">Jose</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-101420" class="dsq-comment-body">
+            <div id="dsq-comment-message-101420" class="dsq-comment-message"><p>Great tutorial. Is it possible to save them as image to Camera Roll?<br />
+Thanks!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/qr-code-generator-tutorial/';
+var disqus_identifier = '5483 http://www.appcoda.com/?p=5483';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Building a QR Code Generator with Core Image Filters";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=5483';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/qr-code-generator-tutorial/">Building a QR Code Generator with Core Image Filters</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="5483"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-generator-tutorial%2F&#038;t=Building%20a%20QR%20Code%20Generator%20with%20Core%20Image%20Filters" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="5483" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>27</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Building%20a%20QR%20Code%20Generator%20with%20Core%20Image%20Filters&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-generator-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="5483" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>15</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-generator-tutorial%2F&#038;t=Building%20a%20QR%20Code%20Generator%20with%20Core%20Image%20Filters" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="5483" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>3</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-generator-tutorial%2F&#038;title=Building%20a%20QR%20Code%20Generator%20with%20Core%20Image%20Filters" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="5483" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>1</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-generator-tutorial%2F&#038;t=Building%20a%20QR%20Code%20Generator%20with%20Core%20Image%20Filters" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="5483" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Building%20a%20QR%20Code%20Generator%20with%20Core%20Image%20Filters&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-generator-tutorial%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="5483" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-generator-tutorial%2F&#038;t=Building%20a%20QR%20Code%20Generator%20with%20Core%20Image%20Filters" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="5483" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fqr-code-generator-tutorial%2F&#038;title=Building%20a%20QR%20Code%20Generator%20with%20Core%20Image%20Filters" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="5483" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/qr-code-generator-tutorial\/","stats_nonce":"27f72d7d6e","share_counts":"c60b502e2b","follow_counts":"4fd4f218a0","total_counts":"7a2cbc80a9","media_single":"848a2abace","media_total":"2779daa846","generate_all_window_nonce":"94e43fd45b","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-06 10:33:08 by W3 Total Cache -->

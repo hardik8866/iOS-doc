@@ -1,0 +1,1007 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Introduction to Gesture Recognizers in iOS 7</title><link href="/prismjs/prism.css" rel="stylesheet" /><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- This site is optimized with the Yoast WordPress SEO plugin v2.1.1 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="A gesture recognizer is actually an object of the abstract class UIGestureRecognizer. In this tutorial, we&#039;ll show how to handle gestures in your iOS app."/>
+<link rel="canonical" href="http://www.appcoda.com/ios-gesture-recognizers/" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:description" content="A gesture recognizer is actually an object of the abstract class UIGestureRecognizer. In this tutorial, we&#039;ll show how to handle gestures in your iOS app."/>
+<meta name="twitter:title" content="Introduction to Gesture Recognizers in iOS 7"/>
+<meta name="twitter:site" content="@appcodamobile"/>
+<meta name="twitter:domain" content="AppCoda"/>
+<meta name="twitter:image:src" content="http://www.appcoda.com/wp-content/uploads/2014/08/gestures-featured.jpg"/>
+<meta name="twitter:creator" content="@appcodamobile"/>
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","url":"http:\/\/www.appcoda.com\/","name":"AppCoda"}</script>
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Feed" href="http://feeds.feedburner.com/appcoda" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Comments Feed" href="http://www.appcoda.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="AppCoda &raquo; Using Gesture Recognizers to Handle Pinch, Rotate, Pan, Swipe and Tap Gestures Comments Feed" href="http://www.appcoda.com/ios-gesture-recognizers/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.appcoda.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f;c.supports={simple:d("simple"),flag:d("flag")},c.supports.simple&&c.supports.flag||(f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelementplayer.min.css?ver=2.16.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-mediaelement-css'  href='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='eleven40-theme-css'  href='http://www.appcoda.com/wp-content/themes/eleven40/style.css?ver=2.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='contact-form-7-css'  href='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=4.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='ej-socialslideout-content-style-css'  href='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.css?ver=4.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-open-sans-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' type='text/css' media='all' />
+<link rel='stylesheet' id='et_monarch-css-css'  href='http://www.appcoda.com/wp-content/plugins/monarch/css/style.css?ver=1.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='codecolorer-css'  href='http://www.appcoda.com/wp-content/plugins/codecolorer/codecolorer.css?ver=0.9.9' type='text/css' media='screen' />
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/wp-fluid-images//lib/fluidimage.js?ver=1.0'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/ej-socialslider/static/slideout.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/optin-monster/assets/js/api.js?ver=2.1.6.6'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/qards//js/iframeResizer.contentWindow.min.js?ver=4.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.appcoda.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.appcoda.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.2.1" />
+<link rel='shortlink' href='http://www.appcoda.com/?p=3974' />
+<style type="text/css" id="et-social-custom-css">
+				 
+			</style><link rel="Shortcut Icon" href="http://www.appcoda.com/wp-content/themes/eleven40/images/favicon.ico" type="image/x-icon" />
+<link rel="pingback" href="http://www.appcoda.com/xmlrpc.php" />
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-223304-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script></head>
+<body class="single single-post postid-3974 single-format-standard et_monarch header-image content-sidebar"><div id="wrap"><div id="header"><div class="wrap"><div id="title-area"><p id="title"><a href="http://www.appcoda.com/">AppCoda</a></p><p id="description">Your iOS Programming Community</p></div><div class="widget-area header-widget-area"><div id="nav_menu-2" class="widget widget_nav_menu"><div class="widget-wrap"><div class="menu-default-container"><ul id="menu-default" class="menu genesis-nav-menu js-superfish"><li id="menu-item-26" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li id="menu-item-28" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li id="menu-item-530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li id="menu-item-3045" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li id="menu-item-2140" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li id="menu-item-710" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div></div></div><div id="inner"><div class="wrap"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Leaderboard Responsive Ad -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="1756840139"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script><div id="content-sidebar-wrap"><div id="content" class="hfeed"><div class="post-3974 post type-post status-publish format-standard hentry category-beginner category-course tag-gesture-recognizers tag-gestures tag-ios-programming tag-objective-c tag-uigesturerecognizer entry"><h1 class="entry-title">Using Gesture Recognizers to Handle Pinch, Rotate, Pan, Swipe and Tap Gestures</h1> 
+<div class="post-info"><span class="date published time" title="2014-08-25T21:13:54+00:00">August 25, 2014</span>  by <span class="author vcard"><span class="fn"><a href="http://www.appcoda.com/author/gabrielth/" rel="author">Gabriel Theodoropoulos</a></span></span> <span class="post-comments"><a href="http://www.appcoda.com/ios-gesture-recognizers/#comments"><span class="dsq-postid" data-dsqidentifier="3974 http://www.appcoda.com/?p=3974">11 Comments</span></a></span> </div><div class="entry-content">
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:right;margin:10px 0 10px 10px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_300x250_iPhone_Development */
+google_ad_slot = "8132041053";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+<p>Hello readers! iOS 8 is at the gates, as only a few weeks remain until the official release of the updated version of the operating system, and along with it, the release of the <a href="http://www.appcoda.com/swift-programming-language-intro/">Swift programming language</a>. So, as you understand, we are preparing to enter into a new era of the iOS SDK, where new wonderful technologies waiting for us to explore them! However, here at Appcoda we decided to dedicate one more tutorial to the existing SDK, using the Objective-C language. My next tutorials will focus on new iOS 8 technologies, and we&#8217;ll use the Swift language. Regarding this one, there were many candidate topics to write for, but ultimately the chosen one is about the <strong>Gesture Recognizers</strong>. So, let&#8217;s see a few things about them.</p>
+<p>A <em>gesture recognizer</em> is actually an object of the abstract class <em><a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UIGestureRecognizer_Class/Reference/Reference.html">UIGestureRecognizer</a></em>. Such an object is related to a view, and monitors for predefined gestures made on that view. Going one level deeper, I would say that gestures are actually <em>touches</em> and <em>movements</em> of one or more fingers that happen on a specific area of the screen, where a view of interest exists there. In the early versions of iOS SDK, gestures recognizers were not provided to developers, so implementing such ways of interaction required a lot of manual work. Thankfully, Apple wrapped up all that manual work and gave it to developers as a single tool, and that way working with gestures became a really easy part of the iOS programming.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/gestures-featured.jpg" alt="gestures-featured" class="aligncenter size-full wp-image-4009" /></div>
+<p><span id="more-3974"></span></p>
+<p>The <em>UIGestureRecognizer</em> class as an abstract one, it can&#8217;t be used directly. There are specific subclasses of it that are provided for usage, and each one of them deals with a specific kind of gesture. Let&#8217;s go through them for a while and let&#8217;s see what the respective gestures are for:</p>
+<ol>
+<li><em>UITapGestureRecognizer</em>: This class regards the <em>tap</em> gestures made on a view. It can be used to handle single or multiple taps, either with one or more fingers. Tapping is one of the most usual gestures that users make.</li>
+<li><em>UISwipeGestureRecognizer</em>: Another important gesture is the <em>swipe</em>, and this class exists just for it. Swiping happens when dragging a finger towards a direction (right, left, top and down). A characteristic example of the swipe gesture exists on the Photos app, where we use our fingers to slide from one photo to another.</li>
+<li><em>UIPanGestureRecognizer</em>: The <em>pan</em> gesture is actually a <em>drag</em> gesture. It&#8217;s used when it&#8217;s needed to drag views from one point to another.</li>
+<li><em>UIPinchGestureRecognizer</em>: When you view photos on the Photos app and you use your two fingers to zoom in or out to a photo, then you perform a <em>pinch</em> gesture. As you understand, pinching requires two fingers. An object of this class is usually handy to change the transform of a view, and more specifically its scale. Using pinch gestures for example, you can implement zoom in and out to photos on your own apps.</li>
+<li><em>UIRotationGestureRecognizer</em>: In accordance to the previous gesture, <em>rotation</em> is used to rotate a view using two fingers.</li>
+<li><em>UILongPressGestureRecognizer</em>: An object of that class monitors for long press gestures happening on a view. The pressing must last long enough in order to be detected, and the finger or fingers should not move a lot around the pressed point otherwise the gesture fails.</li>
+<li><em>UIScreenEdgePanGestureRecognizer</em>: This one is similar to the swipe gesture, but with a great difference: The finger movement should always begin from an edge of the screen.</li>
+</ol>
+<p>All gesture objects perform an <em>action</em> once a valid gesture is detected. This is either an <em>IBAction</em> method in case the gesture is added through Interface Builder, or a private or public method in case of programmatic implementation. When an action method is called after a gesture has happened, the gesture object always sends itself in case additional info is required when handling the gesture. It&#8217;s not necessary to declare the action methods in order to contain the gesture object to their signatures, but personally I recommend you to do so as a better programming practice. For example, both of the following method signatures are valid:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleMyTapGesture;<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleMyTapGestureWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITapGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>gestureRecognizer;</div></td></tr></tbody></table></div>
+<p>In the second case, the <em>gestureRecognizer</em> argument can provide you with extra info you might need, such as the view that the gesture took place on. In my examples in this tutorial, I&#8217;ll use the second method signature when declaring methods for handling gestures.</p>
+<p>Looking now from the point of views, a view can contain more than one gesture recognizers. For instance, you can add both pinch and rotation gesture recognizers to an <em>imageview</em>, so you can zoom in/out and rotate the presented image. However, just one gesture at a given time can occur. Gesture recognizers that are related to a view are added to an array of that view, so you can access them as you would do for any object to a normal array. I guess though that you will rarely need to access a gesture recogniser object in such way.</p>
+<p>As you will see next to this tutorial, working with gesture recognizers is easy enough, and it consists of a pretty awesome way to provide interaction to your app without using the traditional subviews for performing actions (such as buttons). Before we continue, I should mention that we are going to focus our attention to the first five gesture recognizer classes, while for the last two we&#8217;ll just say a couple of words about each one of them. That&#8217;s because they have great similarities to other classes, so it would be pointless to discuss about the same stuff twice. Furthermore, I said previously that the gesture recognizers can be added in two ways to views: Either using the Interface Builder, or programmatically. In here I am going to follow the second path, and do everything in code. If you want to read more theoretical stuff about gesture recognizers, then feel free to pay a visit to the official documentation provided by Apple.</p>
+<h2>Demo App Overview</h2>
+<p>The way that we are going to work in this tutorial is straightforward enough. First of all, we will create a <em>tabbed</em> application, which will contain five tabs. Each tab will match to a single view controller, and each view controller will be used to demonstrate a new gesture recognizer. Furthermore, we will create five view controller classes to implement the necessary code for every gesture recognizer that we will meet.</p>
+<p>The gesture recognizers that we are going to work with are in the following order:</p>
+<ol>
+<li>Tap gesture recognizer</li>
+<li>Swipe gesture recognizer</li>
+<li>Pan gesture recognizer</li>
+<li>Pinch gesture recognizer</li>
+<li>Rotation gesture recognizer</li>
+</ol>
+<p>For each one of them, we are going to create one or more test views, and then we will implement the necessary code that will make the respective gestures properly work. So, I could say that the demo application of this tutorial will be parted by many small examples, where each one of them targets for the study of a single gesture recognizer.</p>
+<h2>App Creation and Setup</h2>
+<p>Let&#8217;s begin by creating a new project in Xcode. Launch it, and in the first step of the guide select the <strong>Tabbed Application</strong> as the template for your project.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_1_new_project1.jpg" alt="Gesture - Create a New Project" class="aligncenter size-full wp-image-3985" /></div>
+<p>Next, set the <strong>GesturesDemo</strong> as the name of the project, and make sure that the <strong>iPhone</strong> is the selected device.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_2_new_project2.jpg" alt="Gesture - Create a New Project" class="aligncenter size-full wp-image-3986" /></div>
+<p>Get finished with the guide by selecting a directory to store the project, and you are ready.</p>
+<p>Now that the project has been prepared, let&#8217;s setup our interface so we can start working with the gesture recognizers at once later. Click on the <em>Main.storyboard</em> file, and let the Interface Builder appear. As you notice, there are two view controllers connected to the tab bar controller already, so we need to add three more. From the Object Library, drag and drop three new View Controller objects to the IB canvas.</p>
+<p>Before we connect the view controllers to the tab bar, we must create the necessary view controller classes. Begin by selecting the <em>FirstViewController</em> and <em>SecondViewController</em> classes (both the .h and .m files) on the Project Navigator, and then hit the Delete key on your keyboard. We are not going to use these files, we will create new classes for the gesture recognizers that we&#8217;ll work with.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_3_selected_files.png" alt="Gesture - New Project Select Files" class="aligncenter size-full wp-image-3987" /></div>
+<p>In the confirmation dialog box that shows up, click on the <em>Move to Trash</em> button.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_4_move_to_trash.png" alt="Gesture - Move to Trash File" class="aligncenter size-full wp-image-3988" /></div>
+<p>Next, start adding the new classes to the project. The procedure that will be presented right next should be repeated five times in total, until all the necessary classes to have been added to the project. Let&#8217;s see everything in details for the first one:</p>
+<p>Open the <strong>File > New > File&#8230;</strong> menu, and select to create a new <strong>Objective-C</strong> class in the guide that appears.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_5_new_file1.jpg" alt="Gesture - New File" class="aligncenter size-full wp-image-3989" /></div>
+<p>Move to the next step, and in the <strong>Subclass of</strong> field, make sure that the set value is the <strong>UIViewController</strong> one. If not, then do it now. Next, name the new class by setting the <strong>TapViewController</strong> value in the <strong>Class</strong> field.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_6_new_file2.jpg" alt="Gesture - New File" class="aligncenter size-full wp-image-3990" /></div>
+<p>Proceed and in the last step click on the Create button to get finished with the guide and let Xcode create and add the new class to the project.</p>
+<p>For the next view controllers that you will create, set the following class names:</p>
+<ul>
+<li><strong>SwipeViewController</strong></li>
+<li><strong>PanViewController</strong></li>
+<li><strong>PinchViewController</strong></li>
+<li><strong>RotationViewController</strong></li>
+</ul>
+<p>After you have added all of them, here&#8217;s how your Project Navigator should look like:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_7_new_classes.png" alt="Gestures - New Classes in Project Navigator" class="aligncenter size-full wp-image-3991" /></div>
+<p>Now we can return to Interface Builder. Firstly, make sure that the Utilities pane is on, because you will need it. Next, select the first view controller scene (let&#8217;s start from top to bottom), and show the <strong>Identity Inspector</strong> in the Utilities pane. In there, in the <strong>Class</strong> field of the <strong>Custom Class</strong> section, set the name of the first class you added to the project, the *<em>TapViewController</em>:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_8_set_custom_class.png" alt="Gestures - Custom Class in Interface Builder" class="aligncenter size-full wp-image-3992" /></div>
+<p>Repeat the above step until you set all the custom classes to the remaining view controllers.</p>
+<p>Our next move is to connect all the view controllers to the tab bar controller. This is can be done very easily, if you select the tab bar controller and then you open the <strong>Connections Inspector</strong> to the Utilities pane. In the <strong>Triggered Segues</strong> section, click on the circle on the right of the <strong>view controllers</strong> option and drag on top of every not connected view controller, and proceed by connecting them one by one.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_9_connect_viewcontrollers.png" alt="Gestures - Connecting view controller" class="aligncenter size-full wp-image-3993" /></div>
+<p>Once all the connections have been made, you can set the titles of the bar button items of the view controllers. Starting from the top to bottom once again, select the tab bar item and then open the <strong>Attributes Inspector</strong> in the Utilities pane. In there, set the proper tab bar title for each view controller, and set the <em>first</em> as the image to all view controllers.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_10_set_tabbaritem.png" alt="Gestures - Tab Bar Item" class="aligncenter size-full wp-image-3994" /></div>
+<p>The tab bar item titles are in order:</p>
+<ul>
+<li>Tap</li>
+<li>Swipe</li>
+<li>Pan</li>
+<li>Pinch</li>
+<li>Rotation</li>
+</ul>
+<p>Finally, remove the existing content from the first two pre-made view controllers.</p>
+<p>Everything is ready now. Optionally, you can add a label as a title to each view controller. If you would like to do that too, then drag a <em>UILabel</em> object to each view controller and set the following attributes:</p>
+<ul>
+<li><strong>Frame</strong>: X=20, Y=40, Width=280, Height=40</li>
+<li><strong>Font</strong>: System Bold, 20pt</li>
+<li><strong>Alignment</strong>: Center</li>
+</ul>
+<p>The texts of the labels should be (following the same order as before):</p>
+<ul>
+<li>Tap Gesture</li>
+<li>Swipe Gesture</li>
+<li>Pan Gesture</li>
+<li>Pinch Gesture</li>
+<li>Rotation Gesture</li>
+</ul>
+<p>Now that we have setup the base that we&#8217;ll work on, we can dive directly in the heart of our topic. However, we&#8217;ll return several times here in Interface Builder with an aim to create the needed test views for each gesture recognizer.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_11_view_controllers_complete.png" alt="Gestures - View Controller Complete" class="aligncenter size-full wp-image-3995" /></div>
+<h2>Tap Gesture Recognizer</h2>
+<p>We begin the real exploration of our today&#8217;s topic with the tap gesture recognizer, as you assume from the title of this section. In the previous part, you added all the needed view controllers to the project and you connected them with the tab bar controller. Now in this part, we are going to add a view object (<em>UIView</em>) to the <em>Tap view controller scene</em>, which we will use as a test view in order to do our work in code.</p>
+<p>At first, make sure that you have the Interface Builder still on by clicking on the <em>Main.storyboard</em> file in the Project Navigator. Next, bring the <em>Tap view controller scene</em> right in front of you, and then grab an <em>UIView</em> object from the Object Library and drag it to the scene&#8217;s view. Set the following properties to that view:</p>
+<ul>
+<li><strong>Frame</strong>: X=110, Y=234, Width=100, Height=100</li>
+<li><strong>Background Color</strong>: R=215, G=116, B=52 (or any other color you like)</li>
+</ul>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_12_tap_gesture_testview.png" alt="Gestures - View Controller Tap Gestures" class="aligncenter size-full wp-image-3996" /></div>
+<p>Now that the view is in place, we must create an IBOutlet property and connect it with the view. Open the <em>TapViewController.h</em> file and declare the following property:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> TapViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIView <span style="color: #002200;">*</span>testView;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Back on the <em>Main.storyboard</em> file again, go to the Document Outline pane, and Ctrl-Drag from the <em>Tap view controller scene</em> object to the view, as shown below:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_13_connect_iboutlet_property.png" alt="Gestures - View Controller Connects Outlet" class="aligncenter size-full wp-image-3997" /></div>
+<p>In the black popup window, just select the <em>testView</em> property, and you are all set.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_14_select_iboutlet_property.png" alt="Gestures - View Controller Connects Outlet" class="aligncenter size-full wp-image-3998" /></div>
+<p><em>Note: We are going to use the above procedure for adding test view objects and for connecting them with IBOutlet properties to the upcoming chapters as well. However, I&#8217;m not going to get into much detail again, so if you need you may return back here to follow the steps that were just described.</em></p>
+<p>Now, open the <em>TapViewController.m</em> file. The first thing we must do, is to create an object of the <em>UITapGestureRecognizer</em> class, which we&#8217;ll then add to the <em>testView</em> view. Actually, we will create two objects of that class, one for testing single taps, and one for testing double taps. Our work will take place initially to the <em>viewDidLoad</em> method, so let&#8217;s get started with the first one.</p>
+<p>The next code segment clearly displays how we initialize a gesture recognizer object:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">UITapGestureRecognizer <span style="color: #002200;">*</span>singleTapGestureRecognizer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UITapGestureRecognizer alloc<span style="color: #002200;">&#93;</span> initWithTarget<span style="color: #002200;">:</span>self action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>handleSingleTapGesture<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>Using that way, you can initialize any object of the gesture recognizer subclasses, as long as you replace the name of the class. As you see, we specify a <em>target</em> and an <em>action</em>. The action in this case is a private method that we are about to create in a few seconds.</p>
+<p>To assign the above gesture recognizer to our test view, here&#8217;s what we should write:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">&#91;</span>self.testView addGestureRecognizer<span style="color: #002200;">:</span>singleTapGestureRecognizer<span style="color: #002200;">&#93;</span>;</div></td></tr></tbody></table></div>
+<p>The <em>addGestureRecognizer:</em> method is the one and standard way of adding a gesture recognizer object to a view.</p>
+<p>Go now to the private section of the interface, and declare the private method we set to the gesture recognizer as follows:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> TapViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleSingleTapGesture<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITapGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tapGestureRecognizer;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>As I said in the introduction, the gesture recognizer object passes itself to the selector method, and by using this method signature we can use it later in the implementation. We could omit the parameter, but that&#8217;s something that I am intentionally going to avoid to the whole tutorial.</p>
+<p>Let&#8217;s move forward to the method&#8217;s definition now. What are we going to do there? Well, nothing hard especially. We will just double the width of the test view when we tap on it once, and we will revert the original width value upon the second tap (an so on). Let&#8217;s see it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleSingleTapGesture<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITapGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tapGestureRecognizer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; CGFloat newWidth <span style="color: #002200;">=</span> <span style="color: #2400d9;">100.0</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>self.testView.frame.size.width <span style="color: #002200;">==</span> <span style="color: #2400d9;">100.0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; newWidth <span style="color: #002200;">=</span> <span style="color: #2400d9;">200.0</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; CGPoint currentCenter <span style="color: #002200;">=</span> self.testView.center;<br />
+<br />
+&nbsp; &nbsp; self.testView.frame <span style="color: #002200;">=</span> CGRectMake<span style="color: #002200;">&#40;</span>self.testView.frame.origin.x, self.testView.frame.origin.y, newWidth, self.testView.frame.size.height<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; self.testView.center <span style="color: #002200;">=</span> currentCenter;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The implementation is really simple. At first we check if the initial width of the view is equal to 100.0 points, and if so we make it 200.0, otherwise we keep the initial assigned value (100.0). Next, we keep to a CGPoint structure variable the current center point, we change the width of the view and we center it again.</p>
+<p>It&#8217;s now time to try out the tap gesture. Run the app, and once it gets launched to either the Simulator or a device, make sure that you are on the first tab. Tap on the view once, and its size will change. Tap once again, and watch it going back to its original state. Simple and cool?</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/tap_gesture_demo.gif" alt="Tap Gesture Demo" class="aligncenter size-full wp-image-4001" /></div>
+<p>Let&#8217;s go back to our work again. As I have already said, a tap gesture can be performed with one or more fingers, and the gesture could require one or more taps. So, let&#8217;s see one more example, where this time we will &#8220;tell&#8221; to the gesture recognizer object that we want two taps to happen, and that two fingers are required in order to perform the predefined action. In the <em>viewDidLoad</em> method, add the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; UITapGestureRecognizer <span style="color: #002200;">*</span>doubleTapGestureRecognizer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UITapGestureRecognizer alloc<span style="color: #002200;">&#93;</span> initWithTarget<span style="color: #002200;">:</span>self action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>handleDoubleTapGesture<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; doubleTapGestureRecognizer.numberOfTapsRequired <span style="color: #002200;">=</span> <span style="color: #2400d9;">2</span>;<br />
+&nbsp; &nbsp; doubleTapGestureRecognizer.numberOfTouchesRequired <span style="color: #002200;">=</span> <span style="color: #2400d9;">2</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.testView addGestureRecognizer<span style="color: #002200;">:</span>doubleTapGestureRecognizer<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Here we initialize a new tap gesture recognizer object, and we specify another action method that we&#8217;ll implement in a while. The new thing here though is the use of the two properties that allow us to set the number of the required taps and touches (or in other words, the number of fingers). Finally, we add the recognizer object to the <em>testView</em> view.</p>
+<p>Note that our test view now contains two gesture recognizer objects.</p>
+<p>Now, let&#8217;s get finished with the remaining tasks. Go to the private interface section and declare the new private method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> TapViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+...<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleDoubleTapGesture<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITapGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tapGestureRecognizer;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>In its definition, we will change both the width and height of the view by doubling its size. We will follow the same logic as before:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br />10<br />11<br />12<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleDoubleTapGesture<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UITapGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>tapGestureRecognizer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; CGSize newSize <span style="color: #002200;">=</span> CGSizeMake<span style="color: #002200;">&#40;</span><span style="color: #2400d9;">100.0</span>, <span style="color: #2400d9;">100.0</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #a61390;">if</span> <span style="color: #002200;">&#40;</span>self.testView.frame.size.width <span style="color: #002200;">==</span> <span style="color: #2400d9;">100.0</span><span style="color: #002200;">&#41;</span> <span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; newSize.width <span style="color: #002200;">=</span> <span style="color: #2400d9;">200.0</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; newSize.height <span style="color: #002200;">=</span> <span style="color: #2400d9;">200.0</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><br />
+<br />
+&nbsp; &nbsp; CGPoint currentCenter <span style="color: #002200;">=</span> self.testView.center;<br />
+<br />
+&nbsp; &nbsp; self.testView.frame <span style="color: #002200;">=</span> CGRectMake<span style="color: #002200;">&#40;</span>self.testView.frame.origin.x, self.testView.frame.origin.y, newSize.width, newSize.height<span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; self.testView.center <span style="color: #002200;">=</span> currentCenter;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Run the app once again. This time, double-tap and use two fingers, otherwise the gesture will fail. Also, try both of the gesture recognizers we created here:</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/double_tap_gesture_demo.gif" alt="Double Tap Gesture Demo" class="aligncenter size-full wp-image-3979" /></div>
+<p>What you have seen in this part of the tutorial, is more or less the way you work with all the gesture recognizers, even though each one of them has something special about it. For now, we have successfully managed to implement and use tap gestures, and that&#8217;s quite important!</p>
+<h2>Swipe Gesture Recognizer</h2>
+<p>Another quite common and cool gesture recognizer is the swipe. Swiping can be done towards any of the four basic directions (right, left, top, bottom) but not in a diagonal way. The <em>UISwipeGestureRecongnizer</em> class provides a method that allows us to specify the direction, and if none is set, then the right direction is used by default. A swipe gesture recognizer object can monitor and trigger actions for one direction only. That means that if you want a view in your application to support swiping towards two or more directions, then you must create two or more gesture recognizer objects respectively. Beyond all that, note that the action that&#8217;s been triggered by the swipe movement starts right after the swiping is over (when the finger actually stops sliding).</p>
+<p>In this part we are going to work with the <em>SwipeViewController</em> class that we previously added to the project. In the respective scene in the Interface Builder, we are going to add three view (<em>UIView</em>) objects. The width of all three views will be equal to the screen&#8217;s width. The first view will be placed on-screen, while the other two views will be placed at the left and the right side of the first view, and obviously will be out of the visible area. Our goal is to make these views move horizontally using swipe gestures, and to let the hidden views to be revealed by sliding either left or right.</p>
+<p>Let&#8217;s see everything step by step, and let&#8217;s start by opening the <em>Main.storyboard</em> file. Go to the <em>Swipe view controller scene</em> and add the next three view objects by defining at the same time the frame and background color properties:</p>
+<h3>First View</h3>
+<ul>
+<li><strong>Frame</strong>: X=0, Y=234, Width=320, Height=100</li>
+<li><strong>Background Color</strong>: R=215, G=116, B=52</li>
+</ul>
+<h3>Second View</h3>
+<ul>
+<li><strong>Frame</strong>: X=320, Y=234, Width=320, Height=100</li>
+<li><strong>Background Color</strong>: Black Color</li>
+</ul>
+<h3>Third View</h3>
+<ul>
+<li><strong>Frame</strong>: X=-320, Y=234, Width=320, Height=100</li>
+<li><strong>Background Color</strong>: R=0, G=128, B=0</li>
+</ul>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_15_swipe_gesture_testview.png" alt="Swipe Gesture View Controller" class="aligncenter size-full wp-image-3999" /></div>
+<p>Next, create the following IBOutlet properties to the <em>SwipeViewController.h</em> file:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SwipeViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIView <span style="color: #002200;">*</span>viewOrange;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIView <span style="color: #002200;">*</span>viewBlack;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIView <span style="color: #002200;">*</span>viewGreen;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>After having done so, go back to the <em>Swipe view controller scene</em>, and make the proper connections. Obviously, the <em>viewOrange</em> property matches to the first view, the <em>viewBlack</em> property matches to the second view, and the <em>viewGreen</em> property matches to the third view.</p>
+<p>Now, let&#8217;s head to the <em>SwipeViewController.m</em> file, and let&#8217;s start creating the gesture recognizers we need one by one. Go to the <em>viewDidLoad</em> method, and initialize such an object for the first view (the one in the middle being in the visible area of the screen). Let&#8217;s see that:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>super viewDidLoad<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #11740a; font-style: italic;">// Do any additional setup after loading the view.</span><br />
+<br />
+&nbsp; &nbsp; UISwipeGestureRecognizer <span style="color: #002200;">*</span>swipeRightOrange <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UISwipeGestureRecognizer alloc<span style="color: #002200;">&#93;</span> initWithTarget<span style="color: #002200;">:</span>self action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>slideToRightWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; swipeRightOrange.direction <span style="color: #002200;">=</span> UISwipeGestureRecognizerDirectionRight;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>What we have done with this segment is quite clear: Upon the object initialization we specify the action method that should be called when the swiping will occur, and then we set the direction of the swipe gesture towards right.</p>
+<p>Now, let&#8217;s create one more gesture recognizer object that will enable us to swipe towards left:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; UISwipeGestureRecognizer <span style="color: #002200;">*</span>swipeLeftOrange <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UISwipeGestureRecognizer alloc<span style="color: #002200;">&#93;</span> initWithTarget<span style="color: #002200;">:</span>self action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>slideToLeftWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; swipeLeftOrange.direction <span style="color: #002200;">=</span> UISwipeGestureRecognizerDirectionLeft;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Easy, right? What we have only left to do, is to add both of these gesture recognizers to the <em>viewOrange</em> view exactly as shown below:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.viewOrange addGestureRecognizer<span style="color: #002200;">:</span>swipeRightOrange<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.viewOrange addGestureRecognizer<span style="color: #002200;">:</span>swipeLeftOrange<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The action methods we set to the recognizers above, should perform one simple thing: To slide all views either towards left or towards right, so when a view leaves the visible area of the screen, another one to be appeared. Let&#8217;s declare them first and we&#8217;ll do the implementation next. In the private interface section add the next lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> SwipeViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>slideToRightWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UISwipeGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>gestureRecognizer;<br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>slideToLeftWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UISwipeGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>gestureRecognizer;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Let&#8217;s see the implementation of the first method straight away:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>slideToRightWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UISwipeGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>gestureRecognizer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>UIView animateWithDuration<span style="color: #002200;">:</span><span style="color: #2400d9;">0.5</span> animations<span style="color: #002200;">:^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.viewOrange.frame <span style="color: #002200;">=</span> CGRectOffset<span style="color: #002200;">&#40;</span>self.viewOrange.frame, <span style="color: #2400d9;">320.0</span>, <span style="color: #2400d9;">0.0</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.viewBlack.frame <span style="color: #002200;">=</span> CGRectOffset<span style="color: #002200;">&#40;</span>self.viewBlack.frame, <span style="color: #2400d9;">320.0</span>, <span style="color: #2400d9;">0.0</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.viewGreen.frame <span style="color: #002200;">=</span> CGRectOffset<span style="color: #002200;">&#40;</span>self.viewGreen.frame, <span style="color: #2400d9;">320.0</span>, <span style="color: #2400d9;">0.0</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As you notice, when we swipe towards right, we want the X origin point of each view to be increased by 320.0 pixels and manage that way to move our views to the right. We make this movement look natural simply by wrapping everything into an animation block. Notice also that the movement speed depends on the animation duration, so if you want a slower the slide effect you should increase the animation duration, while if you need them to move faster, then just decrease the duration.</p>
+<p>The second action method is going to be similar to this one, with one difference only: The offset on the X axis will be a negative number (equal of course to 320.0 pixels), so the views move to the left. Let&#8217;s see this implementation as well:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>slideToLeftWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UISwipeGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>gestureRecognizer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>UIView animateWithDuration<span style="color: #002200;">:</span><span style="color: #2400d9;">0.5</span> animations<span style="color: #002200;">:^</span><span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.viewOrange.frame <span style="color: #002200;">=</span> CGRectOffset<span style="color: #002200;">&#40;</span>self.viewOrange.frame, <span style="color: #002200;">-</span><span style="color: #2400d9;">320.0</span>, <span style="color: #2400d9;">0.0</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.viewBlack.frame <span style="color: #002200;">=</span> CGRectOffset<span style="color: #002200;">&#40;</span>self.viewBlack.frame, <span style="color: #002200;">-</span><span style="color: #2400d9;">320.0</span>, <span style="color: #2400d9;">0.0</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; self.viewGreen.frame <span style="color: #002200;">=</span> CGRectOffset<span style="color: #002200;">&#40;</span>self.viewGreen.frame, <span style="color: #002200;">-</span><span style="color: #2400d9;">320.0</span>, <span style="color: #2400d9;">0.0</span><span style="color: #002200;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#125;</span><span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Run the app once again, and this time show the contents of the second tab. Swipe towards right or left, and watch the views slide in and out using an animated fashion. However, when a new view appears on-screen, you&#8217;ll notice that no swipe gesture works any more. Why that happens?</p>
+<p>The answer is simple and lies in the fact that we haven&#8217;t created and added swipe gesture recognizers to the other two views. So, why don&#8217;t we do that now, and then see if it works?</p>
+<p>Go back to the <em>viewDidLoad</em> method, and start by adding the next segment:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; UISwipeGestureRecognizer <span style="color: #002200;">*</span>swipeRightBlack <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UISwipeGestureRecognizer alloc<span style="color: #002200;">&#93;</span> initWithTarget<span style="color: #002200;">:</span>self action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>slideToRightWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; swipeRightBlack.direction <span style="color: #002200;">=</span> UISwipeGestureRecognizerDirectionRight;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.viewBlack addGestureRecognizer<span style="color: #002200;">:</span>swipeRightBlack<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>With these commands, we created a new swipe gesture recognizer for a gesture towards right for the black coloured view, and we used the already implemented <em> slideToRightWithGestureRecognizer :</em> as the action method.</p>
+<p>Let&#8217;s do the same for the green coloured view, but this time we must set the left direction:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; UISwipeGestureRecognizer <span style="color: #002200;">*</span>swipeLeftGreen <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UISwipeGestureRecognizer alloc<span style="color: #002200;">&#93;</span> initWithTarget<span style="color: #002200;">:</span>self action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>slideToLeftWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; swipeLeftGreen.direction <span style="color: #002200;">=</span> UISwipeGestureRecognizerDirectionLeft;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.viewGreen addGestureRecognizer<span style="color: #002200;">:</span>swipeLeftGreen<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Okay, let&#8217;s give it another try. This time, everything works great!</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/swipe_gesture_demo.gif" alt="Swipe Gesture Demo" class="aligncenter size-full wp-image-3984" /></div>
+<p>Keep in mind that for every swipe gesture you want to support, you must create a new gesture recognizer object. Creating just one object and adding it to more than one view isn&#8217;t going to work. If you really want a proof of that, simply go to the <em>viewDidLoad</em> method and add the <em>swipeRightOrange</em> and the <em>swipeLeftOrange</em> gesture recognizers to the other two views respectively. Run the app again, and then swipe your finger (or using the mouse on Simulator) just like before. Unfortunately, this time nothing will work, so set everything back to its original state.</p>
+<h2>Pan Gesture Recognizer</h2>
+<p>In the last two sections we saw two important gesture recognizers that can give great interaction to your apps. We will continue here by studying another gesture recognizer, the <em>pan</em> or in other words <em>drag</em>. This gesture is handy when you want to allow your users to drag views around the screen. In this part, except for implementing the necessary code that will enable our app to support the pan gesture, we will meet a special method of the <em>UIPanGestureRecognizer</em> class, named <em>velocityInView:</em>. This method returns a CGPoint value, and informs us about how many points per second the dragged view travels in both the horizontal and vertical axis while dragging. This information could be useful in some cases, so we will see how to access it.</p>
+<p>Just like before, we&#8217;ll start by adding a test view to the Interface Builder. Go to the <em>Main.storyboard</em> file, and then drag a view (UIView) object to the <em>Pan view controller scene</em>. Set the next two attributes of it:</p>
+<ul>
+<li><strong>Frame</strong>: X=110, Y=234, Width=100, Height=100</li>
+<li><strong>Background Color</strong>: R=215, G=116, B=52 (or any other color you like)</li>
+</ul>
+<p>Next, go to the <em>PanViewController.h</em> file and declare an IBOutlet property that you&#8217;ll later connect to that view:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> PanViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIView <span style="color: #002200;">*</span>testView;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Return to the <em>Main.storyboard</em> file, and connect the IBOutlet property to the view.</p>
+<p>Once you have finished working with the Interface Builder, click on the <em>PanViewController.m</em> file in the Project Navigator. The first step we should do, is to create a pan gesture recognizer and add it to our test view. There&#8217;s nothing difficult in this case, so let&#8217;s see it:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; UIPanGestureRecognizer <span style="color: #002200;">*</span>panGestureRecognizer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIPanGestureRecognizer alloc<span style="color: #002200;">&#93;</span> initWithTarget<span style="color: #002200;">:</span>self action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>moveViewWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.testView addGestureRecognizer<span style="color: #002200;">:</span>panGestureRecognizer<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, let&#8217;s declare and implement the method we set as the action that should be taken when the pan gesture will happen. In the private interface section, add this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> PanViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>moveViewWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPanGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>panGestureRecognizer;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>As I have already said, what we want to do here is to drag the test view while we move our finger on the screen. The easiest approach to that would be to update the center point of the view as long as the panning occurs. Let&#8217;s see how that is translated into code:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>moveViewWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPanGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>panGestureRecognizer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; CGPoint touchLocation <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>panGestureRecognizer locationInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; self.testView.center <span style="color: #002200;">=</span> touchLocation;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Every gesture recognizer contains a method named <em>locationInView:</em>. This method returns a CGPoint value representing the point of the view that the user touched. In our case, by calling this method we manage to get the touched point during dragging, and to make our app aware of the finger&#8217;s movement. So, what we only need is to set that touch location as the value for the center point of the test view, and that&#8217;s exactly we perform using the second command above.</p>
+<p>Run the app now and place your finger or the mouse pointer on the test view. Then start dragging around and notice how the view follows the movement you make.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/pan_gesture_demo.gif" alt="Pan Gesture Demo" class="aligncenter size-full wp-image-3981" /></div>
+<p>The approach I presented above is simple for the sake of the tutorial. In a real application, you might want to enrich the movement of the view by adding acceleration or deceleration when you start or stop dragging, or anything else you need. It&#8217;s up to you to apply the proper logic in the action method you implement.</p>
+<p>At the beginning of this section, I said that there is a special method of the <em>UIPanGestureRecognizer</em> class named <em>velocityInView:</em>. Up to this point we totally ignored it, but now we&#8217;ll see how we can access it and get the data it provides. For the sake of the demo, return to the Interface Builder by clicking on the <em>Main.storyboard</em> file. Locate the <em>Pan view controller scene</em>, and add two labels with the following attributes:</p>
+<h3>Label #1</h3>
+<ul>
+<li><strong>Frame</strong>: X=20, Y=445, Width=280, Height=21</li>
+<li><strong>Text</strong>: Nothing (empty)</li>
+<li><strong>Font size</strong>: 14pt</li>
+</ul>
+<h3>Label #2</h3>
+<ul>
+<li><strong>Frame</strong>: X=20, Y=479, Width=280, Height=21</li>
+<li><strong>Text</strong>: Nothing (empty)</li>
+<li><strong>Font size</strong>: 14pt</li>
+</ul>
+<p>As you may suspect, we are going to use these two labels to display the velocity in the horizontal and vertical axis respectively. But before we do so, we must create and connect two IBOutlet properties to these labels. So, open the <em>PanViewController.h</em> file and add the next two lines:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> PanViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+...<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>horizontalVelocityLabel;<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UILabel <span style="color: #002200;">*</span>verticalVelocityLabel;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Go back to the Interface Builder, and perform the appropriate connections.</p>
+<p>Now, open the <em>PanViewController.m</em> file, and go to our private action method named <em>moveViewWithGestureRecognizer:</em>. We will add some code here that will enable us to get the velocity of the drag as a CGPoint value, and then we will extract the velocity on each axis out of this one. Remember that the velocity is expressed in points per second. Let&#8217;s see the method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br />8<br />9<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>moveViewWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPanGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>panGestureRecognizer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ... &nbsp; &nbsp;<br />
+<br />
+&nbsp; &nbsp; CGPoint velocity <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span>panGestureRecognizer velocityInView<span style="color: #002200;">:</span>self.view<span style="color: #002200;">&#93;</span>;<br />
+<br />
+&nbsp; &nbsp; self.horizontalVelocityLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Horizontal Velocity: %.2f points/sec&quot;</span>, velocity.x<span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; self.verticalVelocityLabel.text <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><a href="http://developer.apple.com/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/"><span style="color: #400080;">NSString</span></a> stringWithFormat<span style="color: #002200;">:</span><span style="color: #bf1d1a;">@</span><span style="color: #bf1d1a;">&quot;Vertical Velocity: %.2f points/sec&quot;</span>, velocity.y<span style="color: #002200;">&#93;</span>;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>The value returned by the <em>velocityInView:</em> method is stored to a CGPoint structure. Then by simply accessing the X and Y properties of that structure, we manage to get the horizontal and vertical velocity. To keep things simple here, we just display these values, but in a real application the velocity would be useful if only you would perform calculations based on it.</p>
+<p>By running the app again you can see how &#8220;fast&#8221; the test view is moved around the screen while you drag it.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/pan_gesture_demo_2.gif" alt="Pan Gesture Demo 2" class="aligncenter size-full wp-image-3980" /></div>
+<h2>Pinch Gesture Recognizer</h2>
+<p>The pinch gesture is useful for changing the transform of a view by scaling it up or down. The most characteristic example of that gesture can be found in the Photos app, where you pinch to zoom in and out. Here we won&#8217;t add an image view with an image in it, we&#8217;ll just use a simple view. However, what we&#8217;ll do here apply to all views (including image views) in which you want to change their scale value. The great difference that the pinch gesture has compared to the previous gesture recognizers, is the fact that it requires two fingers to be used in order to perform the gesture.</p>
+<p>As we did in the previous sections, we will begin by adding a test view to the Interface Builder. On the Project Navigator, click on the <em>Main.storyboard</em> file and then locate the <em>Pinch view controller scene</em>. Next, from the Object Library drag a view object (UIView) to the canvas, and set the next attributes:</p>
+<ul>
+<li><strong>Frame</strong>: X=85, Y=209, Width=150, Height=150</li>
+<li><strong>Background Color</strong>: R=215, G=116, B=52 (or any other color you like)</li>
+</ul>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/t19_16_pinch_gesture_testview.png" alt="Gesture - Pinch View Controller" class="aligncenter size-full wp-image-4000" /></div>
+<p>Now open the <em>PinchViewController.h</em> file, and declare an IBOutlet property:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> PinchViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIView <span style="color: #002200;">*</span>testView;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Finally, in the Interface Builder connect that property to the test view you just added.</p>
+<p>Similarly to the previous cases, we&#8217;ll begin the implementation in the <em>viewDidLoad</em> method in the <em>PinchViewController.m</em> file. What we only have to do is to initialize a pinch gesture recognizer object, and then add it to the test view:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; UIPinchGestureRecognizer <span style="color: #002200;">*</span>pinchGestureRecognizer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIPinchGestureRecognizer alloc<span style="color: #002200;">&#93;</span> initWithTarget<span style="color: #002200;">:</span>self action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>handlePinchWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.testView addGestureRecognizer<span style="color: #002200;">:</span>pinchGestureRecognizer<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Now, we must declare the <em>handlePinchWithGestureRecognizer:</em> method, and then define it. First, go to the private class section:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> PinchViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handlePinchWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPinchGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>pinchGestureRecognizer;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>According to what I said in the beginning of this part, we will modify the transform of the test view by changing the scale value. That action will result in a zoom in/out effect, and as you&#8217;ll see, it&#8217;s just a matter of a single line:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handlePinchWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPinchGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>pinchGestureRecognizer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; self.testView.transform <span style="color: #002200;">=</span> CGAffineTransformScale<span style="color: #002200;">&#40;</span>self.testView.transform, pinchGestureRecognizer.scale, pinchGestureRecognizer.scale<span style="color: #002200;">&#41;</span>;<br />
+<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>In this example we know which is the view that the pinch gesture was applied to (the <em>testView</em> view), so we access it directly. However, there will be times that you will need to access the pinched view in a more generic way. In that case, you can avoid the direct usage of the the view that was pinched as shown above, if you simply use the <em>view</em> property of the <em>pinchGestureRecognizer</em> parameter object. This property is actually the view that the pinch gesture happened to. Therefore, the above command could be written as follows too:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap">pinchGestureRecognizer.view.transform <span style="color: #002200;">=</span> CGAffineTransformScale<span style="color: #002200;">&#40;</span>pinchGestureRecognizer.view.transform, pinchGestureRecognizer.scale, pinchGestureRecognizer.scale<span style="color: #002200;">&#41;</span>;</div></td></tr></tbody></table></div>
+<p>Now we are almost ready to test it. I&#8217;m saying almost, before we need to add one more command that it&#8217;s not obvious at the beginning, but you understand that you need it after having tested the above at least once. So, complete the above method by adding this:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handlePinchWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIPinchGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>pinchGestureRecognizer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; pinchGestureRecognizer.scale <span style="color: #002200;">=</span> <span style="color: #2400d9;">1.0</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>It&#8217;s necessary to reset the scale value of the pinch gesture recognizer object, otherwise the result won&#8217;t be the expected one; the scaling will look chaotic. With this simple line, we manage to achieve a smoother behaviour.</p>
+<p>Now you can run the app and test the pinch gesture. Act as you do to photos when zooming in and out, and see how our test view reacts to your movements.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/pinch_gesture_demo.gif" alt="Pinch Gesture Demo" class="aligncenter size-full wp-image-3982" /></div>
+<h2>Rotation Gesture Recognizer</h2>
+<p>The rotation gesture recognizer has great similarities to the pinch gesture recognizer, as it requires two fingers in order for the gesture to be successful, and it changes the transform of the view that is applied to by modifying its rotation. Usually, the rotation gesture is used in combination to other gestures, but not only.</p>
+<p>In this part we are going to perform almost the same steps we did in the pinch gesture recognizer section. Therefore, open the Interface Builder, and go to the <em>Rotation view controller scene</em>. From the Object Library, drag and drop a view to the canvas with the following attributes:</p>
+<ul>
+<li><strong>Frame</strong>: X=85, Y=209, Width=150, Height=150</li>
+<li><strong>Background Color</strong>: R=215, G=116, B=52 (or any other color you like)</li>
+</ul>
+<p>Next, in the <em>RotationViewController.h</em> file declare the following IBOutlet property&#8230;</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> RotationViewController <span style="color: #002200;">:</span> UIViewController<br />
+<br />
+<span style="color: #a61390;">@property</span> <span style="color: #002200;">&#40;</span>weak, nonatomic<span style="color: #002200;">&#41;</span> IBOutlet UIView <span style="color: #002200;">*</span>testView;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>&#8230; and then return to the Interface Builder to connect it to the view.</p>
+<p>Going to the <em>RotationViewController.m</em> file now, head to the <em>viewDidLoad</em> directly. As we did to all the previous parts, our coding work will start at this point. Here, we will just create a new rotation gesture recognizer object and we will add it to the test view.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br />6<br />7<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span> <span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>viewDidLoad<br />
+<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; ...<br />
+<br />
+&nbsp; &nbsp; UIRotationGestureRecognizer <span style="color: #002200;">*</span>rotationGestureRecognizer <span style="color: #002200;">=</span> <span style="color: #002200;">&#91;</span><span style="color: #002200;">&#91;</span>UIRotationGestureRecognizer alloc<span style="color: #002200;">&#93;</span> initWithTarget<span style="color: #002200;">:</span>self action<span style="color: #002200;">:</span><span style="color: #a61390;">@selector</span><span style="color: #002200;">&#40;</span>handleRotationWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#41;</span><span style="color: #002200;">&#93;</span>;<br />
+&nbsp; &nbsp; <span style="color: #002200;">&#91;</span>self.testView addGestureRecognizer<span style="color: #002200;">:</span>rotationGestureRecognizer<span style="color: #002200;">&#93;</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>As always, our next step is to declare the private method:</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #a61390;">@interface</span> RotationViewController <span style="color: #002200;">&#40;</span><span style="color: #002200;">&#41;</span><br />
+<br />
+<span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleRotationWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIRotationGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>rotationGestureRecognizer;<br />
+<br />
+<span style="color: #a61390;">@end</span></div></td></tr></tbody></table></div>
+<p>Finally, let&#8217;s implement it. Here, we will use the <em>CGAffineTransformRotate</em> method to change the rotate value of the transform of the test view. As you will see in the next code, the <em>rotation</em> property of the <em>rotationGestureRecognizer</em> gets its initial value so as to avoid unexpected behaviour.</p>
+<div class="codecolorer-container objc geshi" style="overflow:auto;white-space:nowrap;width:750px;"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="line-numbers"><div>1<br />2<br />3<br />4<br />5<br /></div></td><td><div class="objc codecolorer" style="white-space:nowrap"><span style="color: #002200;">-</span><span style="color: #002200;">&#40;</span><span style="color: #a61390;">void</span><span style="color: #002200;">&#41;</span>handleRotationWithGestureRecognizer<span style="color: #002200;">:</span><span style="color: #002200;">&#40;</span>UIRotationGestureRecognizer <span style="color: #002200;">*</span><span style="color: #002200;">&#41;</span>rotationGestureRecognizer<span style="color: #002200;">&#123;</span><br />
+&nbsp; &nbsp; self.testView.transform <span style="color: #002200;">=</span> CGAffineTransformRotate<span style="color: #002200;">&#40;</span>self.testView.transform, rotationGestureRecognizer.rotation<span style="color: #002200;">&#41;</span>;<br />
+<br />
+&nbsp; &nbsp; rotationGestureRecognizer.rotation <span style="color: #002200;">=</span> <span style="color: #2400d9;">0.0</span>;<br />
+<span style="color: #002200;">&#125;</span></div></td></tr></tbody></table></div>
+<p>Run the app now, and make sure to select the last tab of the tab bar controller. Then use two fingers to rotate the view to either a clockwise or counter-clockwise direction.</p>
+<div class="figure"><img src="http://www.appcoda.com/wp-content/uploads/2014/08/rotation_gesture_demo.gif" alt="Rotation Gesture Demo" class="aligncenter size-full wp-image-3983" /></div>
+<h2>Other Gesture Recognizers</h2>
+<p>Beyond the gesture recognizers we met in the previous parts of the tutorial, there are two more that I&#8217;m going to just mention. We won&#8217;t see their details for two reasons: They are used more rarely and have similarities to gesture recognizers that we have already seen. So, let&#8217;s go through them shortly.</p>
+<p>The first one is the <em>long press gesture recognizer</em>, and the respective class is the <em>UILongPressGestureRecognizer</em>*. As its name suggests, an object of that class monitors for press on a view that lasts for a some period, and not as long as a tap lasts. This class contains three important properties:</p>
+<ul>
+<li><em>minimumPressDuration</em>: With this one, you specify the minimum time period that should elapse until the gesture to be considered valid.</li>
+<li><em>numberOfTouchesRequired</em>: By using this property, you specify how many fingers are required for the gesture. Usually just one finger is fine, but it&#8217;s up to you to decide.</li>
+<li><em>allowableMovement</em>: This property defines an area that the fingers should move during pressing. When using that gesture, the fingers must remain as stable and steady to the touch point as possible, otherwise the gesture fails.</li>
+</ul>
+<p>So, if you want to use that gesture recognizer, always keep in mind that you must set valid values to the above properties.</p>
+<p>The second gesture recognizer that I will just mention, is the <em>screen edge pan gesture recognizer</em>. The <em>UIScreenEdgePanGestureRecognizer</em> class is new in iOS 7, and it works just like the swipe gesture recognizer, with one great difference though: The finger movement should begin near the edge of the screen. An example of this one can be found in the Safari app, where you can move your finger from the left edge of the screen towards right to go to the previous page. Also, navigation controller supports this gesture recognizer by default. There&#8217;s one special property that should be set before this gesture recognizer is used, named <em>edges</em>. Using it, you must specify the edge from which the gesture should begin.</p>
+<h2>Summary</h2>
+<p>When there is a lack of experience in working with gesture recognizers, then it&#8217;s possible to look intimidating to many developers. However, as you have seen in this tutorial, this is more than a 100% false. Dealing with gesture recognizers is more than easy and quite straightforward. When used in applications, they attach a more advanced level of user interaction and user experience ultimately. Each example of this tutorial has been really simple, but that&#8217;s what exactly what you need to know even when developing larger applications. Anyway, if you are new to all this, or if you have been feeling uncomfortable with gesture recognizers, then I really hope to have helped you to understand them. Don&#8217;t be scared to add gestures to your apps, and of course, experiment as much as possible. Lastly, use the comments area to share your thoughts with us, or just&#8230; make a gesture!</p>
+<p>For your reference, you can <a href="https://www.dropbox.com/s/s9e9e8d69rqktzw/GesturesDemo.zip?dl=0">download the complete Xcode project from here</a>.</p>
+
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+<div style="float:none;margin:20px 0 20px 0;text-align:center;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-8501671653071605";
+/* Appcoda_336_280_Ad */
+google_ad_slot = "4009415334";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
+<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div><h3>You May Like These:</h3><div style="clear: both"></div><div style="border: 0pt none ; margin: 0pt; padding: 0pt;"><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/icloud-programming-ios-intro-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/02/cloud-e1362923103499-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">iOS Programming with iCloud: An Introduction</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-programming-rss-reader-tutorial/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/04/Simple-RSS-Reader-Tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How to Create a Simple RSS Reader App</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/ios-maze-game-programming-tutorial-collision-detection/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2013/05/Maze-Game-Part-3-Tutorial-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">Developing a Simple Maze Game Part 3 - Collision Detection</div></div></a><a onmouseout="this.style.backgroundColor='#FFFFFF'" onmouseover="this.style.backgroundColor='#EEEEEF'" style="background-color: #FFFFFF; border-right: 1px solid #DDDDDD; border-bottom: medium none; margin: 0pt; padding: 6px; display: block; float: left; text-decoration: none; text-align: left; cursor: pointer;" href="http://www.appcoda.com/search-bar-tutorial-ios7/"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; width: 150px; height: 225px;"><div style="border: 0pt none ; margin: 0pt; padding: 0pt; background: transparent url(http://www.appcoda.com/wp-content/uploads/2014/01/searchbar-1-150x150.jpg) no-repeat scroll 0% 0%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 150px; height: 150px;"></div><div style="border: 0pt none; margin: 3px 0pt 0pt; padding: 0pt; font-family: ; font-style: normal; font-variant: normal; font-weight: normal; font-size: 16px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; color: #333333;">How To Implement Search Bar in iOS 7 Using Storyboard</div></div></a></div><div style="clear: both"></div><span class="et_social_bottom_trigger"></span><!--<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:dc="http://purl.org/dc/elements/1.1/"
+			xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+		<rdf:Description rdf:about="http://www.appcoda.com/ios-gesture-recognizers/"
+    dc:identifier="http://www.appcoda.com/ios-gesture-recognizers/"
+    dc:title="Using Gesture Recognizers to Handle Pinch, Rotate, Pan, Swipe and Tap Gestures"
+    trackback:ping="http://www.appcoda.com/ios-gesture-recognizers/trackback/" />
+</rdf:RDF>-->
+</div><div class="post-meta"><span class="categories">Filed Under: <a href="http://www.appcoda.com/course/beginner/" rel="category tag">Beginner</a>, <a href="http://www.appcoda.com/course/" rel="category tag">Course</a></span> <span class="tags">Tagged With: <a href="http://www.appcoda.com/tag/gesture-recognizers/" rel="tag">gesture recognizers</a>, <a href="http://www.appcoda.com/tag/gestures/" rel="tag">gestures</a>, <a href="http://www.appcoda.com/tag/ios-programming/" rel="tag">iOS Programming</a>, <a href="http://www.appcoda.com/tag/objective-c/" rel="tag">Objective C</a>, <a href="http://www.appcoda.com/tag/uigesturerecognizer/" rel="tag">UIGestureRecognizer</a></span></div><div class="after-post widget-area"><div id="text-8" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Free Chapters of Our Swift Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignright size-medium wp-image-4153" width="200" /></a>If you want to create an app but don't know where to begin, this book covers the whole aspect of Swift programming and iOS 8 development and shows you every step from an idea to a real app on App Store. This book features a lot of hands-on exercises and projects. You will first create a simple app, then prototype an app idea, and later add some features to it in each chapter, until a real app is built. Want to learn more? <a href="http://www.appcoda.com/swift/">Check it out here and get three free chapters.</a>
+</p>
+<br/></div>
+		</div></div>
+<div id="featured-page-2" class="widget featured-content featuredpage"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for our Free Tutorials</h4>
+<div class="post-38 page type-page status-publish has-post-thumbnail hentry entry"><ul>
+<li>Learn iOS Programming From Scratch</li>
+<li>Step by Step Guide to Build Your First iPhone App</li>
+<li>Complete Source Code for Your Reference</li>
+<li>More Programming Tips and Tutorials to Come</li>
+</ul>
+<div class="enews">
+<h4 class="widgettitle">Whatcha waiting for?</h4>
+<form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button"><br />
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/><br />
+</form>
+</div>
+</div></div></div>
+</div></div><div class="author-box"><div><img alt='' src='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=70&#038;d=mm&#038;r=g' srcset='http://2.gravatar.com/avatar/582c964c3dafd700a4df627225d859fe?s=140&amp;d=mm&amp;r=g 2x' class='avatar avatar-70 photo' height='70' width='70' /> <strong>About Gabriel Theodoropoulos</strong><br /><p>Gabriel has been a software developer for about two decades. He has long experience in developing software solutions for various platforms in many programming languages. Since middle-2010 he has been developing almost exclusively for iOS. Tutorials consist of the best way to share knowledge with people all over the world. Follow Gabriel at <a href="http://plus.google.com/+gabrieltheodoropoulos">Google+</a> and <a href="https://twitter.com/gabtheodor">Twitter</a>.</p>
+</div></div>
+<div id="disqus_thread">
+            <div id="dsq-content">
+
+
+            <ul id="dsq-comments">
+                    <li class="comment even thread-even depth-1" id="dsq-comment-42668">
+        <div id="dsq-comment-header-42668" class="dsq-comment-header">
+            <cite id="dsq-cite-42668">
+                <span id="dsq-author-user-42668">Carlos_o7</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-42668" class="dsq-comment-body">
+            <div id="dsq-comment-message-42668" class="dsq-comment-message"><p>Nice tutorial.. Really helpful. It really help me a lot</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-42736">
+        <div id="dsq-comment-header-42736" class="dsq-comment-header">
+            <cite id="dsq-cite-42736">
+http://www.gtiapps.com/                <span id="dsq-author-user-42736">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-42736" class="dsq-comment-body">
+            <div id="dsq-comment-message-42736" class="dsq-comment-message"><p>Glad to hear that! Thanks a lot!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-odd thread-alt depth-1" id="dsq-comment-42703">
+        <div id="dsq-comment-header-42703" class="dsq-comment-header">
+            <cite id="dsq-cite-42703">
+                <span id="dsq-author-user-42703">Jay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-42703" class="dsq-comment-body">
+            <div id="dsq-comment-message-42703" class="dsq-comment-message"><p>How did you simulate the interaction of multiple fingers in the iOS Simulator?</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment odd alt depth-2" id="dsq-comment-42735">
+        <div id="dsq-comment-header-42735" class="dsq-comment-header">
+            <cite id="dsq-cite-42735">
+http://www.gtiapps.com/                <span id="dsq-author-user-42735">Gabriel Theodoropoulos</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-42735" class="dsq-comment-body">
+            <div id="dsq-comment-message-42735" class="dsq-comment-message"><p>Use the Command key to display the two circles that match to two fingers.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-53822">
+        <div id="dsq-comment-header-53822" class="dsq-comment-header">
+            <cite id="dsq-cite-53822">
+                <span id="dsq-author-user-53822">Gunjot Singh</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-53822" class="dsq-comment-body">
+            <div id="dsq-comment-message-53822" class="dsq-comment-message"><p>hello Gabriel,<br />
+i&#8217;m a great fan of ur blog..<br />
+thanks for all of it..</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-54725">
+        <div id="dsq-comment-header-54725" class="dsq-comment-header">
+            <cite id="dsq-cite-54725">
+                <span id="dsq-author-user-54725">Bill</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-54725" class="dsq-comment-body">
+            <div id="dsq-comment-message-54725" class="dsq-comment-message"><p>This is great! Thank you very much. Learning a lot with this one. Having a small issue.<br />
+I&#8217;m having an issue with the Pan Gesture Recognizer. I move the object to the bottom of the screen (or anywhere). Then when I go to move it again, it first resets itself to the center before it moves. Anybody else getting this same behavior?</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment even thread-even depth-1" id="dsq-comment-66735">
+        <div id="dsq-comment-header-66735" class="dsq-comment-header">
+            <cite id="dsq-cite-66735">
+                <span id="dsq-author-user-66735">Jay</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-66735" class="dsq-comment-body">
+            <div id="dsq-comment-message-66735" class="dsq-comment-message"><p>Great tutorial! Easy explanation and wide variety of examples!</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="dsq-comment-72195">
+        <div id="dsq-comment-header-72195" class="dsq-comment-header">
+            <cite id="dsq-cite-72195">
+                <span id="dsq-author-user-72195">D-Train</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72195" class="dsq-comment-body">
+            <div id="dsq-comment-message-72195" class="dsq-comment-message"><p>Hi Gabriel. Was very interested in how to use the Swipe implementation. Works great! Though, I have a question on how to keep the subViews to match the widths of the superViews (relevant for the new phone sizes today).</p>
+<p>That is, using AutoLayout and Storyboard, I created constraints for the three subViews to &#8216;Equal&#8217; the &#8216;Width&#8217; of the superView. However, when running, only the subView that is in the center (default onscreen) matches the width of the superView. The two subViews offscreen maintain the widths that they were created with in the Storyboard. </p>
+<p>Note: Just to test, I moved one of the subViews onto the screen (so there were two subViews onscreen, one offscreen), and BOTH of the subViews matched the width of the superView while the one offscreen did not. Performed on the iPhone 6 simulator with inferred simulator metrics of iPhone 4-inch (320 wide).</p>
+</div>
+        </div>
+
+    <ul class="children">
+    <li class="comment even depth-2" id="dsq-comment-72938">
+        <div id="dsq-comment-header-72938" class="dsq-comment-header">
+            <cite id="dsq-cite-72938">
+                <span id="dsq-author-user-72938">D-Train</span>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-72938" class="dsq-comment-body">
+            <div id="dsq-comment-message-72938" class="dsq-comment-message"><p>Just kidding. Found my problem. The UIViews off screen were each only -320 and +320; where for an iPhone 6, for example, the width of the screen is 375. My fix: attach horizontal spacing constraints between the UIViews to keep them strict neighbors.</p>
+<p>Thanks again for the great tutorial, Gabriel.</p>
+</div>
+        </div>
+
+    </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.needbrain.de/2014/11/using-gesture-recognizers-to-handle-pinch-rotate-pan-swipe-and-tap-gestures/' rel='external nofollow' class='url'>Using Gesture Recognizers to Handle Pinch, Rotate, Pan, Swipe and Tap Gestures | need:brain</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+    <li class="post pingback">
+        <p>Pingback: <a href='http://www.chiangmairiverhouse.com/488/' rel='external nofollow' class='url'>Introduction to Gesture Recognizers in iOS 7 | Apple FAN｜macやiPhoneなどアップル製品のニュースサイト</a>()</p>
+    </li>
+    </li><!-- #comment-## -->
+            </ul>
+
+
+        </div>
+
+    </div>
+
+<script type="text/javascript">
+var disqus_url = 'http://www.appcoda.com/ios-gesture-recognizers/';
+var disqus_identifier = '3974 http://www.appcoda.com/?p=3974';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = 'appcoda';
+var disqus_title = "Using Gesture Recognizers to Handle Pinch, Rotate, Pan, Swipe and Tap Gestures";
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    
+    this.language = '';
+        this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=3974';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+</div><div id="sidebar" class="sidebar widget-area"><div id="search-4" class="widget widget_search"><div class="widget-wrap"><form role="search" method="get" id="searchform" class="searchform" action="http://www.appcoda.com/" >
+                    <div><label class="screen-reader-text" for="s">Search for:</label>
+                    <input type="text" value="" name="s" id="s" />
+                    <input type="submit" id="searchsubmit" value="Search" />
+                    </div>
+                    </form></div></div>
+<div id="text-2" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Sign Up for Our Free Tutorials</h4>
+			<div class="textwidget"><div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+<div id="text-6" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><!-- BuySellAds Zone Code -->
+<div id="bsap_1283996" class="bsarocks bsap_459a84cf8fa0d5ea9dccfcfd1c3531e0"></div>
+<!-- End BuySellAds Zone Code --></div>
+		</div></div>
+<div id="text-4" class="widget widget_text"><div class="widget-wrap">			<div class="textwidget"><div class="fb-like-box" data-href="http://www.facebook.com/appcodamobile" data-width="300" data-height="260" data-show-faces="true" data-border-color="#F1F1F1" data-stream="false" data-header="false"></div></div>
+		</div></div>
+		<div id="recent-posts-3" class="widget widget_recent_entries"><div class="widget-wrap">		<h4 class="widget-title widgettitle">Recent Posts</h4>
+		<ul>
+					<li>
+				<a href="http://www.appcoda.com/react-native-introduction/">Introduction to React Native: Building iOS Apps with JavaScript</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/cloudkit-introduction-tutorial/">Working with CloudKit in iOS 8</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/instagram-app-parse-swift/">Building an Instagram-Like App with Parse and Swift</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/google-maps-api-tutorial/">A Swift Tutorial for Google Maps SDK</a>
+						</li>
+					<li>
+				<a href="http://www.appcoda.com/ios8-share-extension-swift/">Building a Simple Share Extension in iOS 8 App</a>
+						</li>
+				</ul>
+		</div></div>
+<div id="wp_insert_ad_widget-3" class="widget widget_wp_insert_ad_widget"><div class="widget-wrap"><div class="wpInsert wpInsertAdWidget" style="margin: 5px; padding: 0px;"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Premium Large Skyscraper -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:600px"
+     data-ad-client="ca-pub-8501671653071605"
+     data-ad-slot="6120307730"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div></div></div>
+<div id="nav_menu-3" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar" class="menu"><li id="menu-item-57" class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li id="menu-item-58" class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li id="menu-item-59" class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li id="menu-item-68" class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+</div></div></div></div><div id="footer-widgets" class="footer-widgets"><div class="wrap"><div class="footer-widgets-1 widget-area"><div id="nav_menu-4" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">About AppCoda</h4>
+<div class="menu-default-container"><ul id="menu-default-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-26"><a href="http://www.appcoda.com/about/">About</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-28"><a href="http://www.appcoda.com/tutorials/">Tutorials</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-530"><a href="http://www.appcoda.com/ios-programming-course/">Course</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3045"><a title="Swift Programming Book for iOS 8" href="http://www.appcoda.com/swift">Book</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2140"><a href="http://www.appcoda.com/ios-app-kit/ios-game-kit.html">Game Kit</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-710"><a href="http://www.appcoda.com/marketplace/">Marketplace</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-34"><a href="http://www.appcoda.com/contact/">Contact</a></li>
+</ul></div></div></div>
+</div><div class="footer-widgets-2 widget-area"><div id="text-9" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Get Our New Book</h4>
+			<div class="textwidget"><a href="http://www.appcoda.com/swift/"><img src="http://www.appcoda.com/wp-content/uploads/2014/10/swift-book-cover-227x300.png" alt="Beginning iOS 8 Programming with Swift" class="alignleft size-medium wp-image-4153" /></a></div>
+		</div></div>
+</div><div class="footer-widgets-3 widget-area"><div id="nav_menu-5" class="widget widget_nav_menu"><div class="widget-wrap"><h4 class="widget-title widgettitle">Connect With Us</h4>
+<div class="menu-sidebar-container"><ul id="menu-sidebar-1" class="menu"><li class="social-twitter menu-item menu-item-type-custom menu-item-object-custom menu-item-57"><a href="http://twitter.com/appcodamobile">Twitter</a></li>
+<li class="social-facebook menu-item menu-item-type-custom menu-item-object-custom menu-item-58"><a href="http://facebook.com/appcodamobile">Facebook</a></li>
+<li class="social-rss menu-item menu-item-type-custom menu-item-object-custom menu-item-59"><a href="http://feeds.feedburner.com/appcoda">RSS</a></li>
+<li class="social-plus menu-item menu-item-type-custom menu-item-object-custom menu-item-68"><a href="https://plus.google.com/b/118438564257465271998/">Google Plus</a></li>
+</ul></div></div></div>
+<div id="text-3" class="widget widget_text"><div class="widget-wrap"><h4 class="widget-title widgettitle">Email Newsletter</h4>
+			<div class="textwidget"><p>Sign up to receive free tutorial and
+to hear what's going on with AppCoda!</p>
+<div class="enews"><form action="http://sendy.appcoda.com/sendy/subscribe" method="post" id="subscribe" name="mc-embedded-subscribe-form" class="validate" target="_blank" accept-charset="utf-8">
+	<input type="email" id="subbox" value="" name="email" class="email" id="mce-EMAIL" placeholder="Enter your email address" required><input type="submit" value="Subscribe" name="subscribe" id="subbutton" class="button">
+	<input type="hidden" name="list" value="KEdC8BeT8EC8znOnfjSQAw"/>
+</form>
+</div></div>
+		</div></div>
+</div></div></div><div id="footer" class="footer"><div class="wrap">    <p>&copy; Copyright 2015 <a href="http://appcoda.com/">AppCoda</a> &middot; All Rights Reserved &middot; Powered by <a href="http://wordpress.org/">WordPress &middot; <a href="http://www.appcoda.com/privacy-policy">Privacy Policy</a> &middot; <a href="http://www.appcoda.com/terms-of-service/">Terms of Service</a></p>
+    </div></div></div><!-- BuySellAds Ad Code -->
+<script type="text/javascript">
+(function(){
+  var bsa = document.createElement('script');
+     bsa.type = 'text/javascript';
+     bsa.async = true;
+     bsa.src = 'http://s3.buysellads.com/ac/bsa.js';
+  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);
+})();
+</script>
+<!-- End BuySellAds Ad Code -->
+<script src="/prismjs/prism.js"></script>        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = 'appcoda';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('data-dsqidentifier'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+                    <!-- Version: 0.3.3 -->
+            <script type="text/javascript">
+                var EjSocialSlideoutJsApi_Settings =
+                {
+                    SliderImage: "<img width=\"150\" height=\"150\" src=\"http:\/\/www.appcoda.com\/wp-content\/uploads\/2015\/04\/appcoda-300-150x150.png\" class=\"attachment-thumbnail\" alt=\"appcoda-300\" \/>",
+                    SocialProfiles: {"Facebook":{"Name":"Facebook","NetworkId":"Facebook","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Facebook","Description":"And get free tutorial updates"},"Twitter":{"Name":"Twitter","NetworkId":"Twitter","IsActive":true,"Id":"appcodamobile","Title":"Follow Us on Twitter","Description":"And get free tutorial updates"}},
+                    Preview: false
+                                    };
+
+                if (typeof (EjSocialSlideoutJsApi) !== "undefined")
+                    EjSocialSlideoutJsApi.SettingsLoaded(EjSocialSlideoutJsApi_Settings);
+            </script>
+            <div id='ej-ss-slideout-dom-templates' style='display:none'><div id='ej-ss-slideout-dom-template-facebook'><div class='fb-follow' data-href='https://www.facebook.com/appcodamobile' data-width='210' data-colorscheme='light' data-layout='standard' data-show-faces='true'></div></div><div id='ej-ss-slideout-dom-template-twitter'><a href='https://twitter.com/appcodamobile' class='twitter-follow-button' data-show-count='true' data-size='medium'>Follow @appcodamobile</a></div></div><div class="et_social_sidebar_networks et_social_visible_sidebar et_social_slideright et_social_animated et_social_rectangle et_social_sidebar_flip et_social_sidebar_withcounts et_social_withtotalcount et_social_mobile_off">
+					<div class="et_social_totalcount et_social_dark">
+							<span class="et_social_totalcount_count et_social_total_share" data-post_id="3974"></span>
+							<span class="et_social_totalcount_label">Shares</span>
+						</div>
+					<ul class="et_social_icons_container"><li class="et_social_facebook">
+									<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-gesture-recognizers%2F&#038;t=Using%20Gesture%20Recognizers%20to%20Handle%20Pinch%2C%20Rotate%2C%20Pan%2C%20Swipe%20and%20Tap%20Gestures" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3974" data-social_type="share">
+										<i class="et_social_icon et_social_icon_facebook"></i>
+										
+										<div class="et_social_count"><span>73</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_twitter">
+									<a href="http://twitter.com/share?text=Using%20Gesture%20Recognizers%20to%20Handle%20Pinch%2C%20Rotate%2C%20Pan%2C%20Swipe%20and%20Tap%20Gestures&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-gesture-recognizers%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3974" data-social_type="share">
+										<i class="et_social_icon et_social_icon_twitter"></i>
+										
+										<div class="et_social_count"><span>42</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_googleplus">
+									<a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-gesture-recognizers%2F&#038;t=Using%20Gesture%20Recognizers%20to%20Handle%20Pinch%2C%20Rotate%2C%20Pan%2C%20Swipe%20and%20Tap%20Gestures" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3974" data-social_type="share">
+										<i class="et_social_icon et_social_icon_googleplus"></i>
+										
+										<div class="et_social_count"><span>7</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li><li class="et_social_linkedin">
+									<a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-gesture-recognizers%2F&#038;title=Using%20Gesture%20Recognizers%20to%20Handle%20Pinch%2C%20Rotate%2C%20Pan%2C%20Swipe%20and%20Tap%20Gestures" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3974" data-social_type="share">
+										<i class="et_social_icon et_social_icon_linkedin"></i>
+										
+										<div class="et_social_count"><span>7</span></div>
+										<span class="et_social_overlay"></span>
+									</a>
+								</li></ul>
+					<span class="et_social_hide_sidebar et_social_icon"></span>
+				</div><div class="et_social_flyin et_social_resize et_social_flyin_bottom_right et_social_slideup et_social_trigger_bottom et_social_mobile_on">
+					<a href="#" class="et_social_icon et_social_icon_cancel"></a>
+					<div class="et_social_header">
+						<h3>Share This</h3>
+						<p>Share this post with your friends!</p>
+					</div>
+					<div class="et_social_networks et_social_2col et_social_slide et_social_rectangle et_social_left et_social_withnetworknames">
+						
+						<ul class="et_social_icons_container"><li class="et_social_facebook"><a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.appcoda.com%2Fios-gesture-recognizers%2F&#038;t=Using%20Gesture%20Recognizers%20to%20Handle%20Pinch%2C%20Rotate%2C%20Pan%2C%20Swipe%20and%20Tap%20Gestures" class="et_social_share" rel="nofollow" data-social_name="facebook" data-post_id="3974" data-social_type="share"><i class="et_social_icon et_social_icon_facebook"></i><div class="et_social_network_label"><div class="et_social_networkname">Facebook</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_twitter"><a href="http://twitter.com/share?text=Using%20Gesture%20Recognizers%20to%20Handle%20Pinch%2C%20Rotate%2C%20Pan%2C%20Swipe%20and%20Tap%20Gestures&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-gesture-recognizers%2F&#038;via=appcodamobile" class="et_social_share" rel="nofollow" data-social_name="twitter" data-post_id="3974" data-social_type="share"><i class="et_social_icon et_social_icon_twitter"></i><div class="et_social_network_label"><div class="et_social_networkname">Twitter</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_googleplus"><a href="https://plus.google.com/share?url=http%3A%2F%2Fwww.appcoda.com%2Fios-gesture-recognizers%2F&#038;t=Using%20Gesture%20Recognizers%20to%20Handle%20Pinch%2C%20Rotate%2C%20Pan%2C%20Swipe%20and%20Tap%20Gestures" class="et_social_share" rel="nofollow" data-social_name="googleplus" data-post_id="3974" data-social_type="share"><i class="et_social_icon et_social_icon_googleplus"></i><div class="et_social_network_label"><div class="et_social_networkname">Google+</div></div><span class="et_social_overlay"></span></a></li><li class="et_social_linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&#038;url=http%3A%2F%2Fwww.appcoda.com%2Fios-gesture-recognizers%2F&#038;title=Using%20Gesture%20Recognizers%20to%20Handle%20Pinch%2C%20Rotate%2C%20Pan%2C%20Swipe%20and%20Tap%20Gestures" class="et_social_share" rel="nofollow" data-social_name="linkedin" data-post_id="3974" data-social_type="share"><i class="et_social_icon et_social_icon_linkedin"></i><div class="et_social_network_label"><div class="et_social_networkname">LinkedIn</div></div><span class="et_social_overlay"></span></a></li></ul>
+					</div>
+				</div><span></span><style type="text/css" class="fluid-images">img{max-width:100%;height:auto;}</style><div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script><script type='text/javascript'>
+/* <![CDATA[ */
+var mejsL10n = {"language":"en-US","strings":{"Close":"Close","Fullscreen":"Fullscreen","Download File":"Download File","Download Video":"Download Video","Play\/Pause":"Play\/Pause","Mute Toggle":"Mute Toggle","None":"None","Turn off Fullscreen":"Turn off Fullscreen","Go Fullscreen":"Go Fullscreen","Unmute":"Unmute","Mute":"Mute","Captions\/Subtitles":"Captions\/Subtitles"}};
+var _wpmejsSettings = {"pluginPath":"\/wp-includes\/js\/mediaelement\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/mediaelement-and-player.min.js?ver=2.16.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/mediaelement/wp-mediaelement.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/jquery.form.min.js?ver=3.51.0-2014.06.20'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.appcoda.com\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ...","cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=4.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/idle-timer.min.js?ver=1.2.2'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var monarchSettings = {"ajaxurl":"http:\/\/www.appcoda.com\/wp-admin\/admin-ajax.php","pageurl":"http:\/\/www.appcoda.com\/ios-gesture-recognizers\/","stats_nonce":"3c279d6f27","share_counts":"41afbcf48b","follow_counts":"80583e3ade","total_counts":"861aff4fd8","media_single":"ed7cd3edd6","media_total":"e88d48f2ea","generate_all_window_nonce":"6da8221303","no_img_message":"No images available for sharing on this page"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/plugins/monarch/js/custom.js?ver=1.2.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-includes/js/comment-reply.min.js?ver=4.2.1'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.min.js?ver=1.7.4'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.args.min.js?ver=2.1.2'></script>
+<script type='text/javascript' src='http://www.appcoda.com/wp-content/themes/genesis/lib/js/menu/superfish.compat.min.js?ver=2.1.2'></script>
+<!-- This site converts visitors into subscribers and customers with the OptinMonster WordPress plugin v2.1.6.6 - http://optinmonster.com/ -->
+<div id="om-d7egu9k5k9-lightbox" class="optin-monster-overlay" style="display:none;"><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script><style type="text/css" class="om-theme-case-study-styles">.optin-monster-success-message {font-size: 21px;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;color: #282828;font-weight: 300;text-align: center;margin: 0 auto;}.optin-monster-success-overlay .om-success-close {font-size: 32px !important;font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important;color: #282828 !important;font-weight: 300 !important;position: absolute !important;top: 0px !important;right: 10px !important;background: none !important;text-decoration: none !important;width: auto !important;height: auto !important;display: block !important;line-height: 32px !important;padding: 0 !important;}.om-helper-field {display: none !important;visibility: hidden !important;opacity: 0 !important;height: 0 !important;line-height: 0 !important;}html div#om-d7egu9k5k9-lightbox * {box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;}html div#om-d7egu9k5k9-lightbox {background:none;border:0;border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;float:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing: grayscale;height:auto;letter-spacing:normal;outline:none;position:static;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;width:auto;visibility:visible;overflow:visible;margin:0;padding:0;line-height:1;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-shadow:none;-moz-box-shadow:none;-ms-box-shadow:none;-o-box-shadow:none;box-shadow:none;-webkit-appearance:none;}html div#om-d7egu9k5k9-lightbox {background: rgb(0, 0, 0);background: rgba(0, 0, 0, .7);font-family: helvetica,arial,sans-serif;-moz-osx-font-smoothing: grayscale;-webkit-font-smoothing: antialiased;line-height: 1;width: 100%;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-clearfix {clear: both;}html div#om-d7egu9k5k9-lightbox .om-clearfix:after {clear: both;content: ".";display: block;height: 0;line-height: 0;overflow: auto;visibility: hidden;zoom: 1;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin {background: #fff;display: none;position: absolute;top: 50%;left: 50%;min-height: 175px;max-width: 700px;width: 100%;z-index: 734626274;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-wrap {position: relative;height: 100%;}html div#om-d7egu9k5k9-lightbox .om-close {position: absolute;top: -12px;right: -12px;text-decoration: none !important;display: block;width: 35px;height: 35px;background: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/close.png") no-repeat scroll 0 0;z-index: 1500;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-bar {margin-bottom: 20px;clear: both;}html div#om-d7egu9k5k9-lightbox .om-bar {float: left;width: 25%;height: 11px;display: block;}html div#om-d7egu9k5k9-lightbox .om-red-bar {background-color: #ef3e36;}html div#om-d7egu9k5k9-lightbox .om-green-bar {background-color: #abb92e;}html div#om-d7egu9k5k9-lightbox .om-orange-bar {background-color: #f57826;}html div#om-d7egu9k5k9-lightbox .om-blue-bar {background-color: #17b4e9;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-header {min-height: 30px;padding: 15px;width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-title {font-size: 24px;color: #484848;width: 100%;margin-bottom: 15px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-tagline {font-size: 16px;line-height: 1.25;color: #484848;width: 100%;margin-bottom: 30px;text-shadow: 0 1px #fff;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-content {padding: 15px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left {float: left;max-width: 280px;width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container {position: relative;max-width: 280px;max-height: 245px;margin: 0 auto;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-image-container img {display: block;margin: 0 auto;text-align: center;height: auto;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right {float: right;max-width: 370px;width: 100%;background-color: #dadada;margin-right: -15px;padding: 20px;position: relative;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-arrow {position: absolute;width: 49px;height: 56px;left: -40px;top: -40px;}html div#om-d7egu9k5k9-lightbox label {color: #333;}html div#om-d7egu9k5k9-lightbox input,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {background-color: #fff;width: 100%;border: 1px solid #ccc;font-size: 16px;line-height: 24px;padding: 10px 6px;overflow: hidden;outline: none;margin: 0 0 15px;vertical-align: middle;height: 46px;}html div#om-d7egu9k5k9-lightbox input[type=submit],html div#om-d7egu9k5k9-lightbox button,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit {background: #484848;border: 1px solid #484848;width: 100%;color: #fff;font-size: 20px;padding: 12px 6px;line-height: 28px;text-align: center;vertical-align: middle;cursor: pointer;margin: 0;height: 54px;}html div#om-d7egu9k5k9-lightbox input[type=checkbox],html div#om-d7egu9k5k9-lightbox input[type=radio] {-webkit-appearance: checkbox;width: auto;outline: invert none medium;padding: 0;margin: 0;}@media (max-width: 700px) {html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin[style] {width: 100%;position: relative;}html div#om-d7egu9k5k9-lightbox .om-close {right: 9px;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-right,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-submit,html div#om-d7egu9k5k9-lightbox .om-has-email #om-lightbox-case-study-optin-email {float: none;width: 100%;max-width: 100%;}html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-left,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-name,html div#om-d7egu9k5k9-lightbox #om-lightbox-case-study-optin-email {margin-bottom: 15px;}}@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min--moz-device-pixel-ratio: 2),only screen and (-o-min-device-pixel-ratio: 2/1),only screen and (min-device-pixel-ratio: 2),only screen and (min-resolution: 192dpi),only screen and (min-resolution: 2dppx) {html div#om-d7egu9k5k9-lightbox .om-close {background-image: url("http://www.appcoda.com/wp-content/plugins/optin-monster/assets/css/images/<a class="__cf_email__" href="/cdn-cgi/l/email-protection" data-cfemail="51323d3e22341163297f213f36">[email&#160;protected]</a><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script>");background-size: 35px 35px;}}</style><div id="om-lightbox-case-study-optin" class="om-lightbox-case-study om-clearfix om-theme-case-study om-custom-html-form"><div id="om-lightbox-case-study-optin-wrap" class="om-clearfix"><a href="#" class="om-close" title="Close"></a><div id="om-lightbox-case-study-optin-bar" class="om-clearfix"><span class="om-bar om-red-bar"></span><span class="om-bar om-green-bar"></span><span class="om-bar om-orange-bar"></span><span class="om-bar om-blue-bar"></span></div><div id="om-lightbox-case-study-header" class="om-clearfix"><div id="om-lightbox-case-study-optin-title" data-om-action="editable" data-om-field="title" style="color:#484848;font-family:Bree Serif;font-size:32px;text-align:center;"><span style="font-family:montserrat;">FREE Swift Programming Course</span></div><div id="om-lightbox-case-study-optin-tagline" data-om-action="editable" data-om-field="tagline" style="color:#484848;font-family:Open Sans;font-size:24px;text-align:center;"><span style="font-family:montserrat;">Sign up today and get a 7 day email course with free tips and ebook chapters for starting app development.</span></div></div><div id="om-lightbox-case-study-content" class="om-clearfix"><div id="om-lightbox-case-study-left"><div id="om-lightbox-case-study-optin-image-container" class="om-image-container om-clearfix"><img class="optin-monster-image optin-monster-image-lightbox-case-study" src="http://www.appcoda.com/wp-content/uploads/2015/01/swift-free-course-280x245.jpg" alt="" title="swift-free-course" /></div></div><div id="om-lightbox-case-study-right"><img id="om-lightbox-case-study-arrow" src="http://www.appcoda.com/wp-content/plugins/optin-monster/includes/themes/case-study/images/arrow.png" alt="Arrow" /><form action="http://sendy.appcoda.com/sendy/subscribe" method="POST" accept-charset="utf-8">
+<input id="om-lightbox-case-study-optin-name" type="text" name="name" value="" data-om-action="selectable" data-om-target="#optin-monster-field-name_field" placeholder="Enter your name here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-email" type="email" name="email" value="" data-om-action="selectable" data-om-target="#optin-monster-field-email_field" placeholder="Enter your email address here..." style="color:#484848;font-family:Montserrat;">
+<input id="om-lightbox-case-study-optin-submit" type="submit" data-om-action="selectable" data-om-target="#optin-monster-field-submit_field" value="Send me the course" style="color:#ffffff;background-color:#484848;border-color:#484848;font-family:Montserrat;">
+<input type="hidden" name="list" value="neAW97jagVmb3C3O892VnnLA"/>
+</form></div></div></div><input type="email" name="email" value="" class="om-helper-field" /><input type="text" name="website" value="" class="om-helper-field" /></div><script type="text/javascript">jQuery(document).ready(function($){WebFont.load({google: {families: ['Montserrat%7CBree+Serif%7COpen+Sans']}});});</script></div>
+<script type="text/javascript">var d7egu9k5k9_lightbox, omo = {"id":4744,"optin":"d7egu9k5k9-lightbox","campaign":"Free Swift Programming Course","clones":[""],"hash":"d7egu9k5k9-lightbox","optin_js":"d7egu9k5k9_lightbox","type":"lightbox","theme":"case-study","cookie":30,"delay":5000,"second":0,"exit":1,"redirect":"","redirect_pass":false,"custom":true,"test":false,"global_cookie":23320,"preview":false,"ajax":"http:\/\/www.appcoda.com\/?optin-monster-ajax-route=1","mobile":false,"post_id":3974,"preloader":"http:\/\/www.appcoda.com\/wp-content\/plugins\/optin-monster\/assets\/css\/images\/preloader.gif","error":"There was an error with your submission. Please try again.","ajax_error":"There was an error with the AJAX request: ","name_error":"Please enter a valid name.","email_error":"Please enter a valid email address.","bot_error":"Honeypot fields have been activated. Your submission is being flagged as potential spam.","success":"Thanks for subscribing! Please check your email for further instructions.","exit_sensitivity":20}; d7egu9k5k9_lightbox = new OptinMonster(); d7egu9k5k9_lightbox.init(omo);</script>
+<!--[if lte IE 9]><script type="text/javascript">var om_ie_browser = true;</script><![endif]--><!-- / OptinMonster WordPress plugin. -->
+</body>
+</html>
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+Page Caching using disk: enhanced
+
+ Served from: www.appcoda.com @ 2015-05-04 12:43:41 by W3 Total Cache -->
